@@ -1,0 +1,11 @@
+{
+  "presets": ["flow", "react", "es2015"],
+  "env": {
+    "test": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    },
+    "server": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+  }
+}
