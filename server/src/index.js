@@ -7,12 +7,6 @@ var fs = require('fs')
 var {renderToString} = require('react-dom/server')
 var {ServerStyleSheet, StyleSheetManager} = require('styled-components')
 
-// enables node to import images
-require('images-require-hook')(
-  ['jpg', 'jpeg', 'png', 'gif', 'svg'],
-  '../../client/src/assets/images'
-)
-
 // becuz we are doing es5 here and serverApp is doing es6, you have to use .default
 const App = require('../../client/src/App').default
 

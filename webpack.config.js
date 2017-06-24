@@ -5,9 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 
 const client = {
-  entry: './client/src/clientApp.js',
+  context: path.resolve(__dirname, 'client/src'),
+  entry: './clientApp.js',
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'client/dist'),
     filename: 'bundle.js',
     publicPath: '/' // use with historyApiFallback
   },
@@ -48,7 +49,7 @@ const client = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'client/src/index.html'
+      template: 'index.html'
     })
   ]
 }
