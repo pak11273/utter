@@ -7,6 +7,11 @@ var fs = require('fs')
 var {renderToString} = require('react-dom/server')
 var {ServerStyleSheet, StyleSheetManager} = require('styled-components')
 
+// serverside hmr
+var webpack = require('webpack')
+var webpackConfig = require('../../webpack.config')
+var compiler = webpack(webpackConfig)
+
 // becuz we are doing es5 here and serverApp is doing es6, you have to use .default
 const App = require('../../client/src/App').default
 
@@ -15,6 +20,16 @@ var config = require('./config/config')
 var express = require('express')
 var app = require('./server')
 var logger = require('./util/logger')
+
+// serverside hmr cont.
+app.use(
+  require('webpack-dev-middleware')(compiler, {
+    noInfo: true,
+    publicPath: webpackConfig.output.publicPath
+  })
+)
+
+app.use(require('webpack-hot-middleware')(compiler))
 
 // static sites DO NOT USE: WILL PREVENT SERVERSIDE RENDERING
 // app.use(express.static(path.join(__dirname, '/../../client/src/')))

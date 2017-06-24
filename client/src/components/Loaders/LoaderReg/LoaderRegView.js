@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import styled from 'styled-Components'
+import styled from 'styled-components'
 
 const LoaderRegView = styled.div`
   font-size: 100px; 

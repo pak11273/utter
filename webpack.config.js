@@ -6,7 +6,7 @@ const webpack = require('webpack')
 
 const client = {
   context: path.resolve(__dirname, 'client/src'),
-  entry: './clientApp.js',
+  entry: ['./clientApp.js', 'webpack-hot-middleware/client'],
   output: {
     path: path.join(__dirname, 'client/dist'),
     filename: 'bundle.js',
@@ -48,6 +48,10 @@ const client = {
     chunks: true
   },
   plugins: [
+    // OccurenceOrderPlugin is needed for webpack 1.x only
+    // new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.html'
     })
