@@ -7,6 +7,7 @@ import LoaderReg from '../components/Loaders/LoaderReg'
 import SectionRegView from '../components/Sections/SectionReg/SectionRegView'
 import SectionMediaLeftView from '../components/Sections/SectionMediaLeftView/SectionMediaLeftView'
 import ButtonRegView from '../components/Buttons/ButtonReg/ButtonRegView'
+import FooterRegView from '../components/Footers/FooterReg/FooterRegView.js'
 
 const Content = styled.section`
 `
@@ -20,15 +21,28 @@ class HomePage extends Component {
         />
         <ContainerMaster>
           <MastheadRegView
+            src="https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg"
             title="Utter"
             subtitle="Speak another language"
             caption="Have a conversation"
+            align="center"
           />
           <SectionRegView
+            align="left"
+            src="http://www.jmu.edu/_images/global/ISSS/CP/speedfriending.jpg"
             title="Still can't speak two sentences?"
             info="A proven method"
-            cta="">
+            cta="call to action"
+          />
+          <SectionRegView
+            align="left"
+            parallax
+            src="https://eliweb2.files.wordpress.com/2010/01/4.jpg"
+            title="Still can't speak two sentences?"
+            info="A proven method"
+            cta="call to action">
             <Content>
+              <h1>another section</h1>
               <h3>Check out these guys</h3>
               <ul>
                 <li>
@@ -51,14 +65,6 @@ class HomePage extends Component {
               </ul>
             </Content>
           </SectionRegView>
-          <SectionMediaLeftView
-            title="Still can't speak two sentences?"
-            info="A proven method"
-            cta="">
-            <Content>
-              <h1>another section</h1>
-            </Content>
-          </SectionMediaLeftView>
           <SectionRegView>
             <Content>
               <h1>another section</h1>
@@ -74,7 +80,12 @@ class HomePage extends Component {
               </ul>
             </Content>
           </SectionRegView>
-          <SectionRegView>
+          <FooterRegView
+            align="left"
+            src="http://www.jmu.edu/_images/global/ISSS/CP/speedfriending.jpg"
+            title="Footer"
+            info="Stuff goes here"
+            cta="call to action">
             <Content>
               <h1>another section</h1>
               <ul>
@@ -85,7 +96,7 @@ class HomePage extends Component {
                 <li>Become a sponsor</li>
               </ul>
             </Content>
-          </SectionRegView>
+          </FooterRegView>
         </ContainerMaster>
       </div>
     )

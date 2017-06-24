@@ -5,6 +5,7 @@ import LoaderReg from '../../../components/Loaders/LoaderReg'
 const Content = styled.section`
   display: flex;
   flex-direction: column;
+  max-width: 1240px;
 
   // global styles
   body, h1, h2, h3, h4, h6, li {

@@ -33,7 +33,7 @@ app.use(require('webpack-hot-middleware')(compiler))
 
 // static sites DO NOT USE: WILL PREVENT SERVERSIDE RENDERING
 // app.use(express.static(path.join(__dirname, '/../../client/src/')))
-app.use(express.static(path.join(__dirname, '/../client/src/')))
+app.use(express.static(path.join(__dirname, '/../../client/src/assets')))
 
 // todo: create and use logger
 app

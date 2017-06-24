@@ -4,12 +4,14 @@ import styled from 'styled-components'
 import LoginView from '../../Logins/LoginReg/LoginRegView'
 
 const Section = styled.section`
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 60px; 
     margin: 0 auto;
     max-width: 1024px;
+    position: ${props => (props.fixed ? 'fixed' : 'initial')}
   `
 const SectionLeft = styled.section`
     display: none;
@@ -34,8 +36,8 @@ const Nav = styled.ul`
     }
   `
 
-const NavbarRegView = ({logo, list}) =>
-  <Section>
+const NavbarRegView = ({logo, list, fixed}) =>
+  <Section fixed={fixed}>
     <SectionLeft>
       <Logo>{logo}</Logo>
       <Nav>

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const Content = styled.div`
   //background declarations must be last
+  box-sizing: border-box;
   background: url(${props => props.src}) no-repeat center center;
   background-size: cover;
   background-attachment: ${props => (props.parallax ? 'fixed' : 'none')};
@@ -16,11 +17,11 @@ const Content = styled.div`
   }
   padding: 15rem;
 `
-const SectionRegView = ({title, info, cta, src, parallax, align}) =>
+const FooterRegView = ({title, info, cta, src, parallax, align}) =>
   <Content src={src} parallax={parallax} align={align}>
     <h3>{title}</h3>
     <h4>{info}</h4>
     <h5>{cta}</h5>
   </Content>
 
-export default SectionRegView
+export default FooterRegView

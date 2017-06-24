@@ -1,25 +1,60 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Content = styled.div`
+const Frame = styled.div`
+  box-sizing: border-box;
   display: flex;
-  padding: 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: Papaywhip;
-  background: url("https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg");
+  position: relative;
+  background: url(${props => props.src}) no-repeat center top;
+  height: 500px;
+  min-width: 1024px;
+  width: 100vw;
   background-size: cover;
-  height: 600px;
-  h1,h4,h6 {
-    text-shadow: 5px 5px #333;
+`
+const Content = styled.div`
+  position: absolute;
+  top: ${props => (props.top ? props => props.top : '5rem')};
+  text-align: ${props => props.align};
+  p {
+    color: #000;
+    font-weight: 900;
+  }
+  h5 {
+    font-weight: 800;
+    color: #000;
+    text-shadow: 3px 3px #fff;
+  }
+  h6 {
+    font-weight: 600;
+    color: brown;
+    text-shadow: 2px 2px #fff;
+    padding-bottom: 1rem;
   }
 `
-const MastheadRegView = ({title, subtitle, caption}) =>
-  <Content>
-    <h1>{title}</h1>
-    <h4>{subtitle}</h4>
-    <h6>{caption}</h6>
-  </Content>
+const CTA = styled.button`
+  color: #ffeb3b;
+  border: 1px solid green;
+  border-radius: 1rem;
+  background: #00bcd4;
+  font-size: 2rem;
+  font-weight: 600;
+  width: 200px;
+  height: 40xp;
+  padding: 1rem;
+  margin: 3rem;
+`
+
+const MastheadRegView = ({top, title, subtitle, caption, align, src}) =>
+  <Frame src={src}>
+    <Content align={align} top={top}>
+      <h5>{title}</h5>
+      <h6>{subtitle}</h6>
+      <p><b>{caption}</b></p>
+      <CTA>Free Trial</CTA>
+    </Content>
+  </Frame>
 
 export default MastheadRegView
