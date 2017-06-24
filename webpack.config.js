@@ -30,8 +30,7 @@ const client = {
       },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
-        exclude: /node_modules/,
-        loader: 'file-loader'
+        use: ['file-loader']
       }
     ]
   },

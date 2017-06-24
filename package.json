@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline --hot",
-    "bdev": "nodemon --exec babel-node server/src/index.js --presets es2015",
+    "bdev": "nodemon --exec babel-node server/src/main.js --presets es2015",
     "bcompile": "babel server/src --out-dir server/dist",
     "//": "nodemon server/src/index.js --exec babel-node --presets es2015 ",
     "bserver": "NODE_ENV=server nodemon server/src/index.js",
