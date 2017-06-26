@@ -35,7 +35,7 @@ const Content = styled.div`
   }
 `
 const CTA = styled.button`
-  color: #ffeb3b;
+  color: white;
   border: 1px solid green;
   border-radius: 1rem;
   background: #00bcd4;
