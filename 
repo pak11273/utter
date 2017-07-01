@@ -1,0 +1,25 @@
+import React, {Component} from 'react'
+import styled, {ThemeProvider} from 'styled-components'
+import {main, base} from '../themes/config'
+import Masthead from '../containers/Mastheads/Masthead'
+import Wrapper from '../containers/Wrappers/Wrapper'
+import Title from '../components/Text/Title.js'
+import Subtitle from '../components/Text/Subtitle.js'
+
+class Home extends Component {
+  render(props) {
+    return (
+      <Wrapper>
+        <Masthead mastheadBg="url('https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg') no-repeat center top">
+          <ThemeProvider theme={main}>
+            <Title>Speak another language</Title>
+          </ThemeProvider>
+          <Subtitle>This actually works!</Subtitle>
+        </Masthead>
+        <Masthead mastheadBg="brown" />
+      </Wrapper>
+    )
+  }
+}
+
+export default Home

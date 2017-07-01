@@ -1,4 +1,4 @@
-import HomePage from './HomePage'
-import AboutPage from './AboutPage'
+import Home from './Home'
+import About from './About'
 
-export {HomePage, AboutPage}
+export {Home, About}
