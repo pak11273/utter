@@ -6,7 +6,7 @@ export default styled.div.attrs({
   Weight: props => props.Weight || '600',
   Color: props => props.Color || props.theme.color,
   Font: props => props.Font,
-  Padding: props => props.Padding || '5% 5% 0 5%',
+  Padding: props => props.Padding || '0 5% 0 5%',
   Width: props => props.Width || '100vw',
   TextAlign: props => props.TextAlign || 'center'
 })`

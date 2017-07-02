@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
+import {NavLink} from 'react-router-dom'
 
 const Login = styled.ul.attrs({})`
 
@@ -22,7 +23,7 @@ const Login = styled.ul.attrs({})`
 export default () =>
   <Login>
     <ul>
-      <li><a href="">Login</a></li>
-      <li><a href="">Settings</a></li>
+      <li><NavLink to="/login">Login</NavLink></li>
+      <li><NavLink to="/settings">Settings</NavLink></li>
     </ul>
   </Login>
