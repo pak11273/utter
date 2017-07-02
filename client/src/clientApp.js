@@ -1,14 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import {BrowserRouter as Router, Route, Match} from 'react-router-dom'
-import routes from './routes.js'
+import React, {Component} from 'react'
+import {render} from 'react-dom'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import Login from './layouts/Login'
+import Home from './layouts/Home.js'
+
 import App from './App'
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Router>
-      <App />
-    </Router>
-  </BrowserRouter>,
+render(
+  <Router>
+    <App />
+  </Router>,
   document.getElementById('app')
 )

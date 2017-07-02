@@ -1,7 +1,7 @@
 require('babel-register')
 var React = require('react')
 var ReactDOMServer = require('react-dom/server')
-var {StaticRouter} = require('react-router')
+var {StaticRouter} = require('react-router-dom')
 var path = require('path')
 var fs = require('fs')
 var {renderToString} = require('react-dom/server')
@@ -22,21 +22,6 @@ app.use(express.static(path.join(__dirname, '/../../client/src/assets')))
 app
   .use(function(req, res) {
     const context = {}
-    const html = ReactDOMServer.renderToString(
-      React.createElement(
-        StaticRouter,
-        {
-          location: req.url,
-          context: context
-        },
-        React.createElement(App)
-      )
-
-      // es6 version, can't use yet
-      // <StaticRouter location={req.url} context={context}>
-      //   <App />
-      // </StaticRouter>
-    )
 
     if (context.url) {
       res.writeHead(301, {
@@ -46,15 +31,18 @@ app
     } else {
       const sheet = new ServerStyleSheet()
       const html = renderToString(
-        React.createElement(
-          StyleSheetManager,
-          {sheet: sheet.instance},
-          React.createElement(App)
-        )
+        // es5 version:
+        // React.createElement(
+        //   StyleSheetManager,
+        //   {sheet: sheet.instance},
+        //   React.createElement(App)
+        // )
         // es6 version, can't use yet
-        // <StyleSheetManager sheet={sheet.instance}>
-        //   <App />
-        // </StyleSheetManager>
+        <StyleSheetManager sheet={sheet.instance}>
+          <StaticRouter location={req.url} context={context}>
+            <App />
+          </StaticRouter>
+        </StyleSheetManager>
       )
 
       const css = sheet.getStyleTags() // or sheet.getStyleElement()
@@ -79,7 +67,6 @@ app
             </style>
             ${css}
             <link rel="shortcut" href="#" />
-            </head>
             </head>
             <div id="app">${html}</div>
             `
