@@ -7,11 +7,11 @@ import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
 import SignupForm from '../containers/Forms/SignupForm.js'
 
-class About extends Component {
+class Signup extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead bg="green">
+        <Masthead height="100%" bg="green">
           <SignupForm />
         </Masthead>
       </Wrapper>
@@ -19,4 +19,4 @@ class About extends Component {
   }
 }
 
-export default About
+export default Signup
