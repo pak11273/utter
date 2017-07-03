@@ -22,6 +22,22 @@ app.use(express.static(path.join(__dirname, '/../../client/src/assets')))
 app
   .use(function(req, res) {
     const context = {}
+    const html = ReactDOMServer.renderToString(
+      // es5 version:
+      // React.createElement(
+      //   StaticRouter,
+      //   {
+      //     location: req.url,
+      //     context: context
+      //   },
+      //   React.createElement(App)
+      // )
+
+      // es6 version
+      <StaticRouter location={req.url} context={context}>
+        <App />
+      </StaticRouter>
+    )
 
     if (context.url) {
       res.writeHead(301, {

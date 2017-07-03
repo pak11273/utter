@@ -10,7 +10,6 @@ class About extends Component {
   render() {
     return (
       <Wrapper>
-        <Navbar list={['home', 'about', 'contact']} />
         <Masthead bg="green">
           <Title>Login</Title>
         </Masthead>

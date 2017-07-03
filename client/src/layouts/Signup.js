@@ -5,10 +5,18 @@ import Masthead from '../containers/Mastheads/Masthead'
 import Navbar from '../containers/Navbars/Navbar'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
+import SignupForm from '../containers/Forms/SignupForm.js'
 
-export default () =>
-  <Wrapper>
-    <Masthead bg="green">
-      <Title>Settings</Title>
-    </Masthead>
-  </Wrapper>
+class About extends Component {
+  render() {
+    return (
+      <Wrapper>
+        <Masthead bg="green">
+          <SignupForm />
+        </Masthead>
+      </Wrapper>
+    )
+  }
+}
+
+export default About

@@ -8,11 +8,8 @@ import Subtitle from '../components/Text/Subtitle.js'
 
 export default () =>
   <Wrapper>
-    <Navbar list={['home', 'about', 'contact']} />
     <Masthead bg="green">
-      <div>
-        <Title>Contact us</Title>
-        <Subtitle>We are here</Subtitle>
-      </div>
+      <Title>Contact us</Title>
+      <Subtitle>We are here</Subtitle>
     </Masthead>
   </Wrapper>

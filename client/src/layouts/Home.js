@@ -23,7 +23,6 @@ class Home extends Component {
     }
     return (
       <Wrapper>
-        <Navbar list={['home', 'about', 'contact']} />
         <Masthead bg="url('https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg') no-repeat center top">
           <ThemeProvider theme={main}>
             <Title>
@@ -34,13 +33,11 @@ class Home extends Component {
           <CTA>Subscribe Today</CTA>
         </Masthead>
         <Masthead bg="brown">
-          <div>
-            <Title>Who is this for?</Title>
-            <Subtitle>Hi therre</Subtitle>
-            <ThemeProvider theme={main}>
-              <CTA>Subscribe Today</CTA>
-            </ThemeProvider>
-          </div>
+          <Title>Who is this for?</Title>
+          <Subtitle>Hi therre</Subtitle>
+          <ThemeProvider theme={main}>
+            <CTA>Subscribe Today</CTA>
+          </ThemeProvider>
         </Masthead>
       </Wrapper>
     )

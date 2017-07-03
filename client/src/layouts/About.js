@@ -10,12 +10,9 @@ class About extends Component {
   render() {
     return (
       <Wrapper>
-        <Navbar list={['home', 'about', 'contact']} />
         <Masthead bg="green">
-          <div>
-            <Title>About Us</Title>
-            <Subtitle>We are here</Subtitle>
-          </div>
+          <Title>About Us</Title>
+          <Subtitle>We are here</Subtitle>
         </Masthead>
       </Wrapper>
     )

@@ -1,20 +1,22 @@
 import React, {Component} from 'react'
-import {MemoryRouter, StaticRouter, Route, Switch} from 'react-router-dom'
-import Login from './layouts/Login'
+import {Link, Switch, Route} from 'react-router-dom'
+import Navbar from './containers/Navbars/Navbar'
+import Wrapper from './containers/Wrappers/Wrapper.js'
 import Home from './layouts/Home.js'
 import About from './layouts/About.js'
+import Login from './layouts/Login.js'
 import Contact from './layouts/Contact.js'
+import Signup from './layouts/Signup.js'
 import Settings from './layouts/Settings.js'
+import test1 from './layouts/Test1.js'
+import test2 from './layouts/Test2.js'
 
-export default () => {
-  return (
+import {routes} from './routes'
+
+export default props =>
+  <Wrapper>
+    <Navbar list={['home', 'about', 'contact', 'test1', 'test2']} />
     <Switch>
-      <Route exact path="/" component={Home} />
-      <Route exact path="/home" component={Home} />
-      <Route exact path="/about" component={About} />
-      <Route exact path="/contact" component={Contact} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/settings" component={Settings} />
+      {routes.map(route => <Route {...route} />)}
     </Switch>
-  )
-}
+  </Wrapper>

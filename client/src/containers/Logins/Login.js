@@ -23,7 +23,10 @@ const Login = styled.ul.attrs({})`
 export default () =>
   <Login>
     <ul>
-      <li><NavLink to="/login">Login</NavLink></li>
-      <li><NavLink to="/settings">Settings</NavLink></li>
+      <li><NavLink activeClassName="active" to="/signup">Sign Up</NavLink></li>
+      <li><NavLink activeClassName="active" to="/login">Login</NavLink></li>
+      <li>
+        <NavLink activeClassName="active" to="/settings">Settings</NavLink>
+      </li>
     </ul>
   </Login>
