@@ -7,8 +7,7 @@ import Button from '../../components/Buttons/Button.js'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base, anotherOne} from '../../themes/config'
 import InputLine from '../../components/Inputs/InputLine.js'
-import Timezones from '../../components/Selects/Timezones.js'
-import zones from '../../data/timezones.js'
+import Timezones from '../../components/Selects/Timezones/Timezones.js'
 
 const Form = styled.form.attrs({})`
   box-sizing: border-box;
@@ -38,8 +37,8 @@ class SignupForm extends Component {
       username: '',
       email: '',
       password: '',
-      passwordConfirmation: '',
-      timezone: ''
+      confirmation: '',
+      timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico'
     }
 
     this.onChange = this.onChange.bind(this)
@@ -75,11 +74,26 @@ class SignupForm extends Component {
             name="username"
           />
           <Label>Email</Label>
-          <InputLine type="text" name="email" />
+          <InputLine
+            onChange={this.onChange}
+            value={this.state.email}
+            type="text"
+            name="email"
+          />
           <Label>Password</Label>
-          <InputLine type="password" name="email" />
+          <InputLine
+            onChange={this.onChange}
+            value={this.state.password}
+            type="text"
+            name="password"
+          />
           <Label>Password Confirmation</Label>
-          <InputLine type="password" name="email" />
+          <InputLine
+            onChange={this.onChange}
+            value={this.state.confirmation}
+            type="text"
+            name="confirmation"
+          />
           <Label>Timezone</Label>
           <Timezones
             onChange={this.onChange}
