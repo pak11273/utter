@@ -8,6 +8,7 @@ import styled, {ThemeProvider} from 'styled-components'
 import {main, base, anotherOne} from '../../themes/config'
 import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
+import axios from 'axios'
 
 const Form = styled.form.attrs({})`
   box-sizing: border-box;
@@ -53,7 +54,7 @@ class SignupForm extends Component {
 
   onSubmit(e) {
     e.preventDefault()
-    console.log(this.state)
+    axios.post('/api/users', {user: this.state})
   }
 
   render() {
