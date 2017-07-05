@@ -4,7 +4,7 @@ const base = {
 }
 
 const main = {
-  color: '#00BCD4',
+  color: 'lightblue',
   font: 'Roboto'
 }
 
