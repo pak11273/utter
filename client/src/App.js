@@ -11,12 +11,21 @@ import Settings from './layouts/Settings.js'
 import test1 from './layouts/Test1.js'
 import test2 from './layouts/Test2.js'
 
+// redux settings
+import {Provider} from 'react-redux'
+import thunk from 'redux-thunk'
+import {createStore, applyMiddleware} from 'redux'
+
 import {routes} from './routes'
+
+const store = createStore((state = {}) => state, applyMiddleware(thunk))
 
 export default props =>
   <Wrapper>
     <Navbar list={['home', 'about', 'contact', 'test1', 'test2']} />
-    <Switch>
-      {routes.map(route => <Route {...route} />)}
-    </Switch>
+    <Provider store={store}>
+      <Switch>
+        {routes.map(route => <Route {...route} />)}
+      </Switch>
+    </Provider>
   </Wrapper>

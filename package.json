@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.77.0",
+    "axios": "^0.16.2",
     "babel-cli": "^6.24.1",
     "base64url": "^2.0.0",
     "bcrypt": "^1.0.2",
@@ -44,8 +45,11 @@
     "node-gyp": "^3.6.2",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
+    "redux": "^3.7.1",
+    "redux-thunk": "^2.2.0",
     "safe-buffer": "^5.0.1",
     "styled-components": "^2.1.0",
     "webpack-isomorphic-tools": "^3.0.2"
