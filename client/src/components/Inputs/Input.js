@@ -1,24 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default styled.input.attrs({
-  size: props => props.size || '1.5rem',
-  weight: props => props.weight || '100',
-  color: props => props.color || props.theme.color,
-  font: props => props.font,
-  padding: props => props.padding || '3px 5% 2px 5%',
-  width: props => props.width || '200px',
-  textalign: props => props.textalign || 'center',
-  height: props => props.height || '2rem',
-  margin: props => props.margin || '10px auto'
-})`
-  padding: ${props => props.padding};
+const Input = styled.input`
   color: ${props => props.color};
-  font-size: ${props => props.size};
-  font-weight: ${props => props.weight};
-  font-family: ${props => props.font};
-  width: ${props => props.width};
-  text-align: ${props => props.textalign};
+  padding: ${props => props.padding};
+  font-family: ${props => props.fontfamily};
+  font-size: ${props => props.fontsize};
+  font-weight: ${props => props.fontweight};
   height: ${props => props.height};
   margin: ${props => props.margin};
+  text-align: ${props => props.textalign};
+  width: ${props => props.width};
 `
+Input.defaultProps = {
+  color: props => props.theme.color,
+  fontsize: '1.5rem',
+  fontweight: '100',
+  fontfamily: 'Arial',
+  padding: '3px 5% 2px 5%',
+  width: '200px',
+  textalign: 'center',
+  height: '2rem',
+  margin: '10px auto'
+}
+
+export default Input

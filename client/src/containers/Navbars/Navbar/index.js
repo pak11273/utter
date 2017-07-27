@@ -2,37 +2,51 @@ import React, {Component} from 'react'
 import {NavLink, Link} from 'react-router-dom'
 import styled from 'styled-components'
 import Login from '../../Logins/Login.js'
+import Logo from '../../../components/Logos/Logo.js'
 import Hamburger from '../../../components/Buttons/Hamburger'
 
-const Section = styled.section.attrs({
-  height: props => props.height || '60px',
-  fixed: props => (props.fixed ? 'fixed' : 'initial')
-})`
-    box-sizing: border-box;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    height: ${props => props.height}; 
-    position: ${props => props.fixed};
-    @media (min-width: 960px) {
-        justify-content: flex-start;
-      }
-  `
+const Section = styled.section`
+  align-items: center;
+  background: ${props => props.background};
+  box-sizing: border-box;
+  display: flex;
+  height: ${props => props.height}; 
+  justify-content: flex-end;
+  position: ${props => props.position};
+  z-index: ${props => props.zindex};
+  width: ${props => props.width};
+
+  @media (min-width: 640px) {
+    justify-content: center;
+    min-width: 640px;
+    }
+`
+
+Section.defaultProps = {
+  background: 'black',
+  position: 'fixed',
+  height: '90px',
+  width: '100%',
+  zindex: '99'
+}
+
 const SectionLeft = styled.section`
     display: none;
     align-items: center;
-    @media (min-width: 960px) {
+
+    @media (min-width: 640px) {
         display: flex;
-        justify-content: flex-start;
-        margin: 0 auto;
+        justify-content: 'flex-start';
+        width: 800px;
       }
   `
+
+SectionLeft.defaultProps = {
+  margin: '0 auto'
+}
+
 const SectionRight = styled.section`
     background: none;
-  `
-const Logo = styled.h1`
-    padding: .5rem;
-    font-size: 2rem;
   `
 const Nav = styled.ul`
     li {
@@ -43,10 +57,10 @@ const Nav = styled.ul`
   `
 
 const Navbar = props =>
-  <Section height={props.height} fixed={props.fixed}>
+  <Section {...props}>
     <Hamburger />
     <SectionLeft>
-      <Logo>{props.logo}</Logo>
+      <Logo to="/" height="50px" width="50px" />
       <Nav>
         <ul>
           {props.list.map((item, i) => {

@@ -1,23 +1,31 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 
-export default styled.div.attrs({
-  height: props => props.height || '500px',
-  dir: props => props.dir || 'column',
-  bg: props => props.bg || 'white',
-  text: props => props.text || 'center'
-})`
+const Masthead = styled.div`
+  align-items: ${props => props.alignitems};
+  background: ${props => props.background};
+  background-size: ${props => props.backgroundsize};
   box-sizing: border-box;
-  overflow: hidden;
   display: flex;
-  flex-direction: ${props => props.dir};
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  background: ${props => props.bg};
+  flex-direction: ${props => props.flexdirection};
   height: ${props => props.height};
-  width: 100vw;
-  background-size: cover;
-  text-align: ${props => props.text};
-
+  justify-content: ${props => props.justifycontent};
+  margin: ${props => props.margin};
+  overflow: hidden;
+  position: relative;
+  text-align: ${props => props.textalign};
+  width: ${props => props.width};
 `
+Masthead.defaultProps = {
+  alignitems: 'center',
+  backgroundsize: 'cover',
+  background: 'white',
+  height: '500px',
+  flexdirection: 'column',
+  justifycontent: 'center',
+  margin: '60px 0 0 0',
+  textalign: 'center',
+  width: '100%'
+}
+
+export default Masthead

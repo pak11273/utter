@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Title from '../../components/Text/Title.js'
 import Subtitle from '../../components/Text/Subtitle.js'
 import Label from '../../components/Text/Label.js'
+import Img from '../../components/Medias/Img'
 import Input from '../../components/Inputs/Input.js'
 import Button from '../../components/Buttons/Button.js'
 import styled, {ThemeProvider} from 'styled-components'
@@ -9,25 +10,27 @@ import {main, base, anotherOne} from '../../themes/config'
 import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
 
-const Form = styled.form.attrs({})`
+const Form = styled.form`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  width: 600px;
   margin: 0 auto;
+
   @media(min-width: 640px) {
     flex-direction: row;
+    width: 960px;
   }
 `
 
-const Leftside = styled.div.attrs({})`
+const Leftside = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0 auto;
 `
 
-const Rightside = styled.div.attrs({})`
+const Rightside = styled.div`
 `
 
 class SignupForm extends Component {
@@ -60,6 +63,10 @@ class SignupForm extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>
+          <Img
+            alt=""
+            src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
+          />
           <Title>Join our Community</Title>
           <Subtitle>
             Become part of a growing community of avid learners like yourself
@@ -101,7 +108,7 @@ class SignupForm extends Component {
             name="timezone"
           />
           <ThemeProvider theme={main}>
-            <Button>Submit</Button>
+            <Button color="black">Join</Button>
           </ThemeProvider>
         </Rightside>
       </Form>

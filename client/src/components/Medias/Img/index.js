@@ -1,11 +1,22 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 
-export default styled.img.attrs({
-  width: props => props.width || '50%'
-})`
-  margin: 0 auto;
+const Img = styled.img`
   alt: ${props => props.alt};
+  background: 'black';
+  background-size: ${props => props.backgroundsize};
   border-radius: ${props => props.radius};
-  content: url(${props => props.mediaSrc});
+  height: ${props => props.height};
+  margin: ${props => props.margin};
+  src: url(${props => props.src});
+  width: ${props => props.width};
 `
+Img.defaultProps = {
+  backgroundsize: 'cover',
+  height: '300px',
+  margin: '30px auto',
+  width: '400px',
+  alt: 'image placeholder'
+}
+
+export default Img

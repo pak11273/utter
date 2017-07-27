@@ -1,31 +1,36 @@
 import React, {Component} from 'react'
-import {Link, Switch, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Link, Switch, Route} from 'react-router-dom'
+import styled, {ThemeProvider} from 'styled-components'
 import Navbar from './containers/Navbars/Navbar'
 import Wrapper from './containers/Wrappers/Wrapper.js'
-import Home from './layouts/Home.js'
-import About from './layouts/About.js'
-import Login from './layouts/Login.js'
-import Contact from './layouts/Contact.js'
-import Signup from './layouts/Signup.js'
-import Settings from './layouts/Settings.js'
-import test1 from './layouts/Test1.js'
-import test2 from './layouts/Test2.js'
+import {render} from 'react-dom'
+import {routes} from './routes'
+import {main} from './themes/config.js'
 
 // redux settings
 import {Provider} from 'react-redux'
 import thunk from 'redux-thunk'
 import {createStore, applyMiddleware} from 'redux'
 
-import {routes} from './routes'
-
 const store = createStore((state = {}) => state, applyMiddleware(thunk))
 
-export default props =>
-  <Wrapper>
-    <Navbar list={['home', 'about', 'contact', 'test1', 'test2']} />
-    <Provider store={store}>
-      <Switch>
-        {routes.map(route => <Route {...route} />)}
-      </Switch>
-    </Provider>
-  </Wrapper>
+class App extends Component {
+  render(props) {
+    return (
+      <ThemeProvider theme={main}>
+        <Provider store={store}>
+          <Router>
+            <Wrapper>
+              <Navbar list={['about', 'contact']} />
+              <Switch>
+                {routes.map((route, i) => <Route key={i} {...route} />)}
+              </Switch>
+            </Wrapper>
+          </Router>
+        </Provider>
+      </ThemeProvider>
+    )
+  }
+}
+
+render(<App />, document.getElementById('app'))

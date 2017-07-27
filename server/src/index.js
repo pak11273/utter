@@ -1,95 +1,82 @@
-require('babel-register')
-var React = require('react')
-var ReactDOMServer = require('react-dom/server')
-var {StaticRouter} = require('react-router-dom')
-var path = require('path')
-var fs = require('fs')
-var {renderToString} = require('react-dom/server')
-var {ServerStyleSheet, StyleSheetManager} = require('styled-components')
-
-// becuz we are doing es5 here and serverApp is doing es6, you have to use .default
-const App = require('../../client/src/App').default
+// require('babel-register')
 
 // imports
-var config = require('./config/config')
-var express = require('express')
-var app = require('./server')
-var logger = require('./util/logger')
+import path from 'path'
+import express from 'express'
+import nodemailer from 'nodemailer'
+import pwd from './config/pwd.js'
+import bodyParser from 'body-parser'
 
-app.use(express.static(path.join(__dirname, '/../../client/src/assets')))
+const config = require('./config/config')
+const app = express()
+const logger = require('./util/logger')
+const compiler = webpack(webpackConfig)
 
-// todo: create and use logger
-app
-  .use(function(req, res) {
-    const context = {}
-    const html = ReactDOMServer.renderToString(
-      // es5 version:
-      // React.createElement(
-      //   StaticRouter,
-      //   {
-      //     location: req.url,
-      //     context: context
-      //   },
-      //   React.createElement(App)
-      // )
+// require('./server.js')
+import webpack from 'webpack'
+import webpackMiddleware from 'webpack-dev-middleware'
+import webpackHotMiddleware from 'webpack-hot-middleware'
+import webpackConfig from '../../webpack.config.js'
 
-      // es6 version
-      <StaticRouter location={req.url} context={context}>
-        <App />
-      </StaticRouter>
-    )
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json())
 
-    if (context.url) {
-      res.writeHead(301, {
-        Location: context.url
-      })
-      res.end()
-    } else {
-      const sheet = new ServerStyleSheet()
-      const html = renderToString(
-        // es5 version:
-        // React.createElement(
-        //   StyleSheetManager,
-        //   {sheet: sheet.instance},
-        //   React.createElement(App)
-        // )
-        // es6 version, can't use yet
-        <StyleSheetManager sheet={sheet.instance}>
-          <StaticRouter location={req.url} context={context}>
-            <App />
-          </StaticRouter>
-        </StyleSheetManager>
-      )
-
-      const css = sheet.getStyleTags() // or sheet.getStyleElement()
-
-      res.write(
-        `
-            <!doctype html>
-            <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <meta name="description" content="Isaac Pak">
-            <meta name="author" content="">
-            <title></title>
-            <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />
-            <style>
-            body {
-              margin: 0;
-                      background: #333;
-                                  color: #aaa;
-                                         font-family: Roboto, Arial, sans-serif;
-            }
-            </style>
-            ${css}
-            <link rel="shortcut" href="#" />
-            </head>
-            <div id="app">${html}</div>
-            `
-      )
+app.post('/sendmail', function(req, res) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: pwd.gmail_username,
+      pass: pwd.gmail_password
     }
-    res.end()
   })
-  .listen(config.port, function() {
-    logger.log('listening on port ' + config.port)
+
+  const mailOptions = {
+    from: 'pak11273@gmail.com',
+    to: 'admin@pak11273.com',
+    subject: req.body.subject,
+    text:
+      'phone: ' +
+        ' ' +
+        req.body.country +
+        ' ' +
+        req.body.number +
+        '\n\n' +
+        'email: ' +
+        req.body.email +
+        '\n\n' +
+        'subjedct: ' +
+        req.body.subject +
+        '\n\n' +
+        'message: ' +
+        req.body.letter
+  }
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Email sent: ' + info.response)
+    }
   })
+})
+
+app.use(
+  webpackMiddleware(compiler, {
+    hot: true,
+    publicPath: webpackConfig.output.publicPath,
+    noInfo: true
+  })
+)
+app.use(webpackHotMiddleware(compiler))
+
+app.get('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, '../../client/dist/index.html'))
+})
+
+// // app.use(express.static(path.join(__dirname, '/../../client/dist')))
+
+// // todo: create and use logger
+
+app.listen(config.port, function() {
+  logger.log('listening on port ' + config.port)
+})

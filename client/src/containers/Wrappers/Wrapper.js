@@ -5,7 +5,6 @@ export default styled.section`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  max-width: 1240px;
 
   // global styles
   body, h1, h2, h3, h4, h6, div, li {

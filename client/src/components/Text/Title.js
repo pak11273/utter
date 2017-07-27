@@ -1,20 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default styled.div.attrs({
-  Size: props => props.Size || '4rem',
-  Weight: props => props.Weight || '600',
-  Color: props => props.Color || props.theme.color,
-  Font: props => props.Font,
-  Padding: props => props.Padding || '0 5% 0 5%',
-  Width: props => props.Width || '100%',
-  TextAlign: props => props.TextAlign || 'center'
-})`
-  font-size: ${props => props.Size};
-  color: ${props => props.Color};
-  font-weight: ${props => props.Weight};
-  font-family: ${props => props.Font};
-  padding: ${props => props.Padding};
-  width: ${props => props.Width};
-  text-align: ${props => props.TextAlign} 
+const Title = styled.div`
+  color: ${props => props.color};
+  font-family: ${props => props.fontfamily};
+  font-size: ${props => props.fontsize};
+  font-weight: ${props => props.fontweight};
+  padding: ${props => props.padding};
+  text-align: ${props => props.textalign} 
+  width: ${props => props.width};
 `
+Title.defaultProps = {
+  color: props => props.theme.color,
+  fontsize: '4rem',
+  fontweight: '600',
+  fontfamily: 'Arial',
+  padding: '0 5% 0 5%',
+  width: '100%',
+  textalign: 'center'
+}
+
+export default Title

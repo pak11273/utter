@@ -1,22 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default styled.div.attrs({
-  size: props => props.size || '2rem',
-  weight: props => props.weight || '400',
-  color: props => props.color || props.theme.color,
-  font: props => props.font,
-  padding: props => props.padding || '.5% 5% 0 5%',
-  margin: props => props.margin || '3rem 0 0 0',
-  width: props => props.width || '100%',
-  textalign: props => props.textalign || 'center'
-})`
-  padding: ${props => props.padding};
-  margin: ${props => props.margin};
+const Label = styled.div`
   color: ${props => props.color};
-  font-size: ${props => props.size};
-  font-weight: ${props => props.weight};
-  font-family: ${props => props.font};
+  font-family: ${props => props.fontfamily};
+  font-size: ${props => props.fontsize};
+  font-weight: ${props => props.fontweight};
+  margin: ${props => props.margin};
+  padding: ${props => props.padding};
   width: ${props => props.width};
   text-align: ${props => props.textalign} 
 `
+
+Label.defaultProps = {
+  color: props => props.theme.color,
+  fontfamily: 'Arial',
+  fontsize: '1.2rem',
+  fontweight: '400',
+  margin: '3rem 0 0 0',
+  padding: '.5% 5% 0 5%',
+  textalign: 'center',
+  width: '100%'
+}
+
+export default Label
