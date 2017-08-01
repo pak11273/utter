@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import Login from '../../Logins/Login.js'
 import Logo from '../../../components/Logos/Logo.js'
 import Hamburger from '../../../components/Buttons/Hamburger'
+import Graphic from '../../../assets/images/logo.svg'
 
 const Section = styled.section`
   align-items: center;
@@ -60,11 +61,31 @@ const Navbar = props =>
   <Section {...props}>
     <Hamburger />
     <SectionLeft>
-      <Logo to="/" height="50px" width="50px" />
+      <NavLink to="/">
+        <Logo
+          background={`url(${Graphic}) center/cover no-repeat`}
+          to="/"
+          display="none"
+          display768="block"
+          width="48px"
+          height="48px"
+        />
+      </NavLink>
       <Nav>
         <ul>
           {props.list.map((item, i) => {
-            return <li key={i}><NavLink to={'/' + item}>{item}</NavLink></li>
+            return (
+              <li key={i}>
+                <NavLink
+                  exact
+                  activeStyle={{
+                    color: 'red'
+                  }}
+                  to={'/' + item}>
+                  {item}
+                </NavLink>
+              </li>
+            )
           })}
         </ul>
       </Nav>
