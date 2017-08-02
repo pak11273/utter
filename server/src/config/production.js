@@ -1,6 +1,6 @@
 module.exports = {
   logging: false,
   db: {
-    url: 'mongodb://localhost/login'
+    url: 'mongodb://localhost/utter'
   }
 }
