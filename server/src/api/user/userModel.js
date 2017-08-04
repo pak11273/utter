@@ -1,48 +1,69 @@
-import mongoose from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
-import bcrypt from 'bcrypt';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
-import config from '../../config/config.js';
+import mongoose, {Schema} from 'mongoose'
+import uniqueValidator from 'mongoose-unique-validator'
+import bcrypt from 'bcrypt'
+import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
+import config from '../../config/config.js'
 
-const UserSchema = new mongoose.Schema({
-  username: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true},
-  email: {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
-  password: {
-    type: String, required: [true, "can't be blank"]
+const UserSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      lowercase: true,
+      unique: true,
+      required: [true, "can't be blank"],
+      match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
+      index: true
+    },
+    email: {
+      type: String,
+      lowercase: true,
+      unique: true,
+      required: [true, "can't be blank"],
+      match: [/\S+@\S+\.\S+/, 'is invalid'],
+      index: true
+    },
+    password: {
+      type: String,
+      required: [true, "can't be blank"]
+    },
+    subscriptions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Language'
+      }
+    ],
+    bio: String,
+    image: String,
+    hash: String,
+    salt: String
   },
-  bio: String,
-  image: String,
-  hash: String,
-  salt: String,
-}, {timestamps: true});
+  {timestamps: true}
+)
 
 // masters code
 UserSchema.pre('save', function(next) {
-  if(!this.isModified('password')) return next();
-  this.password = this.encryptPassword(this.password);
-  next();
-});
-
+  if (!this.isModified('password')) return next()
+  this.password = this.encryptPassword(this.password)
+  next()
+})
 
 UserSchema.methods = {
   // check password
   authenticate: function(plainTextPwd) {
-    return bcrypt.compareSync(plainTextPwd, this.password);
+    return bcrypt.compareSync(plainTextPwd, this.password)
   },
   // hash password
   // todo: make this async(research timed attacks on password)
   encryptPassword: function(plainTextPwd) {
-    if(!plainTextPwd) {
+    if (!plainTextPwd) {
       return ''
     } else {
-      let salt =bcrypt.genSaltSync(10);
-      return bcrypt.hashSync(plainTextPwd, salt);
+      let salt = bcrypt.genSaltSync(10)
+      return bcrypt.hashSync(plainTextPwd, salt)
     }
   }
-};
-
-
+}
 
 // thinkster code
 
@@ -71,7 +92,6 @@ UserSchema.methods = {
 //   };
 // };
 
+UserSchema.plugin(uniqueValidator, {message: 'is already taken.'})
 
-UserSchema.plugin(uniqueValidator, {message: 'is already taken.'});
-
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User', UserSchema)

@@ -12,7 +12,12 @@ class About extends Component {
       <Wrapper>
         <Masthead bg="green">
           <Title>About Us</Title>
-          <Subtitle>We are here</Subtitle>
+          <Subtitle>
+            We foster the greatest learning tool you have available
+            already-Your brain. Our techniques allow you to naturally
+            learn something at the highest level possible. No tricks, no
+            gimmicks.
+          </Subtitle>
         </Masthead>
       </Wrapper>
     )
