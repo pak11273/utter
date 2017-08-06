@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "can't be blank"]
     },
+    passwordConfirmation: {
+      type: String,
+      required: [true, "can't be blank"]
+    },
     subscriptions: [
       {
         type: Schema.Types.ObjectId,

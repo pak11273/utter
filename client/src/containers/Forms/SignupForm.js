@@ -9,6 +9,8 @@ import styled, {ThemeProvider} from 'styled-components'
 import {main, base, anotherOne} from '../../themes/config'
 import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
+import {connect} from 'react-redux'
+import {userSignupRequest} from '../../actions/signupActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -32,6 +34,10 @@ const Leftside = styled.div`
 
 const Rightside = styled.div`
 `
+const Error = styled.div`
+  padding-top: 5px;
+  color: red;
+`
 
 class SignupForm extends Component {
   constructor(props) {
@@ -40,8 +46,10 @@ class SignupForm extends Component {
       username: '',
       email: '',
       password: '',
-      confirmation: '',
-      timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico'
+      passwordConfirmation: '',
+      mismatch: '',
+      timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico',
+      errors: {}
     }
 
     this.onChange = this.onChange.bind(this)
@@ -55,11 +63,28 @@ class SignupForm extends Component {
   }
 
   onSubmit(e) {
+    this.setState({
+      mismatch: '',
+      errors: {} // clear errors every time we submit form
+    })
     e.preventDefault()
-    this.props.userSignupRequest(this.state)
+
+    if (this.state.password !== this.state.passwordConfirmation) {
+      this.setState({
+        mismatch: 'password and confirmation do no match'
+      })
+    } else {
+      this.props.userSignupRequest(this.state).catch(error => {
+        this.setState({errors: error.response.data.errors})
+      })
+    }
   }
 
   render() {
+    const usernameErrors = this.state.errors.username
+    const emailErrors = this.state.errors.email
+    const passwordErrors = this.state.errors.password
+    const passwordConfirmationErrors = this.state.errors.passwordConfirmation
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>
@@ -80,6 +105,17 @@ class SignupForm extends Component {
             type="text"
             name="username"
           />
+          {this.state.errors.username &&
+            Object.keys(usernameErrors).map((key, i) => {
+              if (key === 'message') {
+                var value = key
+              }
+              return (
+                <Error key={i}>
+                  {usernameErrors[value]}
+                </Error>
+              )
+            })}
           <Label>Email</Label>
           <InputLine
             onChange={this.onChange}
@@ -87,20 +123,57 @@ class SignupForm extends Component {
             type="text"
             name="email"
           />
+          {this.state.errors.email &&
+            Object.keys(emailErrors).map((key, i) => {
+              if (key === 'message') {
+                var value = key
+              }
+              return (
+                <Error key={i}>
+                  {emailErrors[value]}
+                </Error>
+              )
+            })}
           <Label>Password</Label>
           <InputLine
             onChange={this.onChange}
             value={this.state.password}
-            type="text"
+            type="password"
             name="password"
           />
+          {this.state.errors.password &&
+            Object.keys(passwordErrors).map((key, i) => {
+              if (key === 'message') {
+                var value = key
+              }
+              return (
+                <Error key={i}>
+                  {passwordErrors[value]}
+                </Error>
+              )
+            })}
           <Label>Password Confirmation</Label>
           <InputLine
             onChange={this.onChange}
-            value={this.state.confirmation}
-            type="text"
-            name="confirmation"
+            value={this.state.passwordConfirmation}
+            type="password"
+            name="passwordConfirmation"
           />
+          {this.state.errors.passwordConfirmation &&
+            Object.keys(passwordConfirmationErrors).map((key, i) => {
+              if (key === 'message') {
+                var value = key
+              }
+              return (
+                <Error key={i}>
+                  {passwordConfirmationErrors[value]}
+                </Error>
+              )
+            })}
+          <Error>
+            {this.state.mismatch && this.state.mismatch}
+          </Error>
+
           <Label>Timezone</Label>
           <Timezones
             onChange={this.onChange}
@@ -116,4 +189,9 @@ class SignupForm extends Component {
   }
 }
 
-export default SignupForm
+export default connect(
+  state => {
+    return {}
+  },
+  {userSignupRequest}
+)(SignupForm)

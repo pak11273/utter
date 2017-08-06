@@ -1,5 +1,6 @@
 import User from './userModel.js'
 import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import auth from '../../auth/auth'
 const signToken = auth.signToken
 
@@ -61,7 +62,7 @@ exports.post = (req, res, next) => {
 
   newUser.save(function(err, user) {
     if (err) {
-      next(err)
+      return next(err)
     }
     console.log(newUser)
 
