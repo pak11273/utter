@@ -11,6 +11,8 @@ import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
 import {connect} from 'react-redux'
 import {userSignupRequest} from '../../actions/signupActions.js'
+import Validator from 'validator'
+import isEmpty from 'lodash/isEmpty'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -62,21 +64,65 @@ class SignupForm extends Component {
     })
   }
 
+  isValid() {
+    const {errors, isValid} = this.validateInput(this.state)
+
+    if (!isValid) {
+      this.setState({
+        errors
+      })
+    }
+    return isValid
+  }
+
+  validateInput(state) {
+    let errors = {}
+
+    if (!Validator.isEmail(state.email)) {
+      errors.email = {message: 'Email is invalid'}
+    }
+
+    if (Validator.isEmpty(state.email)) {
+      errors.email = {message: "can't be blank"}
+    }
+
+    if (Validator.isEmpty(state.username)) {
+      errors.username = {message: "can't be blank"}
+    }
+
+    if (Validator.isEmpty(state.password)) {
+      errors.password = {message: "can't be blank"}
+    }
+
+    if (Validator.isEmpty(state.passwordConfirmation)) {
+      errors.passwordConfirmation = {message: "can't be blank"}
+    }
+
+    if (!Validator.equals(state.password, state.passwordConfirmation)) {
+      errors.passwordConfirmation = {message: 'Passwords must match'}
+    }
+
+    return {errors, isValid: isEmpty(errors)}
+  }
+
   onSubmit(e) {
-    this.setState({
-      mismatch: '',
-      errors: {} // clear errors every time we submit form
-    })
     e.preventDefault()
 
-    if (this.state.password !== this.state.passwordConfirmation) {
+    if (this.isValid()) {
       this.setState({
-        mismatch: 'password and confirmation do no match'
+        mismatch: '',
+        errors: {} // clear errors every time we submit form
       })
-    } else {
-      this.props.userSignupRequest(this.state).catch(error => {
-        this.setState({errors: error.response.data.errors})
-      })
+
+      if (this.state.password !== this.state.passwordConfirmation) {
+        this.setState({
+          mismatch: 'password and confirmation do no match'
+        })
+      } else {
+        this.props.userSignupRequest(this.state).catch(error => {
+          this.setState({errors: error.response.data.errors})
+        })
+      }
     }
   }
 
