@@ -15,7 +15,7 @@ class Signup extends Component {
     const {userSignupRequest, addFlashMessage} = this.props
     return (
       <Wrapper>
-        <Masthead height="100%" bg="green">
+        <Masthead height="100%" padding="4rem 0">
           <SignupForm
             userSignupRequest={userSignupRequest}
             addFlashMessage={addFlashMessage}

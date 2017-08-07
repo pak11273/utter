@@ -12,6 +12,7 @@ const Masthead = styled.div`
   justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
   overflow: hidden;
+  padding: ${props => props.padding};
   position: relative;
   text-align: ${props => props.textalign};
   width: ${props => props.width};
@@ -23,7 +24,6 @@ Masthead.defaultProps = {
   height: '500px',
   flexdirection: 'column',
   justifycontent: 'center',
-  margin: '60px 0 0 0',
   textalign: 'center',
   width: '100%'
 }

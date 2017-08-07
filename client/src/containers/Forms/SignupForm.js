@@ -236,7 +236,9 @@ class SignupForm extends Component {
             name="timezone"
           />
           <ThemeProvider theme={main}>
-            <Button color="black">Join</Button>
+            <Button color="black" fontsize="1.5rem" padding=".2rem 1rem">
+              Join
+            </Button>
           </ThemeProvider>
         </Rightside>
       </Form>
