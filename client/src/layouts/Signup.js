@@ -8,15 +8,17 @@ import Navbar from '../containers/Navbars/Navbar'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
 import SignupForm from '../containers/Forms/SignupForm.js'
+import {addFlashMessage} from '../actions/flashMessages.js'
 
 class Signup extends Component {
   render() {
-    const {userSignupRequest} = this.props
+    const {userSignupRequest, addFlashMessage} = this.props
     return (
       <Wrapper>
         <Masthead height="100%" bg="green">
           <SignupForm
             userSignupRequest={userSignupRequest}
+            addFlashMessage={addFlashMessage}
             history={this.props.history}
           />
         </Masthead>
@@ -29,4 +31,4 @@ Signup.propTypes = {
   userSignupRequest: React.PropTypes.func.isRequired
 }
 
-export default connect(null, {userSignupRequest})(Signup)
+export default connect(null, {userSignupRequest, addFlashMessage})(Signup)
