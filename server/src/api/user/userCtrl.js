@@ -64,7 +64,6 @@ exports.post = (req, res, next) => {
     if (err) {
       return next(err)
     }
-    console.log(newUser)
 
     let token = signToken(newUser._id)
     res.json({token: token})

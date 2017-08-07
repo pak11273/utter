@@ -42,11 +42,12 @@ app.get('/', function(req, res) {
   })
 })
 
+// seed the db with dummy data TODO: change the seeding before using this
+// if (config.seed) {
+//   require('./util/seed')
+// }
+
 // error handling middleware
 app.use(err)
-
-if (config.seed) {
-  require('./util/seed')
-}
 
 module.exports = app

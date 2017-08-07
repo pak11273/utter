@@ -119,9 +119,14 @@ class SignupForm extends Component {
           mismatch: 'password and confirmation do no match'
         })
       } else {
-        this.props.userSignupRequest(this.state).catch(error => {
-          this.setState({errors: error.response.data.errors})
-        })
+        this.props
+          .userSignupRequest(this.state)
+          .then(() => {
+            this.props.history.push('/')
+          })
+          .catch(error => {
+            this.setState({errors: error.response.data.errors})
+          })
       }
     }
   }

@@ -15,7 +15,10 @@ class Signup extends Component {
     return (
       <Wrapper>
         <Masthead height="100%" bg="green">
-          <SignupForm userSignupRequest={userSignupRequest} />
+          <SignupForm
+            userSignupRequest={userSignupRequest}
+            history={this.props.history}
+          />
         </Masthead>
       </Wrapper>
     )
