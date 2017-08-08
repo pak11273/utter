@@ -10,8 +10,7 @@ import styled, {ThemeProvider} from 'styled-components'
 import {main, base} from '../../themes/config'
 import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
-import Validator from 'validator'
-import isEmpty from 'lodash/isEmpty'
+import {validateInput} from '../../utils/validations/login.js'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {login} from '../../actions/login'
@@ -29,7 +28,6 @@ const Form = styled.form`
     width: 960px;
   }
 `
-
 const Center = styled.div`
   display: flex;
   flex-direction: column;
@@ -44,10 +42,9 @@ class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
-      email: '',
-      isLoading: false,
+      identifier: '',
       password: '',
+      isLoading: false,
       errors: {}
     }
 
@@ -62,7 +59,7 @@ class LoginForm extends Component {
   }
 
   isValid() {
-    const {errors, isValid} = this.validateInput(this.state)
+    const {errors, isValid} = validateInput(this.state)
 
     if (!isValid) {
       this.setState({
@@ -72,53 +69,29 @@ class LoginForm extends Component {
     return isValid
   }
 
-  validateInput(state) {
-    let errors = {}
-
-    if (!Validator.isEmail(state.email)) {
-      errors.email = {message: 'Email is invalid'}
-    }
-
-    if (Validator.isEmpty(state.email)) {
-      errors.email = {message: "can't be blank"}
-    }
-
-    if (Validator.isEmpty(state.username)) {
-      errors.username = {message: "can't be blank"}
-    }
-
-    if (Validator.isEmpty(state.password)) {
-      errors.password = {message: "can't be blank"}
-    }
-
-    return {errors, isValid: isEmpty(errors)}
-  }
-
   onSubmit(e) {
     e.preventDefault()
     if (this.isValid()) {
-      alert('hi')
-      // this.setState({
-      //   errors: {}, // clear errors every time we submit form
-      //   isLoading: true
-      // })
+      this.setState({
+        errors: {}, // clear errors every time we submit form
+        isLoading: true
+      })
 
-      // this.props
-      //   .login(this.state)
-      //   .then(res => {
-      //     this.props.history.push('/')
-      //   })
-      //   .catch(error => {
-      //     this.setState({errors: error.response.data.errors, isLoading: false})
-      //   })
+      this.props
+        .login(this.state)
+        .then(res => {
+          this.props.history.push('/')
+        })
+        .catch(error => {
+          this.setState({errors: error.response.data.errors, isLoading: false})
+        })
     }
   }
 
   render() {
-    const usernameErrors = this.state.errors.username
+    const identifierErrors = this.state.errors.identifier
     const emailErrors = this.state.errors.email
     const passwordErrors = this.state.errors.password
-    const passwordConfirmationErrors = this.state.errors.passwordConfirmation
     return (
       <Form onSubmit={this.onSubmit}>
         <Center>
@@ -138,21 +111,21 @@ class LoginForm extends Component {
               </Subtitle>
             </NavLink>
           </Subtitle>
-          <Label>Username</Label>
+          <Label>Username or Email</Label>
           <InputLine
             onChange={this.onChange}
-            value={this.state.username}
+            value={this.state.identifier}
             type="text"
-            name="username"
+            name="identifier"
           />
-          {this.state.errors.username &&
-            Object.keys(usernameErrors).map((key, i) => {
+          {this.state.errors.identifier &&
+            Object.keys(identifierErrors).map((key, i) => {
               if (key === 'message') {
                 var value = key
               }
               return (
                 <Error key={i}>
-                  {usernameErrors[value]}
+                  {identifierErrors[value]}
                 </Error>
               )
             })}
@@ -179,6 +152,7 @@ class LoginForm extends Component {
             <ThemeProvider theme={main}>
               <Button
                 color="black"
+                disabled={this.isLoading}
                 fontsize="1.5rem"
                 margin="43px 56px 39px 41px"
                 padding=".2rem 1rem"
