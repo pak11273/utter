@@ -5,17 +5,18 @@ import Masthead from '../containers/Mastheads/Masthead'
 import Navbar from '../containers/Navbars/Navbar'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
+import LoginForm from '../containers/Forms/LoginForm.js'
 
-class About extends Component {
+class Login extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead bg="green">
-          <Title>Login</Title>
+        <Masthead height="100%" padding="4rem 0">
+          <LoginForm />
         </Masthead>
       </Wrapper>
     )
   }
 }
 
-export default About
+export default Login

@@ -1,7 +1,7 @@
 import Home from './layouts/Home.js'
 import About from './layouts/About.js'
 import Contact from './layouts/Contact.js'
-// import Login from './layouts/Login.js'
+import Login from './layouts/Login.js'
 // import Settings from './layouts/Settings.js'
 import Signup from './layouts/Signup.js'
 // import Test1 from './layouts/Test1.js'
@@ -30,11 +30,11 @@ export const routes = [
     component: Contact,
     loadData: () => getSomeData()
   },
-  // {
-  //   path: '/Login',
-  //   component: Login,
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/Login',
+    component: Login,
+    loadData: () => getSomeData()
+  },
   // {
   //   path: '/Settings',
   //   component: Settings,
