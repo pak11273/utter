@@ -9,8 +9,7 @@ const client = {
   context: path.resolve(__dirname, 'client/src'),
   entry: ['webpack-hot-middleware/client', './App.js'],
   output: {
-    // path: path.join(__dirname, 'client/dist'),
-    path: path.join(__dirname, 'client/src/'),
+    path: path.join(__dirname, 'client/dist'),
     filename: 'bundle.js',
     publicPath: '/' // use with historyApiFallback
   },

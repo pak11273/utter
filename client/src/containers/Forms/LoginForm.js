@@ -13,7 +13,7 @@ import Timezones from '../../components/Selects/Timezones/Timezones.js'
 import {validateInput} from '../../utils/validations/login.js'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {login} from '../../actions/login'
+import login from '../../actions/loginActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;

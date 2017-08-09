@@ -9,6 +9,7 @@ import {routes} from './routes'
 import {main} from './themes/config.js'
 import rootReducer from './rootReducer'
 import FlashMessagesList from '../src/components/FlashMessages/FlashMessagesList'
+import setAuthorizationToken from './utils/setAuthorizationToken.js'
 
 // redux settings
 import {Provider} from 'react-redux'
@@ -21,6 +22,8 @@ const store = createStore(
   rootReducer,
   /* preloadedState, */ composeEnhancers(applyMiddleware(thunk))
 )
+
+setAuthorizationToken(localStorage.jwtToken)
 
 class App extends Component {
   render(props) {

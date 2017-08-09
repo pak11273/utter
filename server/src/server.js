@@ -31,8 +31,23 @@ app.use('/lions', lionRouter)
 app.use('/tigers', tigerRouter)
 app.use('/sendmail', mailRouter)
 
+// used for gzip bundle.js
+app.get('*.js', function(req, res, next) {
+  req.url = req.url + '.gz'
+  res.set('Content-Encoding', 'gzip')
+  res.set('Content-Type', 'text/javascript')
+  next()
+})
+
+app.get('*.css', function(req, res, next) {
+  req.url = req.url + '.gz'
+  res.set('Content-Encoding', 'gzip')
+  res.set('Content-Type', 'text/css')
+  next()
+})
+
 // app route
-app.get('/', function(req, res) {
+app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../../client/dist/index.html'), function(
     err
   ) {
