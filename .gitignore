@@ -2,6 +2,7 @@
 
 # Custom
 gotchas
+.notes
 notes
 *.swp
 dist

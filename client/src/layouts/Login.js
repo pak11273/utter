@@ -12,7 +12,7 @@ class Login extends Component {
     return (
       <Wrapper>
         <Masthead height="100%" padding="4rem 0">
-          <LoginForm />
+          <LoginForm history={this.props.history} />
         </Masthead>
       </Wrapper>
     )

@@ -86,6 +86,7 @@ class LoginForm extends Component {
           this.props.history.push('/')
         })
         .catch(error => {
+          console.log(error)
           this.setState({errors: error.response.data.errors, isLoading: false})
           console.log(this.state.errors)
         })
