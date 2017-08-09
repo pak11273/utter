@@ -34,9 +34,12 @@ const Center = styled.div`
   margin: 0 auto;
 `
 const Error = styled.div`
-  padding-top: 5px;
+  padding-top: ${props => props.paddingtop};
   color: red;
 `
+Error.defaultProps = {
+  paddingtop: '5px'
+}
 
 class LoginForm extends Component {
   constructor(props) {
@@ -84,6 +87,7 @@ class LoginForm extends Component {
         })
         .catch(error => {
           this.setState({errors: error.response.data.errors, isLoading: false})
+          console.log(this.state.errors)
         })
     }
   }
@@ -129,6 +133,12 @@ class LoginForm extends Component {
                 </Error>
               )
             })}
+          <div>
+            {this.state.errors.form &&
+              <Error paddingtop="45px">
+                &mdash; {this.state.errors.form} &mdash;{' '}
+              </Error>}
+          </div>
           <Label>Password</Label>
           <InputLine
             onChange={this.onChange}
