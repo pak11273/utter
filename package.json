@@ -69,6 +69,7 @@
     "babel-preset-react": "^6.5.0",
     "chai": "^4.1.0",
     "colors": "^1.1.2",
+    "compression-webpack-plugin": "^1.0.0",
     "debug": "^2.6.6",
     "flow-bin": "^0.48.0",
     "react": "^15.6.1",

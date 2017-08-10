@@ -10,6 +10,8 @@ import {main} from './themes/config.js'
 import rootReducer from './rootReducer'
 import FlashMessagesList from '../src/components/FlashMessages/FlashMessagesList'
 import setAuthorizationToken from './utils/setAuthorizationToken.js'
+import jwt from 'jsonwebtoken'
+import {setCurrentUser} from './actions/authActions.js'
 
 // redux settings
 import {Provider} from 'react-redux'
@@ -23,7 +25,10 @@ const store = createStore(
   /* preloadedState, */ composeEnhancers(applyMiddleware(thunk))
 )
 
-setAuthorizationToken(localStorage.jwtToken)
+if (localStorage.jwtToken) {
+  setAuthorizationToken(localStorage.jwtToken)
+  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
+}
 
 class App extends Component {
   render(props) {

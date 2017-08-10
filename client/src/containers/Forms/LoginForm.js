@@ -13,7 +13,7 @@ import Timezones from '../../components/Selects/Timezones/Timezones.js'
 import {validateInput} from '../../utils/validations/login.js'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
-import login from '../../actions/loginActions.js'
+import {login} from '../../actions/authActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -86,9 +86,7 @@ class LoginForm extends Component {
           this.props.history.push('/')
         })
         .catch(error => {
-          console.log(error)
           this.setState({errors: error.response.data.errors, isLoading: false})
-          console.log(this.state.errors)
         })
     }
   }

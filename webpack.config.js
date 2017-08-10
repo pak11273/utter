@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 // informs webpack to bundle in production
 const webpack = require('webpack')
 const nodeExternals = require('webpack-node-externals')
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const client = {
   context: path.resolve(__dirname, 'client/src'),
@@ -27,13 +28,32 @@ const client = {
     chunks: true
   },
   plugins: [
+    new webpack.DefinePlugin({
+      // <-- key to reducing React's size
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       template: 'index.html'
       // favicon: './assets/images/favicon.ico'
+    }),
+    new webpack.optimize.UglifyJsPlugin(), //minify everything
+    new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: /\.js$|\.css$|\.html$/,
+      threshold: 10240,
+      minRatio: 0.8
     })
-  ]
+  ],
+  node: {
+    net: 'empty',
+    dns: 'empty'
+  }
 }
 
 // const server = {
