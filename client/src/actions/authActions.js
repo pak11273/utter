@@ -3,6 +3,14 @@ import setAuthorizationToken from '../utils/setAuthorizationToken.js'
 import jwt from 'jsonwebtoken'
 import {SET_CURRENT_USER} from './types.js'
 
+export function logout() {
+  return dispatch => {
+    localStorage.removeItem('jwtToken')
+    setAuthorizationToken(false)
+    dispatch(setCurrentUser({}))
+  }
+}
+
 export function setCurrentUser(user) {
   return {
     type: SET_CURRENT_USER,

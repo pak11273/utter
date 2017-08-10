@@ -5,6 +5,8 @@ import Login from '../../Logins/Login.js'
 import Logo from '../../../components/Logos/Logo.js'
 import Hamburger from '../../../components/Buttons/Hamburger'
 import Graphic from '../../../assets/images/logo.svg'
+import {connect} from 'react-redux'
+import {logout} from '../../../actions/authActions.js'
 
 const Section = styled.section`
   align-items: center;
@@ -56,43 +58,99 @@ const Nav = styled.ul`
      margin-left: 4rem;
     }
   `
+const Menu = styled.ul`
+    ul {
+      li {
+        display: none;
+      }
+    }
 
-const Navbar = props =>
-  <Section {...props}>
-    <Hamburger />
-    <SectionLeft>
-      <NavLink to="/">
-        <Logo
-          background={`url(${Graphic}) center/cover no-repeat`}
-          to="/"
-          display="none"
-          display768="block"
-          width="48px"
-          height="48px"
-        />
-      </NavLink>
-      <Nav>
+  @media (min-width: 960px) {
+    ul {
+      li {
+        display: inline;
+        font-size: 30px;
+        margin-left: 2rem;
+      }
+    }
+  }`
+
+class Navbar extends Component {
+  constructor(props) {
+    super(props)
+  }
+
+  logout(e) {
+    e.preventDefault()
+    this.props.logout()
+  }
+
+  render(props) {
+    const {isAuthenticated} = this.props.auth
+
+    const userLinks = (
+      <Menu>
         <ul>
-          {props.list.map((item, i) => {
-            return (
-              <li key={i}>
-                <NavLink
-                  exact
-                  activeStyle={{
-                    color: 'red'
-                  }}
-                  to={'/' + item}>
-                  {item}
-                </NavLink>
-              </li>
-            )
-          })}
+          <li>
+            <NavLink
+              activeClassName="active"
+              to="#"
+              onClick={this.logout.bind(this)}>
+              Log Out
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName="active" to="/settings">Settings</NavLink>
+          </li>
         </ul>
-      </Nav>
-    </SectionLeft>
-    <SectionRight>
-      <Login />
-    </SectionRight>
-  </Section>
+      </Menu>
+    )
+    const guestLinks = <Login />
+    return (
+      <Section {...props}>
+        <Hamburger />
+        <SectionLeft>
+          <NavLink to="/">
+            <Logo
+              background={`url(${Graphic}) center/cover no-repeat`}
+              to="/"
+              display="none"
+              display768="block"
+              width="48px"
+              height="48px"
+            />
+          </NavLink>
+          <Nav>
+            <ul>
+              {this.props.list.map((item, i) => {
+                return (
+                  <li key={i}>
+                    <NavLink
+                      exact
+                      activeStyle={{
+                        color: 'red'
+                      }}
+                      to={'/' + item}>
+                      {item}
+                    </NavLink>
+                  </li>
+                )
+              })}
+            </ul>
+          </Nav>
+        </SectionLeft>
+        <SectionRight>
+          {isAuthenticated ? userLinks : guestLinks}
+        </SectionRight>
+      </Section>
+    )
+  }
+}
 
-export default Navbar
+const mapStateToProps = state => {
+  return {
+    auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps, {logout})(Navbar)

@@ -2,8 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import {NavLink} from 'react-router-dom'
 
-const Login = styled.ul.attrs({})`
-
+const Menu = styled.ul`
     ul {
       li {
         display: none;
@@ -21,12 +20,9 @@ const Login = styled.ul.attrs({})`
   }`
 
 export default () =>
-  <Login>
+  <Menu>
     <ul>
       <li><NavLink activeClassName="active" to="/signup">Sign Up</NavLink></li>
       <li><NavLink activeClassName="active" to="/login">Login</NavLink></li>
-      <li>
-        <NavLink activeClassName="active" to="/settings">Settings</NavLink>
-      </li>
     </ul>
-  </Login>
+  </Menu>
