@@ -27,8 +27,4 @@ class Signup extends Component {
   }
 }
 
-Signup.propTypes = {
-  userSignupRequest: React.PropTypes.func.isRequired
-}
-
 export default connect(null, {userSignupRequest, addFlashMessage})(Signup)

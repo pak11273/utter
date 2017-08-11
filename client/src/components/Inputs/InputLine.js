@@ -10,13 +10,14 @@ const Input = styled.input`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   font-family: ${props => props.fontfamily};
-  width: ${props => props.width};
-  text-align: ${props => props.textalign};
-  height: ${props => props.height};
-  padding: ${props => props.padding};
   height: 50px;
+  height: ${props => props.height};
   left: 50%;
-  padding: 10px 0px;
+  margin: ${props => props.margin};
+  padding: ${props => props.padding};
+  text-align: ${props => props.textalign};
+  width: ${props => props.width};
+
   width: 200px;
     &:focus {
       outline: none;    
@@ -45,6 +46,11 @@ Input.defaultProps = {
   width: '200px'
 }
 
+const Wrap = styled.div`
+  display: flex;
+  justify-content: center;
+`
+
 const Underline = styled.div`
   background-color: dodgerblue;
   display: inline-block;
@@ -60,7 +66,7 @@ const Underline = styled.div`
   width: 202px;
 `
 export default props =>
-  <div>
+  <Wrap>
     <Input
       type={props.type}
       name={props.name}
@@ -68,6 +74,6 @@ export default props =>
       onChange={props.onChange}
     />
     <Underline />
-  </div>
+  </Wrap>
 
 // ref: https://codepen.io/fongfan999/pen/ozVYoW?editors=0100

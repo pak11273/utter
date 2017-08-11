@@ -2,6 +2,7 @@ import Home from './layouts/Home.js'
 import About from './layouts/About.js'
 import Contact from './layouts/Contact.js'
 import Login from './layouts/Login.js'
+import NewEvent from './layouts/NewEvent.js'
 // import Settings from './layouts/Settings.js'
 import Signup from './layouts/Signup.js'
 // import Test1 from './layouts/Test1.js'
@@ -33,6 +34,11 @@ export const routes = [
   {
     path: '/Login',
     component: Login,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/new-event',
+    component: NewEvent,
     loadData: () => getSomeData()
   },
   // {
