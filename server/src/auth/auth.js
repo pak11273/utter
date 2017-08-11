@@ -75,7 +75,18 @@ exports.authenticate = (req, res, next) => {
           error: 'failed to authenticate'
         })
       } else {
-        new User()
+        User.findOne({_id: decoded._id}, '_id username email').then(
+          user => {
+            if (!user) {
+              res.status(404).json({error: 'No such user'})
+            }
+            req.currentUser = user
+            next()
+          },
+          err => {
+            next(err)
+          }
+        )
       }
     })
   } else {

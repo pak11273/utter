@@ -7,8 +7,8 @@ import {decodeToken, getFreshUser, authenticate} from '../../auth/auth.js'
 // createRoutes(controller, router)
 
 router.route('/').post(authenticate, function(req, res) {
-  res.status(200).json({
-    whatever: 'dude'
+  res.status(201).json({
+    success: true
   })
 })
 
