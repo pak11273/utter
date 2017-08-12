@@ -7,7 +7,8 @@ import NewEvent from './layouts/NewEvent.js'
 import Signup from './layouts/Signup.js'
 // import Test1 from './layouts/Test1.js'
 // import Test2 from './layouts/Test2.js'
-// import NotFound from './components/Misc/NotFound.js'
+import NotFound from './components/Misc/NotFound.js'
+import requireAuth from './utils/requireAuth.js'
 
 export const routes = [
   {
@@ -38,7 +39,7 @@ export const routes = [
   },
   {
     path: '/new-event',
-    component: NewEvent,
+    component: requireAuth(NewEvent),
     loadData: () => getSomeData()
   },
   // {
@@ -50,7 +51,7 @@ export const routes = [
     path: '/Signup',
     component: Signup,
     loadData: () => getSomeData()
-  }
+  },
   // {
   //   path: '/test1',
   //   component: Test1,
@@ -61,8 +62,8 @@ export const routes = [
   //   component: Test2,
   //   loadData: () => getSomeData()
   // },
-  // {
-  //   component: NotFound,
-  //   loadData: () => getSomeData()
-  // }
+  {
+    component: NotFound,
+    loadData: () => getSomeData()
+  }
 ]

@@ -7,13 +7,17 @@ import Navbar from '../containers/Navbars/Navbar'
 import Wrapper from '../containers/Wrappers/Wrapper.js'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
+import {addFlashMessage} from '../actions/flashMessages.js'
 
 class NewEvent extends Component {
   render() {
     return (
       <Wrapper>
         <Section>
-          <EventForm />
+          <EventForm
+            addFlashMessage={addFlashMessage}
+            history={this.props.history}
+          />
         </Section>
       </Wrapper>
     )
