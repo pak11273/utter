@@ -14,7 +14,7 @@ const client = {
     filename: 'bundle.js',
     publicPath: '/' // use with historyApiFallback
   },
-  devtool: 'source-map',
+  devtool: '#source-map',
   devServer: {
     disableHostCheck: true,
     historyApiFallback: true // redirects all browser requests to publicPath, then react router takes over.  prevents browser from grabbing assets from the server while using webdevserver.
