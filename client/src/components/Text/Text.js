@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 const Text = styled.div`
   color: ${props => props.color};
+  display: ${props => props.display};
   font-family: ${props => props.fontfamily};
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
@@ -12,6 +13,7 @@ const Text = styled.div`
 `
 Text.defaultProps = {
   color: props => props.theme.color,
+  display: 'block',
   fontsize: '1rem',
   fontfamily: 'Arial'
 }

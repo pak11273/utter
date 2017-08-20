@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import pwd from './pwd.js'
 
 // default config object
 const config = {

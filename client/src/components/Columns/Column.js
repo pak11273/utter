@@ -1,44 +1,38 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 
-const Section = styled.section`
+const Column = styled.div`
   align-items: ${props => props.alignitems};
   background: ${props => props.background};
-  box-sizing: border-box;
+  color: ${props => props.color};
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
+  font-size: ${props => props.fontsize};
   height: ${props => props.height};
-  li {
-    font-size: 3rem;
-  }
-  justify-content: ${props => props.justyifycontent};
   margin: ${props => props.margin};
-  max-width: ${props => props.maxwidth};
-  opacity: ${props => props.opacity};
+  overflow: hidden;
   padding: ${props => props.padding};
   position: ${props => props.position};
+  text-align: left;
   width: ${props => props.width};
 
-  @media(min-width: 768px) {
-    width: 768px 
-  }
-
   @media(min-width: 960px) {
+    align-items: ${props => props.alignitems960};
     flex-direction: ${props => props.flexdirection960};
-    max-width: 100%;
-    width: 100%;
+    justify-content: ${props => props.justifycontent960};
+    padding: ${props => props.padding960};
+    width: ${props => props.width960};
   }
 `
-Section.defaultProps = {
+Column.defaultProps = {
   alignitems: 'center',
   background: 'transparent',
-  color: 'black',
-  display: 'flex',
   flexdirection: 'column',
+  fontsize: '1rem',
   justifycontent: 'center',
-  margin: '0 auto',
+  padding: '1rem',
   position: 'relative',
   width: '100%'
 }
 
-export default Section
+export default Column

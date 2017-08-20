@@ -8,16 +8,30 @@ const CompressionPlugin = require('compression-webpack-plugin')
 
 const client = {
   context: path.resolve(__dirname, 'client/src'),
-  entry: ['webpack-hot-middleware/client', './App.js'],
+  // entry: ['webpack-hot-middleware/client', './App.js'],
+  entry: ['./App.js'],
   output: {
     path: path.join(__dirname, 'client/dist'),
     filename: 'bundle.js',
     publicPath: '/' // use with historyApiFallback
   },
-  devtool: '#source-map',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     disableHostCheck: true,
-    historyApiFallback: true // redirects all browser requests to publicPath, then react router takes over.  prevents browser from grabbing assets from the server while using webdevserver.
+    historyApiFallback: true, // redirects all browser requests to publicPath, then react router takes over.  prevents browser from grabbing assets from the server while using webdevserver.
+    proxy: [
+      {
+        context: [
+          '/auth',
+          '/api',
+          '/api/events',
+          '/lions',
+          '/tigers',
+          '/sendmail'
+        ],
+        target: 'http://192.168.68.8:3001'
+      }
+    ]
   },
   resolve: {
     extensions: ['.js', '.jsx'] // common extensions
@@ -40,7 +54,7 @@ const client = {
       template: 'index.html'
       // favicon: './assets/images/favicon.ico'
     }),
-    new webpack.optimize.UglifyJsPlugin(), //minify everything
+    new webpack.optimize.UglifyJsPlugin({sourceMap: true}), //minify everything
     new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks
     new CompressionPlugin({
       asset: '[path].gz[query]',

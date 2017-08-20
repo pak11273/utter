@@ -20,14 +20,15 @@ module.exports = app => {
   mongoose.Promise = bluebird
 
   // hmr global middleware : turn this on for development
-  app.use(
-    webpackMiddleware(compiler, {
-      hot: true,
-      publicPath: webpackConfig.output.publicPath,
-      noInfo: true
-    })
-  )
-  app.use(webpackHotMiddleware(compiler))
+  // app.use(
+  //   webpackMiddleware(compiler, {
+  //     hot: true,
+  //     publicPath: webpackConfig.output.publicPath,
+  //     noInfo: true
+  //   })
+  // )
+  // app.use(webpackHotMiddleware(compiler))
+
   mongoose.connect(config.db.url)
 }
 
