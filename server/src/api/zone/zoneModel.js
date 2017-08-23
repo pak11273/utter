@@ -14,6 +14,10 @@ const ZoneSchema = mongoose.Schema({
     type: Array,
     default: []
   },
+  numComments: {
+    type: String,
+    default: ''
+  },
   timestamp: {
     type: Date,
     default: Date.now

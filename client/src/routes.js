@@ -7,11 +7,16 @@ import NewEvent from './layouts/NewEvent.js'
 import Settings from './layouts/Settings.js'
 import Signup from './layouts/Signup.js'
 import Languages from './layouts/Languages.js'
+import LanguageDetails from './layouts/LanguageDetails.js'
 import NotFound from './components/Misc/NotFound.js'
 import requireAuth from './utils/requireAuth.js'
 import Korean from './layouts/Korean.js'
 import Dashboard from './layouts/Dashboard.js'
 import Korean1 from './layouts/Korean/Level1.js'
+
+//data
+import React from 'react'
+import language from './data/language.json'
 
 export const routes = [
   {
@@ -47,7 +52,14 @@ export const routes = [
   },
   {
     path: '/languages',
-    component: Languages,
+    component: props => <Languages languages={language.languages} {...props} />,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/languageDetails/:id',
+    component: props =>
+      <LanguageDetails languages={language.languages} {...props} />,
+
     loadData: () => getSomeData()
   },
   {

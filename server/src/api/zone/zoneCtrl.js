@@ -52,6 +52,9 @@ exports.update = (req, res, next) => {
 }
 
 exports.post = (req, res, next) => {
+  if (typeof req.body['zipCodes'] === 'String') {
+    let jk
+  }
   let zips = req.body['zipCodes']
   let zip = zips.split(',')
   let newZips = []

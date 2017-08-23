@@ -32,9 +32,7 @@ Box.defaultProps = {
   fontweight: '400',
   height: '100%',
   justifycontent: 'column',
-  overflowx: 'hidden',
   padding: props => '.5% 5% 0 5%',
-  width: '100%',
   textalign: 'center'
 }
 

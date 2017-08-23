@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Section from '../containers/Sections/Section.js'
-import Zones from '../components/Zones/Zones.js'
+import {Zones} from '../containers'
 import Comments from '../components/Comments/Comments.js'
 import Col from '../components/Columns/Column.js'
 import Title from '../components/Text/Title.js'
@@ -64,7 +64,7 @@ class ZoneLayout extends Component {
         </Col>
         <Col height="100%" width960="25%" width="25%">
           <Box height="100%" maxwidth="500px" background="green" margin="20px">
-            <Title>Comments: Zone 1</Title>
+            <Title fontsize="2rem">Comments: Zone 1</Title>
             <Comments />
           </Box>
         </Col>

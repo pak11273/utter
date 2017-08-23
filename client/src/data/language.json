@@ -1,0 +1,51 @@
+{
+  "languages": [{
+    "name": "Korean",
+    "description": "The language of choson dynasty.",
+    "flag": "koreanFlag.jpg",
+    "src": "http://www.flags.net/images/largeflags/SKOR0001.GIF",
+    "trailer": "Asdkfjijsd",
+    "levels": "35"
+  },
+  {
+    "name": "Spanish",
+    "description": "The language of spice.  Over 2.1 billion people speak this romantic language.",
+    "flag": "spanishFlag.jpg",
+    "src": "http://www.flags.net/images/largeflags/MEXC0001.GIF",
+    "trailer": "lisjkjskijsd",
+    "levels": "soon"
+  },
+  {
+    "name": "French",
+    "description": "The language of love.  From the country where art lives.",
+    "flag": "frenchFlag.jpg",
+    "src": "http://www.flags.net/images/largeflags/FRAN0001.GIF",
+    "trailer": "ikjsIkkfjijsd",
+    "levels": "soon"
+  },
+  {
+    "name": "English",
+    "description": "The business language of the world.",
+    "flag": "englishFlag.jpg",
+    "src": "http://www.flags.net/images/largeflags/UNST0001.GIF",
+    "trailer": "lkjksskfjijsd",
+    "levels": "soon"
+  },
+  {
+    "name": "Russian",
+    "description": "The superpower that impacts the world.",
+    "flag": "russiaFlag.jpg",
+    "src": "http://www.flags.net/images/largeflags/RUSS0001.GIF",
+    "trailer": "ikjsdididIkkfjijsd",
+    "levels": "soon"
+  },
+  {
+    "name": "Portuguese",
+    "description": "The language of dance.",
+    "flag": "portugueseFlag.jpg",
+    "src": "http://www.flags.net/images/largeflags/BRAZ0001.GIF",
+    "trailer": "ikjsIkkfjijsd",
+    "levels": "soon"
+  }
+  ]
+}

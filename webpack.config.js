@@ -24,7 +24,9 @@ const client = {
         context: [
           '/auth',
           '/api',
+          '/api/comments',
           '/api/events',
+          '/api/zones',
           '/lions',
           '/tigers',
           '/sendmail'

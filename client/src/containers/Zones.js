@@ -1,27 +1,25 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import Zone from '../../components/Zones/Zone.js'
+import {ZoneCreate, Zone} from '../components'
 import styled from 'styled-components'
-import Box from '../../components/Boxes/Box.js'
-import Button from '../../components/Buttons/Button.js'
-import Input from '../../components/Inputs/Input.js'
+import Box from '../components/Boxes/Box.js'
+import Button from '../components/Buttons/Button.js'
+import Input from '../components/Inputs/Input.js'
 import superagent from 'superagent'
-import ApiMgr from '../../utils'
+import ApiMgr from '../utils'
+import shortid from 'shortid'
 
 class Zones extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      zone: {
-        name: '',
-        zipCodes: [],
-        numComments: ''
-      },
+      selected: 0,
       list: []
     }
 
     this.updateName = this.updateName.bind(this)
     this.addZone = this.addZone.bind(this)
+    this.selectZone = this.selectZone.bind(this)
   }
 
   //TODO: implement the apimgr
@@ -68,18 +66,23 @@ class Zones extends Component {
     })
   }
 
-  addZone(e) {
-    e.preventDefault
-    superagent.post('/api/zones').send(this.state.zone).end((err, res) => {
+  addZone(zone) {
+    superagent.post('/api/zones').send(zone).end((err, res) => {
       if (err) {
         alert(err)
         return
       }
       const updatedList = Object.assign([], this.state.list)
-      updatedList.push(this.state.zone)
+      updatedList.push(zone)
       this.setState({
         list: updatedList
       })
+    })
+  }
+
+  selectZone(index) {
+    this.setState({
+      selected: index
     })
   }
 
@@ -89,31 +92,22 @@ class Zones extends Component {
         <Box height="500px" overflow="scroll">
           <ol>
             {this.state.list.map((zone, i) => {
+              let selected = i == this.state.selected
               return (
-                <li key={i}>
-                  <Zone currentZone={zone} />
+                <li key={shortid.generate()}>
+                  <Zone
+                    index={i}
+                    selectZone={this.selectZone}
+                    isSelected={selected}
+                    currentZone={zone}
+                  />
                 </li>
               )
             })}
           </ol>
         </Box>
         <Box>
-          <Input onChange={this.updateName} placeholder="zone" name="name" />
-          <Input
-            onChange={this.updateName}
-            placeholder="zipcodes"
-            name="zipCodes"
-          />
-        </Box>
-        <Box>
-          <Input
-            onChange={this.updateName}
-            placeholder="# of comments"
-            name="numComments"
-          />
-          <Button onClick={this.addZone} color="black">
-            Create Zone
-          </Button>
+          <ZoneCreate addZone={this.addZone} />
         </Box>
       </Box>
     )

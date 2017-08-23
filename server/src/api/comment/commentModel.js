@@ -6,8 +6,11 @@ import jwt from 'jsonwebtoken'
 import config from '../../config/config.js'
 
 const CommentSchema = mongoose.Schema({
-  body: {
-    username: String,
+  username: {
+    type: String,
+    default: ''
+  },
+  message: {
     type: String,
     default: ''
   },

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import Comment from '../../components/Comments/Comment.js'
 import styled from 'styled-components'
+import {CreateComment, Comment} from './'
 import Input from '../../components/Inputs/Input.js'
 import Box from '../../components/Boxes/Box.js'
 import Button from '../../components/Buttons/Button.js'
@@ -12,23 +12,10 @@ class Comments extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      comment: {
-        username: '',
-        body: '',
-        timestamp: ''
-      },
-      list: [
-        {
-          body: 'This is going to be a long comment to see what happens?',
-          username: 'trump',
-          timestamp: '1pm'
-        },
-        {body: 'comment 2', username: 'barney', timestamp: '2am'},
-        {body: 'comment 3', username: 'gerard', timestamp: '3pm'}
-      ]
+      list: []
     }
 
-    this.submitComment = this.submitComment.bind(this)
+    this.addComment = this.addComment.bind(this)
     this.updateName = this.updateName.bind(this)
   }
 
@@ -42,17 +29,25 @@ class Comments extends Component {
           alert(err)
           return
         }
+        const results = res.body.comment
 
-        // console.log(res.body)
+        this.setState({
+          list: results
+        })
       })
   }
 
-  submitComment(e) {
-    e.preventDefault()
-    const updatedList = Object.assign([], this.state.list)
-    updatedList.push(this.state.comment)
-    this.setState({
-      list: updatedList
+  addComment(comment) {
+    superagent.post('/api/comments').send(comment).end((err, res) => {
+      if (err) {
+        console.log(err)
+      } else {
+        const updatedList = Object.assign([], this.state.list)
+        updatedList.push(res.body)
+        this.setState({
+          list: updatedList
+        })
+      }
     })
   }
 
@@ -63,7 +58,6 @@ class Comments extends Component {
     this.setState({
       comment: updatedName
     })
-    console.log(this.state.comment)
   }
 
   render() {
@@ -76,23 +70,12 @@ class Comments extends Component {
     })
     return (
       <Box>
-        <ol>
-          {commentList}
-        </ol>
-        <Input
-          onChange={this.updateName}
-          placeholder="username"
-          name="username"
-        />
-        <Input onChange={this.updateName} placeholder="comment" name="body" />
-        <Input
-          onChange={this.updateName}
-          placeholder="timestamp"
-          name="timestamp"
-        />
-        <Button onClick={this.submitComment} height="30px" color="black">
-          Send
-        </Button>
+        <Box overflow="scroll" height="500px">
+          <ol>
+            {commentList}
+          </ol>
+        </Box>
+        <CreateComment addComment={this.addComment} />
       </Box>
     )
   }

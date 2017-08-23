@@ -19,7 +19,9 @@ class Comment extends Component {
         <StyledLink to="#" style={{fontSize: '3rem'}}>
           {this.props.currentComment.username}
         </StyledLink>
-        <div style={{textAlign: 'left'}}>{this.props.currentComment.body}</div>
+        <div style={{textAlign: 'left'}}>
+          {this.props.currentComment.message}
+        </div>
         <div>{this.props.currentComment.timestamp}</div>
       </Box>
     )
