@@ -1,4 +1,6 @@
 import Masthead from './Masthead.js'
-import Zones from './Zones.js'
+import Pictures from './Pictures.js'
+import Rooms from './Rooms.js'
+import Chat from './Chat.js'
 
-export {Masthead, Zones}
+export {Chat, Pictures, Masthead, Rooms}

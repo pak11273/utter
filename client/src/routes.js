@@ -1,18 +1,21 @@
-import Home from './layouts/Home.js'
-import About from './layouts/About.js'
-import Contact from './layouts/Contact.js'
-import Login from './layouts/Login.js'
-import Zones from './layouts/Zones.js'
-import NewEvent from './layouts/NewEvent.js'
-import Settings from './layouts/Settings.js'
-import Signup from './layouts/Signup.js'
-import Languages from './layouts/Languages.js'
-import LanguageDetails from './layouts/LanguageDetails.js'
-import NotFound from './components/Misc/NotFound.js'
-import requireAuth from './utils/requireAuth.js'
-import Korean from './layouts/Korean.js'
-import Dashboard from './layouts/Dashboard.js'
-import Korean1 from './layouts/Korean/Level1.js'
+import {
+  Home,
+  About,
+  Connections,
+  Contact,
+  GettingStarted,
+  Login,
+  NewEvent,
+  Settings,
+  Signup,
+  Landing,
+  Languages,
+  LanguageDetails,
+  NotFound,
+  requireAuth,
+  Dashboard,
+  Korean1
+} from './layouts'
 
 //data
 import React from 'react'
@@ -41,8 +44,18 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
+    path: '/getting-started',
+    component: requireAuth(GettingStarted),
+    loadData: () => getSomeData()
+  },
+  {
     path: '/Contact',
     component: Contact,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/Landing',
+    component: Landing,
     loadData: () => getSomeData()
   },
   {
@@ -56,10 +69,19 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/languageDetails/:id',
-    component: props =>
-      <LanguageDetails languages={language.languages} {...props} />,
-
+    path: '/languageDetails/:name',
+    component: props => {
+      const one = language.languages.filter(
+        language => props.match.params.name === language.name
+      )
+      return (
+        <LanguageDetails
+          languages={language.languages}
+          language={one[0]}
+          {...props}
+        />
+      )
+    },
     loadData: () => getSomeData()
   },
   {
@@ -78,14 +100,8 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/Zones',
-    component: requireAuth(Zones),
-    loadData: () => getSomeData()
-  },
-  {
-    exact: true,
-    path: '/Korean',
-    component: Korean,
+    path: '/Connections',
+    component: requireAuth(Connections),
     loadData: () => getSomeData()
   },
   {

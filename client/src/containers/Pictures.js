@@ -1,13 +1,14 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
-import secrets from '../../config/secrets.js'
+import secrets from '../config/secrets.js'
 import axios from 'axios'
 import superagent from 'superagent'
-import Img from '../../components/Medias/Img'
-import Rando from '../../utils/randomGenerator.js'
-import level1 from '../../data/level1/level-1-words.js'
-import Box from '../../components/Boxes/Box.js'
-import PicturesMgr from '../../utils/PicturesMgr.js'
+import Img from '../components/Medias/Img'
+import Rando from '../utils/randomGenerator.js'
+import level1 from '../data/level1/level-1-words.js'
+import Box from '../components/Boxes/Box.js'
+import PicturesMgr from '../utils/PicturesMgr.js'
+import {Button} from '../components'
 
 const Wrap = styled.section`
   align-items: ${props => props.alignitems};
@@ -49,6 +50,12 @@ Wrap.defaultProps = {
   width: '100%'
 }
 
+const Attribution = styled.div`
+ font-size: .5rem;
+ a {
+   font-size: .5rem;
+ }
+`
 class Pictures extends Component {
   constructor(props) {
     super(props)
@@ -171,8 +178,18 @@ class Pictures extends Component {
       <Wrap>
         {this.props.children}
         <Img src={this.state.pictures} />
+        <Attribution>
+          Photo courtesy of <a href="">Pixabay.com</a>
+        </Attribution>
         <Box>
-          {this.state.word}<button onClick={this.getPhoto}>Change</button>
+          {this.state.word}
+          <Button
+            color="black"
+            fontsize="1.5rem"
+            margin="20px"
+            onClick={this.getPhoto}>
+            Change Picture
+          </Button>
         </Box>
       </Wrap>
     )

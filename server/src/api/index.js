@@ -3,13 +3,17 @@ import userRoutes from './user/userRoutes.js'
 import languageRoutes from './language/languageRoutes.js'
 import eventRoutes from './event/eventRoutes.js'
 import zoneRoutes from './zone/zoneRoutes.js'
-import commentRoutes from './comment/commentRoutes.js'
+import roomRoutes from './room/roomRoutes.js'
+// import commentRoutes from './comment/commentRoutes.js'
+import messageRoutes from './message/messageRoutes.js'
 const router = express.Router()
 
 router.use('/users', userRoutes)
 router.use('/languages', languageRoutes)
 router.use('/events', eventRoutes)
-router.use('/zones', zoneRoutes)
-router.use('/comments', commentRoutes)
+// router.use('/zones', zoneRoutes)
+router.use('/rooms', roomRoutes)
+// router.use('/comments', commentRoutes)
+router.use('/messages', messageRoutes)
 
 module.exports = router

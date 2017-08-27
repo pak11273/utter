@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import styled, {ThemeProvider} from 'styled-components'
 import Wrapper from '../containers/Wrappers/Wrapper.js'
 import Masthead from '../containers/Mastheads/Masthead'
@@ -6,25 +7,25 @@ import Navbar from '../containers/Navbars/Navbar'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
 
-class Korean extends Component {
+class GettingStarted extends Component {
   render() {
     return (
       <Wrapper>
         <Masthead bg="green">
-          <Title>Korean</Title>
+          <Title>Getting Started</Title>
           <Subtitle>
-            Hangul for the simple minded for:
+            Let's get on the fast track to speaking a new language
           </Subtitle>
-          <select>
-            <option>English Speakers</option>
-            <option>French Speakers</option>
-            <option>Spanish Speakers</option>
-          </select>
-          <button>Enroll</button>
+          <ol>
+            <li>First go over the syllabus</li>
+            <li>Briefly look at vocabulary</li>
+            <li>Briefly go over any grammar</li>
+            <li><Link to="/Connections">Start Speaking!</Link></li>
+          </ol>
         </Masthead>
       </Wrapper>
     )
   }
 }
 
-export default Korean
+export default GettingStarted

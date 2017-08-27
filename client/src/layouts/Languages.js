@@ -14,6 +14,7 @@ import {Masthead} from '../containers'
 import Navbar from '../containers/Navbars/Navbar'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
+import {connect} from 'react-redux'
 
 class Languages extends Component {
   constructor() {

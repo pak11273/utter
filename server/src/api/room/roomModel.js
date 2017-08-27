@@ -1,15 +1,15 @@
 import mongoose, {Schema} from 'mongoose'
 
-const ZoneSchema = mongoose.Schema({
-  name: {
+const RoomSchema = Schema({
+  level: {
     type: String,
     default: ''
   },
-  zipCodes: {
-    type: Array,
-    default: []
+  creator: {
+    type: String,
+    default: ''
   },
-  numComments: {
+  people: {
     type: String,
     default: ''
   },
@@ -19,4 +19,4 @@ const ZoneSchema = mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('zone', ZoneSchema)
+export default mongoose.model('room', RoomSchema)

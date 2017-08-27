@@ -28,7 +28,7 @@ Box.defaultProps = {
   display: 'flex',
   flexdirection: 'column',
   fontfamily: 'Arial',
-  fontsize: '2rem',
+  fontsize: '1rem',
   fontweight: '400',
   height: '100%',
   justifycontent: 'column',

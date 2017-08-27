@@ -37,7 +37,7 @@ class App extends Component {
         <Provider store={store}>
           <Router>
             <Wrapper>
-              <Navbar list={['about', 'contact', 'languages', 'zones']} />
+              <Navbar list={['about', 'contact', 'languages', 'connections']} />
               <Spacer margin="90px 0 0 0" />
               <FlashMessagesList />
               <Switch>

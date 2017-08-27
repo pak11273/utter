@@ -1,15 +1,13 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-import {ZoneCreate, Zone} from '../components'
 import styled from 'styled-components'
-import Box from '../components/Boxes/Box.js'
-import Button from '../components/Buttons/Button.js'
-import Input from '../components/Inputs/Input.js'
 import superagent from 'superagent'
 import ApiMgr from '../utils'
 import shortid from 'shortid'
 
-class Zones extends Component {
+import {Box, Button, Input, RoomCreate, Room, Text} from '../components'
+
+class Rooms extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,21 +16,21 @@ class Zones extends Component {
     }
 
     this.updateName = this.updateName.bind(this)
-    this.addZone = this.addZone.bind(this)
-    this.selectZone = this.selectZone.bind(this)
+    this.addRoom = this.addRoom.bind(this)
+    this.selectRoom = this.selectRoom.bind(this)
   }
 
   //TODO: implement the apimgr
   // componentDidMount() {
-  //   ApiMgr.get('/api/zones', null, (err, res) => {
+  //   ApiMgr.get('/api/rooms', null, (err, res) => {
   //     if (err) {
   //       alert(err.message)
   //       return
   //     }
-  //     const results = res.body.zone
+  //     const results = res.body.room
 
   //     this.setState({
-  //       // add zones from db
+  //       // add rooms from db
   //       list: results
   //     })
   //   })
@@ -40,7 +38,7 @@ class Zones extends Component {
 
   componentDidMount() {
     superagent
-      .get('/api/zones')
+      .get('/api/rooms')
       .query(null)
       .set('Accept', 'accept/json')
       .end((err, res) => {
@@ -48,10 +46,9 @@ class Zones extends Component {
           alert(err)
           return
         }
-        const results = res.body.zone
+        const results = res.body.room
 
         this.setState({
-          // add zones from db
           list: results
         })
       })
@@ -59,28 +56,28 @@ class Zones extends Component {
 
   updateName(e) {
     e.preventDefault
-    const updatedZone = Object.assign({}, this.state.zone)
-    updatedZone[e.target.name] = e.target.value
+    const updatedRoom = Object.assign({}, this.state.room)
+    updatedRoom[e.target.name] = e.target.value
     this.setState({
-      zone: updatedZone
+      room: updatedRoom
     })
   }
 
-  addZone(zone) {
-    superagent.post('/api/zones').send(zone).end((err, res) => {
+  addRoom(room) {
+    superagent.post('/api/rooms').send(room).end((err, res) => {
       if (err) {
         alert(err)
         return
       }
       const updatedList = Object.assign([], this.state.list)
-      updatedList.push(zone)
+      updatedList.push(room)
       this.setState({
         list: updatedList
       })
     })
   }
 
-  selectZone(index) {
+  selectRoom(index) {
     this.setState({
       selected: index
     })
@@ -89,17 +86,29 @@ class Zones extends Component {
   render() {
     return (
       <Box>
-        <Box height="500px" overflow="scroll">
+        <Box flexdirection="row" justifycontent="space-aroudn">
+          <Text>Sort By: </Text>
+          <select>
+            <option>Rooms</option>
+            <option>levels</option>
+            <option>creators</option>
+          </select>
+          <select>
+            <option>Asc</option>
+            <option>Desc</option>
+          </select>
+        </Box>
+        <Box height="500px" overflowy="scroll" overflowx="none">
           <ol>
-            {this.state.list.map((zone, i) => {
+            {this.state.list.map((room, i) => {
               let selected = i == this.state.selected
               return (
                 <li key={shortid.generate()}>
-                  <Zone
+                  <Room
                     index={i}
-                    selectZone={this.selectZone}
+                    selectRoom={this.selectRoom}
                     isSelected={selected}
-                    currentZone={zone}
+                    currentRoom={room}
                   />
                 </li>
               )
@@ -107,11 +116,11 @@ class Zones extends Component {
           </ol>
         </Box>
         <Box>
-          <ZoneCreate addZone={this.addZone} />
+          <RoomCreate addRoom={this.addRoom} />
         </Box>
       </Box>
     )
   }
 }
 
-export default Zones
+export default Rooms
