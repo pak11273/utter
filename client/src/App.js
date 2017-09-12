@@ -9,26 +9,11 @@ import {routes} from './routes'
 import {main} from './themes/config.js'
 import rootReducer from './rootReducer'
 import FlashMessagesList from '../src/components/FlashMessages/FlashMessagesList'
-import setAuthorizationToken from './utils/setAuthorizationToken.js'
 import jwt from 'jsonwebtoken'
 import {setCurrentUser} from './actions/authActions.js'
-
-// redux settings
 import {Provider} from 'react-redux'
-import thunk from 'redux-thunk'
-import {createStore, applyMiddleware, compose} from 'redux'
 
-// with redux-dev tools
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-const store = createStore(
-  rootReducer,
-  /* preloadedState, */ composeEnhancers(applyMiddleware(thunk))
-)
-
-if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken)
-  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
-}
+import store from './store.js'
 
 class App extends Component {
   render(props) {
@@ -39,7 +24,6 @@ class App extends Component {
             <Wrapper>
               <Navbar list={['about', 'contact', 'languages', 'connections']} />
               <Spacer margin="90px 0 0 0" />
-              <FlashMessagesList />
               <Switch>
                 {routes.map((route, i) => <Route key={i} {...route} />)}
               </Switch>
@@ -52,3 +36,16 @@ class App extends Component {
 }
 
 render(<App />, document.getElementById('app'))
+
+// example async dispatch with axios
+// store.dispatch(dispatch => {
+//   dispatch({type: 'FETCH_USERS'})
+//   axios
+//     .get('http://rest.learncode.academy/api/blah/users')
+//     .then(res => {
+//       dispatch({type: 'RECEIVE_USERS', payload: res.data})
+//     })
+//     .catch(err => {
+//       dispatch({type: 'FETCH_USERS_ERROR', payload: err})
+//     })
+// })

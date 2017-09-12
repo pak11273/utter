@@ -7,13 +7,13 @@ import Login from './Login.js'
 import NewEvent from './NewEvent.js'
 import Settings from './Settings.js'
 import Signup from './Signup.js'
-import Landing from './Landing.js'
 import Languages from './Languages.js'
 import LanguageDetails from './LanguageDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
 import requireAuth from '../utils/requireAuth.js'
 import Dashboard from './Dashboard.js'
 import Korean1 from './Korean/Level1.js'
+import Redux from './Redux.js'
 
 export {
   Home,
@@ -25,11 +25,11 @@ export {
   NewEvent,
   Settings,
   Signup,
-  Landing,
   Languages,
   LanguageDetails,
   NotFound,
   requireAuth,
   Dashboard,
-  Korean1
+  Korean1,
+  Redux
 }

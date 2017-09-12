@@ -5,8 +5,11 @@ import Masthead from '../containers/Mastheads/Masthead'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
 import CTA from '../components/Buttons/CTA.js'
-import Section from '../containers/Sections/Section.js'
-import Img from '../components/Medias/Img'
+import {Box, Column, Img, Line, Section, Text} from '../components'
+
+// images
+import busyPeopleImg from '../assets/images/busy-people.jpg'
+import embarrassedImg from '../assets/images/embarrassed.jpg'
 
 class Home extends Component {
   render(props) {
@@ -19,61 +22,186 @@ class Home extends Component {
           <Subtitle>This actually works!</Subtitle>
           <CTA color="black">Learn More</CTA>
         </Masthead>
-        <Section>
-          <Title>Pains</Title>
-          <ul>
-            <li>Native speakers are hard to comeby.</li>
-            <li>Not all native speakers are good teachers/mentors/tutors.</li>
-            <li>
-              Learned for years in highschool or college but can't speak one
-              sentence beyond hi and bye
-            </li>
-            <li>
-              It hurts when you try and speak and you are made fun of, or you
-              feel stupid when you say it wrong
-            </li>
-            <li>No meetups nearby to practice</li>
-          </ul>
+        <Section
+          height="800px"
+          background={`url(${busyPeopleImg}) no-repeat center/cover`}>
+          <Column maxwidth="960px">
+            <Box>
+              <Text color="white" fontsize="3rem">
+                Hiring Native Speakers can be expensive
+              </Text>
+              <Line />
+              <Text color="white" fontsize="3rem">
+                Not all native speakers are good teachers.
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section
+          height="800px"
+          background={`url(${embarrassedImg}) no-repeat center/cover`}>
+          <Column maxwidth="960px">
+            <Box>
+              <Text color="white" fontsize="3rem">
+                Fear of embarrassment is the biggest reason why people won't try
+                to speak a new language.
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                Not enough meetups or people near you to talk with.
+              </Text>
+            </Box>
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+          </Column>
         </Section>
         <Section>
           <Title>Solutions</Title>
-          <ul>
-            <li>
-              We have native speakers on staff that help create and review our
-              material
-            </li>
-            <li>
-              We know how the brain operates and how you can retain what you
-              learned.
-            </li>
-            <li>You will learn the 1000 most spoken words in conversation</li>
-            <li>
-              You will be learning with peers. Meaning you will be speaking with
-              people who are at your level.
-            </li>
-            <li>
-              We have a policy where no one makes fun of others. If you do, you
-              will be banned
-            </li>
-            <li>
-              You don't need a meetup. If you have internet access you can start
-              practicing with people all over the world.
-            </li>
-          </ul>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                We have native speakers on staff that help create and review our
+                material
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                We know how the brain operates and how you can retain what you
+                learned.
+              </Text>
+            </Box>
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                You will learn the 1000 most spoken words in conversation
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                You will be learning with peers. Meaning you will be speaking
+                with
+                people who are at your level.
+              </Text>
+            </Box>
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                You don't need a meetup. If you have internet access you can
+                start
+                practicing with people all over the world.
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                We have a policy where no one makes fun of others. If you do,
+                you will be banned
+              </Text>
+            </Box>
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+          </Column>
         </Section>
         <Section>
           <Title>Other Features</Title>
-          <ul>
-            <li>A flashcard system that will help build your vocabulary</li>
-            <li>
-              You will have tracked progress. A scheduler. A system that lets
-              you know where your weak areas are.
-            </li>
-          </ul>
         </Section>
-        <Section>
-          <Title>Get Sponsored</Title>
-          <Title>Become a Sponsor</Title>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                A flashcard system that will help build your vocabulary
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Box width="50%">
+              <Text fontsize="2rem" width="300px">
+                You will have tracked progress. A scheduler. A system that lets
+                you know where your weak areas are.
+              </Text>
+            </Box>
+            <Img
+              src="http://via.placeholder.com/350x350"
+              width="350"
+              height="350"
+            />
+          </Column>
+        </Section>
+        <Section height="800px">
+          <Column flexdirection768="row" maxwidth="960px">
+            <Box width="50%">
+              <Text fontsize="4rem">
+                Get Sponsored
+              </Text>
+            </Box>
+            <Box width="50%">
+              <Text fontsize="4rem">
+                Become a Sponsor
+              </Text>
+            </Box>
+          </Column>
         </Section>
       </Wrapper>
     )

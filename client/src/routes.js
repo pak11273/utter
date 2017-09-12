@@ -8,13 +8,13 @@ import {
   NewEvent,
   Settings,
   Signup,
-  Landing,
   Languages,
   LanguageDetails,
   NotFound,
   requireAuth,
   Dashboard,
-  Korean1
+  Korean1,
+  Redux
 } from './layouts'
 
 //data
@@ -54,11 +54,6 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/Landing',
-    component: Landing,
-    loadData: () => getSomeData()
-  },
-  {
     path: '/Login',
     component: Login,
     loadData: () => getSomeData()
@@ -87,6 +82,11 @@ export const routes = [
   {
     path: '/new-event',
     component: requireAuth(NewEvent),
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/redux',
+    component: Redux,
     loadData: () => getSomeData()
   },
   {

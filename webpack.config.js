@@ -53,8 +53,9 @@ const client = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
-      template: 'index.html'
-      // favicon: './assets/images/favicon.ico'
+      template: 'index.html',
+      // favicon: './assets/images/favicon.ico',
+      inject: false
     }),
     new webpack.optimize.UglifyJsPlugin({sourceMap: true}), //minify everything
     new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks

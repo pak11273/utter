@@ -10,11 +10,21 @@ const Column = styled.div`
   flex-wrap: ${props => props.flexwrap};
   font-size: ${props => props.fontsize};
   height: ${props => props.height};
+  max-width: ${props => props.maxwidth};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
   position: ${props => props.position};
-  text-align: left;
+  text-align: ${props => props.textalign};
   width: ${props => props.width};
+
+  @media(min-width: 768px) {
+    align-items: ${props => props.alignitems768};
+    flex-direction: ${props => props.flexdirection768};
+    flex-wrap: ${props => props.flexwrap768};
+    justify-content: ${props => props.justifycontent768};
+    padding: ${props => props.padding768};
+    width: ${props => props.width768};
+  }
 
   @media(min-width: 960px) {
     align-items: ${props => props.alignitems960};
@@ -34,7 +44,6 @@ Column.defaultProps = {
   fontsize: '1rem',
   justifycontent: 'center',
   padding: '1rem',
-  position: 'relative',
   width: '100%'
 }
 

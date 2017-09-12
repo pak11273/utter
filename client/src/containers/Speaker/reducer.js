@@ -1,0 +1,60 @@
+/*
+ * Speaker Reducer
+ *
+ * The reducer takes care of our data. Using actions, we can change our
+ * application state.
+ * To add a new action, add it to the switch statement in the reducer function
+ *
+ * Example:
+ * case YOUR_ACTION_CONSTANT:
+ *   return state.set('yourStateVariable', true);
+ */
+
+import {
+  ADD_MESSAGE_FULFILLED,
+  LOAD_MESSAGES_FULFILLED,
+  SET_AUTHOR,
+  SET_FINAL_TRANSCRIPT_FULFILLED,
+  SET_INTERIM_SCRIPT_FULFILLED
+} from './types.js'
+
+// The initial state of the App
+const initialState = {
+  author: '',
+  message: '',
+  messageList: '',
+  interim_script: '',
+  final_transcript: ''
+}
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_MESSAGE_FULFILLED:
+      return {
+        ...state,
+        message: action.payload
+      }
+    case LOAD_MESSAGES_FULFILLED:
+      return {
+        ...state,
+        messageList: action.payload
+      }
+    case SET_FINAL_TRANSCRIPT_FULFILLED:
+      return {
+        ...state,
+        final_transcript: action.payload
+      }
+    case SET_INTERIM_SCRIPT_FULFILLED:
+      return {
+        ...state,
+        interim_script: action.payload
+      }
+    case SET_AUTHOR:
+      return {
+        ...state,
+        author: action.payload
+      }
+    default:
+      return state
+  }
+}

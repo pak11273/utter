@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Input = styled.input`
+  border: ${props => props.border};
   color: ${props => props.color};
   padding: ${props => props.padding};
   font-family: ${props => props.fontfamily};

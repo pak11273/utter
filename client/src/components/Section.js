@@ -12,7 +12,7 @@ const Section = styled.section`
   li {
     font-size: 3rem;
   }
-  justify-content: ${props => props.justyifycontent};
+  justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
   max-width: ${props => props.maxwidth};
   opacity: ${props => props.opacity};
@@ -38,7 +38,6 @@ Section.defaultProps = {
   flexdirection: 'column',
   justifycontent: 'center',
   margin: '0 auto',
-  position: 'relative',
   width: '100%'
 }
 

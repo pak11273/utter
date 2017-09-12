@@ -14,9 +14,7 @@ const Img = styled.img`
 Img.defaultProps = {
   backgroundsize: 'cover',
   height: '300px',
-  margin: '30px auto',
-  width: '400px',
-  alt: 'image placeholder'
+  width: '400px'
 }
 
 export default Img

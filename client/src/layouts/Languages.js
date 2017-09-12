@@ -40,7 +40,7 @@ class Languages extends Component {
             Choose from several languages
           </Subtitle>
           {this.state.search}
-          <Box flexdirection="row">
+          <Box flexdirection="row" padding="2%" width="456px">
             <Input
               onChange={this.handleSearch}
               margin="0 10px 0 0"

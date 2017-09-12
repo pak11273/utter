@@ -28,11 +28,12 @@ Box.defaultProps = {
   display: 'flex',
   flexdirection: 'column',
   fontfamily: 'Arial',
-  fontsize: '1rem',
+  fontsize: '2rem',
   fontweight: '400',
   height: '100%',
   justifycontent: 'column',
   padding: props => '.5% 5% 0 5%',
+  width: '100%',
   textalign: 'center'
 }
 

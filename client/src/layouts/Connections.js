@@ -3,9 +3,10 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
-import {Chat, Pictures, Rooms} from '../containers'
+import {Chat, Pictures, Rooms, Speaker} from '../containers'
 import {
   Box,
+  Button,
   Column,
   Img,
   Input,
@@ -14,41 +15,6 @@ import {
   Text,
   Title
 } from '../components'
-
-class SpeakerBox extends Component {
-  componentDidMount() {
-    const upgrade = () => {
-      alert('This application only works with the Google Chrome Browser.')
-    }
-
-    if (!window.webkitSpeechRecognition && !window.speechRecognition) {
-      upgrade()
-    } else {
-      let recognizing = true
-
-      const reset = () => {
-        recognizing = false
-        return recognizing
-      }
-    }
-  }
-
-  render() {
-    return (
-      <Box>
-        <p>Your uttered words appear below</p>
-        <Box>
-          <Input color="black" textalign="left" width="100%" />
-        </Box>
-        <Img
-          height="80px"
-          width="100%"
-          src="http://static2.cdn.ubi.com/gamesites/gro/game/beginers-guide/tn_Advancement-ExperienceBar.jpg"
-        />
-      </Box>
-    )
-  }
-}
 
 class Experience extends Component {
   render() {
@@ -91,7 +57,25 @@ class Misc extends Component {
 }
 
 class Connections extends Component {
-  render() {
+  constructor() {
+    super()
+    this.state = {
+      author: '',
+      message: ''
+    }
+
+    this.sendToConnection = this.sendToConnection.bind(this)
+  }
+
+  sendToConnection(dataFromSpeaker) {
+    const {author, message} = dataFromSpeaker
+    this.setState({
+      author,
+      message
+    })
+  }
+
+  render(props) {
     return (
       <Router>
         <Section
@@ -134,7 +118,7 @@ class Connections extends Component {
                 yourself
               </Subtitle>
             </Box>
-            <SpeakerBox />
+            <Speaker sendToConnection={this.sendToConnection} />
             <div>Everytime you speak a word. you gain 1pt. experience</div>
 
           </Column>

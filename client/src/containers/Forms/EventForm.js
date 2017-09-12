@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import Title from '../../components/Text/Title.js'
 import Subtitle from '../../components/Text/Subtitle.js'
-import Img from '../../components/Medias/Img'
 import Label from '../../components/Text/Label.js'
 import InputLine from '../../components/Inputs/InputLine.js'
 import Box from '../../components/Boxes/Box.js'
@@ -11,6 +10,7 @@ import {main, base} from '../../themes/config'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {createEvent} from '../../actions/eventActions.js'
+import {Img} from '../../components'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -67,10 +67,7 @@ class EventForm extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Center>
-          <Img
-            alt=""
-            src="http://www.liberty.edu/media/1414/events/Events%20Banner.jpg"
-          />
+          <Img src="http://www.liberty.edu/media/1414/events/Events%20Banner.jpg" />
           <Label>Create an Event</Label>
           <InputLine
             margin="0 auto"

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Text = styled.div`
+const TextArea = styled.textarea`
   color: ${props => props.color};
   display: ${props => props.display};
   font-family: ${props => props.fontfamily};
@@ -16,7 +16,7 @@ Text.defaultProps = {
   display: 'block',
   fontsize: '1rem',
   fontfamily: 'Arial',
-  textalign: 'center'
+  textalign: 'left'
 }
 
-export default Text
+export default TextArea

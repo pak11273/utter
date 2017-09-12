@@ -1,14 +1,16 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import styled from 'styled-components'
-import secrets from '../config/secrets.js'
+import secrets from '../../config/secrets.js'
 import axios from 'axios'
 import superagent from 'superagent'
-import Img from '../components/Medias/Img'
-import Rando from '../utils/randomGenerator.js'
-import level1 from '../data/level1/level-1-words.js'
-import Box from '../components/Boxes/Box.js'
-import PicturesMgr from '../utils/PicturesMgr.js'
-import {Button} from '../components'
+import Rando from '../../utils/randomGenerator.js'
+import level1 from '../../data/level1/level-1-words.js'
+import Box from '../../components/Boxes/Box.js'
+import PicturesMgr from '../../utils/PicturesMgr.js'
+import {Img} from '../../components'
+import {loadPicture, loadQuery} from './actions.js'
 
 const Wrap = styled.section`
   align-items: ${props => props.alignitems};
@@ -50,19 +52,9 @@ Wrap.defaultProps = {
   width: '100%'
 }
 
-const Attribution = styled.div`
- font-size: .5rem;
- a {
-   font-size: .5rem;
- }
-`
 class Pictures extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      pictures: {},
-      word: ''
-    }
 
     this.getPhoto = this.getPhoto.bind(this)
   }
@@ -76,7 +68,7 @@ class Pictures extends Component {
     let family = Object.keys(level1.category.nouns.family)
     let furniture = Object.keys(level1.category.nouns.furniture)
     let meats = Object.keys(level1.category.nouns.foods.meats)
-    let blah = animals.concat(
+    let list = animals.concat(
       bodyParts,
       buildings,
       clothes,
@@ -84,26 +76,12 @@ class Pictures extends Component {
       furniture,
       meats
     )
-    let blah2 = new Rando(blah)
-    let query = blah2.word
 
-    // axios({
-    //   method: 'get',
-    //   url: 'https://pixabay.com/api',
-    //   params: {
-    //     key: secrets.pixabay,
-    //     q: blah3,
-    //     safesearch: true,
-    //     image_type: 'photo'
-    //   },
-    //   responseType: 'json'
-    // })
-    //   .then(res => {
-    //     console.log(res)
-    //   })
-    //   .catch(err => {
-    //     console.log('error: ' + err)
-    //   })
+    // TODO:if word is used 5 times then remove it from blah
+    //const refinedList
+
+    let randomList = new Rando(list)
+    let query = randomList.word
 
     superagent
       .get('http://pixabay.com/api')
@@ -132,68 +110,36 @@ class Pictures extends Component {
         let num = getRandomIntInclusive(min, max)
 
         const results = res.body.hits[num].previewURL
-        this.setState({
-          pictures: results,
-          word: query
-        })
+
+        this.props.picture.loadPicture(results)
+        this.props.picture.loadQuery(query)
       })
-
-    // PicturesMgr.get('https://pixabay.com/api', {
-    //   key: secrets.pixabay,
-    //   q: blah3,
-    //   safesearch: true,
-    //   image_type: 'photo'
-    // })
-    // (err, res) => {
-    //   if (err) {
-    //     console.log('error yo: ' + err)
-    //     return
-    //   }
-
-    //   const max = res.body.hits.length - 1
-    //   const min = 0
-
-    //   const getRandomIntInclusive = (min, max) => {
-    //     min = Math.ceil(min)
-    //     max = Math.floor(max)
-    //     return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
-    //   }
-
-    // let num = getRandomIntInclusive(min, max)
-
-    // const results = res.body.hits[num].previewURL
-    // console.log('#')
-    // console.log(blah.length)
-    // console.log(blah3)
-    // this.setState({
-    //   pictures: results,
-    //   word: blah3
-    // })
-    // }
-    // )
   }
 
   render() {
     return (
       <Wrap>
         {this.props.children}
-        <Img src={this.state.pictures} />
-        <Attribution>
-          Photo courtesy of <a href="">Pixabay.com</a>
-        </Attribution>
+        <Img src={this.props.pictureSRC} />
         <Box>
-          {this.state.word}
-          <Button
-            color="black"
-            fontsize="1.5rem"
-            margin="20px"
-            onClick={this.getPhoto}>
-            Change Picture
-          </Button>
+          {this.props.query}<button onClick={this.getPhoto}>Change</button>
         </Box>
       </Wrap>
     )
   }
 }
 
-export default Pictures
+const mapStateToProps = state => {
+  return {
+    pictureSRC: state.pictureReducer.pictureSRC,
+    query: state.pictureReducer.query
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    picture: bindActionCreators({loadPicture, loadQuery}, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pictures)

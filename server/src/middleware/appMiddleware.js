@@ -6,11 +6,11 @@ import bluebird from 'bluebird'
 import config from '../../dist/config/config.js'
 
 // webpack hmr imports - not necessary for production TODO:remove for production
-import webpack from 'webpack'
-import webpackMiddleware from 'webpack-dev-middleware'
-import webpackHotMiddleware from 'webpack-hot-middleware'
-import webpackConfig from '../../../webpack.config.js'
-const compiler = webpack(webpackConfig)
+// import webpack from 'webpack'
+// import webpackMiddleware from 'webpack-dev-middleware'
+// import webpackHotMiddleware from 'webpack-hot-middleware'
+// import webpackConfig from '../../../webpack.config.js'
+// const compiler = webpack(webpackConfig)
 
 module.exports = app => {
   app.use(cors())

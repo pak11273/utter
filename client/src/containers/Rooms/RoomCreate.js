@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Button, Box, Input, Text} from '../components'
+import {Button, Box, Input, Text} from '../../components'
 
 class RoomCreate extends Component {
   constructor() {
@@ -42,11 +42,6 @@ class RoomCreate extends Component {
           />
         </Box>
         <Box>
-          <Input
-            onChange={this.updateName}
-            placeholder="# of people in room"
-            name="people"
-          />
           <Button onClick={this.addRoom} color="black">
             Create A Room{' '}
           </Button>

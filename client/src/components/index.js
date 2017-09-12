@@ -7,10 +7,9 @@ import Img from './Img.js'
 import Input from './Input.js'
 import Section from './Section.js'
 import LanguageCard from './LanguageCard.js'
-import Message from './Message.js'
-import Room from './Room.js'
-import RoomCreate from './RoomCreate.js'
+import Line from './Line.js'
 import Text from './Text.js'
+import TextArea from './TextArea.js'
 import Title from './Title.js'
 import Select from './Select.js'
 import Spacer from './Spacer.js'
@@ -28,13 +27,12 @@ export {
   Input,
   Section,
   LanguageCard,
-  Message,
-  Room,
-  RoomCreate,
+  Line,
   Select,
   Spacer,
   Subtitle,
   Text,
+  TextArea,
   Title,
   Wrapper,
   ZoneCreate,
