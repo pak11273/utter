@@ -123,8 +123,9 @@ class Speaker extends Component {
   onSubmit(e) {
     e.preventDefault()
     const obj = {
-      username: this.props.message.author,
-      message: this.props.message.final_transcript
+      author: this.props.message.author,
+      message: this.props.message.final_transcript,
+      room_id: this.props.roomId.selected
     }
 
     superagent.post('/api/messages').send(obj).end((err, res) => {
@@ -227,7 +228,8 @@ class Speaker extends Component {
 
 const mapStateToProps = state => {
   return {
-    message: state.speakerReducer
+    message: state.speakerReducer,
+    roomId: state.roomReducer
   }
 }
 

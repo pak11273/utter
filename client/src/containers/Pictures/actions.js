@@ -1,4 +1,4 @@
-import {LOAD, LOAD_QUERY} from './types.js'
+import {LOAD, LOAD_QUERY, SEND_TRANSLATED} from './types.js'
 
 const loadPicture = obj => {
   return {
@@ -18,4 +18,13 @@ const loadQuery = query => {
   }
 }
 
-export {loadPicture, loadQuery}
+const sendTranslated = query => {
+  return {
+    type: SEND_TRANSLATED,
+    payload: new Promise((resolve, reject) => {
+      resolve(query)
+    })
+  }
+}
+
+export {loadPicture, loadQuery, sendTranslated}

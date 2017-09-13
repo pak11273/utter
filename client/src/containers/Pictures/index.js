@@ -3,14 +3,12 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import styled from 'styled-components'
 import secrets from '../../config/secrets.js'
-import axios from 'axios'
 import superagent from 'superagent'
 import Rando from '../../utils/randomGenerator.js'
 import level1 from '../../data/level1/level-1-words.js'
-import Box from '../../components/Boxes/Box.js'
 import PicturesMgr from '../../utils/PicturesMgr.js'
-import {Img} from '../../components'
-import {loadPicture, loadQuery} from './actions.js'
+import {Box, Button, Img, Text} from '../../components'
+import {loadPicture, loadQuery, sendTranslated} from './actions.js'
 
 const Wrap = styled.section`
   align-items: ${props => props.alignitems};
@@ -56,10 +54,10 @@ class Pictures extends Component {
   constructor(props) {
     super(props)
 
-    this.getPhoto = this.getPhoto.bind(this)
+    this.getAPICalls = this.getAPICalls.bind(this)
   }
 
-  getPhoto() {
+  getAPICalls() {
     // combine objects to form one object to pass to random generator
     let animals = Object.keys(level1.category.nouns.animals)
     let bodyParts = Object.keys(level1.category.nouns.bodyParts)
@@ -77,7 +75,7 @@ class Pictures extends Component {
       meats
     )
 
-    // TODO:if word is used 5 times then remove it from blah
+    // TODO:if word is used 5 times then remove it from
     //const refinedList
 
     let randomList = new Rando(list)
@@ -94,7 +92,7 @@ class Pictures extends Component {
       .set('Accept', 'application/json')
       .end((err, res) => {
         if (err) {
-          console.log('error yo: ' + err)
+          console.log('error : ' + err)
           return
         }
 
@@ -114,6 +112,64 @@ class Pictures extends Component {
         this.props.picture.loadPicture(results)
         this.props.picture.loadQuery(query)
       })
+
+    superagent
+      .get('https://translate.yandex.net/api/v1.5/tr.json/translate')
+      .query({
+        key: secrets.yandex,
+        text: query,
+        lang: 'en-ko'
+      })
+      .set('Accept', 'application/json')
+      // .end((err, res) => {
+      //   if (err) {
+      //     console.log('error : ' + err)
+      //     return
+      //   }
+
+      //   const translated = res.body.text[0]
+      //   this.props.picture.sendTranslated(translated)
+
+      //   var msg = new SpeechSynthesisUtterance()
+      //   var voices = window.speechSynthesis.getVoices()
+
+      //   msg.voice = voices[1] // Note: some voices don't support altering params
+      //   msg.voiceURI = 'native'
+      //   msg.volume = 1 // 0 to 1
+      //   msg.rate = 0.5 // 0.1 to 10
+      //   msg.pitch = 1 //0 to 2
+      //   // msg.text = translated
+      //   msg.lang = 'ko-KR'
+      //   // msg.lang = 'en-US'
+
+      //   msg.onend = function(e) {
+      //     console.log('Finished in ' + event.elapsedTime + ' seconds.')
+      //   }
+
+      //   speechSynthesis.speak(msg)
+      // })
+      .then(res => {
+        const translated = res.body.text[0]
+        this.props.picture.sendTranslated(translated)
+
+        var msg = new SpeechSynthesisUtterance()
+        var voices = window.speechSynthesis.getVoices()
+
+        msg.voice = voices[1] // Note: some voices don't support altering params
+        // msg.voiceURI = 'native'
+        msg.volume = 1 // 0 to 1
+        msg.rate = 0.5 // 0.1 to 10
+        msg.pitch = 1 //0 to 2
+        msg.text = translated
+        msg.lang = 'ko-KR'
+        // msg.lang = 'en-US'
+
+        msg.onend = function(e) {
+          console.log('Finished in ' + event.elapsedTime + ' seconds.')
+        }
+
+        speechSynthesis.speak(msg)
+      })
   }
 
   render() {
@@ -122,7 +178,21 @@ class Pictures extends Component {
         {this.props.children}
         <Img src={this.props.pictureSRC} />
         <Box>
-          {this.props.query}<button onClick={this.getPhoto}>Change</button>
+          <Button color="black" margin="20px" onClick={this.getAPICalls}>
+            Change Picture
+          </Button>
+          <Box
+            margin="20px"
+            width="400px"
+            flexdirection="row"
+            justifycontent="space-around">
+            <Text font-size="1.2rem" color="black">
+              query: {this.props.query}
+            </Text>
+            <Text font-size="1.2rem" color="black">
+              translated: {this.props.translated}
+            </Text>
+          </Box>
         </Box>
       </Wrap>
     )
@@ -132,13 +202,17 @@ class Pictures extends Component {
 const mapStateToProps = state => {
   return {
     pictureSRC: state.pictureReducer.pictureSRC,
-    query: state.pictureReducer.query
+    query: state.pictureReducer.query,
+    translated: state.pictureReducer.translation
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    picture: bindActionCreators({loadPicture, loadQuery}, dispatch)
+    picture: bindActionCreators(
+      {loadPicture, loadQuery, sendTranslated},
+      dispatch
+    )
   }
 }
 

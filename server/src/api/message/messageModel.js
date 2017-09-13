@@ -6,6 +6,10 @@ import jwt from 'jsonwebtoken'
 import config from '../../config/config.js'
 
 const MessageSchema = mongoose.Schema({
+  room_id: {
+    type: String,
+    default: ''
+  },
   author: {
     type: String,
     default: ''

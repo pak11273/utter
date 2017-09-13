@@ -1,4 +1,8 @@
-import {LOAD_FULFILLED, LOAD_QUERY_FULFILLED} from './types.js'
+import {
+  LOAD_FULFILLED,
+  LOAD_QUERY_FULFILLED,
+  SEND_TRANSLATED_FULFILLED
+} from './types.js'
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
@@ -11,6 +15,11 @@ export default (state = {}, action = {}) => {
       return {
         ...state,
         query: action.payload
+      }
+    case SEND_TRANSLATED_FULFILLED:
+      return {
+        ...state,
+        translation: action.payload
       }
     default:
       return state

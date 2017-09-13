@@ -2,11 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Box} from '../../components'
 
-const Msg = ({author, message, username}) =>
+const Msg = ({author, message}) =>
   <div className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
     <div className="Message-username">
-      {username}:
-      <span className="Message-message"> {message}</span>
+      {author}: <span className="Message-message"> {message}</span>
     </div>
   </div>
 
@@ -16,10 +15,8 @@ const MsgList = props => {
   list.push(props.message)
   return (
     <div style={{alignSelf: 'flex-start'}}>
-      {list.map(({username, author, message, id}) => {
-        return (
-          <Msg key={id} username={username} author={author} message={message} />
-        )
+      {list.map(({author, message, id}) => {
+        return <Msg key={id} author={author} message={message} />
       })}
     </div>
   )
@@ -28,9 +25,19 @@ const MsgList = props => {
 class Chat extends Component {
   constructor(props) {
     super(props)
+
+    // this.filterMessages = this.filterMessages.bind(this)
   }
 
+  // TODO: filter messages by room id
+  // filterMessages() {
+  //   this.props.messageList.filter(
+  //     room => room.room_id === this.props.roomId.selected
+  //   )
+  // }
+
   render() {
+    console.log(this.props.messageList)
     return (
       <Box>
         <Box overflowy="scroll" overflowx="none" height="500px">
@@ -47,8 +54,9 @@ class Chat extends Component {
 const mapStateToProps = state => {
   return {
     message: state.speakerReducer.message,
-    messageList: state.speakerReducer.messageList
+    messageList: state.speakerReducer.messageList,
+    roomId: state.roomReducer
   }
 }
 
-export default connect(mapStateToProps)(Chat)
+export default connect(mapStateToProps, null)(Chat)

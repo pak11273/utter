@@ -2,7 +2,7 @@ import {LOAD_FULFILLED, ROOM_SELECT_FULFILLED} from './types.js'
 
 export default (
   state = {
-    selected: null,
+    selected: '',
     list: [],
     lastValues: []
   },
