@@ -1,23 +1,27 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Subtitle = styled.div`
+const OrderedList = styled.div`
   color: ${props => props.color};
   display: ${props => props.display};
   font-family: ${props => props.fontfamily};
-  font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
+  list-style-type: ${props => props.liststyletype};
   padding: ${props => props.padding};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign};
   width: ${props => props.width};
+
+  li {
+    font-size: ${props => props.fontsize};
+  }
 `
-Subtitle.defaultProps = {
+OrderedList.defaultProps = {
+  color: props => props.theme.color,
+  display: 'block',
+  fontsize: '1rem',
   fontfamily: 'Arial',
-  fontsize: '2rem',
-  fontweight: '400',
-  padding: props => '.5% 5% 0 5%',
-  width: '100%',
+  liststyletype: 'none',
   textalign: 'center'
 }
 
-export default Subtitle
+export default OrderedList

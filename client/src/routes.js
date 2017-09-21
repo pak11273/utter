@@ -14,6 +14,10 @@ import {
   requireAuth,
   Dashboard,
   Korean1,
+  Korean2,
+  Korean3,
+  Korean4,
+  Korean5,
   Redux
 } from './layouts'
 
@@ -107,6 +111,26 @@ export const routes = [
   {
     path: '/korean/1',
     component: Korean1,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/korean/2',
+    component: Korean2,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/korean/3',
+    component: Korean3,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/korean/4',
+    component: Korean4,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/korean/5',
+    component: Korean4,
     loadData: () => getSomeData()
   },
   {

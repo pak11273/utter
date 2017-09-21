@@ -13,6 +13,10 @@ import {
   setInterimScript
 } from './actions.js'
 
+import {updateReviewList} from '../../containers/Pictures/actions.js'
+
+import {updateUtteredList} from '../../containers/Uttered/actions.js'
+
 // images
 import mic from '../../assets/images/microphone.png'
 
@@ -21,10 +25,10 @@ class Speaker extends Component {
     super()
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.updateReview = this.updateReview.bind(this)
     this.updateInterimScript = this.updateInterimScript.bind(this)
     this.updateName = this.updateName.bind(this)
     this.updateSpeech = this.updateSpeech.bind(this)
-    this.sendToSpeaker = this.sendToSpeaker.bind(this)
     this.speechStart = this.speechStart.bind(this)
   }
 
@@ -120,6 +124,30 @@ class Speaker extends Component {
     }
   }
 
+  updateReview(e) {
+    e.preventDefault()
+    const wordList = this.props.pictureReducer.wordList
+    const originalList = this.props.pictureReducer.originalList
+    const query = this.props.pictureReducer.query
+    if (query) {
+      const reviewObj = {
+        [query]: originalList[query]
+      }
+
+      if (!this.props.pictureReducer.reviewList) {
+        this.props.messages.updateReviewList(reviewObj)
+        console.log('reviewlist "', this.props.pictureReducer.reviewList)
+      } else {
+        const newList = Object.assign(
+          this.props.pictureReducer.reviewList,
+          reviewObj
+        )
+        this.props.messages.updateReviewList(newList)
+      }
+    }
+    console.log(this.props.pictureReducer.reviewList)
+  }
+
   onSubmit(e) {
     e.preventDefault()
     const obj = {
@@ -128,13 +156,50 @@ class Speaker extends Component {
       room_id: this.props.roomId.selected
     }
 
-    superagent.post('/api/messages').send(obj).end((err, res) => {
-      if (err) {
-        console.log(err)
-      } else {
-        this.props.messages.addMessage(res.body)
-      }
-    })
+    if (obj.message) {
+      superagent.post('/api/messages').send(obj).end((err, res) => {
+        if (err) {
+          console.log(err)
+        } else {
+          this.props.messages.addMessage(res.body)
+        }
+      })
+
+      // update utteredList
+      let utteredString = this.props.message.final_transcript
+      let utteredArray = utteredString.split(' ')
+      let utteredMap = utteredArray.map(word => {
+        return {word: word, uttered: 1}
+      })
+      let newUtteredList = this.props.utteredList.concat(utteredMap)
+
+      // first, convert data into a Map with reduce
+      let counts = newUtteredList.reduce((prev, curr) => {
+        let count = prev.get(curr.word) || 0
+        prev.set(curr.word, curr.uttered + count)
+        return prev
+      }, new Map())
+
+      // then, map your counts object back to an array
+      let reducedObjArr = [...counts].map(([word, uttered]) => {
+        return {word, uttered}
+      })
+
+      // save to db
+      superagent
+        .put('/api/users/59ba886955d0041e7a4a854a')
+        .send({utteredList: reducedObjArr})
+        .end((err, res) => {
+          if (err) {
+            console.log(err)
+          } else {
+            this.props.messages.updateUtteredList(reducedObjArr)
+          }
+        })
+    }
+
+    // clear the final_transcript input box
+    this.props.messages.setFinalTranscript('')
   }
 
   updateName(e) {
@@ -153,15 +218,6 @@ class Speaker extends Component {
     e.preventDefault()
     let letter = e.target.value
     this.props.messages.setFinalTranscript(letter)
-  }
-
-  sendToSpeaker(dataFromForm) {
-    this.props.sendToConnection(dataFromForm)
-    const {author, message} = dataFromForm
-    this.setState({
-      author,
-      message
-    })
   }
 
   render() {
@@ -189,20 +245,32 @@ class Speaker extends Component {
           <TextArea
             onChange={this.updateSpeech}
             color="black"
-            fontsize="1.4rem"
+            fontsize="2.5rem"
             placeholder="edit this message before sending"
             textalign="left"
             width="500px"
             value={this.props.message.final_transcript}
           />
-          <Button
-            color="black"
-            fontsize="2rem"
-            margin="20px"
-            padding="3px"
-            onClick={this.onSubmit}>
-            send
-          </Button>
+          <Box alignitems="flex-start" width="100px">
+            <Button
+              color="black"
+              fontsize="1.4rem"
+              margin="5px"
+              padding="3px"
+              onClick={this.updateReview}
+              width="100px">
+              review{' '}
+            </Button>
+            <Button
+              color="black"
+              fontsize="1.4rem"
+              margin="5px"
+              padding="3px"
+              onClick={this.onSubmit}
+              width="100px">
+              send
+            </Button>
+          </Box>
         </Box>
         <Box margin="40px">
           <Input
@@ -229,7 +297,9 @@ class Speaker extends Component {
 const mapStateToProps = state => {
   return {
     message: state.speakerReducer,
-    roomId: state.roomReducer
+    roomId: state.roomReducer,
+    pictureReducer: state.pictureReducer,
+    utteredList: state.utteredReducer.utteredList
   }
 }
 
@@ -241,7 +311,9 @@ const mapDispatchToProps = dispatch => {
         loadMessages,
         setFinalTranscript,
         setAuthor,
-        setInterimScript
+        setInterimScript,
+        updateUtteredList,
+        updateReviewList
       },
       dispatch
     )

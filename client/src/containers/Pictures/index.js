@@ -4,11 +4,23 @@ import {bindActionCreators} from 'redux'
 import styled from 'styled-components'
 import secrets from '../../config/secrets.js'
 import superagent from 'superagent'
-import Rando from '../../utils/randomGenerator.js'
-import level1 from '../../data/level1/level-1-words.js'
+import Rand from '../../utils/randomGenerator.js'
 import PicturesMgr from '../../utils/PicturesMgr.js'
 import {Box, Button, Img, Text} from '../../components'
-import {loadPicture, loadQuery, sendTranslated} from './actions.js'
+import _ from 'lodash'
+
+import {
+  loadPicture,
+  loadQuery,
+  loadOriginalWordList,
+  loadWordList,
+  updateWordList,
+  updateReviewList,
+  sendRomanized,
+  sendTranslated
+} from './actions.js'
+
+import {setInterimScript, setFinalTranscript} from '../Speaker/actions.js'
 
 const Wrap = styled.section`
   align-items: ${props => props.alignitems};
@@ -54,129 +66,191 @@ class Pictures extends Component {
   constructor(props) {
     super(props)
 
+    this.roomLevel = this.props.roomReducer.roomLevel
+
     this.getAPICalls = this.getAPICalls.bind(this)
   }
 
+  componentDidMount() {
+    const roomLevel = this.props.roomReducer.roomLevel
+    const listObj = require(`../../data/level${roomLevel}/query.js`)
+
+    this.originalWordList = listObj.default
+    this.props.actions.loadOriginalWordList(this.originalWordList)
+
+    // Put list in redux
+    this.props.actions.loadWordList(listObj.default)
+  }
+
   getAPICalls() {
-    // combine objects to form one object to pass to random generator
-    let animals = Object.keys(level1.category.nouns.animals)
-    let bodyParts = Object.keys(level1.category.nouns.bodyParts)
-    let buildings = Object.keys(level1.category.nouns.buildings)
-    let clothes = Object.keys(level1.category.nouns.clothes)
-    let family = Object.keys(level1.category.nouns.family)
-    let furniture = Object.keys(level1.category.nouns.furniture)
-    let meats = Object.keys(level1.category.nouns.foods.meats)
-    let list = animals.concat(
-      bodyParts,
-      buildings,
-      clothes,
-      family,
-      furniture,
-      meats
-    )
+    let list = this.props.wordList
+    const review = this.props.review
+    let randList = new Rand(list)
+    let randObj = randList.obj
 
-    // TODO:if word is used 5 times then remove it from
-    //const refinedList
+    console.log('FROM THE container/picture/index.js')
+    if (_.isEmpty(list) && _.isEmpty(review)) {
+      alert(
+        'YOU JUST FINISHED ALL OF YOUR WORDS.  ALL WORD LISTS WILL NOW BE RESET.'
+      )
+      this.props.actions.updateWordList(this.originalWordList)
+    } else if (_.isEmpty(list)) {
+      alert(
+        "YOU HAVE JUST FINISHED YOUR WORD LIST.  YOU WILL NOW REVIEW WORDS YOU DON'T KNOW."
+      )
+      this.props.actions.updateWordList(this.props.review)
+    }
 
-    let randomList = new Rando(list)
-    let query = randomList.word
+    // get key of randoObj
+    const firstKey = Object.keys(randObj)[0]
 
-    superagent
-      .get('http://pixabay.com/api')
-      .query({
-        key: secrets.pixabay,
-        q: query,
-        safesearch: true,
-        image_type: 'photo'
-      })
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) {
-          console.log('error : ' + err)
-          return
+    console.log('firstkey :', firstKey)
+    console.log(randObj[firstKey]['korean']['roman'])
+    let translated = randObj[firstKey]['korean']['spelling']
+    this.props.actions.sendTranslated(translated)
+
+    let query = randObj[firstKey]['english']['spelling']
+
+    let romanizedQuery = randObj[firstKey]['korean']['roman']
+    this.props.actions.sendRomanized(romanizedQuery)
+
+    if (this.roomLevel > 2) {
+      superagent
+        .get('http://pixabay.com/api')
+        .query({
+          key: secrets.pixabay,
+          q: query,
+          safesearch: true,
+          image_type: 'photo'
+        })
+        .set('Accept', 'application/json')
+        .end((err, res) => {
+          if (err) {
+            console.log('error : ' + err)
+            return
+          }
+
+          const max = res.body.hits.length - 1
+          const min = 0
+
+          const getRandIntInclusive = (min, max) => {
+            min = Math.ceil(min)
+            max = Math.floor(max)
+            return Math.floor(Math.random() * (max - min + 1)) + min // The maximum is inclusive and the minimum is inclusive
+          }
+
+          let num = getRandIntInclusive(min, max)
+
+          const results = res.body.hits[num].previewURL
+
+          this.props.actions.loadPicture(results)
+          this.props.actions.loadQuery(query)
+
+          // Remove query from wordList and review
+          let updatedList = _.omit(list, query)
+          this.props.actions.updateWordList(updatedList)
+
+          // TODO: reduce reviews
+          if (review) {
+            console.log('review :', review)
+            console.log('WE MADE IT')
+            let updatedReviewList = _.omit(review, query)
+            this.props.actions.updateReviewList(updatedReviewList)
+          }
+
+          console.log(_.size(updatedList))
+          console.log(_.size(this.originalWordList))
+        })
+
+      // speech synth for yandex api
+      // superagent
+      //   .get('https://translate.yandex.net/api/v1.5/tr.json/translate')
+      //   .query({
+      //     key: secrets.yandex,
+      //     text: query,
+      //     lang: 'en-ko'
+      //   })
+      //   .set('Accept', 'application/json')
+      //   .then(res => {
+      //     const translated = res.body.text[0]
+      //     this.props.actions.sendTranslated(translated)
+
+      //     var msg = new SpeechSynthesisUtterance()
+      //     var voices = window.speechSynthesis.getVoices()
+
+      //     msg.voice = voices[1] // Note: some voices don't support altering params
+      //     // msg.voiceURI = 'native'
+      //     msg.volume = 1 // 0 to 1
+      //     msg.rate = 0.5 // 0.1 to 10
+      //     msg.pitch = 1 //0 to 2
+      //     msg.text = translated
+      //     msg.lang = 'ko-KR'
+      //     // msg.lang = 'en-US'
+
+      //     // msg.onend = function(e) {
+      //     //   console.log('Finished in ' + event.elapsedTime + ' seconds.')
+      //     // }
+
+      //     speechSynthesis.speak(msg)
+      //   })
+    } else {
+      // Remove query from wordList and review
+      let updatedList = _.omit(list, query)
+      this.props.actions.updateWordList(updatedList)
+
+      // TODO: reduce reviews
+      if (review) {
+        console.log('review :', review)
+        console.log('WE MADE IT')
+        let updatedReviewList = _.omit(review, query)
+        this.props.actions.updateReviewList(updatedReviewList)
+      }
+
+      console.log(_.size(updatedList))
+      console.log(_.size(this.originalWordList))
+    }
+    this.speechStart()
+  }
+
+  speechStart() {
+    const speech = new webkitSpeechRecognition() || speechRecognition()
+    speech.lang = 'ko-KR'
+    // speech.lang = 'en-US'
+    // speech.lang = 'fr-FR';
+    // speech.lang = 'es-MX';
+    speech.continuous = true
+    speech.start()
+    speech.onresult = event => {
+      var interim_transcript = ''
+      var final_transcript = ''
+
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript += event.results[i][0].transcript
+        } else {
+          interim_transcript += event.results[i][0].transcript
         }
+      }
 
-        const max = res.body.hits.length - 1
-        const min = 0
+      interim_transcript = interim_transcript.toLowerCase()
+      final_transcript = final_transcript.toLowerCase()
 
-        const getRandomIntInclusive = (min, max) => {
-          min = Math.ceil(min)
-          max = Math.floor(max)
-          return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
-        }
+      this.props.actions.setInterimScript(interim_transcript)
+      this.props.actions.setFinalTranscript(final_transcript)
 
-        let num = getRandomIntInclusive(min, max)
-
-        const results = res.body.hits[num].previewURL
-
-        this.props.picture.loadPicture(results)
-        this.props.picture.loadQuery(query)
-      })
-
-    superagent
-      .get('https://translate.yandex.net/api/v1.5/tr.json/translate')
-      .query({
-        key: secrets.yandex,
-        text: query,
-        lang: 'en-ko'
-      })
-      .set('Accept', 'application/json')
-      // .end((err, res) => {
-      //   if (err) {
-      //     console.log('error : ' + err)
-      //     return
-      //   }
-
-      //   const translated = res.body.text[0]
-      //   this.props.picture.sendTranslated(translated)
-
-      //   var msg = new SpeechSynthesisUtterance()
-      //   var voices = window.speechSynthesis.getVoices()
-
-      //   msg.voice = voices[1] // Note: some voices don't support altering params
-      //   msg.voiceURI = 'native'
-      //   msg.volume = 1 // 0 to 1
-      //   msg.rate = 0.5 // 0.1 to 10
-      //   msg.pitch = 1 //0 to 2
-      //   // msg.text = translated
-      //   msg.lang = 'ko-KR'
-      //   // msg.lang = 'en-US'
-
-      //   msg.onend = function(e) {
-      //     console.log('Finished in ' + event.elapsedTime + ' seconds.')
-      //   }
-
-      //   speechSynthesis.speak(msg)
-      // })
-      .then(res => {
-        const translated = res.body.text[0]
-        this.props.picture.sendTranslated(translated)
-
-        var msg = new SpeechSynthesisUtterance()
-        var voices = window.speechSynthesis.getVoices()
-
-        msg.voice = voices[1] // Note: some voices don't support altering params
-        // msg.voiceURI = 'native'
-        msg.volume = 1 // 0 to 1
-        msg.rate = 0.5 // 0.1 to 10
-        msg.pitch = 1 //0 to 2
-        msg.text = translated
-        msg.lang = 'ko-KR'
-        // msg.lang = 'en-US'
-
-        msg.onend = function(e) {
-          console.log('Finished in ' + event.elapsedTime + ' seconds.')
-        }
-
-        speechSynthesis.speak(msg)
-      })
+      // final_span.innerHTML = linebreak(final_transcript)
+      // interim_span.innerHTML = linebreak(interim_transcript)
+    }
   }
 
   render() {
+    const picture = this.roomLevel > 2
+      ? <Img src={this.props.pictureSRC} />
+      : <h1>{this.props.translated}</h1>
     return (
       <Wrap>
         {this.props.children}
-        <Img src={this.props.pictureSRC} />
+        {picture}
         <Box>
           <Button color="black" margin="20px" onClick={this.getAPICalls}>
             Change Picture
@@ -184,13 +258,16 @@ class Pictures extends Component {
           <Box
             margin="20px"
             width="400px"
-            flexdirection="row"
+            flexdirection="column"
             justifycontent="space-around">
-            <Text font-size="1.2rem" color="black">
+            <Text fontsize="1.2rem" color="#aaa" padding="0 0 40px 0">
               query: {this.props.query}
             </Text>
-            <Text font-size="1.2rem" color="black">
-              translated: {this.props.translated}
+            <Text fontsize="1.2rem" color="#aaa">
+              romanized: {this.props.romanized}
+            </Text>
+            <Text fontsize="1.2rem" color="#aaa">
+              translation: {this.props.translated}
             </Text>
           </Box>
         </Box>
@@ -201,16 +278,32 @@ class Pictures extends Component {
 
 const mapStateToProps = state => {
   return {
+    message: state.speakerReducer,
     pictureSRC: state.pictureReducer.pictureSRC,
+    review: state.pictureReducer.reviewList,
     query: state.pictureReducer.query,
-    translated: state.pictureReducer.translation
+    romanized: state.pictureReducer.romanized,
+    translated: state.pictureReducer.translation,
+    wordList: state.pictureReducer.wordList,
+    roomReducer: state.roomReducer
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    picture: bindActionCreators(
-      {loadPicture, loadQuery, sendTranslated},
+    actions: bindActionCreators(
+      {
+        loadPicture,
+        loadQuery,
+        loadOriginalWordList,
+        loadWordList,
+        updateWordList,
+        updateReviewList,
+        sendRomanized,
+        sendTranslated,
+        setFinalTranscript,
+        setInterimScript
+      },
       dispatch
     )
   }

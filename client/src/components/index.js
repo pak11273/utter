@@ -5,9 +5,11 @@ import Component from './Section.js'
 import CreateMessge from './CreateMessage.js'
 import Img from './Img.js'
 import Input from './Input.js'
+import Ol from './OrderedList.js'
 import Section from './Section.js'
 import LanguageCard from './LanguageCard.js'
 import Line from './Line.js'
+import Masthead from './Masthead.js'
 import Text from './Text.js'
 import TextArea from './TextArea.js'
 import Title from './Title.js'
@@ -25,9 +27,11 @@ export {
   CreateMessge,
   Img,
   Input,
-  Section,
+  Ol,
   LanguageCard,
   Line,
+  Masthead,
+  Section,
   Select,
   Spacer,
   Subtitle,

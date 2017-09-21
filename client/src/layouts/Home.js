@@ -53,7 +53,10 @@ class Home extends Component {
           <Column flexdirection768="row" maxwidth="960px">
             <Box width="50%">
               <Text fontsize="2rem" width="300px">
-                Not enough meetups or people near you to talk with.
+                Not enough meetups or people near you to talk with. | You can't
+                go to another country and fully immerse yourself in the culture.
+                Even if you did, most people don't fully immerse themselves and
+                wind up just getting by with broken grammar.
               </Text>
             </Box>
             <Img
@@ -203,6 +206,8 @@ class Home extends Component {
             </Box>
           </Column>
         </Section>
+        Level System: white, yellow, gold, orange, green, blue, purple, brown,
+        red and black
       </Wrapper>
     )
   }

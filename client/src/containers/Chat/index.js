@@ -37,7 +37,6 @@ class Chat extends Component {
   // }
 
   render() {
-    console.log(this.props.messageList)
     return (
       <Box>
         <Box overflowy="scroll" overflowx="none" height="500px">

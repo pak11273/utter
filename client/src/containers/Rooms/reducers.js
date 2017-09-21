@@ -1,10 +1,15 @@
-import {LOAD_FULFILLED, ROOM_SELECT_FULFILLED} from './types.js'
+import {
+  LOAD_FULFILLED,
+  ROOM_SELECT_FULFILLED,
+  UPDATE_ROOM_LEVEL_FULFILLED
+} from './types.js'
 
 export default (
   state = {
-    selected: '',
+    roomLevel: 1,
+    lastValues: [],
     list: [],
-    lastValues: []
+    selected: ''
   },
   action = {}
 ) => {
@@ -16,8 +21,11 @@ export default (
       }
     case 'CREATE':
       break
-    case 'UPDATE':
-      break
+    case UPDATE_ROOM_LEVEL_FULFILLED:
+      return {
+        ...state,
+        roomLevel: action.payload
+      }
     case 'REMOVE':
       break
     // an example  of es6 spread operating on an array

@@ -1,16 +1,18 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
+
 import {
   Column,
   Masthead,
-  Section,
   Subtitle,
   Text,
   Title,
+  Section,
   Wrapper
 } from '../../components'
+import Navbar from '../../containers/Navbars/Navbar'
 
-class KoreanLevel1 extends Component {
+class KoreanLevel3 extends Component {
   render() {
     return (
       <Wrapper>
@@ -20,14 +22,12 @@ class KoreanLevel1 extends Component {
           height768="300px"
           padding="30px"
           textalign="left">
-          <Title color="white" fontsize="2rem">Level One - The alphabet</Title>
+          <Title color="white" fontsize="2rem">Level Three - Basic Words</Title>
           <Subtitle color="#bbb" fontsize="1.5rem">
-            The korean alphabet looks like it would be hard to understand
-            however, it is actually very easy to learn. The alphabet was created
-            by King Sejong in the 1400's so that all korean people had a way to
-            read and write Korean. It consists of 24 letters.
+            These are the fundamental words that will help you get started to
+            learning the language. In future lessons you will be using the words
+            to construct sentences.
           </Subtitle>
-          <Text margin="20px" />
         </Masthead>
         <Section
           alignitems="flex-start"
@@ -43,8 +43,10 @@ class KoreanLevel1 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Consonants</Subtitle>
+              <Subtitle color="#333" padding="15px">Nouns</Subtitle>
               <Text>
+
+                bear = 곰 = 'gom'
                 ㄱ = 'g' sound (as in{' '}
                 <span style={{fontWeight: 'bold'}}>
                   g
@@ -100,38 +102,13 @@ class KoreanLevel1 extends Component {
               textalign="left">
               <Subtitle color="#333" padding="15px">Vowels</Subtitle>
               <Text>
-                ㅒ = 'ae' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>e</span>gg)
-              </Text>
-              <Text>
-                ㅔ = 'e' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  e
-                </span>gg)
-              </Text>
-              <Text padding="20px">
-                ㅒ and ㅔ sound the same. Don't be confused by the romanizations
-                which are different.{' '}
-              </Text>
-              <Text>
-                ㅖ = 'ye' sound{' '}
-              </Text>
-              <Text>
-                ㅏ = 'a' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  a
-                </span>ha)
+                ㅏ = 'a' sound
               </Text>
               <Text>
                 ㅑ = 'ya' sound
               </Text>
               <Text>
                 ㅓ = 'eo' sound
-              </Text>
-              <Text padding="20px">
-                ㅓ sound it in between the long O and short u sound. It's not a
-                true 'u' sound like in the word 'ugly', but more like the 'o' in
-                'ordeal' but leaving your mouth open
               </Text>
               <Text>
                 ㅕ = 'yeo' sound
@@ -165,22 +142,7 @@ class KoreanLevel1 extends Component {
           padding="30px"
           textalign="left">
           <Column>
-            <Title fontsize="2rem">Special Notes</Title>
-            <Text>
-              ㄹ sounds like an 'l' at the beginning of a word
-              ㄹ sounds like a 'd' in the middle of a word while surrounded by
-              verbs.
-              TODO: give examples(use sunday) idyoil
-
-              between a vowel and consonant it is sometimes silent like
-              chicken(talk) it is pronounced tak
-
-              but with words like read(ilgeoyo) it will be 'l' sound.
-              When you have a word that contains a syllable starting with ㄹ and
-              that syllable is preceded by a ㅇ or ㄱ being the batchim consonant
-              of that syllable, the ㄹ will actually sound like a ㄴ.
-              공룡 (dinosaur) pronounced gong-nyong
-            </Text>
+            Intro to pachim
           </Column>
         </Section>
         <Section
@@ -194,12 +156,7 @@ class KoreanLevel1 extends Component {
           <Column>
             <Text>Phrases</Text>
             <Text>Greetings and Goodbyes</Text>
-            <Text>Annyeong ha seyo, anyeonghigeseyo</Text>
-            <Text>yo du bun</Text>
-            <Text>My name is</Text>
-            <Text>nice to meet you</Text>
-            <Text>Thank You</Text>
-            <Text>You're Welcome</Text>
+            <Text>Something here</Text>
           </Column>
         </Section>
       </Wrapper>
@@ -207,6 +164,4 @@ class KoreanLevel1 extends Component {
   }
 }
 
-export default KoreanLevel1
-// TODO: finish romanizing the alphabet
-// ref: https://en.wikipedia.org/wiki/Revised_Romanization_of_Hangeul
+export default KoreanLevel3

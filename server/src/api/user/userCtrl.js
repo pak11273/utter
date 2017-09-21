@@ -46,6 +46,7 @@ exports.update = (req, res, next) => {
 
   _.merge(user, update)
 
+  user.markModified('utteredList')
   user.save((err, saved) => {
     if (err) {
       next(err)

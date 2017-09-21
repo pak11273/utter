@@ -24,6 +24,7 @@ const client = {
         context: [
           '/auth',
           '/api',
+          '/api/users',
           '/api/comments',
           '/api/events',
           '/api/zones',

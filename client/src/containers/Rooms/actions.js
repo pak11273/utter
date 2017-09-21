@@ -1,4 +1,4 @@
-import {LOAD, CREATE, UPDATE, REMOVE, ROOM_SELECT} from './types.js'
+import {LOAD, CREATE, UPDATE_ROOM_LEVEL, REMOVE, ROOM_SELECT} from './types.js'
 
 const loadRooms = obj => {
   return {
@@ -22,12 +22,17 @@ const createRoom = () => {
   return {type: CREATE}
 }
 
-const updateRoom = () => {
-  return {type: UPDATE}
+const updateRoomLevel = level => {
+  return {
+    type: UPDATE_ROOM_LEVEL,
+    payload: new Promise((resolve, reject) => {
+      resolve(level)
+    })
+  }
 }
 
 const removeRoom = () => {
   return {type: REMOVE}
 }
 
-export {loadRooms, createRoom, updateRoom, roomSelect, removeRoom}
+export {loadRooms, createRoom, updateRoomLevel, roomSelect, removeRoom}

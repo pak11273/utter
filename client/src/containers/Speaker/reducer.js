@@ -23,6 +23,7 @@ const initialState = {
   author: '',
   message: '',
   messageList: '',
+  interim_letter: '',
   interim_script: '',
   final_transcript: ''
 }

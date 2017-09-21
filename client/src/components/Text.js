@@ -7,16 +7,9 @@ const Text = styled.div`
   font-family: ${props => props.fontfamily};
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
+  margin: ${props => props.margin};
   padding: ${props => props.padding};
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 `
-Text.defaultProps = {
-  color: props => props.theme.color,
-  display: 'block',
-  fontsize: '1rem',
-  fontfamily: 'Arial',
-  textalign: 'center'
-}
-
 export default Text

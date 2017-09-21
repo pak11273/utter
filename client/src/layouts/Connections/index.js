@@ -2,8 +2,12 @@ import React, {Component} from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import superagent from 'superagent'
 
-import {Chat, Pictures, Rooms, Speaker} from '../containers'
+import {Chat, Pictures, Rooms, Speaker, Uttered} from '../../containers'
+
 import {
   Box,
   Button,
@@ -14,41 +18,10 @@ import {
   Section,
   Text,
   Title
-} from '../components'
+} from '../../components'
 
-class Experience extends Component {
-  render() {
-    return (
-      <Box>
-        <Box flexdirection="row" justifycontent="space-aroudn">
-          <Text>Sort By: </Text>
-          <select>
-            <option>Room</option>
-            <option>Self</option>
-          </select>
-        </Box>
-        <Box flexdirection="row" justifycontent="space-aroudn">
-          <Text>Sort By: </Text>
-          <select>
-            <option>words</option>
-            <option>uttered</option>
-          </select>
-          <select>
-            <option>Asc</option>
-            <option>Desc</option>
-          </select>
-        </Box>
-        <Box color="black" fontsize="1rem">
-          <ol>
-            <li>one: 2</li>
-            <li>baby: 4</li>
-            <li>hat: 30</li>
-          </ol>
-        </Box>
-      </Box>
-    )
-  }
-}
+// actions
+import {loadUserProfile} from './actions.js'
 
 class Misc extends Component {
   render() {
@@ -59,20 +32,34 @@ class Misc extends Component {
 class Connections extends Component {
   constructor() {
     super()
-    this.state = {
-      author: '',
-      message: ''
-    }
-
-    this.sendToConnection = this.sendToConnection.bind(this)
   }
 
-  sendToConnection(dataFromSpeaker) {
-    const {author, message} = dataFromSpeaker
-    this.setState({
-      author,
-      message
-    })
+  componentDidMount() {
+    superagent
+      .get('/api/users/59ba886955d0041e7a4a854a')
+      .query(null)
+      .set('Accept', 'application/json')
+      .end((err, res) => {
+        if (err) {
+          alert(err)
+          return
+        }
+
+        let results = res.body
+
+        if (!results) {
+          results = []
+        } else {
+          console.log(results)
+          console.log('layouts/connections/index.js')
+          this.props.actions.loadUserProfile(results)
+          console.log('TODO: put level and role in redux')
+          console.log(
+            'TODO: remove loaduttered from uttered tab and put here.  test'
+          )
+          // this.props.action.loadUtteredList(results)
+        }
+      })
   }
 
   render(props) {
@@ -93,32 +80,27 @@ class Connections extends Component {
               margin="20px"
               width="100%">
               <Link to="/roomsTab" fontsize="1rem">Rooms</Link>
-              <Link to="/experienceTab" fontsize="1rem">Experience</Link>
+              <Link to="/utteredTab" fontsize="1rem">Uttered</Link>
               <Link to="/miscTab" fontsize="1rem">Misc</Link>
             </Box>
             <Route path="/roomsTab" component={Rooms} />
-            <Route path="/experienceTab" component={Experience} />
+            <Route path="/utteredTab" component={Uttered} />
             <Route path="/miscTab" component={Misc} />
           </Column>
           <Column width="50%">
             <Pictures>
-              <Box flexdirection="row" justifycontent="space-between">
+              <Box flexdirection="row" justifycontent="center">
                 <Text color="black" fontsize="2rem">
-                  Level 1
+                  Room Level: {this.props.roomReducer.roomLevel}
                 </Text>
-                <Text color="black" fontsize="2rem">Timer</Text>
               </Box>
             </Pictures>
             <Box>
               <Title color="black" fontsize="1.5rem">
-                Describe the picture with words you know
+                Describe the picture{' '}
               </Title>
-              <Subtitle fontsize="1rem" color="black">
-                You can send as many times as you want, just don't repeat
-                yourself
-              </Subtitle>
             </Box>
-            <Speaker sendToConnection={this.sendToConnection} />
+            <Speaker />
             <div>Everytime you speak a word. you gain 1pt. experience</div>
 
           </Column>
@@ -138,4 +120,22 @@ class Connections extends Component {
   }
 }
 
-export default Connections
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer,
+    roomReducer: state.roomReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        loadUserProfile
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Connections)
