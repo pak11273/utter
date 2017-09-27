@@ -33,6 +33,8 @@ export default () =>
             <li><NavLink to="/korean/2">Korean Level 2</NavLink></li>
             <li><NavLink to="/korean/3">Korean Level 3</NavLink></li>
             <li><NavLink to="/korean/4">Korean Level 4</NavLink></li>
+            <li><NavLink to="/korean/5">Korean Level 5</NavLink></li>
+            <li><NavLink to="/korean/6">Korean Level 6</NavLink></li>
           </ol>
         </Column>
       </Column>

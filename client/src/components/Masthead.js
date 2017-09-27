@@ -29,6 +29,13 @@ const Masthead = styled.section`
     fontsize: ${props => props.fontsize768};
     height: ${props => props.height768};
   }
+
+  @media(min-width: 960px) {
+    color: ${props => props.color960};
+    fontsize: ${props => props.fontsize960};
+    height: ${props => props.height960};
+    width: ${props => props.width960};
+  }
 `
 Masthead.defaultProps = {
   alignitems: 'center',

@@ -3,13 +3,17 @@ import mongoose, {Schema} from 'mongoose'
 const RoomSchema = Schema({
   level: {
     type: String,
-    default: ''
+    default: '1'
   },
   creator: {
     type: String,
     default: ''
   },
   people: {
+    type: String,
+    default: ''
+  },
+  title: {
     type: String,
     default: ''
   },

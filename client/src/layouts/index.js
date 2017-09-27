@@ -16,6 +16,8 @@ import Korean1 from './Korean/Level1.js'
 import Korean2 from './Korean/Level2.js'
 import Korean3 from './Korean/Level3.js'
 import Korean4 from './Korean/Level4.js'
+import Korean5 from './Korean/Level5.js'
+import Korean6 from './Korean/Level6.js'
 import Redux from './Redux.js'
 
 export {
@@ -37,5 +39,7 @@ export {
   Korean2,
   Korean3,
   Korean4,
+  Korean5,
+  Korean6,
   Redux
 }

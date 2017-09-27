@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Button, Box, Input, Text} from '../../components'
 
-class RoomCreate extends Component {
+class RoomCreator extends Component {
   constructor() {
     super()
     this.state = {
@@ -51,4 +51,4 @@ class RoomCreate extends Component {
   }
 }
 
-export default RoomCreate
+export default RoomCreator

@@ -28,6 +28,7 @@ const client = {
           '/api/comments',
           '/api/events',
           '/api/zones',
+          '/cdn',
           '/lions',
           '/tigers',
           '/sendmail'
@@ -99,7 +100,7 @@ const shared = {
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.(jpe?g|png|gif|svg|ico)$/i,
+        test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
         use: ['file-loader?name=[name].[ext]']
       }
     ]

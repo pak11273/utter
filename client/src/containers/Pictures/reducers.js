@@ -3,6 +3,7 @@ import {
   LOAD_QUERY_FULFILLED,
   LOAD_WORD_LIST_FULFILLED,
   LOAD_ORIGINAL_WORD_LIST_FULFILLED,
+  UPDATE_ORIGINAL_WORD_LIST_FULFILLED,
   UPDATE_WORD_LIST_FULFILLED,
   UPDATE_REVIEW_LIST_FULFILLED,
   SEND_ROMANIZED_FULFILLED,
@@ -27,6 +28,11 @@ export default (state = {}, action = {}) => {
         wordList: action.payload
       }
     case LOAD_ORIGINAL_WORD_LIST_FULFILLED:
+      return {
+        ...state,
+        originalList: action.payload
+      }
+    case UPDATE_ORIGINAL_WORD_LIST_FULFILLED:
       return {
         ...state,
         originalList: action.payload

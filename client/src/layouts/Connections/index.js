@@ -50,14 +50,7 @@ class Connections extends Component {
         if (!results) {
           results = []
         } else {
-          console.log(results)
-          console.log('layouts/connections/index.js')
           this.props.actions.loadUserProfile(results)
-          console.log('TODO: put level and role in redux')
-          console.log(
-            'TODO: remove loaduttered from uttered tab and put here.  test'
-          )
-          // this.props.action.loadUtteredList(results)
         }
       })
   }

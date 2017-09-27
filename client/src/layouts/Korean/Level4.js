@@ -22,9 +22,12 @@ class KoreanLevel4 extends Component {
           height768="300px"
           padding="30px"
           textalign="left">
-          <Title color="white" fontsize="2rem">Level Four - Numbers</Title>
+          <Title color="white" fontsize="2rem">
+            Level Four - Three Letter Syllables
+          </Title>
           <Subtitle color="#bbb" fontsize="1.5rem">
-            There are two numbering systems in Korea. Sino and Native.
+            Using the triangle and vertical formations we can form the three
+            letter syllables
           </Subtitle>
         </Masthead>
         <Section
@@ -41,13 +44,72 @@ class KoreanLevel4 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Sino</Subtitle>
+              <Subtitle color="#333" padding="15px">
+                consonants + wa
+              </Subtitle>
               <Text>
-                Used for age, date, temperature, measurements, minutes and
-                seconds, use 100+ numbers.
-                phonenumber, money{' '}
+                ng + wa = wa
+              </Text>
+              <Text>
+                ng + weo = weo{' '}
+              </Text>
+              <Text>
+                ng + ae = wae
+              </Text>
+              <Text>
+                ng + e = we
+              </Text>
+              <Text>
+                ng + i = wi
+              </Text>
+              <Text>
+                ng + i = weu
               </Text>
               <Text />
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">
+                g + vowels
+              </Subtitle>
+              <Text>
+                ho + a = hwa
+              </Text>
+              <Text>
+                hu + eo = hweo
+              </Text>
+              <Text>
+                ho + ae = hwae
+              </Text>
+              <Text>
+                ho + e = we
+              </Text>
+              <Text>
+                o + i = wi
+              </Text>
+              <Text>
+                eu + i = weu
+              </Text>
+              <Text />
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">
+                h, d, m, s, t, kk, pp, bb, ss + vowels
+              </Subtitle>
+              <Text>
+                pending
+              </Text>
             </Column>
           </Column>
           <Column>

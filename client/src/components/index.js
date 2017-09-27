@@ -1,3 +1,4 @@
+import Audio from './Audio.js'
 import Box from './Box.js'
 import Button from './Button.js'
 import Column from './Column.js'
@@ -10,6 +11,12 @@ import Section from './Section.js'
 import LanguageCard from './LanguageCard.js'
 import Line from './Line.js'
 import Masthead from './Masthead.js'
+import Table from './Table.js'
+import Tbody from './Tbody.js'
+import Td from './Td.js'
+import Thead from './Thead.js'
+import Th from './Th.js'
+import Tr from './Tr.js'
 import Text from './Text.js'
 import TextArea from './TextArea.js'
 import Title from './Title.js'
@@ -21,6 +28,7 @@ import Zone from './Zone.js'
 import ZoneCreate from './ZoneCreate.js'
 
 export {
+  Audio,
   Box,
   Button,
   Column,
@@ -35,6 +43,12 @@ export {
   Select,
   Spacer,
   Subtitle,
+  Table,
+  Tbody,
+  Td,
+  Thead,
+  Th,
+  Tr,
   Text,
   TextArea,
   Title,

@@ -12,7 +12,7 @@ import {
 } from '../../components'
 import Navbar from '../../containers/Navbars/Navbar'
 
-class KoreanLevel4 extends Component {
+class KoreanLevel5 extends Component {
   render() {
     return (
       <Wrapper>
@@ -22,63 +22,12 @@ class KoreanLevel4 extends Component {
           height768="300px"
           padding="30px"
           textalign="left">
-          <Title color="white" fontsize="2rem">Level Four - Adjectives</Title>
+          <Title color="white" fontsize="2rem">
+            Level Five - Four+ Letter Syllables
+          </Title>
           <Subtitle color="#bbb" fontsize="1.5rem">
-            It's now time to build on your basic vocabulary. We start by
-            teaching you
-            a few adjectives and then you will learn to combine those adjectives
-            to describe the vocabulary you have learned. In this level you will
-            reinforce your current vocabulary giving them a little more color
-            with adjectives.
-
-            adjectives describe nouns
-
-            adjectives come from "descriptive" verbs
-
-            steps to change(conjugate) a verb into adjective:
-
-            keun
-            1) keu da = to be big
-
-            2) remove da
-
-            3) add n or eun then make keun
-
-            chagun
-            1) jak-da
-            2) remove da
-            3) ja-geun
-
-            rules: adj + noun
-            big = keun small = chagun + house(noun) = keun jip (big house)
-
-            if verb stem ends with p(biyup)
-
-            1) remove p
-
-            2) add u + n
-
-            "to be difficult" = eo-dyup-da
-
-            eo-dyup-un
-
-            if verb stem ends with l
-            1) remove l
-            2) add n
-
-            meol-da (far)
-            meon
-
-            if verb stem ends with it-da
-
-            1) remove da
-            2) and neun
-
-            it-da => i-neun
-
-            "action" verbs
-
-            description.
+            Using the triangle and vertical formations we can form the three
+            letter syllables
           </Subtitle>
         </Masthead>
         <Section
@@ -95,55 +44,71 @@ class KoreanLevel4 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Nouns</Subtitle>
+              <Subtitle color="#333" padding="15px">
+                consonants + wa
+              </Subtitle>
               <Text>
-
-                bear = 곰 = 'gom'
-                ㄱ = 'g' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  g
-                </span>ear)
+                ng + wa = wa
               </Text>
               <Text>
-                ㄲ = 'kk' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>k</span>ite)
+                ng + weo = weo{' '}
               </Text>
               <Text>
-                ㄴ = 'n' sound
+                ng + ae = wae
               </Text>
               <Text>
-                ㄷ = 'd' or 't' sound
+                ng + e = we
               </Text>
               <Text>
-                ㄹ = 'r' or 'l' sound
+                ng + i = wi
               </Text>
               <Text>
-                ㅁ = 'm' sound
+                ng + i = weu
               </Text>
-              ㅂ = 'b' or 'p' sound
+              <Text />
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">
+                g + vowels
+              </Subtitle>
               <Text>
-                ㅅ = 's' sound
-              </Text>
-              <Text>
-                ㅇ = 'ng' sound
-              </Text>
-              <Text>
-                ㅈ = 'j' or 'ch' sound
-              </Text>
-              <Text>
-                ㅊ = 'ch' sound
-              </Text>
-              <Text>
-                ㅋ = 'kk' sound
-              </Text>
-              <Text>
-                ㅌ = 't' sound
+                ho + a = hwa
               </Text>
               <Text>
-                ㅍ= 'pp' sound
+                hu + eo = hweo
               </Text>
               <Text>
-                ㅎ = 'h' sound
+                ho + ae = hwae
+              </Text>
+              <Text>
+                ho + e = we
+              </Text>
+              <Text>
+                o + i = wi
+              </Text>
+              <Text>
+                eu + i = weu
+              </Text>
+              <Text />
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">
+                h, d, m, s, t, kk, pp, bb, ss + vowels
+              </Subtitle>
+              <Text>
+                pending
               </Text>
             </Column>
           </Column>
@@ -152,37 +117,30 @@ class KoreanLevel4 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Vowels</Subtitle>
+              <Subtitle color="#333" padding="15px">Native</Subtitle>
               <Text>
-                ㅏ = 'a' sound
+                Used for general things like telling age, number of people, hour
+                of the day, number of hours, number of things.
               </Text>
               <Text>
-                ㅑ = 'ya' sound
-              </Text>
-              <Text>
-                ㅓ = 'eo' sound
-              </Text>
-              <Text>
-                ㅕ = 'yeo' sound
-              </Text>
-              <Text />
-              <Text>
-                ㅗ = 'o' sound
-              </Text>
-              ㅛ = 'yo' sound
-              <Text>
-                ㅜ = 'oo' or 'u' sound
-              </Text>
-              <Text>
-                ㅠ = 'yoo' or 'yu' sound
-              </Text>
-              <Text>
-                ㅡ = 'eu' sound
-              </Text>
-              <Text>
-                ㅣ = 'ee' sound
+                Hana, duel, set, net, tasut, yeust, ilgop, yudul, ahop, yul, yul
+                hana = 10, seu mul = 20, seu-mul hana = 21, su-reun=30, hhhhhhhh
               </Text>
             </Column>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="975px"
+          height960="900px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Text>Phrases</Text>
+            <Text>Greetings and Goodbyes</Text>
+            <Text>Hwaiting! You can do it!</Text>
           </Column>
         </Section>
       </Wrapper>
@@ -190,4 +148,4 @@ class KoreanLevel4 extends Component {
   }
 }
 
-export default KoreanLevel4
+export default KoreanLevel5

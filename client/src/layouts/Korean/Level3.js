@@ -22,18 +22,18 @@ class KoreanLevel3 extends Component {
           height768="300px"
           padding="30px"
           textalign="left">
-          <Title color="white" fontsize="2rem">Level Three - Basic Words</Title>
+          <Title color="white" fontsize="2rem">
+            Level Three - Two Letter Syllables
+          </Title>
           <Subtitle color="#bbb" fontsize="1.5rem">
-            These are the fundamental words that will help you get started to
-            learning the language. In future lessons you will be using the words
-            to construct sentences.
+            Combining letters to form syllables
           </Subtitle>
         </Masthead>
         <Section
           alignitems="flex-start"
           flexdirection960="row"
-          height="975px"
-          height960="900px"
+          height="175px"
+          height960="200px"
           maxwidth="960px"
           padding="30px"
           textalign="left">
@@ -43,55 +43,118 @@ class KoreanLevel3 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Nouns</Subtitle>
+              <Subtitle color="#333" padding="15px">Rules</Subtitle>
+              <Text>Constructing syllables</Text>
+              <Text>Syllables are constructed of either 2, 3 or 4 letters</Text>
+              <Text>Must always start with a consonant</Text>
               <Text>
-
-                bear = 곰 = 'gom'
-                ㄱ = 'g' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  g
-                </span>ear)
+                Vowels always go in the middle of three letter syllable
               </Text>
               <Text>
-                ㄲ = 'kk' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>k</span>ite)
+                Vowels always go in the second position of four letter syllable
+              </Text>
+            </Column>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="200px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">Construction</Subtitle>
+              <Text>Either triangle formation or vertical formation</Text>
+              <Text>Which formation depends on the vowel</Text>
+              <Text>
+                a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation
+              </Text>
+              <Text>eu, u, o, yo, and yu use vertical formation</Text>
+            </Column>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="100px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left"
+            />
+            <Subtitle color="#333" padding="15px">Grammar</Subtitle>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="20px"
+          height960="20px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Subtitle color="#333" padding="15px">Vocabulary</Subtitle>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="375px"
+          height960="300px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">b + vowels</Subtitle>
+              <Text>
+                bo
               </Text>
               <Text>
-                ㄴ = 'n' sound
+                bu{' '}
               </Text>
               <Text>
-                ㄷ = 'd' or 't' sound
+                beo{' '}
               </Text>
               <Text>
-                ㄹ = 'r' or 'l' sound
+                beu{' '}
               </Text>
               <Text>
-                ㅁ = 'm' sound
-              </Text>
-              ㅂ = 'b' or 'p' sound
-              <Text>
-                ㅅ = 's' sound
+                ba{' '}
               </Text>
               <Text>
-                ㅇ = 'ng' sound
+                bae{' '}
               </Text>
               <Text>
-                ㅈ = 'j' or 'ch' sound
+                be{' '}
               </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">j + vowels</Subtitle>
               <Text>
-                ㅊ = 'ch' sound
-              </Text>
-              <Text>
-                ㅋ = 'kk' sound
-              </Text>
-              <Text>
-                ㅌ = 't' sound
-              </Text>
-              <Text>
-                ㅍ= 'pp' sound
-              </Text>
-              <Text>
-                ㅎ = 'h' sound
+                jo{' '}
               </Text>
             </Column>
           </Column>
@@ -100,35 +163,31 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Vowels</Subtitle>
+              <Subtitle color="#333" padding="15px">g + vowels</Subtitle>
               <Text>
-                ㅏ = 'a' sound
+                go{' '}
               </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">g + vowels</Subtitle>
               <Text>
-                ㅑ = 'ya' sound
+                go{' '}
               </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">s + vowels</Subtitle>
               <Text>
-                ㅓ = 'eo' sound
-              </Text>
-              <Text>
-                ㅕ = 'yeo' sound
-              </Text>
-              <Text />
-              <Text>
-                ㅗ = 'o' sound
-              </Text>
-              ㅛ = 'yo' sound
-              <Text>
-                ㅜ = 'oo' or 'u' sound
-              </Text>
-              <Text>
-                ㅠ = 'yoo' or 'yu' sound
-              </Text>
-              <Text>
-                ㅡ = 'eu' sound
-              </Text>
-              <Text>
-                ㅣ = 'ee' sound
+                so{' '}
               </Text>
             </Column>
           </Column>
@@ -136,29 +195,105 @@ class KoreanLevel3 extends Component {
         <Section
           alignitems="flex-start"
           flexdirection960="row"
-          height="975px"
-          height960="900px"
+          height="275px"
+          height960="200px"
           maxwidth="960px"
           padding="30px"
           textalign="left">
           <Column>
-            Intro to pachim
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">m + vowels</Subtitle>
+              <Text>
+                mo{' '}
+              </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">n + vowels</Subtitle>
+              <Text>
+                no{' '}
+              </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">ng + vowels</Subtitle>
+              <Text>
+                ngo{' '}
+              </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">r + vowels</Subtitle>
+              <Text>
+                ro{' '}
+              </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">h + vowels</Subtitle>
+              <Text>
+                ho{' '}
+              </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              fontsize="1.8rem"
+              textalign="left">
+              <Subtitle color="#333" padding="15px">r + vowels</Subtitle>
+              <Text>
+                ho{' '}
+              </Text>
+            </Column>
           </Column>
         </Section>
         <Section
           alignitems="flex-start"
           flexdirection960="row"
-          height="975px"
-          height960="900px"
+          height="175px"
+          height960="100px"
           maxwidth="960px"
           padding="30px"
           textalign="left">
           <Column>
-            <Text>Phrases</Text>
-            <Text>Greetings and Goodbyes</Text>
-            <Text>Something here</Text>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left"
+            />
+            <Subtitle color="#333" padding="15px">Phrases</Subtitle>
           </Column>
         </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="900px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left"
+        />
       </Wrapper>
     )
   }

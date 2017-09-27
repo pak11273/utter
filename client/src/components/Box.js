@@ -21,6 +21,10 @@ const Box = styled.div`
   overflow-x: ${props => props.overflowx};
   overflow-y: ${props => props.overflowy};
   width: ${props => props.width};
+
+  @media(min-width: 960px) {
+    width: ${props => props.width960};
+  }
 `
 Box.defaultProps = {
   alignitems: 'center',

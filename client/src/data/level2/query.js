@@ -1,10 +1,9 @@
 import vocab from './vocab.js'
 
 // combine objects to form one object to pass to random generator
-console.log(vocab)
-let consonants = vocab.alphabet.consonants
-let vowels = vocab.alphabet.vowels
+let doubleConsonants = vocab.doubleConsonants
+let dipthongs = vocab.dipthongs
 
-const listObj = _.merge(consonants, vowels)
+const listObj = _.merge(doubleConsonants, dipthongs)
 
 export default listObj

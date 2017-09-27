@@ -15,7 +15,8 @@ import middleware from '../dist/middleware/appMiddleware'
 middleware(app)
 
 // express middleware
-app.use(express.static(path.join(__dirname, '/../../client/dist')))
+app.use(express.static(path.join(__dirname, 'client/dist'))) //path is relative to this directory
+app.use('/cdn', express.static('cdn'))
 
 // Routers
 import api from '../dist/api'
@@ -47,15 +48,15 @@ app.get('*.css', function(req, res, next) {
 })
 
 // app route
-app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../../client/dist/index.html'), function(
-    err
-  ) {
-    if (err) {
-      res.status(500).send(err)
-    }
-  })
-})
+// app.get('/*', function(req, res) {
+//   res.sendFile(path.join(__dirname, '../../client/dist/index.html'), function(
+//     err
+//   ) {
+//     if (err) {
+//       res.status(500).send(err)
+//     }
+//   })
+// })
 
 // seed the db with dummy data TODO: change the seeding before using this
 // if (config.seed) {

@@ -32,8 +32,8 @@ class KoreanLevel1 extends Component {
         <Section
           alignitems="flex-start"
           flexdirection960="row"
-          height="975px"
-          height960="900px"
+          height="700px"
+          height960="700px"
           maxwidth="960px"
           padding="30px"
           textalign="left">
@@ -47,8 +47,8 @@ class KoreanLevel1 extends Component {
               <Text>
                 ㄱ = 'g' sound (as in{' '}
                 <span style={{fontWeight: 'bold'}}>
-                  g
-                </span>ear)
+                  k
+                </span>ite)
               </Text>
               <Text>
                 ㄲ = 'kk' sound (as in{' '}
@@ -114,16 +114,10 @@ class KoreanLevel1 extends Component {
                 which are different.{' '}
               </Text>
               <Text>
-                ㅖ = 'ye' sound{' '}
-              </Text>
-              <Text>
                 ㅏ = 'a' sound (as in{' '}
                 <span style={{fontWeight: 'bold'}}>
                   a
                 </span>ha)
-              </Text>
-              <Text>
-                ㅑ = 'ya' sound
               </Text>
               <Text>
                 ㅓ = 'eo' sound
@@ -133,19 +127,12 @@ class KoreanLevel1 extends Component {
                 true 'u' sound like in the word 'ugly', but more like the 'o' in
                 'ordeal' but leaving your mouth open
               </Text>
-              <Text>
-                ㅕ = 'yeo' sound
-              </Text>
               <Text />
               <Text>
                 ㅗ = 'o' sound
               </Text>
-              ㅛ = 'yo' sound
               <Text>
                 ㅜ = 'oo' or 'u' sound
-              </Text>
-              <Text>
-                ㅠ = 'yoo' or 'yu' sound
               </Text>
               <Text>
                 ㅡ = 'eu' sound
@@ -156,11 +143,141 @@ class KoreanLevel1 extends Component {
             </Column>
           </Column>
         </Section>
+        <Section>
+          <Subtitle color="#333" padding="15px">
+            Vowels with y and w
+          </Subtitle>
+          <Text>
+            Special vowels that are constructed with the y and w sounds.
+          </Text>
+        </Section>
         <Section
           alignitems="flex-start"
           flexdirection960="row"
-          height="975px"
-          height960="900px"
+          height="400px"
+          height960="400px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Text>
+                ㅠ = 'yu' sound
+              </Text>
+              <Text>
+                ㅑ = 'ya' sound
+              </Text>
+              <Text>
+                ㅕ = 'yeo' sound
+              </Text>
+              <Text>
+                ㅛ = 'yo' sound
+              </Text>
+              <Text>
+                ㅖ = 'ye' sound{' '}
+              </Text>
+              <Text>
+                ㅖ = 'yi' sound{' '}
+              </Text>
+            </Column>
+          </Column>
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left">
+              <Text>
+                ㅠ = 'wu' sound
+              </Text>
+              <Text>
+                ㅑ = 'wa' sound
+              </Text>
+              <Text>
+                ㅕ = 'weo' sound
+              </Text>
+              <Text>
+                ㅛ = 'wo' sound
+              </Text>
+              <Text>
+                ㅖ = 'we' sound{' '}
+              </Text>
+              <Text>
+                ㅖ = 'wi' sound{' '}
+              </Text>
+            </Column>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="100px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left"
+            />
+            <Subtitle color="#333" padding="15px">Grammar</Subtitle>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="200px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left"
+            />
+            <Subtitle color="#333" padding="15px">New Vocabulary</Subtitle>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="200px"
+          maxwidth="960px"
+          padding="30px"
+          textalign="left">
+          <Column>
+            <Column
+              justifycontent="flex-start"
+              color="#666"
+              fontsize="1.8rem"
+              textalign="left"
+            />
+            <Subtitle color="#333" padding="15px">New Phrases</Subtitle>
+            <Text>Greetings and Goodbyes</Text>
+            <Text>Annyeong ha seyo, anyeonghigeseyo</Text>
+            <Text>yo du bun</Text>
+            <Text>My name is</Text>
+            <Text>nice to meet you</Text>
+            <Text>Thank You</Text>
+            <Text>You're Welcome</Text>
+          </Column>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          flexdirection960="row"
+          height="175px"
+          height960="200px"
           maxwidth="960px"
           padding="30px"
           textalign="left">
@@ -181,25 +298,6 @@ class KoreanLevel1 extends Component {
               of that syllable, the ㄹ will actually sound like a ㄴ.
               공룡 (dinosaur) pronounced gong-nyong
             </Text>
-          </Column>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="975px"
-          height960="900px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Text>Phrases</Text>
-            <Text>Greetings and Goodbyes</Text>
-            <Text>Annyeong ha seyo, anyeonghigeseyo</Text>
-            <Text>yo du bun</Text>
-            <Text>My name is</Text>
-            <Text>nice to meet you</Text>
-            <Text>Thank You</Text>
-            <Text>You're Welcome</Text>
           </Column>
         </Section>
       </Wrapper>

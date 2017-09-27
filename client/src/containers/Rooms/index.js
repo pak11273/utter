@@ -6,12 +6,12 @@ import styled from 'styled-components'
 import superagent from 'superagent'
 import ApiMgr from '../../utils'
 import shortid from 'shortid'
+import {Box, Button, Input, Text} from '../../components'
+import RoomCreator from './RoomCreator.js'
 
 // actions
 import {loadRooms, roomSelect, updateRoomLevel} from './actions.js'
-
-import RoomCreate from './RoomCreate.js'
-import {Box, Button, Input, Text} from '../../components'
+import {loadWordList, updateOriginalWordList} from '../Pictures/actions.js'
 
 const StyledRoom = styled.div`
   color: ${props => (props.selected ? 'red' : 'black')};
@@ -21,21 +21,36 @@ const StyledRoom = styled.div`
   text-align: left;
 `
 
-const Room = ({level, isSelected, onClick, creator, people}) => {
+const Room = ({level, isSelected, onClick, creator, people, title}) => {
   return (
     <StyledRoom onClick={onClick} selected={isSelected}>
+      <Text>Title: {title}</Text>
       Level:{level} People:{people}<br />
       Creator:{creator}
     </StyledRoom>
   )
 }
 
-const RoomList = ({rooms, selectedRoomId, onSelect, updateRoomLevel}) => {
+const RoomList = ({
+  loadWordList,
+  rooms,
+  selectedRoomId,
+  onSelect,
+  updateRoomLevel,
+  updateOriginalWordList
+}) => {
   return (
     <div>
-      {rooms.list.map(({_id, level, creator, people}) => {
+      {rooms.list.map(({_id, level, creator, people, title}) => {
         const isSelected = selectedRoomId == _id
         const onRoomSelect = () => {
+          // update wordList when room is selected
+          const roomLevel = level
+          const listObj = require(`../../data/level${roomLevel}/query.js`)
+          updateOriginalWordList(listObj.default)
+
+          loadWordList(listObj.default)
+
           updateRoomLevel(level)
           onSelect(_id)
         }
@@ -47,6 +62,7 @@ const RoomList = ({rooms, selectedRoomId, onSelect, updateRoomLevel}) => {
             level={level}
             onClick={onRoomSelect}
             people={people}
+            title={title}
           />
         )
       })}
@@ -86,6 +102,7 @@ class Rooms extends Component {
 
   updateName(e) {
     e.preventDefault
+    //TODO: this doesn't work anymore, we got rid of local state
     const updatedRoom = Object.assign({}, this.state.room)
     updatedRoom[e.target.level] = e.target.value
     this.setState({
@@ -134,16 +151,22 @@ class Rooms extends Component {
             <option>Desc</option>
           </select>
         </Box>
-        <Box height="500px" overflowy="scroll" overflowx="none">
+        <Box
+          alignitems="flex-start"
+          height="500px"
+          overflowy="scroll"
+          overflowx="none">
           <RoomList
-            rooms={this.props.roomReducer}
-            updateRoomLevel={this.props.actions.updateRoomLevel}
-            selectedRoomId={this.props.roomReducer.selected}
+            loadWordList={this.props.actions.loadWordList}
             onSelect={this.onRoomSelect}
+            rooms={this.props.roomReducer}
+            selectedRoomId={this.props.roomReducer.selected}
+            updateOriginalWordList={this.props.actions.updateOriginalWordList}
+            updateRoomLevel={this.props.actions.updateRoomLevel}
           />
         </Box>
         <Box>
-          <RoomCreate addRoom={this.addRoom} />
+          <RoomCreator addRoom={this.addRoom} />
         </Box>
       </Box>
     )
@@ -159,7 +182,13 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
-      {loadRooms, roomSelect, updateRoomLevel},
+      {
+        loadRooms,
+        loadWordList,
+        roomSelect,
+        updateOriginalWordList,
+        updateRoomLevel
+      },
       dispatch
     )
   }

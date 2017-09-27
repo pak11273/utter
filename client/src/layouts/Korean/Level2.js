@@ -23,7 +23,7 @@ class KoreanLevel2 extends Component {
           padding="30px"
           textalign="left">
           <Title color="white" fontsize="2rem">
-            Level Two - Dipthongs & Syllables
+            Level Two - Double Consonants & Dipthongs{' '}
           </Title>
           <Subtitle color="#bbb" fontsize="1.5rem">
             Constructing Dipthongs{' '}

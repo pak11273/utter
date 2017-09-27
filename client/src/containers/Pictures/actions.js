@@ -3,6 +3,7 @@ import {
   LOAD_QUERY,
   LOAD_WORD_LIST,
   LOAD_ORIGINAL_WORD_LIST,
+  UPDATE_ORIGINAL_WORD_LIST,
   UPDATE_WORD_LIST,
   UPDATE_REVIEW_LIST,
   SEND_ROMANIZED,
@@ -39,6 +40,15 @@ const loadWordList = list => {
 const loadOriginalWordList = list => {
   return {
     type: LOAD_ORIGINAL_WORD_LIST,
+    payload: new Promise((resolve, reject) => {
+      resolve(list)
+    })
+  }
+}
+
+const updateOriginalWordList = list => {
+  return {
+    type: UPDATE_ORIGINAL_WORD_LIST,
     payload: new Promise((resolve, reject) => {
       resolve(list)
     })
@@ -86,6 +96,7 @@ export {
   loadQuery,
   loadOriginalWordList,
   loadWordList,
+  updateOriginalWordList,
   updateWordList,
   updateReviewList,
   sendRomanized,

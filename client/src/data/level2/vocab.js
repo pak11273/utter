@@ -1,109 +1,81 @@
 export default {
-  alphabet: {
-    consonants: {
-      ㄱ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'g', spelling: 'ㄱ'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㄲ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'kk', spelling: 'ㄲ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㄴ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'n', spelling: 'ㄴ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㄷ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'd', spelling: 'ㄷ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㄹ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'r', spelling: 'ㄹ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅁ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'm', spelling: 'ㅁ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅂ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'b', spelling: 'ㅂ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅅ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 's', spelling: 'ㅅ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅇ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'ng', spelling: 'ㅇ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅈ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'j', spelling: 'ㅈ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅊ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'ch', spelling: 'ㅊ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅋ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'kk', spelling: 'ㅋ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅌ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 't', spelling: 'ㅌ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅍ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'pp', spelling: 'ㅍ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㅎ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'h', spelling: 'ㅎ'},
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
-      ㄲ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'kk', spelling: 'ㄲ'},
-        french: {roman: 'pending', spelling: 'pending'}
-      }
+  doubleConsonants: {
+    ㄲ: {
+      english: {roman: 'pending', spelling: 'ㅐ'},
+      korean: {roman: 'kk', spelling: 'ㅐ'},
+      french: {roman: 'pending', spelling: 'pending'}
     },
-    vowels: {
-      ㄲ: {
-        english: {roman: 'pending', spelling: 'pending'},
-        korean: {roman: 'kk', spelling: 'ㄲ'},
-        french: {roman: 'pending', spelling: 'pending'}
-      }
+    ㄸ: {
+      english: {roman: 'pending', spelling: 'ㄸ'},
+      korean: {roman: 'tt', spelling: 'ㄸ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅃ: {
+      english: {roman: 'pending', spelling: 'ㅃ'},
+      korean: {roman: 'bb', spelling: 'ㅃ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅉ: {
+      english: {roman: 'pending', spelling: 'ㅉ:'},
+      korean: {roman: 'jj', spelling: 'ㅉ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    }
+  },
+  dipthongs: {
+    ㅐ: {
+      english: {roman: 'pending', spelling: 'ㅐ'},
+      korean: {roman: 'ae', spelling: 'ㅐ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅒ: {
+      english: {roman: 'pending', spelling: 'ㅒ'},
+      korean: {roman: 'ye', spelling: 'ㅒ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅔ: {
+      english: {roman: 'pending', spelling: 'ㅔ'},
+      korean: {roman: 'e', spelling: 'ㅔ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅖ: {
+      english: {roman: 'pending', spelling: 'ㅖ'},
+      korean: {roman: 'ye', spelling: 'ㅖ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅘ: {
+      english: {roman: 'pending', spelling: 'ㅘ'},
+      korean: {roman: 'wa', spelling: 'ㅘ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅙ: {
+      english: {roman: 'pending', spelling: 'ㅙ'},
+      korean: {roman: 'wae', spelling: 'ㅙ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅚ: {
+      english: {roman: 'pending', spelling: 'ㅚ'},
+      korean: {roman: 'we', spelling: 'ㅚ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅝ: {
+      english: {roman: 'pending', spelling: 'ㅝ'},
+      korean: {roman: 'we', spelling: 'ㅝ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅞ: {
+      english: {roman: 'pending', spelling: 'ㅞ'},
+      korean: {roman: 'we', spelling: 'ㅞ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅟ: {
+      english: {roman: 'pending', spelling: 'ㅟ'},
+      korean: {roman: 'wi', spelling: 'ㅟ'},
+      french: {roman: 'pending', spelling: 'pending'}
+    },
+    ㅢ: {
+      english: {roman: 'pending', spelling: 'ㅢ'},
+      korean: {roman: 'eu-i', spelling: 'ㅢ'},
+      french: {roman: 'pending', spelling: 'pending'}
     }
   }
 }
-
-// TODO: add vowels
