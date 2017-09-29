@@ -19,6 +19,8 @@ import {
   Korean4,
   Korean5,
   Korean6,
+  Korean7,
+  Korean8,
   Redux
 } from './layouts'
 
@@ -137,6 +139,16 @@ export const routes = [
   {
     path: '/korean/6',
     component: Korean6,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/korean/7',
+    component: Korean7,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/korean/8',
+    component: Korean8,
     loadData: () => getSomeData()
   },
   {

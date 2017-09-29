@@ -4,7 +4,7 @@ List
       answer[1] • any[1][2][3] • apart • apparent • appear • apply • appoint • approach • appropriate • area[4][3] • argue •  • around • arrange • art[1] • as[1][2][3] • ask • associate • assume • at[1][2][3] • attend • authority[1] • available • aware • away[3] • awful
       B
        •  • • bag[1] • balance[1] •  •  • bar[4] • base[1] • basis • be[1][2][3] • • beat[4] • beauty •
-      because[1] • become[4][3] •  • before[1][3] • begin • behind[4] • believe • benefit • best • bet[4] • between[1][3] • • bill[4] • birth[1] • bit[1] •  • bloke • blood[1] • blow[1] •  • board[1] •  •  • • both[4][3] • bother • bottle[1] • bottom[4] •  • boy[1] • break[4] • brief • brilliant • bring • Britain •  • budget[4] • build •  • business[1][3] •
+      because[1] • become[4][3] •  • before[1][3] • begin • behind[4] • believe • benefit • best • bet[4] • between[1][3] • • bill[4] • birth[1] • bit[1] •  • bloke • blood[1] • blow[1] •  • board[1] •  •  • • both[4][3] • bother • bottle[1] • bottom[4] •  •  break[4] • brief • brilliant • bring • Britain •  • budget[4] • build •  • business[1][3] •
       busy[4] • but[1][2][3] • buy • by[1][2][3]
       C
        •  • can[2][3] • • card[1] • care[1] • carry • case[4][3] •  • catch • cause[1] • cent • centre • certain[1] •  • chairman • chance[1] • change[1] • chap • character[4] • charge[4] • cheap[1] • check[4] •  • choice[4] • • Christ • Christmas • • city • claim[4] • class • clean[1] • clear[1] • client[4] •  •
@@ -20,7 +20,7 @@ List
        • fact[1][3] • fair[4] • fall[1] •  • far[1][3] •  • fast •  • favour • feed • feel • few[3] • field[1] • fight[1] • figure[4] • file • fill • film • final • finance • find[3] • fine •
       finish • fire[1] • first[1][2][3] •  • fit •  • flat[1] • floor[1] • fly[1] • follow • food[1] •  • for[1][2][3] • force[1] • forget • form[1] • fortune • forward[1] •  • France • free[1] • Friday • friend[1] • from[1][2][3] • front[1] • full[1] • fun • function • fund • further • future[1]
       G
-      game • garden[1] • gas[4] • general[1][3] • Germany • get[1][2][3] • girl[1] • give[1][2][3] • glass[1] •
+      game • garden[1] • gas[4] • general[1][3] • Germany • get[1][2][3] • g• give[1][2][3] • glass[1] •
       go[1][2][3] • god[4] •  • goodbye • govern • grand[4] • grant • great[1][3] •  • ground[4] • group[1][3] • grow •  • guy
       H
        • half[4] • hall •  • hang • happen • happy[1] • hard[1] • hate[1] • have[1][2][3] • he[1][2][3] •  • health • hear • heart[1] • heat[1] • heavy[4] • hell • help[1] • here[1][2][3] • high[1][3] • history[1] • hit • hold[4] • holiday[4] • home[4][3] •
@@ -34,7 +34,7 @@ List
       labour • lad • lady • land[1] • language[1] •  • last[1][2][3] • late[1] • laugh[1] • law[1] • lay • lead[1] • learn • leave • left[1][3] •  • less[1] • let[1] • letter[1] • level[1] • lie • life[4][3] • light[1] • like[1][2][3] • likely • limit[1] • line[1] • link[4] •
       list[1] • listen •  • live • load[4] • local[4][3] • lock[1] • London • long[1][3] • look[1][2][3] • lord • lose • lot • love[1] • low[1] • luck[4] • lunch[4]
       M
-      machine[1] • main • major • make[1][2][3] • man[1][3] • manage • many[4][2][3] • mark[1] • market[1][3] • marry • match[1] • matter • may[1][3] • maybe • mean[4][2] • meaning[4] • measure[1] • meet • member[4] • mention • middle[1] • might[2][3] • mile •
+      machine[1] • main • major • make[1][2][3] •  • manage • many[4][2][3] • mark[1] • market[1][3] • marry • match[1] • matter • may[1][3] • maybe • mean[4][2] • meaning[4] • measure[1] • meet • member[4] • mention • middle[1] • might[2][3] • mile •
        • million[4] • mind[1] • minister • minus • minute[1] • miss • mister • moment • Monday • money[1][2][3] • month[1] • more[1][2][3] • morning[1] • most[1][3] •  • motion[1] • move[1] • Mrs • much[1][2][3] • music[1] • must[2][3]
       N
        • nation[1] •  • near[1] • necessary[1] • need[1][2][3] • never[2][3] • new[1][2][3] • news[1] • next[4][2][3] • nice[4][2] • night[1][3] • • no[1][2][3] • non • none[1] • normal[1] • north[1] •
@@ -47,7 +47,7 @@ List
       press • pressure[4] • presume • pretty • previous • price[1] • print[1] • private[1] • probable[1] • problem • proceed • process[1] • produce[1] • product[4] • programme • project • proper • propose • protect • provide • public[1][3] • pull[1] • purpose[1] • push[1] • put[1][2][3] • quality[1] • quarter[4] • question[1] • quick[1] • quid • quiet[1] • quite[1][2][3]
       R
       radio[4] • rail[1] • raise • range[1] • rate[1] • rather • read • ready[1] •
-      real[4] • realise • really[2][3] • reason[1] • receive • recent • reckon • recognize • recommend • record[1] •  • reduce • refer • regard • region • relation[1] • remember • report • represent • require • research • resource • respect[1] • responsible[1] • rest[1] • result[4] • return • rid • right[1][2] • ring[1] • rise[4] • road[1] • role • roll[1] •  • round[1] • rule[1] • run[1] •
+      real[4] • realise • really[2][3] • reason[1] • receive • recent • reckon • recognize • recommend • record[1] •  • reduce • refer • regard • region • relation[1] • remember • report • represent • require • research • resource • respect[1] • responsible[1] • rest[1] • result[4] • return • rid • right[1][2] • ring[1] • rise[4] • road[1] • role • roll[1] •  • round[1] • rule[1] • r•
 
       S
       safe[1] • sale[4] • same[1][2][3] • Saturday • save • say[1][2][3] • scheme • school[1][3] • science[1] • score • Scotland • seat[1] • second[1][3] • secretary[1] • section[4] • secure • see[1][2][3] • seem[1] • self[1] • sell • send[1] • sense[1] • separate[1] • serious[1] • serve • service[4][3] • set[4][3] • settle •  • sex[1] • shall • share[4] • she[2][3] • sheet[4] •  • shoot • shop • short[1] • should[2][3] • show[4] • shut[1] • sick •
@@ -64,7 +64,7 @@ List
       visit • vote[4]
       W
       wage • wait • walk[1] • wall[1] • want[2][3] • war[1][3] • warm[1] • wash[1] • waste[1] • watch[1] •  • way[1][2][3] • we[2][3] • wear • Wednesday • wee • week[1][2] • weigh • welcome[4] • well[1][2][3] • west[1] • what[4][2][3] • when[1][2][3] • where[1][2][3] • whether[4][3] • which[4][2][3] • while[1][3] •  • who[1][2][3] • whole • why[1][2][3] • wide[1] • wife[4] • will[1][2][3] • win • wind[1] • window[1] • wish •
-      with[1][2][3] • within[4][3] • without[4][3] • woman[1] • wonder • wood[1] • word[1] • work[1][2][3] • world[4][3] • worry • worse • worth • would[2][3] • write • wrong[1]
+      with[1][2][3] • within[4][3] • without[4][3] • • wonder • wood[1] • word[1] • work[1][2][3] • world[4][3] • worry • worse • worth • would[2][3] • write • wrong[1]
       X
       Y
       year[1][2][3] • yes[1][2] • yesterday[1] • yet[3] • you[1][2][3] • 
@@ -74,7 +74,7 @@ Used
 
 
 animals:
-bear, cat[1], eye[1], dog[1], fish[1], egg[1], horse[1]
+bear, boy[1], cat[1], eye[1], girl[1], dog[1], fish[1], egg[1], horse[1], man[1][3], woman[1] 
 
 bodyParts: arm[1], back[1][2][3], body[1], face[1][3], foot[1], hand[1][3], hair[1], head[1][3], leg[1], 
 
@@ -111,6 +111,8 @@ toys: ball[1]
 vehicles: car, boat[1], train[1]
 
 misc: book[1] 
+
+verbs: run[1] 
 
 
 ------------------------------------------------------
@@ -177,7 +179,6 @@ used(not yet: for level2):
 
 nouns: box[1], clock[1], dress[1], name[1], telephone[4], television
 
-
 rooms: bank[4]
 
 kitchen: cup[1]
@@ -187,7 +188,6 @@ numbers: one[4][2][3], two[4][2][3], three[4][2][3],four[4][2][3], five[4][2][3]
 vehicles: bus
 
 verbs: create, call[4], cut[1], drink[1], fly[1], guess[4], choose, count 
-
 
 adjectives: bad[1], big, color, good[1][2][3], small[1][3], large[4][3], little[1][2], old[1][3], young[1][3]
 

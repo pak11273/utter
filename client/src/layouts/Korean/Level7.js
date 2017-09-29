@@ -12,7 +12,7 @@ import {
 } from '../../components'
 import Navbar from '../../containers/Navbars/Navbar'
 
-class KoreanLevel4 extends Component {
+class KoreanLevel7 extends Component {
   render() {
     return (
       <Wrapper>
@@ -190,4 +190,4 @@ class KoreanLevel4 extends Component {
   }
 }
 
-export default KoreanLevel4
+export default KoreanLevel7

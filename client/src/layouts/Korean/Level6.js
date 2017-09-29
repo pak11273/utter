@@ -66,7 +66,6 @@ const anMa = cdn + source.examples.basic.앗마.korean.audioUrl
 const arNa = cdn + source.examples.basic.알나.korean.audioUrl
 const daeHagRo = cdn + source.examples.basic.대학로.korean.audioUrl
 const jongRo = cdn + source.examples.basic.종로.korean.audioUrl
-const abRa = cdn + source.examples.basic.압라.korean.audioUrl
 
 class KoreanLevel6 extends Component {
   onClick(e) {
@@ -83,7 +82,7 @@ class KoreanLevel6 extends Component {
           justifycontent="center"
           padding="100px"
           textalign="left">
-          <Box width960="1024px">
+          <Box justifycontent="center" width960="1024px">
             <Title color="white" fontsize="3rem" padding="20px">
               Level Six - badchim 받침
             </Title>
@@ -819,8 +818,8 @@ class KoreanLevel6 extends Component {
         <Section
           alignitems="flex-start"
           flexdirection960="row"
-          height="300px"
-          height960="300px"
+          height="400px"
+          height960="400px"
           maxwidth="960px"
           padding="30px"
           textalign="left">
@@ -945,7 +944,7 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="250px">Example</Th>
               </Thead>
               <tbody>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄶ
                   </Td>
@@ -971,7 +970,7 @@ class KoreanLevel6 extends Component {
                     />
                   </Td>
                 </Tr>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄺ
                   </Td>
@@ -993,7 +992,7 @@ class KoreanLevel6 extends Component {
                     />
                   </Td>
                 </Tr>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㅄ{' '}
                   </Td>
@@ -1015,7 +1014,7 @@ class KoreanLevel6 extends Component {
                     />
                   </Td>
                 </Tr>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄵ{' '}
                   </Td>
@@ -1037,7 +1036,7 @@ class KoreanLevel6 extends Component {
                     />
                   </Td>
                 </Tr>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄼ
                   </Td>
@@ -1059,7 +1058,7 @@ class KoreanLevel6 extends Component {
                     />
                   </Td>
                 </Tr>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄾ{' '}
                   </Td>
@@ -1081,7 +1080,7 @@ class KoreanLevel6 extends Component {
                     />
                   </Td>
                 </Tr>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄻ{' '}
                   </Td>
@@ -1143,7 +1142,7 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="250px">Example</Th>
               </Thead>
               <tbody>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㅆ{' '}
                   </Td>
@@ -1208,7 +1207,7 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="300px">Example</Th>
               </Thead>
               <tbody>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄷ
                   </Td>
@@ -1274,7 +1273,7 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="330px">Example</Th>
               </Thead>
               <tbody>
-                <Tr height="80px">
+                <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄹ{' '}
                   </Td>
@@ -1356,7 +1355,7 @@ class KoreanLevel6 extends Component {
                   borderbottom="1px solid black"
                   padding="20px"
                   align="center"
-                  width="140px">
+                  width="170px">
                   Badchim + consonant
                 </Th>
                 <Th borderbottom="1px solid black" width="200px">
@@ -1421,7 +1420,7 @@ class KoreanLevel6 extends Component {
                 </Tr>
                 <Tr height="80px">
                   <Td>
-                    ㅂ, ㅍ + ㄴ<span style={{fontSize: '1rem'}}>or</span> ㅁ
+                    ㅂ, ㅍ + ㄴ <span style={{fontSize: '1rem'}}>or</span> ㅁ
                   </Td>
                   <Td>
                     ㅂ, ㅍ
@@ -1478,7 +1477,8 @@ class KoreanLevel6 extends Component {
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
-                    ㄷ, ㅌ, ㅅ, ㅆ, ㅈ, ㅊ, ㅎ + ㄴ<span style={{fontSize: '1rem'}}>or</span>{' '}
+                    ㄷ, ㅌ, ㅅ, ㅆ, ㅈ, ㅊ, ㅎ + ㄴ{' '}
+                    <span style={{fontSize: '1rem'}}>or</span>{' '}
                     ㅁ
                   </Td>
                   <Td>
@@ -1604,38 +1604,6 @@ class KoreanLevel6 extends Component {
                     <Img
                       display="inline"
                       name="jongRo"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅂ + ㄹ{' '}
-                  </Td>
-                  <Td>
-                    ㅂ{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      transforms to
-                    </span>{' '}
-                    ㅁ{' '}
-                  </Td>
-                  <Td>
-                    <span>
-                      압라{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 암라{' '}
-                    </span>
-                    <audio id="abRa" src={`${abRa}`} />
-                    <Img
-                      display="inline"
-                      name="abRa"
                       onClick={this.onClick}
                       padding="0 0 0 20px"
                       cursor="pointer"

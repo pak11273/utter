@@ -261,7 +261,7 @@ class Pictures extends Component {
       var wordAudio = this.props.pictureReducer.wordList[wordSound].korean
         .audioUrl
     } else {
-      var wordAudio = 'hello'
+      var wordAudio = ''
     }
     return (
       <Wrap>

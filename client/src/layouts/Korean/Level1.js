@@ -25,7 +25,14 @@ class KoreanLevel1 extends Component {
             The korean alphabet looks like it would be hard to understand
             however, it is actually very easy to learn. The alphabet was created
             by King Sejong in the 1400's so that all korean people had a way to
-            read and write Korean. It consists of 24 letters.
+            read and write Korean. It consists of 24 letters. <br />
+            In this lesson you will also learn about romanization. There are
+            several types of romanization and we do not support using
+            romanization for pronunciation. However, since most of us do not
+            write or type in Korean, we will be using a custom form of
+            romanization to
+            aid you in spelling. So by looking at a romanized word, you can
+            transliterate it into it's Korean translation.{' '}
           </Subtitle>
           <Text margin="20px" />
         </Masthead>

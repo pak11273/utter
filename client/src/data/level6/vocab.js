@@ -439,16 +439,6 @@ export default {
         },
         spanish: {roman: 'pending', spelling: 'pending'},
         french: {roman: 'pending', spelling: 'pending'}
-      },
-      압라: {
-        english: {roman: 'pending', spelling: '압라'},
-        korean: {
-          roman: 'abRa',
-          spelling: '압라',
-          audioUrl: '/audio/vocab/abRa.mp3'
-        },
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
       }
     }
   }
