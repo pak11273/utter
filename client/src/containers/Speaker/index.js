@@ -223,7 +223,7 @@ class Speaker extends Component {
   render() {
     return (
       <Box>
-        <p>Your uttered words appear below</p>
+        <p>eg. 재 아르믄 박찬우이애요.</p>
         <Box flexdirection="row">
           <Input
             onChange={this.updateInterimScript}

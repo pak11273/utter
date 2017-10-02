@@ -7,6 +7,7 @@ const Text = styled.div`
   font-family: ${props => props.fontfamily};
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
+  line-height: ${props => props.lineheight};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
   text-align: ${props => props.textalign};

@@ -9,7 +9,7 @@ export default {
   category: {
     nouns: {
       animals: {
-        boy: {
+        pending: {
           english: {roman: 'boy', spelling: 'boy'},
           korean: {
             roman: 'so-nyeon',
@@ -19,7 +19,7 @@ export default {
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
         },
-        girl: {
+        pending: {
           english: {roman: 'girl', spelling: 'girl'},
           korean: {
             roman: 'so-nyeo',
@@ -28,40 +28,10 @@ export default {
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
-        },
-        man: {
-          english: {roman: 'man', spelling: 'man'},
-          korean: {
-            roman: 'nam-ja',
-            spelling: '남자',
-            audioUrl: '/audio/vocab/namJa.mp3'
-          },
-          spanish: {roman: 'pending', spelling: 'pending'},
-          french: {roman: 'pending', spelling: 'pending'}
-        },
-        woman: {
-          english: {roman: 'woman', spelling: 'woman'},
-          korean: {
-            roman: 'yeo-ja',
-            spelling: '',
-            audioUrl: '/audio/vocab/yeoJa.mp3'
-          },
-          spanish: {roman: 'pending', spelling: 'pending'},
-          french: {roman: 'pending', spelling: 'pending'}
         }
       }
     },
     verbs: {
-      be: {
-        english: {roman: 'be', spelling: 'be'},
-        korean: {
-          roman: '',
-          spelling: '',
-          audioUrl: '/audio/vocab/itDa.mp3'
-        },
-        spanish: {roman: 'pending', spelling: 'pending'},
-        french: {roman: 'pending', spelling: 'pending'}
-      },
       run: {
         english: {roman: 'run', spelling: 'run'},
         korean: {

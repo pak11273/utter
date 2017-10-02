@@ -74,9 +74,7 @@ class Rooms extends Component {
   constructor(props) {
     super(props)
 
-    this.filteredMessages = this.filteredMessages.bind(this)
     this.onRoomSelect = this.onRoomSelect.bind(this)
-
     this.updateName = this.updateName.bind(this)
     this.addRoom = this.addRoom.bind(this)
     this.selectRoom = this.selectRoom.bind(this)
@@ -130,12 +128,6 @@ class Rooms extends Component {
     this.props.actions.roomSelect(id)
   }
 
-  filteredMessages() {
-    return this.state.messages.filter(
-      ({channel_id}) => channel_id === this.props.roomReducer.selected
-    )
-  }
-
   render() {
     return (
       <Box>
@@ -175,7 +167,8 @@ class Rooms extends Component {
 
 const mapStateToProps = state => {
   return {
-    roomReducer: state.roomReducer
+    roomReducer: state.roomReducer,
+    speakerReducer: state.speakerReducer
   }
 }
 

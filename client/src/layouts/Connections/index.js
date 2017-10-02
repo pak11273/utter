@@ -89,8 +89,8 @@ class Connections extends Component {
               </Box>
             </Pictures>
             <Box>
-              <Title color="black" fontsize="1.5rem">
-                Describe the picture{' '}
+              <Title color="black" fontsize="1.5rem" padding="0">
+                Fill in the blank: ______ is _____.
               </Title>
             </Box>
             <Speaker />

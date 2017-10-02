@@ -258,6 +258,8 @@ class Pictures extends Component {
 
     const wordSound = this.props.query
     if (wordSound !== undefined) {
+      console.log('wordSound: ', wordSound)
+      console.log('props: ', this.props.pictureReducer.wordList[wordSound])
       var wordAudio = this.props.pictureReducer.wordList[wordSound].korean
         .audioUrl
     } else {

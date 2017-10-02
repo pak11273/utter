@@ -26,23 +26,27 @@ class Chat extends Component {
   constructor(props) {
     super(props)
 
-    // this.filterMessages = this.filterMessages.bind(this)
+    this.filteredMessages = this.filteredMessages.bind(this)
   }
 
-  // TODO: filter messages by room id
-  // filterMessages() {
-  //   this.props.messageList.filter(
-  //     room => room.room_id === this.props.roomId.selected
-  //   )
-  // }
+  filteredMessages() {
+    let list = this.props.speakerReducer.messageList
+    if (Array.isArray(list)) {
+      return list.filter(
+        ({room_id}) => room_id === this.props.roomReducer.selected
+      )
+    } else {
+      return []
+    }
+  }
 
   render() {
     return (
       <Box>
         <Box overflowy="scroll" overflowx="none" height="500px">
           <MsgList
-            message={this.props.message}
-            messageList={this.props.messageList}
+            message={this.props.speakerReducer.message}
+            messageList={this.filteredMessages()}
           />
         </Box>
       </Box>
@@ -52,9 +56,9 @@ class Chat extends Component {
 
 const mapStateToProps = state => {
   return {
-    message: state.speakerReducer.message,
-    messageList: state.speakerReducer.messageList,
-    roomId: state.roomReducer
+    speakerReducer: state.speakerReducer,
+    roomReducer: state.roomReducer,
+    message: state.speakerReducer.message
   }
 }
 
