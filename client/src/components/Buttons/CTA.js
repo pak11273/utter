@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 
-const CTA = styled.button`
+const ButtonCta = styled.button`
   background: ${props => props.background};
   border: '2px solid' + ${props => props.theme.color};
   border-radius: ${props => props.borderradius};
@@ -12,7 +12,7 @@ const CTA = styled.button`
   padding: ${props => props.padding};
   width: ${props => props.width};
 `
-CTA.defaultProps = {
+ButtonCta.defaultProps = {
   background: props => props.theme.color,
   borderradius: '.2rem',
   color: 'white',
@@ -22,4 +22,4 @@ CTA.defaultProps = {
   weight: '600'
 }
 
-export default CTA
+export default ButtonCta

@@ -34,11 +34,10 @@ const Section = styled.section`
 `
 Section.defaultProps = {
   alignitems: 'center',
-  background: 'transparent',
   boxsizing: 'border-box',
   color: 'black',
   display: 'flex',
-  flexdirection: 'column',
+  flexdirection: 'row',
   justifycontent: 'center',
   margin: '0 auto',
   width: '100%'

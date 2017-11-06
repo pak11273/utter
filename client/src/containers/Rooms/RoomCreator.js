@@ -6,9 +6,11 @@ class RoomCreator extends Component {
     super()
     this.state = {
       room: {
+        language: '',
         level: '',
         creator: '',
-        people: ''
+        people: '',
+        title: ''
       }
     }
 
@@ -26,7 +28,7 @@ class RoomCreator extends Component {
   }
 
   addRoom() {
-    this.props.addRoom(this.state.room)
+    return this.props.addRoom(this.state.room)
   }
 
   render() {
@@ -34,6 +36,12 @@ class RoomCreator extends Component {
       <Box>
         <Text fontsize="1.5rem">Create your own Room</Text>
         <Box>
+          <Input onChange={this.updateName} placeholder="title" name="title" />
+          <Input
+            onChange={this.updateName}
+            placeholder="language"
+            name="language"
+          />
           <Input onChange={this.updateName} placeholder="level" name="level" />
           <Input
             onChange={this.updateName}

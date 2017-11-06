@@ -26,7 +26,7 @@ import PlayImg from '../../assets/images/play.svg'
 import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-import source from '../../../src/data/level7/vocab.js'
+import source from '../../../src/data/level8/vocab.js'
 const eun = cdn + source.category.nouns.speech.participles.은.korean.audioUrl
 const neun = cdn + source.category.nouns.speech.participles.는.korean.audioUrl
 const i = cdn + source.category.nouns.speech.participles.이.korean.audioUrl
@@ -48,7 +48,7 @@ const ddaeRiDa = cdn + source.category.verbs.hit.korean.audioUrl
 const usDa = cdn + source.category.verbs.laugh.korean.audioUrl
 const jaDa = cdn + source.category.verbs.sleep.korean.audioUrl
 
-class KoreanLevel7 extends Component {
+class KoreanLevel8 extends Component {
   onClick(e) {
     e.preventDefault()
     document.getElementById(e.target.name).play()
@@ -803,4 +803,4 @@ class KoreanLevel7 extends Component {
   }
 }
 
-export default KoreanLevel7
+export default KoreanLevel8

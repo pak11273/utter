@@ -13,4 +13,7 @@ const Text = styled.div`
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 `
+
+Text.defaultProps = {}
+
 export default Text

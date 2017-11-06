@@ -1,41 +1,471 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 import {
+  Audio,
+  Box,
   Column,
-  Masthead,
-  Section,
+  Img,
+  MastheadTitle,
+  MastheadSubtitle,
+  PlayButton,
+  Spacer,
   Subtitle,
+  Table,
+  Td,
   Text,
+  Thead,
+  Th,
+  Tr,
   Title,
+  Section,
   Wrapper
 } from '../../components'
 
+import {Masthead} from '../../containers'
+import PlayImg from '../../assets/images/play.svg'
+
+// audio
+import cdnUrl from '../../../src/config/secrets.js'
+const cdn = cdnUrl.cdn
+
+import vocab from '../../../src/data/korean/level1/vocab.js'
+const giYeog = cdn + vocab.category.alphabet.consonants.ㄱ.korean.audioUrl
+const niEun = cdn + vocab.category.alphabet.consonants.ㄴ.korean.audioUrl
+const diGeud = cdn + vocab.category.alphabet.consonants.ㄷ.korean.audioUrl
+
+// phrases
+// const level7_6 = cdn + source.category.examples.level7_6.korean.audioUrl
+
 class KoreanLevel1 extends Component {
+  onClick(e) {
+    e.preventDefault()
+    document.getElementById(e.target.name).play()
+  }
   render() {
     return (
       <Wrapper>
-        <Masthead
-          background="#666"
-          height="450px"
-          height768="300px"
-          padding="30px"
-          textalign="left">
-          <Title color="white" fontsize="2rem">Level One - The alphabet</Title>
-          <Subtitle color="#bbb" fontsize="1.5rem">
-            The korean alphabet looks like it would be hard to understand
-            however, it is actually very easy to learn. The alphabet was created
-            by King Sejong in the 1400's so that all korean people had a way to
-            read and write Korean. It consists of 24 letters. <br />
-            In this lesson you will also learn about romanization. There are
-            several types of romanization and we do not support using
-            romanization for pronunciation. However, since most of us do not
-            write or type in Korean, we will be using a custom form of
-            romanization to
-            aid you in spelling. So by looking at a romanized word, you can
-            transliterate it into it's Korean translation.{' '}
-          </Subtitle>
-          <Text margin="20px" />
+        <Masthead background="gray">
+          <Column>
+            <Box>
+              <MastheadTitle>
+                Level One - Hangul
+              </MastheadTitle>
+              <MastheadSubtitle>
+                Learn the Korean alphabet
+              </MastheadSubtitle>
+            </Box>
+          </Column>
         </Masthead>
+        <Section maxwidth="960px">
+          <Column>
+            <Box padding="40px">
+              <Subtitle>
+                Alphabet{' '}
+              </Subtitle>
+              <Text lineheight="3rem">
+                Hangul consists of 14 consonants and 10 vowels.
+              </Text>
+            </Box>
+            <Box color="black" overflowx="auto">
+              <Table verticalalign="middle">
+                <Thead>
+                  <Th padding="0" width="18%">
+                    Consonants{' '}
+                  </Th>
+                  <Th width="28%">
+                    Name{' '}
+                  </Th>
+                  <Th width="28%">
+                    Translation
+                  </Th>
+                  <Th width="10%">
+                    Play
+                  </Th>
+                </Thead>
+                <tbody>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄱ{' '}
+                    </Td>
+                    <Td>
+                      기역 (gi-yeog)
+                    </Td>
+                    <Td>
+                      'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄴ{' '}
+                    </Td>
+                    <Td>
+                      니은(niEun)
+                    </Td>
+                    <Td>
+                      'n' sound as in <span style={{color: 'red'}}>n</span>ame{' '}
+                    </Td>
+                    <Td>
+                      <audio id="niEun" src={`${niEun}`} />
+                      <PlayButton
+                        margin="0"
+                        name="niEun"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄷ
+                    </Td>
+                    <Td>
+                      디귿(diGeud)
+                    </Td>
+                    <Td>
+                      'd' sound as in <span style={{color: 'red'}}>d</span>og{' '}
+                    </Td>
+                    <Td>
+                      <audio id="diGeud" src={`${diGeud}`} />
+                      <PlayButton
+                        margin="0"
+                        name="diGeud"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      ㄲ{' '}
+                    </Td>
+                    <Td>
+                      기역(gi-yeog)
+                    </Td>
+                    <Td>
+                      ㄱ = 'g' or 'k' sound{' '}
+                    </Td>
+                    <Td>
+                      <audio id="giYeog" src={`${giYeog}`} />
+                      <PlayButton
+                        margin="0"
+                        name="giYeog"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                </tbody>
+              </Table>
+            </Box>
+          </Column>
+        </Section>
         <Section
           alignitems="flex-start"
           flexdirection960="row"

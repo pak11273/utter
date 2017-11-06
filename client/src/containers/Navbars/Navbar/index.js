@@ -1,11 +1,14 @@
 import React, {Component} from 'react'
 import {NavLink, Link} from 'react-router-dom'
-import styled from 'styled-components'
-import Login from '../../Logins/Login.js'
-import Logo from '../../../components/Logos/Logo.js'
-import Hamburger from '../../../components/Buttons/Hamburger'
-import Graphic from '../../../assets/images/logo.svg'
 import {connect} from 'react-redux'
+import styled from 'styled-components'
+import {Login} from '../../../containers'
+import {Hamburger, Logo} from '../../../components'
+
+// images
+import Graphic from '../../../assets/images/logo.svg'
+
+// actions
 import {logout} from '../../../actions/authActions.js'
 
 const Section = styled.section`
@@ -16,6 +19,7 @@ const Section = styled.section`
   height: ${props => props.height}; 
   justify-content: flex-end;
   position: ${props => props.position};
+  top: ${props => props.top};
   z-index: ${props => props.zindex};
   width: ${props => props.width};
 
@@ -29,6 +33,7 @@ Section.defaultProps = {
   background: 'black',
   position: 'fixed',
   height: '90px',
+  top: '0',
   width: '100%',
   zindex: '99'
 }

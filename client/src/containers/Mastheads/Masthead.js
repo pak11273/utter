@@ -21,7 +21,6 @@ Masthead.defaultProps = {
   alignitems: 'center',
   backgroundsize: 'cover',
   background: 'white',
-  height: '500px',
   flexdirection: 'column',
   justifycontent: 'center',
   textalign: 'center',

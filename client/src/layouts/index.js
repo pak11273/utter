@@ -4,9 +4,9 @@ import Contact from './Contact.js'
 import GettingStarted from './GettingStarted.js'
 import Connections from '../layouts/Connections/index.js'
 import Login from './Login.js'
-import NewEvent from './NewEvent.js'
 import Settings from './Settings.js'
 import Signup from './Signup.js'
+import Sponsorship from './Sponsorship.js'
 import Languages from './Languages.js'
 import LanguageDetails from './LanguageDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
@@ -20,6 +20,8 @@ import Korean5 from './Korean/Level5.js'
 import Korean6 from './Korean/Level6.js'
 import Korean7 from './Korean/Level7.js'
 import Korean8 from './Korean/Level8.js'
+import Spanish1 from './Spanish/Level1.js'
+import Spanish2 from './Spanish/Level2.js'
 import Redux from './Redux.js'
 
 export {
@@ -29,9 +31,7 @@ export {
   GettingStarted,
   Connections,
   Login,
-  NewEvent,
   Settings,
-  Signup,
   Languages,
   LanguageDetails,
   NotFound,
@@ -45,5 +45,9 @@ export {
   Korean6,
   Korean7,
   Korean8,
-  Redux
+  Spanish1,
+  Spanish2,
+  Redux,
+  Signup,
+  Sponsorship
 }

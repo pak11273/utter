@@ -1,96 +1,91 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 import {
+  Audio,
+  Box,
   Column,
-  Masthead,
-  Section,
+  Img,
+  MastheadTitle,
+  MastheadSubtitle,
+  PlayButton,
+  Spacer,
   Subtitle,
+  Table,
+  Td,
   Text,
+  Thead,
+  Th,
+  Tr,
   Title,
+  Section,
   Wrapper
 } from '../../components'
 
+import {Masthead} from '../../containers'
 import Navbar from '../../containers/Navbars/Navbar'
+import PlayImg from '../../assets/images/play.svg'
+
+// audio
+import cdnUrl from '../../../src/config/secrets.js'
+const cdn = cdnUrl.cdn
+
+import vocab from '../../../src/data/korean/level2/vocab.js'
 
 class KoreanLevel2 extends Component {
+  onClick(e) {
+    e.preventDefault()
+    document.getElementById(e.target.name).play()
+  }
   render() {
     return (
       <Wrapper>
-        <Masthead
-          background="#666"
-          height="450px"
-          height768="300px"
-          padding="30px"
-          textalign="left">
-          <Title color="white" fontsize="2rem">
-            Level Two - Double Consonants & Dipthongs{' '}
-          </Title>
-          <Subtitle color="#bbb" fontsize="1.5rem">
-            Constructing Dipthongs{' '}
-          </Subtitle>
-          <Subtitle color="#bbb" fontsize="1.5rem">
-            Constructing Syllabes
-          </Subtitle>
-        </Masthead>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="200px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Masthead background="gray">
           <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle color="#333" padding="15px">Rules</Subtitle>
-              <Text>Constructing syllables</Text>
-              <Text>Syllables are constructed of either 2, 3 or 4 letters</Text>
-              <Text>Must always start with a consonant</Text>
-              <Text>
+            <Box>
+              <MastheadTitle>
+                Level Two - Double Consonants & Dipthongs{' '}
+              </MastheadTitle>
+              <MastheadSubtitle>
+                Constructing Dipthongs{' '}
+                and Syllables
+              </MastheadSubtitle>
+            </Box>
+          </Column>
+        </Masthead>
+        <Section maxwidth="960px">
+          <Column>
+            <Box padding="40px">
+              <Subtitle>
+                Rules for constructing syllables
+              </Subtitle>
+              <Text lineheight="3rem">
+                Syllables are constructed of either 2, 3 or 4 letters
+              </Text>
+              <Text lineheight="3rem">
+                Must always start with a consonant
+              </Text>
+              <Text lineheight="3rem">
+                Must always start with a consonant
                 Vowels always go in the middle of three letter syllable
               </Text>
-              <Text>
+              <Text lineheight="3rem">
                 Vowels always go in the second position of four letter syllable
               </Text>
-            </Column>
+            </Box>
           </Column>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="200px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Section maxwidth="960px">
           <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle color="#333" padding="15px">Construction</Subtitle>
-              <Text>Either triangle formation or vertical formation</Text>
-              <Text>Which formation depends on the vowel</Text>
-              <Text>
-                a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation
-              </Text>
-              <Text>eu, u, o, yo, and yu use vertical formation</Text>
-            </Column>
+            <Subtitle>Construction</Subtitle>
+            <Text>Either triangle formation or vertical formation</Text>
+            <Text>Which formation depends on the vowel</Text>
+            <Text>
+              a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation
+            </Text>
+            <Text>eu, u, o, yo, and yu use vertical formation</Text>
           </Column>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="100px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Section>
           <Column>
             <Column
               justifycontent="flex-start"

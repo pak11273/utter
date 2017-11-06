@@ -6,7 +6,10 @@ import {
   Box,
   Column,
   Img,
-  Masthead,
+  MastheadTitle,
+  MastheadSubtitle,
+  PlayButton,
+  Spacer,
   Subtitle,
   Table,
   Td,
@@ -18,7 +21,7 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import Navbar from '../../containers/Navbars/Navbar'
+import {Masthead, Navbar} from '../../containers'
 
 import PlayImg from '../../assets/images/play.svg'
 
@@ -27,33 +30,55 @@ import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
 import source from '../../../src/data/level7/vocab.js'
+const anYeong = cdn + source.category.nouns.misc.hello.해체.audioUrl
+const anYeongHaSeYo = cdn + source.category.nouns.misc.hello.해요체.audioUrl
+const anYeongHiGyeSeYo = cdn + source.category.nouns.misc.bye1.해요체.audioUrl
+const anYeongHiGaSeYo = cdn + source.category.nouns.misc.bye2.해요체.audioUrl
+
+// body parts
+const par = cdn + source.category.nouns.bodyParts.arm.korean.audioUrl
+const deung = cdn + source.category.nouns.bodyParts.back.korean.audioUrl
+const sinChe = cdn + source.category.nouns.bodyParts.body.korean.audioUrl
+const nun = cdn + source.category.nouns.bodyParts.eye.korean.audioUrl
+const bae = cdn + source.category.nouns.bodyParts.belly.korean.audioUrl
+const bar = cdn + source.category.nouns.bodyParts.foot.korean.audioUrl
+const gaSeum = cdn + source.category.nouns.bodyParts.chest.korean.audioUrl
+const gui = cdn + source.category.nouns.bodyParts.ear.korean.audioUrl
+const parGgumChi = cdn + source.category.nouns.bodyParts.elbow.korean.audioUrl
+const eorGur = cdn + source.category.nouns.bodyParts.face.korean.audioUrl
+const sonGaRag = cdn + source.category.nouns.bodyParts.finger.korean.audioUrl
+const meoRiKaRag = cdn + source.category.nouns.bodyParts.hair.korean.audioUrl
+const son = cdn + source.category.nouns.bodyParts.hand.korean.audioUrl
+const meoRi = cdn + source.category.nouns.bodyParts.head.korean.audioUrl
+const muReup = cdn + source.category.nouns.bodyParts.knee.korean.audioUrl
+const daRi = cdn + source.category.nouns.bodyParts.leg.korean.audioUrl
+const ib = cdn + source.category.nouns.bodyParts.mouth.korean.audioUrl
+const mog = cdn + source.category.nouns.bodyParts.neck.korean.audioUrl
+const ko = cdn + source.category.nouns.bodyParts.nose.korean.audioUrl
+const balGaRag = cdn + source.category.nouns.bodyParts.toe.korean.audioUrl
+
 const anI = cdn + source.category.nouns.misc.no.해체.audioUrl
 const anIYo = cdn + source.category.nouns.misc.no.korean.audioUrl
 const ye = cdn + source.category.nouns.misc.yes.korean.audioUrl
 const ne = cdn + source.category.nouns.misc.yes.해체.audioUrl
 const je = cdn + source.category.nouns.speech.pronouns.my.korean.audioUrl
-const neORnaE = cdn + source.category.nouns.speech.pronouns.my.해체.audioUrl
-
 const eun = cdn + source.category.nouns.speech.participles.은.korean.audioUrl
 const neun = cdn + source.category.nouns.speech.participles.는.korean.audioUrl
 const i = cdn + source.category.nouns.speech.participles.이.korean.audioUrl
 const ga = cdn + source.category.nouns.speech.participles.가.korean.audioUrl
 const jeo = cdn + source.category.nouns.speech.pronouns.I.korean.audioUrl
 const na = cdn + source.category.nouns.speech.pronouns.I.해체.audioUrl
-const eunHaeng = cdn + source.category.nouns.buildings.bank.korean.audioUrl
-const beoSeu = cdn + source.category.nouns.vehicles.bus.korean.audioUrl
-const sangJa = cdn + source.category.nouns.misc.box.korean.audioUrl
-const kub = cdn + source.category.nouns.kitchen.cup.korean.audioUrl
-const siGye = cdn + source.category.nouns.bedroom.clock.korean.audioUrl
-const jeonHoa = cdn + source.category.nouns.bedroom.telephone.korean.audioUrl
-const tiBi = cdn + source.category.nouns.bedroom.television.korean.audioUrl
-const deuReSeu = cdn + source.category.nouns.clothes.dress.korean.audioUrl
+const haeYoChe =
+  cdn + source.category.cultureSpecific.category.nouns.misc.해요체.korean.audioUrl
 const iReum = cdn + source.category.nouns.misc.name.korean.audioUrl
-const meogDa = cdn + source.category.verbs.eat.korean.audioUrl
-const gaDa = cdn + source.category.verbs.go.korean.audioUrl
-const ddaeRiDa = cdn + source.category.verbs.hit.korean.audioUrl
-const usDa = cdn + source.category.verbs.laugh.korean.audioUrl
-const jaDa = cdn + source.category.verbs.sleep.korean.audioUrl
+
+// phrases
+const level7_1 = cdn + source.category.examples.level7_1.korean.audioUrl
+const level7_2 = cdn + source.category.examples.level7_2.korean.audioUrl
+const level7_3 = cdn + source.category.examples.level7_3.korean.audioUrl
+const level7_4 = cdn + source.category.examples.level7_4.korean.audioUrl
+const level7_5 = cdn + source.category.examples.level7_5.korean.audioUrl
+const level7_6 = cdn + source.category.examples.level7_6.korean.audioUrl
 
 class KoreanLevel7 extends Component {
   onClick(e) {
@@ -63,316 +88,231 @@ class KoreanLevel7 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead
-          background="#666"
-          height="450px"
-          height768="300px"
-          padding="30px"
-          textalign="left">
-          <Box justifycontent="center" width960="1024px">
-            <Title color="white" fontsize="3rem" padding="20px">
-              Level Eight - Basic Grammar
-            </Title>
-            <Subtitle color="#bbb" fontsize="2rem" textalign="left">
-              In this lesson you will learn simple grammar to form simple
-              sentences.
-            </Subtitle>
-          </Box>
-        </Masthead>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="160px"
-          height960="160px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Masthead background="gray">
           <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle
-                color="#333"
-                margin="70px 0 0 0"
-                padding="1rem"
-                fontsize="2rem"
-                fontweight="600">
-                Yes or No{' '}
+            <Box>
+              <MastheadTitle>
+                Level Seven - Basic Grammar
+              </MastheadTitle>
+              <MastheadSubtitle>
+                Greeting other people and simple expressions
+              </MastheadSubtitle>
+            </Box>
+          </Column>
+        </Masthead>
+        <Section maxwidth="960px">
+          <Column>
+            <Box padding="40px">
+              <Subtitle>
+                Greetings{' '}
               </Subtitle>
-              <Text>
-                Play each word and try to mimic the pronunciation out loud.
+              <Text lineheight="3rem">
+                Let's learn how to say "Hello" and "GoodBye".
               </Text>
+            </Box>
+            <Box color="black" overflowx="auto">
+              <Table verticalalign="middle">
+                <Thead>
+                  <Th width="18%">
+                    Greeting{' '}
+                  </Th>
+                  <Th width="28%">
+                    Translation
+                  </Th>
+                  <Th width="10%">
+                    Play
+                  </Th>
+                </Thead>
+                <tbody>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      안영 <span style={{fontSize: '1rem'}}>(informal)</span>
+                    </Td>
+                    <Td>
+                      Hello, Good Morning, Good Evening, Bye{' '}
+                      <span style={{fontSize: '1rem'}}>
+                        (when speaking to friends, relatives, or children)
+                      </span>
+                    </Td>
+                    <Td>
+                      <audio id="anYeong" src={`${anYeong}`} />
+                      <PlayButton
+                        margin="0"
+                        name="anYeong"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      안영하세요 <span style={{fontSize: '1rem'}}>(formal)</span>
+                    </Td>
+                    <Td>
+                      Hello, Good Morning, Good Evening, Bye{' '}
+                      <span style={{fontSize: '1rem'}}>
+                        (when speaking to elders, superiors, or strangers)
+                      </span>
+                    </Td>
+                    <Td>
+                      <audio id="anYeongHaSeYo" src={`${anYeongHaSeYo}`} />
+                      <PlayButton
+                        margin="0"
+                        name="anYeongHaSeYo"
+                        onClick={this.onClick}
+                        padding="0"
+                        src={`${PlayImg}`}
+                      />
+                    </Td>
+                  </Tr>
+                </tbody>
+              </Table>
+            </Box>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Subtitle>
+              안영
+            </Subtitle>
+            <Text lineheight="3rem">
+              This word has lots of utility. The word literally means 'peace'.
+              You can use it to say hello,
+              good-morning, good-evening, or good-bye. By attaching the verb
+              하(do) and the polite ending 세요 to the end of the word you have
+              the polite form of saying hello, 안영하세요, which literally means 'Are
+              you at peace?'
+            </Text>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Column>
+              <Box color="black" overflowx="auto">
+                <Table verticalalign="middle">
+                  <Thead>
+                    <Th width="40%">
+                      Farewells{' '}
+                    </Th>
+                    <Th width="50%">
+                      Translation
+                    </Th>
+                    <Th width="20%">
+                      Play
+                    </Th>
+                  </Thead>
+                  <tbody>
+                    <Tr borderbottom="1px solid #333" height="80px">
+                      <Td>
+                        안녕히 계세요 <span style={{fontSize: '1rem'}}>(formal)</span>
+                      </Td>
+                      <Td>
+                        You are leaving and the other person is staying
+                      </Td>
+                      <Td>
+                        <audio
+                          id="anYeongHiGyeSeYo"
+                          src={`${anYeongHiGyeSeYo}`}
+                        />
+                        <PlayButton
+                          name="anYeongHiGyeSeYo"
+                          onClick={this.onClick}
+                          src={`${PlayImg}`}
+                        />
+                      </Td>
+                    </Tr>
+                    <Tr
+                      borderbottom="1px solid #333"
+                      fontsize="1rem"
+                      height="80px">
+                      <Td>
+                        안녕히 가세요 <span style={{fontSize: '1rem'}}>(formal)</span>
+                      </Td>
+                      <Td>
+                        You are staying and the other person is leaving{' '}
+                      </Td>
+                      <Td>
+                        <audio
+                          id="anYeongHiGaSeYo"
+                          src={`${anYeongHiGaSeYo}`}
+                        />
+                        <PlayButton
+                          name="anYeongHiGaSeYo"
+                          onClick={this.onClick}
+                          src={`${PlayImg}`}
+                        />
+                      </Td>
+                    </Tr>
+                  </tbody>
+                </Table>
+              </Box>
             </Column>
           </Column>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="400px"
-          height960="400px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
-              <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="180px">
-                  Nouns{' '}
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="400px">
-                  Translation
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="80px">
-                  Pronunciation
-                </Th>
-              </Thead>
-              <tbody>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    네 <span style={{fontSize: '1rem'}}>(informal)</span>
-                  </Td>
-                  <Td>
-                    yes{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      (when speaking to friends, relatives, or chidlren)
-                    </span>
-                  </Td>
-                  <Td>
-                    <audio id="ne" src={`${ne}`} />
-                    <Img
-                      display="inline"
-                      name="ne"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    에 <span style={{fontSize: '1rem'}}>(formal)</span>
-                  </Td>
-                  <Td>
-                    yes{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      (when speaking to elders, superiors, or strangers)
-                    </span>
-                  </Td>
-                  <Td>
-                    <audio id="ye" src={`${ye}`} />
-                    <Img
-                      display="inline"
-                      name="ye"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    아니 <span style={{fontSize: '1rem'}}>(informal)</span>
-                  </Td>
-                  <Td>
-                    no{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      (when speaking to friends, relatives, or chidlren)
-                    </span>
-                  </Td>
-                  <Td>
-                    <audio id="anI" src={`${anI}`} />
-                    <Img
-                      display="inline"
-                      name="anI"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    아니요 <span style={{fontSize: '1rem'}}>(formal)</span>
-                  </Td>
-                  <Td>
-                    no{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      (when speaking to elders, superiors, or strangers)
-                    </span>
-                  </Td>
-                  <Td>
-                    <audio id="anIYo" src={`${anIYo}`} />
-                    <Img
-                      display="inline"
-                      name="anIYo"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-              </tbody>
-            </Table>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="530px"
-          height960="530px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Section maxwidth="960px">
           <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle
-                color="#333"
-                margin="70px 0 0 0"
-                padding="1rem"
-                fontsize="2rem"
-                fontweight="600">
-                Building Simple Sentences
+            <Box>
+              <Subtitle>
+                Introductions
               </Subtitle>
-              <Subtitle
-                color="#ff0000"
-                margin="70px 0 0 0"
-                padding="1rem"
-                fontsize="1.5rem"
-                fontweight="600">
-                Rule: All sentences end in either a verb or adjective.
-              </Subtitle>
-              <Text>
+              <Text lineheight="3rem">
                 We are going to deconstruct the following sentences:
               </Text>
-              <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  제 이름은 Mary예요.
-                </Text>
-                <audio id="neORnaE" src={`${neORnaE}`} />
-                <Img
-                  display="inline"
-                  name="neORnaE"
-                  onClick={this.onClick}
-                  padding="0 0 0 20px"
-                  cursor="pointer"
-                  src={`${PlayImg}`}
-                  verticalalign="middle"
-                  width="30px"
-                  height="40px"
-                />
-              </Box>
-              <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  내 이름은 John이에요.
-                </Text>
-                <audio id="neORnaE" src={`${neORnaE}`} />
-                <Img
-                  display="inline"
-                  name="neORnaE"
-                  onClick={this.onClick}
-                  padding="0 0 0 20px"
-                  cursor="pointer"
-                  src={`${PlayImg}`}
-                  verticalalign="middle"
-                  width="30px"
-                  height="40px"
-                />
-              </Box>
-              <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  나의 이름은 Anna예요.
-                </Text>
-                <audio id="neORnaE" src={`${neORnaE}`} />
-                <Img
-                  display="inline"
-                  name="neORnaE"
-                  onClick={this.onClick}
-                  padding="0 0 0 20px"
-                  cursor="pointer"
-                  src={`${PlayImg}`}
-                  verticalalign="middle"
-                  width="30px"
-                  height="40px"
-                />
-              </Box>
+            </Box>
+            <Box color="black" flexdirection="row" justifycontent="center">
               <Text padding="20px">
-                All 3 sentences translate to:
+                제 이름은 Mary예요.
               </Text>
-              <Text>
-                My name is ______.
+              <audio id="level7_1" src={`${level7_1}`} />
+              <PlayButton
+                name="level7_1"
+                onClick={this.onClick}
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box color="black" flexdirection="row" justifycontent="center">
+              <Text padding="20px">
+                내 이름은 John이에요.
               </Text>
-            </Column>
+              <audio id="level7_2" src={`${level7_2}`} />
+              <PlayButton
+                name="level7_2"
+                onClick={this.onClick}
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box color="black" flexdirection="row" justifycontent="center">
+              <Text padding="20px">
+                나의 이름은 Anna예요.
+              </Text>
+              <audio id="level7_3" src={`${level7_3}`} />
+              <PlayButton
+                name="level7_3"
+                onClick={this.onClick}
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Text padding="20px">
+              All 3 sentences translate to:
+            </Text>
+            <Text>
+              My name is ______.
+            </Text>
           </Column>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="230px"
-          height960="230px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
+        <Section maxwidth="960px">
+          <Box color="black" overflowx="auto" margin="30px">
+            <Table verticalalign="middle">
               <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="180px">
+                <Th width="30%">
                   Pronouns{' '}
                 </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="400px">
+                <Th width="50%">
                   Translation
                 </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="80px">
-                  Pronunciation
+                <Th width="20%">
+                  Play
                 </Th>
               </Thead>
               <tbody>
@@ -383,27 +323,21 @@ class KoreanLevel7 extends Component {
                   <Td>
                     my{' '}
                     <span style={{fontSize: '1rem'}}>
-                      (when speaking to friends, relatives, or chidlren)
+                      (when speaking to friends, relatives, or children)
                     </span>
                   </Td>
                   <Td>
-                    <audio id="neORnaE" src={`${neORnaE}`} />
-                    <Img
-                      display="inline"
-                      name="neORnaE"
+                    <audio id="level7_6" src={`${level7_6}`} />
+                    <PlayButton
+                      name="level7_6"
                       onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
                       src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
                     />
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
-                    체 <span style={{fontSize: '1rem'}}>(formal)</span>
+                    제 <span style={{fontSize: '1rem'}}>(formal)</span>
                   </Td>
                   <Td>
                     my{' '}
@@ -413,16 +347,10 @@ class KoreanLevel7 extends Component {
                   </Td>
                   <Td>
                     <audio id="je" src={`${je}`} />
-                    <Img
-                      display="inline"
+                    <PlayButton
                       name="je"
                       onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
                       src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
                     />
                   </Td>
                 </Tr>
@@ -430,39 +358,18 @@ class KoreanLevel7 extends Component {
             </Table>
           </Box>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="160px"
-          height960="160px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
+        <Section maxwidth="960px">
+          <Box color="black" overflowx="auto" margin="30px">
+            <Table verticalalign="middle">
               <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="180px">
+                <Th width="30%">
                   Nouns{' '}
                 </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="400px">
+                <Th width="50%">
                   Translation
                 </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="80px">
-                  Pronunciation
+                <Th width="20%">
+                  Play
                 </Th>
               </Thead>
               <tbody>
@@ -474,343 +381,12 @@ class KoreanLevel7 extends Component {
                     name{' '}
                   </Td>
                   <Td>
-                    <audio id="jeo" src={`${jeo}`} />
-                    <Img
-                      display="inline"
-                      name="jeo"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-              </tbody>
-            </Table>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="300px"
-          height960="300px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
-              <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Participle{' '}
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Translation
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="100px">
-                  Pronunciation
-                </Th>
-              </Thead>
-              <tbody>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    이/가 or 은/는
-                  </Td>
-                  <Td>
-                    subject marker{' '}
-                  </Td>
-                  <Td>
-                    <audio id="jeo" src={`${jeo}`} />
-                    <Img
-                      display="inline"
-                      name="jeo"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-              </tbody>
-            </Table>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="300px"
-          height960="300px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
-              <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Verbs{' '}
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="100px">
-                  Translation
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="100px">
-                  Pronunciation
-                </Th>
-              </Thead>
-              <tbody>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    이에요/예요
-                  </Td>
-                  <Td>
-                    is{' '}
-                  </Td>
-                  <Td>
-                    <audio id="jeo" src={`${jeo}`} />
-                    <Img
-                      display="inline"
-                      name="jeo"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-              </tbody>
-            </Table>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="800px"
-          height960="800px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
-              <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Nouns{' '}
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Translation
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="150px">
-                  Pronunciation
-                </Th>
-              </Thead>
-              <tbody>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>은행</Td>
-                  <Td>bank</Td>
-                  <Td>
-                    <audio id="eunHaeng" src={`${eunHaeng}`} />
-                    <Img
-                      display="inline"
-                      name="eunHaeng"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>버스</Td>
-                  <Td>bus</Td>
-                  <Td>
-                    <audio id="beoSeu" src={`${beoSeu}`} />
-                    <Img
-                      display="inline"
-                      name="beoSeu"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>컵</Td>
-                  <Td>cup</Td>
-                  <Td>
-                    <audio id="kub" src={`${kub}`} />
-                    <Img
-                      display="inline"
-                      name="kub"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>상자</Td>
-                  <Td>box</Td>
-                  <Td>
-                    <audio id="sangJa" src={`${sangJa}`} />
-                    <Img
-                      display="inline"
-                      name="sangJa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>이름</Td>
-                  <Td>name</Td>
-                  <Td>
                     <audio id="iReum" src={`${iReum}`} />
-                    <Img
-                      display="inline"
+                    <PlayButton
                       name="iReum"
                       onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
                       src={`${PlayImg}`}
                       verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>시계</Td>
-                  <Td>clock</Td>
-                  <Td>
-                    <audio id="siGye" src={`${siGye}`} />
-                    <Img
-                      display="inline"
-                      name="siGye"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>드레스</Td>
-                  <Td>dress</Td>
-                  <Td>
-                    <audio id="deuReSeu" src={`${deuReSeu}`} />
-                    <Img
-                      display="inline"
-                      name="deuReSeu"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>전화</Td>
-                  <Td>telephone</Td>
-                  <Td>
-                    <audio id="jeonHoa" src={`${jeonHoa}`} />
-                    <Img
-                      display="inline"
-                      name="jeonHoa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>티비</Td>
-                  <Td>television</Td>
-                  <Td>
-                    <audio id="tiBi" src={`${tiBi}`} />
-                    <Img
-                      display="inline"
-                      name="tiBi"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
                     />
                   </Td>
                 </Tr>
@@ -818,326 +394,482 @@ class KoreanLevel7 extends Component {
             </Table>
           </Box>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="560px"
-          height960="560px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
-              <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Verbs{' '}
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Translation
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="150px">
-                  Pronunciation
-                </Th>
-              </Thead>
-              <tbody>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>가다</Td>
-                  <Td>to go</Td>
-                  <Td>
-                    <audio id="gaDa" src={`${gaDa}`} />
-                    <Img
-                      display="inline"
-                      name="gaDa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>먹다</Td>
-                  <Td>to eat</Td>
-                  <Td>
-                    <audio id="meogDa" src={`${meogDa}`} />
-                    <Img
-                      display="inline"
-                      name="meogDa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>웃다</Td>
-                  <Td>to laugh</Td>
-                  <Td>
-                    <audio id="usDa" src={`${usDa}`} />
-                    <Img
-                      display="inline"
-                      name="usDa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>자다</Td>
-                  <Td>to sleep</Td>
-                  <Td>
-                    <audio id="jaDa" src={`${jaDa}`} />
-                    <Img
-                      display="inline"
-                      name="jaDa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>때리다</Td>
-                  <Td>to hit</Td>
-                  <Td>
-                    <audio id="ddaeRiDa" src={`${ddaeRiDa}`} />
-                    <Img
-                      display="inline"
-                      name="ddaeRiDa"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-              </tbody>
-            </Table>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="400px"
-          height960="400px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
-              <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="180px">
-                  Participles{' '}
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="400px">
-                  Translation
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="80px">
-                  Pronunciation
-                </Th>
-              </Thead>
-              <tbody>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    가{' '}
-                  </Td>
-                  <Td>
-                    <span style={{fontSize: '1rem'}}>
-                      After a subject has been introduced use this particple to
-                      make the subject of your sentence distinct.
-                    </span>
-                  </Td>
-                  <Td>
-                    <audio id="ga" src={`${ga}`} />
-                    <Img
-                      display="inline"
-                      name="ga"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-                <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    은
-                  </Td>
-                  <Td>
-                    <span style={{fontSize: '1rem'}}>
-                      Use this particlple to mark a subject when introducing a
-                      subject. Only for subjects ending with a consonant.
-                    </span>
-                  </Td>
-                  <Td>
-                    <audio id="eun" src={`${eun}`} />
-                    <Img
-                      display="inline"
-                      name="eun"
-                      onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
-                      src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
-                    />
-                  </Td>
-                </Tr>
-              </tbody>
-            </Table>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="350px"
-          height960="350px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Section maxwidth="960px">
           <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle
-                color="#333"
-                margin="70px 0 0 0"
-                padding="1rem"
-                fontsize="2rem"
-                fontweight="600">
-                Basic sentence structure
+            <Box color="black" overflowx="auto" margin="30px">
+              <Table verticalalign="middle">
+                <Thead>
+                  <Th width="30%">
+                    Participle{' '}
+                  </Th>
+                  <Th width="50%">
+                    Translation
+                  </Th>
+                  <Th width="20%">
+                    Play
+                  </Th>
+                </Thead>
+                <tbody>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      이/가 or 은/는
+                    </Td>
+                    <Td>
+                      subject marker{' '}
+                    </Td>
+                    <Td>
+                      <audio id="level7_4" src={`${level7_4}`} />
+                      <PlayButton
+                        name="level7_4"
+                        onClick={this.onClick}
+                        src={`${PlayImg}`}
+                        verticalalign="middle"
+                      />
+                    </Td>
+                  </Tr>
+                </tbody>
+              </Table>
+            </Box>
+            <Box>
+              <Text lineheight="3rem">
+                Generally speaking, you will be using 내 instead of 제 and 나의 is
+                not often used.
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Column>
+              <Subtitle>
+                Subject Markers
               </Subtitle>
-              <Text lineheight="2.5rem">
-                Let's examine this basic sentence example:
-              </Text>
-              <Text lineheight="2.5rem">
-                going.
-              </Text>
-              <Text lineheight="2.5rem">
-                남차가 달리다요.
+              <Text lineheight="3rem">
+                Generally when you introduce a new subject in a conversation you
+                will attach an 이/가 subject marker to the end of the word. After
+                you start talking about the subject you attach the 은/는 subject
+                markers instead. However, normally when you are
+                introducing yourself and stating your name, you will want to use
+                the 은/는 markers. Choosing between which marker depends on the
+                last letter of the subject. If it ends on a vowel you use 가 or
+                는. If it ends on a consonant you use 이 or 은.{' '}
               </Text>
             </Column>
           </Column>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="560px"
-          height960="560px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
+        <Section maxwidth="960px">
+          <Column>
+            <Box color="black" overflowx="auto">
+              <Table verticalalign="middle">
+                <Thead>
+                  <Th width="50%">
+                    Verb + Politeness{' '}
+                  </Th>
+                  <Th width="30%">
+                    Translation
+                  </Th>
+                  <Th width="20%">
+                    Play
+                  </Th>
+                </Thead>
+                <tbody>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      이에요/예요
+                    </Td>
+                    <Td>
+                      is{' '}
+                    </Td>
+                    <Td>
+                      <audio id="level7_5" src={`${level7_5}`} />
+                      <PlayButton
+                        name="level7_5"
+                        onClick={this.onClick}
+                        src={`${PlayImg}`}
+                        verticalalign="middle"
+                      />
+                    </Td>
+                  </Tr>
+                  <Tr borderbottom="1px solid #333" height="80px">
+                    <Td>
+                      입니다{' '}
+                      <span style={{fontSize: '1rem'}}>(higher respect)</span>
+
+                    </Td>
+                    <Td>
+                      is{' '}
+                    </Td>
+                    <Td>
+                      <audio id="level7_6" src={`${level7_6}`} />
+                      <PlayButton
+                        name="level7_6"
+                        onClick={this.onClick}
+                        src={`${PlayImg}`}
+                        verticalalign="middle"
+                      />
+                    </Td>
+                  </Tr>
+                </tbody>
+              </Table>
+            </Box>
+            <Box margin="50px 0 0 0">
+              <Text lineheight="3rem">
+                Which form of respect do I use? There are many different types
+                of
+                respect forms in Korean. But the more common way to introduce
+                yourself to the general public is to use the 입니다 form.{' '}
+              </Text>
+              <Text margin="60px 0 0 0">
+                내 이름은 _____입니다.
+              </Text>
+            </Box>
+            <Subtitle color="#c1c1c1">
+              Try and introduce yourself now outloud.
+            </Subtitle>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Subtitle color="#ff0000">
+              Rule: All sentences end in either a verb or adjective.
+            </Subtitle>
+            <Subtitle>
+              있다{' '}
+            </Subtitle>
+            <Text lineheight="3rem">
+              The verb 있다 conjugates differently depending on the tense and
+              formality. In this lesson we will be using the present verb
+              tense and the most common politeness level of speech, 해요체{' '}
+              <audio id="haeYoChe" src={`${haeYoChe}`} />
+              <PlayButton
+                name="haeYoChe"
+                onClick={this.onClick}
+                padding="2px 0 0 0"
+                position="absolute"
+                src={`${PlayImg}`}
+              />
+              <Spacer display="inline-block" margin="0 40px 0 0" /> You use
+              this type of politeness towards strangers, elders, and people of
+              authority. Generally you just attach 요 to the end of a verb.
+              When
+              subjects
+              end with a consonant like the name John, you will change 있 to 이에
+              then drop the 다 and
+              replace it with 요, then attach it to the end of the subject to
+              make one word, John이에요. When the subject ends in a vowel like
+              the name Anna, you change 있 to 예 then drop the 다 and replace it
+              with 요, then attach it to the end of the subject to make one
+              word, Anna예요.
+            </Text>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Subtitle>
+              Learning how to describe something with 있.
+            </Subtitle>
+            <Text lineheight="3rem">
+              Now that you've learned how to say my(네/나의 or 제) let's learn
+              a few words besides name(이름) to combine them with. We'll start by
+              learning the the names of basic body parts. Be sure to repeat the
+              words slowly after playing the recording. Say it over and over
+              again until you can say it at a faster speed.
+            </Text>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Box color="black" overflowx="auto" margin="30px">
+            <Table verticalalign="middle">
               <Thead>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Subject{' '}
+                <Th width="30%">
+                  Nouns{' '}
                 </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  padding="20px"
-                  width="200px">
-                  Subject Participle
+                <Th width="50%">
+                  Translation
                 </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="150px">
-                  Verb/Adjective
-                </Th>
-                <Th
-                  borderbottom="1px solid black"
-                  fontsize="1rem"
-                  fontweight="bold"
-                  width="150px">
-                  Form{' '}
+                <Th width="20%">
+                  Play
                 </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
-                    남차<span style={{fontSize: '1rem'}}>(the boy)</span>
+                    신체
                   </Td>
                   <Td>
-                    가
+                    body{' '}
                   </Td>
                   <Td>
-                    달리다<span style={{fontSize: '1rem'}}>(soft)</span>
-                  </Td>
-                  <Td>요</Td>
-                  {/* <audio id="test" src={`${test}`} />*/}
-                  <Td>
-                    <Img
-                      display="inline"
-                      name="test"
+                    <audio id="sinChe" src={`${sinChe}`} />
+                    <PlayButton
+                      name="sinChe"
                       onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
                       src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    발
+                  </Td>
+                  <Td>
+                    arm{' '}
+                  </Td>
+                  <Td>
+                    <audio id="par" src={`${par}`} />
+                    <PlayButton
+                      name="par"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    등
+                  </Td>
+                  <Td>
+                    back{' '}
+                  </Td>
+                  <Td>
+                    <audio id="deung" src={`${deung}`} />
+                    <PlayButton
+                      name="deung"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    눈
+                  </Td>
+                  <Td>
+                    eye{' '}
+                  </Td>
+                  <Td>
+                    <audio id="nun" src={`${nun}`} />
+                    <PlayButton
+                      name="nun"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    가슴
+                  </Td>
+                  <Td>
+                    chest{' '}
+                  </Td>
+                  <Td>
+                    <audio id="gaSeum" src={`${gaSeum}`} />
+                    <PlayButton
+                      name="gaSeum"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    귀
+                  </Td>
+                  <Td>
+                    ear{' '}
+                  </Td>
+                  <Td>
+                    <audio id="gui" src={`${gui}`} />
+                    <PlayButton
+                      name="gui"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    팔꿈치
+                  </Td>
+                  <Td>
+                    elbow{' '}
+                  </Td>
+                  <Td>
+                    <audio id="parGgumChi" src={`${parGgumChi}`} />
+                    <PlayButton
+                      name="parGgumChi"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    얼굴
+                  </Td>
+                  <Td>
+                    face{' '}
+                  </Td>
+                  <Td>
+                    <audio id="eorGur" src={`${eorGur}`} />
+                    <PlayButton
+                      name="eorGur"
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    머리카락
+                  </Td>
+                  <Td>
+                    hair{' '}
+                  </Td>
+                  <Td>
+                    <audio id="meoRiKaRag" src={`${meoRiKaRag}`} />
+                    <PlayButton
+                      name="meoRiKaRag"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    손
+                  </Td>
+                  <Td>
+                    hand{' '}
+                  </Td>
+                  <Td>
+                    <audio id="son" src={`${son}`} />
+                    <PlayButton
+                      name="son"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    머리
+                  </Td>
+                  <Td>
+                    head{' '}
+                  </Td>
+                  <Td>
+                    <audio id="meoRi" src={`${meoRi}`} />
+                    <PlayButton
+                      name="meoRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    무릎
+                  </Td>
+                  <Td>
+                    knee{' '}
+                  </Td>
+                  <Td>
+                    <audio id="muReup" src={`${muReup}`} />
+                    <PlayButton
+                      name="muReup"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    입
+                  </Td>
+                  <Td>
+                    mouth{' '}
+                  </Td>
+                  <Td>
+                    <audio id="ib" src={`${ib}`} />
+                    <PlayButton
+                      name="ib"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    목
+                  </Td>
+                  <Td>
+                    neck{' '}
+                  </Td>
+                  <Td>
+                    <audio id="mog" src={`${mog}`} />
+                    <PlayButton
+                      name="mog"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    코
+                  </Td>
+                  <Td>
+                    nose{' '}
+                  </Td>
+                  <Td>
+                    <audio id="ko" src={`${ko}`} />
+                    <PlayButton
+                      name="ko"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    발가락
+                  </Td>
+                  <Td>
+                    toe{' '}
+                  </Td>
+                  <Td>
+                    <audio id="balGaRag" src={`${balGaRag}`} />
+                    <PlayButton
+                      name="balGaRag"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    다리
+                  </Td>
+                  <Td>
+                    leg{' '}
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
                     />
                   </Td>
                 </Tr>
@@ -1145,78 +877,227 @@ class KoreanLevel7 extends Component {
             </Table>
           </Box>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="350px"
-          height960="350px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
+        <Section maxwidth="960px">
           <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle
-                color="#333"
-                margin="70px 0 0 0"
-                padding="1rem"
-                fontsize="2rem"
-                fontweight="600">
-                Subject participles
-              </Subtitle>
-              <Text lineheight="2.5rem">
-                Every sentence must always end with a verb or adjective.
-                To clarify a word as the subject of a sentence we use the
-                particple 이/가 and 은/는 participles. You use 이 with words that use
-                a 받침 and 가 with words that don't. When your subject is used as a
-                contrast or counter-point, then you would use 은 with words that
-                have 받침 and 는 that don't. Imagine these sentences as being
-                prefaced with However or But.{' '}
-              </Text>
-            </Column>
+            <Subtitle>
+              Determiners
+            </Subtitle>
+            <Text lineheight="2.5rem">
+              Let's learn some other pronouns to modify the nouns we just
+              learned.{' '}
+            </Text>
+            <Text lineheight="2.5rem">
+              This, That, That thing, This thing, he, his, she, her,{' '}
+              이, 그, 것, 이것, 그것, 저것{' '}
+            </Text>
           </Column>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="560px"
-          height960="560px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Box color="black" overflowx="auto">
-            <Table tablelayout="fixed" vertival-align="middle" width="100%">
+        <Section maxwidth="960px">
+          <Box color="black" overflowx="auto" margin="30px">
+            <Table verticalalign="middle">
               <Thead>
-                <Th borderbottom="1px solid black" padding="20px" width="200px">
-                  Subject{' '}
+                <Th width="30%">
+                  Pronoun/Determiner{' '}
                 </Th>
-                <Th borderbottom="1px solid black" width="150px">
-                  Verb/Adjective
+                <Th width="50%">
+                  Translation
                 </Th>
-                <Th borderbottom="1px solid #333" width="150px">Example</Th>
+                <Th width="20%">
+                  Play
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
-                    The boy
+                    이{' '}
                   </Td>
-                  <Td>b <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
-                    <span>남자가 달리고</span>
-                    {/* <audio id="test" src={`${test}`} />*/}
-                    <Img
-                      display="inline"
-                      name="test"
+                    this{' '}
+                    <span style={{fontSize: '1rem'}}>
+                      (something reachable)
+                    </span>
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
                       onClick={this.onClick}
-                      padding="0 0 0 20px"
-                      cursor="pointer"
                       src={`${PlayImg}`}
-                      verticalalign="middle"
-                      width="30px"
-                      height="40px"
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    저{' '}
+                  </Td>
+                  <Td>
+                    that{' '}
+                    <span style={{fontSize: '1rem'}}>
+                      (far from you and the other person)
+                    </span>
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    그{' '}
+                  </Td>
+                  <Td>
+                    that{' '}
+                    <span style={{fontSize: '1rem'}}>
+                      (far from you, but near the other person)(and if the
+                      object is not seen)
+                    </span>
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Box>
+        </Section>
+        <Section maxwidth="960px">
+          <Box color="black" overflowx="auto" margin="30px">
+            <Table verticalalign="middle">
+              <Thead>
+                <Th width="30%">
+                  Noun{' '}
+                </Th>
+                <Th width="50%">
+                  Translation
+                </Th>
+                <Th width="20%">
+                  Play
+                </Th>
+              </Thead>
+              <tbody>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    것{' '}
+                  </Td>
+                  <Td>
+                    thing{' '}
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    사람{' '}
+                  </Td>
+                  <Td>
+                    person{' '}
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
+                    />
+                  </Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Box>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Text lineheight="3rem">
+              As a determiner you add 이,그,저 to the left of the noun. eg.
+              determiner = (이그 is mine)this thing is an arm. This can be used as
+              a
+              pronoun or as a determiner. pronoun = this is
+              my car. This thing is used when you have something that is within
+              your
+              reach. 저 is used when things are far away from you and the person
+              you are talking to, while 그 is used when it's far away from you
+              but near the person you are speaking to. You might be wondering
+              about using (the or a) in Korean, but in Korean there are no such
+              articles. So "the boy or a boy" is simply "boy"
+              이것 is not pronounced iGeot, but rather iGeo
+
+              Imho, they means basically the same things. 이거 simply means "this"
+              and 이것 means "this one".
+
+              이것이 저것보다 좋아요
+              이거는 저거보다 좋네요
+
+              이게 is short for 이것이
+              이것이 저거보다 좋아요 = 이게 저거보다 좋아요
+
+            </Text>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Column>
+            <Box padding="40px">
+              <Subtitle>
+                What you should know{' '}
+              </Subtitle>
+              <Text lineheight="3rem">
+                Some things you should be able to utter now.
+              </Text>
+            </Box>
+          </Column>
+        </Section>
+        <Section maxwidth="960px">
+          <Box color="black" overflowx="auto" margin="30px">
+            <Table verticalalign="middle">
+              <Thead>
+                <Th width="30%">
+                  Examples{' '}
+                </Th>
+                <Th width="50%">
+                  Translation
+                </Th>
+                <Th width="20%">
+                  Play
+                </Th>
+              </Thead>
+              <tbody>
+                <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>
+                    것{' '}
+                  </Td>
+                  <Td>
+                    thing{' '}
+                    <span style={{fontSize: '1rem'}}>
+                      (something reachable)
+                    </span>
+
+                  </Td>
+                  <Td>
+                    <audio id="daRi" src={`${daRi}`} />
+                    <PlayButton
+                      name="daRi"
+                      sonGaRag
+                      onClick={this.onClick}
+                      src={`${PlayImg}`}
                     />
                   </Td>
                 </Tr>

@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+// import Sockjs from 'sockjs-client'
+import io from 'socket.io-client'
 import superagent from 'superagent'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -33,6 +35,11 @@ class Speaker extends Component {
   }
 
   componentDidMount() {
+    this.socket = io()
+    // this.socket.on('message', message => {
+    //   this.props.messages.setFinalTranscript(final_transcript)
+    // })
+
     superagent
       .get('/api/messages')
       .query(null)
@@ -200,6 +207,8 @@ class Speaker extends Component {
 
     // clear the final_transcript input box
     this.props.messages.setFinalTranscript('')
+
+    this.socket.emit('message', obj)
   }
 
   updateName(e) {
@@ -284,11 +293,6 @@ class Speaker extends Component {
             value={this.props.message.author}
           />
         </Box>
-        <Img
-          height="80px"
-          width="100%"
-          src="http://static2.cdn.ubi.com/gamesites/gro/game/beginers-guide/tn_Advancement-ExperienceBar.jpg"
-        />
       </Box>
     )
   }

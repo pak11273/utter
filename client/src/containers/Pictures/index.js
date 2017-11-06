@@ -72,14 +72,14 @@ class Pictures extends Component {
     super(props)
 
     this.roomLevel = this.props.roomReducer.roomLevel
-
     this.getAPICalls = this.getAPICalls.bind(this)
     this.onPlay = this.onPlay.bind(this)
   }
 
   componentDidMount() {
     const roomLevel = this.props.roomReducer.roomLevel
-    const listObj = require(`../../data/level${roomLevel}/query.js`)
+    const roomLanguage = this.props.roomReducer.language
+    const listObj = require(`../../data/${roomLanguage}/level${roomLevel}/query.js`)
     this.originalWordList = listObj.default
     this.props.actions.loadOriginalWordList(this.originalWordList)
 
@@ -114,13 +114,16 @@ class Pictures extends Component {
     // get key of randoObj
     const firstKey = Object.keys(randObj)[0]
 
-    console.log('firstkey :', firstKey)
-    console.log(randObj[firstKey]['korean']['roman'])
-    let translated = randObj[firstKey]['korean']['spelling']
+    // get room language
+    const language = this.props.roomReducer.language
+    console.log('lang: ', language)
+    console.log('rand: ', randObj)
+    console.log(randObj[firstKey][language]['roman'])
+    let translated = randObj[firstKey][language]['spelling']
     this.props.actions.sendTranslated(translated)
 
     let query = randObj[firstKey]['english']['spelling']
-    let romanizedQuery = randObj[firstKey]['korean']['roman']
+    let romanizedQuery = randObj[firstKey][language]['roman']
     this.props.actions.sendRomanized(romanizedQuery)
 
     this.props.actions.loadQuery(query)
@@ -254,14 +257,14 @@ class Pictures extends Component {
   render() {
     const picture = this.props.roomReducer.roomLevel > 6
       ? <Img src={this.props.pictureSRC} />
-      : <h1>{this.props.translated}</h1>
+      : <Text fontsize="7rem">{this.props.translated}</Text>
 
     const wordSound = this.props.query
-    if (wordSound !== undefined) {
-      console.log('wordSound: ', wordSound)
-      console.log('props: ', this.props.pictureReducer.wordList[wordSound])
-      var wordAudio = this.props.pictureReducer.wordList[wordSound].korean
-        .audioUrl
+    const language = this.props.roomReducer.language
+    if (typeof wordSound !== 'undefined') {
+      var wordAudio = this.props.pictureReducer.originalList[wordSound][
+        language
+      ].audioUrl
     } else {
       var wordAudio = ''
     }

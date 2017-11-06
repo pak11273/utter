@@ -10,14 +10,14 @@ const Th = styled.th`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   padding: ${props => props.padding};
-  align: ${props => props.align} 
+  align: ${props => props.align};
   width: ${props => props.width};
 `
 Th.defaultProps = {
-  fontsize: '2rem',
-  fontweight: '400',
-  padding: props => '.5% 5% 0 5%',
-  width: '100%',
+  borderbottom: '1px solid black',
+  fontsize: '1rem',
+  fontweight: 'bold',
+  padding: '20px',
   textalign: 'left'
 }
 

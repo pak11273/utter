@@ -5,9 +5,9 @@ import {
   Contact,
   GettingStarted,
   Login,
-  NewEvent,
   Settings,
   Signup,
+  Sponsorship,
   Languages,
   LanguageDetails,
   NotFound,
@@ -21,6 +21,8 @@ import {
   Korean6,
   Korean7,
   Korean8,
+  Spanish1,
+  Spanish2,
   Redux
 } from './layouts'
 
@@ -87,11 +89,6 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/new-event',
-    component: requireAuth(NewEvent),
-    loadData: () => getSomeData()
-  },
-  {
     path: '/redux',
     component: Redux,
     loadData: () => getSomeData()
@@ -104,6 +101,11 @@ export const routes = [
   {
     path: '/Signup',
     component: Signup,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/Sponsorship',
+    component: Sponsorship,
     loadData: () => getSomeData()
   },
   {
@@ -149,6 +151,16 @@ export const routes = [
   {
     path: '/korean/8',
     component: Korean8,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/spanish/1',
+    component: Spanish1,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/spanish/2',
+    component: Spanish2,
     loadData: () => getSomeData()
   },
   {

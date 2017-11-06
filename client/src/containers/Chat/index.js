@@ -42,13 +42,11 @@ class Chat extends Component {
 
   render() {
     return (
-      <Box>
-        <Box overflowy="scroll" overflowx="none" height="500px">
-          <MsgList
-            message={this.props.speakerReducer.message}
-            messageList={this.filteredMessages()}
-          />
-        </Box>
+      <Box overflowy="scroll" overflowx="none" height="500px">
+        <MsgList
+          message={this.props.speakerReducer.message}
+          messageList={this.filteredMessages()}
+        />
       </Box>
     )
   }

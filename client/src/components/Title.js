@@ -11,11 +11,9 @@ const Title = styled.div`
   width: ${props => props.width};
 `
 Title.defaultProps = {
-  color: props => props.theme.color,
   fontsize: '4rem',
   fontweight: '600',
-  fontfamily: 'Arial',
-  padding: '0 5% 0 5%',
+  padding: '5% 0 0 0',
   width: '100%',
   textalign: 'center'
 }

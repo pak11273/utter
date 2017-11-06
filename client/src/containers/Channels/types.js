@@ -1,0 +1,19 @@
+const CHANNEL_SELECT = 'utter/channels/CHANNEL_SELECT'
+const CHANNEL_SELECT_FULFILLED = 'utter/channels/CHANNEL_SELECT_FULFILLED'
+const LOAD = 'utter/channels/LOAD'
+const LOAD_FULFILLED = 'utter/channels/LOAD_FULFILLED'
+const LOAD_CHANNEL_ID = 'utter/channels/LOAD_CHANNEL_ID'
+const LOAD_CHANNEL_ID_FULFILLED = 'utter/channels/LOAD_CHANNEL_ID_FULFILLED'
+const SORT = 'utter/channels/SORT'
+const SORT_FULFILLED = 'utter/channels/SORT_FULFILLED'
+
+export {
+  CHANNEL_SELECT,
+  CHANNEL_SELECT_FULFILLED,
+  LOAD,
+  LOAD_FULFILLED,
+  LOAD_CHANNEL_ID,
+  LOAD_CHANNEL_ID_FULFILLED,
+  SORT,
+  SORT_FULFILLED
+}

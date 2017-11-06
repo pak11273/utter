@@ -12,12 +12,10 @@ const Subtitle = styled.div`
   width: ${props => props.width};
 `
 Subtitle.defaultProps = {
-  fontfamily: 'Arial',
   fontsize: '2rem',
-  fontweight: '400',
-  padding: props => '.5% 5% 0 5%',
-  width: '100%',
-  textalign: 'center'
+  fontweight: '600',
+  padding: '2% 0 0 0',
+  width: '100%'
 }
 
 export default Subtitle

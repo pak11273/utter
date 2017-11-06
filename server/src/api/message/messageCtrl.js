@@ -60,6 +60,7 @@ exports.post = (req, res, next) => {
     }
   )
 }
+
 exports.delete = (req, res, next) => {
   req.message.remove((err, removed) => {
     if (err) {

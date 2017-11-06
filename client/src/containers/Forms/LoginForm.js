@@ -4,7 +4,6 @@ import Subtitle from '../../components/Text/Subtitle.js'
 import Label from '../../components/Text/Label.js'
 import Img from '../../components/Medias/Img'
 import Input from '../../components/Inputs/Input.js'
-import Box from '../../components/Boxes/Box.js'
 import Button from '../../components/Buttons/Button.js'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base} from '../../themes/config'
@@ -13,6 +12,9 @@ import Timezones from '../../components/Selects/Timezones/Timezones.js'
 import {validateInput} from '../../utils/validations/login.js'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {Box} from '../../components'
+
+// actions
 import {login} from '../../actions/authActions.js'
 
 const Form = styled.form`

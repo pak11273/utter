@@ -8,7 +8,11 @@ import nodemailer from 'nodemailer'
 import _ from 'lodash'
 import express from 'express'
 import err from './middleware/error.js'
+import http from 'http'
+import socketio from 'socket.io'
 const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 
 // third party middleware
 import middleware from '../dist/middleware/appMiddleware'
@@ -17,6 +21,24 @@ middleware(app)
 // express middleware
 app.use(express.static(path.join(__dirname, 'client/dist'))) //path is relative to this directory
 app.use('/cdn', express.static('cdn'))
+
+// connect socket to server
+io.on('connection', socket => {
+  console.log('a user connected')
+  socket.on('message', msg => {
+    console.log('message: ', msg)
+  })
+  socket.on('disconnect', function() {
+    console.log('user disconnected')
+  })
+  socket.broadcast.emit('hi')
+  // socket.on('message', body => {
+  //   socket.broadcast.emit('message', {
+  //     body,
+  //     from: socket.id.slice(8)
+  //   })
+  // })
+})
 
 // Routers
 import api from '../dist/api'
@@ -66,4 +88,4 @@ app.get('*.css', function(req, res, next) {
 // error handling middleware
 app.use(err)
 
-module.exports = app
+module.exports = server

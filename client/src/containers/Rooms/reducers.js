@@ -1,12 +1,14 @@
 import {
   LOAD_FULFILLED,
   ROOM_SELECT_FULFILLED,
+  UPDATE_ROOM_LANGUAGE_FULFILLED,
   UPDATE_ROOM_LEVEL_FULFILLED
 } from './types.js'
 
 export default (
   state = {
     roomLevel: 1,
+    language: 'spanish',
     lastValues: [],
     list: [],
     selected: ''
@@ -21,6 +23,11 @@ export default (
       }
     case 'CREATE':
       break
+    case UPDATE_ROOM_LANGUAGE_FULFILLED:
+      return {
+        ...state,
+        language: action.payload
+      }
     case UPDATE_ROOM_LEVEL_FULFILLED:
       return {
         ...state,

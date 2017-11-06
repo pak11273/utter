@@ -12,10 +12,10 @@ const Text = styled.div`
   width: ${props => props.width};
 `
 Text.defaultProps = {
-  color: props => props.theme.color,
   display: 'block',
   fontsize: '1rem',
-  fontfamily: 'Arial'
+  fontfamily: 'Arial',
+  textalign: 'left'
 }
 
 export default Text

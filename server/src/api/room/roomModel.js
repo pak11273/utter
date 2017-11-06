@@ -1,21 +1,40 @@
 import mongoose, {Schema} from 'mongoose'
 
 const RoomSchema = Schema({
+  channel_id: {
+    type: String,
+    default: ''
+  },
+  language: {
+    type: String,
+    default: ''
+  },
   level: {
     type: String,
-    default: '1'
+    default: '1',
+    required: [true, "can't be blank"]
   },
   creator: {
     type: String,
     default: ''
   },
   people: {
-    type: String,
+    type: Number,
+    default: ''
+  },
+  private: Boolean,
+  between: Array,
+  title: {
+    type: {
+      type: String,
+      unique: true
+    },
     default: ''
   },
   title: {
     type: String,
-    default: ''
+    default: '',
+    required: [true, "can't be blank"]
   },
   timestamp: {
     type: Date,

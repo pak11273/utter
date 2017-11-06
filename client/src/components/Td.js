@@ -14,9 +14,9 @@ const Td = styled.td`
   width: ${props => props.width};
 `
 Td.defaultProps = {
-  fontsize: '2rem',
+  fontsize: '1.2rem',
   fontweight: '400',
-  padding: props => '.5% 5% 0 5%',
+  padding: props => '.5% 5% 0 2%',
   width: '100%',
   textalign: 'left',
   verticalalign: 'middle'

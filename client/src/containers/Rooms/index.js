@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
+import axios from 'axios'
 import superagent from 'superagent'
 import ApiMgr from '../../utils'
 import shortid from 'shortid'
@@ -33,20 +34,24 @@ const Room = ({level, isSelected, onClick, creator, people, title}) => {
 
 const RoomList = ({
   loadWordList,
+  roomList,
   rooms,
   selectedRoomId,
   onSelect,
   updateRoomLevel,
   updateOriginalWordList
 }) => {
+  let list = roomList
+  !list ? (list = []) : list
+  list.push(rooms)
   return (
     <div>
-      {rooms.list.map(({_id, level, creator, people, title}) => {
+      {list.map(({_id, language, level, creator, people, title}) => {
         const isSelected = selectedRoomId == _id
         const onRoomSelect = () => {
           // update wordList when room is selected
           const roomLevel = level
-          const listObj = require(`../../data/level${roomLevel}/query.js`)
+          const listObj = require(`../../data/${language}/level${roomLevel}/query.js`)
           updateOriginalWordList(listObj.default)
 
           loadWordList(listObj.default)
@@ -70,7 +75,7 @@ const RoomList = ({
   )
 }
 
-class Rooms extends Component {
+class RoomsContainer extends Component {
   constructor(props) {
     super(props)
 
@@ -109,13 +114,36 @@ class Rooms extends Component {
   }
 
   addRoom(room) {
-    superagent.post('/api/rooms').send(room).end((err, res) => {
-      if (err) {
-        alert(err)
-        return
-      }
-      this.props.actions.loadRooms()
-    })
+    axios
+      .post('/api/rooms', {
+        channel_id: this.props.channelReducer.selected,
+        language: room.language,
+        level: room.level,
+        creator: room.creator,
+        title: room.title,
+        people: 2,
+        private: false
+      })
+      .then(res => {
+        return this.props.actions.loadRooms()
+      })
+      .catch(err => {
+        alert(
+          'Sorry. There was an internal error.  Please contact technical support about this error: ' +
+            err
+        )
+      })
+  }
+
+  filteredRooms() {
+    let list = this.props.roomReducer.list
+    if (Array.isArray(list)) {
+      return list.filter(
+        ({channel_id}) => channel_id === this.props.channelReducer.selected
+      )
+    } else {
+      return []
+    }
   }
 
   selectRoom(index) {
@@ -146,12 +174,14 @@ class Rooms extends Component {
         <Box
           alignitems="flex-start"
           height="500px"
+          justifycontent="flex-start"
           overflowy="scroll"
-          overflowx="none">
+          padding="20px 0 0 0">
           <RoomList
             loadWordList={this.props.actions.loadWordList}
             onSelect={this.onRoomSelect}
             rooms={this.props.roomReducer}
+            roomList={this.filteredRooms()}
             selectedRoomId={this.props.roomReducer.selected}
             updateOriginalWordList={this.props.actions.updateOriginalWordList}
             updateRoomLevel={this.props.actions.updateRoomLevel}
@@ -167,8 +197,10 @@ class Rooms extends Component {
 
 const mapStateToProps = state => {
   return {
+    channelReducer: state.channelReducer,
     roomReducer: state.roomReducer,
-    speakerReducer: state.speakerReducer
+    speakerReducer: state.speakerReducer,
+    userReducer: state.userReducer
   }
 }
 
@@ -187,4 +219,5 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Rooms)
+// rooms should have a language property
+export default connect(mapStateToProps, mapDispatchToProps)(RoomsContainer)

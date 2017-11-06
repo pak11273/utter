@@ -2,13 +2,13 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {userSignupRequest} from '../actions/signupActions'
 import styled, {ThemeProvider} from 'styled-components'
-import Wrapper from '../containers/Wrappers/Wrapper.js'
 import Masthead from '../containers/Mastheads/Masthead'
 import Navbar from '../containers/Navbars/Navbar'
 import Title from '../components/Text/Title.js'
 import Subtitle from '../components/Text/Subtitle.js'
 import SignupForm from '../containers/Forms/SignupForm.js'
 import {addFlashMessage} from '../actions/flashMessages.js'
+import {Wrapper} from '../components'
 
 class Signup extends Component {
   render() {

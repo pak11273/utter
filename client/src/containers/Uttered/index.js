@@ -16,7 +16,7 @@ const UtteredList = props =>
     </Ol>
   </Box>
 
-class Uttered extends Component {
+class UtteredContainer extends Component {
   constructor(props) {
     super(props)
   }
@@ -83,4 +83,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Uttered)
+export default connect(mapStateToProps, mapDispatchToProps)(UtteredContainer)

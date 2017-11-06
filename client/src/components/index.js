@@ -1,16 +1,24 @@
 import Audio from './Audio.js'
-import Box from './Box.js'
+import Box from './Boxes/index.js'
 import Button from './Button.js'
-import Column from './Column.js'
+import ButtonBrowse from './Buttons/ButtonBrowse.js'
+import ButtonCta from './Buttons/CTA.js'
+import Column from './Columns/index.js'
 import Component from './Section.js'
 import CreateMessge from './CreateMessage.js'
+import Grid from './Grid.js'
+import Hamburger from './Buttons/Hamburger.js'
 import Img from './Img.js'
 import Input from './Input.js'
 import Ol from './OrderedList.js'
 import Section from './Section.js'
 import LanguageCard from './LanguageCard.js'
 import Line from './Line.js'
-import Masthead from './Masthead.js'
+import Link from './Link.js'
+import Logo from './Logo.js'
+import MastheadSubtitle from './MastheadSubtitle.js'
+import MastheadTitle from './MastheadTitle.js'
+import PlayButton from './Buttons/PlayButton.js'
 import Table from './Table.js'
 import Tbody from './Tbody.js'
 import Td from './Td.js'
@@ -31,14 +39,22 @@ export {
   Audio,
   Box,
   Button,
+  ButtonBrowse,
+  ButtonCta,
   Column,
   CreateMessge,
+  Grid,
+  Hamburger,
   Img,
   Input,
   Ol,
   LanguageCard,
   Line,
-  Masthead,
+  Link,
+  Logo,
+  MastheadTitle,
+  MastheadSubtitle,
+  PlayButton,
   Section,
   Select,
   Spacer,

@@ -1,26 +1,45 @@
 import React, {Component} from 'react'
+import {NavLink} from 'react-router-dom'
 import styled from 'styled-components'
-import Wrapper from '../containers/Wrappers/Wrapper'
-import Masthead from '../containers/Mastheads/Masthead'
-import Title from '../components/Text/Title.js'
-import Subtitle from '../components/Text/Subtitle.js'
-import CTA from '../components/Buttons/CTA.js'
-import {Box, Column, Img, Line, Section, Text} from '../components'
+import {Masthead} from '../containers'
+import {
+  Box,
+  ButtonCta,
+  Column,
+  Img,
+  Line,
+  MastheadTitle,
+  MastheadSubtitle,
+  Section,
+  Subtitle,
+  Text,
+  Title,
+  Wrapper
+} from '../components'
 
 // images
 import busyPeopleImg from '../assets/images/busy-people.jpg'
 import embarrassedImg from '../assets/images/embarrassed.jpg'
+import aloneImg from '../assets/images/alone.jpg'
 
 class Home extends Component {
   render(props) {
     return (
       <Wrapper>
-        <Masthead background="url('https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg') no-repeat center top">
-          <Title>
-            Speak another language
-          </Title>
-          <Subtitle>This actually works!</Subtitle>
-          <CTA color="black">Learn More</CTA>
+        <Masthead
+          background="url('https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg') no-repeat center top"
+          height="800px">
+          <Column maxwidth="960px">
+            <MastheadTitle color="black">
+              Speak another language
+            </MastheadTitle>
+            <MastheadSubtitle color="black">
+              A unique training program to get you to become fluent in another
+              language. We understand the learning process and we create the
+              environment that you can learn in.
+            </MastheadSubtitle>
+            <ButtonCta color="black">Learn More</ButtonCta>
+          </Column>
         </Masthead>
         <Section
           height="800px"
@@ -49,21 +68,18 @@ class Home extends Component {
             </Box>
           </Column>
         </Section>
-        <Section height="800px">
-          <Column flexdirection768="row" maxwidth="960px">
-            <Box width="50%">
-              <Text fontsize="2rem" width="300px">
+        <Section
+          height="800px"
+          background={`url(${aloneImg}) no-repeat center/cover`}>
+          <Column maxwidth="960px">
+            <Box>
+              <Text color="white" fontsize="3rem">
                 Not enough meetups or people near you to talk with. | You can't
                 go to another country and fully immerse yourself in the culture.
                 Even if you did, most people don't fully immerse themselves and
                 wind up just getting by with broken grammar.
               </Text>
             </Box>
-            <Img
-              src="http://via.placeholder.com/350x350"
-              width="350"
-              height="350"
-            />
           </Column>
         </Section>
         <Section>
@@ -203,6 +219,11 @@ class Home extends Component {
               <Text fontsize="4rem">
                 Become a Sponsor
               </Text>
+            </Box>
+            <Box padding="70px">
+              <NavLink style={{fontSize: '1.8rem'}} to="/sponsorship">
+                How does this work?
+              </NavLink>
             </Box>
           </Column>
         </Section>

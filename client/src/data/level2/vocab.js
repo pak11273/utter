@@ -1,13 +1,25 @@
 export default {
   doubleConsonants: {
     ㄲ: {
-      english: {roman: 'pending', spelling: 'ㅐ'},
-      korean: {roman: 'kk', spelling: 'ㅐ'},
+      english: {roman: '', spelling: ''},
+      korean: {
+        roman: 'gg',
+        name: '쌍기역',
+        spelling: 'ㄲ',
+        audioUrl: '/audio/korean/vocab/ssangGiYeog.mp3'
+      },
+      spanish: {roman: 'pending', spelling: 'pending'},
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㄸ: {
       english: {roman: 'pending', spelling: 'ㄸ'},
-      korean: {roman: 'tt', spelling: 'ㄸ'},
+      korean: {
+        roman: 'dd',
+        name: '쌍디귿',
+        spelling: 'ㄸ',
+        audioUrl: '/audio/korean/vocab/ssangDiGeud.mp3'
+      },
+      spanish: {roman: 'pending', spelling: 'pending'},
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㅃ: {

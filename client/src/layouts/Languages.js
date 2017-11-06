@@ -1,20 +1,20 @@
 import React, {Component} from 'react'
 import {NavLink, Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import {
   Box,
   Button,
+  ButtonBrowse,
   Column,
   Section,
   Input,
   LanguageCard,
+  Subtitle,
+  Title,
   Wrapper
 } from '../components'
-import {Masthead} from '../containers'
-import Navbar from '../containers/Navbars/Navbar'
-import Title from '../components/Text/Title.js'
-import Subtitle from '../components/Text/Subtitle.js'
-import {connect} from 'react-redux'
+import {Masthead, Navbar} from '../containers'
 
 class Languages extends Component {
   constructor() {
@@ -33,36 +33,29 @@ class Languages extends Component {
 
   render() {
     return (
-      <Wrapper width="960px">
-        <Masthead height="250px">
-          <Title>Languages</Title>
-          <Subtitle>
-            Choose from several languages
-          </Subtitle>
-          {this.state.search}
-          <Box flexdirection="row" padding="2%" width="456px">
-            <Input
-              onChange={this.handleSearch}
-              margin="0 10px 0 0"
-              type="text"
-              placeholder="search"
-            />
-            <Button
-              color="black"
-              fontsize="1.4rem"
-              fontweight="500"
-              width="140px"
-              height="40px">
-              Browse All
-            </Button>
-          </Box>
+      <Wrapper>
+        <Masthead height="400px">
+          <Column minwidth="365px" maxwidth="960px">
+            <Title>Languages</Title>
+            <Subtitle>
+              Choose from several languages
+            </Subtitle>
+            {this.state.search}
+            <Box flexdirection="row">
+              <Input
+                onChange={this.handleSearch}
+                margin="0 10px 0 0"
+                type="text"
+                placeholder="search"
+              />
+              <ButtonBrowse>
+                Browse All
+              </ButtonBrowse>
+            </Box>
+          </Column>
         </Masthead>
-        <Section width="960px">
-          <Column
-            flexdirection="row"
-            flexwrap="wrap"
-            justyifycontent="space-between"
-            width="832px">
+        <Section>
+          <Column flexdirection="row">
             {this.props.languages
               .filter(language => {
                 return (
