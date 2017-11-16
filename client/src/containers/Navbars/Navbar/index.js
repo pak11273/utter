@@ -158,4 +158,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {logout})(Navbar)
+export default connect(mapStateToProps, {logout}, null, {pure: false})(Navbar) // {pure:false} needed for NavLink: activeStyle

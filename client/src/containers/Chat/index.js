@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Box} from '../../components'
 
@@ -14,11 +15,11 @@ const MsgList = props => {
   !list ? (list = []) : list
   list.push(props.message)
   return (
-    <div style={{alignSelf: 'flex-start'}}>
+    <Box alignitems="flex-start" justifycontent="flex-start" overflow="visible">
       {list.map(({author, message, id}) => {
         return <Msg key={id} author={author} message={message} />
       })}
-    </div>
+    </Box>
   )
 }
 
@@ -42,7 +43,11 @@ class Chat extends Component {
 
   render() {
     return (
-      <Box overflowy="scroll" overflowx="none" height="500px">
+      <Box
+        height="600px"
+        justifycontent="flex-start"
+        overflowy="scroll"
+        overflowx="none">
         <MsgList
           message={this.props.speakerReducer.message}
           messageList={this.filteredMessages()}

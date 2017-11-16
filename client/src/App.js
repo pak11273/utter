@@ -4,6 +4,7 @@ import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import styled, {injectGlobal, ThemeProvider} from 'styled-components'
 import jwt from 'jsonwebtoken'
+import '../src/assets/css/global-styles.js'
 import {routes} from './routes'
 import {main} from './themes/config.js'
 import {Navbar} from './containers'
@@ -15,59 +16,6 @@ import FlashMessagesList from '../src/components/FlashMessages/FlashMessagesList
 //actions
 import {setCurrentUser} from './actions/authActions.js'
 
-// box-sizing: border-box;
-// display: flex;
-// flex-direction: column;
-// box-sizing: border-box;
-// Global style
-// eslint-disable-next-line
-
-injectGlobal`
-
-body, h1, h2, h3, h4, h6, div, li {
-  // color: #777;
-  color: green;
-}
-
-// h1 {
-//     font-size: 8rem;
-// }
-
-// h2 {
-//     font-size: 7rem;
-// }
-
-// h3 {
-//     font-size: 6rem;
-// }
-
-// h4 {
-//     font-size: 5rem;
-// }
-
-// h5 {
-//     font-size: 4rem;
-// }
-
-// h6 {
-//     font-size: 3rem;
-// }
-
-// p, li, a {
-//   font-size: 1rem;
-//   text-decoration: none;
-// }
-
-// a:visited {
-//   color: purple;
-// }
-
-// // global colors
-// body {
-//   color: green;
-// }
-`
-
 class App extends Component {
   render(props) {
     return (
@@ -75,7 +23,15 @@ class App extends Component {
         <Provider store={store}>
           <Router>
             <Wrapper>
-              <Navbar list={['about', 'contact', 'languages', 'connections']} />
+              <Navbar
+                list={[
+                  'about',
+                  'contact',
+                  'languages',
+                  'pricing',
+                  'connections'
+                ]}
+              />
               <Spacer margin="90px 0 0 0" />
               <Switch>
                 {routes.map((route, i) => <Route key={i} {...route} />)}

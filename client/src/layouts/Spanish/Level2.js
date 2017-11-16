@@ -28,8 +28,7 @@ import PlayImg from '../../assets/images/play.svg'
 import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-import source from '../../../src/data/spanish/level1/vocab.js'
-// const giYeog = cdn + source.category.alphabet.consonants.ㄱ.audioUrl
+import source from '../../../src/data/spanish/level2/vocab.js'
 
 // phrases
 // const level7_6 = cdn + source.category.examples.level7_6.korean.audioUrl
@@ -76,29 +75,7 @@ class SpanishLevel2 extends Component {
                     Play
                   </Th>
                 </Thead>
-                <tbody>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄱ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                </tbody>
+                <tbody />
               </Table>
             </Box>
           </Column>

@@ -6,6 +6,9 @@
 //   spanish: {roman: 'pending', spelling: 'pending'}
 // },
 export default {
+  meta: {
+    listType: 'words'
+  },
   category: {
     nouns: {
       bodyParts: {
@@ -14,7 +17,7 @@ export default {
           korean: {
             roman: 'par',
             spelling: '팔',
-            audioUrl: '/audio/vocab/par.mp3'
+            audioUrl: '/audio/korean/bodyParts/par.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -24,7 +27,7 @@ export default {
           korean: {
             roman: 'deung',
             spelling: '등',
-            audioUrl: '/audio/vocab/deung.mp3'
+            audioUrl: '/audio/korean/bodyParts/deung.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -34,7 +37,7 @@ export default {
           korean: {
             roman: 'bae',
             spelling: '배',
-            audioUrl: '/audio/vocab/bae.mp3'
+            audioUrl: '/audio/korean/bodyParts/bae.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -44,7 +47,7 @@ export default {
           korean: {
             roman: 'sin-che',
             spelling: '신체',
-            audioUrl: '/audio/vocab/sinChe.mp3'
+            audioUrl: '/audio/korean/bodyParts/sinChe.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -54,7 +57,7 @@ export default {
           korean: {
             roman: 'ga-seum',
             spelling: '가슴',
-            audioUrl: '/audio/vocab/gaSeum.mp3'
+            audioUrl: '/audio/korean/bodyParts/gaSeum.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -64,7 +67,7 @@ export default {
           korean: {
             roman: 'gui',
             spelling: '귀',
-            audioUrl: '/audio/vocab/gui.mp3'
+            audioUrl: '/audio/korean/bodyParts/gui.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -74,7 +77,7 @@ export default {
           korean: {
             roman: 'par-Ggum-Chi',
             spelling: '팔꿈치',
-            audioUrl: '/audio/vocab/parGgumChi.mp3'
+            audioUrl: '/audio/korean/bodyParts/parGgumChi.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -84,7 +87,7 @@ export default {
           korean: {
             roman: 'nun',
             spelling: '눈',
-            audioUrl: '/audio/vocab/nun.mp3'
+            audioUrl: '/audio/korean/bodyParts/nun.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -94,7 +97,7 @@ export default {
           korean: {
             roman: 'eor-gur',
             spelling: '얼굴',
-            audioUrl: '/audio/vocab/eorGur.mp3'
+            audioUrl: '/audio/korean/bodyParts/eorGur.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -104,7 +107,7 @@ export default {
           korean: {
             roman: 'son-ga-rag',
             spelling: '손가락',
-            audioUrl: '/audio/vocab/sonGaRag.mp3'
+            audioUrl: '/audio/korean/bodyParts/sonGaRag.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -112,9 +115,9 @@ export default {
         foot: {
           english: {roman: 'foot', spelling: 'foot'},
           korean: {
-            roman: 'bal',
+            roman: 'bar',
             spelling: '발',
-            audioUrl: '/audio/vocab/bal.mp3'
+            audioUrl: '/audio/korean/bodyParts/bar.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -124,7 +127,7 @@ export default {
           korean: {
             roman: 'meo-ri-ka-rag',
             spelling: '머리카락',
-            audioUrl: '/audio/vocab/meoRiKaRag.mp3'
+            audioUrl: '/audio/korean/bodyParts/meoRiKaRag.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -134,7 +137,7 @@ export default {
           korean: {
             roman: 'son',
             spelling: '손',
-            audioUrl: '/audio/vocab/son.mp3'
+            audioUrl: '/audio/korean/bodyParts/son.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -144,7 +147,7 @@ export default {
           korean: {
             roman: 'meo-ri',
             spelling: '머리',
-            audioUrl: '/audio/vocab/meoRi.mp3'
+            audioUrl: '/audio/korean/bodyParts/meoRi.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -154,7 +157,7 @@ export default {
           korean: {
             roman: 'mu-reup',
             spelling: '무릎',
-            audioUrl: '/audio/vocab/muReup.mp3'
+            audioUrl: '/audio/korean/bodyParts/muReup.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -164,7 +167,7 @@ export default {
           korean: {
             roman: 'da-ri',
             spelling: '다리',
-            audioUrl: '/audio/vocab/daRi.mp3'
+            audioUrl: '/audio/korean/bodyParts/daRi.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -174,7 +177,7 @@ export default {
           korean: {
             roman: 'ib',
             spelling: '입',
-            audioUrl: '/audio/vocab/ib.mp3'
+            audioUrl: '/audio/korean/bodyParts/ib.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -184,7 +187,7 @@ export default {
           korean: {
             roman: 'mog',
             spelling: '목',
-            audioUrl: '/audio/vocab/mog.mp3'
+            audioUrl: '/audio/korean/bodyParts/mog.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -194,7 +197,7 @@ export default {
           korean: {
             roman: 'ko',
             spelling: '코',
-            audioUrl: '/audio/vocab/ko.mp3'
+            audioUrl: '/audio/korean/bodyParts/ko.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -202,9 +205,9 @@ export default {
         toe: {
           english: {roman: 'toe', spelling: 'toe'},
           korean: {
-            roman: 'bal-ga-rag',
+            roman: 'bar-ga-rag',
             spelling: '발가락',
-            audioUrl: '/audio/vocab/balGaRag.mp3'
+            audioUrl: '/audio/korean/bodyParts/barGaRag.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}

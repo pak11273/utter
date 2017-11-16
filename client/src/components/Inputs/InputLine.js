@@ -10,18 +10,16 @@ const Input = styled.input`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   font-family: ${props => props.fontfamily};
-  height: 50px;
   height: ${props => props.height};
-  left: 50%;
   margin: ${props => props.margin};
   padding: ${props => props.padding};
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 
-  width: 200px;
-    &:focus {
-      outline: none;    
-    }
+  &:focus {
+    outline: none;    
+  }
+
   &::-webkit-input-placeholder {
     color: #AAA;
   }
@@ -63,8 +61,13 @@ const Underline = styled.div`
   transform: scale(0, 1);
   -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
-  width: 202px;
+  width: ${props => props.width};
 `
+
+Underline.defaultProps = {
+  width: '300px'
+}
+
 export default props =>
   <Wrap>
     <Input

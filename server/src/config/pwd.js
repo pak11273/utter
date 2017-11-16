@@ -1,4 +1,4 @@
 export default {
-  gmail_username: 'pak11273@gmail.com',
-  gmail_password: 'Matthew633'
+  gmail_username: 'utterzone11273@gmail.com',
+  gmail_password: 'Romans8@28'
 }

@@ -55,7 +55,7 @@ class Languages extends Component {
           </Column>
         </Masthead>
         <Section>
-          <Column flexdirection="row">
+          <Column flexdirection="row" justifycontent="center">
             {this.props.languages
               .filter(language => {
                 return (

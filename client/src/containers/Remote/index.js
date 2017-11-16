@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
 import {Channels, Uttered} from '../../containers'
 import {Box, Column, Section, Text} from '../../components'
 
@@ -41,15 +40,13 @@ class RemoteContainer extends Component {
   render() {
     return (
       <Router>
-        <Column>
+        <Column alignitems="flex-start">
           <Box
             flexdirection="row"
             height="100%"
-            maxwidth="500px"
             background="lightblue"
             justifycontent="space-around"
-            margin="20px"
-            width="100%">
+            margin="0 0 20px 0">
             <Link
               to="/connections/channels"
               fontsize="1rem"

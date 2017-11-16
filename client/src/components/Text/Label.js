@@ -9,7 +9,7 @@ const Label = styled.div`
   margin: ${props => props.margin};
   padding: ${props => props.padding};
   width: ${props => props.width};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign};
 `
 
 Label.defaultProps = {

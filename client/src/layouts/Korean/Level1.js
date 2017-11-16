@@ -4,19 +4,16 @@ import {
   Audio,
   Box,
   Column,
+  Dictionary,
+  Grid,
   Img,
   MastheadTitle,
   MastheadSubtitle,
   PlayButton,
   Spacer,
+  RememberSection,
   Subtitle,
-  Table,
-  Td,
   Text,
-  Thead,
-  Th,
-  Tr,
-  Title,
   Section,
   Wrapper
 } from '../../components'
@@ -32,6 +29,12 @@ import vocab from '../../../src/data/korean/level1/vocab.js'
 const giYeog = cdn + vocab.category.alphabet.consonants.ㄱ.korean.audioUrl
 const niEun = cdn + vocab.category.alphabet.consonants.ㄴ.korean.audioUrl
 const diGeud = cdn + vocab.category.alphabet.consonants.ㄷ.korean.audioUrl
+const riEur = cdn + vocab.category.alphabet.consonants.ㄹ.korean.audioUrl
+const miEum = cdn + vocab.category.alphabet.consonants.ㅁ.korean.audioUrl
+const biEub = cdn + vocab.category.alphabet.consonants.ㅂ.korean.audioUrl
+const siOs = cdn + vocab.category.alphabet.consonants.ㅅ.korean.audioUrl
+const iEung = cdn + vocab.category.alphabet.consonants.ㅇ.korean.audioUrl
+const jiEus = cdn + vocab.category.alphabet.consonants.ㅈ.korean.audioUrl
 
 // phrases
 // const level7_6 = cdn + source.category.examples.level7_6.korean.audioUrl
@@ -44,698 +47,295 @@ class KoreanLevel1 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="gray">
-          <Column>
-            <Box>
-              <MastheadTitle>
-                Level One - Hangul
-              </MastheadTitle>
-              <MastheadSubtitle>
-                Learn the Korean alphabet
-              </MastheadSubtitle>
-            </Box>
-          </Column>
+        <Masthead background="#3269AD">
+          <Box>
+            <MastheadTitle>
+              Level One - Hangul
+            </MastheadTitle>
+            <MastheadSubtitle>
+              Learn the Korean alphabet
+            </MastheadSubtitle>
+          </Box>
         </Masthead>
-        <Section maxwidth="960px">
-          <Column>
-            <Box padding="40px">
-              <Subtitle>
-                Alphabet{' '}
-              </Subtitle>
-              <Text lineheight="3rem">
-                Hangul consists of 14 consonants and 10 vowels.
-              </Text>
-            </Box>
-            <Box color="black" overflowx="auto">
-              <Table verticalalign="middle">
-                <Thead>
-                  <Th padding="0" width="18%">
-                    Consonants{' '}
-                  </Th>
-                  <Th width="28%">
-                    Name{' '}
-                  </Th>
-                  <Th width="28%">
-                    Translation
-                  </Th>
-                  <Th width="10%">
-                    Play
-                  </Th>
-                </Thead>
-                <tbody>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄱ{' '}
-                    </Td>
-                    <Td>
-                      기역 (gi-yeog)
-                    </Td>
-                    <Td>
-                      'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄴ{' '}
-                    </Td>
-                    <Td>
-                      니은(niEun)
-                    </Td>
-                    <Td>
-                      'n' sound as in <span style={{color: 'red'}}>n</span>ame{' '}
-                    </Td>
-                    <Td>
-                      <audio id="niEun" src={`${niEun}`} />
-                      <PlayButton
-                        margin="0"
-                        name="niEun"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄷ
-                    </Td>
-                    <Td>
-                      디귿(diGeud)
-                    </Td>
-                    <Td>
-                      'd' sound as in <span style={{color: 'red'}}>d</span>og{' '}
-                    </Td>
-                    <Td>
-                      <audio id="diGeud" src={`${diGeud}`} />
-                      <PlayButton
-                        margin="0"
-                        name="diGeud"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ㄲ{' '}
-                    </Td>
-                    <Td>
-                      기역(gi-yeog)
-                    </Td>
-                    <Td>
-                      ㄱ = 'g' or 'k' sound{' '}
-                    </Td>
-                    <Td>
-                      <audio id="giYeog" src={`${giYeog}`} />
-                      <PlayButton
-                        margin="0"
-                        name="giYeog"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                </tbody>
-              </Table>
-            </Box>
-          </Column>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="700px"
-          height960="700px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle color="#333" padding="15px">Consonants</Subtitle>
-              <Text>
-                ㄱ = 'g' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  k
-                </span>ite)
-              </Text>
-              <Text>
-                ㄲ = 'kk' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>k</span>ite)
-              </Text>
-              <Text>
-                ㄴ = 'n' sound
-              </Text>
-              <Text>
-                ㄷ = 'd' or 't' sound
-              </Text>
-              <Text>
-                ㄹ = 'r' or 'l' sound
-              </Text>
-              <Text>
-                ㅁ = 'm' sound
-              </Text>
-              ㅂ = 'b' or 'p' sound
-              <Text>
-                ㅅ = 's' sound
-              </Text>
-              <Text>
-                ㅇ = 'ng' sound
-              </Text>
-              <Text>
-                ㅈ = 'j' or 'ch' sound
-              </Text>
-              <Text>
-                ㅊ = 'ch' sound
-              </Text>
-              <Text>
-                ㅋ = 'kk' sound
-              </Text>
-              <Text>
-                ㅌ = 't' sound
-              </Text>
-              <Text>
-                ㅍ= 'pp' sound
-              </Text>
-              <Text>
-                ㅎ = 'h' sound
-              </Text>
-            </Column>
-          </Column>
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle color="#333" padding="15px">Vowels</Subtitle>
-              <Text>
-                ㅒ = 'ae' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>e</span>gg)
-              </Text>
-              <Text>
-                ㅔ = 'e' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  e
-                </span>gg)
-              </Text>
-              <Text padding="20px">
-                ㅒ and ㅔ sound the same. Don't be confused by the romanizations
-                which are different.{' '}
-              </Text>
-              <Text>
-                ㅏ = 'a' sound (as in{' '}
-                <span style={{fontWeight: 'bold'}}>
-                  a
-                </span>ha)
-              </Text>
-              <Text>
-                ㅓ = 'eo' sound
-              </Text>
-              <Text padding="20px">
-                ㅓ sound it in between the long O and short u sound. It's not a
-                true 'u' sound like in the word 'ugly', but more like the 'o' in
-                'ordeal' but leaving your mouth open
-              </Text>
-              <Text />
-              <Text>
-                ㅗ = 'o' sound
-              </Text>
-              <Text>
-                ㅜ = 'oo' or 'u' sound
-              </Text>
-              <Text>
-                ㅡ = 'eu' sound
-              </Text>
-              <Text>
-                ㅣ = 'ee' sound
-              </Text>
-            </Column>
-          </Column>
-        </Section>
-        <Section>
-          <Subtitle color="#333" padding="15px">
-            Vowels with y and w
-          </Subtitle>
-          <Text>
-            Special vowels that are constructed with the y and w sounds.
-          </Text>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="400px"
-          height960="400px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Text>
-                ㅠ = 'yu' sound
-              </Text>
-              <Text>
-                ㅑ = 'ya' sound
-              </Text>
-              <Text>
-                ㅕ = 'yeo' sound
-              </Text>
-              <Text>
-                ㅛ = 'yo' sound
-              </Text>
-              <Text>
-                ㅖ = 'ye' sound{' '}
-              </Text>
-              <Text>
-                ㅖ = 'yi' sound{' '}
-              </Text>
-            </Column>
-          </Column>
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Text>
-                ㅠ = 'wu' sound
-              </Text>
-              <Text>
-                ㅑ = 'wa' sound
-              </Text>
-              <Text>
-                ㅕ = 'weo' sound
-              </Text>
-              <Text>
-                ㅛ = 'wo' sound
-              </Text>
-              <Text>
-                ㅖ = 'we' sound{' '}
-              </Text>
-              <Text>
-                ㅖ = 'wi' sound{' '}
-              </Text>
-            </Column>
-          </Column>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="100px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left"
-            />
-            <Subtitle color="#333" padding="15px">Grammar</Subtitle>
-          </Column>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="200px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left"
-            />
-            <Subtitle color="#333" padding="15px">New Vocabulary</Subtitle>
-          </Column>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="200px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left"
-            />
-            <Subtitle color="#333" padding="15px">New Phrases</Subtitle>
-            <Text>Greetings and Goodbyes</Text>
-            <Text>Annyeong ha seyo, anyeonghigeseyo</Text>
-            <Text>yo du bun</Text>
-            <Text>My name is</Text>
-            <Text>nice to meet you</Text>
-            <Text>Thank You</Text>
-            <Text>You're Welcome</Text>
-          </Column>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="200px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Title fontsize="2rem">Special Notes</Title>
-            <Text>
-              ㄹ sounds like an 'l' at the beginning of a word
-              ㄹ sounds like a 'd' in the middle of a word while surrounded by
-              verbs.
-              TODO: give examples(use sunday) idyoil
-
-              between a vowel and consonant it is sometimes silent like
-              chicken(talk) it is pronounced tak
-
-              but with words like read(ilgeoyo) it will be 'l' sound.
-              When you have a word that contains a syllable starting with ㄹ and
-              that syllable is preceded by a ㅇ or ㄱ being the batchim consonant
-              of that syllable, the ㄹ will actually sound like a ㄴ.
-              공룡 (dinosaur) pronounced gong-nyong
+        <Section height="600px" maxwidth="1024px">
+          <Box padding="40px">
+            <Subtitle>
+              Alphabet{' '}
+            </Subtitle>
+            <Text fontsize="1.5rem" margin="20px 0 0 0">
+              Hangul consists of 14 consonants and 10 vowels.
             </Text>
-          </Column>
+          </Box>
+        </Section>
+        <Section alignitems="flex-start" maxwidth960="1024px">
+          <Dictionary
+            gridheader=".9fr .5fr 2fr .9fr"
+            gridheader640=".9fr .8fr 2.5fr .5fr"
+            gridbody=".9fr .8fr 2.5fr .5fr"
+            gridbody640=".9fr .8fr 2.5fr .5fr"
+            height="600px"
+            term="Consonants"
+            definition="Pronunciation"
+            media="Play"
+            name="Name"
+            width="100vw"
+            overflowy="scroll">
+            <Box>
+              <p>
+                ㄱ{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                기역 (gi-yeog)
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'g' or 'k' sound{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="giYeog" src={`${giYeog}`} />
+              <PlayButton
+                margin="0"
+                name="giYeog"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>
+                ㄴ
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                니은 (niEun)
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'n' sound as in <span style={{color: 'red'}}>n</span>ame{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="niEun" src={`${niEun}`} />
+              <PlayButton
+                margin="0"
+                name="niEun"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㄷ</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                디귿 (diGeud)
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'r' sound as in <span style={{color: 'red'}}>r</span>ain{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="diGeud" src={`${diGeud}`} />
+              <PlayButton
+                margin="0"
+                name="diGeud"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㄹ{' '}</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>리을 (riEur)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'd' sound as in <span style={{color: 'red'}}>d</span>og{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="riEur" src={`${riEur}`} />
+              <PlayButton
+                margin="0"
+                name="riEur"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㅁ{' '}</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>미음 (miEum)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'd' sound as in <span style={{color: 'red'}}>d</span>og{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="miEum" src={`${miEum}`} />
+              <PlayButton
+                margin="0"
+                name="miEum"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㅂ{' '}</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>비읍 (biEub)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'b' sound as in <span style={{color: 'red'}}>b</span>oy{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="biEub" src={`${biEub}`} />
+              <PlayButton
+                margin="0"
+                name="biEub"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㅅ{' '}</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>시옷 (siOs)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'sh' sound as in <span style={{color: 'red'}}>sh</span>ell{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="siOs" src={`${siOs}`} />
+              <PlayButton
+                margin="0"
+                name="siOs"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㅇ{' '}</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>이응 (iEung)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'ng' sound as in so<span style={{color: 'red'}}>ng</span> or is
+              </p>
+              silent
+            </Box>
+            <Box>
+              <audio id="iEung" src={`${iEung}`} />
+              <PlayButton
+                margin="0"
+                name="iEung"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ㅈ</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>지웃 (jiEus)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'ch' sound as in so<span style={{color: 'red'}}>ch</span>air{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="iEung" src={`${iEung}`} />
+              <PlayButton
+                margin="0"
+                name="iEung"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          margin="100px 0 0 0"
+          maxwidth960="1024px">
+          <Dictionary
+            gridheader=".9fr .5fr 2fr .9fr"
+            gridheader640=".9fr .8fr 2.5fr .5fr"
+            gridbody=".9fr .8fr 2.5fr .5fr"
+            gridbody640=".9fr .8fr 2.5fr .5fr"
+            term="Vowels"
+            definition="Pronunciation"
+            media="Play"
+            name="Name">
+            <Box>
+              <p>ㄱ{' '}</p>
+            </Box>
+            <Box>
+              <p>기역 (gi-yeog)</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'g' or 'k' sound{' '}</p>
+            </Box>
+            <Box>
+              <audio id="giYeog" src={`${giYeog}`} />
+              <PlayButton
+                margin="0"
+                name="giYeog"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
+        </Section>
+        <RememberSection
+          list={[
+            "ㅒ and ㅔ sound the same. Don't be confused by the romanizations which are different.",
+            "ㅓ sound it in between the long O and short u sound. It's not a true 'u' sound like in the word 'ugly', but more like the 'o' in 'ordeal' but leaving your mouth open",
+            "ㄹ sounds like an 'l' at the beginning of a word",
+            "ㄹ sounds like a 'd' in the middle of a word while surrounded by verbs.",
+            " TODO: give examples(use sunday) idyoil between a vowel and consonant it is sometimes silent like chicken(talk) it is pronounced tak but with words like read(ilgeoyo) it will be 'l' sound.",
+            'When you have a word that contains a syllable starting with ㄹ and that syllable is preceded by a ㅇ or ㄱ being the batchim consonant of that syllable, the ㄹ will actually sound like a ㄴ.',
+            '공룡 (dinosaur) pronounced gong-nyong'
+          ]}
+        />
+        <Section background="green" height="600px" maxwidth="1024px">
+          <Box>
+            <Text fontsize="3rem" fontweight="900" color="white">
+              Go Practice!{' '}
+            </Text>
+            <Text color="white" padding="20px">
+              <a>Channel Selection & Room Etiquette</a>
+            </Text>
+          </Box>
         </Section>
       </Wrapper>
     )

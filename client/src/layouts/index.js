@@ -20,6 +20,7 @@ import Korean5 from './Korean/Level5.js'
 import Korean6 from './Korean/Level6.js'
 import Korean7 from './Korean/Level7.js'
 import Korean8 from './Korean/Level8.js'
+import Pricing from './Pricing.js'
 import Spanish1 from './Spanish/Level1.js'
 import Spanish2 from './Spanish/Level2.js'
 import Redux from './Redux.js'
@@ -45,6 +46,7 @@ export {
   Korean6,
   Korean7,
   Korean8,
+  Pricing,
   Spanish1,
   Spanish2,
   Redux,

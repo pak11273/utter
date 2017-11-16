@@ -8,7 +8,7 @@ const Subtitle = styled.div`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   padding: ${props => props.padding};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign};
   width: ${props => props.width};
 `
 Subtitle.defaultProps = {
@@ -16,7 +16,7 @@ Subtitle.defaultProps = {
   fontfamily: 'Arial',
   fontsize: '2rem',
   fontweight: '400',
-  padding: props => '.5% 5% 0 5%',
+  padding: '20px',
   width: '100%',
   textalign: 'center'
 }

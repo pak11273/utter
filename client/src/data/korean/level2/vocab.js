@@ -2,7 +2,12 @@ export default {
   doubleConsonants: {
     ㄲ: {
       english: {roman: 'pending', spelling: 'ㅐ'},
-      korean: {roman: 'kk', spelling: 'ㅐ'},
+      korean: {
+        roman: 'kk',
+        name: '치읓',
+        spelling: 'ㅐ',
+        audioUrl: '/audio/korean/alphabet/ssangGiYeog.mp3'
+      },
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㄸ: {
@@ -22,9 +27,13 @@ export default {
     }
   },
   dipthongs: {
-    ㅐ: {
-      english: {roman: 'pending', spelling: 'ㅐ'},
-      korean: {roman: 'ae', spelling: 'ㅐ'},
+    애: {
+      english: {roman: 'pending', spelling: '애'},
+      korean: {
+        roman: 'ae',
+        spelling: '애',
+        audioUrl: '/audio/korean/alphabet/ae.mp3'
+      },
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㅒ: {

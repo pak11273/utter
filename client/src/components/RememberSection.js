@@ -1,0 +1,30 @@
+import React, {Component} from 'react'
+import {Section, Box, Subtitle, List, ListItem} from '../components'
+
+class RememberSection extends Component {
+  render() {
+    const {height, list} = this.props
+    return (
+      <Section height={height} maxwidth="1024px" style={{minHeight: '600px'}}>
+        <Box padding="40px">
+          <Subtitle>
+            Things to Remember
+          </Subtitle>
+          <List>
+            {list.map((item, i) => {
+              {
+                return (
+                  <ListItem fontsize="1.5rem" padding="10px 0 0 0">
+                    {item}
+                  </ListItem>
+                )
+              }
+            })}
+          </List>
+        </Box>
+      </Section>
+    )
+  }
+}
+
+export default RememberSection

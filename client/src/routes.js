@@ -21,6 +21,7 @@ import {
   Korean6,
   Korean7,
   Korean8,
+  Pricing,
   Spanish1,
   Spanish2,
   Redux
@@ -86,6 +87,11 @@ export const routes = [
         />
       )
     },
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/pricing',
+    component: Pricing,
     loadData: () => getSomeData()
   },
   {

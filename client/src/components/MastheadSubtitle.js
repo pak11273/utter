@@ -6,14 +6,16 @@ const MastheadSubtitle = styled.div`
   font-family: ${props => props.fontfamily};
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
+  line-height: ${props => props.lineheight};
   padding: ${props => props.padding};
   text-align: ${props => props.textalign} 
   width: ${props => props.width};
 `
 MastheadSubtitle.defaultProps = {
-  color: '#bbb',
-  fontsize: '2rem',
+  color: '#f1ded9',
+  fontsize: '1.5rem',
   fontweight: '600',
+  lineheight: '3rem',
   padding: '20px',
   width: '100%',
   textalign: 'left'

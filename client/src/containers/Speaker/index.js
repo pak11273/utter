@@ -36,9 +36,6 @@ class Speaker extends Component {
 
   componentDidMount() {
     this.socket = io()
-    // this.socket.on('message', message => {
-    //   this.props.messages.setFinalTranscript(final_transcript)
-    // })
 
     superagent
       .get('/api/messages')
@@ -164,13 +161,18 @@ class Speaker extends Component {
     }
 
     if (obj.message) {
-      superagent.post('/api/messages').send(obj).end((err, res) => {
-        if (err) {
-          console.log(err)
-        } else {
-          this.props.messages.addMessage(res.body)
-        }
-      })
+      console.log('restore')
+      // save messge to db
+
+      // superagent.post('/api/messages').send(obj).end((err, res) => {
+      //   if (err) {
+      //     console.log(err)
+      //   } else {
+      //     this.props.messages.addMessage(res.body)
+      //   }
+      // })
+      console.log('trash')
+      this.props.messages.addMessage(obj)
 
       // update utteredList
       let utteredString = this.props.message.final_transcript
@@ -192,7 +194,7 @@ class Speaker extends Component {
         return {word, uttered}
       })
 
-      // save to db
+      // save utterlist to db
       superagent
         .put('/api/users/59ba886955d0041e7a4a854a')
         .send({utteredList: reducedObjArr})
@@ -208,7 +210,14 @@ class Speaker extends Component {
     // clear the final_transcript input box
     this.props.messages.setFinalTranscript('')
 
+    console.log('msg :', obj)
+    // this.socket.emit('message', obj)
     this.socket.emit('message', obj)
+
+    this.socket.on('messge', function(msg) {
+      console.log('msg :', msg)
+      // this.props.messages.addMessage('farfegunuag')
+    })
   }
 
   updateName(e) {

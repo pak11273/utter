@@ -24,7 +24,7 @@ import PlayImg from '../../assets/images/play.svg'
 import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-import source from '../../../src/data/level6/vocab.js'
+import source from '../../../src/data/korean/level6/vocab.js'
 const babeul = cdn + source.examples.basic.밥을.korean.audioUrl
 const buEok = cdn + source.examples.basic.부엌.korean.audioUrl
 const sar = cdn + source.examples.basic.살.korean.audioUrl

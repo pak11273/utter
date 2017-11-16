@@ -5,8 +5,8 @@ const Masthead = styled.div`
   align-items: ${props => props.alignitems};
   background: ${props => props.background};
   background-size: ${props => props.backgroundsize};
-  box-sizing: border-box;
-  display: flex;
+  box-sizing: ${props => props.borderbox};
+  display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
   height: ${props => props.height};
   justify-content: ${props => props.justifycontent};
@@ -21,7 +21,11 @@ Masthead.defaultProps = {
   alignitems: 'center',
   backgroundsize: 'cover',
   background: 'white',
+  boxsizing: 'border-box',
+  display: 'flex',
   flexdirection: 'column',
+  height: '500px',
+  margin: '0 auto',
   justifycontent: 'center',
   textalign: 'center',
   width: '100%'

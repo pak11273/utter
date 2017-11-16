@@ -8,8 +8,8 @@ import superagent from 'superagent'
 import {loadUtteredList, updateUtteredList} from './actions.js'
 
 const UtteredList = props =>
-  <Box alignitems="flex-start">
-    <Ol fontsize="1rem" color="black">
+  <Box alignitems="flex-start" height="650px" overflowy="scroll">
+    <Ol fontsize="1rem" color="black" textalign="left">
       {props.utteredList.map((list, index) => {
         return <li>{list.native} {list.word}: {list.uttered}</li>
       })}
@@ -44,27 +44,29 @@ class UtteredContainer extends Component {
 
   render() {
     return (
-      <Box>
-        <Box flexdirection="row" justifycontent="space-aroudn">
-          <Text>Sort By: </Text>
-          <select>
-            <option>Room</option>
-            <option>Self</option>
-          </select>
-        </Box>
-        <Box flexdirection="row" justifycontent="space-aroudn">
-          <Text>Sort By: </Text>
-          <select>
-            <option>words</option>
-            <option>uttered</option>
-          </select>
-          <select>
-            <option>Asc</option>
-            <option>Desc</option>
-          </select>
+      <Box alignitems="flex-start">
+        <Box alignitems="flex-start" margin="0 0 20px 0">
+          <Box justifycontent="flex-start" flexdirection="row">
+            <Text>Sort By: </Text>
+            <select>
+              <option>Room</option>
+              <option>Self</option>
+            </select>
+          </Box>
+          <Box flexdirection="row" justifycontent="flex-start">
+            {' '}<Text>Sort By: </Text>
+            <select>
+              <option>words</option>
+              <option>uttered</option>
+            </select>
+            <select>
+              <option>Asc</option>
+              <option>Desc</option>
+            </select>
+          </Box>
         </Box>
         <Box alignitems="flex-start">
-          <UtteredList utteredList={this.props.reducer.utteredList} />
+          {' '}<UtteredList utteredList={this.props.reducer.utteredList} />
         </Box>
       </Box>
     )

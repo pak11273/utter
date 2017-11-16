@@ -1,5 +1,7 @@
 import {
   LOAD_FULFILLED,
+  LOAD_LIST_TYPE_FULFILLED,
+  UPDATE_LIST_TYPE_FULFILLED,
   ROOM_SELECT_FULFILLED,
   UPDATE_ROOM_LANGUAGE_FULFILLED,
   UPDATE_ROOM_LEVEL_FULFILLED
@@ -11,6 +13,7 @@ export default (
     language: 'spanish',
     lastValues: [],
     list: [],
+    listType: 'letters',
     selected: ''
   },
   action = {}
@@ -20,6 +23,16 @@ export default (
       return {
         ...state,
         list: action.payload
+      }
+    case LOAD_LIST_TYPE_FULFILLED:
+      return {
+        ...state,
+        listType: action.payload
+      }
+    case UPDATE_LIST_TYPE_FULFILLED:
+      return {
+        ...state,
+        listType: action.payload
       }
     case 'CREATE':
       break

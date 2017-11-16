@@ -4,21 +4,18 @@ import {
   Audio,
   Box,
   Column,
+  Dictionary,
   Grid,
   Img,
   MastheadTitle,
   MastheadSubtitle,
   PlayButton,
+  RememberSection,
   Spacer,
   Subtitle,
-  Table,
-  Td,
   Text,
-  Thead,
-  Th,
-  Tr,
-  Title,
-  Section
+  Section,
+  Wrapper
 } from '../../components'
 
 import {Masthead} from '../../containers'
@@ -29,7 +26,7 @@ import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
 import vocab from '../../../src/data/spanish/level1/vocab.js'
-import sharedPhrases from '../../../src/data/shared/level1/phrases.js'
+import sharedPhrases from '../../../src/data/shared/phrases.js'
 
 //alphabet - consonants
 const b = cdn + vocab.category.alphabet.consonants.b.spanish.audioUrl
@@ -66,8 +63,8 @@ const o = cdn + vocab.category.alphabet.vowels.o.spanish.audioUrl
 const u = cdn + vocab.category.alphabet.vowels.u.spanish.audioUrl
 
 // phrases
-const hello = cdn + sharedPhrases.greetings.hello.spanish.audioUrl
-const bye = cdn + sharedPhrases.greetings.bye.spanish.audioUrl
+const hello = cdn + sharedPhrases.greetings.hello.spanish.informal.audioUrl
+const bye = cdn + sharedPhrases.greetings.bye.spanish.informal.audioUrl
 
 class SpanishLevel1 extends Component {
   onClick(e) {
@@ -76,8 +73,8 @@ class SpanishLevel1 extends Component {
   }
   render() {
     return (
-      <Grid>
-        <Masthead background="gray" height="500px">
+      <Wrapper>
+        <Masthead background="#F5C000">
           <Column>
             <Box>
               <MastheadTitle>
@@ -89,672 +86,596 @@ class SpanishLevel1 extends Component {
             </Box>
           </Column>
         </Masthead>
-        <Section maxwidth="960px">
-          <Column>
-            <Box padding="40px">
-              <Subtitle>
-                Alphabet{' '}
-              </Subtitle>
-              <Text>
-                Spanish consists of 24 consonants and 5 vowels. We have
-                included
-                some other common letters that you need to learn for future
-                lessons.
-              </Text>
-            </Box>
-          </Column>
+        <Section height="600px" maxwidth="960px">
+          <Box>
+            <Subtitle>
+              Alphabet{' '}
+            </Subtitle>
+            <Text fontsize="1.5rem" margin="10px 0 0 0">
+              Spanish consists of 24 consonants and 5 vowels. We have also
+              included
+              some other common letters that you need to learn for future
+              lessons.
+            </Text>
+          </Box>
         </Section>
-        <Grid gridautorows="300px">
-          <Grid gridtemplatecolumns="1fr 4fr 1fr" gridautorows="100px">
-            <Box background="black" color="white">
-              Consonants{' '}
-            </Box>
-            <Box background="black" color="white">
-              Pronuciation{' '}
-            </Box>
-            <Box background="black" color="white">
-              Play
-            </Box>
+        <Section alignitems="flex-start" maxwidth="1024px">
+          <Dictionary
+            gridheader="1fr 2fr 1fr"
+            gridheader640="1fr 2fr 1fr"
+            gridbody="1fr 2fr 1fr"
+            gridbody640="0.5fr 1.1fr 0.5fr"
+            height="600px"
+            term="Consonants"
+            definition="Pronunciation"
+            media="Play"
+            overflowy="scroll">
             <Box>
               <p>b</p>
             </Box>
-            <Box>
+            <Box alignitems="flex-start">
               <p>b as in <span style={{color: 'red'}}>b</span>ed</p>
             </Box>
-            <Box>
+            <Box alignitems="flex-start">
               <audio id="b" src={`${b}`} />
               <PlayButton
-                margin="0"
                 name="b"
                 onClick={this.onClick}
                 padding="0"
                 src={`${PlayImg}`}
               />
             </Box>
-          </Grid>
-          <Box background="blue">
-            <p>hello</p>
+            <Box>
+              <p>c</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                c as in <span style={{color: 'red'}}>c</span>esar and c as in c<span style={{color: 'red'}}>at</span>
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="c" src={`${c}`} />
+              <PlayButton
+                name="c"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>d</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                d as in <span style={{color: 'red'}}>d</span>ear
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="d" src={`${d}`} />
+              <PlayButton
+                name="d"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>g</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                g as in <span style={{color: 'red'}}>g</span>ator or h as in{' '}
+                <span style={{color: 'red'}}>h</span>air
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="g" src={`${g}`} />
+              <PlayButton
+                name="g"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>h</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                You do not pronounce this letter
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="h" src={`${h}`} />
+              <PlayButton
+                name="h"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ch</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                ch as in <span style={{color: 'red'}}>ch</span>air{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="ch" src={`${ch}`} />
+              <PlayButton
+                name="ch"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>j</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                h as in <span style={{color: 'red'}}>h</span>air{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="j" src={`${j}`} />
+              <PlayButton
+                name="j"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>k</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                k as in <span style={{color: 'red'}}>k</span>ite{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="k" src={`${k}`} />
+              <PlayButton
+                name="k"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>l</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                l as in <span style={{color: 'red'}}>l</span>ady{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="l" src={`${l}`} />
+              <PlayButton
+                name="l"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ll</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                y as in <span style={{color: 'red'}}>y</span>es{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="ll" src={`${ll}`} />
+              <PlayButton
+                name="ll"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>m</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                m as in <span style={{color: 'red'}}>m</span>an{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="m" src={`${m}`} />
+              <PlayButton
+                name="m"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>n</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                n as in <span style={{color: 'red'}}>n</span>ame{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="n" src={`${n}`} />
+              <PlayButton
+                name="n"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>ñ</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                onio as in o<span style={{color: 'red'}}>nio</span>n{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="ñ" src={`${ñ}`} />
+              <PlayButton
+                name="ñ"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>p</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                p as in <span style={{color: 'red'}}>p</span>ower{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="p" src={`${p}`} />
+              <PlayButton
+                name="p"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>q</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                k as in <span style={{color: 'red'}}>k</span>id{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="q" src={`${q}`} />
+              <PlayButton
+                name="q"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>r</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                r as in <span style={{color: 'red'}}>r</span>ed{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="r" src={`${r}`} />
+              <PlayButton
+                name="r"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>rr</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                rr as in pe<span style={{color: 'red'}}>rr</span>o{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="rr" src={`${rr}`} />
+              <PlayButton
+                name="rr"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>s</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                s as in <span style={{color: 'red'}}>s</span>ed{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="s" src={`${s}`} />
+              <PlayButton
+                name="s"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>t</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                t as in <span style={{color: 'red'}}>t</span>alk{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="t" src={`${t}`} />
+              <PlayButton
+                name="t"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>v</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                b as in <span style={{color: 'red'}}>b</span>ed{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="v" src={`${v}`} />
+              <PlayButton
+                name="v"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>w</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                w as in <span style={{color: 'red'}}>w</span>ord{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="w" src={`${w}`} />
+              <PlayButton
+                name="w"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>x</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                h as in <span style={{color: 'red'}}>h</span>ello{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="x" src={`${x}`} />
+              <PlayButton
+                name="x"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>y</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                y as in <span style={{color: 'red'}}>y</span>ellow{' '}
+                e as in <span style={{color: 'red'}}>e</span>at{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="y" src={`${y}`} />
+              <PlayButton
+                name="y"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>z</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                s as in <span style={{color: 'red'}}>s</span>un{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="z" src={`${z}`} />
+              <PlayButton
+                name="z"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
+        </Section>
+        <Section alignitems="flex-start" margin="100px 0 0 0" maxwidth="1024px">
+          <Dictionary
+            gridheader="1fr 2fr 1fr"
+            gridheader640="1fr 2fr 1fr"
+            gridbody="1fr 2fr 1fr"
+            gridbody640="1fr 2fr 1fr"
+            term="Vowels"
+            definition="Pronunciation"
+            media="Play">
+            <Box>
+              <p>a</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>a as in b<span style={{color: 'red'}}>a</span>nana</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="a" src={`${a}`} />
+              <PlayButton
+                name="a"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>e</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>e as in b<span style={{color: 'red'}}>e</span>d</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="e" src={`${e}`} />
+              <PlayButton
+                name="e"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>i</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                e as in f<span style={{color: 'red'}}>e</span>ed
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="i" src={`${i}`} />
+              <PlayButton
+                name="i"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>o</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                o as in <span style={{color: 'red'}}>o</span>ver
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="o" src={`${o}`} />
+              <PlayButton
+                name="o"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>u</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                u as in l<span style={{color: 'red'}}>u</span>be
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="u" src={`${u}`} />
+              <PlayButton
+                name="u"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
+        </Section>
+        <Section
+          alignitems="flex-start"
+          height="350px"
+          margin="100px 0 0 0"
+          maxwidth="1024px">
+          <Dictionary
+            gridheader="1fr 2fr 1fr"
+            gridheader640="1fr 2fr 1fr"
+            gridbody="1fr 2fr 1fr"
+            gridbody640="1fr 2fr 1fr"
+            term="Greetings"
+            definition="Pronunciation"
+            media="Play">
+            <Box>
+              <p>hola</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>Hello</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="hello" src={`${hello}`} />
+              <PlayButton
+                name="hello"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+            <Box>
+              <p>adiós{}</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>Bye</p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="bye" src={`${bye}`} />
+              <PlayButton
+                name="bye"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
+        </Section>
+        <RememberSection
+          list={[
+            'Vowels are never silent and are always pronounced.',
+            'Vowels are never silent and are always pronounced.Vowels are never silent and are always pronounced.'
+          ]}
+        />
+        <Section background="green" height="600px" maxwidth="1024px">
+          <Box>
+            <Text fontsize="3rem" fontweight="900" color="white">
+              Go Practice!{' '}
+            </Text>
+            <Text color="white" padding="20px">
+              <a>Channel Selection & Room Etiquette</a>
+            </Text>
           </Box>
-        </Grid>
-      </Grid>
+        </Section>
+      </Wrapper>
     )
   }
 }
 
 export default SpanishLevel1
-
-/*
-                <tbody>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      c
-                    </Td>
-                    <Td>
-                      c as in <span style={{color: 'red'}}>c</span>esar and c as
-                      in c<span style={{color: 'red'}}>at</span>
-                    </Td>
-                    <Td>
-                      <audio id="c" src={`${c}`} />
-                      <PlayButton
-                        margin="0"
-                        name="c"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      d
-                    </Td>
-                    <Td>
-                      d as in <span style={{color: 'red'}}>d</span>ear
-                    </Td>
-                    <Td>
-                      <audio id="d" src={`${d}`} />
-                      <PlayButton
-                        margin="0"
-                        name="d"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      f
-                    </Td>
-                    <Td>
-                      f as in <span style={{color: 'red'}}>f</span>ine
-                    </Td>
-                    <Td>
-                      <audio id="f" src={`${f}`} />
-                      <PlayButton
-                        margin="0"
-                        name="f"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      g
-                    </Td>
-                    <Td>
-                      g as in <span style={{color: 'red'}}>g</span>ator or h as
-                      in <span style={{color: 'red'}}>h</span>air
-                    </Td>
-                    <Td>
-                      <audio id="g" src={`${g}`} />
-                      <PlayButton
-                        margin="0"
-                        name="g"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      h
-                    </Td>
-                    <Td>
-                      You do not pronounce this letter
-                    </Td>
-                    <Td>
-                      <audio id="h" src={`${h}`} />
-                      <PlayButton
-                        margin="0"
-                        name="h"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ch
-                    </Td>
-                    <Td>
-                      ch as in <span style={{color: 'red'}}>ch</span>air{' '}
-                    </Td>
-                    <Td>
-                      <audio id="ch" src={`${ch}`} />
-                      <PlayButton
-                        margin="0"
-                        name="ch"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      j
-                    </Td>
-                    <Td>
-                      h as in <span style={{color: 'red'}}>h</span>air{' '}
-                    </Td>
-                    <Td>
-                      <audio id="j" src={`${j}`} />
-                      <PlayButton
-                        margin="0"
-                        name="j"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      k
-                    </Td>
-                    <Td>
-                      k as in <span style={{color: 'red'}}>k</span>ite{' '}
-                    </Td>
-                    <Td>
-                      <audio id="k" src={`${k}`} />
-                      <PlayButton
-                        margin="0"
-                        name="k"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      l
-                    </Td>
-                    <Td>
-                      l as in <span style={{color: 'red'}}>l</span>ady{' '}
-                    </Td>
-                    <Td>
-                      <audio id="l" src={`${l}`} />
-                      <PlayButton
-                        margin="0"
-                        name="l"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ll
-                    </Td>
-                    <Td>
-                      y as in <span style={{color: 'red'}}>y</span>es{' '}
-                    </Td>
-                    <Td>
-                      <audio id="ll" src={`${ll}`} />
-                      <PlayButton
-                        margin="0"
-                        name="ll"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      m
-                    </Td>
-                    <Td>
-                      m as in <span style={{color: 'red'}}>m</span>an{' '}
-                    </Td>
-                    <Td>
-                      <audio id="m" src={`${m}`} />
-                      <PlayButton
-                        margin="0"
-                        name="m"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      n
-                    </Td>
-                    <Td>
-                      n as in <span style={{color: 'red'}}>n</span>an{' '}
-                    </Td>
-                    <Td>
-                      <audio id="n" src={`${n}`} />
-                      <PlayButton
-                        margin="0"
-                        name="n"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      ñ
-                    </Td>
-                    <Td>
-                      ny as in bu<span style={{color: 'red'}}>ny</span>un{' '}
-                    </Td>
-                    <Td>
-                      <audio id="ñ" src={`${ñ}`} />
-                      <PlayButton
-                        margin="0"
-                        name="ñ"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      p
-                    </Td>
-                    <Td>
-                      p as in <span style={{color: 'red'}}>p</span>ower{' '}
-                    </Td>
-                    <Td>
-                      <audio id="p" src={`${p}`} />
-                      <PlayButton
-                        margin="0"
-                        name="p"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      q
-                    </Td>
-                    <Td>
-                      k as in <span style={{color: 'red'}}>k</span>id{' '}
-                    </Td>
-                    <Td>
-                      <audio id="q" src={`${q}`} />
-                      <PlayButton
-                        margin="0"
-                        name="q"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      r
-                    </Td>
-                    <Td>
-                      r as in <span style={{color: 'red'}}>r</span>ed{' '}
-                    </Td>
-                    <Td>
-                      <audio id="r" src={`${r}`} />
-                      <PlayButton
-                        margin="0"
-                        name="r"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      rr{' '}
-                    </Td>
-                    <Td>
-                      rr as in pe<span style={{color: 'red'}}>rr</span>o{' '}
-                    </Td>
-                    <Td>
-                      <audio id="rr" src={`${rr}`} />
-                      <PlayButton
-                        margin="0"
-                        name="rr"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      s
-                    </Td>
-                    <Td>
-                      s as in <span style={{color: 'red'}}>s</span>ed{' '}
-                    </Td>
-                    <Td>
-                      <audio id="s" src={`${s}`} />
-                      <PlayButton
-                        margin="0"
-                        name="s"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      t
-                    </Td>
-                    <Td>
-                      t as in <span style={{color: 'red'}}>t</span>alk{' '}
-                    </Td>
-                    <Td>
-                      <audio id="t" src={`${t}`} />
-                      <PlayButton
-                        margin="0"
-                        name="t"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      v
-                    </Td>
-                    <Td>
-                      b as in bed
-                    </Td>
-                    <Td>
-                      <audio id="v" src={`${v}`} />
-                      <PlayButton
-                        margin="0"
-                        name="v"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      w
-                    </Td>
-                    <Td>
-                      w as in wed
-                    </Td>
-                    <Td>
-                      <audio id="w" src={`${w}`} />
-                      <PlayButton
-                        margin="0"
-                        name="w"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      x
-                    </Td>
-                    <Td>
-                      x as in xed
-                    </Td>
-                    <Td>
-                      <audio id="x" src={`${x}`} />
-                      <PlayButton
-                        margin="0"
-                        name="x"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      y
-                    </Td>
-                    <Td>
-                      y as in yed
-                    </Td>
-                    <Td>
-                      <audio id="y" src={`${y}`} />
-                      <PlayButton
-                        margin="0"
-                        name="y"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      z
-                    </Td>
-                    <Td>
-                      z as in zed
-                    </Td>
-                    <Td>
-                      <audio id="z" src={`${z}`} />
-                      <PlayButton
-                        margin="0"
-                        name="z"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                </tbody>
-              </Table>
-            </Box>
-
-            <Box color="black" margin="80px 0 0 0" overflowx="auto">
-              <Table verticalalign="middle">
-                <Thead>
-                  <Th width="18%">
-                    Vowels{' '}
-                  </Th>
-                  <Th width="28%">
-                    Pronuciation{' '}
-                  </Th>
-                  <Th width="10%">
-                    Play
-                  </Th>
-                </Thead>
-                <tbody>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      a
-                    </Td>
-                    <Td>
-                      a as in b<span style={{color: 'red'}}>a</span>nana
-                    </Td>
-                    <Td>
-                      <audio id="a" src={`${a}`} />
-                      <PlayButton
-                        margin="0"
-                        name="a"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      e
-                    </Td>
-                    <Td>
-                      e as in b<span style={{color: 'red'}}>e</span>d
-                    </Td>
-                    <Td>
-                      <audio id="e" src={`${e}`} />
-                      <PlayButton
-                        margin="0"
-                        name="e"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      i
-                    </Td>
-                    <Td>
-                      e as in f<span style={{color: 'red'}}>e</span>ed
-                    </Td>
-                    <Td>
-                      <audio id="i" src={`${i}`} />
-                      <PlayButton
-                        margin="0"
-                        name="i"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      o
-                    </Td>
-                    <Td>
-                      o as in <span style={{color: 'red'}}>o</span>ver
-                    </Td>
-                    <Td>
-                      <audio id="o" src={`${o}`} />
-                      <PlayButton
-                        margin="0"
-                        name="o"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      u
-                    </Td>
-                    <Td>
-                      u as in l<span style={{color: 'red'}}>u</span>be
-                    </Td>
-                    <Td>
-                      <audio id="u" src={`${u}`} />
-                      <PlayButton
-                        margin="0"
-                        name="u"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                </tbody>
-              </Table>
-            </Box>
-          </Column>
-        </Section>
-        <Section maxwidth="960px">
-          <Column>
-            <Box padding="40px">
-              <Subtitle>
-                Greetings{' '}
-              </Subtitle>
-              <Text lineheight="3rem">
-                Let's learn some common greetings in Spanish.
-              </Text>
-            </Box>
-            <Box color="black" overflowx="auto">
-              <Table verticalalign="middle">
-                <Thead>
-                  <Th width="18%">
-                    Greeting{' '}
-                  </Th>
-                  <Th width="28%">
-                    Translation
-                  </Th>
-                  <Th width="10%">
-                    Play
-                  </Th>
-                </Thead>
-                <tbody>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      hola
-                    </Td>
-                    <Td>
-                      Hello{' '}
-                    </Td>
-                    <Td>
-                      <audio id="hello" src={`${hello}`} />
-                      <PlayButton
-                        margin="0"
-                        name="hello"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                  <Tr borderbottom="1px solid #333" height="80px">
-                    <Td>
-                      adiós{' '}
-                    </Td>
-                    <Td>
-                      Bye{' '}
-                    </Td>
-                    <Td>
-                      <audio id="bye" src={`${bye}`} />
-                      <PlayButton
-                        margin="0"
-                        name="bye"
-                        onClick={this.onClick}
-                        padding="0"
-                        src={`${PlayImg}`}
-                      />
-                    </Td>
-                  </Tr>
-                </tbody>
-              </Table>
-            </Box>
-          </Column>
-        </Section>
-*/

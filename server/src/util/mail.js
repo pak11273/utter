@@ -1,5 +1,7 @@
 import express from 'express'
 import _ from 'lodash'
+import pwd from '../../dist/config/pwd.js'
+import nodemailer from 'nodemailer'
 const mailRouter = express.Router()
 
 mailRouter.post('/', function(req, res) {
@@ -12,8 +14,8 @@ mailRouter.post('/', function(req, res) {
   })
 
   const mailOptions = {
-    from: 'pak11273@gmail.com',
-    to: 'pak11273@yahoo.com',
+    from: 'utterzone11273@gmail.com',
+    to: 'pak11273@gmail.com',
     subject: req.body.subject,
     text:
       'phone: ' +

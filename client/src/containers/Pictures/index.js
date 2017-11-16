@@ -128,7 +128,7 @@ class Pictures extends Component {
 
     this.props.actions.loadQuery(query)
 
-    if (this.props.roomReducer.roomLevel > 6) {
+    if (this.props.roomReducer.listType === 'words') {
       superagent
         .get('http://pixabay.com/api')
         .query({
@@ -255,7 +255,7 @@ class Pictures extends Component {
   }
 
   render() {
-    const picture = this.props.roomReducer.roomLevel > 6
+    const picture = this.props.roomReducer.listType === 'words'
       ? <Img src={this.props.pictureSRC} />
       : <Text fontsize="7rem">{this.props.translated}</Text>
 
@@ -271,7 +271,7 @@ class Pictures extends Component {
     return (
       <Wrap>
         {this.props.children}
-        <Box margin="20px">
+        <Box minwidth="640px" minheight="340px" margin="20px">
           {picture}
         </Box>
         <Box>
@@ -290,6 +290,9 @@ class Pictures extends Component {
             width="30px"
             height="40px"
           />
+          <div style={{height: '100px'}}>
+            <div style={{fontSize: '3rem'}}>word audio: {cdn + wordAudio}</div>
+          </div>
           <Box
             margin="20px"
             width="400px"

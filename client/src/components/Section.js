@@ -8,17 +8,28 @@ const Section = styled.section`
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
   flex-wrap: ${props => props.flexwrap};
+  grid-template-columns: ${props => props.gridtemplatecolumns};
   height: ${props => props.height};
   li {
     font-size: ${props => props.lifontsize};
   }
   justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
+  max-height: ${props => props.maxheight};
+  min-height: ${props => props.minheight};
   max-width: ${props => props.maxwidth};
+  min-width: ${props => props.minwidth};
   opacity: ${props => props.opacity};
   padding: ${props => props.padding};
   position: ${props => props.position};
   width: ${props => props.width};
+
+  @media(min-width: 375px) {
+    flex-direction: ${props => props.flexdirection375};
+    height:${props => props.height375};
+    width: ${props => props.width375};
+    min-width: ${props => props.width375};
+  }
 
   @media(min-width: 768px) {
     flex-direction: ${props => props.flexdirection768};
@@ -30,16 +41,21 @@ const Section = styled.section`
     flex-direction: ${props => props.flexdirection960};
     height:${props => props.height960};
     width: ${props => props.width960};
+    max-width: ${props => props.maxwidth960};
+  }
+
+  @media(min-width: 1024px) {
+    flex-direction: ${props => props.flexdirection1024};
+    height:${props => props.height1024};
+    width: ${props => props.width1024};
   }
 `
 Section.defaultProps = {
-  alignitems: 'center',
+  gridtemplatecolumns: '1fr',
   boxsizing: 'border-box',
   color: 'black',
-  display: 'flex',
+  display: 'grid',
   flexdirection: 'row',
-  justifycontent: 'center',
-  margin: '0 auto',
   width: '100%'
 }
 

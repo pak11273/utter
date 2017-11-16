@@ -26,7 +26,7 @@ import PlayImg from '../../assets/images/play.svg'
 import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-import source from '../../../src/data/level8/vocab.js'
+import source from '../../../src/data/korean/level8/vocab.js'
 const eun = cdn + source.category.nouns.speech.participles.은.korean.audioUrl
 const neun = cdn + source.category.nouns.speech.participles.는.korean.audioUrl
 const i = cdn + source.category.nouns.speech.participles.이.korean.audioUrl

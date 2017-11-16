@@ -13,12 +13,13 @@ import RoomCreator from './RoomCreator.js'
 // actions
 import {loadRooms, roomSelect, updateRoomLevel} from './actions.js'
 import {loadWordList, updateOriginalWordList} from '../Pictures/actions.js'
+import {updateListType} from '../Rooms/actions.js'
 
 const StyledRoom = styled.div`
   color: ${props => (props.selected ? 'red' : 'black')};
   cursor: pointer;
   font-size: 1rem;
-  padding: 10px;
+  padding: 10px 0 0 0;
   text-align: left;
 `
 
@@ -39,7 +40,8 @@ const RoomList = ({
   selectedRoomId,
   onSelect,
   updateRoomLevel,
-  updateOriginalWordList
+  updateOriginalWordList,
+  updateListType
 }) => {
   let list = roomList
   !list ? (list = []) : list
@@ -52,6 +54,10 @@ const RoomList = ({
           // update wordList when room is selected
           const roomLevel = level
           const listObj = require(`../../data/${language}/level${roomLevel}/query.js`)
+          const listType = require(`../../data/${language}/level${roomLevel}/vocab.js`)
+            .default
+          updateListType(listType.meta.listType)
+          console.log('listtype: ', listType.meta.listType)
           updateOriginalWordList(listObj.default)
 
           loadWordList(listObj.default)
@@ -159,7 +165,10 @@ class RoomsContainer extends Component {
   render() {
     return (
       <Box>
-        <Box flexdirection="row" justifycontent="space-around">
+        <Box
+          flexdirection="row"
+          justifycontent="flex-start"
+          margin="0 0 20px 0">
           <Text>Sort By: </Text>
           <select>
             <option>Rooms</option>
@@ -185,9 +194,10 @@ class RoomsContainer extends Component {
             selectedRoomId={this.props.roomReducer.selected}
             updateOriginalWordList={this.props.actions.updateOriginalWordList}
             updateRoomLevel={this.props.actions.updateRoomLevel}
+            updateListType={this.props.actions.updateListType}
           />
         </Box>
-        <Box>
+        <Box margin="20px 0 0 0">
           <RoomCreator addRoom={this.addRoom} />
         </Box>
       </Box>
@@ -212,7 +222,8 @@ const mapDispatchToProps = dispatch => {
         loadWordList,
         roomSelect,
         updateOriginalWordList,
-        updateRoomLevel
+        updateRoomLevel,
+        updateListType
       },
       dispatch
     )

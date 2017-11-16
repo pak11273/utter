@@ -1,4 +1,5 @@
 import Chat from '../containers/Chat'
+import ChatRoom from '../containers/ChatRoom'
 import Challenge from '../containers/Challenge'
 import Channels from '../containers/Channels'
 import Login from '../containers/Logins'
@@ -14,6 +15,7 @@ export {
   Challenge,
   Channels,
   Chat,
+  ChatRoom,
   Masthead,
   Login,
   Navbar,

@@ -40,10 +40,8 @@ Column.defaultProps = {
   background: 'transparent',
   display: 'flex',
   flexdirection: 'column',
-  justifycontent: 'center',
+  justifycontent: 'flex-start',
   overflow: 'hidden',
-  padding: '1rem',
-  textalign: 'center',
   width: '100%'
 }
 

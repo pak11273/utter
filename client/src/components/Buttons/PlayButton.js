@@ -19,6 +19,7 @@ const Button = styled.button`
 `
 
 Button.defaultProps = {
+  alignitems: 'flex-start',
   backgroundcolor: 'transparent',
   border: 'none',
   cursor: 'pointer',

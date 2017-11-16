@@ -68,6 +68,19 @@ module.exports = env => {
         {
           test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
           use: ['file-loader?name=[name].[ext]']
+        },
+        {
+          test: /\.ttf$/,
+          use: ['file-loader?prefix=fonts/']
+        },
+        {
+          test: /react-icons\/(.)*(.js)$/,
+          use: { 
+						loader: 'babel-loader',
+						query: {
+							presets: ['es2015', 'react']
+						}
+					}
         }
       ]
     },
@@ -130,7 +143,11 @@ const shared = {
       {
         test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
         use: ['file-loader?name=[name].[ext]']
-      }
+      },
+			{
+				test: /react-icons\/(.)*(.js)$/,
+				use: 'babel-loader'
+			}
     ]
   }
 }

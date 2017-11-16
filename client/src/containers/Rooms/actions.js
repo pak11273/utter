@@ -1,5 +1,7 @@
 import {
   LOAD,
+  LOAD_LIST_TYPE,
+  UPDATE_LIST_TYPE,
   CREATE,
   UPDATE_ROOM_LANGUAGE,
   UPDATE_ROOM_LEVEL,
@@ -12,6 +14,24 @@ const loadRooms = obj => {
     type: LOAD,
     payload: new Promise((resolve, reject) => {
       resolve(obj)
+    })
+  }
+}
+
+const loadListType = type => {
+  return {
+    type: LOAD_LIST_TYPE,
+    payload: new Promise((resolve, reject) => {
+      resolve(type)
+    })
+  }
+}
+
+const updateListType = type => {
+  return {
+    type: UPDATE_LIST_TYPE,
+    payload: new Promise((resolve, reject) => {
+      resolve(type)
     })
   }
 }
@@ -53,6 +73,8 @@ const removeRoom = () => {
 
 export {
   loadRooms,
+  loadListType,
+  updateListType,
   createRoom,
   updateRoomLevel,
   updateRoomLanguage,

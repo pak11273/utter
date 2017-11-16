@@ -38,7 +38,7 @@ const StyledChannel = styled.div`
   color: ${props => (props.selected ? 'red' : 'black')};
   cursor: pointer;
   font-size: 1rem;
-  padding: 10px;
+  padding: 10px 0 0 0;
   text-align: left;
 `
 const Channel = ({channel, id, onClick, people}) => {
@@ -155,7 +155,7 @@ class ChannelsContainer extends Component {
         </Column>
       )
     }
-    return <div>{channel_room}</div>
+    return <div style={{width: '100%'}}>{channel_room}</div>
   }
 }
 

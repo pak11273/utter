@@ -3,19 +3,13 @@ import styled, {ThemeProvider} from 'styled-components'
 import {
   Audio,
   Box,
-  Column,
-  Img,
+  Dictionary,
   MastheadTitle,
   MastheadSubtitle,
   PlayButton,
-  Spacer,
+  RememberSection,
   Subtitle,
-  Table,
-  Td,
   Text,
-  Thead,
-  Th,
-  Tr,
   Title,
   Section,
   Wrapper
@@ -30,6 +24,9 @@ import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
 import vocab from '../../../src/data/korean/level2/vocab.js'
+const ssangGiYeog = cdn + vocab.doubleConsonants.ㄲ.korean.audioUrl
+
+const ae = cdn + vocab.dipthongs.애.korean.audioUrl
 
 class KoreanLevel2 extends Component {
   onClick(e) {
@@ -39,130 +36,124 @@ class KoreanLevel2 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="gray">
-          <Column>
-            <Box>
-              <MastheadTitle>
-                Level Two - Double Consonants & Dipthongs{' '}
-              </MastheadTitle>
-              <MastheadSubtitle>
-                Constructing Dipthongs{' '}
-                and Syllables
-              </MastheadSubtitle>
-            </Box>
-          </Column>
+        <Masthead background="#3269AD">
+          <Box>
+            <MastheadTitle>
+              Level Two - Double Consonants & Dipthongs{' '}
+            </MastheadTitle>
+            <MastheadSubtitle>
+              Constructing Dipthongs{' '}
+              and Syllables
+            </MastheadSubtitle>
+          </Box>
         </Masthead>
-        <Section maxwidth="960px">
-          <Column>
-            <Box padding="40px">
-              <Subtitle>
-                Rules for constructing syllables
-              </Subtitle>
-              <Text lineheight="3rem">
-                Syllables are constructed of either 2, 3 or 4 letters
-              </Text>
-              <Text lineheight="3rem">
-                Must always start with a consonant
-              </Text>
-              <Text lineheight="3rem">
-                Must always start with a consonant
-                Vowels always go in the middle of three letter syllable
-              </Text>
-              <Text lineheight="3rem">
-                Vowels always go in the second position of four letter syllable
-              </Text>
-            </Box>
-          </Column>
-        </Section>
-        <Section maxwidth="960px">
-          <Column>
-            <Subtitle>Construction</Subtitle>
-            <Text>Either triangle formation or vertical formation</Text>
-            <Text>Which formation depends on the vowel</Text>
-            <Text>
-              a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation
+        <Section margin="100px 0 0 0" maxwidth="1024px">
+          <Box padding="40px">
+            <Subtitle>
+              How to construct Syllables
+            </Subtitle>
+            <Text fontsize="1.5rem" margin="20px 0 0 0">
+              Either triangle formation or vertical formation.
+              Which formation depends on the vowel.
+              a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation.
+              eu, u, o, yo, and yu use vertical formation.
             </Text>
-            <Text>eu, u, o, yo, and yu use vertical formation</Text>
-          </Column>
-        </Section>
-        <Section>
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left"
-            />
-            <Subtitle color="#333" padding="15px">Grammar</Subtitle>
-          </Column>
+          </Box>
         </Section>
         <Section
           alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="100px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left"
-            />
-            <Subtitle color="#333" padding="15px">New Vocabulary</Subtitle>
-          </Column>
+          margin="100px 0 0 0"
+          maxwidth960="1024px">
+          <Dictionary
+            gridheader=".9fr .5fr 2fr .9fr"
+            gridheader640=".9fr .8fr 2.5fr .5fr"
+            gridbody=".9fr .8fr 1.8fr .7fr"
+            gridbody640=".9fr .8fr 2.5fr .5fr"
+            height="600px"
+            term="Consonants"
+            definition="Pronunciation"
+            media="Play"
+            name="Name"
+            width="100vw"
+            overflowy="scroll">
+            <Box>
+              <p>
+                ㄲ{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                쌍기역 (ssang-gi-yeog)
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'gg' sound{' '}
+              </p>
+            </Box>
+            <Box>
+              <audio id="ssangGiYeog" src={`${ssangGiYeog}`} />
+              <PlayButton
+                name="ssangGiYeog"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
         </Section>
         <Section
           alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="100px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left"
-            />
-            <Subtitle color="#333" padding="15px">New Phrases</Subtitle>
-          </Column>
+          margin="100px 0 0 0"
+          maxwidth960="1024px">
+          <Dictionary
+            gridheader="1fr 2fr 1fr"
+            gridheader640="1fr 2fr 1fr"
+            gridbody="1fr 2fr 1fr"
+            gridbody640="1fr 2fr 1fr"
+            term="Dipthongs"
+            definition="Pronunciation"
+            media="Play"
+            width="100vw">
+            <Box>
+              <p>
+                애{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'e' sound as in so<span style={{color: 'red'}}>e</span>gg{' '}
+              </p>
+            </Box>
+            <Box alignitems="flex-start">
+              <audio id="ae" src={`${ae}`} />
+              <PlayButton
+                margin="0 0 0 10px"
+                name="ae"
+                onClick={this.onClick}
+                padding="0"
+                src={`${PlayImg}`}
+              />
+            </Box>
+          </Dictionary>
         </Section>
-        <Section
-          alignitems="flex-start"
-          flexdirection960="row"
-          height="175px"
-          height960="900px"
-          maxwidth="960px"
-          padding="30px"
-          textalign="left">
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              color="#666"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle color="#333" padding="15px">column 1</Subtitle>
-              <Text>
-                ㅎ = 'h' sound
-              </Text>
-            </Column>
-          </Column>
-          <Column>
-            <Column
-              justifycontent="flex-start"
-              fontsize="1.8rem"
-              textalign="left">
-              <Subtitle color="#333" padding="15px">column 2</Subtitle>
-              <Text>
-                ㅣ = 'ee' sound
-              </Text>
-            </Column>
-          </Column>
+        <RememberSection
+          list={[
+            'Syllables are constructed of either 2, 3 or 4 letters',
+            'Must always start with a consonant',
+            'Vowels always go in the middle of three letter syllable',
+            'Vowels always go in the second position of four letter syllable'
+          ]}
+        />
+        <Section background="green" height="600px" maxwidth="1024px">
+          <Box>
+            <Text fontsize="3rem" fontweight="900" color="white">
+              Go Practice!{' '}
+            </Text>
+            <Text color="white" padding="20px">
+              <a>Channel Selection & Room Etiquette</a>
+            </Text>
+          </Box>
         </Section>
       </Wrapper>
     )

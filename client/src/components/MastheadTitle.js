@@ -13,7 +13,7 @@ const MastheadTitle = styled.div`
 MastheadTitle.defaultProps = {
   color: 'white',
   fontsize: '3rem',
-  fontweight: '600',
+  fontweight: '900',
   padding: '20px',
   width: '100%',
   textalign: 'center'

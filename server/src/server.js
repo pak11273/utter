@@ -27,17 +27,11 @@ io.on('connection', socket => {
   console.log('a user connected')
   socket.on('message', msg => {
     console.log('message: ', msg)
+    io.emit('message', msg)
   })
   socket.on('disconnect', function() {
     console.log('user disconnected')
   })
-  socket.broadcast.emit('hi')
-  // socket.on('message', body => {
-  //   socket.broadcast.emit('message', {
-  //     body,
-  //     from: socket.id.slice(8)
-  //   })
-  // })
 })
 
 // Routers
@@ -67,6 +61,46 @@ app.get('*.css', function(req, res, next) {
   res.set('Content-Encoding', 'gzip')
   res.set('Content-Type', 'text/css')
   next()
+})
+
+// sendmail for contact page
+app.post('/sendmail', function(req, res) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: pwd.gmail_username,
+      pass: pwd.gmail_password
+    }
+  })
+
+  const mailOptions = {
+    from: 'utterzone11273@gmail.com',
+    to: 'pak11273@gmail.com',
+    subject: req.body.subject,
+    text:
+      'phone: ' +
+        ' ' +
+        req.body.country +
+        ' ' +
+        req.body.number +
+        '\n\n' +
+        'email: ' +
+        req.body.email +
+        '\n\n' +
+        'subjedct: ' +
+        req.body.subject +
+        '\n\n' +
+        'message: ' +
+        req.body.letter
+  }
+
+  transporter.sendMail(mailOptions, function(error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log('Email sent: ' + info.response)
+    }
+  })
 })
 
 // app route
