@@ -290,9 +290,6 @@ class Pictures extends Component {
             width="30px"
             height="40px"
           />
-          <div style={{height: '100px'}}>
-            <div style={{fontSize: '3rem'}}>word audio: {cdn + wordAudio}</div>
-          </div>
           <Box
             margin="20px"
             width="400px"

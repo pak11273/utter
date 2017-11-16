@@ -53,14 +53,13 @@ const RoomList = ({
         const onRoomSelect = () => {
           // update wordList when room is selected
           const roomLevel = level
-          const listObj = require(`../../data/${language}/level${roomLevel}/query.js`)
-          const listType = require(`../../data/${language}/level${roomLevel}/vocab.js`)
+          const listObj = require(`../../data/${language.toLowerCase()}/level${roomLevel}/query.js`)
+            .default
+          const listType = require(`../../data/${language.toLowerCase()}/level${roomLevel}/vocab.js`)
             .default
           updateListType(listType.meta.listType)
-          console.log('listtype: ', listType.meta.listType)
-          updateOriginalWordList(listObj.default)
-
-          loadWordList(listObj.default)
+          updateOriginalWordList(listObj)
+          loadWordList(listObj)
 
           updateRoomLevel(level)
           onSelect(_id)

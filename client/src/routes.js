@@ -24,6 +24,8 @@ import {
   Pricing,
   Spanish1,
   Spanish2,
+  French1,
+  French2,
   Redux
 } from './layouts'
 
@@ -167,6 +169,16 @@ export const routes = [
   {
     path: '/spanish/2',
     component: Spanish2,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/french/1',
+    component: French1,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/french/2',
+    component: French2,
     loadData: () => getSomeData()
   },
   {

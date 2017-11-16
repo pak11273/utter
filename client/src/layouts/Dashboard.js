@@ -25,7 +25,7 @@ export default () =>
     <Section>
       <Subtitle>Subscriptions</Subtitle>{' '}
     </Section>
-    <Section gridtemplatecolumns="1fr 1fr" alignitems="flex-start">
+    <Section gridtemplatecolumns="1fr 1fr 1fr" alignitems="flex-start">
       <Box>
         <List fontsize="2rem">
           <Li><NavLink to="/korean/1">Korean Level 1</NavLink></Li>
@@ -45,6 +45,16 @@ export default () =>
           </Li>
           <Li>
             <NavLink to="/spanish/2">Spanish Level 2</NavLink>
+          </Li>
+        </List>
+      </Box>
+      <Box>
+        <List>
+          <Li>
+            <NavLink to="/french/1">French Level 1</NavLink>
+          </Li>
+          <Li>
+            <NavLink to="/french/2">French Level 2</NavLink>
           </Li>
         </List>
       </Box>
