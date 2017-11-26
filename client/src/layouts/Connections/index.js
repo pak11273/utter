@@ -37,7 +37,7 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    // TODO: load the user profile
+    // load the user profile
     const userId = this.props.authReducer.user._id
     this.props.actions.loadUserProfile(userId)
   }

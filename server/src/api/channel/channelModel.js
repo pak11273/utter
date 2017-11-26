@@ -1,7 +1,11 @@
 import mongoose, {Schema} from 'mongoose'
 
 const channelSchema = mongoose.Schema({
-  channel: {
+  name: {
+    type: String,
+    default: ''
+  },
+  socket: {
     type: String,
     default: ''
   },

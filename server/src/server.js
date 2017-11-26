@@ -11,7 +11,6 @@ import err from './middleware/error.js'
 import http from 'http'
 const app = express()
 const server = http.createServer(app)
-// const io = socketio(server)
 
 // third party middleware
 import middleware from '../dist/middleware/appMiddleware'

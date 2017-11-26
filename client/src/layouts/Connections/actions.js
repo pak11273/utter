@@ -6,7 +6,6 @@ const loadUserProfile = id => {
     axios
       .get(`/api/users/${id}`)
       .then(res => {
-        console.log('id: ', res.data)
         return dispatch({type: LOAD_USER_PROFILE, payload: res.data})
       })
       .catch(err => {

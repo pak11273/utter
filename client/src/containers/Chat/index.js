@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Button, Box, List, ListItem, TextArea} from '../../components'
-import io from 'socket.io-client'
 import shortid from 'shortid'
+import io from 'socket.io-client'
 
 // actions
 import {updateReviewList} from '../Pictures/actions.js'
@@ -78,7 +78,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    this.socket = io()
+    const namespace = this.props.channelReducer.socket.nsp
+    this.socket = io(`${namespace}`)
+    console.log('socket: ', this.socket)
     this.socket.on('message', body => {
       console.log('body: ', body)
       this.props.actions.addMsg({
@@ -211,10 +213,7 @@ class Chat extends Component {
   render() {
     return (
       <Box>
-        <MsgList
-          list={this.filteredMessages()}
-          msgs={this.props.chatReducer.messages}
-        />
+        <MsgList list={this.filteredMessages()} />
         <MsgBox onKeyUp={this.handleSubmit} />
         <Box alignitems="flex-start" width="100px">
           <Button
@@ -243,6 +242,7 @@ class Chat extends Component {
 
 const mapStateToProps = state => {
   return {
+    channelReducer: state.channelReducer,
     chatReducer: state.chatReducer,
     messages: state.messages,
     pictureReducer: state.pictureReducer,

@@ -1,4 +1,10 @@
-import {CHANNEL_SELECT, LOAD, LOAD_CHANNEL_ID, SORT} from './types.js'
+import {
+  CHANNEL_SELECT,
+  SET_CHANNEL_SOCKET,
+  LOAD,
+  LOAD_CHANNEL_ID,
+  SORT
+} from './types.js'
 
 const channelSelect = id => {
   return {
@@ -36,4 +42,19 @@ const sortChannels = channels => {
   }
 }
 
-export {channelSelect, loadChannels, loadChannelId, sortChannels}
+const setChannelSocket = socket => {
+  return {
+    type: SET_CHANNEL_SOCKET,
+    payload: new Promise((resolve, reject) => {
+      resolve(socket)
+    })
+  }
+}
+
+export {
+  channelSelect,
+  loadChannels,
+  loadChannelId,
+  setChannelSocket,
+  sortChannels
+}

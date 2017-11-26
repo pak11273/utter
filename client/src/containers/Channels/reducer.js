@@ -2,7 +2,8 @@ import {
   CHANNEL_SELECT_FULFILLED,
   LOAD_FULFILLED,
   LOAD_CHANNEL_ID_FULFILLED,
-  SORT_FULFILLED
+  SORT_FULFILLED,
+  SET_CHANNEL_SOCKET_FULFILLED
 } from './types.js'
 
 export default (
@@ -24,6 +25,11 @@ export default (
       return {
         ...state,
         channels: action.payload
+      }
+    case SET_CHANNEL_SOCKET_FULFILLED:
+      return {
+        ...state,
+        socket: action.payload
       }
     case SORT_FULFILLED:
       return {

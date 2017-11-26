@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
+import io from 'socket.io-client'
 import ApiMgr from '../../utils'
 import shortid from 'shortid'
 import {Rooms} from '../../containers'
@@ -14,6 +15,7 @@ import {
   channelSelect,
   loadChannelId,
   loadChannels,
+  setChannelSocket,
   sortChannels
 } from './actions.js'
 
@@ -41,11 +43,11 @@ const StyledChannel = styled.div`
   padding: 10px 0 0 0;
   text-align: left;
 `
-const Channel = ({channel, id, onClick, people}) => {
+const Channel = ({name, id, onClick, people}) => {
   return (
     <StyledChannel onClick={onClick}>
       <br />
-      <Text>{channel} ({people})</Text>
+      <Text>{name} ({people})</Text>
     </StyledChannel>
   )
 }
@@ -56,21 +58,23 @@ const ChannelsList = ({
   loadRooms,
   onSelect,
   selectedChannelId,
+  socketConnect,
   updateRoomLanguage
 }) =>
   <Box alignitems="flex-start" justifycontent="flex-start">
     <Ol fontsize="1.2rem" color="black" textalign="left">
-      {channelList.map(({_id, channel, language, people}) => {
+      {channelList.map(({_id, name, language, people, socket}) => {
         const onChannelSelect = () => {
           updateRoomLanguage(language)
           loadRooms(_id)
           onSelect(_id)
+          socketConnect(socket)
         }
         return (
           <Channel
             key={_id}
             id={_id}
-            channel={channel}
+            name={name}
             onClick={onChannelSelect}
             people={people}
           />
@@ -92,6 +96,7 @@ class ChannelsContainer extends Component {
     super(props)
     this.loadRooms = this.loadRooms.bind(this)
     this.onChannelSelect = this.onChannelSelect.bind(this)
+    this.socketConnect = this.socketConnect.bind(this)
     this.updateRoomLanguage = this.updateRoomLanguage.bind(this)
   }
 
@@ -111,7 +116,7 @@ class ChannelsContainer extends Component {
   }
 
   loadRooms(_id) {
-    //load with actual chnnel id
+    //load with actual channel id
     this.props.actions.loadChannelId(_id)
   }
 
@@ -126,6 +131,11 @@ class ChannelsContainer extends Component {
 
   onChannelSelect(id) {
     this.props.actions.channelSelect(id)
+  }
+
+  socketConnect(socketName) {
+    const socket = io(`/${socketName}`)
+    this.props.actions.setChannelSocket(socket)
   }
 
   render() {
@@ -147,6 +157,7 @@ class ChannelsContainer extends Component {
             sorting={'hello'}
           />
           <ChannelsList
+            socketConnect={this.socketConnect}
             channelList={this.props.channelReducer.channels}
             loadRooms={this.loadRooms}
             onSelect={this.onChannelSelect}
@@ -171,6 +182,7 @@ const mapDispatchToProps = dispatch => {
         loadChannelId,
         loadChannels,
         sortChannels,
+        setChannelSocket,
         updateRoomLanguage
       },
       dispatch
