@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-// import {BrowserRouter as Router, Route} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import {connect} from 'react-redux'
@@ -8,7 +7,7 @@ import superagent from 'superagent'
 
 import {
   Challenge,
-  ChatRoom,
+  ChatPanel,
   Pictures,
   Remote,
   Rooms,
@@ -29,6 +28,8 @@ import {
 
 // actions
 import {loadUserProfile} from './actions.js'
+import {setAuthor} from '../../containers/ChatPanel/actions.js'
+import {addMsg} from '../../containers/Chat/actions.js'
 
 class Connections extends Component {
   constructor() {
@@ -36,24 +37,9 @@ class Connections extends Component {
   }
 
   componentDidMount() {
-    superagent
-      .get('/api/users/59ba886955d0041e7a4a854a')
-      .query(null)
-      .set('Accept', 'application/json')
-      .end((err, res) => {
-        if (err) {
-          alert(err)
-          return
-        }
-
-        let results = res.body
-
-        if (!results) {
-          results = []
-        } else {
-          this.props.actions.loadUserProfile(results)
-        }
-      })
+    // TODO: load the user profile
+    const userId = this.props.authReducer.user._id
+    this.props.actions.loadUserProfile(userId)
   }
 
   render(props) {
@@ -74,7 +60,7 @@ class Connections extends Component {
           <Speaker />
         </Column>
         <Column>
-          <ChatRoom />
+          <ChatPanel />
         </Column>
       </Section>
     )
@@ -83,8 +69,9 @@ class Connections extends Component {
 
 const mapStateToProps = state => {
   return {
+    roomReducer: state.roomReducer,
     userReducer: state.userReducer,
-    roomReducer: state.roomReducer
+    authReducer: state.authReducer
   }
 }
 
@@ -92,6 +79,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        setAuthor,
         loadUserProfile
       },
       dispatch

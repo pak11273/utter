@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ListItem = styled.li`
+const Style = styled.li`
   color: ${props => props.color};
   display: ${props => props.display};
   font-family: ${props => props.fontfamily};
@@ -10,8 +10,13 @@ const ListItem = styled.li`
   padding: ${props => props.padding};
   width: ${props => props.width};
 `
-ListItem.defaultProps = {
+Style.defaultProps = {
   fontsize: '1rem'
 }
+
+const ListItem = props =>
+  <Style>
+    {props.children}
+  </Style>
 
 export default ListItem

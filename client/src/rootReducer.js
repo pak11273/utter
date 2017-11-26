@@ -1,24 +1,24 @@
 import {combineReducers} from 'redux'
 import flashMessages from './reducers/flashMessages'
-import auth from './reducers/auth'
-import challengeReducer from './containers/Challenge/reducers.js'
-import channelReducer from './containers/Channels/reducers.js'
-import roomReducer from './containers/Rooms/reducers'
-import speakerReducer from './containers/Speaker/reducer.js'
-import pictureReducer from './containers/Pictures/reducers.js'
+import authReducer from './reducers/auth'
+import challengeReducer from './containers/Challenge/reducer.js'
+import channelReducer from './containers/Channels/reducer.js'
+import roomReducer from './containers/Rooms/reducer.js'
+import chatReducer from './containers/Chat/reducer.js'
+import chatPanelReducer from './containers/ChatPanel/reducer.js'
+import pictureReducer from './containers/Pictures/reducer.js'
 import utteredReducer from './containers/Uttered/reducer.js'
-import userReducer from './layouts/Connections/reducers.js'
-
-import {SET_NAME} from './containers/Rooms/types.js' // this may not belong here?
+import userReducer from './layouts/Connections/reducer.js'
 
 export default combineReducers({
-  auth,
+  authReducer,
   challengeReducer,
   channelReducer,
+  chatReducer,
+  chatPanelReducer,
   flashMessages,
   pictureReducer,
   roomReducer,
-  speakerReducer,
   userReducer,
   utteredReducer
 })

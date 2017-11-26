@@ -4,8 +4,6 @@ import {
   Audio,
   Box,
   Dictionary,
-  MastheadTitle,
-  MastheadSubtitle,
   PlayButton,
   RememberSection,
   Subtitle,
@@ -15,7 +13,7 @@ import {
   Wrapper
 } from '../../components'
 
-import {Masthead} from '../../containers'
+import {Info, Masthead} from './components'
 import Navbar from '../../containers/Navbars/Navbar'
 import PlayImg from '../../assets/images/play.svg'
 
@@ -36,72 +34,14 @@ class KoreanLevel2 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="#3269AD">
-          <Box>
-            <MastheadTitle>
-              Level Two - Double Consonants & Dipthongs{' '}
-            </MastheadTitle>
-            <MastheadSubtitle>
-              Constructing Dipthongs{' '}
-              and Syllables
-            </MastheadSubtitle>
-          </Box>
-        </Masthead>
-        <Section margin="100px 0 0 0" maxwidth="1024px">
-          <Box padding="40px">
-            <Subtitle>
-              How to construct Syllables
-            </Subtitle>
-            <Text fontsize="1.5rem" margin="20px 0 0 0">
-              Either triangle formation or vertical formation.
-              Which formation depends on the vowel.
-              a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation.
-              eu, u, o, yo, and yu use vertical formation.
-            </Text>
-          </Box>
-        </Section>
-        <Section
-          alignitems="flex-start"
-          margin="100px 0 0 0"
-          maxwidth960="1024px">
-          <Dictionary
-            gridheader=".9fr .5fr 2fr .9fr"
-            gridheader640=".9fr .8fr 2.5fr .5fr"
-            gridbody=".9fr .8fr 1.8fr .7fr"
-            gridbody640=".9fr .8fr 2.5fr .5fr"
-            height="600px"
-            term="Consonants"
-            definition="Pronunciation"
-            media="Play"
-            name="Name"
-            width="100vw"
-            overflowy="scroll">
-            <Box>
-              <p>
-                ㄲ{' '}
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                쌍기역 (ssang-gi-yeog)
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'gg' sound{' '}
-              </p>
-            </Box>
-            <Box>
-              <audio id="ssangGiYeog" src={`${ssangGiYeog}`} />
-              <PlayButton
-                name="ssangGiYeog"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-          </Dictionary>
-        </Section>
+        <Masthead
+          title="Level Two - Syllables"
+          subtitle="Constructing Dipthongs and Syllables"
+        />
+        <Info
+          subtitle="How to construct Syllables"
+          info="Either triangle formation or vertical formation.  Which formation depends on the vowel.  a, i, ya, yae, e, ye, ae, eo, and yeo use the triangle formation.  eu, u, o, yo, and yu use vertical formation."
+        />
         <Section
           alignitems="flex-start"
           margin="100px 0 0 0"
@@ -136,6 +76,31 @@ class KoreanLevel2 extends Component {
               />
             </Box>
           </Dictionary>
+          <Section minheight="600px" maxwidth="1024px">
+            <Box padding="40px">
+              <Subtitle>
+                Introductions{' '}
+              </Subtitle>
+              <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
+                As a determiner you add 이,그, or 저 to the left of the noun. eg.
+                this thing is an arm(이거 팔이여요). This thing is used when you have
+                something that is within
+                your reach. 저 is used when things are far away from you and the
+                person
+                you are talking to, while 그 is used when it's far away from you
+                but near the person you are speaking to. You might be wondering
+                about using "the" or "a" in Korean, but in Korean there are no
+                such articles. So "the boy" or "a boy" is simply "boy"
+
+                이것이 저것보다 좋아요
+                이거는 저거보다 좋네요
+
+                이게 is short for 이것이
+                이것이 저거보다 좋아요 = 이게 저거보다 좋아요
+
+              </Text>
+            </Box>
+          </Section>
         </Section>
         <RememberSection
           list={[

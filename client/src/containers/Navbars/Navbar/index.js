@@ -91,7 +91,7 @@ class Navbar extends Component {
   }
 
   render(props) {
-    const {isAuthenticated} = this.props.auth
+    const {isAuthenticated} = this.props.authReducer
 
     const userLinks = (
       <Menu>
@@ -154,7 +154,7 @@ class Navbar extends Component {
 
 const mapStateToProps = state => {
   return {
-    auth: state.auth
+    authReducer: state.authReducer
   }
 }
 

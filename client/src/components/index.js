@@ -23,6 +23,7 @@ import MastheadSubtitle from './MastheadSubtitle.js'
 import MastheadTitle from './MastheadTitle.js'
 import List from './Lists/List.js'
 import ListItem from './Lists/ListItem.js'
+import PlayBox from './Boxes/Playbox.js'
 import PlayButton from './Buttons/PlayButton.js'
 import RememberSection from '../components/RememberSection.js'
 import Row from './Row.js'
@@ -66,6 +67,7 @@ export {
   MastheadSubtitle,
   List,
   ListItem,
+  PlayBox,
   PlayButton,
   RememberSection,
   Row,

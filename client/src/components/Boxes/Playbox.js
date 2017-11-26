@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
+import Box from '../Boxes'
+import PlayImg from '../../assets/images/play.svg'
 
 const Button = styled.button`
   background-color: ${props => props.backgroundcolor};
@@ -61,9 +63,27 @@ Img.defaultProps = {
   width: '30px'
 }
 
-const PlayButton = props =>
-  <Button {...props}>
-    <Img {...props} />
-  </Button>
+class PlayBox extends Component {
+  constructor() {
+    super()
+    this.onClick = this.onClick.bind(this)
+  }
 
-export default PlayButton
+  onClick(e) {
+    e.preventDefault()
+    document.getElementById(e.target.name).play()
+  }
+  render() {
+    const {id, src} = this.props
+    return (
+      <Box>
+        <audio id={id} src={`${src}`} />
+        <Button onClick={this.onClick}>
+          <Img name={id} src={`${PlayImg}`} />
+        </Button>
+      </Box>
+    )
+  }
+}
+
+export default PlayBox

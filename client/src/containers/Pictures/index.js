@@ -21,7 +21,7 @@ import {
   sendTranslated
 } from './actions.js'
 
-import {setInterimScript, setFinalTranscript} from '../Speaker/actions.js'
+import {setInterimScript, setFinalTranscript} from '../ChatPanel/actions.js'
 
 // audio
 import cdnUrl from '../../../src/config/secrets.js'

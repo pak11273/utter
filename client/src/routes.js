@@ -24,6 +24,7 @@ import {
   Pricing,
   Spanish1,
   Spanish2,
+  Spanish3,
   French1,
   French2,
   Redux
@@ -164,6 +165,11 @@ export const routes = [
   {
     path: '/spanish/1',
     component: Spanish1,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/spanish/3',
+    component: Spanish3,
     loadData: () => getSomeData()
   },
   {

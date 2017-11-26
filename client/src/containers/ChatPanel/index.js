@@ -1,8 +1,35 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Chat} from '../../containers'
-import {Box, Column, Section, Text} from '../../components'
+import {Chat, Uttered} from '../../containers'
+import {Box, Button, Column, Section, Text, TextArea} from '../../components'
+
+class Friends extends Component {
+  render() {
+    return (
+      <div style={{textAlign: 'left'}}>
+        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+          Friends
+        </Text>
+        <div>Joe <span style={{color: 'red'}}>offline</span></div>
+        <div>Martha <span style={{color: 'red'}}>online</span></div>
+        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+          Sponsor
+        </Text>
+        <div>Joe <span style={{color: 'green'}}>online</span></div>
+        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+          Sponsorees
+        </Text>
+        <div>Joe <span style={{color: 'red'}}>offline</span></div>
+        <div>Martha <span style={{color: 'orange'}}>afk</span></div>
+        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+          Blocked
+        </Text>
+        <div>Martha <span style={{color: 'orange'}}>afk</span></div>
+      </div>
+    )
+  }
+}
 
 class Private extends Component {
   render() {
@@ -34,7 +61,7 @@ class Viewers extends Component {
   }
 }
 
-class ChatRoom extends Component {
+class ChatPanel extends Component {
   render() {
     return (
       <Router>
@@ -50,11 +77,15 @@ class ChatRoom extends Component {
             </Link>
             <Link to="/connections/private" fontsize="1rem">Private</Link>
             <Link to="/connections/viewers" fontsize="1rem">Viewers</Link>
+            <Link to="/connections/friends" fontsize="1rem">Friends</Link>
+            <Link to="/connections/uttered" fontsize="1rem">Uttered</Link>
           </Box>
           <Box alignitems="flex-start">
             <Route path="/connections/chat" component={Chat} />
             <Route path="/connections/private" component={Private} />
             <Route path="/connections/viewers" component={Viewers} />
+            <Route path="/connections/uttered" component={Uttered} />
+            <Route path="/connections/friends" component={Friends} />
           </Box>
         </Column>
       </Router>
@@ -62,8 +93,4 @@ class ChatRoom extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {channelReducer: state.channelReducer}
-}
-
-export default connect(mapStateToProps, null)(ChatRoom)
+export default connect(null, null)(ChatPanel)

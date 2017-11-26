@@ -1,3 +1,4 @@
+import French1 from './French/Level1.js'
 import Home from './Home'
 import About from './About'
 import Contact from './Contact.js'
@@ -23,9 +24,11 @@ import Korean8 from './Korean/Level8.js'
 import Pricing from './Pricing.js'
 import Spanish1 from './Spanish/Level1.js'
 import Spanish2 from './Spanish/Level2.js'
+import Spanish3 from './Spanish/Level3.js'
 import Redux from './Redux.js'
 
 export {
+  French1,
   Home,
   About,
   Contact,
@@ -49,6 +52,7 @@ export {
   Pricing,
   Spanish1,
   Spanish2,
+  Spanish3,
   Redux,
   Signup,
   Sponsorship

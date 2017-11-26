@@ -7,8 +7,6 @@ import {
   Column,
   Dictionary,
   Img,
-  MastheadTitle,
-  MastheadSubtitle,
   PlayButton,
   RememberSection,
   Spacer,
@@ -23,7 +21,8 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import {Masthead, Navbar} from '../../containers'
+
+import {Info, Masthead} from './components'
 
 import PlayImg from '../../assets/images/play.svg'
 
@@ -112,155 +111,10 @@ class KoreanLevel7 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="#3269AD">
-          <Box>
-            <MastheadTitle>
-              Level Seven - Basic Grammar
-            </MastheadTitle>
-            <MastheadSubtitle>
-              Learn basic expressions to start small conversations.
-            </MastheadSubtitle>
-          </Box>
-        </Masthead>
-        <Section minheight="600px" maxwidth="1024px">
-          <Box padding="40px">
-            <Subtitle>
-              Greetings{' '}
-            </Subtitle>
-            <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
-              Let's learn some basic introductory phrases. There are several
-              different forms to use depending on who you are talking to. We
-              will
-              be using just two of the most general cases, formal and informal.
-              You will generally use the formal form with strangers, people who
-              are older, or people who are higher ranked than you. Informal is
-              used with friends and relatives. You will learn the more specific
-              forms in later lessons.{' '}
-            </Text>
-          </Box>
-        </Section>
-        <Section alignitems="flex-start" maxwidth960="1024px">
-          <Dictionary
-            gridheader="1fr 1fr .4fr"
-            gridheader640="2.5fr 5.2fr 1fr"
-            gridbody="2.4fr 2fr 1fr"
-            gridbody640="0.5fr 1.1fr 0.2fr"
-            term="Greetings"
-            definition="Translation"
-            media="Play">
-            <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                안영{' '}
-              </Text>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                Hello, Good Morning, Good Evening, Bye{' '}
-                <span style={{fontSize: '1rem'}}>(informal)</span>
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="anYeong" src={`${anYeong}`} />
-              <PlayButton
-                margin="0"
-                name="anYeong"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                안영하세요{' '}
-              </Text>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                Hello, Good Morning, Good Evening, Bye{' '}
-                <span style={{fontSize: '1rem'}}>(formal)</span>
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="anYeongHaSeYo" src={`${anYeongHaSeYo}`} />
-              <PlayButton
-                margin="0"
-                name="anYeongHaSeYo"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-          </Dictionary>
-        </Section>
-        <Section minheight="600px" maxwidth="1024px">
-          <Box padding="40px">
-            <Subtitle>
-              안영
-            </Subtitle>
-            <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
-              This word has lots of utility. The word literally means 'peace'.
-              You can use it to say hello,
-              good-morning, good-evening, or good-bye in the informal form. By
-              attaching the verb
-              하 (do) and the polite ending 세요 to the end of the word you have
-              the polite form of saying hello, 안영하세요, which literally means 'Are
-              you doing peace?'. Normally you would use intonation(raising your
-              voice at the end) to make this a question, but it it commonly not
-              intonated.{' '}
-            </Text>
-          </Box>
-        </Section>
-        <Section alignitems="flex-start" maxwidth960="1024px">
-          <Dictionary
-            gridheader="1fr 1fr .4fr"
-            gridheader640="1fr 2fr .4fr"
-            gridbody="2.4fr 2fr 1fr"
-            gridbody640="0.5fr 1.1fr 0.2fr"
-            term="Farewells"
-            definition="Translation"
-            media="Play">
-            <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                안녕히계세요 <span style={{fontSize: '1rem'}}>(formal)</span>
-              </Text>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                You are leaving and the other person is staying
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="anYeongHiGyeSeYo" src={`${anYeongHiGyeSeYo}`} />
-              <PlayButton
-                margin="0"
-                name="anYeongHiGyeSeYo"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                안녕히 가세요 <span style={{fontSize: '1rem'}}>(formal)</span>
-              </Text>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                You are staying and the other person is leaving{' '}
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="anYeongHiGaSeYo" src={`${anYeongHiGaSeYo}`} />
-              <PlayButton
-                margin="0"
-                name="anYeongHiGaSeYo"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-          </Dictionary>
-        </Section>
+        <Masthead
+          title="Level Seven - Basic Grammar"
+          subtitle="Learn basic expressions to start small conversations."
+        />
         <Section height="600px" maxwidth="1024px">
           <Box padding="40px">
             <Subtitle>
@@ -1023,31 +877,6 @@ class KoreanLevel7 extends Component {
               />
             </Box>
           </Dictionary>
-        </Section>
-        <Section minheight="600px" maxwidth="1024px">
-          <Box padding="40px">
-            <Subtitle>
-              Greetings{' '}
-            </Subtitle>
-            <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
-              As a determiner you add 이,그, or 저 to the left of the noun. eg.
-              this thing is an arm(이거 팔이여요). This thing is used when you have
-              something that is within
-              your reach. 저 is used when things are far away from you and the
-              person
-              you are talking to, while 그 is used when it's far away from you
-              but near the person you are speaking to. You might be wondering
-              about using "the" or "a" in Korean, but in Korean there are no
-              such articles. So "the boy" or "a boy" is simply "boy"
-
-              이것이 저것보다 좋아요
-              이거는 저거보다 좋네요
-
-              이게 is short for 이것이
-              이것이 저거보다 좋아요 = 이게 저거보다 좋아요
-
-            </Text>
-          </Box>
         </Section>
         <Section maxwidth="960px">
           <Column>

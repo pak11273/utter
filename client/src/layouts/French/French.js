@@ -7,12 +7,12 @@ import Navbar from '../../containers/Navbars/Navbar'
 import Title from '../../components/Text/Title.js'
 import Subtitle from '../../components/Text/Subtitle.js'
 
-class Korean extends Component {
+class French extends Component {
   render() {
     return (
       <Wrapper>
         <Masthead bg="green">
-          <Title>Korean</Title>
+          <Title>French</Title>
           <Subtitle>
             Hangul for the simple minded for:
           </Subtitle>
@@ -28,4 +28,4 @@ class Korean extends Component {
   }
 }
 
-export default Korean
+export default French

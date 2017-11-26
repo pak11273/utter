@@ -9,10 +9,9 @@ import _ from 'lodash'
 import express from 'express'
 import err from './middleware/error.js'
 import http from 'http'
-import socketio from 'socket.io'
 const app = express()
 const server = http.createServer(app)
-const io = socketio(server)
+// const io = socketio(server)
 
 // third party middleware
 import middleware from '../dist/middleware/appMiddleware'
@@ -21,18 +20,6 @@ middleware(app)
 // express middleware
 app.use(express.static(path.join(__dirname, 'client/dist'))) //path is relative to this directory
 app.use('/cdn', express.static('cdn'))
-
-// connect socket to server
-io.on('connection', socket => {
-  console.log('a user connected')
-  socket.on('message', msg => {
-    console.log('message: ', msg)
-    io.emit('message', msg)
-  })
-  socket.on('disconnect', function() {
-    console.log('user disconnected')
-  })
-})
 
 // Routers
 import api from '../dist/api'

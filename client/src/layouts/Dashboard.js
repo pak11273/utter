@@ -46,6 +46,9 @@ export default () =>
           <Li>
             <NavLink to="/spanish/2">Spanish Level 2</NavLink>
           </Li>
+          <Li>
+            <NavLink to="/spanish/3">Spanish Level 3</NavLink>
+          </Li>
         </List>
       </Box>
       <Box>

@@ -2,17 +2,28 @@ export default {
   greetings: {
     ['hello']: {
       english: {roman: 'hello', spelling: 'hello'},
-      french: {roman: 'pending', spelling: 'pending'},
+      french: {
+        formal: {
+          roman: 'bonjour',
+          spelling: 'bonjour',
+          audioUrl: '/audio/korean/phrases/bonjour.mp3'
+        },
+        informal: {
+          roman: 'bonjour',
+          spelling: 'bonjour',
+          audioUrl: '/audio/korean/phrases/bonjour.mp3'
+        }
+      },
       korean: {
         informal: {
           roman: 'anYeong',
-          spelling: 'ㄱ',
+          spelling: '안영',
           audioUrl: '/audio/korean/phrases/anYeong.mp3'
         },
         formal: {
           roman: 'anYeongHaSeYo',
-          spelling: 'ㄱ',
-          audioUrl: '/audio/korean/phrases/anYeongHaSeYo.mp3'
+          spelling: '안영하세요',
+          audioUrl: '/audio/korean/phrases/pending.mp3'
         }
       },
       spanish: {
@@ -30,7 +41,18 @@ export default {
     },
     ['bye']: {
       english: {roman: 'bye', spelling: 'bye'},
-      french: {roman: 'pending', spelling: 'pending'},
+      french: {
+        formal: {
+          roman: 'au revoir',
+          spelling: 'au revoir',
+          audioUrl: '/audio/korean/phrases/au_revoir.mp3'
+        },
+        informal: {
+          roman: 'au revoir',
+          spelling: 'au revoir',
+          audioUrl: '/audio/korean/phrases/au_revoir.mp3'
+        }
+      },
       korean: {
         ['staying']: {
           informal: {
@@ -40,20 +62,20 @@ export default {
           },
           formal: {
             roman: 'anYeongHiGyeSeYo',
-            spelling: 'ㄱ',
-            audioUrl: '/audio/korean/phrases/anYeongHiGyeSeYo.mp3'
+            spelling: '안용히계세요',
+            audioUrl: '/audio/korean/phrases/pending.mp3'
           }
         },
         ['leaving']: {
           informal: {
             roman: 'anYeong',
-            spelling: 'ㄱ',
+            spelling: '앝용',
             audioUrl: '/audio/korean/phrases/anYeong.mp3'
           },
           formal: {
             roman: 'anYeongHiGaSeYo',
-            spelling: 'ㄱ',
-            audioUrl: '/audio/korean/phrases/anYeongHiGaSeYo.mp3'
+            spelling: '앝용히가세요',
+            audioUrl: '/audio/korean/phrases/pending.mp3'
           }
         }
       },
@@ -62,6 +84,40 @@ export default {
           roman: 'pending',
           spelling: 'pending',
           audioUrl: '/audio/spanish/phrases/adios.mp3'
+        }
+      }
+    },
+    ['goodMorning']: {
+      english: {roman: 'bye', spelling: 'bye'},
+      french: {
+        formal: {
+          roman: 'good morning',
+          spelling: 'good morning',
+          audioUrl: '/audio/korean/phrases/good_morning.mp3'
+        },
+        informal: {
+          roman: 'good morning',
+          spelling: 'au revoir',
+          audioUrl: '/audio/korean/phrases/good_morning.mp3'
+        }
+      },
+      korean: {
+        informal: {
+          roman: 'johEun AChim',
+          spelling: '좋은 아침',
+          audioUrl: '/audio/korean/phrases/pending.mp3'
+        },
+        formal: {
+          roman: 'johEun AChimIEYo',
+          spelling: '좋은 아침이에요',
+          audioUrl: '/audio/korean/phrases/pending.mp3'
+        }
+      },
+      spanish: {
+        informal: {
+          roman: 'pending',
+          spelling: 'pending',
+          audioUrl: '/audio/spanish/phrases/pending.mp3'
         }
       }
     }

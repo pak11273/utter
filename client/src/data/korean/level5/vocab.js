@@ -1,4 +1,7 @@
 export default {
+  meta: {
+    listType: 'letters'
+  },
   alphabet: {
     consonants: {
       ㄱ: {

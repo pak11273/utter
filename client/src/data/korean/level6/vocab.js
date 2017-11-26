@@ -1,4 +1,7 @@
 export default {
+  meta: {
+    listType: 'letters'
+  },
   examples: {
     basic: {
       밥을: {

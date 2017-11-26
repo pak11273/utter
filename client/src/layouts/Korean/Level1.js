@@ -7,9 +7,7 @@ import {
   Dictionary,
   Grid,
   Img,
-  MastheadTitle,
-  MastheadSubtitle,
-  PlayButton,
+  PlayBox,
   Spacer,
   RememberSection,
   Subtitle,
@@ -18,26 +16,41 @@ import {
   Wrapper
 } from '../../components'
 
-import {Masthead} from '../../containers'
+import {Info, Masthead} from './components'
 import PlayImg from '../../assets/images/play.svg'
 
 // audio
 import cdnUrl from '../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
+import sharedPhrases from '../../../src/data/shared/phrases.js'
 
 import vocab from '../../../src/data/korean/level1/vocab.js'
 const giYeog = cdn + vocab.category.alphabet.consonants.ㄱ.korean.audioUrl
 const niEun = cdn + vocab.category.alphabet.consonants.ㄴ.korean.audioUrl
 const diGeud = cdn + vocab.category.alphabet.consonants.ㄷ.korean.audioUrl
+const ssangDiGeud = cdn + vocab.category.alphabet.consonants.ㄸ.korean.audioUrl
 const riEur = cdn + vocab.category.alphabet.consonants.ㄹ.korean.audioUrl
 const miEum = cdn + vocab.category.alphabet.consonants.ㅁ.korean.audioUrl
 const biEub = cdn + vocab.category.alphabet.consonants.ㅂ.korean.audioUrl
-const siOs = cdn + vocab.category.alphabet.consonants.ㅅ.korean.audioUrl
+const ssangBiEub = cdn + vocab.category.alphabet.consonants.ㅂ.korean.audioUrl
+const siOs = cdn + vocab.category.alphabet.consonants.ㅃ.korean.audioUrl
 const iEung = cdn + vocab.category.alphabet.consonants.ㅇ.korean.audioUrl
 const jiEus = cdn + vocab.category.alphabet.consonants.ㅈ.korean.audioUrl
+const ssangGiYeog = cdn + vocab.category.alphabet.consonants.ㄲ.korean.audioUrl
+const ssangSiOs = cdn + vocab.category.alphabet.consonants.ㅆ.korean.audioUrl
+const chiEus = cdn + vocab.category.alphabet.consonants.ㅊ.korean.audioUrl
 
 // phrases
-// const level7_6 = cdn + source.category.examples.level7_6.korean.audioUrl
+const hello = cdn + sharedPhrases.greetings.hello.korean.informal.audioUrl
+const helloFormal = cdn + sharedPhrases.greetings.hello.korean.formal.audioUrl
+const byeStaying =
+  cdn + sharedPhrases.greetings.bye.korean.staying.informal.audioUrl
+const byeLeaving =
+  cdn + sharedPhrases.greetings.bye.korean.leaving.informal.audioUrl
+const goodMorning =
+  cdn + sharedPhrases.greetings.goodMorning.korean.informal.audioUrl
+const goodMorningFormal =
+  cdn + sharedPhrases.greetings.goodMorning.korean.formal.audioUrl
 
 class KoreanLevel1 extends Component {
   onClick(e) {
@@ -47,26 +60,14 @@ class KoreanLevel1 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="#3269AD">
-          <Box>
-            <MastheadTitle>
-              Level One - Hangul
-            </MastheadTitle>
-            <MastheadSubtitle>
-              Learn the Korean alphabet
-            </MastheadSubtitle>
-          </Box>
-        </Masthead>
-        <Section height="600px" maxwidth="1024px">
-          <Box padding="40px">
-            <Subtitle>
-              Alphabet{' '}
-            </Subtitle>
-            <Text fontsize="1.5rem" margin="20px 0 0 0">
-              Hangul consists of 14 consonants and 10 vowels.
-            </Text>
-          </Box>
-        </Section>
+        <Masthead
+          title="Level One - Hangul"
+          subtitle="Learn the Korean alphabet"
+        />
+        <Info
+          subtitle="Alphabet"
+          info="Hangul consists of 14 consonants and 10 vowels. We also included the double consonants that have have subtle yet unique sounds to them."
+        />
         <Section alignitems="flex-start" maxwidth960="1024px">
           <Dictionary
             gridheader=".9fr .5fr 2fr .9fr"
@@ -81,205 +82,170 @@ class KoreanLevel1 extends Component {
             width="100vw"
             overflowy="scroll">
             <Box>
+              ㄱ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              기역
+            </Box>
+            <Box alignitems="flex-start">
+              <p>a non-aspirated 'k' sound. Almost like a 'g' sound</p>
+            </Box>
+            <PlayBox id="giYeog" src={giYeog} />
+            <Box>
+              ㄲ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              쌍기역
+            </Box>
+            <Box alignitems="flex-start">
+              <p>a 'g' sound formed from the throat</p>
+            </Box>
+            <PlayBox id="ssangGiYeog" src={ssangGiYeog} />
+            <Box>
+              ㄴ
+            </Box>
+            <Box alignitems="flex-start">
+
+              니은
+
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>'n' sound as in <span style={{color: 'red'}}>n</span>ame</p>
+
+            </Box>
+            <PlayBox id="niEun" src={niEun} />
+            <Box>
+              ㄷ
+            </Box>
+            <Box alignitems="flex-start">
+
+              디귿
+
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>'r' sound as in <span style={{color: 'red'}}>r</span>ain</p>
+
+            </Box>
+            <PlayBox id="diGeud" src={diGeud} />
+            <Box>
+              ㄸ
+            </Box>
+            <Box alignitems="flex-start">
+
+              쌍디귿
+
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>'th' sound as in <span style={{color: 'red'}}>th</span>ing</p>
+
+            </Box>
+            <PlayBox id="ssangDiGeud" src={ssangDiGeud} />
+            <Box>
+              ㄹ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              리을
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>'d' sound as in <span style={{color: 'red'}}>d</span>og</p>
+
+            </Box>
+            <PlayBox id="riEur" src={riEur} />
+            <Box>
+              ㅁ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              미음
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>'d' sound as in <span style={{color: 'red'}}>d</span>og</p>
+
+            </Box>
+            <PlayBox id="miEum" src={miEum} />
+            <Box>
+              ㅂ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              비읍
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>'b' sound as in <span style={{color: 'red'}}>b</span>oy</p>
+
+            </Box>
+            <PlayBox id="biEub" src={biEub} />
+            <Box>
+              ㅃ
+            </Box>
+            <Box alignitems="flex-start">
+
+              쌍비읍
+
+            </Box>
+            <Box alignitems="flex-start">
+
+              a stressed, non-aspirated 'b' sound{' '}
+
+            </Box>
+            <PlayBox id="ssangBiEub" src={ssangBiEub} />
+            <Box>
+              ㅅ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              시옷
+            </Box>
+            <Box alignitems="flex-start">
+
               <p>
-                ㄱ{' '}
+                a soft 's' sound as in <span style={{color: 'red'}}>s</span>oft
               </p>
+
             </Box>
-            <Box alignitems="flex-start">
-              <p>
-                기역 (gi-yeog)
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'g' or 'k' sound{' '}
-              </p>
-            </Box>
+            <PlayBox id="siOs" src={siOs} />
             <Box>
-              <audio id="giYeog" src={`${giYeog}`} />
-              <PlayButton
-                margin="0"
-                name="giYeog"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>
-                ㄴ
-              </p>
+              ㅆ
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                니은 (niEun)
-              </p>
+              쌍시옷
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                'n' sound as in <span style={{color: 'red'}}>n</span>ame{' '}
-              </p>
+
+              <p>'s' sound as in <span style={{color: 'red'}}>s</span>ell</p>
+
             </Box>
+            <PlayBox id="ssangSiOs" src={ssangSiOs} />
             <Box>
-              <audio id="niEun" src={`${niEun}`} />
-              <PlayButton
-                margin="0"
-                name="niEun"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㄷ</p>
+              ㅇ{' '}
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                디귿 (diGeud)
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'r' sound as in <span style={{color: 'red'}}>r</span>ain{' '}
-              </p>
-            </Box>
-            <Box>
-              <audio id="diGeud" src={`${diGeud}`} />
-              <PlayButton
-                margin="0"
-                name="diGeud"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㄹ{' '}</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>리을 (riEur)</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'd' sound as in <span style={{color: 'red'}}>d</span>og{' '}
-              </p>
-            </Box>
-            <Box>
-              <audio id="riEur" src={`${riEur}`} />
-              <PlayButton
-                margin="0"
-                name="riEur"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㅁ{' '}</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>미음 (miEum)</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'd' sound as in <span style={{color: 'red'}}>d</span>og{' '}
-              </p>
-            </Box>
-            <Box>
-              <audio id="miEum" src={`${miEum}`} />
-              <PlayButton
-                margin="0"
-                name="miEum"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㅂ{' '}</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>비읍 (biEub)</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'b' sound as in <span style={{color: 'red'}}>b</span>oy{' '}
-              </p>
-            </Box>
-            <Box>
-              <audio id="biEub" src={`${biEub}`} />
-              <PlayButton
-                margin="0"
-                name="biEub"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㅅ{' '}</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>시옷 (siOs)</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                'sh' sound as in <span style={{color: 'red'}}>sh</span>ell{' '}
-              </p>
-            </Box>
-            <Box>
-              <audio id="siOs" src={`${siOs}`} />
-              <PlayButton
-                margin="0"
-                name="siOs"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㅇ{' '}</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>이응 (iEung)</p>
+              이응
             </Box>
             <Box alignitems="flex-start">
               <p>
                 'ng' sound as in so<span style={{color: 'red'}}>ng</span> or is
+                silent
               </p>
-              silent
             </Box>
+            <PlayBox id="iEung" src={iEung} />
             <Box>
-              <audio id="iEung" src={`${iEung}`} />
-              <PlayButton
-                margin="0"
-                name="iEung"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ㅈ</p>
+              ㅈ
             </Box>
             <Box alignitems="flex-start">
-              <p>지웃 (jiEus)</p>
+              지웃
             </Box>
             <Box alignitems="flex-start">
+
               <p>
-                'ch' sound as in so<span style={{color: 'red'}}>ch</span>air{' '}
+                'ch' sound as in so<span style={{color: 'red'}}>ch</span>air
               </p>
+
             </Box>
-            <Box>
-              <audio id="iEung" src={`${iEung}`} />
-              <PlayButton
-                margin="0"
-                name="iEung"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
+            <PlayBox id="chiEus" src={chiEus} />
           </Dictionary>
         </Section>
         <Section
@@ -296,26 +262,87 @@ class KoreanLevel1 extends Component {
             media="Play"
             name="Name">
             <Box>
-              <p>ㄱ{' '}</p>
+              ㄱ{' '}
             </Box>
             <Box>
-              <p>기역 (gi-yeog)</p>
+              기역
             </Box>
             <Box alignitems="flex-start">
-              <p>'g' or 'k' sound{' '}</p>
+              'g' or 'k' sound{' '}
             </Box>
-            <Box>
-              <audio id="giYeog" src={`${giYeog}`} />
-              <PlayButton
-                margin="0"
-                name="giYeog"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
+            <PlayBox id="giYeog" src={giYeog} />
           </Dictionary>
         </Section>
+        <Info
+          subtitle="Greetings"
+          info="Let's learn some basic introductory phrases. There are several different forms to use depending on who you are talking to. We will be using just two of the most general cases, formal and informal.  You will generally use the formal form with strangers, people who are older, or people who are higher ranked than you. Informal is used with friends and relatives. You will learn the more specific forms in later lessons."
+        />
+        <Section alignitems="flex-start" margin="100px 0 0 0" maxwidth="1024px">
+          <Dictionary
+            gridheader="1fr 2fr 1fr"
+            gridheader640="1fr 2fr 1fr"
+            gridbody="1fr 2fr 1fr"
+            gridbody640="1fr 2fr 1fr"
+            term="Greetings"
+            definition="Translation"
+            media="Play">
+            <Box>
+              안영
+            </Box>
+            <Box alignitems="flex-start">
+              Hello <span>(informal)</span>
+            </Box>
+            <PlayBox id="hello" src={hello} />
+            <Box>
+              안영하세요
+            </Box>
+            <Box alignitems="flex-start">
+              Hello <span>(formal)</span>
+            </Box>
+            <PlayBox id="helloFormal" src={helloFormal} />
+            <Box>
+              안영
+            </Box>
+            <Box alignitems="flex-start">
+              Bye <span>(informal)</span>
+            </Box>
+            <PlayBox id="helloFormal" src={helloFormal} />
+            <Box>
+              안영히계세요
+            </Box>
+            <Box alignitems="flex-start">
+
+              Bye <span>(formal, to someone who is staying behind)</span>
+
+            </Box>
+            <PlayBox id="byeStaying" src={byeStaying} />
+            <Box>
+              안영히가세요
+            </Box>
+            <Box alignitems="flex-start">
+              Bye <span>(formal, to someone who is going away)</span>
+            </Box>
+            <PlayBox id="byeLeaving" src={byeLeaving} />
+            <Box>
+              좋은 아침
+            </Box>
+            <Box alignitems="flex-start">
+              Good Morning <span>(informal)</span>
+            </Box>
+            <PlayBox id="goodMorning" src={goodMorning} />
+            <Box>
+              좋은 아침이에요
+            </Box>
+            <Box alignitems="flex-start">
+              Good Morning<span>(formal)</span>
+            </Box>
+            <PlayBox id="goodMorningFormal" src={goodMorningFormal} />
+          </Dictionary>
+        </Section>
+        <Info
+          subtitle="안영 (Hello, Bye)"
+          info="This word has lots of utility. The word literally means 'peace'.  You can use it to say hello, good-morning, good-evening, or good-bye in the informal form. By attaching the verb 하 (do) and the polite ending 세요 to the end of the word you have the polite form of saying hello, 안영하세요, which literally means 'Are you at peace?'. Normally you would use intonation(raising your voice at the end) to make this a question, but it it commonly not intonated."
+        />
         <RememberSection
           list={[
             "ㅒ and ㅔ sound the same. Don't be confused by the romanizations which are different.",
@@ -324,6 +351,7 @@ class KoreanLevel1 extends Component {
             "ㄹ sounds like a 'd' in the middle of a word while surrounded by verbs.",
             " TODO: give examples(use sunday) idyoil between a vowel and consonant it is sometimes silent like chicken(talk) it is pronounced tak but with words like read(ilgeoyo) it will be 'l' sound.",
             'When you have a word that contains a syllable starting with ㄹ and that syllable is preceded by a ㅇ or ㄱ being the batchim consonant of that syllable, the ㄹ will actually sound like a ㄴ.',
+            '조은 아침 is rarely used.  Instead you would use the all-purpose: 안영 or 안용하세요',
             '공룡 (dinosaur) pronounced gong-nyong'
           ]}
         />
@@ -343,5 +371,6 @@ class KoreanLevel1 extends Component {
 }
 
 export default KoreanLevel1
+// TODO: wrap all pronuciations with a p tag
 // TODO: finish romanizing the alphabet
 // ref: https://en.wikipedia.org/wiki/Revised_Romanization_of_Hangeul

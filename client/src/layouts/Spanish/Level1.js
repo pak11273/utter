@@ -7,8 +7,6 @@ import {
   Dictionary,
   Grid,
   Img,
-  MastheadTitle,
-  MastheadSubtitle,
   PlayButton,
   RememberSection,
   Spacer,
@@ -18,7 +16,7 @@ import {
   Wrapper
 } from '../../components'
 
-import {Masthead} from '../../containers'
+import {Masthead, Info} from './components'
 import PlayImg from '../../assets/images/play.svg'
 
 // audio
@@ -74,31 +72,14 @@ class SpanishLevel1 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="#F5C000">
-          <Column>
-            <Box>
-              <MastheadTitle>
-                Level One - Spanish{' '}
-              </MastheadTitle>
-              <MastheadSubtitle>
-                Learn the Spanish alphabet
-              </MastheadSubtitle>
-            </Box>
-          </Column>
-        </Masthead>
-        <Section height="600px" maxwidth="960px">
-          <Box>
-            <Subtitle>
-              Alphabet{' '}
-            </Subtitle>
-            <Text fontsize="1.5rem" margin="10px 0 0 0">
-              Spanish consists of 24 consonants and 5 vowels. We have also
-              included
-              some other common letters that you need to learn for future
-              lessons.
-            </Text>
-          </Box>
-        </Section>
+        <Masthead
+          title="Level One - Spanish"
+          subtitle="Learn the Spanish alphabet"
+        />
+        <Info
+          subtitle="Alphabet"
+          info="Spanish consists of 24 consonants and 5 vowels. We have also included some other common letters that you need to learn for future lessons."
+        />
         <Section alignitems="flex-start" maxwidth="1024px">
           <Dictionary
             gridheader="1fr 2fr 1fr"

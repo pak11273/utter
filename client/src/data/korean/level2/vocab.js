@@ -1,7 +1,10 @@
 export default {
+  meta: {
+    listType: 'letters'
+  },
   doubleConsonants: {
     ㄲ: {
-      english: {roman: 'pending', spelling: 'ㅐ'},
+      english: {roman: 'pending', spelling: 'ㄲ'},
       korean: {
         roman: 'kk',
         name: '치읓',
@@ -21,7 +24,7 @@ export default {
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㅉ: {
-      english: {roman: 'pending', spelling: 'ㅉ:'},
+      english: {roman: 'pending', spelling: 'ㅉ'},
       korean: {roman: 'jj', spelling: 'ㅉ'},
       french: {roman: 'pending', spelling: 'pending'}
     }
@@ -38,7 +41,11 @@ export default {
     },
     ㅒ: {
       english: {roman: 'pending', spelling: 'ㅒ'},
-      korean: {roman: 'ye', spelling: 'ㅒ'},
+      korean: {
+        roman: 'ye',
+        spelling: 'ㅒ',
+        audioUrl: '/audio/korean/alphabet/pending.mp3'
+      },
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㅔ: {

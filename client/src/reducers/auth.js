@@ -1,9 +1,10 @@
-import {SET_CURRENT_USER} from '../actions/types.js'
+import {LOAD_USER_PROFILE, SET_CURRENT_USER} from '../actions/types.js'
 import isEmpty from 'lodash/isEmpty'
 
 const initialState = {
   isAuthenticated: false,
-  user: {}
+  user: {},
+  userProfile: {}
 }
 
 export default (state = initialState, action = {}) => {
@@ -12,6 +13,11 @@ export default (state = initialState, action = {}) => {
       return {
         isAuthenticated: !isEmpty(action.user),
         user: action.user
+      }
+    case LOAD_USER_PROFILE:
+      return {
+        ...state,
+        userProfile: action.payload
       }
     default:
       return state

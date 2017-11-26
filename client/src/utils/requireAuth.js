@@ -31,7 +31,7 @@ export default ComposedComponent => {
 
   const mapStateToProps = state => {
     return {
-      isAuthenticated: state.auth.isAuthenticated
+      isAuthenticated: state.authReducer.isAuthenticated
     }
   }
 

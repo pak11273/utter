@@ -1,10 +1,3 @@
-// template for words
-//
-// word: {
-//   english: {roman: 'pending', spelling: 'pending'},
-//   korean: {roman: 'pending', spelling: 'pending'},
-//   spanish: {roman: 'pending', spelling: 'pending'}
-// },
 export default {
   meta: {
     listType: 'words'

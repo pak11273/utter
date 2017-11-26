@@ -18,7 +18,7 @@ import {
   Wrapper
 } from '../../components'
 
-import {Masthead} from '../../containers'
+import {Info, Masthead} from './components'
 import PlayImg from '../../assets/images/play.svg'
 
 // audio
@@ -35,18 +35,14 @@ const d = cdn + vocab.category.alphabet.consonants.d.french.audioUrl
 const f = cdn + vocab.category.alphabet.consonants.f.french.audioUrl
 const g = cdn + vocab.category.alphabet.consonants.g.french.audioUrl
 const h = cdn + vocab.category.alphabet.consonants.h.french.audioUrl
-const ch = cdn + vocab.category.alphabet.consonants.ch.french.audioUrl
 const j = cdn + vocab.category.alphabet.consonants.j.french.audioUrl
 const k = cdn + vocab.category.alphabet.consonants.k.french.audioUrl
 const l = cdn + vocab.category.alphabet.consonants.l.french.audioUrl
-const ll = cdn + vocab.category.alphabet.consonants.ll.french.audioUrl
 const m = cdn + vocab.category.alphabet.consonants.m.french.audioUrl
 const n = cdn + vocab.category.alphabet.consonants.n.french.audioUrl
-const ñ = cdn + vocab.category.alphabet.consonants.ñ.french.audioUrl
 const p = cdn + vocab.category.alphabet.consonants.p.french.audioUrl
 const q = cdn + vocab.category.alphabet.consonants.q.french.audioUrl
 const r = cdn + vocab.category.alphabet.consonants.r.french.audioUrl
-const rr = cdn + vocab.category.alphabet.consonants.rr.french.audioUrl
 const s = cdn + vocab.category.alphabet.consonants.s.french.audioUrl
 const t = cdn + vocab.category.alphabet.consonants.t.french.audioUrl
 const v = cdn + vocab.category.alphabet.consonants.v.french.audioUrl
@@ -74,31 +70,14 @@ class FrenchLevel1 extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead background="#F5C000">
-          <Column>
-            <Box>
-              <MastheadTitle>
-                Level One - French{' '}
-              </MastheadTitle>
-              <MastheadSubtitle>
-                Learn the French alphabet
-              </MastheadSubtitle>
-            </Box>
-          </Column>
-        </Masthead>
-        <Section height="600px" maxwidth="960px">
-          <Box>
-            <Subtitle>
-              Alphabet{' '}
-            </Subtitle>
-            <Text fontsize="1.5rem" margin="10px 0 0 0">
-              French consists of 24 consonants and 5 vowels. We have also
-              included
-              some other common letters that you need to learn for future
-              lessons.
-            </Text>
-          </Box>
-        </Section>
+        <Masthead
+          title="Level One - French"
+          subtitle="Learn the French alphabet"
+        />
+        <Info
+          subtitle="Alphabet"
+          info="French consists of 24 consonants and 5 vowels. We have also included some other common letters that you need to learn for future lessons."
+        />
         <Section alignitems="flex-start" maxwidth="1024px">
           <Dictionary
             gridheader="1fr 2fr 1fr"
@@ -195,23 +174,6 @@ class FrenchLevel1 extends Component {
               />
             </Box>
             <Box>
-              <p>ch</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                ch as in <span style={{color: 'red'}}>ch</span>air{' '}
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="ch" src={`${ch}`} />
-              <PlayButton
-                name="ch"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
               <p>j</p>
             </Box>
             <Box alignitems="flex-start">
@@ -263,23 +225,6 @@ class FrenchLevel1 extends Component {
               />
             </Box>
             <Box>
-              <p>ll</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                y as in <span style={{color: 'red'}}>y</span>es{' '}
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="ll" src={`${ll}`} />
-              <PlayButton
-                name="ll"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
               <p>m</p>
             </Box>
             <Box alignitems="flex-start">
@@ -308,23 +253,6 @@ class FrenchLevel1 extends Component {
               <audio id="n" src={`${n}`} />
               <PlayButton
                 name="n"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>ñ</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                onio as in o<span style={{color: 'red'}}>nio</span>n{' '}
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="ñ" src={`${ñ}`} />
-              <PlayButton
-                name="ñ"
                 onClick={this.onClick}
                 padding="0"
                 src={`${PlayImg}`}
@@ -376,23 +304,6 @@ class FrenchLevel1 extends Component {
               <audio id="r" src={`${r}`} />
               <PlayButton
                 name="r"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
-            </Box>
-            <Box>
-              <p>rr</p>
-            </Box>
-            <Box alignitems="flex-start">
-              <p>
-                rr as in pe<span style={{color: 'red'}}>rr</span>o{' '}
-              </p>
-            </Box>
-            <Box alignitems="flex-start">
-              <audio id="rr" src={`${rr}`} />
-              <PlayButton
-                name="rr"
                 onClick={this.onClick}
                 padding="0"
                 src={`${PlayImg}`}
@@ -657,12 +568,7 @@ class FrenchLevel1 extends Component {
             </Box>
           </Dictionary>
         </Section>
-        <RememberSection
-          list={[
-            'Vowels are never silent and are always pronounced.',
-            'Vowels are never silent and are always pronounced.Vowels are never silent and are always pronounced.'
-          ]}
-        />
+        <RememberSection list={['pending stuff', 'pending more stuff']} />
         <Section background="green" height="600px" maxwidth="1024px">
           <Box>
             <Text fontsize="3rem" fontweight="900" color="white">

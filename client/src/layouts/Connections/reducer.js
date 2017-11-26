@@ -1,8 +1,8 @@
-import {LOAD_USER_PROFILE_FULFILLED} from './types.js'
+import {LOAD_USER_PROFILE} from './types.js'
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
-    case LOAD_USER_PROFILE_FULFILLED:
+    case LOAD_USER_PROFILE:
       return {
         ...state,
         userProfile: action.payload

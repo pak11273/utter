@@ -37,6 +37,17 @@ export default {
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
         },
+        ㄸ: {
+          english: {roman: 'pending', spelling: 'ㄸ'},
+          korean: {
+            roman: 'dd',
+            name: '쌍디귿',
+            spelling: 'ㄸ',
+            audioUrl: '/audio/korean/alphabet/pending.mp3'
+          },
+          spanish: {roman: 'pending', spelling: 'pending'},
+          french: {roman: 'pending', spelling: 'pending'}
+        },
         ㄹ: {
           english: {roman: 'pending', spelling: 'ㄹ'},
           korean: {
@@ -70,6 +81,17 @@ export default {
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
         },
+        ㅃ: {
+          english: {roman: 'pending', spelling: 'ㅃ'},
+          korean: {
+            roman: 'bb',
+            name: '쌍비읍',
+            spelling: 'ㅃ',
+            audioUrl: '/audio/korean/alphabet/pending.mp3'
+          },
+          spanish: {roman: 'pending', spelling: 'pending'},
+          french: {roman: 'pending', spelling: 'pending'}
+        },
         ㅅ: {
           english: {roman: 'pending', spelling: 'ㅅ'},
           korean: {
@@ -77,6 +99,17 @@ export default {
             name: '시옷',
             spelling: 'ㅅ',
             audioUrl: '/audio/korean/alphabet/siOs.mp3'
+          },
+          spanish: {roman: 'pending', spelling: 'pending'},
+          french: {roman: 'pending', spelling: 'pending'}
+        },
+        ㅆ: {
+          english: {roman: 'pending', spelling: 'ㅆ'},
+          korean: {
+            roman: 'ss',
+            name: '쌍시옷',
+            spelling: 'ㅆ',
+            audioUrl: '/audio/korean/alphabet/ssangSiOs.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -164,7 +197,7 @@ export default {
             roman: 'kk',
             name: '쌍기역',
             spelling: 'ㅋ',
-            audioUrl: '/audio/korean/alphabet/ssangGiYyeog-v2.mp3'
+            audioUrl: '/audio/korean/alphabet/ssangGiYeog-v2.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}

@@ -88,7 +88,7 @@ class LoginForm extends Component {
           this.props.history.push('/dashboard')
         })
         .catch(error => {
-          this.setState({errors: error.response.data.errors, isLoading: false})
+          this.setState({errors: error, isLoading: false})
         })
     }
   }
