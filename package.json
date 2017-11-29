@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline --hot --env.dev",
+    "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline  --env.dev",
     "prebserver": "babel server/src --out-dir server/dist",
     "prebuild": "babel server/src --out-dir server/dist",
     "build": "webpack -p --env.prod",
@@ -52,7 +52,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "react-helmet": "^5.2.0",
-    "react-hot-loader": "^1.3.1",
+    "react-hot-loader": "^3.1.3",
     "react-icons": "^2.2.7",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",

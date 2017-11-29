@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {Button, Box, Input, Text} from '../../components'
 
 class RoomCreator extends Component {
@@ -28,7 +29,14 @@ class RoomCreator extends Component {
   }
 
   addRoom() {
-    return this.props.addRoom(this.state.room)
+    const socket = this.props.channelReducer.socket
+    if (!this.state.room.title) {
+      alert('You need a room title to create a room')
+    } else {
+      socket.emit('create', this.state.room.title)
+      //update socket to reflect added room
+      // console.log('room list: ', socket.adapter.rooms)
+    }
   }
 
   render() {
@@ -58,5 +66,10 @@ class RoomCreator extends Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return {
+    channelReducer: state.channelReducer
+  }
+}
 
-export default RoomCreator
+export default connect(mapStateToProps, null)(RoomCreator)

@@ -35,10 +35,20 @@ export default server => {
         body
       })
     })
-  })
 
-  span_for_eng.on('disconnect', () => {
-    console.log('a user disconnected from the span_for_eng channel')
+    socket.on('create', room => {
+      console.log('Room: ' + room + ' was created.')
+      socket.join(room)
+
+      // updated list of rooms for span_for_eng channel
+      socket.emit('updated_rooms', {
+        rooms: socket.adapter.rooms
+      })
+    })
+
+    socket.on('disconnect', () => {
+      console.log('a user disconnected from the span_for_eng channel')
+    })
   })
 
   const kor_for_eng = socketServer.of('/kor_for_eng')
@@ -46,13 +56,13 @@ export default server => {
   kor_for_eng.on('connection', socket => {
     console.log('a user connected to the kor_for_eng channel')
 
-    kor_for_eng.on('message', body => {
+    socket.on('message', body => {
       kor_for_eng.emit('message', {
         body
       })
     })
 
-    kor_for_eng.on('disconnect', () => {
+    socket.on('disconnect', () => {
       console.log('a user disconnected from the kor_for_eng channel')
     })
   })

@@ -91,21 +91,22 @@ class RoomsContainer extends Component {
   }
 
   componentDidMount() {
-    superagent
-      .get('/api/rooms')
-      .query(null)
-      .set('Accept', 'accept/json')
-      .end((err, res) => {
-        if (err) {
-          alert(
-            'Sorry. There was an internal error.  Please contact the system administrator about the problem' +
-              err
-          )
-          return
-        }
-        const results = res.body.room
-        this.props.actions.loadRooms(results)
-      })
+    //TODO: this.props.actions.loadRooms(results)
+    // superagent
+    //   .get('/api/rooms')
+    //   .query(null)
+    //   .set('Accept', 'accept/json')
+    //   .end((err, res) => {
+    //     if (err) {
+    //       alert(
+    //         'Sorry. There was an internal error.  Please contact the system administrator about the problem' +
+    //           err
+    //       )
+    //       return
+    //     }
+    //     const results = res.body.room
+    //     this.props.actions.loadRooms(results)
+    //   })
   }
 
   updateName(e) {
@@ -161,6 +162,14 @@ class RoomsContainer extends Component {
     this.props.actions.roomSelect(id)
   }
 
+  onTrash() {
+    const socket = this.props.channelReducer.socket
+    console.log('rooms: ', socket)
+    socket.to('trash').on('updated_rooms', list => {
+      console.log('room list: ', list)
+    })
+  }
+
   render() {
     return (
       <Box>
@@ -199,6 +208,9 @@ class RoomsContainer extends Component {
         <Box margin="20px 0 0 0">
           <RoomCreator addRoom={this.addRoom} />
         </Box>
+        <button onClick={this.onTrash.bind(this)}>
+          trash
+        </button>
       </Box>
     )
   }

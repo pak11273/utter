@@ -5,6 +5,7 @@ import {Provider} from 'react-redux'
 import styled, {injectGlobal, ThemeProvider} from 'styled-components'
 import jwt from 'jsonwebtoken'
 import '../src/assets/css/global-styles.js'
+import {AppContainer} from 'react-hot-loader'
 import {routes} from './routes'
 import {main} from './themes/config.js'
 import {Navbar} from './containers'
@@ -19,29 +20,37 @@ import {setCurrentUser} from './actions/authActions.js'
 class App extends Component {
   render(props) {
     return (
-      <ThemeProvider theme={main}>
-        <Provider store={store}>
-          <Router>
-            <Wrapper>
-              <Navbar
-                list={[
-                  'about',
-                  'contact',
-                  'languages',
-                  'pricing',
-                  'connections'
-                ]}
-              />
-              <Spacer margin="90px 0 0 0" />
-              <Switch>
-                {routes.map((route, i) => <Route key={i} {...route} />)}
-              </Switch>
-            </Wrapper>
-          </Router>
-        </Provider>
-      </ThemeProvider>
+      <AppContainer>
+        <ThemeProvider theme={main}>
+          <Provider store={store}>
+            <Router>
+              <Wrapper>
+                <Navbar
+                  list={[
+                    'about',
+                    'contact',
+                    'languages',
+                    'pricing',
+                    'connections'
+                  ]}
+                />
+                <Spacer margin="90px 0 0 0" />
+                <Switch>
+                  {routes.map((route, i) => <Route key={i} {...route} />)}
+                </Switch>
+              </Wrapper>
+            </Router>
+          </Provider>
+        </ThemeProvider>
+      </AppContainer>
     )
   }
 }
 
 render(<App />, document.getElementById('app'))
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    render(App)
+  })
+}

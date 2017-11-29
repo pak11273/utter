@@ -13,7 +13,7 @@ module.exports = env => {
   return {
     context: path.resolve(__dirname, 'client/src'),
     // entry: ['webpack-hot-middleware/client', './App.js'],
-    entry: ['./App.js'],
+    entry: ['react-hot-loader/patch', './App.js'],
     output: {
       path: path.join(__dirname, 'client/dist'),
       filename: 'bundle.js',
@@ -58,7 +58,7 @@ module.exports = env => {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: ['react-hot-loader', 'babel-loader']
+          use: ['react-hot-loader/webpack', 'babel-loader']
         },
         {
           test: /\.css$/,
@@ -75,12 +75,12 @@ module.exports = env => {
         },
         {
           test: /react-icons\/(.)*(.js)$/,
-          use: { 
-						loader: 'babel-loader',
-						query: {
-							presets: ['es2015', 'react']
-						}
-					}
+          use: {
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015', 'react']
+            }
+          }
         }
       ]
     },
@@ -144,10 +144,10 @@ const shared = {
         test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
         use: ['file-loader?name=[name].[ext]']
       },
-			{
-				test: /react-icons\/(.)*(.js)$/,
-				use: 'babel-loader'
-			}
+      {
+        test: /react-icons\/(.)*(.js)$/,
+        use: 'babel-loader'
+      }
     ]
   }
 }
