@@ -60,6 +60,7 @@
     "react-select": "^1.0.0-rc.10",
     "redux": "^3.7.1",
     "redux-promise-middleware": "^4.4.1",
+    "redux-socketio": "^1.1.9",
     "redux-thunk": "^2.2.0",
     "safe-buffer": "^5.0.1",
     "shortid": "^2.2.8",

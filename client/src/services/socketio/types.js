@@ -1,0 +1,39 @@
+const CREATE_ROOM = 'utter/socketio/CREATE_ROOM'
+const CREATE_ROOM_FAIL = 'utter/socketio/CREATE_ROOM_FAIL'
+const CREATE_ROOM_SUCCESS = 'utter/socketio/CREATE_ROOM_SUCCESS'
+const GET_ROOMS = 'utter/socketio/GET_ROOMS'
+const GET_ROOMS_FAIL = 'utter/socketio/GET_ROOMS_FAIL'
+const GET_ROOMS_SUCCESS = 'utter/socketio/GET_ROOMS_SUCCESS'
+const LOAD_SOCKET_NSPS = 'utter/socketio/LOAD_SOCKET_NSPS'
+const LOAD_SOCKET_NSPS_FAIL = 'utter/socketio/LOAD_SOCKET_NSPS_FAIL'
+const LOAD_SOCKET_NSPS_SUCCESS = 'utter/socketio/LOAD_SOCKET_NSPS_SUCCESS'
+const SEND = 'utter/socketio/SEND'
+const SEND_SUCCESS = 'utter/socketio/SEND_SUCCESS'
+const SEND_FAIL = 'utter/socketio/SEND_FAIL'
+const CONNECT = 'utter/socketio/CONNECT'
+const CONNECT_SUCCESS = 'utter/socketio/CONNECT_SUCCESS'
+const CONNECT_FAIL = 'utter/socketio/CONNECT_FAIL'
+const NSP_CONNECT = 'utter/socketio/NSP_CONNECT'
+const NSP_CONNECT_FAIL = 'utter/socketio/NSP_CONNECT_FAIL'
+const NSP_CONNECT_SUCCESS = 'utter/socketio/NSP_CONNECT_SUCCESS'
+
+export {
+  CREATE_ROOM,
+  CREATE_ROOM_FAIL,
+  CREATE_ROOM_SUCCESS,
+  GET_ROOMS,
+  GET_ROOMS_FAIL,
+  GET_ROOMS_SUCCESS,
+  LOAD_SOCKET_NSPS,
+  LOAD_SOCKET_NSPS_FAIL,
+  LOAD_SOCKET_NSPS_SUCCESS,
+  SEND,
+  SEND_SUCCESS,
+  SEND_FAIL,
+  CONNECT,
+  CONNECT_SUCCESS,
+  CONNECT_FAIL,
+  NSP_CONNECT,
+  NSP_CONNECT_FAIL,
+  NSP_CONNECT_SUCCESS
+}

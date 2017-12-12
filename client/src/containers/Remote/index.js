@@ -1,8 +1,12 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Channels, Uttered} from '../../containers'
 import {Box, Column, Section, Text} from '../../components'
+
+// actions
+import {loadSocketNsps} from '../../services/socketio/actions.js'
 
 class Vocabulary extends Component {
   render() {
@@ -52,6 +56,12 @@ class Phrases extends Component {
 }
 
 class RemoteContainer extends Component {
+  constructor(props) {
+    super(props)
+  }
+  componentDidMount() {
+    this.props.actions.loadSocketNsps()
+  }
   onClick() {
     //TODO:this console.log refreshes the whole page...
     // not the intende behavior but does refresh the channels list.  What we want to do is just refresh the container.  but how?
@@ -93,4 +103,15 @@ const mapStateToProps = state => {
   return {channelReducer: state.channelReducer}
 }
 
-export default connect(mapStateToProps)(RemoteContainer)
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        loadSocketNsps
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RemoteContainer)

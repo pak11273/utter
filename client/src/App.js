@@ -17,6 +17,7 @@ import FlashMessagesList from '../src/components/FlashMessages/FlashMessagesList
 //actions
 import {setCurrentUser} from './actions/authActions.js'
 
+// wrapped in AppContainer for react-hot-loader
 class App extends Component {
   render(props) {
     return (

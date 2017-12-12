@@ -7,6 +7,7 @@ import roomReducer from './containers/Rooms/reducer.js'
 import chatReducer from './containers/Chat/reducer.js'
 import chatPanelReducer from './containers/ChatPanel/reducer.js'
 import pictureReducer from './containers/Pictures/reducer.js'
+import socketReducer from './services/socketio/reducer.js'
 import utteredReducer from './containers/Uttered/reducer.js'
 import userReducer from './layouts/Connections/reducer.js'
 
@@ -19,6 +20,7 @@ export default combineReducers({
   flashMessages,
   pictureReducer,
   roomReducer,
+  socketReducer,
   userReducer,
   utteredReducer
 })

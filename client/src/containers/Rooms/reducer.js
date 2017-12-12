@@ -1,33 +1,41 @@
 import {
-  LOAD_FULFILLED,
   LOAD_LIST_TYPE_FULFILLED,
   UPDATE_LIST_TYPE_FULFILLED,
   ROOM_SELECT_FULFILLED,
+  UPDATE_CURRENT_ROOM_FULFILLED,
   UPDATE_ROOM_LANGUAGE_FULFILLED,
-  UPDATE_ROOM_LEVEL_FULFILLED
+  UPDATE_ROOM_LEVEL_FULFILLED,
+  UPDATE_ROOM_TITLE_FULFILLED
 } from './types.js'
 
 export default (
   state = {
-    roomLevel: 1,
+    creator: '',
+    currentRoom: null,
     language: 'spanish',
     lastValues: [],
-    list: [],
     listType: 'letters',
+    roomLevel: 1,
+    roomTitle: '',
     selected: ''
   },
   action = {}
 ) => {
   switch (action.type) {
-    case LOAD_FULFILLED:
+    case ROOM_SELECT_FULFILLED:
       return {
         ...state,
-        list: action.payload
+        selected: action.payload
       }
     case LOAD_LIST_TYPE_FULFILLED:
       return {
         ...state,
         listType: action.payload
+      }
+    case UPDATE_CURRENT_ROOM_FULFILLED:
+      return {
+        ...state,
+        currentRoom: action.payload
       }
     case UPDATE_LIST_TYPE_FULFILLED:
       return {
@@ -46,6 +54,11 @@ export default (
         ...state,
         roomLevel: action.payload
       }
+    case UPDATE_ROOM_TITLE_FULFILLED:
+      return {
+        ...state,
+        roomTitle: action.payload
+      }
     case 'REMOVE':
       break
     // an example  of es6 spread operating on an array
@@ -56,11 +69,6 @@ export default (
     //     lastValues: [...state.lastValues, action.payload]
     //   }
     // break
-    case ROOM_SELECT_FULFILLED:
-      return {
-        ...state,
-        selected: action.payload
-      }
     default:
       return state
   }

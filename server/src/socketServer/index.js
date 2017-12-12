@@ -1,69 +1,61 @@
 import io from 'socket.io'
 
-let onlineTotal = 0
-let span_for_eng_Total = 0
-let kor_for_eng_Total = 0
-
 export default server => {
   const socketServer = io(server)
 
   socketServer.on('connection', socket => {
     console.log('User ' + socket.id + ' connected')
-    console.log('online total: ', ++onlineTotal)
 
-    socket.on('message', body => {
-      console.log('main body: ', body)
-      socket.broadcast.emit('message', {
-        body
-      })
+    socket.emit('connection', {nsp: 'global'})
+
+    socket.on('create room', room => {
+      console.log('room is being created')
+      socket.join(room)
+      socket.emit('create room', 'blah fah goa')
     })
+    // socket.on('message', body => {
+    //   socketServer.emit('message', {
+    //     body
+    //   })
+    // })
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', socket => {
       console.log('user disconnected')
-      console.log('online total: ', --onlineTotal)
+      socketServer.emit('disconnect', {status: 'disconnected'})
     })
   })
 
+  const nspInterface = nsp => {
+    nsp.on('connection', socket => {
+      socket.join('Lobby')
+      console.log(`a user connected to the ${nsp.name} channel`)
+      const count = Object.keys(nsp.sockets).length
+      console.log(`${nsp.name} count: `, count)
+
+      socket.on('create room', function(room) {
+        socket.join(room)
+        console.log('room ' + room + 'was created.')
+        console.log('clients: ', nsp.clients())
+        console.log('sockets:', socket.rooms)
+      })
+
+      socket.on('disconnect', () => {
+        console.log(`a user disconnected from the ${nsp.name} channel`)
+      })
+
+      socket.on('get rooms', list => {
+        console.log('get rooms was called')
+        console.log('sockets:', socket.rooms)
+        // socket.emit('get rooms', socket.adapter.rooms)
+        socket.emit('get rooms', socket.rooms)
+      })
+    })
+  }
+
+  // // namespaces
+  const kor_for_eng = socketServer.of('/kor_for_eng')
   const span_for_eng = socketServer.of('/span_for_eng')
 
-  span_for_eng.on('connection', socket => {
-    console.log('a user connected to the span_for_eng channel')
-
-    socket.on('message', body => {
-      console.log('message received: ', body)
-      socket.broadcast.emit('message', {
-        body
-      })
-    })
-
-    socket.on('create', room => {
-      console.log('Room: ' + room + ' was created.')
-      socket.join(room)
-
-      // updated list of rooms for span_for_eng channel
-      socket.emit('updated_rooms', {
-        rooms: socket.adapter.rooms
-      })
-    })
-
-    socket.on('disconnect', () => {
-      console.log('a user disconnected from the span_for_eng channel')
-    })
-  })
-
-  const kor_for_eng = socketServer.of('/kor_for_eng')
-
-  kor_for_eng.on('connection', socket => {
-    console.log('a user connected to the kor_for_eng channel')
-
-    socket.on('message', body => {
-      kor_for_eng.emit('message', {
-        body
-      })
-    })
-
-    socket.on('disconnect', () => {
-      console.log('a user disconnected from the kor_for_eng channel')
-    })
-  })
+  nspInterface(kor_for_eng)
+  nspInterface(span_for_eng)
 }

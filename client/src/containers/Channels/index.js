@@ -19,9 +19,13 @@ import {
   sortChannels
 } from './actions.js'
 
-import {updateRoomLanguage} from '../Rooms/actions.js'
+import {updateMsg} from '../Chat/actions.js'
 
-const ChannelSorter = ({channelSortAsc, sorting}) =>
+import {updateRoomLanguage, updateRoomTitle} from '../Rooms/actions.js'
+
+import {nspConnect} from '../../services/socketio/actions.js'
+
+const ChannelSort = ({channelSortAsc, sorting}) =>
   <Box
     flexdirection="row"
     height="20px"
@@ -43,11 +47,11 @@ const StyledChannel = styled.div`
   padding: 10px 0 0 0;
   text-align: left;
 `
-const Channel = ({name, id, onClick, people}) => {
+const Channel = ({name, id, onClick}) => {
   return (
     <StyledChannel onClick={onClick}>
       <br />
-      <Text>{name} ({people})</Text>
+      <Text>{name}</Text>
     </StyledChannel>
   )
 }
@@ -58,26 +62,20 @@ const ChannelsList = ({
   loadRooms,
   onSelect,
   selectedChannelId,
-  socketConnect,
+  nspConnect,
   updateRoomLanguage
 }) =>
   <Box alignitems="flex-start" justifycontent="flex-start">
     <Ol fontsize="1.2rem" color="black" textalign="left">
-      {channelList.map(({_id, name, language, people, socket}) => {
+      {channelList.map(({_id, name, language, socket}) => {
         const onChannelSelect = () => {
           updateRoomLanguage(language)
           loadRooms(_id)
-          onSelect(_id)
-          socketConnect(socket)
+          onSelect(_id, name)
+          nspConnect(socket)
         }
         return (
-          <Channel
-            key={_id}
-            id={_id}
-            name={name}
-            onClick={onChannelSelect}
-            people={people}
-          />
+          <Channel key={_id} id={_id} name={name} onClick={onChannelSelect} />
         )
       })}
     </Ol>
@@ -96,7 +94,7 @@ class ChannelsContainer extends Component {
     super(props)
     this.loadRooms = this.loadRooms.bind(this)
     this.onChannelSelect = this.onChannelSelect.bind(this)
-    this.socketConnect = this.socketConnect.bind(this)
+    this.nspConnect = this.nspConnect.bind(this)
     this.updateRoomLanguage = this.updateRoomLanguage.bind(this)
   }
 
@@ -129,13 +127,23 @@ class ChannelsContainer extends Component {
     // load channels with sorted channels
   }
 
-  onChannelSelect(id) {
+  onChannelSelect(id, name) {
     this.props.actions.channelSelect(id)
+    this.props.actions.updateRoomTitle(name)
+    // TODO: load rooms from the socket server
+    // namespace from redux
+    // const selected = this.props.channelReducer.selected
+    console.log(
+      'container/channels socket: ',
+      _.find(this.props.channelReducer.channels, function(o) {
+        return o._id === id
+      }).socket
+    )
+    //TODO: render the chat component
   }
 
-  socketConnect(socketName) {
-    const socket = io(`/${socketName}`)
-    this.props.actions.setChannelSocket(socket)
+  nspConnect(socketName) {
+    this.props.actions.nspConnect(socketName)
   }
 
   render() {
@@ -152,12 +160,9 @@ class ChannelsContainer extends Component {
           overflowy="scroll"
           overflowx="none"
           textalign="left">
-          <ChannelSorter
-            channelSortAsc={this.channelSortAsc}
-            sorting={'hello'}
-          />
+          <ChannelSort channelSortAsc={this.channelSortAsc} sorting={'hello'} />
           <ChannelsList
-            socketConnect={this.socketConnect}
+            nspConnect={this.nspConnect}
             channelList={this.props.channelReducer.channels}
             loadRooms={this.loadRooms}
             onSelect={this.onChannelSelect}
@@ -171,7 +176,10 @@ class ChannelsContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  return {channelReducer: state.channelReducer}
+  return {
+    channelReducer: state.channelReducer,
+    socketReducer: state.socketReducer
+  }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -181,9 +189,11 @@ const mapDispatchToProps = dispatch => {
         channelSelect,
         loadChannelId,
         loadChannels,
+        updateMsg,
         sortChannels,
-        setChannelSocket,
-        updateRoomLanguage
+        nspConnect,
+        updateRoomLanguage,
+        updateRoomTitle
       },
       dispatch
     )

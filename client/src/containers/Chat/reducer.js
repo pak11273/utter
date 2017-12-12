@@ -1,10 +1,7 @@
 import {ADD_MSG, LOAD_MSG_LIST, UPDATE_MSG, SET_CURRENT_MSG} from './types.js'
 
 // The initial state of the App
-const initialState = [
-  {author: 'billy', msg: 'hello everyone'},
-  {author: 'jake', msg: 'bye bye'}
-]
+const initialState = []
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {

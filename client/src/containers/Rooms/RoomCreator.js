@@ -1,10 +1,14 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Button, Box, Input, Text} from '../../components'
 
+// actions
+import {createRoom} from '../../services/socketio/actions.js'
+
 class RoomCreator extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       room: {
         language: '',
@@ -16,7 +20,7 @@ class RoomCreator extends Component {
     }
 
     this.updateName = this.updateName.bind(this)
-    this.addRoom = this.addRoom.bind(this)
+    this.createRoom = this.createRoom.bind(this)
   }
 
   updateName(e) {
@@ -28,14 +32,12 @@ class RoomCreator extends Component {
     })
   }
 
-  addRoom() {
-    const socket = this.props.channelReducer.socket
+  createRoom() {
     if (!this.state.room.title) {
       alert('You need a room title to create a room')
     } else {
-      socket.emit('create', this.state.room.title)
-      //update socket to reflect added room
-      // console.log('room list: ', socket.adapter.rooms)
+      const room = this.state.room.title
+      this.props.actions.createRoom(room)
     }
   }
 
@@ -45,31 +47,35 @@ class RoomCreator extends Component {
         <Text fontsize="1.5rem">Create your own Room</Text>
         <Box>
           <Input onChange={this.updateName} placeholder="title" name="title" />
-          <Input
-            onChange={this.updateName}
-            placeholder="language"
-            name="language"
-          />
           <Input onChange={this.updateName} placeholder="level" name="level" />
-          <Input
-            onChange={this.updateName}
-            placeholder="creator"
-            name="creator"
-          />
         </Box>
         <Box>
-          <Button onClick={this.addRoom} color="black">
-            Create A Room{' '}
+          <Button onClick={this.createRoom} color="black">
+            Create Room{' '}
           </Button>
         </Box>
       </Box>
     )
   }
 }
+
 const mapStateToProps = state => {
   return {
-    channelReducer: state.channelReducer
+    channelReducer: state.channelReducer,
+    roomReducer: state.roomReducer,
+    socketReducer: state.socketReducer
   }
 }
 
-export default connect(mapStateToProps, null)(RoomCreator)
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        createRoom
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoomCreator)

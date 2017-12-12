@@ -78,32 +78,9 @@ class Chat extends Component {
   }
 
   componentDidMount() {
-    const namespace = this.props.channelReducer.socket.nsp
-    this.socket = io(`${namespace}`)
-    console.log('socket: ', this.socket)
-    this.socket.on('message', body => {
-      console.log('body: ', body)
-      this.props.actions.addMsg({
-        msg: body.body.msg,
-        author: body.body.author
-      })
-    })
-
-    //TODO: restore after testing, this grabs messages from the database on load
-    // superagent
-    //   .get('/api/messages')
-    //   .query(null)
-    //   .set('Accept', 'application/json')
-    //   .end((err, res) => {
-    //     if (err) {
-    //       alert(err)
-    //       return
-    //     }
-    //     const results = res.body.message
-    //     this.props.actions.loadMessages(results)// no more loading from server, so remove this line
-    //   })
+    //TODO: establish a current_room in redux. default room should be lobby for specific namespace. if current_room is null then "no room available yet".
     // set username
-    // console.log('user: ', this.props.userReducer.userProfile.username)
+    console.log('user: ', this.props.userReducer.userProfile.username)
   }
 
   updateReview(e) {
