@@ -42,8 +42,6 @@ export default (
         ...state,
         listType: action.payload
       }
-    case 'CREATE':
-      break
     case UPDATE_ROOM_LANGUAGE_FULFILLED:
       return {
         ...state,

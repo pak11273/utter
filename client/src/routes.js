@@ -1,4 +1,5 @@
 import {
+  Admin,
   Home,
   About,
   Connections,
@@ -39,6 +40,11 @@ export const routes = [
     exact: true,
     path: '/',
     component: Home,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/Admin',
+    component: requireAuth(Admin),
     loadData: () => getSomeData()
   },
   {

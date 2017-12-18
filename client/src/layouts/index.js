@@ -1,3 +1,4 @@
+import Admin from './Admin'
 import French1 from './French/Level1.js'
 import Home from './Home'
 import About from './About'
@@ -28,6 +29,7 @@ import Spanish3 from './Spanish/Level3.js'
 import Redux from './Redux.js'
 
 export {
+  Admin,
   French1,
   Home,
   About,

@@ -2,7 +2,7 @@ import {
   CHANNEL_SELECT,
   SET_CHANNEL_SOCKET,
   LOAD,
-  LOAD_CHANNEL_ID,
+  SET_CHANNEL_ID,
   SORT
 } from './types.js'
 
@@ -24,9 +24,9 @@ const loadChannels = channels => {
   }
 }
 
-const loadChannelId = id => {
+const setChannelId = id => {
   return {
-    type: LOAD_CHANNEL_ID,
+    type: SET_CHANNEL_ID,
     payload: new Promise((resolve, reject) => {
       resolve(id)
     })
@@ -54,7 +54,7 @@ const setChannelSocket = socket => {
 export {
   channelSelect,
   loadChannels,
-  loadChannelId,
+  setChannelId,
   setChannelSocket,
   sortChannels
 }

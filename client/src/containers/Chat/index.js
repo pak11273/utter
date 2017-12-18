@@ -9,6 +9,7 @@ import io from 'socket.io-client'
 // actions
 import {updateReviewList} from '../Pictures/actions.js'
 import {addMsg, setCurrentMsg, updateMsg} from './actions.js'
+import {sendMsg} from '../../services/socketio/actions.js'
 
 const Msg = ({author, msg}) =>
   <ListItem>
@@ -67,20 +68,19 @@ class MsgBox extends Component {
   }
 }
 
-class Chat extends Component {
+class ChatContainer extends Component {
   constructor(props) {
     super(props)
 
     this.filteredMessages = this.filteredMessages.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.onKeyUp = this.onKeyUp.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.updateReview = this.updateReview.bind(this)
   }
 
   componentDidMount() {
-    //TODO: establish a current_room in redux. default room should be lobby for specific namespace. if current_room is null then "no room available yet".
     // set username
-    console.log('user: ', this.props.userReducer.userProfile.username)
+    // console.log('user: ', this.props.userReducer.userProfile.username)
   }
 
   updateReview(e) {
@@ -172,48 +172,53 @@ class Chat extends Component {
     return list
   }
 
-  handleSubmit(e) {
+  onKeyUp(e) {
     const value = e.target.value
     if (e.keyCode === 13 && value) {
       const body = {
         id: shortid.generate(),
         msg: value,
-        author: this.props.userReducer.userProfile.username
+        author: this.props.userReducer.userProfile.username,
+        room: this.props.socketReducer.joined_room
       }
 
       this.props.actions.addMsg(body)
-      this.socket.emit('message', body)
+      this.props.actions.sendMsg(body)
       e.target.value = ''
     }
   }
 
   render() {
-    return (
-      <Box>
-        <MsgList list={this.filteredMessages()} />
-        <MsgBox onKeyUp={this.handleSubmit} />
-        <Box alignitems="flex-start" width="100px">
-          <Button
-            color="black"
-            fontsize="1.4rem"
-            margin="5px"
-            padding="3px"
-            onClick={this.updateReview}
-            width="100px">
-            review{' '}
-          </Button>
-          <Button
-            color="black"
-            fontsize="1.4rem"
-            margin="5px"
-            padding="3px"
-            onClick={this.onSubmit}
-            width="100px">
-            send
-          </Button>
+    if (!this.props.socketReducer.joined_room) {
+      return <div>'Join or create a room'</div>
+    } else {
+      return (
+        <Box>
+          <MsgList list={this.filteredMessages()} />
+          <MsgBox onKeyUp={this.onKeyUp} />
+          <Box alignitems="flex-start" width="100px">
+            <Button
+              color="black"
+              fontsize="1.4rem"
+              margin="5px"
+              padding="3px"
+              onClick={this.updateReview}
+              width="100px">
+              review{' '}
+            </Button>
+            <Button
+              color="black"
+              fontsize="1.4rem"
+              margin="5px"
+              padding="3px"
+              onClick={this.onSubmit}
+              width="100px">
+              send
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    )
+      )
+    }
   }
 }
 
@@ -224,6 +229,7 @@ const mapStateToProps = state => {
     messages: state.messages,
     pictureReducer: state.pictureReducer,
     roomReducer: state.roomReducer,
+    socketReducer: state.socketReducer,
     authReducer: state.authReducer,
     userReducer: state.userReducer,
     utteredList: state.utteredReducer.utteredList
@@ -235,6 +241,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         addMsg,
+        sendMsg,
         setCurrentMsg,
         updateMsg,
         updateReviewList
@@ -244,4 +251,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat)
+export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer)

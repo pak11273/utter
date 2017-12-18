@@ -7,15 +7,18 @@ const GET_ROOMS_SUCCESS = 'utter/socketio/GET_ROOMS_SUCCESS'
 const LOAD_SOCKET_NSPS = 'utter/socketio/LOAD_SOCKET_NSPS'
 const LOAD_SOCKET_NSPS_FAIL = 'utter/socketio/LOAD_SOCKET_NSPS_FAIL'
 const LOAD_SOCKET_NSPS_SUCCESS = 'utter/socketio/LOAD_SOCKET_NSPS_SUCCESS'
-const SEND = 'utter/socketio/SEND'
-const SEND_SUCCESS = 'utter/socketio/SEND_SUCCESS'
-const SEND_FAIL = 'utter/socketio/SEND_FAIL'
-const CONNECT = 'utter/socketio/CONNECT'
-const CONNECT_SUCCESS = 'utter/socketio/CONNECT_SUCCESS'
-const CONNECT_FAIL = 'utter/socketio/CONNECT_FAIL'
+const JOIN_ROOM = 'utter/socketio/JOIN_ROOM'
+const JOIN_ROOM_FAIL = 'utter/socketio/JOIN_ROOM_FAIL'
+const JOIN_ROOM_SUCCESS = 'utter/socketio/JOIN_ROOM_SUCCESS'
 const NSP_CONNECT = 'utter/socketio/NSP_CONNECT'
 const NSP_CONNECT_FAIL = 'utter/socketio/NSP_CONNECT_FAIL'
 const NSP_CONNECT_SUCCESS = 'utter/socketio/NSP_CONNECT_SUCCESS'
+const RECEIVE_MSG = 'utter/socketio/RECEIVE_MSG'
+const RECEIVE_MSG_FAIL = 'utter/socketio/RECEIVE_MSG_FAIL'
+const RECEIVE_MSG_SUCCESS = 'utter/socketio/RECEIVE_MSG_SUCCESS'
+const SEND_MSG = 'utter/socketio/SEND_MSG'
+const SEND_MSG_FAIL = 'utter/socketio/SEND_MSG_FAIL'
+const SEND_MSG_SUCCESS = 'utter/socketio/SEND_MSG_SUCCESS'
 
 export {
   CREATE_ROOM,
@@ -24,16 +27,19 @@ export {
   GET_ROOMS,
   GET_ROOMS_FAIL,
   GET_ROOMS_SUCCESS,
+  JOIN_ROOM,
+  JOIN_ROOM_FAIL,
+  JOIN_ROOM_SUCCESS,
   LOAD_SOCKET_NSPS,
   LOAD_SOCKET_NSPS_FAIL,
   LOAD_SOCKET_NSPS_SUCCESS,
-  SEND,
-  SEND_SUCCESS,
-  SEND_FAIL,
-  CONNECT,
-  CONNECT_SUCCESS,
-  CONNECT_FAIL,
   NSP_CONNECT,
   NSP_CONNECT_FAIL,
-  NSP_CONNECT_SUCCESS
+  NSP_CONNECT_SUCCESS,
+  RECEIVE_MSG,
+  RECEIVE_MSG_FAIL,
+  RECEIVE_MSG_SUCCESS,
+  SEND_MSG,
+  SEND_MSG_FAIL,
+  SEND_MSG_SUCCESS
 }

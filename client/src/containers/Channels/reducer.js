@@ -1,7 +1,7 @@
 import {
   CHANNEL_SELECT_FULFILLED,
   LOAD_FULFILLED,
-  LOAD_CHANNEL_ID_FULFILLED,
+  SET_CHANNEL_ID_FULFILLED,
   SORT_FULFILLED,
   SET_CHANNEL_SOCKET_FULFILLED
 } from './types.js'
@@ -16,7 +16,7 @@ export default (
         ...state,
         selected: action.payload
       }
-    case LOAD_CHANNEL_ID_FULFILLED:
+    case SET_CHANNEL_ID_FULFILLED:
       return {
         ...state,
         channelId: action.payload

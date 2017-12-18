@@ -40,18 +40,7 @@ class Languages extends Component {
             <Subtitle>
               Choose from several languages
             </Subtitle>
-            {this.state.search}
-            <Box flexdirection="row">
-              <Input
-                onChange={this.handleSearch}
-                margin="0 10px 0 0"
-                type="text"
-                placeholder="search"
-              />
-              <ButtonBrowse>
-                Browse All
-              </ButtonBrowse>
-            </Box>
+            {/* code at bottom of page goes here */}
           </Column>
         </Masthead>
         <Section>
@@ -75,3 +64,16 @@ class Languages extends Component {
 }
 
 export default Languages
+
+// {this.state.search}
+// <Box flexdirection="row">
+//   <Input
+//     onChange={this.handleSearch}
+//     margin="0 10px 0 0"
+//     type="text"
+//     placeholder="search"
+//   />
+//   <ButtonBrowse>
+//     Browse All
+//   </ButtonBrowse>
+// </Box>

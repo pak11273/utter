@@ -29,4 +29,7 @@ if (localStorage.jwtToken) {
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
 }
 
+Socket.on('receive msg', msg => {
+  console.log('we got it from : ', msg)
+})
 export default store

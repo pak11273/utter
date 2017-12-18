@@ -31,7 +31,7 @@ class Friends extends Component {
   }
 }
 
-class ChatPanel extends Component {
+class ChatPanelContainer extends Component {
   render() {
     return (
       <Router>
@@ -59,4 +59,4 @@ class ChatPanel extends Component {
   }
 }
 
-export default connect(null, null)(ChatPanel)
+export default connect(null, null)(ChatPanelContainer)

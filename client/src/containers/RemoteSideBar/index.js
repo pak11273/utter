@@ -55,7 +55,7 @@ class Phrases extends Component {
   }
 }
 
-class RemoteContainer extends Component {
+class RemoteSideBarContainer extends Component {
   constructor(props) {
     super(props)
   }
@@ -114,4 +114,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemoteContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(
+  RemoteSideBarContainer
+)

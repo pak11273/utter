@@ -1,9 +1,11 @@
 import io from 'socket.io-client'
+import store from '../../store.js'
+
+import {receiveMsg} from '../socketio/actions.js'
 
 class Socket {
   connect() {
     this.socket = io()
-    const socket = this.socket
     return new Promise((resolve, reject) => {
       this.socket.on('connection', nsp => {
         // return state of socket in redux
@@ -21,30 +23,12 @@ class Socket {
         resolve({nsp, socket})
       })
       this.nsp.on('connect_error', error => reject(error))
-    })
-  }
 
-  getRooms() {
-    return new Promise((resolve, reject) => {
-      this.nsp.emit('get rooms')
-      this.nsp.on('get rooms', list => {
-        resolve(list)
+      this.nsp.on('receive msg', msg => {
+        store.dispatch(receiveMsg(msg))
       })
     })
   }
-
-  createRoom(room) {
-    return new Promise((resolve, reject) => {
-      this.nsp.emit('create room', room)
-    })
-  }
-
-  // io.of('/chat').in('general').clients((error, clients) => {
-  //     if (error) throw error;
-
-  // Returns an array of client IDs like ["Anw2LatarvGVVXEIAAAD"]
-  //   console.log(clients);
-  //   })
 
   disconnect() {
     return new Promise(resolve => {
@@ -58,29 +42,51 @@ class Socket {
 
   emit(event, data) {
     return new Promise((resolve, reject) => {
-      if (!this.socket) return reject('No socket connection.')
+      if (!this.nsp || !this.socket) return reject('No socket connection')
 
-      return this.socket.emit(event, data, response => {
-        // Response is the optional callback that you can use with socket.io in every request. See 1 above.
-        if (response.error) {
-          console.error(response.error)
-          return reject(response.error)
-        }
-
-        return resolve()
-      })
+      if (this.nsp) {
+        return this.nsp.emit(event, data, response => {
+          if (response.error) {
+            console.error(response.error)
+            return reject(response.error)
+          }
+          return resolve(response)
+        })
+      } else if (this.socket) {
+        return socket.emit(event, data, response => {
+          if (response.error) {
+            console.error(response.error)
+            return reject(response.error)
+          }
+          return resolve(response)
+        })
+      }
     })
   }
 
-  on(event, fun) {
-    // No promise is needed here, but we're expecting one in the middleware.
+  on(event, data) {
     return new Promise((resolve, reject) => {
-      if (!this.socket) return reject('No socket connection.')
+      if (!this.nsp || !this.socket) return reject('No socket connection')
 
-      this.socket.on(event, fun)
-      resolve()
+      if (this.nsp) {
+        this.nsp.on(event, data)
+        resolve(data)
+      } else if (this.socket) {
+        this.socket.on(event, data)
+        resolve()
+      }
     })
   }
+
+  // on(event, fun) {
+  //   // No promise is needed here, but we're expecting one in the middleware.
+  //   return new Promise((resolve, reject) => {
+  //     if (!this.socket) return reject('No socket connection.')
+
+  //     this.socket.on(event, fun)
+  //     resolve()
+  //   })
+  // }
 }
 
 export default Socket

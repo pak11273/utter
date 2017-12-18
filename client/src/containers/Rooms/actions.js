@@ -1,18 +1,13 @@
 import {
   LOAD_LIST_TYPE,
   UPDATE_LIST_TYPE,
-  CREATE,
   UPDATE_CURRENT_ROOM,
   UPDATE_ROOM_LANGUAGE,
   UPDATE_ROOM_LEVEL,
   UPDATE_ROOM_TITLE,
   REMOVE,
-  ROOM_SELECT
+  JOIN_ROOM
 } from './types.js'
-
-const createRoom = room => {
-  return {type: CREATE}
-}
 
 const loadListType = type => {
   return {
@@ -32,9 +27,9 @@ const updateListType = type => {
   }
 }
 
-const roomSelect = id => {
+const joinRoom = id => {
   return {
-    type: ROOM_SELECT,
+    type: JOIN_ROOM,
     payload: new Promise((resolve, reject) => {
       resolve(id)
     })
@@ -84,11 +79,10 @@ const removeRoom = () => {
 export {
   loadListType,
   updateListType,
-  createRoom,
   updateCurrentRoom,
   updateRoomLevel,
   updateRoomLanguage,
   updateRoomTitle,
-  roomSelect,
+  joinRoom,
   removeRoom
 }

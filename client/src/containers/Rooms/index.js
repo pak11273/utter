@@ -12,31 +12,25 @@ import {Box, Button, Input, Text} from '../../components'
 import RoomCreator from './RoomCreator.js'
 
 // actions
-import {roomSelect, updateRoomLevel} from './actions.js'
+import {updateRoomLevel} from './actions.js'
 import {loadWordList, updateOriginalWordList} from '../Pictures/actions.js'
 import {updateCurrentRoom, updateListType} from '../Rooms/actions.js'
-import {getRooms} from '../../services/socketio/actions.js'
+import {getRooms, joinRoom} from '../../services/socketio/actions.js'
 
 class Members extends Component {
   render() {
     const {currentRoom} = this.props
-    console.log('members: ', currentRoom)
     return (
       <div style={{textAlign: 'left'}}>
         <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
-          Room{' '}
+          {currentRoom}
         </Text>
-        <div>
-          <span style={{color: 'red'}}>
-            {currentRoom}
-          </span>
-        </div>
-        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+        <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
           Members{' '}
         </Text>
         <div>Joe <span style={{color: 'red'}}>offline</span></div>
         <div>Martha <span style={{color: 'red'}}>online</span></div>
-        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+        <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
           Spectators{' '}
         </Text>
         <div>Martha <span style={{color: 'orange'}}>afk</span></div>
@@ -56,24 +50,34 @@ const StyledRoom = styled.div`
 const Room = ({
   level,
   isSelected,
+  joinRoom,
   updateCurrentRoom,
   creator,
   people,
   title
 }) => {
-  return (
-    <StyledRoom onClick={updateCurrentRoom({title})} selected={isSelected}>
-      <Text>Title: {title}</Text>
-      Level:{level} People:{people}<br />
-      Creator:{creator}
-    </StyledRoom>
-  )
+  if (title === 'Lobby') {
+    var room = (
+      <StyledRoom selected={isSelected}>
+        <Text onClick={joinRoom}>{title} ( {people} )</Text>
+      </StyledRoom>
+    )
+  } else {
+    var room = (
+      <StyledRoom selected={isSelected}>
+        <Text fontsize="20px" onClick={joinRoom}>{title} ( {people} )</Text>
+        <Text>level:{level}</Text>
+        <Text>creator:{creator}</Text>
+      </StyledRoom>
+    )
+  }
+  return room
 }
 
 // class RoomList extends Component {
 //   render({
 //   }) {
-//     let list = roomList
+//     let list = filteredRoomList
 //     !list ? (list = []) : list
 //     list.push(rooms)
 //     if (_.isEmpty(list)) {
@@ -123,7 +127,7 @@ class RoomList extends Component {
       roomList,
       rooms,
       selectedRoomId,
-      onSelect,
+      joinRoom,
       updateCurrentRoom,
       updateRoomLevel,
       updateOriginalWordList,
@@ -141,7 +145,9 @@ class RoomList extends Component {
             if (title.indexOf('/') !== -1) {
               return <div />
             } else {
-              return <Room onClick={onSelect} title={title} />
+              return (
+                <Room joinRoom={() => joinRoom(`${title}`)} title={title} />
+              )
             }
           })}
         </div>
@@ -159,13 +165,13 @@ class RoomsContainer extends Component {
   constructor(props) {
     super(props)
 
-    this.onRoomSelect = this.onRoomSelect.bind(this)
+    this.joinRoom = this.joinRoom.bind(this)
     this.updateName = this.updateName.bind(this)
     this.selectRoom = this.selectRoom.bind(this)
+    // this.filteredRoomList = this.filteredRoomList.bind(this)
   }
 
   componentDidMount() {
-    //TODO: get current rooms available for the current channel
     this.props.actions.getRooms()
   }
 
@@ -179,18 +185,18 @@ class RoomsContainer extends Component {
     })
   }
 
-  filteredRooms() {
-    let list = this.props.socketReducer.list
-    return list
-    // was filtering the list when using mongodb rooms, but using socket rooms now, so this may not be needed anymore.
-    // if (Array.isArray(list)) {
-    //   return list.filter(
-    //     ({channel_id}) => channel_id === this.props.channelReducer.selected
-    //   )
-    // } else {
-    //   return []
-    // }
-  }
+  // filteredRoomList() {
+  //   let list = this.props.socketReducer.list
+  //   return list
+  // was filtering the list when using mongodb rooms, but using socket rooms now, so this may not be needed anymore.
+  // if (Array.isArray(list)) {
+  //   return list.filter(
+  //     ({channel_id}) => channel_id === this.props.channelReducer.selected
+  //   )
+  // } else {
+  //   return []
+  // }
+  // }
 
   selectRoom(index) {
     this.setState({
@@ -198,29 +204,20 @@ class RoomsContainer extends Component {
     })
   }
 
-  onRoomSelect(id) {
-    this.props.actions.roomSelect(id)
+  joinRoom(name) {
+    this.props.actions.joinRoom(name)
   }
 
   render() {
-    console.log('currentroom: ', this.props.roomReducer.currentRoom)
-    if (!this.props.roomReducer.currentRoom) {
+    if (!this.props.socketReducer.joined_room) {
+      var roomCreator = <RoomCreator />
       var members = (
         <Box>
           <Box
             flexdirection="row"
             justifycontent="flex-start"
             margin="0 0 20px 0">
-            <Text>Sort By: </Text>
-            <select>
-              <option>Rooms</option>
-              <option>levels</option>
-              <option>creators</option>
-            </select>
-            <select>
-              <option>Asc</option>
-              <option>Desc</option>
-            </select>
+            <Text>Search: </Text>
           </Box>
           <Box
             alignitems="flex-start"
@@ -230,9 +227,9 @@ class RoomsContainer extends Component {
             padding="20px 0 0 0">
             <RoomList
               loadWordList={this.props.actions.loadWordList}
-              onSelect={this.onRoomSelect}
+              joinRoom={this.joinRoom}
               rooms={this.props.roomReducer}
-              roomList={this.filteredRooms()}
+              roomList={this.props.socketReducer.list}
               selectedRoomId={this.props.roomReducer.selected}
               updateCurrentRoom={this.props.actions.updateCurrentRoom}
               updateOriginalWordList={this.props.actions.updateOriginalWordList}
@@ -241,12 +238,15 @@ class RoomsContainer extends Component {
             />
           </Box>
           <Box margin="20px 0 0 0">
-            <RoomCreator />
+            {roomCreator}
           </Box>
         </Box>
       )
     } else {
-      var members = <Members roomReducer={this.props.roomReducer} />
+      var members = (
+        <Members currentRoom={this.props.socketReducer.joined_room} />
+      )
+      var roomCreator = null
     }
     return <div>{members}</div>
   }
@@ -268,7 +268,7 @@ const mapDispatchToProps = dispatch => {
       {
         getRooms,
         loadWordList,
-        roomSelect,
+        joinRoom,
         updateCurrentRoom,
         updateOriginalWordList,
         updateRoomLevel,
@@ -279,5 +279,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-// rooms should have a language property
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsContainer)

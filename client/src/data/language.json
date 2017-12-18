@@ -1,5 +1,6 @@
 {
-  "languages": [{
+  "languages": [
+    {
     "name": "Korean",
     "description": "The language of choson dynasty.",
     "flag": "koreanFlag.jpg",
@@ -20,30 +21,6 @@
     "description": "The language of love.  From the country where art lives.",
     "flag": "frenchFlag.jpg",
     "src": "http://www.flags.net/images/largeflags/FRAN0001.GIF",
-    "trailer": "ikjsIkkfjijsd",
-    "levels": "soon"
-  },
-  {
-    "name": "English",
-    "description": "The business language of the world.",
-    "flag": "englishFlag.jpg",
-    "src": "http://www.flags.net/images/largeflags/UNST0001.GIF",
-    "trailer": "lkjksskfjijsd",
-    "levels": "soon"
-  },
-  {
-    "name": "Russian",
-    "description": "The superpower that impacts the world.",
-    "flag": "russiaFlag.jpg",
-    "src": "http://www.flags.net/images/largeflags/RUSS0001.GIF",
-    "trailer": "ikjsdididIkkfjijsd",
-    "levels": "soon"
-  },
-  {
-    "name": "Portuguese",
-    "description": "The language of dance.",
-    "flag": "portugueseFlag.jpg",
-    "src": "http://www.flags.net/images/largeflags/BRAZ0001.GIF",
     "trailer": "ikjsIkkfjijsd",
     "levels": "soon"
   }

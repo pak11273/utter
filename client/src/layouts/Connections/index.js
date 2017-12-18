@@ -10,7 +10,7 @@ import {
   Challenge,
   ChatPanel,
   Pictures,
-  Remote,
+  RemoteSideBar,
   Rooms,
   Speaker
 } from '../../containers'
@@ -31,7 +31,6 @@ import {
 import {loadUserProfile} from './actions.js'
 import {setAuthor} from '../../containers/ChatPanel/actions.js'
 import {addMsg} from '../../containers/Chat/actions.js'
-import {socketConnect} from '../../services/socketio/actions.js'
 
 class Connections extends Component {
   constructor() {
@@ -53,10 +52,7 @@ class Connections extends Component {
   }
 
   render(props) {
-    if (
-      this.props.channelReducer.channelId === null ||
-      this.props.roomReducer.roomTitle.indexOf('Speaker')
-    ) {
+    if (this.props.channelReducer.channelId === null) {
       var intro = (
         <div style={{textAlign: 'center', padding: '40px'}}>
           <h1>
@@ -77,7 +73,7 @@ class Connections extends Component {
     return (
       <Section gridtemplatecolumns=".6fr 2fr 1fr">
         <Column>
-          <Remote />
+          <RemoteSideBar />
         </Column>
         <Column>
           <Box flexdirection="row" justifycontent="center">
@@ -110,8 +106,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         setAuthor,
-        loadUserProfile,
-        socketConnect
+        loadUserProfile
       },
       dispatch
     )

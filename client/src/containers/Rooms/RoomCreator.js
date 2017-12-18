@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import {Button, Box, Input, Text} from '../../components'
 
 // actions
-import {createRoom} from '../../services/socketio/actions.js'
+import {createRoom, joinRoom} from '../../services/socketio/actions.js'
 
 class RoomCreator extends Component {
   constructor(props) {
@@ -38,6 +38,7 @@ class RoomCreator extends Component {
     } else {
       const room = this.state.room.title
       this.props.actions.createRoom(room)
+      this.props.actions.joinRoom(room)
     }
   }
 
@@ -71,7 +72,8 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        createRoom
+        createRoom,
+        joinRoom
       },
       dispatch
     )
