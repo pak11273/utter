@@ -27,6 +27,9 @@ import {
   Title
 } from '../../components'
 
+// images
+import lobbyAdImg from '../../advertisers/clickbank/learnspanishlikecrazy/assets/images/lobby_ad.JPG'
+
 // actions
 import {loadUserProfile} from './actions.js'
 import {setAuthor} from '../../containers/ChatPanel/actions.js'
@@ -52,21 +55,35 @@ class Connections extends Component {
   }
 
   render(props) {
-    if (this.props.channelReducer.channelId === null) {
+    if (
+      this.props.channelReducer.channelId === null ||
+      this.props.socketReducer.status === 'got a list of rooms' ||
+      this.props.socketReducer.joined_room === 'Lobby'
+    ) {
       var intro = (
         <div style={{textAlign: 'center', padding: '40px'}}>
-          <h1>
-            Your Ad here
-          </h1>
-          <p>email sales@utterzone.com</p>
+          <Text fontsize="30px">
+            Learn To Speak Conversational Spanish With Complete Confidence.
+          </Text>
+          <a
+            href="http://984cex1yvs8pird7xbrfc2uocc.hop.clickbank.net/?tid=TEST"
+            target="_blank">
+            <Img src={lobbyAdImg} />
+          </a>
+        </div>
+      )
+    } else if (this.props.roomReducer.creator !== '') {
+      var live = (
+        <div>
+          <Pictures />
+          <Challenge />
+          <Speaker />
         </div>
       )
     } else {
       var live = (
         <div>
           <Pictures />
-          <Challenge />
-          <Speaker />
         </div>
       )
     }
@@ -96,6 +113,7 @@ const mapStateToProps = state => {
   return {
     channelReducer: state.channelReducer,
     roomReducer: state.roomReducer,
+    socketReducer: state.socketReducer,
     userReducer: state.userReducer,
     authReducer: state.authReducer
   }

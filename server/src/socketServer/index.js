@@ -1,9 +1,9 @@
 import io from 'socket.io'
-// import monitorio from 'monitor.io'
+import monitorio from 'monitor.io'
 
 export default server => {
   const socketServer = io(server)
-  // socketServer.use(monitorio({port: 8000}))
+  socketServer.use(monitorio({port: 8000, remote: true}))
 
   socketServer.on('connection', socket => {
     console.log('User ' + socket.id + ' connected')
@@ -18,19 +18,20 @@ export default server => {
 
   const nspInterface = nsp => {
     nsp.on('connection', socket => {
+      // socket.rooms = {}
       socket.join('Lobby')
       console.log(`a user connected to the ${nsp.name} channel`)
       const count = Object.keys(nsp.sockets).length
       console.log(`${nsp.name} count: `, count)
 
       socket.on('create room', function(room, fn) {
-        console.log('room ' + room + ' was created.')
+        console.log('room ' + room.title + ' was created.')
+        // socket.rooms[room.title] = room
         fn(room)
       })
 
       socket.on('join room', function(room, fn) {
         socket.join(room)
-        console.log(room + ' was joined.')
         fn(room)
       })
 
@@ -39,24 +40,19 @@ export default server => {
       })
 
       socket.on('get rooms', function(data, fn) {
-        console.log('get rooms was called')
-        // socket.emit('get rooms', socket.adapter.rooms)
         fn(socket.adapter.rooms)
       })
-
-      // socket.on('get rooms', list => {
-      //   console.log('get rooms was called')
-      //   socket.emit('get rooms', socket.adapter.rooms)
-      // })
 
       socket.on('send msg', (body, fn) => {
         socket.to(body.room).emit('receive msg', body)
         fn(body.msg)
       })
 
-      // console.log('a msg was received')
-      // nsp.to(msg.room).emit('send msg', msg.msg)
-      // socket.emit('send msg', msg.msg)
+      socket.on('send room meta', (meta, fn) => {
+        console.log('body: ', meta)
+        socket.to(meta.room.title).emit('receive room meta', meta)
+        fn(meta)
+      })
 
       // admin api
       // creator is auto matically the admin from the start

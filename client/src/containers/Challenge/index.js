@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Box, Section} from '../../components'
+import {Box, Section, Text} from '../../components'
 import styled from 'styled-components'
 import {loadQuestion} from './actions.js'
 
@@ -14,7 +14,8 @@ class Challenge extends Component {
     return (
       <Section>
         <Box>
-          <Question>Utter: ____is____.</Question>
+          <Text fontsize="30px" textalign="center">Challenge: </Text>
+          <Question>____is____.</Question>
           <Answer>eg. My car is red.</Answer>
         </Box>
       </Section>

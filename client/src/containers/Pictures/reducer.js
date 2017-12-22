@@ -1,9 +1,12 @@
 import {
-  LOAD_FULFILLED,
+  LOAD_PICTURE_SRC_FULFILLED,
   LOAD_QUERY_FULFILLED,
   LOAD_WORD_LIST_FULFILLED,
   LOAD_ORIGINAL_WORD_LIST_FULFILLED,
   UPDATE_ORIGINAL_WORD_LIST_FULFILLED,
+  UPDATE_PICTURE_FULFILLED,
+  // UPDATE_QUERY_FULFILLED,
+  UPDATE_TRANSLATION_FULFILLED,
   UPDATE_WORD_LIST_FULFILLED,
   UPDATE_REVIEW_LIST_FULFILLED,
   SEND_ROMANIZED_FULFILLED,
@@ -12,11 +15,6 @@ import {
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
-    case LOAD_FULFILLED:
-      return {
-        ...state,
-        pictureSRC: action.payload
-      }
     case LOAD_QUERY_FULFILLED:
       return {
         ...state,
@@ -32,10 +30,35 @@ export default (state = {}, action = {}) => {
         ...state,
         originalList: action.payload
       }
+    case SEND_ROMANIZED_FULFILLED:
+      return {
+        ...state,
+        romanized: action.payload
+      }
+    case SEND_TRANSLATED_FULFILLED:
+      return {
+        ...state,
+        translation: action.payload
+      }
     case UPDATE_ORIGINAL_WORD_LIST_FULFILLED:
       return {
         ...state,
         originalList: action.payload
+      }
+    case UPDATE_PICTURE_FULFILLED:
+      return {
+        ...state,
+        pictureSrc: action.payload
+      }
+    // case UPDATE_QUERY_FULFILLED:
+    //   return {
+    //     ...state,
+    //     query: action.payload
+    //   }
+    case UPDATE_TRANSLATION_FULFILLED:
+      return {
+        ...state,
+        translation: action.payload
       }
     case UPDATE_WORD_LIST_FULFILLED:
       return {
@@ -46,16 +69,6 @@ export default (state = {}, action = {}) => {
       return {
         ...state,
         reviewList: action.payload
-      }
-    case SEND_ROMANIZED_FULFILLED:
-      return {
-        ...state,
-        romanized: action.payload
-      }
-    case SEND_TRANSLATED_FULFILLED:
-      return {
-        ...state,
-        translation: action.payload
       }
     default:
       return state

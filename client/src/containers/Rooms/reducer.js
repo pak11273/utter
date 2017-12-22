@@ -2,6 +2,7 @@ import {
   LOAD_LIST_TYPE_FULFILLED,
   UPDATE_LIST_TYPE_FULFILLED,
   ROOM_SELECT_FULFILLED,
+  UPDATE_ROOM_CREATOR_FULFILLED,
   UPDATE_CURRENT_ROOM_FULFILLED,
   UPDATE_ROOM_LANGUAGE_FULFILLED,
   UPDATE_ROOM_LEVEL_FULFILLED,
@@ -15,7 +16,7 @@ export default (
     language: 'spanish',
     lastValues: [],
     listType: 'letters',
-    roomLevel: 1,
+    roomLevel: 0,
     roomTitle: '',
     selected: ''
   },
@@ -41,6 +42,11 @@ export default (
       return {
         ...state,
         listType: action.payload
+      }
+    case UPDATE_ROOM_CREATOR_FULFILLED:
+      return {
+        ...state,
+        creator: action.payload
       }
     case UPDATE_ROOM_LANGUAGE_FULFILLED:
       return {

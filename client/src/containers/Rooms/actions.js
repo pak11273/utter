@@ -2,6 +2,7 @@ import {
   LOAD_LIST_TYPE,
   UPDATE_LIST_TYPE,
   UPDATE_CURRENT_ROOM,
+  UPDATE_ROOM_CREATOR,
   UPDATE_ROOM_LANGUAGE,
   UPDATE_ROOM_LEVEL,
   UPDATE_ROOM_TITLE,
@@ -54,6 +55,15 @@ const updateCurrentRoom = room => {
   }
 }
 
+const updateRoomCreator = creator => {
+  return {
+    type: UPDATE_ROOM_CREATOR,
+    payload: new Promise((resolve, reject) => {
+      resolve(creator)
+    })
+  }
+}
+
 const updateRoomLevel = level => {
   return {
     type: UPDATE_ROOM_LEVEL,
@@ -80,6 +90,7 @@ export {
   loadListType,
   updateListType,
   updateCurrentRoom,
+  updateRoomCreator,
   updateRoomLevel,
   updateRoomLanguage,
   updateRoomTitle,

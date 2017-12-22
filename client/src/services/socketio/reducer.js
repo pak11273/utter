@@ -14,9 +14,15 @@ import {
   RECEIVE_MSG,
   RECEIVE_MSG_FAIL,
   RECEIVE_MSG_SUCCESS,
+  RECEIVE_ROOM_META,
+  RECEIVE_ROOM_META_FAIL,
+  RECEIVE_ROOM_META_SUCCESS,
   SEND_MSG,
   SEND_MSG_SUCCESS,
   SEND_MSG_FAIL,
+  SEND_ROOM_META,
+  SEND_ROOM_META_FAIL,
+  SEND_ROOM_META_SUCCESS,
   NSP_CONNECT,
   NSP_CONNECT_FAIL,
   NSP_CONNECT_SUCCESS
@@ -79,6 +85,15 @@ export default (state = {nsp: []}, action) => {
         socket,
         status: 'connected to a namespace'
       }
+    case NSP_CONNECT:
+      return {...state, status: 'nsp connecting'}
+    case NSP_CONNECT_FAIL:
+      return {...state, status: 'failed to connect to nsp'}
+    case NSP_CONNECT_SUCCESS:
+      return {
+        ...state,
+        status: 'connected to nsp'
+      }
     case RECEIVE_MSG:
       return {
         ...state,
@@ -92,6 +107,22 @@ export default (state = {nsp: []}, action) => {
         received_msg: action.result,
         status: 'msg received'
       }
+    case RECEIVE_ROOM_META:
+      return {
+        ...state,
+        status: 'receiving room meta'
+      }
+    case RECEIVE_ROOM_META_FAIL:
+      return {
+        ...state,
+        status: 'room meta failed to receive'
+      }
+    case RECEIVE_ROOM_META_SUCCESS:
+      return {
+        ...state,
+        pictureSrc: action.result,
+        status: 'room meta received'
+      }
     case SEND_MSG:
       return {...state, status: 'sending msg'}
     case SEND_MSG_FAIL:
@@ -102,14 +133,14 @@ export default (state = {nsp: []}, action) => {
         msg: action.result,
         status: 'msg sent'
       }
-    case NSP_CONNECT:
-      return {...state, status: 'nsp connecting'}
-    case NSP_CONNECT_FAIL:
-      return {...state, status: 'failed to connect to nsp'}
-    case NSP_CONNECT_SUCCESS:
+    case SEND_ROOM_META:
+      return {...state, status: 'sending room meta'}
+    case SEND_ROOM_META_FAIL:
+      return {...state, status: 'sending room meta failed to send'}
+    case SEND_ROOM_META_SUCCESS:
       return {
         ...state,
-        status: 'connected to nsp'
+        status: 'room meta sent'
       }
     default:
       return state

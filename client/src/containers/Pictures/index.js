@@ -12,10 +12,10 @@ import _ from 'lodash'
 import {speechStart} from '../../services/speech'
 
 import {
-  loadPicture,
   loadQuery,
-  loadOriginalWordList,
-  loadWordList,
+  // loadOriginalWordList,
+  // loadWordList,
+  updatePicture,
   updateWordList,
   updateReviewList,
   sendRomanized,
@@ -23,6 +23,7 @@ import {
 } from './actions.js'
 
 import {setInterimScript, setFinalTranscript} from '../ChatPanel/actions.js'
+import {sendRoomMeta} from '../../services/socketio/actions.js'
 
 // audio
 import cdnUrl from '../../../src/config/secrets.js'
@@ -73,19 +74,19 @@ class Pictures extends Component {
     super(props)
 
     this.roomLevel = this.props.roomReducer.roomLevel
-    this.getAPICalls = this.getAPICalls.bind(this)
+    this.changePicture = this.changePicture.bind(this)
     this.onPlay = this.onPlay.bind(this)
   }
 
   componentDidMount() {
-    const roomLevel = this.props.roomReducer.roomLevel
-    const roomLanguage = this.props.roomReducer.language
-    const listObj = require(`../../data/${roomLanguage}/level${roomLevel}/query.js`)
-    this.originalWordList = listObj.default
-    this.props.actions.loadOriginalWordList(this.originalWordList)
-
+    // MOVED LOGIC TO ROOMCREATOR
+    // const roomLevel = this.props.roomReducer.roomLevel
+    // const roomLanguage = this.props.roomReducer.language
+    // const listObj = require(`../../data/${roomLanguage}/level${roomLevel}/query.js`)
+    // this.originalWordList = listObj.default
+    // this.props.actions.loadOriginalWordList(this.originalWordList)
     // Put list in redux
-    this.props.actions.loadWordList(listObj.default)
+    // this.props.actions.loadWordList(listObj.default)
   }
 
   onPlay(e) {
@@ -93,7 +94,7 @@ class Pictures extends Component {
     document.getElementById(e.target.name).play()
   }
 
-  getAPICalls() {
+  changePicture() {
     let list = this.props.wordList
     const review = this.props.review
     let randList = new Rand(list)
@@ -157,9 +158,19 @@ class Pictures extends Component {
           let num = getRandIntInclusive(min, max)
 
           const results = res.body.hits[num].previewURL
-
-          this.props.actions.loadPicture(results)
           this.props.actions.loadQuery(query)
+
+          // update local picture
+          this.props.actions.updatePicture(results)
+
+          // Send socket room info
+          this.props.actions.sendRoomMeta({
+            room: this.props.socketReducer.created_room,
+            listType: this.props.roomReducer.listType,
+            translation: translated,
+            query: this.props.pictureReducer.query,
+            src: results
+          })
 
           // Remove query from wordList and review
           let updatedList = _.omit(list, query)
@@ -188,14 +199,22 @@ class Pictures extends Component {
 
       console.log(_.size(updatedList))
       console.log(_.size(this.originalWordList))
+
+      this.props.actions.sendRoomMeta({
+        room: this.props.socketReducer.created_room,
+        listType: this.props.roomReducer.listType,
+        translation: translated
+        // query: this.props.pictureReducer.query
+      })
     }
-    speechStart()
+
+    // speechStart()
   }
 
   render() {
     const picture = this.props.roomReducer.listType === 'words'
-      ? <Img src={this.props.pictureSRC} />
-      : <Text fontsize="7rem">{this.props.translated}</Text>
+      ? <Img src={this.props.pictureReducer.pictureSrc} />
+      : <Text fontsize="7rem">{this.props.pictureReducer.translation}</Text>
 
     const wordSound = this.props.query
     const language = this.props.roomReducer.language
@@ -206,13 +225,11 @@ class Pictures extends Component {
     } else {
       var wordAudio = ''
     }
-    return (
-      <Wrap>
-        <Box minwidth="640px" minheight="340px" margin="20px">
-          {picture}
-        </Box>
+    if (this.props.roomReducer.creator) {
+      //show controls
+      var controls = (
         <Box>
-          <Button color="black" margin="20px" onClick={this.getAPICalls}>
+          <Button color="black" margin="20px" onClick={this.changePicture}>
             Change Picture
           </Button>
           <audio id={this.props.query} src={`${cdn + wordAudio}`} />
@@ -239,10 +256,22 @@ class Pictures extends Component {
               romanized: {this.props.romanized}
             </Text>
             <Text fontsize="1.2rem" color="#aaa">
-              translation: {this.props.translated}
+              translation: {this.props.pictureReducer.translation}
             </Text>
           </Box>
         </Box>
+      )
+    } else {
+      // no controls
+      var controls = <div />
+    }
+
+    return (
+      <Wrap>
+        <Box minwidth="640px" minheight="340px" margin="20px">
+          {picture}
+        </Box>
+        {controls}
       </Wrap>
     )
   }
@@ -252,13 +281,12 @@ const mapStateToProps = state => {
   return {
     pictureReducer: state.pictureReducer,
     message: state.speakerReducer,
-    pictureSRC: state.pictureReducer.pictureSRC,
     review: state.pictureReducer.reviewList,
     query: state.pictureReducer.query,
     romanized: state.pictureReducer.romanized,
-    translated: state.pictureReducer.translation,
     wordList: state.pictureReducer.wordList,
-    roomReducer: state.roomReducer
+    roomReducer: state.roomReducer,
+    socketReducer: state.socketReducer
   }
 }
 
@@ -266,16 +294,17 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        loadPicture,
         loadQuery,
-        loadOriginalWordList,
-        loadWordList,
-        updateWordList,
-        updateReviewList,
+        // loadOriginalWordList,
+        // loadWordList,
         sendRomanized,
+        sendRoomMeta,
         sendTranslated,
         setFinalTranscript,
-        setInterimScript
+        setInterimScript,
+        updatePicture,
+        updateWordList,
+        updateReviewList
       },
       dispatch
     )

@@ -1,9 +1,12 @@
 import io from 'socket.io-client'
 import store from '../../store.js'
 
-import {receiveMsg} from '../socketio/actions.js'
+import {receiveMsg, receiveRoomMeta} from '../socketio/actions.js'
 
 class Socket {
+  constructor(opts) {
+    this.opts = {autoUpgrade: false, peerOpts: {numClients: 10}}
+  }
   connect() {
     this.socket = io()
     return new Promise((resolve, reject) => {
@@ -23,6 +26,10 @@ class Socket {
         resolve({nsp, socket})
       })
       this.nsp.on('connect_error', error => reject(error))
+
+      this.nsp.on('receive room meta', meta => {
+        store.dispatch(receiveRoomMeta(meta))
+      })
 
       this.nsp.on('receive msg', msg => {
         store.dispatch(receiveMsg(msg))

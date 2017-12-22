@@ -17,13 +17,24 @@ import {
   RECEIVE_MSG,
   RECEIVE_MSG_FAIL,
   RECEIVE_MSG_SUCCESS,
+  RECEIVE_ROOM_META,
+  RECEIVE_ROOM_META_FAIL,
+  RECEIVE_ROOM_META_SUCCESS,
   SEND_MSG,
   SEND_MSG_FAIL,
-  SEND_MSG_SUCCESS
+  SEND_MSG_SUCCESS,
+  SEND_ROOM_META,
+  SEND_ROOM_META_FAIL,
+  SEND_ROOM_META_SUCCESS
 } from './types.js'
 
 import io from 'socket.io-client'
 import {addMsg} from '../../containers/Chat/actions.js'
+import {
+  updatePicture,
+  updateTranslation
+} from '../../containers/Pictures/actions.js'
+import {loadListType} from '../../containers/Rooms/actions.js'
 
 const createRoom = room => {
   return {
@@ -49,29 +60,7 @@ const joinRoom = room => {
   }
 }
 
-const sendMsg = msg => {
-  return {
-    type: 'socket',
-    types: [SEND_MSG, SEND_MSG_SUCCESS, SEND_MSG_FAIL],
-    promise: socket => socket.emit('send msg', msg)
-  }
-}
-
-const receiveMsg = body => {
-  return dispatch => {
-    dispatch({
-      type: 'socket',
-      types: [RECEIVE_MSG, RECEIVE_MSG_SUCCESS, RECEIVE_MSG_FAIL],
-      promise: socket =>
-        socket.on('receive  msg', body).then(result => {
-          console.log('result: ', result)
-          dispatch(addMsg({author: result.author, msg: result.msg}))
-        })
-    })
-  }
-}
-
-//TODO: remove this action
+//TODO: remove this action?
 const loadSocketNsps = socket => {
   return {
     type: 'socket',
@@ -88,6 +77,54 @@ const nspConnect = namespace => {
   }
 }
 
+const receiveMsg = body => {
+  return dispatch => {
+    dispatch({
+      type: 'socket',
+      types: [RECEIVE_MSG, RECEIVE_MSG_SUCCESS, RECEIVE_MSG_FAIL],
+      promise: socket =>
+        socket.on('receive  msg', body).then(result => {
+          dispatch(addMsg({author: result.author, msg: result.msg}))
+        })
+    })
+  }
+}
+
+const receiveRoomMeta = meta => {
+  return dispatch => {
+    dispatch({
+      type: 'socket',
+      types: [
+        RECEIVE_ROOM_META,
+        RECEIVE_ROOM_META_SUCCESS,
+        RECEIVE_ROOM_META_FAIL
+      ],
+      promise: socket =>
+        socket.on('receive room meta', meta).then(result => {
+          dispatch(updatePicture(result.src))
+          dispatch(loadListType(result.listType))
+          dispatch(updateTranslation(result.translation))
+        })
+    })
+  }
+}
+
+const sendMsg = msg => {
+  return {
+    type: 'socket',
+    types: [SEND_MSG, SEND_MSG_SUCCESS, SEND_MSG_FAIL],
+    promise: socket => socket.emit('send msg', msg)
+  }
+}
+
+const sendRoomMeta = meta => {
+  return {
+    type: 'socket',
+    types: [SEND_ROOM_META, SEND_ROOM_META_SUCCESS, SEND_ROOM_META_FAIL],
+    promise: socket => socket.emit('send room meta', meta)
+  }
+}
+
 export {
   createRoom,
   getRooms,
@@ -95,5 +132,7 @@ export {
   loadSocketNsps,
   nspConnect,
   receiveMsg,
-  sendMsg
+  receiveRoomMeta,
+  sendMsg,
+  sendRoomMeta
 }
