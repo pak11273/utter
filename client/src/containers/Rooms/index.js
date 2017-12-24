@@ -56,21 +56,24 @@ const Room = ({
   people,
   title
 }) => {
-  if (title === 'Lobby') {
-    var room = (
-      <StyledRoom selected={isSelected}>
-        <Text onClick={joinRoom}>{title} ( {people} )</Text>
-      </StyledRoom>
-    )
-  } else {
-    var room = (
-      <StyledRoom selected={isSelected}>
-        <Text fontsize="20px" onClick={joinRoom}>{title} ( {people} )</Text>
-        <Text>level:{level}</Text>
-        <Text>creator:{creator}</Text>
-      </StyledRoom>
-    )
-  }
+  // if (!title) {
+  //   console.log('wtf')
+  //   var room = (
+  //     <StyledRoom selected={isSelected}>
+  //       <Text onClick={joinRoom}>Lobby (0)</Text>
+  //     </StyledRoom>
+  //   )
+  // } else {
+  var room = (
+    <StyledRoom selected={isSelected}>
+      <Text fontsize="20px" onClick={joinRoom}>
+        {title} <span style={{fontSize: '15px'}}>( {people} )</span>
+      </Text>
+      <Text>level:{level}</Text>
+      <Text>creator:{creator}</Text>
+    </StyledRoom>
+  )
+  // }
   return room
 }
 
@@ -139,19 +142,45 @@ class RoomList extends Component {
     if (_.isEmpty(list)) {
       var renderList = <div>No rooms available. Try creating your own.</div>
     } else {
-      var renderList = (
-        <div style={{padding: '10px'}}>
-          {Object.keys(list).map((title, i) => {
-            if (title.indexOf('/') !== -1) {
-              return <div />
-            } else {
-              return (
-                <Room joinRoom={() => joinRoom(`${title}`)} title={title} />
-              )
-            }
-          })}
-        </div>
-      )
+      console.log('list: ', list)
+      var renderList = Object.keys(list).map((item, i) => {
+        if (item.indexOf('/') !== -1) {
+          return <div />
+        } else {
+          console.log('item: ', list)
+          return (
+            <Room
+              joinRoom={() => joinRoom(item)}
+              title={item}
+              people={list[item].length}
+            />
+          )
+        }
+      })
+      // for (var x in list) {
+      //   if (x.indexOf('/') !== -1) {
+      //     return <div />
+      //   } else {
+      //     return <Room
+      //         joinRoom={() => joinRoom(x)}
+      //         title={x}
+      //         people={list[x].length}
+      //       />
+      //   }}
+
+      // var renderList = (
+      //   <div style={{padding: '10px'}}>
+      //     {Object.keys(list).map((title, i) => {
+      //       if (title.indexOf('/') !== -1) {
+      //         return <div />
+      //       } else {
+      //         return (
+      //           <Room joinRoom={() => joinRoom(`${title}`)} title={title} />
+      //         )
+      //       }
+      //     })}
+      //   </div>
+      // )
     }
     return (
       <div>

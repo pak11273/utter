@@ -32,6 +32,7 @@ export default server => {
 
       socket.on('join room', function(room, fn) {
         socket.join(room)
+        console.log('joined :', room)
         fn(room)
       })
 
@@ -44,6 +45,7 @@ export default server => {
       })
 
       socket.on('send msg', (body, fn) => {
+        console.log('msg: ', body)
         socket.to(body.room).emit('receive msg', body)
         fn(body.msg)
       })

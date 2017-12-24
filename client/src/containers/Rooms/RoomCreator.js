@@ -15,7 +15,7 @@ class RoomCreator extends Component {
     super(props)
     this.state = {
       room: {
-        language: '',
+        language: this.props.roomReducer.language,
         level: '',
         listType: '',
         creator: '',
