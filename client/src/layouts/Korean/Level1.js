@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
+import {NavLink} from 'react-router-dom'
 import {
   Audio,
   Box,
@@ -358,7 +359,11 @@ class KoreanLevel1 extends Component {
         <Section background="green" height="600px" maxwidth="1024px">
           <Box>
             <Text fontsize="3rem" fontweight="900" color="white">
-              Go Practice!{' '}
+              <NavLink
+                style={{fontSize: '40px', color: 'white'}}
+                to="/connections">
+                Go Practice!
+              </NavLink>
             </Text>
             <Text color="white" padding="20px">
               <a>Channel Selection & Room Etiquette</a>

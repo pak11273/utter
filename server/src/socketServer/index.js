@@ -31,8 +31,14 @@ export default server => {
       })
 
       socket.on('join room', function(room, fn) {
+        const body = {}
         socket.join(room)
-        console.log('joined :', room)
+        if (room !== 'Lobby') {
+          socket.leave('Lobby')
+          body.msg = 'someone has joined the room'
+          body.author = 'chatbot'
+          socket.to(room).emit('receive msg', body)
+        }
         fn(room)
       })
 
@@ -46,7 +52,7 @@ export default server => {
 
       socket.on('send msg', (body, fn) => {
         console.log('msg: ', body)
-        socket.to(body.room).emit('receive msg', body)
+        socket.broadcast.to(body.room).emit('receive msg', body)
         fn(body.msg)
       })
 

@@ -56,24 +56,25 @@ const Room = ({
   people,
   title
 }) => {
-  // if (!title) {
-  //   console.log('wtf')
-  //   var room = (
-  //     <StyledRoom selected={isSelected}>
-  //       <Text onClick={joinRoom}>Lobby (0)</Text>
-  //     </StyledRoom>
-  //   )
-  // } else {
-  var room = (
-    <StyledRoom selected={isSelected}>
-      <Text fontsize="20px" onClick={joinRoom}>
-        {title} <span style={{fontSize: '15px'}}>( {people} )</span>
-      </Text>
-      <Text>level:{level}</Text>
-      <Text>creator:{creator}</Text>
-    </StyledRoom>
-  )
-  // }
+  if (title !== 'Lobby') {
+    var room = (
+      <StyledRoom selected={isSelected}>
+        <Text fontsize="20px" onClick={joinRoom}>
+          {title} <span style={{fontSize: '15px'}}>( {people} )</span>
+        </Text>
+        <Text>level:{level}</Text>
+        <Text>creator:{creator}</Text>
+      </StyledRoom>
+    )
+  } else {
+    var room = (
+      <StyledRoom selected={isSelected}>
+        <Text fontsize="20px" onClick={joinRoom}>
+          {title} <span style={{fontSize: '15px'}}>( {people} )</span>
+        </Text>
+      </StyledRoom>
+    )
+  }
   return room
 }
 
@@ -137,17 +138,28 @@ class RoomList extends Component {
       updateListType
     } = this.props
     let list = roomList
-    // !list ? (list = []) : list
-    // list.push(rooms)
     if (_.isEmpty(list)) {
       var renderList = <div>No rooms available. Try creating your own.</div>
     } else {
+      // grab lobby and make it the first component
+      var renderLobby = Object.keys(list).map((item, i) => {
+        if (item === 'Lobby') {
+          return (
+            <Room
+              joinRoom={() => joinRoom(item)}
+              title={item}
+              people={list[item].length}
+            />
+          )
+        }
+      })
+      // remove lobby from list
+      delete list['Lobby']
       console.log('list: ', list)
       var renderList = Object.keys(list).map((item, i) => {
         if (item.indexOf('/') !== -1) {
           return <div />
         } else {
-          console.log('item: ', list)
           return (
             <Room
               joinRoom={() => joinRoom(item)}
@@ -184,6 +196,7 @@ class RoomList extends Component {
     }
     return (
       <div>
+        {renderLobby}
         {renderList}
       </div>
     )
