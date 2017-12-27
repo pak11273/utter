@@ -88,7 +88,7 @@ class Connections extends Component {
       )
     }
     return (
-      <Section gridtemplatecolumns=".6fr 2fr 1fr">
+      <Section gridtemplatecolumns="20% 40% 40%">
         <Column>
           <RemoteSideBar />
         </Column>

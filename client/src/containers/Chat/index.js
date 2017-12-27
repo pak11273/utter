@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Button, Box, List, ListItem, TextArea} from '../../components'
+import styled from 'styled-components'
 import shortid from 'shortid'
 import io from 'socket.io-client'
 
@@ -63,10 +64,16 @@ class MsgBox extends Component {
         value={current_msg}
         onChange={this.onChange}
         onKeyUp={onKeyUp}
+        width="90%"
       />
     )
   }
 }
+
+const Article = styled.article`
+  display: flex;
+  flex-direction: column;
+`
 
 class ChatContainer extends Component {
   constructor(props) {
@@ -79,8 +86,79 @@ class ChatContainer extends Component {
   }
 
   componentDidMount() {
-    // set username
-    // console.log('user: ', this.props.userReducer.userProfile.username)
+    var record = document.querySelector('.record')
+    var stop = document.querySelector('.stop')
+    var soundClips = document.querySelector('.sound-clips')
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      console.log('getUserMedia supported.')
+      navigator.mediaDevices
+        .getUserMedia({audio: true})
+        // Success callback
+        .then(function(stream) {
+          const mediaRecorder = new MediaRecorder(stream)
+
+          record.onclick = function() {
+            console.log('child:; ', soundClips.childNodes)
+            if (soundClips.childNodes.length === 1) {
+              record.disabled = true
+              alert(
+                'You can only record 1 audio clip at a time.  Delete your audio clip to record another.'
+              )
+            } else {
+              mediaRecorder.start()
+              console.log(mediaRecorder.state)
+              console.log('recorder started')
+              record.style.background = 'red'
+              record.style.color = 'black'
+            }
+          }
+          var chunks = []
+
+          mediaRecorder.ondataavailable = function(e) {
+            chunks.push(e.data)
+          }
+          stop.onclick = function() {
+            mediaRecorder.stop()
+            console.log(mediaRecorder.state)
+            console.log('recorder stopped')
+            record.style.background = ''
+            record.style.color = ''
+          }
+          mediaRecorder.onstop = function(e) {
+            console.log('recorder stopped')
+
+            var clipContainer = document.createElement('Article')
+            var audio = document.createElement('audio')
+            var deleteButton = document.createElement('button')
+
+            clipContainer.classList.add('clip')
+            audio.setAttribute('controls', '')
+            deleteButton.innerHTML = 'Delete'
+
+            clipContainer.appendChild(audio)
+            clipContainer.appendChild(deleteButton)
+            soundClips.appendChild(clipContainer)
+
+            var blob = new Blob(chunks, {type: 'audio/ogg; codecs=opus'})
+            chunks = []
+            var audioURL = window.URL.createObjectURL(blob)
+            audio.src = audioURL
+
+            deleteButton.onclick = function(e) {
+              var evtTgt = e.target
+              evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
+              record.disabled = false
+            }
+          }
+        })
+        // Error callback
+        .catch(function(err) {
+          console.log('The following gUM error occured: ' + err)
+        })
+    } else {
+      console.log('getUserMedia not supported on your browser!')
+    }
   }
 
   updateReview(e) {
@@ -189,6 +267,30 @@ class ChatContainer extends Component {
   }
 
   render() {
+    if (this.props.socketReducer.joined_room !== 'Lobby') {
+      var recordBtn = (
+        <Box flexdirection="row">
+          <Button
+            className="record"
+            color="black"
+            fontsize="1.2rem"
+            margin="5px"
+            padding="3px"
+            width="100px">
+            rec
+          </Button>
+          <Button
+            className="stop"
+            color="black"
+            fontsize="1.2rem"
+            margin="5px"
+            padding="3px"
+            width="100px">
+            stop{' '}
+          </Button>
+        </Box>
+      )
+    }
     if (!this.props.socketReducer.joined_room) {
       return <div>'Join or create a room'</div>
     } else {
@@ -196,25 +298,29 @@ class ChatContainer extends Component {
         <Box>
           <MsgList list={this.filteredMessages()} />
           <MsgBox onKeyUp={this.onKeyUp} />
-          <Box alignitems="flex-start" width="100px">
+          <Box alignitems="flex-start" flexdirection="row" width="200px">
             <Button
               color="black"
-              fontsize="1.4rem"
+              fontsize="1.2rem"
               margin="5px"
               padding="3px"
               onClick={this.updateReview}
-              width="100px">
+              width="50px">
               review{' '}
             </Button>
+            {recordBtn}
             <Button
               color="black"
-              fontsize="1.4rem"
+              fontsize="1.2rem"
               margin="5px"
               padding="3px"
               onClick={this.onSubmit}
-              width="100px">
+              width="50px">
               send
             </Button>
+          </Box>
+          <Box>
+            <Article className="sound-clips" />
           </Box>
         </Box>
       )
