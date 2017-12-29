@@ -1,9 +1,22 @@
-import {ADD_MSG, LOAD_MSG_LIST, SET_CURRENT_MSG, UPDATE_MSG} from './types.js'
+import {
+  ADD_AUDIO,
+  ADD_MSG,
+  LOAD_MSG_LIST,
+  SET_CURRENT_MSG,
+  UPDATE_MSG
+} from './types.js'
 
 const loadMsgList = list => {
   return {
     type: LOAD_MSG_LIST,
     list
+  }
+}
+
+const addAudio = audio => {
+  return {
+    type: ADD_AUDIO,
+    audio
   }
 }
 
@@ -28,4 +41,4 @@ const updateMsg = msg => {
   }
 }
 
-export {addMsg, loadMsgList, setCurrentMsg, updateMsg}
+export {addAudio, addMsg, loadMsgList, setCurrentMsg, updateMsg}

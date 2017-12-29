@@ -8,15 +8,25 @@ import {
   JOIN_ROOM,
   JOIN_ROOM_FAIL,
   JOIN_ROOM_SUCCESS,
+  LOAD_AUDIO_BLOB,
   LOAD_SOCKET_NSPS,
   LOAD_SOCKET_NSPS_SUCCESS,
   LOAD_SOCKET_NSPS_FAIL,
+  RECEIVE_AUDIO_BLOB,
+  RECEIVE_AUDIO_BLOB_FAIL,
+  RECEIVE_AUDIO_BLOB_SUCCESS,
   RECEIVE_MSG,
   RECEIVE_MSG_FAIL,
   RECEIVE_MSG_SUCCESS,
   RECEIVE_ROOM_META,
   RECEIVE_ROOM_META_FAIL,
   RECEIVE_ROOM_META_SUCCESS,
+  SEND_AUDIO_BLOB,
+  SEND_AUDIO_BLOB_FAIL,
+  SEND_AUDIO_BLOB_SUCCESS,
+  SEND_FILE,
+  SEND_FILE_FAIL,
+  SEND_FILE_SUCCESS,
   SEND_MSG,
   SEND_MSG_SUCCESS,
   SEND_MSG_FAIL,
@@ -74,6 +84,11 @@ export default (state = {nsp: []}, action) => {
         status: 'joined a room',
         joined_room: action.result
       }
+    case LOAD_AUDIO_BLOB:
+      return {
+        ...state,
+        audioBlob: action.blob
+      }
     case LOAD_SOCKET_NSPS:
       return {...state, status: 'loading nsp socket pending'}
     case LOAD_SOCKET_NSPS_FAIL:
@@ -93,6 +108,22 @@ export default (state = {nsp: []}, action) => {
       return {
         ...state,
         status: 'connected to nsp'
+      }
+    case RECEIVE_AUDIO_BLOB:
+      return {
+        ...state,
+        status: 'receiving audio file'
+      }
+    case RECEIVE_AUDIO_BLOB_FAIL:
+      return {
+        ...state,
+        status: 'audio file failed to receive'
+      }
+    case RECEIVE_AUDIO_BLOB_SUCCESS:
+      return {
+        ...state,
+        received_blob: action.result,
+        status: 'audio file received'
       }
     case RECEIVE_MSG:
       return {
@@ -123,6 +154,28 @@ export default (state = {nsp: []}, action) => {
         pictureSrc: action.result,
         status: 'room meta received'
       }
+    case SEND_AUDIO_BLOB:
+      return {
+        ...state,
+        status: 'sending audio file'
+      }
+    case SEND_AUDIO_BLOB_FAIL:
+      return {
+        ...state,
+        status: 'audio failed to send'
+      }
+    case SEND_AUDIO_BLOB_SUCCESS:
+      return {
+        ...state,
+        blob: action.result,
+        status: 'audio file sent'
+      }
+    case SEND_FILE:
+      return {...state, status: 'sending file'}
+    case SEND_FILE_FAIL:
+      return {...state, status: 'file failed to send'}
+    case SEND_FILE_SUCCESS:
+      return {...state, status: 'file sent'}
     case SEND_MSG:
       return {...state, status: 'sending msg'}
     case SEND_MSG_FAIL:

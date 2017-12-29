@@ -8,18 +8,25 @@ import {
   JOIN_ROOM,
   JOIN_ROOM_FAIL,
   JOIN_ROOM_SUCCESS,
+  LOAD_AUDIO_BLOB,
   LOAD_SOCKET_NSPS,
   LOAD_SOCKET_NSPS_FAIL,
   LOAD_SOCKET_NSPS_SUCCESS,
   NSP_CONNECT,
   NSP_CONNECT_FAIL,
   NSP_CONNECT_SUCCESS,
+  RECEIVE_AUDIO_BLOB,
+  RECEIVE_AUDIO_BLOB_FAIL,
+  RECEIVE_AUDIO_BLOB_SUCCESS,
   RECEIVE_MSG,
   RECEIVE_MSG_FAIL,
   RECEIVE_MSG_SUCCESS,
   RECEIVE_ROOM_META,
   RECEIVE_ROOM_META_FAIL,
   RECEIVE_ROOM_META_SUCCESS,
+  SEND_AUDIO_BLOB,
+  SEND_AUDIO_BLOB_FAIL,
+  SEND_AUDIO_BLOB_SUCCESS,
   SEND_MSG,
   SEND_MSG_FAIL,
   SEND_MSG_SUCCESS,
@@ -29,6 +36,8 @@ import {
 } from './types.js'
 
 import io from 'socket.io-client'
+import ss from 'socket.io-stream'
+const stream = ss.createStream()
 import {addMsg} from '../../containers/Chat/actions.js'
 import {
   updatePicture,
@@ -57,6 +66,13 @@ const joinRoom = room => {
     type: 'socket',
     types: [JOIN_ROOM, JOIN_ROOM_SUCCESS, JOIN_ROOM_FAIL],
     promise: socket => socket.emit('join room', room)
+  }
+}
+
+const loadAudioBlob = blob => {
+  return {
+    type: LOAD_AUDIO_BLOB,
+    blob
   }
 }
 
@@ -109,6 +125,33 @@ const receiveRoomMeta = meta => {
   }
 }
 
+const sendAudioBlob = files => {
+  return {
+    type: 'socket',
+    types: [SEND_AUDIO_BLOB, SEND_AUDIO_BLOB_SUCCESS, SEND_AUDIO_BLOB_FAIL],
+    promise: socket => socket.emit('send audio blob', files)
+  }
+}
+
+const receiveAudioBlob = data => {
+  return dispatch => {
+    dispatch({
+      type: 'socket',
+      types: [
+        RECEIVE_AUDIO_BLOB,
+        RECEIVE_AUDIO_BLOB_SUCCESS,
+        RECEIVE_AUDIO_BLOB_FAIL
+      ],
+      promise: socket =>
+        socket.on('receive audio blob', data).then(result => {
+          dispatch(
+            addMsg({author: result.audio.author, msg: result.audio.room})
+          )
+        })
+    })
+  }
+}
+
 const sendMsg = msg => {
   return {
     type: 'socket',
@@ -126,6 +169,7 @@ const sendRoomMeta = meta => {
 }
 
 export {
+  loadAudioBlob,
   createRoom,
   getRooms,
   joinRoom,
@@ -133,6 +177,8 @@ export {
   nspConnect,
   receiveMsg,
   receiveRoomMeta,
+  receiveAudioBlob,
+  sendAudioBlob,
   sendMsg,
   sendRoomMeta
 }

@@ -1,7 +1,11 @@
 import io from 'socket.io-client'
 import store from '../../store.js'
 
-import {receiveMsg, receiveRoomMeta} from '../socketio/actions.js'
+import {
+  receiveAudioBlob,
+  receiveMsg,
+  receiveRoomMeta
+} from '../socketio/actions.js'
 
 class Socket {
   constructor(opts) {
@@ -25,7 +29,12 @@ class Socket {
         // return state of socket in redux
         resolve({nsp, socket})
       })
+
       this.nsp.on('connect_error', error => reject(error))
+
+      this.nsp.on('receive audio blob', blob => {
+        store.dispatch(receiveAudioBlob(blob))
+      })
 
       this.nsp.on('receive room meta', meta => {
         store.dispatch(receiveRoomMeta(meta))

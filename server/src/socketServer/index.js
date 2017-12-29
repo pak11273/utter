@@ -1,5 +1,7 @@
 import io from 'socket.io'
 import monitorio from 'monitor.io'
+import path from 'path'
+import ss from 'socket.io-stream'
 
 export default server => {
   const socketServer = io(server)
@@ -20,9 +22,7 @@ export default server => {
     nsp.on('connection', socket => {
       // socket.rooms = {}
       socket.join('Lobby')
-      console.log(`a user connected to the ${nsp.name} channel`)
       const count = Object.keys(nsp.sockets).length
-      console.log(`${nsp.name} count: `, count)
 
       socket.on('create room', function(room, fn) {
         console.log('room ' + room.title + ' was created.')
@@ -50,14 +50,23 @@ export default server => {
         fn(socket.adapter.rooms)
       })
 
+      socket.on('send audio blob', (data, fn) => {
+        console.log('roomname: ', data.audio.room)
+        socket.broadcast.to(data.audio.room).emit('receive audio blob', data)
+        fn(data)
+      })
+
       socket.on('send msg', (body, fn) => {
-        console.log('msg: ', body)
         socket.broadcast.to(body.room).emit('receive msg', body)
         fn(body.msg)
       })
 
+      ss(socket).on('send file', (stream, data) => {
+        var filename = path.basename(data.name)
+        stream.pipe(fs.createWriteStream(filename))
+      })
+
       socket.on('send room meta', (meta, fn) => {
-        console.log('body: ', meta)
         socket.to(meta.room.title).emit('receive room meta', meta)
         fn(meta)
       })

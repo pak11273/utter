@@ -6,15 +6,21 @@ import {Button, Box, List, ListItem, TextArea} from '../../components'
 import styled from 'styled-components'
 import shortid from 'shortid'
 import io from 'socket.io-client'
+import RecordRTC from 'recordrtc'
+import filename from '../../assets/images/play.svg'
 
 // actions
 import {updateReviewList} from '../Pictures/actions.js'
 import {addMsg, setCurrentMsg, updateMsg} from './actions.js'
-import {sendMsg} from '../../services/socketio/actions.js'
+import {
+  sendAudioBlob,
+  loadAudioBlob,
+  sendMsg
+} from '../../services/socketio/actions.js'
 
-const Msg = ({author, msg}) =>
+const Msg = ({author, audio, msg}) =>
   <ListItem>
-    {author}: {msg}
+    {author}: {audio}{msg}
   </ListItem>
 
 const MsgList = ({list, onMsgClick}) =>
@@ -29,6 +35,7 @@ const MsgList = ({list, onMsgClick}) =>
         <Msg
           key={item.id}
           author={item.author}
+          audio={item.audio}
           msg={item.msg}
           onClick={() => onMsgClick(id)}
         />
@@ -49,7 +56,7 @@ class MsgBox extends Component {
   //   if (e.which === 13) {
   //     const trimmedMessage = this.props.value.trim()
   //     if (trimmedMessage) {
-  //       this.props.onSubmit(trimmedMessage)
+  //       this.props.onSend(trimmedMessage)
   //     }
   //     e.preventDefault()
   //   }
@@ -81,23 +88,23 @@ class ChatContainer extends Component {
 
     this.filteredMessages = this.filteredMessages.bind(this)
     this.onKeyUp = this.onKeyUp.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.onSend = this.onSend.bind(this)
     this.updateReview = this.updateReview.bind(this)
   }
 
   componentDidMount() {
-    var record = document.querySelector('.record')
-    var stop = document.querySelector('.stop')
-    var soundClips = document.querySelector('.sound-clips')
-
+    var fileCounter = 0
+    var props = this.props
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       console.log('getUserMedia supported.')
       navigator.mediaDevices
         .getUserMedia({audio: true})
         // Success callback
         .then(function(stream) {
-          const mediaRecorder = new MediaRecorder(stream)
-
+          const recorder = RecordRTC(stream, {type: 'audio'})
+          var record = document.querySelector('.record')
+          var stop = document.querySelector('.stop')
+          var soundClips = document.querySelector('.sound-clips')
           record.onclick = function() {
             console.log('child:; ', soundClips.childNodes)
             if (soundClips.childNodes.length === 1) {
@@ -106,8 +113,7 @@ class ChatContainer extends Component {
                 'You can only record 1 audio clip at a time.  Delete your audio clip to record another.'
               )
             } else {
-              mediaRecorder.start()
-              console.log(mediaRecorder.state)
+              recorder.startRecording()
               console.log('recorder started')
               record.style.background = 'red'
               record.style.color = 'black'
@@ -115,24 +121,38 @@ class ChatContainer extends Component {
           }
           var chunks = []
 
-          mediaRecorder.ondataavailable = function(e) {
-            chunks.push(e.data)
-          }
           stop.onclick = function() {
-            mediaRecorder.stop()
-            console.log(mediaRecorder.state)
+            recorder.stopRecording(function(audioURL) {
+              audio.src = audioURL
+
+              // add blob to redux
+              var recordedBlob = recorder.getBlob()
+              recorder.getDataURL(function(dataUrl) {
+                var files = {
+                  audio: {
+                    author: props.userReducer.userProfile.username,
+                    room: props.socketReducer.joined_room,
+                    name: 'file' + fileCounter++ + '.wav',
+                    type: 'audio/wav',
+                    dataUrl: dataUrl
+                  }
+                }
+                props.actions.loadAudioBlob(files)
+              })
+            })
             console.log('recorder stopped')
             record.style.background = ''
             record.style.color = ''
-          }
-          mediaRecorder.onstop = function(e) {
-            console.log('recorder stopped')
 
             var clipContainer = document.createElement('Article')
             var audio = document.createElement('audio')
             var deleteButton = document.createElement('button')
 
             clipContainer.classList.add('clip')
+            clipContainer.setAttribute(
+              'style',
+              'display: flex; justify-content: center'
+            )
             audio.setAttribute('controls', '')
             deleteButton.innerHTML = 'Delete'
 
@@ -140,10 +160,10 @@ class ChatContainer extends Component {
             clipContainer.appendChild(deleteButton)
             soundClips.appendChild(clipContainer)
 
-            var blob = new Blob(chunks, {type: 'audio/ogg; codecs=opus'})
-            chunks = []
-            var audioURL = window.URL.createObjectURL(blob)
-            audio.src = audioURL
+            // var blob = new Blob(chunks, {type: 'audio/ogg; codecs=opus'})
+            // chunks = []
+            // var audioURL = window.URL.createObjectURL(blob)
+            // audio.src = audioURL
 
             deleteButton.onclick = function(e) {
               var evtTgt = e.target
@@ -185,65 +205,69 @@ class ChatContainer extends Component {
     console.log(this.props.pictureReducer.reviewList)
   }
 
-  onSubmit(e) {
+  onSend(e) {
     e.preventDefault()
-    const obj = {
-      // author: this.props.authReducer.userProfile.username,
-      room_id: this.props.roomReducer.selected,
-      message: this.props.chatReducer.current_msg
+    // console.log('audio: ', audio.src)
+    // var files = {
+    //   audio: {
+    //     name: fileName + '.wav',
+    //     type: 'audio/wav',
+    //     dataURL: audio.src
+    //   }
+    // }
+
+    if (true) {
+      var data = this.props.socketReducer.audioBlob
+      this.props.actions.sendAudioBlob(data)
     }
+    // TODO: code below for uttered lists
+    // const obj = {
+    //   // author: this.props.authReducer.userProfile.username,
+    //   room_id: this.props.roomReducer.selected,
+    //   message: this.props.chatReducer.current_msg
+    // }
 
-    if (obj.message) {
-      // save messge to db
+    // if (obj.message) {
+    //   // update utteredList
+    //   let utteredArray = utteredString.split(' ')
+    //   let utteredMap = utteredArray.map(word => {
+    //     return {word: word, uttered: 1}
+    //   })
+    //   let newUtteredList = this.props.utteredList.concat(utteredMap)
 
-      // superagent.post('/api/messages').send(obj).end((err, res) => {
-      //   if (err) {
-      //     console.log(err)
-      //   } else {
-      //     this.props.actions.addMsg(res.body)
-      //   }
-      // })
+    //   // first, convert data into a Map with reduce
+    //   let counts = newUtteredList.reduce((prev, curr) => {
+    //     let count = prev.get(curr.word) || 0
+    //     prev.set(curr.word, curr.uttered + count)
+    //     return prev
+    //   }, new Map())
 
-      // update utteredList
-      let utteredArray = utteredString.split(' ')
-      let utteredMap = utteredArray.map(word => {
-        return {word: word, uttered: 1}
-      })
-      let newUtteredList = this.props.utteredList.concat(utteredMap)
+    //   // then, map your counts object back to an array
+    //   let reducedObjArr = [...counts].map(([word, uttered]) => {
+    //     return {word, uttered}
+    //   })
 
-      // first, convert data into a Map with reduce
-      let counts = newUtteredList.reduce((prev, curr) => {
-        let count = prev.get(curr.word) || 0
-        prev.set(curr.word, curr.uttered + count)
-        return prev
-      }, new Map())
-
-      // then, map your counts object back to an array
-      let reducedObjArr = [...counts].map(([word, uttered]) => {
-        return {word, uttered}
-      })
-
-      // save utterlist to db
-      const userObjId = this.props.authReducer.userProfile._id
-      console.log('userObjId: ', userObjId)
-      superagent
-        .put(`/api/users/${userObjId}`)
-        .send({utteredList: reducedObjArr})
-        .end((err, res) => {
-          if (err) {
-            console.log(err)
-          } else {
-            this.props.actions.updateUtteredList(reducedObjArr)
-          }
-        })
-    }
+    //   // TODO: save utterlist to db (this feature to halted for now)
+    //   const userObjId = this.props.authReducer.userProfile._id
+    //   console.log('userObjId: ', userObjId)
+    //   superagent
+    //     .put(`/api/users/${userObjId}`)
+    //     .send({utteredList: reducedObjArr})
+    //     .end((err, res) => {
+    //       if (err) {
+    //         console.log(err)
+    //       } else {
+    //         this.props.actions.updateUtteredList(reducedObjArr)
+    //       }
+    //     })
+    // }
 
     // clear input for messages
     document.getElementById('inputMessageBox').value = ''
   }
 
   filteredMessages() {
-    let list = this.props.chatReducer
+    let list = this.props.chatReducer.msgList
     // return list.filter(item => {
     //   if (item.message.room_id === this.props.roomReducer.selected) return true
     // })
@@ -297,6 +321,9 @@ class ChatContainer extends Component {
       return (
         <Box>
           <MsgList list={this.filteredMessages()} />
+          <Box style={{padding: '20px'}}>
+            {' '}<Article className="sound-clips" />
+          </Box>
           <MsgBox onKeyUp={this.onKeyUp} />
           <Box alignitems="flex-start" flexdirection="row" width="200px">
             <Button
@@ -314,13 +341,10 @@ class ChatContainer extends Component {
               fontsize="1.2rem"
               margin="5px"
               padding="3px"
-              onClick={this.onSubmit}
+              onClick={this.onSend}
               width="50px">
               send
             </Button>
-          </Box>
-          <Box>
-            <Article className="sound-clips" />
           </Box>
         </Box>
       )
@@ -347,6 +371,8 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         addMsg,
+        loadAudioBlob,
+        sendAudioBlob,
         sendMsg,
         setCurrentMsg,
         updateMsg,
