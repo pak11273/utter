@@ -2,6 +2,7 @@ import {
   CREATE_ROOM,
   CREATE_ROOM_FAIL,
   CREATE_ROOM_SUCCESS,
+  DELETE_AUDIO_BLOB,
   GET_ROOMS,
   GET_ROOMS_FAIL,
   GET_ROOMS_SUCCESS,
@@ -57,6 +58,11 @@ export default (state = {nsp: []}, action) => {
         ...state,
         created_room: action.result,
         status: 'created a room'
+      }
+    case DELETE_AUDIO_BLOB:
+      return {
+        ...state,
+        audioBlob: null
       }
     case GET_ROOMS:
       return {...state, status: 'getting a list of room'}

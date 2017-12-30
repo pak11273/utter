@@ -13,6 +13,7 @@ import filename from '../../assets/images/play.svg'
 import {updateReviewList} from '../Pictures/actions.js'
 import {addMsg, setCurrentMsg, updateMsg} from './actions.js'
 import {
+  deleteAudioBlob,
   sendAudioBlob,
   loadAudioBlob,
   sendMsg
@@ -85,6 +86,8 @@ const Article = styled.article`
 class ChatContainer extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {msg: ''}
 
     this.filteredMessages = this.filteredMessages.bind(this)
     this.onKeyUp = this.onKeyUp.bind(this)
@@ -200,11 +203,28 @@ class ChatContainer extends Component {
 
   onSend(e) {
     e.preventDefault()
-
-    if (true) {
-      var data = this.props.socketReducer.audioBlob
-      this.props.actions.sendAudioBlob(data)
+    const audio = this.props.socketReducer.audioBlob
+    // send audio file
+    if (audio) {
+      this.props.actions.sendAudioBlob(audio)
     }
+    // send typed messages
+    const body = {
+      id: shortid.generate(),
+      msg: this.state.msg,
+      author: this.props.userReducer.userProfile.username,
+      room: this.props.socketReducer.joined_room
+    }
+    if (body.msg) {
+      this.props.actions.addMsg(body)
+      this.props.actions.sendMsg(body)
+      this.setState({msg: null})
+    }
+
+    // remove the soundclips
+    var soundClips = document.querySelector('.sound-clips')
+    soundClips.removeChild(soundClips.firstChild)
+
     // TODO: code below for uttered lists
     // const obj = {
     //   // author: this.props.authReducer.userProfile.username,
@@ -249,6 +269,9 @@ class ChatContainer extends Component {
 
     // clear input for messages
     document.getElementById('inputMessageBox').value = ''
+
+    // delete the audio
+    this.props.actions.deleteAudioBlob()
   }
 
   filteredMessages() {
@@ -261,6 +284,8 @@ class ChatContainer extends Component {
 
   onKeyUp(e) {
     const value = e.target.value
+    this.setState({msg: value})
+
     if (e.keyCode === 13 && value) {
       const body = {
         id: shortid.generate(),
@@ -311,15 +336,17 @@ class ChatContainer extends Component {
           </Box>
           <MsgBox onKeyUp={this.onKeyUp} />
           <Box alignitems="flex-start" flexdirection="row" width="200px">
-            <Button
-              color="black"
-              fontsize="1.2rem"
-              margin="5px"
-              padding="3px"
-              onClick={this.updateReview}
-              width="50px">
-              review{' '}
-            </Button>
+            {this.props.roomReducer.creator
+              ? <Button
+                  color="black"
+                  fontsize="1.2rem"
+                  margin="5px"
+                  padding="3px"
+                  onClick={this.updateReview}
+                  width="50px">
+                  review{' '}
+                </Button>
+              : null}
             {recordBtn}
             <Button
               color="black"
@@ -356,6 +383,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         addMsg,
+        deleteAudioBlob,
         loadAudioBlob,
         sendAudioBlob,
         sendMsg,

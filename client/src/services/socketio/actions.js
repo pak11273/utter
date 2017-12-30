@@ -2,6 +2,7 @@ import {
   CREATE_ROOM,
   CREATE_ROOM_FAIL,
   CREATE_ROOM_SUCCESS,
+  DELETE_AUDIO_BLOB,
   GET_ROOMS,
   GET_ROOMS_FAIL,
   GET_ROOMS_SUCCESS,
@@ -53,6 +54,13 @@ const createRoom = room => {
   }
 }
 
+const deleteAudioBlob = blob => {
+  return {
+    type: DELETE_AUDIO_BLOB,
+    blob
+  }
+}
+
 const getRooms = () => {
   return {
     type: 'socket',
@@ -90,6 +98,28 @@ const nspConnect = namespace => {
     type: 'socket',
     types: [GET_ROOMS, GET_ROOMS_SUCCESS, GET_ROOMS_FAIL],
     promise: socket => socket.nspConnect(namespace)
+  }
+}
+
+const receiveAudioBlob = data => {
+  return dispatch => {
+    dispatch({
+      type: 'socket',
+      types: [
+        RECEIVE_AUDIO_BLOB,
+        RECEIVE_AUDIO_BLOB_SUCCESS,
+        RECEIVE_AUDIO_BLOB_FAIL
+      ],
+      promise: socket =>
+        socket.on('receive audio blob', data).then(result => {
+          dispatch(
+            addAudio({
+              author: result.audio.author,
+              dataUrl: result.audio.dataUrl
+            })
+          )
+        })
+    })
   }
 }
 
@@ -133,28 +163,6 @@ const sendAudioBlob = files => {
   }
 }
 
-const receiveAudioBlob = data => {
-  return dispatch => {
-    dispatch({
-      type: 'socket',
-      types: [
-        RECEIVE_AUDIO_BLOB,
-        RECEIVE_AUDIO_BLOB_SUCCESS,
-        RECEIVE_AUDIO_BLOB_FAIL
-      ],
-      promise: socket =>
-        socket.on('receive audio blob', data).then(result => {
-          dispatch(
-            addAudio({
-              author: result.audio.author,
-              dataUrl: result.audio.dataUrl
-            })
-          )
-        })
-    })
-  }
-}
-
 const sendMsg = msg => {
   return {
     type: 'socket',
@@ -172,10 +180,11 @@ const sendRoomMeta = meta => {
 }
 
 export {
-  loadAudioBlob,
   createRoom,
+  deleteAudioBlob,
   getRooms,
   joinRoom,
+  loadAudioBlob,
   loadSocketNsps,
   nspConnect,
   receiveMsg,

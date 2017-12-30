@@ -1,6 +1,7 @@
 const CREATE_ROOM = 'utter/socketio/CREATE_ROOM'
 const CREATE_ROOM_FAIL = 'utter/socketio/CREATE_ROOM_FAIL'
 const CREATE_ROOM_SUCCESS = 'utter/socketio/CREATE_ROOM_SUCCESS'
+const DELETE_AUDIO_BLOB = 'utter/socketio/DELETE_AUDIO_BLOB'
 const GET_ROOMS = 'utter/socketio/GET_ROOMS'
 const GET_ROOMS_FAIL = 'utter/socketio/GET_ROOMS_FAIL'
 const GET_ROOMS_SUCCESS = 'utter/socketio/GET_ROOMS_SUCCESS'
@@ -40,6 +41,7 @@ export {
   CREATE_ROOM,
   CREATE_ROOM_FAIL,
   CREATE_ROOM_SUCCESS,
+  DELETE_AUDIO_BLOB,
   GET_ROOMS,
   GET_ROOMS_FAIL,
   GET_ROOMS_SUCCESS,
