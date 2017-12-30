@@ -13,10 +13,10 @@ const loadMsgList = list => {
   }
 }
 
-const addAudio = audio => {
+const addAudio = obj => {
   return {
     type: ADD_AUDIO,
-    audio
+    obj
   }
 }
 

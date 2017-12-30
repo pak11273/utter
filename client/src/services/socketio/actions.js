@@ -38,7 +38,7 @@ import {
 import io from 'socket.io-client'
 import ss from 'socket.io-stream'
 const stream = ss.createStream()
-import {addMsg} from '../../containers/Chat/actions.js'
+import {addAudio, addMsg} from '../../containers/Chat/actions.js'
 import {
   updatePicture,
   updateTranslation
@@ -145,7 +145,10 @@ const receiveAudioBlob = data => {
       promise: socket =>
         socket.on('receive audio blob', data).then(result => {
           dispatch(
-            addMsg({author: result.audio.author, msg: result.audio.room})
+            addAudio({
+              author: result.audio.author,
+              dataUrl: result.audio.dataUrl
+            })
           )
         })
     })

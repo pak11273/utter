@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Style = styled.li`
+  align-items: ${props => props.alignitems};
   color: ${props => props.color};
   display: ${props => props.display};
   font-family: ${props => props.fontfamily};
@@ -15,7 +16,7 @@ Style.defaultProps = {
 }
 
 const ListItem = props =>
-  <Style>
+  <Style alignitems={props.alignitems} display={props.display}>
     {props.children}
   </Style>
 

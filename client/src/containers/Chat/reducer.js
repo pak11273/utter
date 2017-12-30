@@ -1,10 +1,26 @@
-import {ADD_MSG, LOAD_MSG_LIST, UPDATE_MSG, SET_CURRENT_MSG} from './types.js'
+import {
+  ADD_AUDIO,
+  ADD_MSG,
+  LOAD_MSG_LIST,
+  UPDATE_MSG,
+  SET_CURRENT_MSG
+} from './types.js'
 
 // The initial state of the App
 const initialState = {msgList: []}
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {
+    case ADD_AUDIO:
+      return {
+        ...state,
+        msgList: [
+          ...state.msgList,
+          {
+            ...action.obj
+          }
+        ]
+      }
     case ADD_MSG:
       return {
         ...state,

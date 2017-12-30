@@ -51,8 +51,7 @@ export default server => {
       })
 
       socket.on('send audio blob', (data, fn) => {
-        console.log('roomname: ', data.audio.room)
-        socket.broadcast.to(data.audio.room).emit('receive audio blob', data)
+        socket.to(data.audio.room).emit('receive audio blob', data)
         fn(data)
       })
 

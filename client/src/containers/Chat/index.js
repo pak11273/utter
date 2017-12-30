@@ -19,8 +19,8 @@ import {
 } from '../../services/socketio/actions.js'
 
 const Msg = ({author, audio, msg}) =>
-  <ListItem>
-    {author}: {audio}{msg}
+  <ListItem alignitems="center" display="flex" padding="20px 0">
+    {author}: {audio ? <audio src={audio} controls /> : null} {msg}
   </ListItem>
 
 const MsgList = ({list, onMsgClick}) =>
@@ -35,7 +35,7 @@ const MsgList = ({list, onMsgClick}) =>
         <Msg
           key={item.id}
           author={item.author}
-          audio={item.audio}
+          audio={item.dataUrl}
           msg={item.msg}
           onClick={() => onMsgClick(id)}
         />
@@ -106,7 +106,6 @@ class ChatContainer extends Component {
           var stop = document.querySelector('.stop')
           var soundClips = document.querySelector('.sound-clips')
           record.onclick = function() {
-            console.log('child:; ', soundClips.childNodes)
             if (soundClips.childNodes.length === 1) {
               record.disabled = true
               alert(
@@ -119,13 +118,15 @@ class ChatContainer extends Component {
               record.style.color = 'black'
             }
           }
-          var chunks = []
 
           stop.onclick = function() {
+            var audio = document.createElement('audio')
+            var clipContainer = document.createElement('Article')
+            var deleteButton = document.createElement('button')
+
             recorder.stopRecording(function(audioURL) {
               audio.src = audioURL
 
-              // add blob to redux
               var recordedBlob = recorder.getBlob()
               recorder.getDataURL(function(dataUrl) {
                 var files = {
@@ -137,16 +138,13 @@ class ChatContainer extends Component {
                     dataUrl: dataUrl
                   }
                 }
+                // add blob to redux
                 props.actions.loadAudioBlob(files)
               })
             })
             console.log('recorder stopped')
             record.style.background = ''
             record.style.color = ''
-
-            var clipContainer = document.createElement('Article')
-            var audio = document.createElement('audio')
-            var deleteButton = document.createElement('button')
 
             clipContainer.classList.add('clip')
             clipContainer.setAttribute(
@@ -159,11 +157,6 @@ class ChatContainer extends Component {
             clipContainer.appendChild(audio)
             clipContainer.appendChild(deleteButton)
             soundClips.appendChild(clipContainer)
-
-            // var blob = new Blob(chunks, {type: 'audio/ogg; codecs=opus'})
-            // chunks = []
-            // var audioURL = window.URL.createObjectURL(blob)
-            // audio.src = audioURL
 
             deleteButton.onclick = function(e) {
               var evtTgt = e.target
@@ -207,14 +200,6 @@ class ChatContainer extends Component {
 
   onSend(e) {
     e.preventDefault()
-    // console.log('audio: ', audio.src)
-    // var files = {
-    //   audio: {
-    //     name: fileName + '.wav',
-    //     type: 'audio/wav',
-    //     dataURL: audio.src
-    //   }
-    // }
 
     if (true) {
       var data = this.props.socketReducer.audioBlob
