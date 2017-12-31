@@ -76,7 +76,6 @@ class Connections extends Component {
       var live = (
         <div>
           <Pictures />
-          <Challenge />
           <Speaker />
         </div>
       )
@@ -95,7 +94,11 @@ class Connections extends Component {
         <Column>
           <Box flexdirection="row" justifycontent="center">
             <Text color="black" fontsize="2rem">
-              {this.props.roomReducer.roomTitle}
+              {this.props.socketReducer.status === 'connected to a namespace' ||
+                this.props.socketReducer.status === 'got a list of rooms' ||
+                this.props.socketReducer.joined_room === 'Lobby'
+                ? null
+                : <Challenge />}
             </Text>
           </Box>
           {intro}

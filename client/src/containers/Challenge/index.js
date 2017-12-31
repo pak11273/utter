@@ -7,16 +7,13 @@ import {loadQuestion} from './actions.js'
 
 const Question = styled.div`
 `
-const Answer = styled.div`
-`
 class Challenge extends Component {
   render() {
     return (
       <Section>
         <Box>
-          <Text fontsize="30px" textalign="center">Challenge: </Text>
-          <Question>____is____.</Question>
-          <Answer>eg. My car is red.</Answer>
+          <Text fontsize="1.5rem" textalign="center">Challenge: </Text>
+          <Question>Describe the picture below</Question>
         </Box>
       </Section>
     )

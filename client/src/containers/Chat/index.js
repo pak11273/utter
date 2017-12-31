@@ -11,7 +11,7 @@ import filename from '../../assets/images/play.svg'
 
 // actions
 import {updateReviewList} from '../Pictures/actions.js'
-import {addMsg, setCurrentMsg, updateMsg} from './actions.js'
+import {addAudio, addMsg, setCurrentMsg, updateMsg} from './actions.js'
 import {
   deleteAudioBlob,
   sendAudioBlob,
@@ -52,16 +52,6 @@ class MsgBox extends Component {
   onChange(e) {
     // set the current message
   }
-
-  // onKeyPress(e) {
-  //   if (e.which === 13) {
-  //     const trimmedMessage = this.props.value.trim()
-  //     if (trimmedMessage) {
-  //       this.props.onSend(trimmedMessage)
-  //     }
-  //     e.preventDefault()
-  //   }
-  // }
 
   render() {
     const {current_msg, onKeyUp} = this.props
@@ -206,6 +196,10 @@ class ChatContainer extends Component {
     const audio = this.props.socketReducer.audioBlob
     // send audio file
     if (audio) {
+      this.props.actions.addAudio({
+        author: audio.audio.author,
+        dataUrl: audio.audio.dataUrl
+      })
       this.props.actions.sendAudioBlob(audio)
     }
     // send typed messages
@@ -221,6 +215,8 @@ class ChatContainer extends Component {
       this.setState({msg: null})
     }
 
+    // clear input for messages
+    document.getElementById('inputMessageBox').value = ''
     // remove the soundclips
     var soundClips = document.querySelector('.sound-clips')
     soundClips.removeChild(soundClips.firstChild)
@@ -266,9 +262,6 @@ class ChatContainer extends Component {
     //       }
     //     })
     // }
-
-    // clear input for messages
-    document.getElementById('inputMessageBox').value = ''
 
     // delete the audio
     this.props.actions.deleteAudioBlob()
@@ -382,6 +375,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        addAudio,
         addMsg,
         deleteAudioBlob,
         loadAudioBlob,

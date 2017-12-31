@@ -26,7 +26,6 @@ class RemoteSideBarContainer extends Component {
         <Column alignitems="flex-start">
           <Box
             flexdirection="row"
-            height="100%"
             background="lightblue"
             justifycontent="space-around"
             margin="0 0 20px 0">
