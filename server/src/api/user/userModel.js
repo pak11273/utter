@@ -23,10 +23,17 @@ const UserSchema = new mongoose.Schema(
       match: [/\S+@\S+\.\S+/, 'is invalid'],
       index: true
     },
-    level: {
-      type: Number,
-      default: 1
-    },
+    courses: [
+      {
+        name: {
+          type: String
+        },
+        level: {
+          type: Number,
+          default: 1
+        }
+      }
+    ],
     role: {
       type: String
     },

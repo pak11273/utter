@@ -14,4 +14,20 @@ const loadUserProfile = id => {
   }
 }
 
-export {loadUserProfile}
+const addCourse = (id, course) => {
+  const userData = {
+    courses: [{name: course, level: 1}]
+  }
+  return dispatch => {
+    axios
+      .put(`/api/users/${id}`, userData)
+      .then(res => {
+        console.log('Course was added')
+      })
+      .catch(err => {
+        console.log('Course could not be added:', err)
+      })
+  }
+}
+
+export {loadUserProfile, addCourse}

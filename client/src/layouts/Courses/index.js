@@ -13,10 +13,13 @@ import {
   Subtitle,
   Title,
   Wrapper
-} from '../components'
-import {Masthead, Navbar} from '../containers'
+} from '../../components'
+import {Masthead, Navbar} from '../../containers'
 
-class Languages extends Component {
+// actions
+import {chooseCourseLanguage} from './actions'
+
+class CoursesContainer extends Component {
   constructor() {
     super()
     this.state = {
@@ -63,17 +66,14 @@ class Languages extends Component {
   }
 }
 
-export default Languages
+const mapStateToProps = state => {
+  return {}
+}
 
-// {this.state.search}
-// <Box flexdirection="row">
-//   <Input
-//     onChange={this.handleSearch}
-//     margin="0 10px 0 0"
-//     type="text"
-//     placeholder="search"
-//   />
-//   <ButtonBrowse>
-//     Browse All
-//   </ButtonBrowse>
-// </Box>
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: {}
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesContainer)

@@ -38,12 +38,14 @@ class RoomCreator extends Component {
   }
 
   createRoom() {
+    const course = this.props.roomReducer.roomTtile
     if (!this.state.room.title) {
       alert('You need a room title to create a room')
     } else if (!this.state.room.level) {
       alert('You need to input a level for your room')
     } else if (
-      this.state.room.level > this.props.userReducer.userProfile.level
+      this.state.room.level >
+      this.props.userReducer.userProfile.courses[course].level
     ) {
       alert('You cannot create or join rooms above your level')
     } else {

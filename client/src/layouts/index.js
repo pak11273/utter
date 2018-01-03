@@ -9,8 +9,8 @@ import Login from './Login.js'
 import Settings from './Settings.js'
 import Signup from './Signup.js'
 import Sponsorship from './Sponsorship.js'
-import Languages from './Languages.js'
-import LanguageDetails from './LanguageDetails.js'
+import Courses from './Courses/index.js'
+import LanguageDetails from './Courses/LanguageDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
 import requireAuth from '../utils/requireAuth.js'
 import Dashboard from './Dashboard.js'
@@ -34,11 +34,11 @@ export {
   Home,
   About,
   Contact,
+  Courses,
   GettingStarted,
   Connections,
   Login,
   Settings,
-  Languages,
   LanguageDetails,
   NotFound,
   requireAuth,

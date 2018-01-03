@@ -9,7 +9,7 @@ import {
   Settings,
   Signup,
   Sponsorship,
-  Languages,
+  Courses,
   LanguageDetails,
   NotFound,
   requireAuth,
@@ -78,8 +78,8 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/languages',
-    component: props => <Languages languages={language.languages} {...props} />,
+    path: '/courses',
+    component: props => <Courses languages={language.languages} {...props} />,
     loadData: () => getSomeData()
   },
   {

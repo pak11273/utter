@@ -30,7 +30,7 @@ class App extends Component {
                   list={[
                     'about',
                     'contact',
-                    'languages',
+                    'courses',
                     'pricing',
                     'connections'
                   ]}
