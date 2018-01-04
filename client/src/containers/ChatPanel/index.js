@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {Chat, Uttered} from '../../containers'
+import {Chat} from '../../containers'
 import {Box, Button, Column, Section, Text, TextArea} from '../../components'
 
 class Friends extends Component {
@@ -45,11 +45,9 @@ class ChatPanelContainer extends Component {
               Chat
             </Link>
             <Link to="/connections/friends" fontsize="1rem">Friends</Link>
-            <Link to="/connections/uttered" fontsize="1rem">Uttered</Link>
           </Box>
           <Box alignitems="flex-start">
             <Route path="/connections/chat" component={Chat} />
-            <Route path="/connections/uttered" component={Uttered} />
             <Route path="/connections/friends" component={Friends} />
           </Box>
         </Column>

@@ -10,7 +10,7 @@ const Text = styled.div`
   line-height: ${props => props.lineheight};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign};
   width: ${props => props.width};
 `
 Text.defaultProps = {

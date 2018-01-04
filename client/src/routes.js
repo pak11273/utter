@@ -10,7 +10,7 @@ import {
   Signup,
   Sponsorship,
   Courses,
-  LanguageDetails,
+  CourseDetails,
   NotFound,
   requireAuth,
   Dashboard,
@@ -83,13 +83,13 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/languageDetails/:name',
+    path: '/CourseDetails/:name',
     component: props => {
       const one = language.languages.filter(
         language => props.match.params.name === language.name
       )
       return (
-        <LanguageDetails
+        <CourseDetails
           languages={language.languages}
           language={one[0]}
           {...props}

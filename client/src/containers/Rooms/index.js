@@ -155,7 +155,6 @@ class RoomList extends Component {
       })
       // remove lobby from list
       delete list['Lobby']
-      console.log('list: ', list)
       var renderList = Object.keys(list).map((item, i) => {
         if (item.indexOf('/') !== -1) {
           return <div />

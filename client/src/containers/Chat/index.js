@@ -219,7 +219,9 @@ class ChatContainer extends Component {
     document.getElementById('inputMessageBox').value = ''
     // remove the soundclips
     var soundClips = document.querySelector('.sound-clips')
-    soundClips.removeChild(soundClips.firstChild)
+    if (soundClips.firstChild) {
+      soundClips.removeChild(soundClips.firstChild)
+    }
 
     // TODO: code below for uttered lists
     // const obj = {
@@ -347,6 +349,7 @@ class ChatContainer extends Component {
               margin="5px"
               padding="3px"
               onClick={this.onSend}
+              type="button"
               width="50px">
               send
             </Button>

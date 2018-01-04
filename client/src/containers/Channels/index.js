@@ -75,11 +75,18 @@ class ChannelsContainer extends Component {
   }
 
   onChannelSelect(_id, name, language, socket) {
-    this.props.actions.channelSelect(_id)
-    this.props.actions.updateRoomTitle(name)
-    this.props.actions.updateRoomLanguage(language)
-    this.props.actions.setChannelId(_id)
-    this.props.actions.nspConnect(socket)
+    let obj = this.props.userReducer.userProfile.courses.filter(
+      obj => obj.name === name
+    )[0]
+    if (obj) {
+      this.props.actions.channelSelect(_id)
+      this.props.actions.updateRoomTitle(name)
+      this.props.actions.updateRoomLanguage(language)
+      this.props.actions.setChannelId(_id)
+      this.props.actions.nspConnect(socket)
+    } else {
+      alert('you must be enrolled in that course to join a channel')
+    }
   }
 
   render() {
@@ -110,7 +117,8 @@ class ChannelsContainer extends Component {
 const mapStateToProps = state => {
   return {
     channelReducer: state.channelReducer,
-    socketReducer: state.socketReducer
+    socketReducer: state.socketReducer,
+    userReducer: state.userReducer
   }
 }
 

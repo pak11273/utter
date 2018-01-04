@@ -25,7 +25,7 @@ class LanguageCard extends Component {
         <Text fontsize="2rem">
           <Link
             onClick={() => this.handleChange(`${name}`)}
-            to={`/languageDetails/${name}`}>
+            to={`/CourseDetails/${name}`}>
             {name}
           </Link>
         </Text>

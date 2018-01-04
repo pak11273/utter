@@ -15,25 +15,14 @@ import {
   Speaker
 } from '../../containers'
 
-import {
-  Box,
-  Button,
-  Column,
-  Img,
-  Input,
-  Subtitle,
-  Section,
-  Text,
-  Title
-} from '../../components'
+import {Ad, Box, Column, Section, Text} from '../../components'
 
-// images
-import lobbyAdImg from '../../advertisers/clickbank/learnspanishlikecrazy/assets/images/lobby_ad.JPG'
+// ad rotator
+import {ad} from '../../services/index.js'
 
 // actions
 import {loadUserProfile} from './actions.js'
 import {setAuthor} from '../../containers/ChatPanel/actions.js'
-import {addMsg} from '../../containers/Chat/actions.js'
 
 class Connections extends Component {
   constructor() {
@@ -55,23 +44,14 @@ class Connections extends Component {
   }
 
   render(props) {
+    // const today = ad.today()
+    // const lang = this.props.roomReducer.language
     if (
       this.props.channelReducer.channelId === null ||
       this.props.socketReducer.status === 'got a list of rooms' ||
       this.props.socketReducer.joined_room === 'Lobby'
     ) {
-      var intro = (
-        <div style={{textAlign: 'center', padding: '40px'}}>
-          <Text fontsize="30px">
-            Learn To Speak Conversational Spanish With Complete Confidence.
-          </Text>
-          <a
-            href="http://984cex1yvs8pird7xbrfc2uocc.hop.clickbank.net/?tid=TEST"
-            target="_blank">
-            <Img src={lobbyAdImg} />
-          </a>
-        </div>
-      )
+      var intro = <Ad />
     } else if (this.props.roomReducer.creator !== '') {
       var live = (
         <div>
@@ -117,7 +97,6 @@ const mapStateToProps = state => {
     channelReducer: state.channelReducer,
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer,
-    userReducer: state.userReducer,
     authReducer: state.authReducer
   }
 }

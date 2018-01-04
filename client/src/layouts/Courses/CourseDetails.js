@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux'
 // actions
 import {addCourse, loadUserProfile} from '../Connections/actions.js'
 
-class LanguageDetails extends Component {
+class CourseDetails extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -35,6 +35,7 @@ class LanguageDetails extends Component {
   handleSubmit(e) {
     e.preventDefault()
     let button = document.getElementById('submit')
+    this.props.history.push('/getting-started')
     button.disabled = true
   }
 
@@ -82,7 +83,7 @@ class LanguageDetails extends Component {
           <Title>{name}</Title>
           <Subtitle>{description}</Subtitle>
           <Subtitle>Levels: {levels}</Subtitle>
-          <Subtitle>Choose your native tongue?</Subtitle>
+          <Subtitle>Choose the language you will be learning with?</Subtitle>
           <form onSubmit={this.handleSubmit}>
 
             <Select
@@ -139,4 +140,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LanguageDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDetails)

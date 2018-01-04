@@ -1,3 +1,4 @@
+import Ad from './Ads'
 import Audio from './Audio.js'
 import Box from './Boxes/index.js'
 import Button from './Button.js'
@@ -44,6 +45,7 @@ import Zone from './Zone.js'
 import ZoneCreate from './ZoneCreate.js'
 
 export {
+  Ad,
   Audio,
   Box,
   Button,
