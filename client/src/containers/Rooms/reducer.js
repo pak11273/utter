@@ -15,7 +15,7 @@ export default (
     currentRoom: null,
     language: 'spanish',
     lastValues: [],
-    listType: 'letters',
+    listType: 'ads',
     roomLevel: 0,
     roomTitle: '',
     selected: ''

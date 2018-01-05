@@ -9,12 +9,20 @@ const Question = styled.div`
 `
 class Challenge extends Component {
   render() {
-    return (
-      <Section>
+    let question = null
+    if (this.props.roomReducer.listType === 'ads') {
+      question = null
+    } else {
+      question = (
         <Box>
           <Text fontsize="1.5rem" textalign="center">Challenge: </Text>
           <Question>Describe the picture below</Question>
         </Box>
+      )
+    }
+    return (
+      <Section>
+        {question}
       </Section>
     )
   }
@@ -22,7 +30,8 @@ class Challenge extends Component {
 
 const mapStateToProps = state => {
   return {
-    challengeReducer: state.challengeReducer
+    challengeReducer: state.challengeReducer,
+    roomReducer: state.roomReducer
   }
 }
 

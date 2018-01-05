@@ -26,6 +26,8 @@ const cdn = cdnUrl.cdn
 import sharedPhrases from '../../../src/data/shared/phrases.js'
 
 import vocab from '../../../src/data/korean/level1/vocab.js'
+
+// consonants
 const giYeog = cdn + vocab.category.alphabet.consonants.ㄱ.korean.audioUrl
 const niEun = cdn + vocab.category.alphabet.consonants.ㄴ.korean.audioUrl
 const diGeud = cdn + vocab.category.alphabet.consonants.ㄷ.korean.audioUrl
@@ -40,6 +42,9 @@ const jiEus = cdn + vocab.category.alphabet.consonants.ㅈ.korean.audioUrl
 const ssangGiYeog = cdn + vocab.category.alphabet.consonants.ㄲ.korean.audioUrl
 const ssangSiOs = cdn + vocab.category.alphabet.consonants.ㅆ.korean.audioUrl
 const chiEus = cdn + vocab.category.alphabet.consonants.ㅊ.korean.audioUrl
+
+// vowels
+const a = cdn + vocab.category.alphabet.vowels.ㅏ.korean.audioUrl
 
 // phrases
 const hello = cdn + sharedPhrases.greetings.hello.korean.informal.audioUrl
@@ -126,7 +131,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <Box alignitems="flex-start">
 
-              <p>'r' sound as in <span style={{color: 'red'}}>r</span>ain</p>
+              <p>a non-aspirated 't' sound.</p>
 
             </Box>
             <PlayBox id="diGeud" src={diGeud} />
@@ -254,24 +259,20 @@ class KoreanLevel1 extends Component {
           margin="100px 0 0 0"
           maxwidth960="1024px">
           <Dictionary
-            gridheader=".9fr .5fr 2fr .9fr"
-            gridheader640=".9fr .8fr 2.5fr .5fr"
-            gridbody=".9fr .8fr 2.5fr .5fr"
-            gridbody640=".9fr .8fr 2.5fr .5fr"
+            gridheader=".9fr 2fr .9fr"
+            gridheader640=".9fr 2.5fr .5fr"
+            gridbody=".9fr 2.5fr .5fr"
+            gridbody640=".9fr 2.5fr .5fr"
             term="Vowels"
             definition="Pronunciation"
-            media="Play"
-            name="Name">
+            media="Play">
             <Box>
-              ㄱ{' '}
-            </Box>
-            <Box>
-              기역
+              ㅏ
             </Box>
             <Box alignitems="flex-start">
-              'g' or 'k' sound{' '}
+              'a' sound
             </Box>
-            <PlayBox id="giYeog" src={giYeog} />
+            <PlayBox id="a" src={a} />
           </Dictionary>
         </Section>
         <Info

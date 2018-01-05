@@ -35,7 +35,7 @@ export default server => {
         socket.join(room)
         if (room !== 'Lobby') {
           socket.leave('Lobby')
-          body.msg = 'someone has joined the room'
+          body.msg = 'someone has joined the room. Practice a Greeting!'
           body.author = 'chatbot'
           socket.to(room).emit('receive msg', body)
         }

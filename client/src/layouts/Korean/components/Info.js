@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {Box, Section, Subtitle, Text} from '../../../components'
 
 const Info = ({info, subtitle}) =>
-  <Section minheight="600px" maxwidth="1024px">
+  <Section display="flex" minheight="600px" maxwidth="1024px">
     <Box padding="0 40px">
       <Subtitle>
         {subtitle}

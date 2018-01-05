@@ -6,7 +6,7 @@ import secrets from '../../config/secrets.js'
 import superagent from 'superagent'
 import Rand from '../../utils/randomGenerator.js'
 import PicturesMgr from '../../utils/PicturesMgr.js'
-import {Box, Button, Img, Text} from '../../components'
+import {Ad, Box, Button, Img, Text} from '../../components'
 import PlayImg from '../../assets/images/play.svg'
 import _ from 'lodash'
 import {speechStart} from '../../services/speech'
@@ -212,9 +212,14 @@ class Pictures extends Component {
   }
 
   render() {
-    const picture = this.props.roomReducer.listType === 'words'
-      ? <Img src={this.props.pictureReducer.pictureSrc} />
-      : <Text fontsize="7rem">{this.props.pictureReducer.translation}</Text>
+    var picture = <Ad />
+    if (this.props.roomReducer.listType === 'words') {
+      picture = <Img src={this.props.pictureReducer.pictureSrc} />
+    } else if (this.props.roomReducer.listType === 'letters') {
+      picture = (
+        <Text fontsize="7rem">{this.props.pictureReducer.translation}</Text>
+      )
+    }
 
     const wordSound = this.props.query
     const language = this.props.roomReducer.language
