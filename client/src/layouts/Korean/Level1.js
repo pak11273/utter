@@ -35,24 +35,38 @@ const ssangDiGeud = cdn + vocab.category.alphabet.consonants.ㄸ.korean.audioUrl
 const riEur = cdn + vocab.category.alphabet.consonants.ㄹ.korean.audioUrl
 const miEum = cdn + vocab.category.alphabet.consonants.ㅁ.korean.audioUrl
 const biEub = cdn + vocab.category.alphabet.consonants.ㅂ.korean.audioUrl
-const ssangBiEub = cdn + vocab.category.alphabet.consonants.ㅂ.korean.audioUrl
-const siOs = cdn + vocab.category.alphabet.consonants.ㅃ.korean.audioUrl
+const ssangBiEub = cdn + vocab.category.alphabet.consonants.ㅃ.korean.audioUrl
+const siOs = cdn + vocab.category.alphabet.consonants.ㅅ.korean.audioUrl
 const iEung = cdn + vocab.category.alphabet.consonants.ㅇ.korean.audioUrl
-const jiEus = cdn + vocab.category.alphabet.consonants.ㅈ.korean.audioUrl
+const jiEuj = cdn + vocab.category.alphabet.consonants.ㅈ.korean.audioUrl
+const ssangJiEuj = cdn + vocab.category.alphabet.consonants.ㅉ.korean.audioUrl
 const ssangGiYeog = cdn + vocab.category.alphabet.consonants.ㄲ.korean.audioUrl
 const ssangSiOs = cdn + vocab.category.alphabet.consonants.ㅆ.korean.audioUrl
-const chiEus = cdn + vocab.category.alphabet.consonants.ㅊ.korean.audioUrl
+const chiEuch = cdn + vocab.category.alphabet.consonants.ㅊ.korean.audioUrl
+const kiEuk = cdn + vocab.category.alphabet.consonants.ㅋ.korean.audioUrl
+const tiEut = cdn + vocab.category.alphabet.consonants.ㅌ.korean.audioUrl
+const piEup = cdn + vocab.category.alphabet.consonants.ㅍ.korean.audioUrl
+const hiEuh = cdn + vocab.category.alphabet.consonants.ㅎ.korean.audioUrl
 
 // vowels
 const a = cdn + vocab.category.alphabet.vowels.ㅏ.korean.audioUrl
+const ya = cdn + vocab.category.alphabet.vowels.ㅑ.korean.audioUrl
+const eo = cdn + vocab.category.alphabet.vowels.ㅓ.korean.audioUrl
+const yeo = cdn + vocab.category.alphabet.vowels.ㅕ.korean.audioUrl
+const o = cdn + vocab.category.alphabet.vowels.ㅗ.korean.audioUrl
+const yo = cdn + vocab.category.alphabet.vowels.ㅛ.korean.audioUrl
+const u = cdn + vocab.category.alphabet.vowels.ㅜ.korean.audioUrl
+const yu = cdn + vocab.category.alphabet.vowels.ㅠ.korean.audioUrl
+const eu = cdn + vocab.category.alphabet.vowels.ㅡ.korean.audioUrl
+const i = cdn + vocab.category.alphabet.vowels.ㅣ.korean.audioUrl
 
 // phrases
 const hello = cdn + sharedPhrases.greetings.hello.korean.informal.audioUrl
 const helloFormal = cdn + sharedPhrases.greetings.hello.korean.formal.audioUrl
 const byeStaying =
-  cdn + sharedPhrases.greetings.bye.korean.staying.informal.audioUrl
+  cdn + sharedPhrases.greetings.bye.korean.staying.formal.audioUrl
 const byeLeaving =
-  cdn + sharedPhrases.greetings.bye.korean.leaving.informal.audioUrl
+  cdn + sharedPhrases.greetings.bye.korean.leaving.formal.audioUrl
 const goodMorning =
   cdn + sharedPhrases.greetings.goodMorning.korean.informal.audioUrl
 const goodMorningFormal =
@@ -131,7 +145,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <Box alignitems="flex-start">
 
-              <p>a non-aspirated 't' sound.</p>
+              <p>a non-aspirated 't' sound</p>
 
             </Box>
             <PlayBox id="diGeud" src={diGeud} />
@@ -157,7 +171,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <Box alignitems="flex-start">
 
-              <p>'d' sound as in <span style={{color: 'red'}}>d</span>og</p>
+              <p>an 'l' like sound or 'd' sound depending on position</p>
 
             </Box>
             <PlayBox id="riEur" src={riEur} />
@@ -169,7 +183,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <Box alignitems="flex-start">
 
-              <p>'d' sound as in <span style={{color: 'red'}}>d</span>og</p>
+              <p>'m' sound as in <span style={{color: 'red'}}>m</span>om</p>
 
             </Box>
             <PlayBox id="miEum" src={miEum} />
@@ -181,7 +195,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <Box alignitems="flex-start">
 
-              <p>'b' sound as in <span style={{color: 'red'}}>b</span>oy</p>
+              <p>a non-aspirated 'p' sound</p>
 
             </Box>
             <PlayBox id="biEub" src={biEub} />
@@ -195,7 +209,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <Box alignitems="flex-start">
 
-              a stressed, non-aspirated 'b' sound{' '}
+              a 'b' sound formed from the throat
 
             </Box>
             <PlayBox id="ssangBiEub" src={ssangBiEub} />
@@ -247,11 +261,95 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">
 
               <p>
-                'ch' sound as in so<span style={{color: 'red'}}>ch</span>air
+                a non-aspirated 'ch' sound
               </p>
 
             </Box>
-            <PlayBox id="chiEus" src={chiEus} />
+            <PlayBox id="jiEuj" src={jiEuj} />
+            <Box>
+              ㅉ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              쌍지읒
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>
+                'j' sound from the throat
+              </p>
+
+            </Box>
+            <PlayBox id="ssangJiEuj" src={ssangJiEuj} />
+            <Box>
+              ㅊ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              치읓
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>
+                'ch' sound as in <span style={{color: 'red'}}>ch</span>air{' '}
+              </p>
+
+            </Box>
+            <PlayBox id="chiEuch" src={chiEuch} />
+            <Box>
+              ㅋ
+            </Box>
+            <Box alignitems="flex-start">
+              키읔
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>
+                'k' sound as in <span style={{color: 'red'}}>k</span>ite
+              </p>
+
+            </Box>
+            <PlayBox id="kiEuk" src={kiEuk} />
+            <Box>
+              ㅌ{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              티읕
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>
+                't' sound as in <span style={{color: 'red'}}>t</span>ime
+              </p>
+
+            </Box>
+            <PlayBox id="tiEut" src={tiEut} />
+            <Box>
+              ㅍ
+            </Box>
+            <Box alignitems="flex-start">
+              피읖
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>
+                'p' sound as in <span style={{color: 'red'}}>p</span>ig
+              </p>
+
+            </Box>
+            <PlayBox id="piEup" src={piEup} />
+            <Box>
+              ㅎ
+            </Box>
+            <Box alignitems="flex-start">
+              히읗
+            </Box>
+            <Box alignitems="flex-start">
+
+              <p>
+                'h' sound as in <span style={{color: 'red'}}>h</span>at
+              </p>
+
+            </Box>
+            <PlayBox id="hiEuh" src={hiEuh} />
           </Dictionary>
         </Section>
         <Section
@@ -270,9 +368,74 @@ class KoreanLevel1 extends Component {
               ㅏ
             </Box>
             <Box alignitems="flex-start">
-              'a' sound
+              'ah' sound
             </Box>
             <PlayBox id="a" src={a} />
+            <Box>
+              ㅑ
+            </Box>
+            <Box alignitems="flex-start">
+              'yah' sound
+            </Box>
+            <PlayBox id="yah" src={ya} />
+            <Box>
+              ㅓ
+            </Box>
+            <Box alignitems="flex-start">
+              in between 'uh' and 'oh' sound
+            </Box>
+            <PlayBox id="eo" src={eo} />
+            <Box>
+              ㅕ
+            </Box>
+            <Box alignitems="flex-start">
+              in between 'yuh' and 'yoh' sound
+            </Box>
+            <PlayBox id="yeo" src={yeo} />
+            <Box>
+              ㅗ
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'o' sound as in d<span style={{color: 'red'}}>ough</span>nut
+              </p>
+            </Box>
+            <PlayBox id="o" src={o} />
+            <Box>
+              ㅛ
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'yo' sound as in <span style={{color: 'red'}}>yo yo</span></p>
+            </Box>
+            <PlayBox id="yo" src={yo} />
+            <Box>
+              ㅜ
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ew' sound as in sh<span style={{color: 'red'}}>oe</span></p>
+            </Box>
+            <PlayBox id="u" src={u} />
+            <Box>
+              ㅠ
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'you' sound as in <span style={{color: 'red'}}>you</span></p>
+            </Box>
+            <PlayBox id="yu" src={yu} />
+            <Box>
+              ㅡ
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'eu' sound as in l<span style={{color: 'red'}}>oo</span>k</p>
+            </Box>
+            <PlayBox id="eu" src={eu} />
+            <Box>
+              ㅣ
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'e' sound as in e<span style={{color: 'red'}}>at</span></p>
+            </Box>
+            <PlayBox id="i" src={i} />
           </Dictionary>
         </Section>
         <Info
@@ -308,7 +471,7 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">
               Bye <span>(informal)</span>
             </Box>
-            <PlayBox id="helloFormal" src={helloFormal} />
+            <PlayBox id="hello" src={hello} />
             <Box>
               안영히계세요
             </Box>
@@ -325,15 +488,15 @@ class KoreanLevel1 extends Component {
               Bye <span>(formal, to someone who is going away)</span>
             </Box>
             <PlayBox id="byeLeaving" src={byeLeaving} />
-            <Box>
-              좋은 아침
+            <Box textalign="left">
+              좋은 아침, <span>좋은 아침이야,</span> <span>좋은 아침이에요</span>
             </Box>
             <Box alignitems="flex-start">
               Good Morning <span>(informal)</span>
             </Box>
             <PlayBox id="goodMorning" src={goodMorning} />
             <Box>
-              좋은 아침이에요
+              좋은 아침입니다
             </Box>
             <Box alignitems="flex-start">
               Good Morning<span>(formal)</span>
@@ -347,14 +510,10 @@ class KoreanLevel1 extends Component {
         />
         <RememberSection
           list={[
-            "ㅒ and ㅔ sound the same. Don't be confused by the romanizations which are different.",
-            "ㅓ sound it in between the long O and short u sound. It's not a true 'u' sound like in the word 'ugly', but more like the 'o' in 'ordeal' but leaving your mouth open",
-            "ㄹ sounds like an 'l' at the beginning of a word",
-            "ㄹ sounds like a 'd' in the middle of a word while surrounded by verbs.",
-            " TODO: give examples(use sunday) idyoil between a vowel and consonant it is sometimes silent like chicken(talk) it is pronounced tak but with words like read(ilgeoyo) it will be 'l' sound.",
-            'When you have a word that contains a syllable starting with ㄹ and that syllable is preceded by a ㅇ or ㄱ being the batchim consonant of that syllable, the ㄹ will actually sound like a ㄴ.',
-            '조은 아침 is rarely used.  Instead you would use the all-purpose: 안영 or 안용하세요',
-            '공룡 (dinosaur) pronounced gong-nyong'
+            'ㅒ and ㅔ are pronounced with the same sound',
+            "ㄹ sounds like an 'l' at the beginning and ending of a word",
+            "ㄹ sounds like a 'd' in the middle of a word while surrounded by vowels",
+            '조은 아침 is rarely used for "good morning".  Instead you would use the all-purpose: 안영 or 안용하세요'
           ]}
         />
         <Section background="green" height="600px" maxwidth="1024px">
@@ -377,6 +536,3 @@ class KoreanLevel1 extends Component {
 }
 
 export default KoreanLevel1
-// TODO: wrap all pronuciations with a p tag
-// TODO: finish romanizing the alphabet
-// ref: https://en.wikipedia.org/wiki/Revised_Romanization_of_Hangeul

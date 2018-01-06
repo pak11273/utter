@@ -16,7 +16,11 @@ Style.defaultProps = {
 }
 
 const ListItem = props =>
-  <Style alignitems={props.alignitems} display={props.display}>
+  <Style
+    alignitems={props.alignitems}
+    display={props.display}
+    fontsize={props.fontsize}
+    padding={props.padding}>
     {props.children}
   </Style>
 

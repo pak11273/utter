@@ -23,7 +23,7 @@ export default {
         formal: {
           roman: 'anYeongHaSeYo',
           spelling: '안영하세요',
-          audioUrl: '/audio/korean/phrases/pending.mp3'
+          audioUrl: '/audio/korean/phrases/anYeongHaSeYo.mp3'
         }
       },
       spanish: {
@@ -63,7 +63,7 @@ export default {
           formal: {
             roman: 'anYeongHiGyeSeYo',
             spelling: '안용히계세요',
-            audioUrl: '/audio/korean/phrases/pending.mp3'
+            audioUrl: '/audio/korean/phrases/anYeongHiGyeSeYo.mp3'
           }
         },
         ['leaving']: {
@@ -75,7 +75,7 @@ export default {
           formal: {
             roman: 'anYeongHiGaSeYo',
             spelling: '앝용히가세요',
-            audioUrl: '/audio/korean/phrases/pending.mp3'
+            audioUrl: '/audio/korean/phrases/anYeongHiGaSeYo.mp3'
           }
         }
       },
@@ -103,14 +103,14 @@ export default {
       },
       korean: {
         informal: {
-          roman: 'johEun AChim',
+          roman: 'johEun AChim, JohEun AChimIYa, johEun AchimIEYo',
           spelling: '좋은 아침',
-          audioUrl: '/audio/korean/phrases/pending.mp3'
+          audioUrl: '/audio/korean/phrases/johEun_AChim_informal.mp3'
         },
         formal: {
-          roman: 'johEun AChimIEYo',
+          roman: 'johEun AChimImNiDa',
           spelling: '좋은 아침이에요',
-          audioUrl: '/audio/korean/phrases/pending.mp3'
+          audioUrl: '/audio/korean/phrases/johEun_AChim_formal.mp3'
         }
       },
       spanish: {

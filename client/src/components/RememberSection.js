@@ -14,7 +14,7 @@ class RememberSection extends Component {
             {list.map((item, i) => {
               {
                 return (
-                  <ListItem fontsize="1.5rem" padding="10px 0 0 0">
+                  <ListItem fontsize="1.3rem" padding="10px 0 0 0">
                     {item}
                   </ListItem>
                 )

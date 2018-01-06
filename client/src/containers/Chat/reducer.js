@@ -7,7 +7,7 @@ import {
 } from './types.js'
 
 // The initial state of the App
-const initialState = {msgList: []}
+const initialState = {msgList: [], scrollToggle: false}
 
 export default (state = initialState, action = {}) => {
   switch (action.type) {

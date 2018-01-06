@@ -15,6 +15,17 @@ export default {
           },
           french: {roman: '', spelling: ''}
         },
+        ㄲ: {
+          english: {roman: 'pending', spelling: 'ㄲ'},
+          korean: {
+            roman: 'kk',
+            name: '쌍기역',
+            spelling: 'ㅋ',
+            audioUrl: '/audio/korean/alphabet/ssangGiYeog-v2.mp3'
+          },
+          spanish: {roman: 'pending', spelling: 'pending'},
+          french: {roman: 'pending', spelling: 'pending'}
+        },
         ㄴ: {
           english: {roman: 'pending', spelling: 'ㄴ'},
           korean: {
@@ -43,7 +54,7 @@ export default {
             roman: 'dd',
             name: '쌍디귿',
             spelling: 'ㄸ',
-            audioUrl: '/audio/korean/alphabet/pending.mp3'
+            audioUrl: '/audio/korean/alphabet/ssangDiGeud.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -87,7 +98,7 @@ export default {
             roman: 'bb',
             name: '쌍비읍',
             spelling: 'ㅃ',
-            audioUrl: '/audio/korean/alphabet/pending.mp3'
+            audioUrl: '/audio/korean/alphabet/ssangBiEub.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -129,9 +140,20 @@ export default {
           english: {roman: 'pending', spelling: 'ㅈ'},
           korean: {
             roman: 'j',
-            name: '지웃',
+            name: '지읒',
             spelling: 'ㅈ',
-            audioUrl: '/audio/korean/alphabet/jiEus.mp3'
+            audioUrl: '/audio/korean/alphabet/jiEuj.mp3'
+          },
+          spanish: {roman: 'pending', spelling: 'pending'},
+          french: {roman: 'pending', spelling: 'pending'}
+        },
+        ㅉ: {
+          english: {roman: 'pending', spelling: 'ㅉ'},
+          korean: {
+            roman: 'jj',
+            name: '쌍지읒',
+            spelling: 'ㅉ',
+            audioUrl: '/audio/korean/alphabet/ssangJiEuj.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
@@ -190,17 +212,6 @@ export default {
           },
           spanish: {roman: 'pending', spelling: 'pending'},
           french: {roman: 'pending', spelling: 'pending'}
-        },
-        ㄲ: {
-          english: {roman: 'pending', spelling: 'ㄲ'},
-          korean: {
-            roman: 'kk',
-            name: '쌍기역',
-            spelling: 'ㅋ',
-            audioUrl: '/audio/korean/alphabet/ssangGiYeog-v2.mp3'
-          },
-          spanish: {roman: 'pending', spelling: 'pending'},
-          french: {roman: 'pending', spelling: 'pending'}
         }
       },
       vowels: {
@@ -214,6 +225,16 @@ export default {
           },
           french: {roman: 'pending', spelling: 'pending'}
         },
+        ㅑ: {
+          english: {roman: 'pending', spelling: 'ㅑ'},
+          korean: {
+            roman: 'ya',
+            name: 'ㅑ',
+            spelling: 'ㅑ',
+            audioUrl: '/audio/korean/alphabet/ya.mp3'
+          },
+          french: {roman: 'pending', spelling: 'pending'}
+        },
         ㅓ: {
           english: {roman: 'pending', spelling: 'ㅓ'},
           korean: {
@@ -224,13 +245,33 @@ export default {
           },
           french: {roman: 'pending', spelling: 'pending'}
         },
+        ㅕ: {
+          english: {roman: 'pending', spelling: 'ㅕ'},
+          korean: {
+            roman: 'yeo',
+            name: 'ㅕ',
+            spelling: 'ㅕ',
+            audioUrl: '/audio/korean/alphabet/yeo.mp3'
+          },
+          french: {roman: 'pending', spelling: 'pending'}
+        },
         ㅗ: {
           english: {roman: 'pending', spelling: 'ㅗ'},
           korean: {
             roman: 'o',
             name: 'ㅗ',
             spelling: 'ㅗ',
-            audioUrl: '/audio/korean/alphabet/eo.mp3'
+            audioUrl: '/audio/korean/alphabet/o.mp3'
+          },
+          french: {roman: 'pending', spelling: 'pending'}
+        },
+        ㅛ: {
+          english: {roman: 'pending', spelling: 'ㅛ'},
+          korean: {
+            roman: 'yo',
+            name: 'ㅛ',
+            spelling: 'ㅛ',
+            audioUrl: '/audio/korean/alphabet/yo.mp3'
           },
           french: {roman: 'pending', spelling: 'pending'}
         },
@@ -241,6 +282,16 @@ export default {
             name: 'ㅜ',
             spelling: 'ㅜ',
             audioUrl: '/audio/korean/alphabet/u.mp3'
+          },
+          french: {roman: 'pending', spelling: 'pending'}
+        },
+        ㅠ: {
+          english: {roman: 'pending', spelling: 'ㅠ'},
+          korean: {
+            roman: 'yu',
+            name: 'ㅠ',
+            spelling: 'ㅠ',
+            audioUrl: '/audio/korean/alphabet/yu.mp3'
           },
           french: {roman: 'pending', spelling: 'pending'}
         },
@@ -257,50 +308,10 @@ export default {
         ㅣ: {
           english: {roman: 'pending', spelling: 'ㅣ'},
           korean: {
-            roman: 'eu',
+            roman: 'i',
             name: 'ㅣ',
             spelling: 'ㅣ',
             audioUrl: '/audio/korean/alphabet/i.mp3'
-          },
-          french: {roman: 'pending', spelling: 'pending'}
-        },
-        ㅑ: {
-          english: {roman: 'pending', spelling: 'ㅑ'},
-          korean: {
-            roman: 'ya',
-            name: 'ㅑ',
-            spelling: 'ㅑ',
-            audioUrl: '/audio/korean/alphabet/ya.mp3'
-          },
-          french: {roman: 'pending', spelling: 'pending'}
-        },
-        ㅕ: {
-          english: {roman: 'pending', spelling: 'ㅕ'},
-          korean: {
-            roman: 'yeo',
-            name: 'ㅕ',
-            spelling: 'ㅕ',
-            audioUrl: '/audio/korean/alphabet/yeo.mp3'
-          },
-          french: {roman: 'pending', spelling: 'pending'}
-        },
-        ㅛ: {
-          english: {roman: 'pending', spelling: 'ㅛ'},
-          korean: {
-            roman: 'yo',
-            name: 'ㅛ',
-            spelling: 'ㅛ',
-            audioUrl: '/audio/korean/alphabet/yo.mp3'
-          },
-          french: {roman: 'pending', spelling: 'pending'}
-        },
-        ㅠ: {
-          english: {roman: 'pending', spelling: 'ㅠ'},
-          korean: {
-            roman: 'yu',
-            name: 'ㅠ',
-            spelling: 'ㅠ',
-            audioUrl: '/audio/korean/alphabet/pending.mp3'
           },
           french: {roman: 'pending', spelling: 'pending'}
         }

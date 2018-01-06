@@ -14,35 +14,42 @@ import {updateReviewList} from '../Pictures/actions.js'
 import {addAudio, addMsg, setCurrentMsg, updateMsg} from './actions.js'
 import {
   deleteAudioBlob,
-  sendAudioBlob,
   loadAudioBlob,
+  sendAudioBlob,
   sendMsg
 } from '../../services/socketio/actions.js'
 
 const Msg = ({author, audio, msg}) =>
-  <ListItem alignitems="center" display="flex" padding="20px 0">
+  <ListItem alignitems="center" display="flex" padding="10px 0">
     {author}: {audio ? <audio src={audio} controls /> : null} {msg}
   </ListItem>
 
-const MsgList = ({list, onMsgClick}) =>
-  <Box
-    alignitems="flex-start"
-    height="600px"
-    justifycontent="flex-start"
-    margin="0 0 20px 0"
-    overflowy="scroll">
-    <List className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
-      {list.map(item =>
-        <Msg
-          key={item.id}
-          author={item.author}
-          audio={item.dataUrl}
-          msg={item.msg}
-          onClick={() => onMsgClick(id)}
-        />
-      )}
-    </List>
-  </Box>
+class MsgList extends Component {
+  render() {
+    const {list, onMsgClick} = this.props
+    return (
+      <Box
+        id="chatList"
+        alignitems="flex-start"
+        height="600px"
+        justifycontent="flex-start"
+        margin="0 0 20px 0"
+        overflowy="scroll">
+        <List className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
+          {list.map(item =>
+            <Msg
+              key={item.id}
+              author={item.author}
+              audio={item.dataUrl}
+              msg={item.msg}
+              onClick={() => onMsgClick(id)}
+            />
+          )}
+        </List>
+      </Box>
+    )
+  }
+}
 
 class MsgBox extends Component {
   constructor(props) {
@@ -164,6 +171,20 @@ class ChatContainer extends Component {
         })
     } else {
       console.log('getUserMedia not supported on your browser!')
+    }
+  }
+
+  componentWillUpdate() {
+    // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
+    var node = document.getElementById('chatList')
+    this.shouldScrollBottom =
+      node.scrollTop + node.offsetHeight === node.scrollHeight
+  }
+
+  componentDidUpdate() {
+    if (this.shouldScrollBottom) {
+      var node = document.getElementById('chatList')
+      node.scrollTop = node.scrollHeight
     }
   }
 
@@ -293,6 +314,11 @@ class ChatContainer extends Component {
       this.props.actions.sendMsg(body)
       e.target.value = ''
     }
+  }
+
+  updateScroll() {
+    var element = document.getElementById('chatList')
+    element.scrollTop = element.scrollHeight
   }
 
   render() {

@@ -104,10 +104,13 @@ class KoreanLevel2 extends Component {
         </Section>
         <RememberSection
           list={[
+            " TODO: give examples(use sunday) idyoil between a vowel and consonant it is sometimes silent like chicken(talk) it is pronounced tak but with words like read(ilgeoyo) it will be 'l' sound.",
+            'When you have a word that contains a syllable starting with ㄹ and that syllable is preceded by a ㅇ or ㄱ being the batchim consonant of that syllable, the ㄹ will actually sound like a ㄴ.',
             'Syllables are constructed of either 2, 3 or 4 letters',
             'Must always start with a consonant',
             'Vowels always go in the middle of three letter syllable',
-            'Vowels always go in the second position of four letter syllable'
+            'Vowels always go in the second position of four letter syllable',
+            '공룡 (dinosaur) pronounced gong-nyong'
           ]}
         />
         <Section background="green" height="600px" maxwidth="1024px">
