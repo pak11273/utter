@@ -13,6 +13,7 @@ import {speechStart} from '../../services/speech'
 
 import {
   loadQuery,
+  loadQuestion,
   // loadOriginalWordList,
   // loadWordList,
   updatePicture,
@@ -24,6 +25,7 @@ import {
 
 import {setInterimScript, setFinalTranscript} from '../ChatPanel/actions.js'
 import {sendRoomMeta} from '../../services/socketio/actions.js'
+// import {loadQuestion} from '../../containers/Challenge/actions.js'
 
 // audio
 import cdnUrl from '../../../src/config/secrets.js'
@@ -95,12 +97,20 @@ class Pictures extends Component {
   }
 
   changePicture() {
+    // load challenge
+    const lang = this.props.roomReducer.language
+    const roomLevel = this.props.roomReducer.roomLevel
+    var questions = require(`../../data/${lang}/level${roomLevel}/questions`)
+      .default.questions
+    var questions = new Rand(questions)
+    const question = questions.word
+    this.props.actions.loadQuestion(question)
+
     let list = this.props.wordList
     const review = this.props.review
     let randList = new Rand(list)
     let randObj = randList.obj
 
-    console.log('FROM THE container/picture/index.js')
     if (_.isEmpty(list) && _.isEmpty(review)) {
       alert(
         'YOU JUST FINISHED ALL OF YOUR WORDS.  ALL WORD LISTS WILL NOW BE RESET.'
@@ -118,8 +128,6 @@ class Pictures extends Component {
 
     // get room language
     const language = this.props.roomReducer.language
-    console.log('lang: ', language)
-    console.log('rand: ', randObj)
     console.log(randObj[firstKey][language]['roman'])
     let translated = randObj[firstKey][language]['spelling']
     this.props.actions.sendTranslated(translated)
@@ -163,8 +171,10 @@ class Pictures extends Component {
           // update local picture
           this.props.actions.updatePicture(results)
 
+          console.log('herei tis: ', question)
           // Send socket room info
           this.props.actions.sendRoomMeta({
+            question,
             room: this.props.socketReducer.created_room,
             listType: this.props.roomReducer.listType,
             translation: translated,
@@ -180,12 +190,6 @@ class Pictures extends Component {
             let updatedReviewList = _.omit(review, query)
             this.props.actions.updateReviewList(updatedReviewList)
           }
-
-          console.log('updatedList: ', _.size(updatedList))
-          console.log(
-            'originalWodList: ',
-            _.size(this.props.pictureReducer.originalList)
-          )
         })
     } else {
       // Remove query from wordList and review
@@ -197,10 +201,8 @@ class Pictures extends Component {
         this.props.actions.updateReviewList(updatedReviewList)
       }
 
-      console.log(_.size(updatedList))
-      console.log(_.size(this.originalWordList))
-
       this.props.actions.sendRoomMeta({
+        question,
         room: this.props.socketReducer.created_room,
         listType: this.props.roomReducer.listType,
         translation: translated
@@ -300,6 +302,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         loadQuery,
+        loadQuestion,
         // loadOriginalWordList,
         // loadWordList,
         sendRomanized,

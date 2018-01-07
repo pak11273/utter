@@ -41,6 +41,7 @@ import ss from 'socket.io-stream'
 const stream = ss.createStream()
 import {addAudio, addMsg} from '../../containers/Chat/actions.js'
 import {
+  loadQuestion,
   updatePicture,
   updateTranslation
 } from '../../containers/Pictures/actions.js'
@@ -147,6 +148,7 @@ const receiveRoomMeta = meta => {
       ],
       promise: socket =>
         socket.on('receive room meta', meta).then(result => {
+          dispatch(loadQuestion(result.question))
           dispatch(updatePicture(result.src))
           dispatch(loadListType(result.listType))
           dispatch(updateTranslation(result.translation))

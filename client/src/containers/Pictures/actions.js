@@ -1,5 +1,6 @@
 import {
   LOAD_QUERY,
+  LOAD_QUESTION,
   LOAD_WORD_LIST,
   LOAD_ORIGINAL_WORD_LIST,
   SEND_ROMANIZED,
@@ -26,6 +27,15 @@ const loadQuery = query => {
     type: LOAD_QUERY,
     payload: new Promise((resolve, reject) => {
       resolve(query)
+    })
+  }
+}
+
+const loadQuestion = question => {
+  return {
+    type: LOAD_QUESTION,
+    payload: new Promise((resolve, reject) => {
+      resolve(question)
     })
   }
 }
@@ -113,6 +123,7 @@ const updateWordList = list => {
 
 export {
   loadQuery,
+  loadQuestion,
   loadOriginalWordList,
   loadWordList,
   updateOriginalWordList,

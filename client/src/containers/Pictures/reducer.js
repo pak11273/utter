@@ -1,6 +1,7 @@
 import {
   LOAD_PICTURE_SRC_FULFILLED,
   LOAD_QUERY_FULFILLED,
+  LOAD_QUESTION_FULFILLED,
   LOAD_WORD_LIST_FULFILLED,
   LOAD_ORIGINAL_WORD_LIST_FULFILLED,
   UPDATE_ORIGINAL_WORD_LIST_FULFILLED,
@@ -15,6 +16,11 @@ import {
 
 export default (state = {}, action = {}) => {
   switch (action.type) {
+    case LOAD_QUESTION_FULFILLED:
+      return {
+        ...state,
+        question: action.payload
+      }
     case LOAD_QUERY_FULFILLED:
       return {
         ...state,

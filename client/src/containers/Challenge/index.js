@@ -3,7 +3,6 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Box, Section, Text} from '../../components'
 import styled from 'styled-components'
-import {loadQuestion} from './actions.js'
 
 const Question = styled.div`
 `
@@ -16,7 +15,7 @@ class Challenge extends Component {
       question = (
         <Box>
           <Text fontsize="1.5rem" textalign="center">Challenge: </Text>
-          <Question>Describe the picture below</Question>
+          <Question>{this.props.pictureReducer.question}</Question>
         </Box>
       )
     }
@@ -30,19 +29,14 @@ class Challenge extends Component {
 
 const mapStateToProps = state => {
   return {
-    challengeReducer: state.challengeReducer,
-    roomReducer: state.roomReducer
+    roomReducer: state.roomReducer,
+    pictureReducer: state.pictureReducer
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(
-      {
-        loadQuestion
-      },
-      dispatch
-    )
+    actions: bindActionCreators({}, dispatch)
   }
 }
 
