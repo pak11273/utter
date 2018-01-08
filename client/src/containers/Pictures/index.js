@@ -50,13 +50,11 @@ const Wrap = styled.section`
   width: ${props => props.width};
 
   @media(min-width: 768px) {
-    width: 50%; 
   }
 
   @media(min-width: 960px) {
     flex-direction: ${props => props.flexdirection960};
     max-width: 960px;
-    width: 50%;
   }
 `
 Wrap.defaultProps = {
@@ -66,7 +64,6 @@ Wrap.defaultProps = {
   display: 'flex',
   flexdirection: 'column',
   justifycontent: 'center',
-  margin: '0 auto',
   position: 'relative',
   width: '100%'
 }
@@ -244,7 +241,6 @@ class Pictures extends Component {
             display="inline"
             name={this.props.query}
             onClick={this.onPlay}
-            padding="0 0 0 20px"
             cursor="pointer"
             src={`${PlayImg}`}
             verticalalign="middle"
@@ -254,9 +250,9 @@ class Pictures extends Component {
           <Box
             margin="20px"
             width="400px"
-            flexdirection="column"
+            flexdirection="row"
             justifycontent="space-around">
-            <Text fontsize="1.2rem" color="#aaa" padding="0 0 40px 0">
+            <Text fontsize="1.2rem" color="#aaa">
               query: {this.props.query}
             </Text>
             <Text fontsize="1.2rem" color="#aaa">

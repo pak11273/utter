@@ -9,7 +9,7 @@ class Speaker extends Component {
   render() {
     return (
       <Box>
-        <p>eg. 재 아르믄 박찬우이애요.</p>
+        <p>Pending Drag and Drop Feature Audio</p>
       </Box>
     )
   }

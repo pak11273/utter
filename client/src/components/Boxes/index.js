@@ -5,6 +5,7 @@ const Box = styled.div`
   align-items: ${props => props.alignitems};
   align-self: ${props => props.alignself};
   background: ${props => props.background};
+  border: ${props => props.border};
   box-sizing: ${props => props.boxsizing};
   color: ${props => props.color};
   display: ${props => props.display};

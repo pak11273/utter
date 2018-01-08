@@ -444,12 +444,12 @@ class KoreanLevel1 extends Component {
         />
         <Section alignitems="flex-start" margin="100px 0 0 0" maxwidth="1024px">
           <Dictionary
-            gridheader="1fr 2fr 1fr"
-            gridheader640="1fr 2fr 1fr"
-            gridbody="1fr 2fr 1fr"
-            gridbody640="1fr 2fr 1fr"
-            term="Greetings"
-            definition="Translation"
+            gridheader=".9fr 2fr .9fr"
+            gridheader640=".9fr 2.5fr .5fr"
+            gridbody=".9fr 2.5fr .5fr"
+            gridbody640=".9fr 2.5fr .5fr"
+            term="Vowels"
+            definition="Pronunciation"
             media="Play">
             <Box>
               안영

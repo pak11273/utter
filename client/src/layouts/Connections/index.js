@@ -9,13 +9,14 @@ import _ from 'lodash'
 import {
   Challenge,
   ChatPanel,
+  KnowledgeBase,
   Pictures,
   RemoteSideBar,
   Rooms,
   Speaker
 } from '../../containers'
 
-import {Ad, Box, Column, Section, Text} from '../../components'
+import {Ad, Box, Column, Section, Text, TextArea} from '../../components'
 
 // ad rotator
 import {ad} from '../../services/index.js'
@@ -54,16 +55,19 @@ class Connections extends Component {
       var intro = <Ad />
     } else if (this.props.roomReducer.creator !== '') {
       var live = (
-        <div>
+        <Box>
           <Pictures />
           <Speaker />
-        </div>
+          <KnowledgeBase />
+        </Box>
       )
     } else {
       var live = (
-        <div>
+        <Box>
           <Pictures />
-        </div>
+          <Speaker />
+          <KnowledgeBase />
+        </Box>
       )
     }
     return (

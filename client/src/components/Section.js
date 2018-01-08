@@ -4,6 +4,8 @@ import styled from 'styled-components'
 const Section = styled.section`
   align-items: ${props => props.alignitems};
   background: ${props => props.background};
+  border: ${props => props.border};
+  border-radius: ${props => props.borderradius};
   box-sizing: ${props => props.borderbox};
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};

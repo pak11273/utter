@@ -1,6 +1,7 @@
 # template ref: https://github.com/github/gitignore
 
 # Custom
+development
 cdn/
 secrets.js
 gotchas
