@@ -1,8 +1,6 @@
 import Dictionary from './dictionaryModel.js'
 import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
-import auth from '../../auth/auth'
-const signToken = auth.signToken
 
 exports.params = (req, res, next, id) => {
   Dictionary.findById(id).then(
@@ -21,9 +19,11 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.get = (req, res, next) => {
+  // find always returns an array
+  // empty objects means return everything. eg.find()
   Dictionary.find({}).then(
     words => {
-      res.json({word: words})
+      res.json({words})
     },
     err => {
       next(err)

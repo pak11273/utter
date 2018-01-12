@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 
 const Img = styled.img`
+  align-self: ${props => props.alignself};
   alt: ${props => props.alt};
   background: 'black';
   background-size: ${props => props.backgroundsize};

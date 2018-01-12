@@ -18,9 +18,9 @@ export default {
         ㄲ: {
           english: {roman: 'pending', spelling: 'ㄲ'},
           korean: {
-            roman: 'kk',
+            roman: 'gg',
             name: '쌍기역',
-            spelling: 'ㅋ',
+            spelling: 'ㄲ',
             audioUrl: '/audio/korean/alphabet/ssangGiYeog-v2.mp3'
           },
           spanish: {roman: 'pending', spelling: 'pending'},

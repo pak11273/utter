@@ -1,4 +1,5 @@
 import express from 'express'
+import dictionaryRoutes from './dictionary/dictionaryRoutes.js'
 import userRoutes from './user/userRoutes.js'
 import channelRoutes from './channel/channelRoutes.js'
 import languageRoutes from './language/languageRoutes.js'
@@ -8,6 +9,7 @@ import roomRoutes from './room/roomRoutes.js'
 import messageRoutes from './message/messageRoutes.js'
 const router = express.Router()
 
+router.use('/dictionary', dictionaryRoutes)
 router.use('/users', userRoutes)
 router.use('/languages', languageRoutes)
 router.use('/channels', channelRoutes)

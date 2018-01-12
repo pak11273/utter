@@ -1,16 +1,59 @@
 import mongoose, {Schema} from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
-import bcrypt from 'bcrypt'
-import crypto from 'crypto'
-import jwt from 'jsonwebtoken'
-import config from '../../config/config.js'
 
 const DictionarySchema = mongoose.Schema({
+  id: {
+    type: String
+  },
   audioUrl: {
     type: String
   },
-  base: {
-    type: String
+  englishTranslation: {
+    name: {
+      type: String
+    },
+    roman: {
+      type: String
+    },
+    spelling: {
+      type: String
+    },
+    audioUrl: {
+      type: String
+    }
+  },
+  frenchTranslation: {
+    name: {
+      type: String
+    },
+    roman: {
+      type: String
+    },
+    spelling: {
+      type: String
+    },
+    audioUrl: {
+      type: String
+    }
+  },
+  spanishTranslation: {
+    name: {
+      type: String
+    },
+    roman: {
+      type: String
+    },
+    spelling: {
+      type: String
+    },
+    audioUrl: {
+      type: String
+    }
+  },
+  meta: {
+    listType: {
+      type: String
+    }
   },
   category: {
     type: String
@@ -18,15 +61,13 @@ const DictionarySchema = mongoose.Schema({
   language: {
     type: String
   },
-  meta: {
-    listType: {
-      type: String
-    }
+  level: {
+    type: String
   },
   name: {
     type: String
   },
-  partOfSpeech: {
+  partsOfSpeech: {
     type: String
   },
   pron: {

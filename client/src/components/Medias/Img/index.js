@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 
 const Img = styled.img`
+  align-self: ${props => props.alignself};
   alt: ${props => props.alt};
   background: 'black';
   background-size: ${props => props.backgroundsize};
@@ -11,12 +12,6 @@ const Img = styled.img`
   src: url(${props => props.src});
   width: ${props => props.width};
 `
-Img.defaultProps = {
-  backgroundsize: 'cover',
-  height: '300px',
-  margin: '30px auto',
-  width: '400px',
-  alt: 'image placeholder'
-}
+Img.defaultProps = {}
 
 export default Img

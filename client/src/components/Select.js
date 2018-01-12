@@ -7,13 +7,14 @@ const Select = styled.select`
   font-family: ${props => props.fontfamily};
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
+  height: ${props => props.height};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign};
   width: ${props => props.width};
 `
 Select.defaultProps = {
-  color: props => props.theme.color,
+  color: 'black',
   fontsize: '1rem'
 }
 

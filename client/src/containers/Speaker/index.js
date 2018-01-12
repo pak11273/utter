@@ -7,11 +7,7 @@ class Speaker extends Component {
     super()
   }
   render() {
-    return (
-      <Box>
-        <p>Pending Drag and Drop Feature Audio</p>
-      </Box>
-    )
+    return <Box />
   }
 }
 

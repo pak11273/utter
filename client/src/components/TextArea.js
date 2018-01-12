@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const TextArea = styled.textarea`
+  align-self: ${props => props.alignself};
   color: ${props => props.color};
   border: ${props => props.border};
   display: ${props => props.display};
@@ -12,6 +13,10 @@ const TextArea = styled.textarea`
   resize: ${props => props.resize};
   text-align: ${props => props.textalign};
   width: ${props => props.width};
+
+  &:focus {
+    outline: ${props => props.focusoutline};
+  }
 `
 Text.defaultProps = {
   color: props => props.theme.color,

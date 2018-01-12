@@ -9,9 +9,7 @@ const Line = styled.hr`
 `
 Line.defaultProps = {
   color: '#fff',
-  height: '4px',
-  margin: '30px',
-  width: '300px'
+  height: '1px'
 }
 
 export default Line

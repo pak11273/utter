@@ -33,6 +33,7 @@ module.exports = env => {
             '/api/channels',
             '/api/comments',
             '/api/events',
+            '/api/vocab',
             '/api/zones',
             '/cdn',
             '/socket.io',
