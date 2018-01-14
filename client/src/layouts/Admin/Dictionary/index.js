@@ -121,6 +121,7 @@ class Vocab extends Component {
     let newWord = this.state.newWord
     // confirm('Confirm Creation')
     this.props.actions.createWord(newWord)
+    // TODO: clear the props after creating a word
   }
 
   deleteWord(word, e) {
