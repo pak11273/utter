@@ -1,4 +1,5 @@
 import {
+  LOAD_AUDIO_URL,
   LOAD_QUERY,
   LOAD_QUESTION,
   LOAD_WORD_LIST,
@@ -18,6 +19,15 @@ const loadOriginalWordList = list => {
     type: LOAD_ORIGINAL_WORD_LIST,
     payload: new Promise((resolve, reject) => {
       resolve(list)
+    })
+  }
+}
+
+const loadAudioUrl = url => {
+  return {
+    type: LOAD_AUDIO_URL,
+    payload: new Promise((resolve, reject) => {
+      resolve(url)
     })
   }
 }
@@ -122,6 +132,7 @@ const updateWordList = list => {
 }
 
 export {
+  loadAudioUrl,
   loadQuery,
   loadQuestion,
   loadOriginalWordList,

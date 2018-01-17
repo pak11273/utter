@@ -21,9 +21,10 @@ exports.params = (req, res, next, id) => {
 exports.get = (req, res, next) => {
   // find always returns an array
   // empty objects means return everything. eg.find()
-  Dictionary.find({}).then(
+  Dictionary.find(req.query).then(
     words => {
       res.json({words})
+      // res.send(words)
     },
     err => {
       next(err)
@@ -38,9 +39,9 @@ exports.getOne = (req, res, next) => {
 
 exports.update = (req, res, next) => {
   let word = req.word
-  let update = req.body
+  let update = req.body.word
 
-  _.merge(word, update)
+  let merged = _.merge(word, update)
 
   word.save((err, saved) => {
     if (err) {

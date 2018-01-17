@@ -12,6 +12,7 @@ import _ from 'lodash'
 import {speechStart} from '../../services/speech'
 
 import {
+  loadAudioUrl,
   loadQuery,
   loadQuestion,
   // loadOriginalWordList,
@@ -103,34 +104,20 @@ class Pictures extends Component {
     const question = questions.word
     this.props.actions.loadQuestion(question)
 
-    let list = this.props.wordList
-    const review = this.props.review
+    let list = this.props.pictureReducer.wordList
+    const review = this.props.pictureReducer.reviewList
     let randList = new Rand(list)
-    let randObj = randList.obj
-
-    if (_.isEmpty(list) && _.isEmpty(review)) {
-      alert(
-        'YOU JUST FINISHED ALL OF YOUR WORDS.  ALL WORD LISTS WILL NOW BE RESET.'
-      )
-      this.props.actions.updateWordList(this.props.pictureReducer.originalList)
-    } else if (_.isEmpty(list)) {
-      alert(
-        "YOU HAVE JUST FINISHED YOUR WORD LIST.  YOU WILL NOW REVIEW WORDS YOU DON'T KNOW."
-      )
-      this.props.actions.updateWordList(this.props.review)
-    }
-
-    // get key of randoObj
-    const firstKey = Object.keys(randObj)[0]
+    let randObj = randList.word
+    this.props.actions.loadAudioUrl(randObj.audioUrl)
+    let updatedList = this.props.pictureReducer.updatedList
 
     // get room language
     const language = this.props.roomReducer.language
-    console.log(randObj[firstKey][language]['roman'])
-    let translated = randObj[firstKey][language]['spelling']
+    let translated = randObj.word
     this.props.actions.sendTranslated(translated)
 
-    let query = randObj[firstKey]['english']['spelling']
-    let romanizedQuery = randObj[firstKey][language]['roman']
+    let query = randObj.word
+    let romanizedQuery = randObj.roman
     this.props.actions.sendRomanized(romanizedQuery)
 
     this.props.actions.loadQuery(query)
@@ -168,7 +155,6 @@ class Pictures extends Component {
           // update local picture
           this.props.actions.updatePicture(results)
 
-          console.log('herei tis: ', question)
           // Send socket room info
           this.props.actions.sendRoomMeta({
             question,
@@ -180,23 +166,42 @@ class Pictures extends Component {
           })
 
           // Remove query from wordList and review
-          let updatedList = _.omit(list, query)
+          // let updatedList = _.omit(list, query)
+          let updatedList = list.filter(o => o.word !== query)
           this.props.actions.updateWordList(updatedList)
 
-          if (review) {
-            let updatedReviewList = _.omit(review, query)
-            this.props.actions.updateReviewList(updatedReviewList)
-          }
+          //TODO: review feature
+          // if (review) {
+          //   let updatedReviewList = _.omit(review, query)
+          //   this.props.actions.updateReviewList(updatedReviewList)
+          // }
         })
     } else {
       // Remove query from wordList and review
-      let updatedList = _.omit(list, query)
+      let updatedList = list.filter(o => o.word !== query)
       this.props.actions.updateWordList(updatedList)
 
-      if (review) {
-        let updatedReviewList = _.omit(review, query)
-        this.props.actions.updateReviewList(updatedReviewList)
+      if (list.length === 1 && (_.isEmpty(review) || !review)) {
+        alert(
+          'YOU JUST FINISHED ALL OF YOUR WORDS.  ALL WORD LISTS WILL NOW BE RESET.'
+        )
+        this.props.actions.updateWordList(
+          this.props.pictureReducer.originalList
+        )
+      } else if (list.length === 1) {
+        alert(
+          "YOU HAVE JUST FINISHED YOUR WORD LIST.  YOU WILL NOW REVIEW WORDS YOU DON'T KNOW."
+        )
+        // TODO: review cont.
+        // this.props.actions.updateWordList(this.props.pictureReducer.reviewList)
       }
+
+      //TODO: review cont.
+      // if (review) {
+      //   console.log('review: ', review)
+      //   let updatedReviewList = review.filter(o => o.word !== query)
+      //   this.props.actions.updateReviewList(updatedReviewList)
+      // }
 
       this.props.actions.sendRoomMeta({
         question,
@@ -223,9 +228,8 @@ class Pictures extends Component {
     const wordSound = this.props.query
     const language = this.props.roomReducer.language
     if (typeof wordSound !== 'undefined') {
-      var wordAudio = this.props.pictureReducer.originalList[wordSound][
-        language
-      ].audioUrl
+      let audioUrl = this.props.pictureReducer.audioUrl
+      var wordAudio = audioUrl
     } else {
       var wordAudio = ''
     }
@@ -284,10 +288,8 @@ const mapStateToProps = state => {
   return {
     pictureReducer: state.pictureReducer,
     message: state.speakerReducer,
-    review: state.pictureReducer.reviewList,
     query: state.pictureReducer.query,
     romanized: state.pictureReducer.romanized,
-    wordList: state.pictureReducer.wordList,
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer
   }
@@ -297,6 +299,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        loadAudioUrl,
         loadQuery,
         loadQuestion,
         // loadOriginalWordList,

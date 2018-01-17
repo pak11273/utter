@@ -22,13 +22,15 @@ import {
 import {Info, Masthead} from '../components'
 import PlayImg from '../../../assets/images/play.svg'
 
-// TODO: fetch level 1 vocabulary and store in redux
+// fetch level 1 vocabulary and store in redux
 import actionCreators from '../../Admin/Dictionary/actions.js'
 import fetchWords from '../../Admin/Dictionary/actions.js'
 
-// audio
+// cdn
 import cdnUrl from '../../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
+
+// TODO: put this in db
 import sharedPhrases from '../../../../src/data/shared/phrases.js'
 
 // phrases

@@ -30,7 +30,6 @@ class Ad extends Component {
     const today = ad.today()
     return (
       <StyledAd>
-        {console.log('today: ', today)}
         <Text
           fontsize="1.4rem"
           textalign="center"

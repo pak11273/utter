@@ -7,15 +7,21 @@ const cid = cuid()
 const baseActionCreators = reduxCrud.actionCreatorsFor('word')
 
 let actionCreators = {
-  fetch() {
+  fetch(level) {
     return (dispatch, getState) => {
       const action = baseActionCreators.fetchStart()
       dispatch(action)
 
       // api request
       const url = '/api/dictionary'
+      if (!level) {
+        level = '1'
+      }
       const promise = axios({
-        url
+        url,
+        params: {
+          level: level
+        }
       })
 
       promise
@@ -80,9 +86,44 @@ let actionCreators = {
       return promise
     }
   },
-  update() {
-    word
+
+  update(word) {
+    return function(dispatch) {
+      // optimistic update
+      console.log('word in actions: ', word)
+      const action = baseActionCreators.updateStart(word)
+      dispatch(action)
+
+      // api request
+      const url = `/api/dictionary/${word._id}`
+      const promise = axios({
+        url,
+        method: 'PUT',
+        data: {
+          word
+        }
+      })
+
+      promise
+        .then(
+          function(response) {
+            const returnedWord = response.data.data
+            const action = baseActionCreators.updateSuccess(returnedWord)
+            dispatch(action)
+          },
+          function(response) {
+            const action = baseActionCreators.updateError(response, word)
+            dispatch(action)
+          }
+        )
+        .catch(function(err) {
+          console.error(err.toString())
+        })
+
+      return promise
+    }
   },
+
   delete(word) {
     return function(dispatch) {
       const optimisticAction = baseActionCreators.deleteStart(word)

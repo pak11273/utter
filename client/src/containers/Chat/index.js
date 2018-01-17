@@ -191,25 +191,18 @@ class ChatContainer extends Component {
   updateReview(e) {
     e.preventDefault()
     const wordList = this.props.pictureReducer.wordList
+    const reviewList = this.props.pictureReducer.reviewList
     const originalList = this.props.pictureReducer.originalList
     const query = this.props.pictureReducer.query
-    if (query) {
-      const reviewObj = {
-        [query]: originalList[query]
-      }
+    const reviewObj = _.find(originalList, {word: query})
 
-      if (!this.props.pictureReducer.reviewList) {
-        this.props.actions.updateReviewList(reviewObj)
-        console.log('reviewlist "', this.props.pictureReducer.reviewList)
-      } else {
-        const newList = Object.assign(
-          this.props.pictureReducer.reviewList,
-          reviewObj
-        )
-        this.props.actions.updateReviewList(newList)
-      }
+    if (!this.props.pictureReducer.reviewList) {
+      this.props.actions.updateReviewList(reviewObj)
+      console.log('reviewlist "', this.props.pictureReducer.reviewList)
+    } else {
+      reviewList
+      this.props.actions.updateReviewList(reviewObj)
     }
-    console.log(this.props.pictureReducer.reviewList)
   }
 
   onSend(e) {

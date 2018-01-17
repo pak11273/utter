@@ -11,6 +11,10 @@ const Button = styled.button`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   height: ${props => props.height};
+  &:hover {
+    color: ${props => props.hovercolor};
+    background: ${props => props.hoverbackground}; 
+  }
   outline: ${props => props.outline};
   margin: ${props => props.margin};
   padding: ${props => props.padding};

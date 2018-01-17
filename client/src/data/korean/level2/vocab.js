@@ -2,50 +2,10 @@ export default {
   meta: {
     listType: 'letters'
   },
-  doubleConsonants: {
-    ㄲ: {
-      english: {roman: 'pending', spelling: 'ㄲ'},
-      korean: {
-        roman: 'kk',
-        name: '치읓',
-        spelling: 'ㅐ',
-        audioUrl: '/audio/korean/alphabet/ssangGiYeog.mp3'
-      },
-      french: {roman: 'pending', spelling: 'pending'}
-    },
-    ㄸ: {
-      english: {roman: 'pending', spelling: 'ㄸ'},
-      korean: {roman: 'tt', spelling: 'ㄸ'},
-      french: {roman: 'pending', spelling: 'pending'}
-    },
-    ㅃ: {
-      english: {roman: 'pending', spelling: 'ㅃ'},
-      korean: {roman: 'bb', spelling: 'ㅃ'},
-      french: {roman: 'pending', spelling: 'pending'}
-    },
-    ㅉ: {
-      english: {roman: 'pending', spelling: 'ㅉ'},
-      korean: {roman: 'jj', spelling: 'ㅉ'},
-      french: {roman: 'pending', spelling: 'pending'}
-    }
-  },
   dipthongs: {
     애: {
       english: {roman: 'pending', spelling: '애'},
-      korean: {
-        roman: 'ae',
-        spelling: '애',
-        audioUrl: '/audio/korean/alphabet/ae.mp3'
-      },
-      french: {roman: 'pending', spelling: 'pending'}
-    },
-    ㅒ: {
-      english: {roman: 'pending', spelling: 'ㅒ'},
-      korean: {
-        roman: 'ye',
-        spelling: 'ㅒ',
-        audioUrl: '/audio/korean/alphabet/pending.mp3'
-      },
+      korean: {roman: 'e', spelling: '애'},
       french: {roman: 'pending', spelling: 'pending'}
     },
     ㅔ: {

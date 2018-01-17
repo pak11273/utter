@@ -6,6 +6,8 @@ import {Button, Box, Input, Text} from '../../components'
 // actions
 import {updateRoomCreator, updateRoomLevel, updateListType} from './actions.js'
 
+import actionCreators from '../../layouts/Admin/Dictionary/actions.js'
+
 import {loadWordList, loadOriginalWordList} from '../Pictures/actions.js'
 
 import {createRoom, joinRoom} from '../../services/socketio/actions.js'
@@ -58,19 +60,30 @@ class RoomCreator extends Component {
       // const roomLevel = this.props.roomReducer.roomLevel
       const roomLevel = this.state.room.level
       const roomLanguage = this.props.roomReducer.language
-      const listObj = require(`../../data/${roomLanguage}/level${roomLevel}/query.js`)
-      const listType = require(`../../data/${roomLanguage.toLowerCase()}/level${roomLevel}/vocab.js`)
-        .default
-      this.props.actions.updateListType(listType.meta.listType)
-      this.originalWordList = listObj.default
-      this.props.actions.loadOriginalWordList(this.originalWordList)
+      this.props.actions.fetchWords(roomLevel).then(res => {
+        const listObj = this.props.vocabReducer[
+          Object.keys(this.props.vocabReducer)[0]
+        ].words
 
-      // Put list in redux
-      this.props.actions.loadWordList(listObj.default)
+        // determine listType
+        var listType = 'letters'
 
-      this.props.actions.createRoom(room)
-      this.props.actions.joinRoom(room.title)
-      this.props.actions.updateRoomLevel(room.level)
+        if (listObj[0].category === 'alphabet') {
+          listType = 'letters'
+        } else {
+          listType = 'words'
+        }
+        this.props.actions.updateListType(listType)
+        this.originalWordList = listObj
+        this.props.actions.loadOriginalWordList(this.originalWordList)
+
+        // Put list in redux
+        this.props.actions.loadWordList(listObj)
+
+        this.props.actions.createRoom(room)
+        this.props.actions.joinRoom(room.title)
+        this.props.actions.updateRoomLevel(room.level)
+      })
     }
   }
 
@@ -97,15 +110,18 @@ const mapStateToProps = state => {
     channelReducer: state.channelReducer,
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer,
-    userReducer: state.userReducer
+    userReducer: state.userReducer,
+    vocabReducer: state.vocabReducer
   }
 }
 
 const mapDispatchToProps = dispatch => {
+  let fetchWords = actionCreators.fetch
   return {
     actions: bindActionCreators(
       {
         createRoom,
+        fetchWords,
         joinRoom,
         loadOriginalWordList,
         loadWordList,

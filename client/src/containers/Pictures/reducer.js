@@ -1,4 +1,5 @@
 import {
+  LOAD_AUDIO_URL_FULFILLED,
   LOAD_PICTURE_SRC_FULFILLED,
   LOAD_QUERY_FULFILLED,
   LOAD_QUESTION_FULFILLED,
@@ -14,8 +15,13 @@ import {
   SEND_TRANSLATED_FULFILLED
 } from './types.js'
 
-export default (state = {}, action = {}) => {
+export default (state = {reviewList: []}, action = {}) => {
   switch (action.type) {
+    case LOAD_AUDIO_URL_FULFILLED:
+      return {
+        ...state,
+        audioUrl: action.payload
+      }
     case LOAD_QUESTION_FULFILLED:
       return {
         ...state,
@@ -74,7 +80,7 @@ export default (state = {}, action = {}) => {
     case UPDATE_REVIEW_LIST_FULFILLED:
       return {
         ...state,
-        reviewList: action.payload
+        reviewList: [...state.reviewList, action.payload]
       }
     default:
       return state

@@ -21,7 +21,20 @@ import {
 import actionCreators from './actions.js'
 
 const DictGrid = styled(Grid)`
+  grid-auto-rows: ${props => props.gridautorows};
   grid-template-columns: ${props => props.gridtemplatecolumns};
+  grid-template-rows: ${props => props.gridtemplaterows};
+  max-height: ${props => props.maxheight};
+  max-width: ${props => props.maxwidth};
+  overflow-x: ${props => props.overflowx};
+  overflow-y: ${props => props.overflowy};
+  width: ${props => props.width};
+`
+
+const Delete = styled(Button)`
+  &:hover {
+    background: red;
+  }
 `
 
 DictGrid.defaultProps = {
@@ -35,6 +48,7 @@ const DictInput = styled(Input)`
 const DictBox = styled(Box)`
   display:flex;
   flex-direction:row;
+  height: ${props => props.height};
   padding: ${props => props.padding};
 `
 DictBox.defaultProps = {
@@ -45,6 +59,9 @@ class Vocab extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      search: {
+        level: '1'
+      },
       change: '',
       deleteWord: false,
       counter: 0,
@@ -57,14 +74,17 @@ class Vocab extends Component {
         name: '',
         partsOfSpeech: '',
         audioUrl: ''
-      }
+      },
+      updatedWord: {}
     }
 
     this.fetchWords = this.fetchWords.bind(this)
     this.createWord = this.createWord.bind(this)
     this.onAudioLangChg = this.onAudioLangChg.bind(this)
     this.onAudioCategoryChg = this.onAudioCategoryChg.bind(this)
-    this.selectChange = this.selectChange.bind(this)
+    this.selectSearchChange = this.selectSearchChange.bind(this)
+    this.selectnewWordChange = this.selectnewWordChange.bind(this)
+    this.selectUpdatedWordChange = this.selectUpdatedWordChange.bind(this)
     this.onChange = this.onChange.bind(this)
   }
 
@@ -102,7 +122,16 @@ class Vocab extends Component {
     })
   }
 
-  selectChange(e) {
+  selectSearchChange(e) {
+    this.setState({
+      search: {
+        ...this.state.search,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+
+  selectnewWordChange(e) {
     this.setState({
       newWord: {
         ...this.state.newWord,
@@ -111,9 +140,18 @@ class Vocab extends Component {
     })
   }
 
-  fetchWords(e) {
-    e.preventDefault()
-    this.props.actions.fetchWords()
+  selectUpdatedWordChange(e) {
+    this.setState({
+      updatedWord: {
+        ...this.state.updatedWord,
+        [e.target.name]: e.target.value
+      }
+    })
+  }
+
+  fetchWords() {
+    const level = this.state.search.level
+    this.props.actions.fetchWords(level)
   }
 
   createWord(e) {
@@ -124,35 +162,74 @@ class Vocab extends Component {
     // TODO: clear the props after creating a word
   }
 
+  updateWord(gotWord, e) {
+    const {
+      id,
+      _id,
+      language,
+      level,
+      category,
+      word,
+      roman,
+      name,
+      partsOfSpeech,
+      audioUrl
+    } = gotWord
+    this.setState(
+      {
+        updatedWord: {
+          id,
+          _id,
+          language,
+          level,
+          category,
+          word,
+          roman,
+          name,
+          partsOfSpeech,
+          audioUrl,
+          ...this.state.updatedWord
+        }
+      },
+      () => {
+        this.props.actions.updateWord(this.state.updatedWord)
+      }
+    )
+    e.preventDefault()
+    // confirm('Confirm Creation')
+  }
+
   deleteWord(word, e) {
     e.preventDefault()
-    let deleteWord = 'TODO: where to find this?'
     // confirm('Confirm Creation')
     this.props.actions.deleteWord(word)
   }
 
   thing(e) {
     e.preventDefault()
-    console.log('state: ', this.state.newWord)
-    console.log('actionCreators: ', this.props.actions.createWord)
+    console.log('state: ', this.state)
     //TODO remove this after development
   }
 
   render() {
     let dict = this.props.vocabReducer[Object.keys(this.props.vocabReducer)[0]]
+    // let dict = this.props.vocabReducer
     if (dict) {
       var words = dict.words
     }
     let counter = 0
     return (
-      <Container gridtemplatecolumns="1fr" overflowx="scroll">
+      <Container gridtemplatecolumns="1fr">
         <button onClick={this.thing.bind(this)}>console.log state</button>
         <Section>
           <Title>Vocabulary</Title>
           <Line color="black" width="100%" />
           <Title>Builder</Title>
           <Line color="black" width="100%" />
-          <DictGrid gridtemplatecolumns="200px 70px 200px 200px 200px 200px 200px 400px 200px ">
+          <DictGrid
+            gridtemplatecolumns="200px 70px 200px 200px 200px 200px 200px 400px 200px "
+            maxwidth="1240px"
+            overflowx="scroll">
             <Column alignitems="flex-start">
               <Text fontsize="1.4rem">language</Text>
             </Column>
@@ -183,7 +260,7 @@ class Vocab extends Component {
             <DictBox>
               <Select
                 name="language"
-                onChange={this.selectChange}
+                onChange={this.selectnewWordChange}
                 onClick={this.onAudioLangChg}
                 width="100%"
                 height="40px">
@@ -196,7 +273,7 @@ class Vocab extends Component {
             <DictBox>
               <Select
                 name="level"
-                onChange={this.selectChange}
+                onChange={this.selectnewWordChange}
                 width="100%"
                 height="40px">
                 <option value="1">1</option>
@@ -211,28 +288,29 @@ class Vocab extends Component {
             <DictBox>
               <Select
                 name="category"
-                onChange={this.selectChange}
+                onChange={this.selectnewWordChange}
                 onClick={this.onAudioCategoryChg}
                 width="100%"
                 height="40px">
                 <option value="alphabet">alphabet</option>
+                <option value="dipthongs">alphabet</option>
                 <option value="word">word</option>
                 <option value="body parts">body parts</option>
               </Select>
             </DictBox>
             <DictBox>
-              <DictInput name="word" onChange={this.selectChange} />
+              <DictInput name="word" onChange={this.selectnewWordChange} />
             </DictBox>
             <DictBox>
-              <DictInput name="roman" onChange={this.selectChange} />
+              <DictInput name="roman" onChange={this.selectnewWordChange} />
             </DictBox>
             <DictBox>
-              <DictInput name="name" onChange={this.selectChange} />
+              <DictInput name="name" onChange={this.selectnewWordChange} />
             </DictBox>
             <DictBox>
               <Select
                 name="partsOfSpeech"
-                onChange={this.selectChange}
+                onChange={this.selectnewWordChange}
                 width="100%"
                 height="40px">
                 <option value="" />
@@ -251,7 +329,7 @@ class Vocab extends Component {
               <DictInput
                 name="audioUrl"
                 value={this.state.newWord.audioUrl}
-                onChange={this.selectChange}
+                onChange={this.selectnewWordChange}
               />
             </DictBox>
             <DictBox>
@@ -269,7 +347,7 @@ class Vocab extends Component {
             </Box>
             <Box display="flex" flexdirection="row">
               <Label margin="0">Level</Label>
-              <Input />
+              <Input name="level" onChange={this.selectSearchChange} />
             </Box>
             <Box display="flex" flexdirection="row">
               <Label margin="0">Word</Label>
@@ -282,99 +360,156 @@ class Vocab extends Component {
             </Box>
           </DictGrid>
         </Section>
-        <Section width="3000px">
+        <Section width="100%">
           <Title>Results <span>(Total: ?)</span></Title>
           <Line color="black" width="100%" />
-          <DictGrid gridtemplatecolumns="100px 270px 270px 200px 70px 200px 200px 200px 200px 200px 200px 200px 200px 400px 200px">
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">count</Text>
-            </Column>
-            <Column alignitems="center">
-              <Text fontsize="1.4rem">_id</Text>
-            </Column>
-            <Column alignitems="center">
-              <Text fontsize="1.4rem">id</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">language</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">level</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">category</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">word</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">roman</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">name</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">Parts of Speech</Text>
-            </Column>
-            <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">audio url</Text>
-            </Column>
-            <Column alignitems="center">
-              <Text fontsize="1.4rem">Edit</Text>
-            </Column>
-          </DictGrid>
-          {words
-            ? words.map((item, i) => {
-                counter++
-                return (
-                  <DictGrid gridtemplatecolumns="100px 270px 270px 200px 70px 200px 200px 200px 200px 200px 400px 200px">
-                    <DictBox>
-                      <span>{counter}</span>
-                    </DictBox>
-                    <DictBox>
-                      <span>{item._id}</span>
-                    </DictBox>
-                    <DictBox>
-                      <span>{item.id}</span>
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.language} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.level} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.category} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.word} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.roman} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.name} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput placeholder={item.partsOfSpeech} />
-                    </DictBox>
-                    <DictBox>
-                      <DictInput value={item.audioUrl} />
-                    </DictBox>
-                    <DictBox>
-                      <div>
-                        update |{' '}
-                        <a
-                          style={{cursor: 'pointer'}}
-                          onClick={e => this.deleteWord(item, e)}>
-                          delete
-                        </a>
-                      </div>
-                    </DictBox>
-                  </DictGrid>
-                )
-              })
-            : null}
+          <Box
+            display="block"
+            height="600px"
+            maxwidth="1240px"
+            overflow="scroll">
+            <DictGrid
+              gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 200px 200px 200px 400px 200px"
+              width="4000px">
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">count</Text>
+              </Column>
+              <Column alignitems="center">
+                <Text fontsize="1.4rem">_id</Text>
+              </Column>
+              <Column alignitems="center">
+                <Text fontsize="1.4rem">id</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">language</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">level</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">category</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">word</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">roman</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">name</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">Parts of Speech</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">audio url</Text>
+              </Column>
+              <Column alignitems="center">
+                <Text fontsize="1.4rem">Edit</Text>
+              </Column>
+            </DictGrid>
+            {words
+              ? words.map((item, i) => {
+                  counter++
+                  return (
+                    <DictGrid
+                      gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 200px 200px 200px 400px 200px"
+                      width="4000px">
+                      <DictBox>
+                        <span>{counter}</span>
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="id"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.id}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="_id"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item._id}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="language"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.language}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="level"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.level}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="category"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.category}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="word"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.word}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="roman"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.roman}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="name"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.name}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="partsOfSpeech"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.partsOfSpeech}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="audioUrl"
+                          onChange={this.selectUpdatedWordChange}
+                          placeholder={item.audioUrl}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <div>
+                          <Button
+                            hovercolor="white"
+                            hoverbackground="blue"
+                            onClick={e => this.updateWord(item, e)}>
+                            update
+                          </Button>
+                          |{' '}
+                          <Button
+                            hovercolor="white"
+                            hoverbackground="blue"
+                            onClick={e => this.deleteWord(item, e)}>
+                            delete
+                          </Button>
+                        </div>
+                      </DictBox>
+                    </DictGrid>
+                  )
+                })
+              : null}
+          </Box>
         </Section>
       </Container>
     )
@@ -391,12 +526,14 @@ const mapDispatchToProps = dispatch => {
   let fetchWords = actionCreators.fetch
   let createWord = actionCreators.create
   let deleteWord = actionCreators.delete
+  let updateWord = actionCreators.update
   return {
     actions: bindActionCreators(
       {
         fetchWords,
         createWord,
-        deleteWord
+        deleteWord,
+        updateWord
       },
       dispatch
     )
