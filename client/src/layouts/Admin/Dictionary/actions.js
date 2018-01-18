@@ -7,7 +7,7 @@ const cid = cuid()
 const baseActionCreators = reduxCrud.actionCreatorsFor('word')
 
 let actionCreators = {
-  fetch(level) {
+  fetch(level, lang) {
     return (dispatch, getState) => {
       const action = baseActionCreators.fetchStart()
       dispatch(action)
@@ -20,7 +20,8 @@ let actionCreators = {
       const promise = axios({
         url,
         params: {
-          level: level
+          level: level,
+          language: lang
         }
       })
 

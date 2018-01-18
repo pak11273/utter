@@ -60,6 +60,7 @@ class Vocab extends Component {
     super(props)
     this.state = {
       search: {
+        language: 'english',
         level: '1'
       },
       change: '',
@@ -151,7 +152,8 @@ class Vocab extends Component {
 
   fetchWords() {
     const level = this.state.search.level
-    this.props.actions.fetchWords(level)
+    const lang = this.state.search.language
+    this.props.actions.fetchWords(level, lang)
   }
 
   createWord(e) {
@@ -255,7 +257,7 @@ class Vocab extends Component {
               <Text fontsize="1.4rem">audio url</Text>
             </Column>
             <Column alignitems="center">
-              <Text fontsize="1.4rem">Edit</Text>
+              <Text fontsize="1.4rem">edit</Text>
             </Column>
             <DictBox>
               <Select
@@ -340,24 +342,57 @@ class Vocab extends Component {
           </DictGrid>
           <Title>Search</Title>
           <Line color="black" width="100%" />
-          <DictGrid>
-            <Box display="flex" flexdirection="row">
-              <Label margin="0">Language</Label>
-              <Input />
-            </Box>
-            <Box display="flex" flexdirection="row">
-              <Label margin="0">Level</Label>
-              <Input name="level" onChange={this.selectSearchChange} />
-            </Box>
-            <Box display="flex" flexdirection="row">
-              <Label margin="0">Word</Label>
-              <Input />
-            </Box>
-            <Box display="flex" flexdirection="row">
+          <DictGrid
+            gridtemplatecolumns="200px 70px 200px 200px"
+            maxwidth="1240px"
+            overflowx="scroll">
+            <Column alignitems="flex-start">
+              <Text fontsize="1.4rem">language</Text>
+            </Column>
+            <Column alignitems="flex-start">
+              <Text fontsize="1.4rem">level</Text>
+            </Column>
+            <Column alignitems="flex-start">
+              <Text fontsize="1.4rem">word</Text>
+            </Column>
+            <Column alignitems="center">
+              <Text fontsize="1.4rem">edit</Text>
+            </Column>
+            <DictBox>
+              <Select
+                name="language"
+                onChange={this.selectSearchChange}
+                width="100%"
+                height="40px">
+                <option name="language" value="english">english</option>
+                <option name="language" value="korean">korean</option>
+                <option name="language" value="spanish">spanish</option>
+                <option name="language" value="french">french</option>
+              </Select>
+            </DictBox>
+            <DictBox>
+              <Select
+                name="level"
+                onChange={this.selectSearchChange}
+                width="100%"
+                height="40px">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+              </Select>
+            </DictBox>
+            <DictBox>
+              <DictInput name="word" onChange={this.selectSearchChange} />
+            </DictBox>
+            <DictBox display="flex" flexdirection="row">
               <Button width="65px" height="24px" onClick={this.fetchWords}>
                 Search
               </Button>
-            </Box>
+            </DictBox>
           </DictGrid>
         </Section>
         <Section width="100%">
@@ -369,7 +404,7 @@ class Vocab extends Component {
             maxwidth="1240px"
             overflow="scroll">
             <DictGrid
-              gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 200px 200px 200px 400px 200px"
+              gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 500px 200px 200px 400px 200px"
               width="4000px">
               <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">count</Text>
@@ -413,7 +448,7 @@ class Vocab extends Component {
                   counter++
                   return (
                     <DictGrid
-                      gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 200px 200px 200px 400px 200px"
+                      gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 500px 200px 200px 400px 200px"
                       width="4000px">
                       <DictBox>
                         <span>{counter}</span>

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
-import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import styled, {ThemeProvider} from 'styled-components'
+import {NavLink} from 'react-router-dom'
 import {
   Audio,
   Box,
@@ -8,6 +10,7 @@ import {
   Dictionary,
   Grid,
   Img,
+  PlayBox,
   PlayButton,
   RememberSection,
   Spacer,
@@ -15,44 +18,21 @@ import {
   Text,
   Section,
   Wrapper
-} from '../../components'
+} from '../../../components'
 
-import {Masthead, Info} from './components'
-import PlayImg from '../../assets/images/play.svg'
+import {Masthead, Info} from '../components'
+import PlayImg from '../../../assets/images/play.svg'
 
-// audio
-import cdnUrl from '../../../src/config/secrets.js'
+// fetch level 1 vocabulary and store in redux
+import actionCreators from '../../Admin/Dictionary/actions.js'
+import fetchWords from '../../Admin/Dictionary/actions.js'
+
+// cdn
+import cdnUrl from '../../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-import vocab from '../../../src/data/spanish/level1/vocab.js'
-import sharedPhrases from '../../../src/data/shared/phrases.js'
-
-//alphabet - consonants
-const b = cdn + vocab.category.alphabet.consonants.b.spanish.audioUrl
-const c = cdn + vocab.category.alphabet.consonants.c.spanish.audioUrl
-const d = cdn + vocab.category.alphabet.consonants.d.spanish.audioUrl
-const f = cdn + vocab.category.alphabet.consonants.f.spanish.audioUrl
-const g = cdn + vocab.category.alphabet.consonants.g.spanish.audioUrl
-const h = cdn + vocab.category.alphabet.consonants.h.spanish.audioUrl
-const ch = cdn + vocab.category.alphabet.consonants.ch.spanish.audioUrl
-const j = cdn + vocab.category.alphabet.consonants.j.spanish.audioUrl
-const k = cdn + vocab.category.alphabet.consonants.k.spanish.audioUrl
-const l = cdn + vocab.category.alphabet.consonants.l.spanish.audioUrl
-const ll = cdn + vocab.category.alphabet.consonants.ll.spanish.audioUrl
-const m = cdn + vocab.category.alphabet.consonants.m.spanish.audioUrl
-const n = cdn + vocab.category.alphabet.consonants.n.spanish.audioUrl
-const ñ = cdn + vocab.category.alphabet.consonants.ñ.spanish.audioUrl
-const p = cdn + vocab.category.alphabet.consonants.p.spanish.audioUrl
-const q = cdn + vocab.category.alphabet.consonants.q.spanish.audioUrl
-const r = cdn + vocab.category.alphabet.consonants.r.spanish.audioUrl
-const rr = cdn + vocab.category.alphabet.consonants.rr.spanish.audioUrl
-const s = cdn + vocab.category.alphabet.consonants.s.spanish.audioUrl
-const t = cdn + vocab.category.alphabet.consonants.t.spanish.audioUrl
-const v = cdn + vocab.category.alphabet.consonants.v.spanish.audioUrl
-const w = cdn + vocab.category.alphabet.consonants.w.spanish.audioUrl
-const x = cdn + vocab.category.alphabet.consonants.x.spanish.audioUrl
-const y = cdn + vocab.category.alphabet.consonants.y.spanish.audioUrl
-const z = cdn + vocab.category.alphabet.consonants.z.spanish.audioUrl
+import vocab from '../../../../src/data/spanish/level1/vocab.js'
+import sharedPhrases from '../../../../src/data/shared/phrases.js'
 
 // vowels
 const a = cdn + vocab.category.alphabet.vowels.a.spanish.audioUrl
@@ -66,10 +46,40 @@ const hello = cdn + sharedPhrases.greetings.hello.spanish.informal.audioUrl
 const bye = cdn + sharedPhrases.greetings.bye.spanish.informal.audioUrl
 
 class SpanishLevel1 extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+
+    this.assignStateProps = this.assignStateProps.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.actions.fetchWords().then(res => {
+      this.assignStateProps()
+    })
+  }
+
   onClick(e) {
     e.preventDefault()
     document.getElementById(e.target.name).play()
   }
+
+  assignStateProps(e) {
+    let words = this.props.vocabReducer
+    var val =
+      words[
+        (function() {
+          for (var item in words) return item
+        })()
+      ]
+    val.words.map(item => {
+      let {name, audioUrl} = item
+      this.setState({
+        [item.word]: cdn + audioUrl
+      })
+    })
+  }
+
   render() {
     return (
       <Wrapper>
@@ -99,12 +109,11 @@ class SpanishLevel1 extends Component {
               <p>b as in <span style={{color: 'red'}}>b</span>ed</p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="b" src={`${b}`} />
-              <PlayButton
-                name="b"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="b"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.b}
               />
             </Box>
             <Box>
@@ -116,13 +125,14 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="c" src={`${c}`} />
-              <PlayButton
-                name="c"
-                onClick={this.onClick}
-                padding="0"
-                src={`${PlayImg}`}
-              />
+              <Box alignitems="flex-start">
+                <PlayBox
+                  alignitems="flex-start"
+                  id="c"
+                  padding="0"
+                  src={this.state.c}
+                />
+              </Box>
             </Box>
             <Box>
               <p>d</p>
@@ -133,12 +143,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="d" src={`${d}`} />
-              <PlayButton
-                name="d"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="d"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.d}
               />
             </Box>
             <Box>
@@ -151,12 +160,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="g" src={`${g}`} />
-              <PlayButton
-                name="g"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="g"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.g}
               />
             </Box>
             <Box>
@@ -168,12 +176,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="h" src={`${h}`} />
-              <PlayButton
-                name="h"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="h"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.h}
               />
             </Box>
             <Box>
@@ -185,12 +192,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="ch" src={`${ch}`} />
-              <PlayButton
-                name="ch"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="ch"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.ch}
               />
             </Box>
             <Box>
@@ -202,12 +208,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="j" src={`${j}`} />
-              <PlayButton
-                name="j"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="j"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.j}
               />
             </Box>
             <Box>
@@ -219,12 +224,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="k" src={`${k}`} />
-              <PlayButton
-                name="k"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="k"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.k}
               />
             </Box>
             <Box>
@@ -236,12 +240,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="l" src={`${l}`} />
-              <PlayButton
-                name="l"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="l"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.l}
               />
             </Box>
             <Box>
@@ -253,12 +256,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="ll" src={`${ll}`} />
-              <PlayButton
-                name="ll"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="ll"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.ll}
               />
             </Box>
             <Box>
@@ -270,12 +272,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="m" src={`${m}`} />
-              <PlayButton
-                name="m"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="m"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.m}
               />
             </Box>
             <Box>
@@ -287,12 +288,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="n" src={`${n}`} />
-              <PlayButton
-                name="n"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="n"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.n}
               />
             </Box>
             <Box>
@@ -304,12 +304,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="ñ" src={`${ñ}`} />
-              <PlayButton
-                name="ñ"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="ñ"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.ñ}
               />
             </Box>
             <Box>
@@ -321,12 +320,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="p" src={`${p}`} />
-              <PlayButton
-                name="p"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="p"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.p}
               />
             </Box>
             <Box>
@@ -338,12 +336,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="q" src={`${q}`} />
-              <PlayButton
-                name="q"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="q"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.q}
               />
             </Box>
             <Box>
@@ -355,12 +352,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="r" src={`${r}`} />
-              <PlayButton
-                name="r"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="r"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.r}
               />
             </Box>
             <Box>
@@ -372,12 +368,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="rr" src={`${rr}`} />
-              <PlayButton
-                name="rr"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="rr"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.rr}
               />
             </Box>
             <Box>
@@ -389,12 +384,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="s" src={`${s}`} />
-              <PlayButton
-                name="s"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="s"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.s}
               />
             </Box>
             <Box>
@@ -406,12 +400,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="t" src={`${t}`} />
-              <PlayButton
-                name="t"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="t"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.t}
               />
             </Box>
             <Box>
@@ -423,12 +416,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="v" src={`${v}`} />
-              <PlayButton
-                name="v"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="v"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.v}
               />
             </Box>
             <Box>
@@ -440,12 +432,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="w" src={`${w}`} />
-              <PlayButton
-                name="w"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="w"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.w}
               />
             </Box>
             <Box>
@@ -457,12 +448,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="x" src={`${x}`} />
-              <PlayButton
-                name="x"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="x"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.x}
               />
             </Box>
             <Box>
@@ -475,12 +465,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="y" src={`${y}`} />
-              <PlayButton
-                name="y"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="y"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.y}
               />
             </Box>
             <Box>
@@ -492,12 +481,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="z" src={`${z}`} />
-              <PlayButton
-                name="z"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="z"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.z}
               />
             </Box>
           </Dictionary>
@@ -518,12 +506,11 @@ class SpanishLevel1 extends Component {
               <p>a as in b<span style={{color: 'red'}}>a</span>nana</p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="a" src={`${a}`} />
-              <PlayButton
-                name="a"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="a"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.a}
               />
             </Box>
             <Box>
@@ -533,12 +520,11 @@ class SpanishLevel1 extends Component {
               <p>e as in b<span style={{color: 'red'}}>e</span>d</p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="e" src={`${e}`} />
-              <PlayButton
-                name="e"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="e"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.e}
               />
             </Box>
             <Box>
@@ -550,12 +536,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="i" src={`${i}`} />
-              <PlayButton
-                name="i"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="i"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.i}
               />
             </Box>
             <Box>
@@ -567,12 +552,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="o" src={`${o}`} />
-              <PlayButton
-                name="o"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="o"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.o}
               />
             </Box>
             <Box>
@@ -584,12 +568,11 @@ class SpanishLevel1 extends Component {
               </p>
             </Box>
             <Box alignitems="flex-start">
-              <audio id="u" src={`${u}`} />
-              <PlayButton
-                name="u"
-                onClick={this.onClick}
+              <PlayBox
+                alignitems="flex-start"
+                id="u"
                 padding="0"
-                src={`${PlayImg}`}
+                src={this.state.u}
               />
             </Box>
           </Dictionary>
@@ -664,4 +647,22 @@ class SpanishLevel1 extends Component {
   }
 }
 
-export default SpanishLevel1
+const mapStateToProps = state => {
+  return {
+    vocabReducer: state.vocabReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  let fetchWords = actionCreators.fetch
+  return {
+    actions: bindActionCreators(
+      {
+        fetchWords
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SpanishLevel1)

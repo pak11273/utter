@@ -74,9 +74,9 @@ class PlayBox extends Component {
     document.getElementById(e.target.name).play()
   }
   render() {
-    const {id, src} = this.props
+    const {alignitems, id, src} = this.props
     return (
-      <Box>
+      <Box alignitems={alignitems}>
         <audio id={id} src={`${src}`} />
         <Button onClick={this.onClick}>
           <Img name={id} src={`${PlayImg}`} />

@@ -60,7 +60,7 @@ class RoomCreator extends Component {
       // const roomLevel = this.props.roomReducer.roomLevel
       const roomLevel = this.state.room.level
       const roomLanguage = this.props.roomReducer.language
-      this.props.actions.fetchWords(roomLevel).then(res => {
+      this.props.actions.fetchWords(roomLevel, roomLanguage).then(res => {
         const listObj = this.props.vocabReducer[
           Object.keys(this.props.vocabReducer)[0]
         ].words

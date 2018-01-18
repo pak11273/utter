@@ -50,7 +50,6 @@ class KoreanLevel1 extends Component {
     super(props)
     this.state = {}
 
-    this.thing = this.thing.bind(this)
     this.assignStateProps = this.assignStateProps.bind(this)
   }
 
@@ -81,14 +80,9 @@ class KoreanLevel1 extends Component {
     })
   }
 
-  thing(e) {
-    console.log('state: ', this.state)
-  }
-
   render() {
     return (
       <Wrapper>
-        <button onClick={this.thing}>show state</button>
         <Masthead
           title="Level One - Hangul"
           subtitle="Learn the Korean alphabet"
