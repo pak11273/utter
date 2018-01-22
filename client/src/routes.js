@@ -4,6 +4,7 @@ import {
   About,
   Connections,
   Contact,
+  ForgotPassword,
   GettingStarted,
   Login,
   Settings,
@@ -45,6 +46,11 @@ export const routes = [
   {
     path: '/Admin',
     component: requireAuth(Admin),
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/forgot-password',
+    component: ForgotPassword,
     loadData: () => getSomeData()
   },
   {

@@ -84,13 +84,10 @@ class SpanishLevel1 extends Component {
     return (
       <Wrapper>
         <Masthead
-          title="Level One - Spanish"
-          subtitle="Learn the Spanish alphabet"
+          title="Level Two - Spanish"
+          subtitle="Learn Basic Spanish grammar"
         />
-        <Info
-          subtitle="Alphabet"
-          info="Spanish consists of 24 consonants and 5 vowels. We have also included some other common letters that you need to learn for future lessons."
-        />
+        <Info subtitle="Grammar" info="Grammar lessons" />
         <Section alignitems="flex-start" maxwidth="1024px">
           <Dictionary
             gridheader="1fr 2fr 1fr"

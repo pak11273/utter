@@ -1,10 +1,15 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
-import Dictionary from './Dictionary'
+import Vocabulary from './Vocabulary'
 import {Box, Button, Grid, Spacer, Text} from '../../components'
 import FaCaretDown from 'react-icons/fa/caret-down'
 import './styles.css'
+import Phrases from './Phrases'
+import Challenges from './Challenges'
+import Users from './Users'
+import Team from './Team'
+import Etc from './Etc'
 
 const Dropdown = styled(Button)`
   background:transparent;
@@ -31,10 +36,6 @@ const SideBar = styled.div`
   display: flex;
   flex-direction: column;
 `
-
-const Phrases = () => <h1>Phrases</h1>
-
-const Questions = () => <h1>Questions</h1>
 
 const Main = () =>
   <Grid
@@ -114,11 +115,11 @@ class Admin extends Component {
                 <FaCaretDown />
               </Dropdown>
               <Box id="userAcc" className="hide">
-                <Link to="/admin/dictionary" className="dropButton">
+                <Link to="/admin/users" className="dropButton">
                   Users{' '}
                 </Link>
-                <Link to="/admin/phrases" className="dropButton">Team</Link>
-                <Link to="/admin/questions" className="dropButton">
+                <Link to="/admin/team" className="dropButton">Team</Link>
+                <Link to="/admin/etc" className="dropButton">
                   Etc{' '}
                 </Link>
               </Box>
@@ -131,20 +132,23 @@ class Admin extends Component {
                 <FaCaretDown />
               </Dropdown>
               <Box id="languageAcc" className="hide">
-                <Link to="/admin/dictionary" className="dropButton">
+                <Link to="/admin/vocabulary" className="dropButton">
                   Vocabulary
                 </Link>
                 <Link to="/admin/phrases" className="dropButton">Phrases</Link>
-                <Link to="/admin/questions" className="dropButton">
-                  Questions
+                <Link to="/admin/challenges" className="dropButton">
+                  Challenges
                 </Link>
               </Box>
               <Link to="/misc" className="dropButton">Link</Link>
             </SideBar>
             <Route exact path="/admin" component={Main} />
-            <Route exact path="/admin/dictionary" component={Dictionary} />
+            <Route exact path="/admin/users" component={Users} />
+            <Route exact path="/admin/team" component={Team} />
+            <Route exact path="/admin/etc" component={Etc} />
+            <Route exact path="/admin/vocabulary" component={Vocabulary} />
             <Route exact path="/admin/phrases" component={Phrases} />
-            <Route exact path="/admin/questions" component={Questions} />
+            <Route exact path="/admin/challenges" component={Challenges} />
           </Grid>
         </Container>
       </Router>

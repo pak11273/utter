@@ -2,6 +2,7 @@ import express from 'express'
 import _ from 'lodash'
 import pwd from '../../dist/config/pwd.js'
 import nodemailer from 'nodemailer'
+import path from 'path'
 const mailRouter = express.Router()
 
 mailRouter.post('/', function(req, res) {
@@ -41,6 +42,17 @@ mailRouter.post('/', function(req, res) {
       console.log('Email sent: ' + info.response)
     }
   })
+
+  // password-reset
+  const hbs = require('nodemailer-express-handlebars')
+
+  const handlebarsOptions = {
+    viewEngine: 'handlebars',
+    viewPath: path.resolve('../templates/'),
+    extName: '.html'
+  }
+
+  transporter.use('compile', hbs(handlebarsOptions))
 })
 
 module.exports = mailRouter

@@ -14,6 +14,9 @@ import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Box} from '../../components'
 
+// password reset
+// https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0
+
 // actions
 import {login} from '../../actions/authActions.js'
 
@@ -100,10 +103,6 @@ class LoginForm extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Center>
-          <Img
-            alt=""
-            src="http://devfloat.net/wp-content/uploads/2015/10/Freebie-PSD-Signin-Button.jpg"
-          />
           <Subtitle display="inline" fontsize="1rem">
             Don't have an account. Sign up{' '}
             <NavLink to="/signup">
@@ -118,6 +117,7 @@ class LoginForm extends Component {
           </Subtitle>
           <Label>Username or Email</Label>
           <InputLine
+            autocomplete="username"
             onChange={this.onChange}
             value={this.state.identifier}
             type="text"
@@ -142,6 +142,7 @@ class LoginForm extends Component {
           </div>
           <Label>Password</Label>
           <InputLine
+            autocomplete="current-password"
             onChange={this.onChange}
             value={this.state.password}
             type="password"
@@ -165,13 +166,13 @@ class LoginForm extends Component {
                 color="black"
                 disabled={this.isLoading}
                 fontsize="1.5rem"
-                margin="43px 56px 39px 41px"
+                margin="20px auto"
                 padding=".2rem 1rem"
                 width="110px">
                 Log in
               </Button>
             </ThemeProvider>
-            <NavLink to="/signup">
+            <NavLink to="/forgot-password">
               <Subtitle
                 color="#ffc107"
                 fontsize="1rem"

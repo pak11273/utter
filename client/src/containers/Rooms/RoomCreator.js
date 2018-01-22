@@ -6,7 +6,7 @@ import {Button, Box, Input, Text} from '../../components'
 // actions
 import {updateRoomCreator, updateRoomLevel, updateListType} from './actions.js'
 
-import actionCreators from '../../layouts/Admin/Dictionary/actions.js'
+import actionCreators from '../../layouts/Admin/Vocabulary/actions.js'
 
 import {loadWordList, loadOriginalWordList} from '../Pictures/actions.js'
 

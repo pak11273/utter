@@ -21,7 +21,7 @@ import PlayImg from '../../../assets/images/play.svg'
 import cdnUrl from '../../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-class KoreanLevel2 extends Component {
+class KoreanLevel3 extends Component {
   onClick(e) {
     e.preventDefault()
     document.getElementById(e.target.name).play()
@@ -69,8 +69,7 @@ class KoreanLevel2 extends Component {
                 onClick={this.onClick}
                 padding="0"
                 src={`${PlayImg}`}
-              />
-              */}{' '}
+              />*/}
             </Box>
           </Dictionary>
           <Section minheight="600px" maxwidth="1024px">
@@ -125,6 +124,6 @@ class KoreanLevel2 extends Component {
   }
 }
 
-export default KoreanLevel2
+export default KoreanLevel3
 
 // TODO: show how to construct syllables

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Section} from '../../components'
 import FlashMessage from '../../components/FlashMessages/FlashMessage.js'
 import {deleteFlashMessage} from '../../actions/flashMessages.js'
 
@@ -12,7 +13,7 @@ class FlashMessagesList extends Component {
         deleteFlashMessage={this.props.deleteFlashMessage}
       />
     )
-    return <div>{messages}</div>
+    return <Section>{messages}</Section>
   }
 }
 

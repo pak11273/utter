@@ -177,11 +177,18 @@ class ChatContainer extends Component {
   componentWillUpdate() {
     // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
     var node = document.getElementById('chatList')
-    this.shouldScrollBottom =
-      node.scrollTop + node.offsetHeight === node.scrollHeight
+
+    if (node) {
+      this.shouldScrollBottom =
+        node.scrollTop + node.offsetHeight === node.scrollHeight
+    }
   }
 
   componentDidUpdate() {
+    var node = document.getElementById('chatList')
+    console.log('yep its here: ', this.shouldScrollBottom)
+    console.log('top: ', node.scrollTop)
+    console.log('offset: ', node.offsetHeight)
     if (this.shouldScrollBottom) {
       var node = document.getElementById('chatList')
       node.scrollTop = node.scrollHeight

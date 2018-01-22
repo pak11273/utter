@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Label = styled.div`
+  box-sizing: ${props => props.boxsizing};
   color: ${props => props.color};
   font-family: ${props => props.fontfamily};
   font-size: ${props => props.fontsize};
@@ -13,6 +14,7 @@ const Label = styled.div`
 `
 
 Label.defaultProps = {
+  boxsizing: 'border-box',
   color: props => props.theme.color,
   fontfamily: 'Arial',
   fontsize: '1.2rem',

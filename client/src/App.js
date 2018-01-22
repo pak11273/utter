@@ -36,6 +36,7 @@ class App extends Component {
                   ]}
                 />
                 <Spacer margin="90px 0 0 0" />
+                <FlashMessagesList />
                 <Switch>
                   {routes.map((route, i) => <Route key={i} {...route} />)}
                 </Switch>

@@ -24,7 +24,7 @@ class FlashMessage extends Component {
     const {id, type, text} = this.props.message
     return (
       <Success>
-        <Text fontsize="2rem" padding="2rem">{text}</Text>
+        <Text color="white" fontsize="2rem" padding="2rem">{text}</Text>
         <Button
           border="none"
           background="none"

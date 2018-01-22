@@ -160,7 +160,7 @@ class ContactForm extends Component {
 
   onSubmit(e) {
     e.preventDefault()
-    this.props.sendmail(this.state)
+    this.props.contactmail(this.state)
   }
 
   validatePhoneNumber(phoneNumber) {

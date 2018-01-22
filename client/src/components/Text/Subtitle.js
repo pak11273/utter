@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Subtitle = styled.div`
+  box-sizing: ${props => props.boxsizing};
   color: ${props => props.color};
   display: ${props => props.display};
   font-family: ${props => props.fontfamily};
@@ -12,6 +13,7 @@ const Subtitle = styled.div`
   width: ${props => props.width};
 `
 Subtitle.defaultProps = {
+  boxsizing: 'border-box',
   color: props => props.theme.color,
   fontfamily: 'Arial',
   fontsize: '2rem',

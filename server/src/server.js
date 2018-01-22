@@ -23,7 +23,9 @@ app.use('/cdn', express.static('cdn'))
 // Routers
 import api from '../dist/api'
 import auth from '../dist/auth/routes.js'
-import mailRouter from '../dist/util/mail.js'
+
+// import mailRouter from '../dist/util/mail.js'
+import mailRouter from '../dist/mail/routes.js'
 import lionRouter from '../dist/lions.js'
 import tigerRouter from '../dist/tigers.js'
 
@@ -32,9 +34,9 @@ app.use('/api', api)
 app.use('/auth', auth)
 app.use('/lions', lionRouter)
 app.use('/tigers', tigerRouter)
-app.use('/sendmail', mailRouter)
+app.use('/mail', mailRouter)
 
-// used for gzip bundle.js
+// used for gzipping bundle.js
 app.get('*.js', function(req, res, next) {
   req.url = req.url + '.gz'
   res.set('Content-Encoding', 'gzip')
@@ -48,57 +50,6 @@ app.get('*.css', function(req, res, next) {
   res.set('Content-Type', 'text/css')
   next()
 })
-
-// sendmail for contact page
-app.post('/sendmail', function(req, res) {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: pwd.gmail_username,
-      pass: pwd.gmail_password
-    }
-  })
-
-  const mailOptions = {
-    from: 'utterzone11273@gmail.com',
-    to: 'pak11273@gmail.com',
-    subject: req.body.subject,
-    text:
-      'phone: ' +
-        ' ' +
-        req.body.country +
-        ' ' +
-        req.body.number +
-        '\n\n' +
-        'email: ' +
-        req.body.email +
-        '\n\n' +
-        'subjedct: ' +
-        req.body.subject +
-        '\n\n' +
-        'message: ' +
-        req.body.letter
-  }
-
-  transporter.sendMail(mailOptions, function(error, info) {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log('Email sent: ' + info.response)
-    }
-  })
-})
-
-// app route
-// app.get('/*', function(req, res) {
-//   res.sendFile(path.join(__dirname, '../../client/dist/index.html'), function(
-//     err
-//   ) {
-//     if (err) {
-//       res.status(500).send(err)
-//     }
-//   })
-// })
 
 // seed the db with dummy data TODO: change the seeding before using this
 // if (config.seed) {

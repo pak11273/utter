@@ -3,6 +3,22 @@ import setAuthorizationToken from '../utils/setAuthorizationToken.js'
 import jwt from 'jsonwebtoken'
 import {SET_CURRENT_USER, LOAD_USER_PROFILE} from './types.js'
 
+export function forgotpassword(data) {
+  return dispatch => {
+    return axios
+      .post('/mail/forgot-password', data)
+      .then(res => {
+        console.log('email was sent')
+        console.log('res: ', res)
+        console.log('msg: ', res.data.message)
+        alert('res: ', res.data.message)
+      })
+      .catch(error => {
+        console.log('login error: ', error)
+      })
+  }
+}
+
 export function logout() {
   return dispatch => {
     localStorage.removeItem('jwtToken')
@@ -34,16 +50,14 @@ export function login(data) {
         localStorage.setItem('jwtToken', token)
         setAuthorizationToken(token)
         const user = jwt.decode(token)
-        console.log('user: ', user)
         dispatch(setCurrentUser(user))
         // sample id; "59d2a7bb24a8b73675b527d7"
         axios.get(`api/users/${user._id}`).then(res => {
-          console.log('res: ', res)
           dispatch(loadUserProfile(res.data))
         })
       })
       .catch(error => {
-        console.log('login error: ', error)
+        alert('login error: ', error)
       })
   }
 }

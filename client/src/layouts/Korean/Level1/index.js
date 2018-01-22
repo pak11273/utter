@@ -23,14 +23,13 @@ import {Info, Masthead} from '../components'
 import PlayImg from '../../../assets/images/play.svg'
 
 // fetch level 1 vocabulary and store in redux
-import actionCreators from '../../Admin/Dictionary/actions.js'
-import fetchWords from '../../Admin/Dictionary/actions.js'
+import actionCreators from '../../Admin/Vocabulary/actions.js'
+import fetchWords from '../../Admin/Vocabulary/actions.js'
 
 // cdn
 import cdnUrl from '../../../../src/config/secrets.js'
 const cdn = cdnUrl.cdn
 
-// TODO: put this in db
 import sharedPhrases from '../../../../src/data/shared/phrases.js'
 
 // phrases
@@ -442,6 +441,126 @@ class KoreanLevel1 extends Component {
           </Dictionary>
         </Section>
         <Info
+          subtitle="Two letter Syllables (under construction)"
+          info="You can combine consonants and syllables to make two letter syllables. Some examples below are provided. Consonants go first then the vowel is placed to the right.  The consonant ㅇ is silent when it is placed at the beginning of a syllable."
+        />
+        <Section
+          alignitems="flex-start"
+          margin="100px 0 0 0"
+          maxwidth960="1024px">
+          <Dictionary
+            gridheader=".9fr 2fr .9fr"
+            gridheader640=".9fr 2.5fr .5fr"
+            gridbody=".9fr 2.5fr .5fr"
+            gridbody640=".9fr 2.5fr .5fr"
+            height="600px"
+            term="Syllables"
+            definition="Pronunciation"
+            media="Play"
+            overflowy="scroll">
+            <Box>
+              가{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ga' sound as in <span style={{color: 'red'}}>ga ga</span></p>
+            </Box>
+            <PlayBox id="ㅡ" src={this.state.ㅡ} />
+            <Box>
+              나{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'na' sound as in <span style={{color: 'red'}}>no</span>t</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              다{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>
+                'da' sound as in <span style={{color: 'red'}}>daugh</span>ter
+              </p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              라{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ra' sound as in <span style={{color: 'red'}}>ro</span>ck</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              마{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ma' sound as in <span style={{color: 'red'}}>ma</span> ma</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              바{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ba' sound as in <span style={{color: 'red'}}>ba</span></p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              사{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'sa' sound as in <span style={{color: 'red'}}>sa</span></p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              아{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'a' sound as in <span style={{color: 'red'}}>au</span>tumn</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              자{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ja' sound as in <span style={{color: 'red'}}>jo</span>lly</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              차{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'cha' sound as in <span style={{color: 'red'}}>cha</span></p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              카{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ca' sound as in <span style={{color: 'red'}}>caugh</span>t</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              타{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ta' sound as in <span style={{color: 'red'}}>taugh</span>t</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              파{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'pa' sound as in <span style={{color: 'red'}}>po</span>nd</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+            <Box>
+              하{' '}
+            </Box>
+            <Box alignitems="flex-start">
+              <p>'ha' sound as in <span style={{color: 'red'}}>ha</span>ll</p>
+            </Box>
+            <PlayBox id="ㅣ" src={this.state.ㅣ} />
+          </Dictionary>
+        </Section>
+        <Info
           subtitle="Greetings"
           info="Let's learn some basic introductory phrases. There are several different forms to use depending on who you are talking to. We will be using just two of the most general cases, formal and informal.  You will generally use the formal form with strangers, people who are older, or people who are higher ranked than you. Informal is used with friends and relatives. You will learn the more specific forms in later lessons."
         />
@@ -451,7 +570,7 @@ class KoreanLevel1 extends Component {
             gridheader640=".9fr 2.5fr .5fr"
             gridbody=".9fr 2.5fr .5fr"
             gridbody640=".9fr 2.5fr .5fr"
-            term="Vowels"
+            term="Phrases"
             definition="Pronunciation"
             media="Play">
             <Box>

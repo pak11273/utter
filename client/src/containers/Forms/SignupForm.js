@@ -10,7 +10,10 @@ import {main, base, anotherOne} from '../../themes/config'
 import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
 import {connect} from 'react-redux'
+
+// actions
 import {userSignupRequest} from '../../actions/signupActions.js'
+import {login} from '../../actions/authActions.js'
 import {validateInput} from '../../utils/validations/user.js'
 
 const Form = styled.form`
@@ -46,9 +49,9 @@ class SignupForm extends Component {
     this.state = {
       username: '',
       email: '',
+      isLoading: null,
       password: '',
       passwordConfirmation: '',
-      mismatch: '',
       timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico',
       errors: {}
     }
@@ -79,28 +82,33 @@ class SignupForm extends Component {
 
     if (this.isValid()) {
       this.setState({
-        mismatch: '',
+        isLoading: true,
         errors: {} // clear errors every time we submit form
       })
-
-      if (this.state.password !== this.state.passwordConfirmation) {
-        this.setState({
-          mismatch: 'password and confirmation do no match'
+      this.props
+        .userSignupRequest(this.state)
+        .then(() => {
+          this.props.addFlashMessage({
+            type: 'success',
+            text: 'You signed up successfully. Welcome aboard.'
+          })
+          this.props.history.push('/')
         })
-      } else {
-        this.props
-          .userSignupRequest(this.state)
-          .then(() => {
-            this.props.addFlashMessage({
-              type: 'success',
-              text: 'You signed up successfully. Welcome aboard.'
-            })
-            this.props.history.push('/')
-          })
-          .catch(error => {
-            this.setState({errors: error.response.data.errors})
-          })
-      }
+        .then(() => {
+          const {username, password, isLoading, errors} = this.state
+          const loginState = {
+            identifier: username,
+            password,
+            isLoading,
+            errors
+          }
+          console.log('state: ', loginState)
+          this.props.login(loginState)
+        })
+        .catch(error => {
+          console.log('error: ', error)
+          this.setState({errors: error})
+        })
     }
   }
 
@@ -194,9 +202,6 @@ class SignupForm extends Component {
                 </Error>
               )
             })}
-          <Error>
-            {this.state.mismatch && this.state.mismatch}
-          </Error>
 
           <Label>Timezone</Label>
           <Timezones
@@ -219,5 +224,5 @@ export default connect(
   state => {
     return {}
   },
-  {userSignupRequest}
+  {userSignupRequest, login}
 )(SignupForm)

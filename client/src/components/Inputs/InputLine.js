@@ -71,6 +71,7 @@ Underline.defaultProps = {
 export default props =>
   <Wrap>
     <Input
+      autoComplete={props.autocomplete}
       type={props.type}
       name={props.name}
       value={props.value}

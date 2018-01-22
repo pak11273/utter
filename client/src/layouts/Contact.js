@@ -10,12 +10,12 @@ import {
   Wrapper
 } from '../components'
 import {connect} from 'react-redux'
-import {sendmail} from '../actions/sendmailActions'
+import {contactmail} from '../actions/contactmailActions'
 import ContactForm from '../containers/Forms/ContactForm/ContactForm.js'
 
 class Contact extends Component {
   render() {
-    const {sendmail} = this.props
+    const {contactmail} = this.props
     return (
       <Wrapper>
         <Helmet>
@@ -47,11 +47,11 @@ class Contact extends Component {
           </Box>
         </Masthead>
         <Section>
-          <ContactForm sendmail={sendmail} />
+          <ContactForm contactmail={contactmail} />
         </Section>
       </Wrapper>
     )
   }
 }
 
-export default connect(null, {sendmail})(Contact)
+export default connect(null, {contactmail})(Contact)

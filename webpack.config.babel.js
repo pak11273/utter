@@ -39,7 +39,7 @@ module.exports = env => {
             '/socket.io',
             '/lions',
             '/tigers',
-            '/sendmail'
+            '/mail'
           ],
           target: 'http://192.168.68.8:3001',
           ws: true

@@ -55,7 +55,7 @@ DictBox.defaultProps = {
   padding: '0 5px 0 0 '
 }
 
-class Vocab extends Component {
+class Challenges extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -207,12 +207,6 @@ class Vocab extends Component {
     this.props.actions.deleteWord(word)
   }
 
-  thing(e) {
-    e.preventDefault()
-    console.log('state: ', this.state)
-    //TODO remove this after development
-  }
-
   render() {
     let dict = this.props.vocabReducer[Object.keys(this.props.vocabReducer)[0]]
     // let dict = this.props.vocabReducer
@@ -222,9 +216,8 @@ class Vocab extends Component {
     let counter = 0
     return (
       <Container gridtemplatecolumns="1fr">
-        <button onClick={this.thing.bind(this)}>console.log state</button>
         <Section>
-          <Title>Vocabulary</Title>
+          <Title>Challenges (under construction)</Title>
           <Line color="black" width="100%" />
           <Title>Builder</Title>
           <Line color="black" width="100%" />
@@ -575,5 +568,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Vocab)
-//TODO: convert everything to react virtualization table
+export default connect(mapStateToProps, mapDispatchToProps)(Challenges)
