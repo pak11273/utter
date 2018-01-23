@@ -43,7 +43,7 @@ const Channel = ({name, id, onClick}) => {
 
 const ChannelsList = ({channelList, channelSortAsc, onChannelSelect}) =>
   <Box alignitems="flex-start" justifycontent="flex-start">
-    <Ol fontsize="1.2rem" color="black" textalign="left">
+    <Ol fontsize="1.2rem" color="black" padding="20px" textalign="left">
       {channelList.map(({_id, name, language, socket}) => {
         const handleClick = () => {
           onChannelSelect(_id, name, language, socket)

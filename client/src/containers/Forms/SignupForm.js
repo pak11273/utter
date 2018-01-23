@@ -56,6 +56,7 @@ class SignupForm extends Component {
       errors: {}
     }
 
+    this.thing = this.thing.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -102,14 +103,16 @@ class SignupForm extends Component {
             isLoading,
             errors
           }
-          console.log('state: ', loginState)
           this.props.login(loginState)
         })
         .catch(error => {
-          console.log('error: ', error)
-          this.setState({errors: error})
+          this.setState({errors: error.response.data.errors})
         })
     }
+  }
+
+  thing() {
+    console.log('state: ', this.state)
   }
 
   render() {
@@ -120,6 +123,7 @@ class SignupForm extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>
+          <button onClick={this.thing}>state</button>
           <Img
             alt=""
             src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
