@@ -87,11 +87,11 @@ class LoginForm extends Component {
 
       this.props
         .login(this.state)
-        .then(res => {
+        .then(() => {
           this.props.history.push('/dashboard')
         })
         .catch(error => {
-          this.setState({errors: error, isLoading: false})
+          this.setState({errors: error.response.data.errors, isLoading: false})
         })
     }
   }
