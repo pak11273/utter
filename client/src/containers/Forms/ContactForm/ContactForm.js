@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {
   Box,
   Column,
+  Grid,
   InputLine,
   Label,
   Row,
@@ -16,10 +17,11 @@ import {main, base, anotherOne} from '../../../themes/config'
 import Select from 'react-select'
 import {PhoneNumberFormat, PhoneNumberUtil} from 'google-libphonenumber'
 import CallingCodes from '../../../assets/js/CallingCodes.js'
-// import './select.css'
+import './select.css'
 import FaQuestion from 'react-icons/fa/question-circle-o'
 import FaEmail from 'react-icons/fa/envelope-o'
 import FaReply from 'react-icons/fa/mail-reply-all'
+import FaPhone from 'react-icons/fa/phone'
 import FaUser from 'react-icons/fa/user'
 
 const Role = styled.div`
@@ -41,6 +43,7 @@ Role.defaultProps = {
 }
 
 const Phone = styled.div`
+  align-items: baseline;
   display: flex;
   width: 100%;
 `
@@ -198,7 +201,7 @@ class ContactForm extends Component {
     return (
       <ThemeProvider theme={base}>
         <Form onSubmit={this.onSubmit}>
-          <Section padding="20px" maxwidth="1024px">
+          <Section margin="100px 0 0 0" padding="20px" maxwidth="1024px">
             <Role
               color="#273e63"
               fontsize="2.5rem"
@@ -210,7 +213,7 @@ class ContactForm extends Component {
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="60px">
+              <Label textalign="left" fontsize="1.5rem" width="130px">
                 Name
               </Label>
               <InputLine
@@ -225,7 +228,7 @@ class ContactForm extends Component {
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="60px">
+              <Label textalign="left" fontsize="1.5rem" width="130px">
                 Email{' '}
               </Label>
               <InputLine
@@ -236,38 +239,40 @@ class ContactForm extends Component {
                 name="email"
               />
             </Box>
+            <Phone>
+              <Label textalign="left" fontsize="1.5rem" width="130px">
+                Phone
+              </Label>
+              <Select
+                clearable={false}
+                name="country"
+                autosize={true}
+                placeholder="country name"
+                value={this.state.country}
+                onChange={this.onSelect2}
+                options={CallingCodes}
+                labelKey="country"
+                valueKey="value"
+                valueRenderer={country => country.value}
+              />
+              <InputLine
+                textalign="left"
+                onChange={this.onChange}
+                value={this.state.number}
+                type="text"
+                name="number"
+              />
+            </Phone>
             <Box
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="60px">
-                Phone
-              </Label>
-              <Phone>
-                <Select
-                  clearable={false}
-                  name="country"
-                  autosize={true}
-                  placeholder="country name"
-                  value={this.state.country}
-                  onChange={this.onSelect2}
-                  options={CallingCodes}
-                  labelKey="country"
-                  valueKey="value"
-                  valueRenderer={country => country.value}
-                />
-                <InputLine
-                  textalign="left"
-                  onChange={this.onChange}
-                  value={this.state.number}
-                  type="text"
-                  name="number"
-                />
-              </Phone>
+
               <div
                 className="message"
                 style={{
-                  color: this.state.color
+                  color: this.state.color,
+                  margin: '0 0 0 50px'
                 }}>
                 {this.state.message}
               </div>
@@ -276,7 +281,7 @@ class ContactForm extends Component {
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="60px">
+              <Label textalign="left" fontsize="1.5rem" width="140px">
                 Subject{' '}
               </Label>
               <InputLine
@@ -304,6 +309,7 @@ class ContactForm extends Component {
                 <Button
                   alignself="flex-end"
                   bottom="-60px"
+                  fontsize="1.5rem"
                   right="-6px"
                   color="black"
                   margin="80px 0 0 0"
@@ -312,66 +318,84 @@ class ContactForm extends Component {
                 </Button>
               </ThemeProvider>
             </Box>
-            <Title
-              color="#273e63"
-              fontsize="2.5rem"
-              margin="70px 0 0 20px"
-              textalign="left">
-              If sending a message fails you can use the information below for
-              inquiries.{' '}
-            </Title>
-            <div>
+            <Section>
               <Title
-                color="#333"
-                padding="0 0 10px 0"
-                textalign="left"
-                fontsize="1.3rem">
-                <FaUser
-                  style={{
-                    fontsize: '1.3rem',
-                    verticalalign: 'top',
-                    color: 'blue'
-                  }}
-                />{' '}
-                {this.props.managingDirectorTitle}
+                color="#273e63"
+                fontsize="2.5rem"
+                margin="70px 0 0 20px"
+                textalign="left">
+                If the form above isn't working for some reason please use the
+                information below for
+                inquiries.{' '}
               </Title>
-              <Subtitle fontsize="1.7rem" textalign="left">
-                {this.props.managingDirector}
-              </Subtitle>
-              <Subtitle fontsize="1.4rem" textalign="left">
-                {this.props.managingDirectorPhone}
-              </Subtitle>
-              <a
-                href={`mailto:${this.props.managingDirectorEmail}`}
-                style={{color: '#227fab'}}>
-                {this.props.managingDirectorEmail}
-              </a>
-              <Title
-                color="#333"
-                padding="50px 0 10px 0"
-                textalign="left"
-                fontsize="1.3rem">
-                <FaEmail style={{verticalAlign: 'top', color: 'blue'}} />{' '}
-                {this.props.mailingTitle}
-              </Title>
-              <Subtitle fontsize="1.5rem" textalign="left">
-                {this.props.address}
-              </Subtitle>
-              <Subtitle fontsize="1.5rem" textalign="left">
-                {this.props.state}
-              </Subtitle>
-              <Title
-                color="#333"
-                padding="50px 0 10px 0"
-                textalign="left"
-                fontsize="1.3rem">
-                <FaReply style={{verticalAlign: 'top', color: 'blue'}} />{' '}
-                {this.props.emailTitle}
-              </Title>
-              <a href={`mailto:${this.props.email}`} style={{color: '#227fab'}}>
-                {this.props.email}
-              </a>
-            </div>
+              <Grid gridtemplatecolumns="1fr 1fr 1fr" margin="100px 0 0 0">
+                <Title
+                  color="#333"
+                  padding="0 0 10px 0"
+                  textalign="left"
+                  fontsize="1.3rem">
+                  <FaUser
+                    style={{
+                      fontsize: '1.3rem',
+                      verticalalign: 'top',
+                      color: 'blue'
+                    }}
+                  />{' '}
+                  {/*this.props.managingDirectorTitle*/}
+                  {this.props.managingDirector}
+                </Title>
+                <Title
+                  color="#333"
+                  padding="0 0 10px 0"
+                  textalign="left"
+                  fontsize="1.3rem">
+                  <FaPhone
+                    style={{
+                      fontsize: '1.3rem',
+                      verticalalign: 'top',
+                      color: 'blue'
+                    }}
+                  />{' '}
+                  {this.props.managingDirectorPhone}
+                </Title>
+                <Title
+                  color="#333"
+                  padding="0 0 10px 0"
+                  textalign="left"
+                  fontsize="1.3rem">
+                  <FaEmail style={{verticalAlign: 'top', color: 'blue'}} />{' '}
+                  <a
+                    href={`mailto:${this.props.managingDirectorEmail}`}
+                    style={{color: '#227fab'}}>
+                    {this.props.managingDirectorEmail}
+                  </a>
+                </Title>
+                {/* TODO: company address 
+                <Subtitle fontsize="1.5rem" textalign="left">
+                  {this.props.mailingTitle}
+                </Subtitle>
+                <Subtitle fontsize="1.5rem" textalign="left">
+                  {this.props.address}
+                </Subtitle>
+                <Subtitle fontsize="1.5rem" textalign="left">
+                  {this.props.state}
+                </Subtitle>
+                <Title
+                  color="#333"
+                  padding="50px 0 10px 0"
+                  textalign="left"
+                  fontsize="1.3rem">
+                  <FaReply style={{verticalAlign: 'top', color: 'blue'}} />{' '}
+                  {this.props.emailTitle}
+                </Title>
+                <a
+                  href={`mailto:${this.props.email}`}
+                  style={{color: '#227fab'}}>
+                  {this.props.email}
+                </a>
+                */}
+              </Grid>
+            </Section>
           </Section>
         </Form>
       </ThemeProvider>

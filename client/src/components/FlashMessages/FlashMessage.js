@@ -5,7 +5,7 @@ import Button from '../../components/Buttons/Button.js'
 
 const Success = styled.div`
   align-items: center;
-  background: green;
+  background: #8b1a87;
   display: flex;
   justify-content: center;
   margin: ${props => props.margin};

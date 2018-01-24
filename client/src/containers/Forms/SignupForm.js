@@ -56,7 +56,6 @@ class SignupForm extends Component {
       errors: {}
     }
 
-    this.thing = this.thing.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -111,10 +110,6 @@ class SignupForm extends Component {
     }
   }
 
-  thing() {
-    console.log('state: ', this.state)
-  }
-
   render() {
     const usernameErrors = this.state.errors.username
     const emailErrors = this.state.errors.email
@@ -123,7 +118,6 @@ class SignupForm extends Component {
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>
-          <button onClick={this.thing}>state</button>
           <Img
             alt=""
             src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
@@ -172,6 +166,7 @@ class SignupForm extends Component {
             })}
           <Label>Password</Label>
           <InputLine
+            autoComplete="new-password"
             onChange={this.onChange}
             value={this.state.password}
             type="password"
@@ -190,6 +185,7 @@ class SignupForm extends Component {
             })}
           <Label>Password Confirmation</Label>
           <InputLine
+            autoComplete="new-password"
             onChange={this.onChange}
             value={this.state.passwordConfirmation}
             type="password"

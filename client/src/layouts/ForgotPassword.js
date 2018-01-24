@@ -1,27 +1,46 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {Link} from 'react-router-dom'
 import styled, {ThemeProvider} from 'styled-components'
 import {Masthead, Navbar} from '../containers'
 import {Box, Button, Input, Subtitle, Title, Wrapper} from '../components'
 import {Helmet} from 'react-helmet'
 import {connect} from 'react-redux'
+import {addFlashMessage} from '../actions/flashMessages.js'
 import {forgotpassword} from '../actions/authActions.js'
 
 class ForgotPassword extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      email: null
+    }
+
+    this.onChange = this.onChange.bind(this)
     this.forgotpassword = this.forgotpassword.bind(this)
   }
 
+  onChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   forgotpassword() {
-    this.props
-      .forgotpassword({email: 'pbk11273@gmail.com'})
+    this.props.actions
+      .forgotpassword({email: this.state.email})
       .then(res => {
-        console.log('res: ', res)
+        this.props.actions.addFlashMessage({
+          type: 'success',
+          text: res.data.message
+        })
       })
-      .catch(err => {
-        // this.setState({errors: err.response.data.errors})
-        console.log({errors: err.response.data.errors})
+      .catch(error => {
+        console.log('error: ', error.response)
+        this.props.actions.addFlashMessage({
+          type: 'fail',
+          text: error.response.data.message
+        })
       })
   }
 
@@ -46,7 +65,11 @@ class ForgotPassword extends Component {
             password.
           </Subtitle>
           <Box flexdirection="row" margin="20px 0 0 0">
-            <Input margin="0 20px 0 20px" />
+            <Input
+              name="email"
+              onChange={this.onChange}
+              margin="0 20px 0 20px"
+            />
             <Button onClick={this.forgotpassword} fontsize="20px" padding="6px">
               send
             </Button>
@@ -57,4 +80,16 @@ class ForgotPassword extends Component {
   }
 }
 
-export default connect(null, {forgotpassword})(ForgotPassword)
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        addFlashMessage,
+        forgotpassword
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(null, mapDispatchToProps)(ForgotPassword)

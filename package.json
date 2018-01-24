@@ -61,7 +61,7 @@
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
-    "react-select": "^1.0.0-rc.10",
+    "react-select": "^1.0.0-rc.5",
     "recordrtc": "^5.4.6",
     "recordrtc-socketio": "^1.0.6",
     "redux": "^3.7.1",

@@ -26,7 +26,7 @@ class Contact extends Component {
           />
           <meta
             name="description"
-            content="Make direct contact with our team throught our contact information form.  We will get respond in a timely manner.  If you are a business or educational institution, this would be a good place to shoot a short inquiry."
+            content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
           />
           <meta name="author" content="Isaac Pak" />
           <title>Utter | Contacts</title>
@@ -47,7 +47,18 @@ class Contact extends Component {
           </Box>
         </Masthead>
         <Section>
-          <ContactForm contactmail={contactmail} />
+          <ContactForm
+            managingDirectorTitle="Founder"
+            managingDirector="Isaac Pak"
+            managingDirectorPhone="(430) 201 - 3940"
+            managingDirectorEmail="pak11273@gmail.com"
+            mailingTitle="Tyler, TX"
+            address="pending"
+            state="pending"
+            emailTitle="Company Email"
+            email="sales@utter.zone"
+            contactmail={contactmail}
+          />
         </Section>
       </Wrapper>
     )

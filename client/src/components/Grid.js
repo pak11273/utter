@@ -12,6 +12,7 @@ const Grid = styled.section`
   grid-template-columns: ${props => props.gridtemplatecolumns};
   grid-template-rows: ${props => props.gridtemplaterows};
   height: ${props => props.height};
+  margin: ${props => props.margin};
   overflow-x: ${props => props.overflowx};
   overflow-y: ${props => props.overflowy};
   position: ${props => props.position};

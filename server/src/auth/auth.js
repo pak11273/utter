@@ -32,7 +32,6 @@ exports.verifyUser = () => {
     let criteria = identifier.indexOf('@') === -1
       ? {username: identifier}
       : {email: identifier}
-    // if no username or password then stop
     if (!identifier || !password) {
       return res.status(400).send('You need a username/email and password')
     }
@@ -44,6 +43,8 @@ exports.verifyUser = () => {
         } else {
           // use authenticate() on user.doc, pass in the posted password, hash it and check
           if (!user.authenticate(password)) {
+            console.log('auth: ', user.authenticate(password))
+            console.log('user not authenticated???')
             res.status(401).json({errors: {form: 'Invalid Credentials'}})
           } else {
             // if everything is good then attach to req.user
@@ -67,7 +68,7 @@ exports.authenticate = (req, res, next) => {
   if (authorizationHeader) {
     token = authorizationHeader.split(' ')[1]
   }
-
+  console.log('token: ', token)
   if (token) {
     jwt.verify(token, config.secrets.jwt, (err, decoded) => {
       if (err) {

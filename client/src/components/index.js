@@ -4,10 +4,12 @@ import Box from './Boxes/index.js'
 import Button from './Buttons/Button.js'
 import ButtonBrowse from './Buttons/ButtonBrowse.js'
 import ButtonCta from './Buttons/CTA.js'
+import Container from './Container'
 import Column from './Columns/index.js'
 import Component from './Section.js'
 import CreateMessge from './CreateMessage.js'
 import Dictionary from './Dictionary'
+import Dropdown from './Dropdowns'
 import Grid from './Grid.js'
 import Hamburger from './Buttons/Hamburger.js'
 import Img from './Medias/Img'
@@ -28,6 +30,7 @@ import PlayBox from './Boxes/Playbox.js'
 import PlayButton from './Buttons/PlayButton.js'
 import RememberSection from '../components/RememberSection.js'
 import Row from './Row.js'
+import SideBar from './SideBar'
 import Subtitle from './Text/Subtitle.js'
 import Table from './Table.js'
 import Tbody from './Tbody.js'
@@ -52,8 +55,10 @@ export {
   ButtonBrowse,
   ButtonCta,
   Column,
+  Container,
   CreateMessge,
   Dictionary,
+  Dropdown,
   Grid,
   Hamburger,
   Img,
@@ -75,6 +80,7 @@ export {
   Row,
   Section,
   Select,
+  SideBar,
   Spacer,
   Subtitle,
   Table,

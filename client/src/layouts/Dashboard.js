@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
-import {Box, Button, Grid, Spacer, Text} from '../components'
+import {Box, Button, Grid, SideBar, Spacer, Text} from '../components'
 import FaCaretDown from 'react-icons/fa/caret-down'
 
 import KoreanLevel1 from '../layouts/Korean/Level1/'
@@ -30,13 +30,7 @@ const Container = styled.div`
   }
 `
 
-const SideBar = styled.div`
-  background: black;
-  display: flex;
-  flex-direction: column;
-`
-
-const Test = () =>
+const Progress = () =>
   <Grid
     gridtemplatecolumns="25% 25% 25% 25%"
     gridtemplatecolumns650="25% 25% 25% 25%">
@@ -118,11 +112,16 @@ class Admin extends Component {
     return (
       <Router>
         <Container>
-          <Grid gridtemplatecolumns="15% 85%" gridtemplatecolumns650="25% 75%">
-            <SideBar>
+          <Grid
+            gridtemplatecolumns="300px 1fr"
+            gridtemplatecolumns650="300px 1fr">
+            <SideBar padding="20px 0 0 20px">
+              <Text color="white" fontsize="1.5rem">
+                Dashboard
+              </Text>
               <Spacer margin="20px" />
-              <Link to="/settings/tests" className="dropButton">
-                Test Scores
+              <Link to="/settings/progress" className="dropButton">
+                Progress
               </Link>
               <Dropdown color="white" name="spanish" onClick={this.DropFunc}>
                 Spanish Curriculum
@@ -155,7 +154,7 @@ class Admin extends Component {
               <Spacer margin="10px" />
               <Link to="/settings/misc" className="dropButton">Link</Link>
             </SideBar>
-            <Route exact path="/settings/tests" component={Test} />
+            <Route exact path="/settings/progress" component={Progress} />
             <Route exact path="/settings/korean/1" component={KoreanLevel1} />
             <Route exact path="/settings/korean/2" component={KoreanLevel2} />
             <Route exact path="/settings/korean/3" component={KoreanLevel3} />

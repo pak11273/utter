@@ -1,48 +1,108 @@
 import React, {Component} from 'react'
-import {NavLink, Route} from 'react-router-dom'
+import {NavLink, Route, Link} from 'react-router-dom'
+import FaCaretDown from 'react-icons/fa/caret-down'
 import styled, {ThemeProvider} from 'styled-components'
 import {Masthead, Navbar} from '../containers'
 import {
+  Button,
   Box,
   Column,
-  Section,
+  Container,
+  Grid,
+  SideBar,
+  Spacer,
   Subtitle,
   Text,
-  Title,
-  Wrapper
+  Title
 } from '../components'
 
 const Profile = () => <div>profile</div>
-const Settings = () => <div>settings</div>
+const UserSettings = () => <div>settings</div>
+const Misc1 = () => <div>misc 1</div>
+const Misc2 = () => <div>misc 2</div>
 
-export default () =>
-  <Wrapper>
-    <Title>Settings</Title>
-    <Section gridtemplatecolumns="1fr 2fr">
-      <Column>
-        <NavLink
-          style={{fontSize: '2rem', padding: '20px'}}
-          to="/settings/profile">
-          <h6>Profile</h6>
-        </NavLink>
-        <NavLink
-          style={{fontSize: '2rem', padding: '20px'}}
-          to="/settings/settings">
-          <h6>Billiing</h6>
-        </NavLink>
-        <NavLink style={{fontSize: '2rem', padding: '20px'}} to="/dashboard">
-          <h6>Dashboard</h6>
-        </NavLink>
-      </Column>
-      <Column>
-        <Box flexdirection="row" justifycontent="center">
-          <Route path="/settings/profile" component={Profile}>
-            <Text color="black" fontsize="2rem" />
-          </Route>
-          <Route path="/settings/settings" component={Settings}>
-            <Text color="black" fontsize="2rem" />
-          </Route>
-        </Box>
-      </Column>
-    </Section>
-  </Wrapper>
+const Dropdown = styled(Button)`
+  background:transparent;
+  border:none;
+  font-size:1.2rem;
+  outline:none;
+  text-align:left;
+`
+class Settings extends Component {
+  constructor(props) {
+    super(props)
+
+    this.DropFunc = this.DropFunc.bind(this)
+  }
+
+  DropFunc(e) {
+    let name = e.target.name
+    let x = document.getElementById(name)
+    if (x.className.indexOf('show') == -1) {
+      x.className += ' show'
+      x.previousElementSibling.className += ' w3-green'
+    } else {
+      x.className = x.className.replace(' show', '')
+      x.previousElementSibling.className = x.previousElementSibling.className.replace(
+        ' w3-green',
+        ''
+      )
+    }
+  }
+
+  render() {
+    return (
+      <Container>
+        <Grid gridtemplatecolumns="15% 85%" gridtemplatecolumns650="25% 75%">
+          <SideBar padding="20px 0 0 20px">
+            <Text color="white" fontsize="1.5rem">
+              Settings
+            </Text>
+            <Spacer margin="20px" />
+            <Link to="/settings/profile" className="dropButton">
+              Profile
+            </Link>
+            <Dropdown color="white" name="misc" onClick={this.DropFunc}>
+              Dropdown
+              <FaCaretDown />
+            </Dropdown>
+            <Box id="misc" className="hide">
+              <Link to="/settings/misc1" className="dropButton">
+                misc 1
+              </Link>
+              <Link to="/settings/misc2" className="dropButton">
+                misc 2
+              </Link>
+            </Box>
+            <Spacer margin="10px" />
+            <Link to="/settings/billing" className="dropButton">
+              Profile
+            </Link>
+            <Spacer margin="10px" />
+            <Link to="/dashboard" className="dropButton">
+              Dashboard
+            </Link>
+          </SideBar>
+          <Column>
+            <Box flexdirection="row" justifycontent="center">
+              <Route path="/settings/profile" component={Profile}>
+                <Text color="black" fontsize="2rem" />
+              </Route>
+              <Route path="/settings/settings" component={UserSettings}>
+                <Text color="black" fontsize="2rem" />
+              </Route>
+              <Route path="/settings/misc1" component={Misc1}>
+                <Text color="black" fontsize="2rem" />
+              </Route>
+              <Route path="/settings/misc2" component={Misc2}>
+                <Text color="black" fontsize="2rem" />
+              </Route>
+            </Box>
+          </Column>
+        </Grid>
+      </Container>
+    )
+  }
+}
+
+export default Settings

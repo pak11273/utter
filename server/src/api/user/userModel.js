@@ -34,6 +34,12 @@ const UserSchema = new mongoose.Schema(
         }
       }
     ],
+    reset_password_token: {
+      type: String
+    },
+    reset_password_expires: {
+      type: Date
+    },
     role: {
       type: String
     },
@@ -61,8 +67,9 @@ const UserSchema = new mongoose.Schema(
 
 // masters code
 UserSchema.pre('save', function(next) {
-  if (!this.isModified('password')) return next()
-  this.password = this.encryptPassword(this.password)
+  // TODO: this was to ensure tampered with passwords got encrypted, but is commented out because it keeps reset password from resetting correctly. Possibly remove this:
+  // if (!this.isModified('password')) return next()
+  // this.password = this.encryptPassword(this.password)
   next()
 })
 
@@ -72,7 +79,7 @@ UserSchema.methods = {
     return bcrypt.compareSync(plainTextPwd, this.password)
   },
   // hash password
-  // todo: make this async(research timed attacks on password)
+  // TODO: make this async(research timed attacks on password)
   encryptPassword: function(plainTextPwd) {
     if (!plainTextPwd) {
       return ''
@@ -82,33 +89,6 @@ UserSchema.methods = {
     }
   }
 }
-
-// thinkster code
-
-// UserSchema.methods.setPassword = (password) => {
-//   this.salt = crypto.randomBytes(16).toString('hex');
-//   this.hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
-// };
-
-// UserSchema.methods.generateJWT = () => {
-//   let today = new Date();
-//   let exp = new Date(today);
-//   exp.setDate(today.getDate() + 60);
-
-//   return jwt.sign({
-//     id: this._id,
-//     username: this.username,
-//     exp: parseInt(exp.getTime() / 1000),
-//   }, secret);
-// };
-
-// UserSchema.methods.toAuthJSON = () => {
-//   return {
-//     username: this.username,
-//     email: this.email,
-//     token: this.generateJWT()
-//   };
-// };
 
 UserSchema.plugin(uniqueValidator, {message: 'is already taken.'})
 

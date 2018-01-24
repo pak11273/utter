@@ -24,6 +24,7 @@ import {
   Korean7,
   Korean8,
   Pricing,
+  ResetPassword,
   Spanish1,
   Spanish2,
   Spanish3,
@@ -112,6 +113,11 @@ export const routes = [
   {
     path: '/redux',
     component: Redux,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/reset-password',
+    component: ResetPassword,
     loadData: () => getSomeData()
   },
   {

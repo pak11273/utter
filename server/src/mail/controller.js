@@ -1,5 +1,6 @@
 import User from '../api/user/userModel'
 import async from 'async'
+import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import mailRouter from '../util/mail.js'
 import path from 'path'
@@ -8,36 +9,29 @@ import {transporter} from './mail.js'
 // add nodemailer-express-handlebars to transporter
 import hbs from 'nodemailer-express-handlebars'
 
-// var options = {
-//   viewEngine: 'handlebars',
-//   viewPath: path.resolve('../templates/email'),
-//   extName: '.html'
-// }
+var options = {
+  viewEngine: 'handlebars',
+  viewPath: path.resolve('../utter/server/src/templates/email'),
+  extName: '.html'
+}
 
-// transporter.use('compile', hbs(options))
+transporter.use('compile', hbs(options))
 
 exports.contactmail = function(req, res) {
-  const mailOptions = {
+  const data = {
     from: 'utterzone11273@gmail.com',
     to: 'pak11273@gmail.com',
+    template: 'contact-email',
     subject: req.body.subject,
-    text:
-      'phone: ' +
-        ' ' +
-        req.body.country +
-        ' ' +
-        req.body.number +
-        '\n\n' +
-        'email: ' +
-        req.body.email +
-        '\n\n' +
-        'subjedct: ' +
-        req.body.subject +
-        '\n\n' +
-        'message: ' +
-        req.body.letter
+    context: {
+      name: req.body.name,
+      phone: req.body.country + ' ' + req.body.number,
+      email: req.body.email,
+      subject: req.body.subject,
+      message: req.body.letter
+    }
   }
-  transporter.sendMail(mailOptions, function(error, info) {
+  transporter.sendMail(data, function(error, info) {
     if (error) {
       console.log(error)
     } else {
@@ -56,55 +50,66 @@ exports.forgotPassword = function(req, res) {
           if (user) {
             done(err, user)
           } else {
-            done('User not found.')
+            done(
+              "We're sorry. There was no user found with that email address."
+            )
+          }
+        })
+      },
+      function(user, done) {
+        // create the random token
+        crypto.randomBytes(20, function(err, buffer) {
+          var token = buffer.toString('hex')
+          done(err, user, token)
+        })
+      },
+      function(user, token, done) {
+        User.findByIdAndUpdate(
+          {_id: user._id},
+          {
+            reset_password_token: token,
+            reset_password_expires: Date.now() + 86400000
+          },
+          {upsert: true, new: true}
+        ).exec(function(err, new_user) {
+          done(err, token, new_user)
+        })
+      },
+      function(token, user, done) {
+        var data = {
+          to: user.email,
+          from: 'utter@utter.zone',
+          template: 'forgot-password-email',
+          subject: 'Password help has arrived!',
+          context: {
+            // TODO: change this url in production
+            url:
+              'http://localhost:8080/reset-password?user=' +
+                user.username +
+                '&token=' +
+                token,
+            name: user.username
+          }
+        }
+        // done(null, token, user)
+
+        transporter.sendMail(data, function(err) {
+          if (!err) {
+            done(err, token, user)
+          } else {
+            return done(null, token, user)
           }
         })
       }
-      // function(user, done) {
-      //   // create the random token
-      //   crypto.randomBytes(20, function(err, buffer) {
-      //     var token = buffer.toString('hex')
-      //     done(err, user, token)
-      //   })
-      // },
-      // function(user, token, done) {
-      //   User.findByIdAndUpdate(
-      //     {_id: user._id},
-      //     {
-      //       reset_password_token: token,
-      //       reset_password_expires: Date.now() + 86400000
-      //     },
-      //     {upsert: true, new: true}
-      //   ).exec(function(err, new_user) {
-      //     res.json({user: new_user})
-      //     // done(err, token, new_user)
-      //   })
-      // }
-      // function(token, user, done) {
-      //   var data = {
-      //     to: user.email,
-      //     from: 'utter@utter.zone',
-      //     template: 'forgot-password-email',
-      //     subject: 'Password help has arrived!',
-      //     context: {
-      //       url: 'http://localhost:3000/auth/reset_password?token=' + token,
-      //       name: user.username
-      //     }
-      //   }
-
-      //   transporter.sendMail(data, function(err) {
-      //     if (!err) {
-      //       return res.json({
-      //         message: 'Kindly check your email for further instructions'
-      //       })
-      //     } else {
-      //       return done(err)
-      //     }
-      //   })
-      // }
     ],
-    function(err) {
-      return res.status(422).json({message: err})
+    function(err, token, new_user) {
+      if (err) {
+        return res.status(422).json({message: err})
+      } else {
+        res
+          .status(200)
+          .json({message: 'Kindly check your email for further instructions'})
+      }
     }
   )
 }
@@ -117,8 +122,8 @@ exports.resetPassword = function(req, res, next) {
     }
   }).exec(function(err, user) {
     if (!err && user) {
-      if (req.body.newPassword === req.body.verifyPassword) {
-        user.hash_password = bcrypt.hashSync(req.body.newPassword, 10)
+      if (req.body.password === req.body.passwordConfirmation) {
+        user.password = user.encryptPassword(req.body.password)
         user.reset_password_token = undefined
         user.reset_password_expires = undefined
         user.save(function(err) {
@@ -129,7 +134,7 @@ exports.resetPassword = function(req, res, next) {
           } else {
             var data = {
               to: user.email,
-              from: email,
+              from: 'utterzone11273@gmail.com',
               template: 'reset-password-email',
               subject: 'Password Reset Confirmation',
               context: {
@@ -137,7 +142,7 @@ exports.resetPassword = function(req, res, next) {
               }
             }
 
-            smtpTransport.sendMail(data, function(err) {
+            transporter.sendMail(data, function(err) {
               if (!err) {
                 return res.json({message: 'Password reset'})
               } else {

@@ -5,17 +5,13 @@ import {SET_CURRENT_USER, LOAD_USER_PROFILE} from './types.js'
 
 export function forgotpassword(data) {
   return dispatch => {
-    return axios
-      .post('/mail/forgot-password', data)
-      .then(res => {
-        console.log('email was sent')
-        console.log('res: ', res)
-        console.log('msg: ', res.data.message)
-        alert('res: ', res.data.message)
-      })
-      .catch(error => {
-        console.log('login error: ', error)
-      })
+    return axios.post('/mail/forgot-password', data)
+  }
+}
+
+export function resetpassword(data) {
+  return dispatch => {
+    return axios.post('/mail/reset-password', data)
   }
 }
 
