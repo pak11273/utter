@@ -97,31 +97,33 @@ class ResetPassword extends Component {
         isLoading: true,
         errors: {} // clear errors every time we submit form
       })
-      this.props.actions.resetpassword(this.state).then(res => {
-        this.props.actions.addFlashMessage({
-          type: 'success',
-          // text: "You have successfully reset your password."
-          text: res.data.message
+      this.props.actions
+        .resetpassword(this.state)
+        .then(res => {
+          this.props.actions.addFlashMessage({
+            type: 'success',
+            // text: "You have successfully reset your password."
+            text: res.data.message
+          })
+          this.props.history.push('/')
         })
-        this.props.history.push('/')
-      })
-      // .then(() => {
-      //   const {identifier, password} = this.state
-      //   const loginState = {
-      //     identifier,
-      //     password
-      //   }
-      //   console.log('loginState: ', loginState)
-      //   this.props.actions.login(loginState)
-      // })
-      // .catch(error => {
-      //   console.log('errors: ', error)
-      //   // this.setState({errors: error.response.data.message})
-      //   this.props.actions.addFlashMessage({
-      //     type: 'fail',
-      //     text: error.response.data.message
-      //   })
-      // })
+        .then(() => {
+          const {identifier, password} = this.state
+          const loginState = {
+            identifier,
+            password
+          }
+          console.log('loginState: ', loginState)
+          this.props.actions.login(loginState)
+        })
+        .catch(error => {
+          console.log('errors: ', error)
+          // this.setState({errors: error.response.data.message})
+          this.props.actions.addFlashMessage({
+            type: 'fail',
+            text: error.response.data.message
+          })
+        })
     }
   }
 

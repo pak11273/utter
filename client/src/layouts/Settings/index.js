@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {NavLink, Route, Link} from 'react-router-dom'
 import FaCaretDown from 'react-icons/fa/caret-down'
 import styled, {ThemeProvider} from 'styled-components'
-import {Masthead, Navbar} from '../containers'
+import {Masthead, Navbar, Profile} from '../../containers'
 import {
   Button,
   Box,
@@ -14,9 +14,8 @@ import {
   Subtitle,
   Text,
   Title
-} from '../components'
+} from '../../components'
 
-const Profile = () => <div>profile</div>
 const UserSettings = () => <div>settings</div>
 const Misc1 = () => <div>misc 1</div>
 const Misc2 = () => <div>misc 2</div>
@@ -84,20 +83,18 @@ class Settings extends Component {
             </Link>
           </SideBar>
           <Column>
-            <Box flexdirection="row" justifycontent="center">
-              <Route path="/settings/profile" component={Profile}>
-                <Text color="black" fontsize="2rem" />
-              </Route>
-              <Route path="/settings/settings" component={UserSettings}>
-                <Text color="black" fontsize="2rem" />
-              </Route>
-              <Route path="/settings/misc1" component={Misc1}>
-                <Text color="black" fontsize="2rem" />
-              </Route>
-              <Route path="/settings/misc2" component={Misc2}>
-                <Text color="black" fontsize="2rem" />
-              </Route>
-            </Box>
+            <Route path="/settings/profile" component={Profile}>
+              <Text color="black" fontsize="2rem" />
+            </Route>
+            <Route path="/settings/settings" component={UserSettings}>
+              <Text color="black" fontsize="2rem" />
+            </Route>
+            <Route path="/settings/misc1" component={Misc1}>
+              <Text color="black" fontsize="2rem" />
+            </Route>
+            <Route path="/settings/misc2" component={Misc2}>
+              <Text color="black" fontsize="2rem" />
+            </Route>
           </Column>
         </Grid>
       </Container>

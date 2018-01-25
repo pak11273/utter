@@ -1,10 +1,14 @@
 import React, {Component} from 'react'
+import styled from 'styled-components'
 import {bindActionCreators} from 'redux'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Channels, Uttered} from '../../containers'
 import {Box, Column, Section, Text} from '../../components'
 
+const StyledLink = styled(Link)`
+  font-size: 1.2rem;
+`
 // actions
 import {loadSocketNsps} from '../../services/socketio/actions.js'
 
@@ -28,13 +32,11 @@ class RemoteSideBarContainer extends Component {
             flexdirection="row"
             background="lightblue"
             justifycontent="space-around"
+            padding="10px"
             margin="0 0 20px 0">
-            <Link
-              to="/connections/channels"
-              fontsize="1rem"
-              onClick={this.onClick}>
+            <StyledLink to="/connections/channels" onClick={this.onClick}>
               Channels
-            </Link>
+            </StyledLink>
           </Box>
           <Box alignitems="flex-start">
             <Route path="/connections/channels" component={Channels} />

@@ -8,6 +8,7 @@ import Login from '../containers/Logins'
 import Masthead from '../containers/Mastheads/Masthead.js'
 import Navbar from '../containers/Navbars/Navbar'
 import Pictures from '../containers/Pictures'
+import Profile from '../containers/Profile'
 import RemoteSideBar from '../containers/RemoteSideBar'
 import Rooms from '../containers/Rooms'
 import Speaker from './Speaker'
@@ -24,6 +25,7 @@ export {
   Masthead,
   Navbar,
   Pictures,
+  Profile,
   RemoteSideBar,
   Rooms,
   Speaker,

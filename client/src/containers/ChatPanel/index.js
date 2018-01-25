@@ -1,9 +1,13 @@
 import React, {Component} from 'react'
+import styled from 'styled-components'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {Chat} from '../../containers'
 import {Box, Button, Column, Section, Text, TextArea} from '../../components'
 
+const StyledLink = styled(Link)`
+  font-size: 1.2rem;
+`
 class Friends extends Component {
   render() {
     return (
@@ -40,11 +44,14 @@ class ChatPanelContainer extends Component {
             flexdirection="row"
             background="lightblue"
             justifycontent="space-around"
+            padding="10px"
             margin="0 0 20px 0">
-            <Link to="/connections/chat" fontsize="1rem">
+            <StyledLink to="/connections/chat">
               Chat
-            </Link>
-            <Link to="/connections/friends" fontsize="1rem">Friends</Link>
+            </StyledLink>
+            <StyledLink to="/connections/friends">
+              Friends
+            </StyledLink>
           </Box>
           <Box alignitems="flex-start">
             <Route path="/connections/chat" component={Chat} />
