@@ -93,7 +93,7 @@ class KoreanLevel1 extends Component {
         <Section alignitems="flex-start" maxwidth960="1024px">
           <Dictionary
             gridheader=".9fr .5fr 2fr .9fr"
-            gridheader640=".9fr .8fr 2.5fr .5fr"
+            gridheader640=".9fr .8fr 2.5fr .7fr"
             gridbody=".9fr .8fr 2.5fr .5fr"
             gridbody640=".9fr .8fr 2.5fr .5fr"
             height="600px"

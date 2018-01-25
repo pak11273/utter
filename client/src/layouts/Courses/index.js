@@ -37,13 +37,35 @@ class CoursesContainer extends Component {
   render() {
     return (
       <Wrapper>
-        <Masthead height="400px">
+        <Masthead height="200px">
           <Column minwidth="365px" maxwidth="960px">
-            <Title>Languages</Title>
+            <Title>My Courses</Title>
+            <Subtitle>
+              Click a course to start learning
+            </Subtitle>
+          </Column>
+        </Masthead>
+        <Section>
+          <Column flexdirection="row" justifycontent="center">
+            {this.props.languages
+              .filter(language => {
+                return (
+                  `${language.name}`
+                    .toUpperCase()
+                    .indexOf(this.state.search.toUpperCase()) >= 0
+                )
+              })
+              .map(language => {
+                return <LanguageCard {...language} />
+              })}
+          </Column>
+        </Section>
+        <Masthead height="200px">
+          <Column minwidth="365px" maxwidth="960px">
+            <Title>Enroll in a Course</Title>
             <Subtitle>
               Choose from several languages
             </Subtitle>
-            {/* code at bottom of page goes here */}
           </Column>
         </Masthead>
         <Section>

@@ -20,6 +20,10 @@ const UserSettings = () => <div>settings</div>
 const Misc1 = () => <div>misc 1</div>
 const Misc2 = () => <div>misc 2</div>
 
+const StyledLink = styled(Link)`
+  color: ${props => props.color};
+`
+
 const Dropdown = styled(Button)`
   background:transparent;
   border:none;
@@ -58,6 +62,10 @@ class Settings extends Component {
               Settings
             </Text>
             <Spacer margin="20px" />
+            <StyledLink color="white" to="/dashboard" className="dropButton">
+              Dashboard
+            </StyledLink>
+            <Spacer margin="20px" />
             <Link to="/settings/profile" className="dropButton">
               Profile
             </Link>
@@ -78,9 +86,6 @@ class Settings extends Component {
               Profile
             </Link>
             <Spacer margin="10px" />
-            <Link to="/dashboard" className="dropButton">
-              Dashboard
-            </Link>
           </SideBar>
           <Column>
             <Route path="/settings/profile" component={Profile}>

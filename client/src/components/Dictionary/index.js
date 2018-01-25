@@ -112,6 +112,7 @@ class Dictionary extends Component {
             display="block"
             fontsize="1.5rem"
             lineheight="100px"
+            textalign="center"
             textoverflow="ellipsis"
             whitespace="nowrap"
             minwidth640="100%">
