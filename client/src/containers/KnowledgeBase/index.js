@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Grid as VirtualGrid} from 'react-virtualized'
 import {
   Box,
   Button,
@@ -11,7 +12,29 @@ import {
 import '../../assets/css/sprites.css'
 
 class KnowledgeBase extends Component {
+  constructor() {
+    super()
+
+    this.cellRenderer = this.cellRenderer.bind(this)
+  }
+
+  cellRenderer({columnIndex, key, rowIndex, style}) {
+    var list = [
+      ['hello', 'anyeonhaseyo', 'play>'],
+      ['hello', 'anyeong', 'play>']
+    ]
+    return (
+      <div key={key} style={style}>
+        {list[rowIndex][columnIndex]}
+      </div>
+    )
+  }
+
   render() {
+    var list = [
+      ['hello', 'anyeonhaseyo', 'play>'],
+      ['hello', 'anyeong', 'play>']
+    ]
     return (
       <Section gridtemplatecolumns="1fr" padding="10px" width="88%">
         <Text fontsize="2rem" textalign="center">KnowledgeBase</Text>
@@ -44,14 +67,15 @@ class KnowledgeBase extends Component {
         </Section>
         <Section margin="20px 0 0 0" gridtemplatecolumns="1">
           <Column>
-            <Text>Examples</Text>
-            <Box>Hello</Box>
-            <Box>play</Box>
-          </Column>
-          <Column>
-            <Box>
-              <Text>Phrases</Text>
-            </Box>
+            <VirtualGrid
+              cellRenderer={this.cellRenderer}
+              columnCount={list[0].length}
+              columnWidth={100}
+              height={300}
+              rowCount={list.length}
+              rowHeight={30}
+              width={400}
+            />
           </Column>
         </Section>
       </Section>

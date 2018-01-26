@@ -1,6 +1,6 @@
 import reduxCrud from 'redux-crud'
 
-const baseReducers = reduxCrud.Map.reducersFor('word')
+const baseReducers = reduxCrud.Map.reducersFor('phrase')
 
 export default (state = {}, action) => {
   switch (action.type) {

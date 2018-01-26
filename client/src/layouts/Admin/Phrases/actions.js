@@ -4,24 +4,23 @@ import _ from 'lodash'
 import cuid from 'cuid'
 const cid = cuid()
 
-const baseActionCreators = reduxCrud.actionCreatorsFor('word')
+const baseActionCreators = reduxCrud.actionCreatorsFor('phrase')
 
 let actionCreators = {
-  fetch(level, lang) {
+  fetch(level) {
     return (dispatch, getState) => {
       const action = baseActionCreators.fetchStart()
       dispatch(action)
 
       // api request
-      const url = '/api/dictionary'
+      const url = '/api/phrases'
       if (!level) {
         level = '1'
       }
       const promise = axios({
         url,
         params: {
-          level: level,
-          language: lang
+          level: level
         }
       })
 
@@ -46,21 +45,22 @@ let actionCreators = {
       return promise
     }
   },
-  create(word) {
+  create(phrase) {
     return (dispatch, getState) => {
       // Generate a cid so we can match the records
       var cid = cuid()
-      word = _.merge(word, {id: cid})
+      phrase = _.merge(phrase, {id: cid})
 
-      const action = baseActionCreators.createStart(word)
+      const action = baseActionCreators.createStart(phrase)
       dispatch(action)
 
       // api request
-      const url = '/api/dictionary'
+      const url = '/api/phrases'
+      console.log('phrase: ', phrase)
       const promise = axios({
         url,
         method: 'POST',
-        data: word
+        data: phrase
       })
 
       promise
@@ -76,7 +76,7 @@ let actionCreators = {
           },
           function(res) {
             // On rejection dispatch the error action
-            const errorAction = baseActionCreators.createError(res, word)
+            const errorAction = baseActionCreators.createError(res, phrase)
             dispatch(errorAction)
           }
         )
@@ -88,32 +88,32 @@ let actionCreators = {
     }
   },
 
-  update(word) {
+  update(phrase) {
     return function(dispatch) {
       // optimistic update
-      console.log('word in actions: ', word)
-      const action = baseActionCreators.updateStart(word)
+      console.log('phrase in actions: ', phrase)
+      const action = baseActionCreators.updateStart(phrase)
       dispatch(action)
 
       // api request
-      const url = `/api/dictionary/${word._id}`
+      const url = `/api/phrases/${phrase._id}`
       const promise = axios({
         url,
         method: 'PUT',
         data: {
-          word
+          phrase
         }
       })
 
       promise
         .then(
           function(response) {
-            const returnedWord = response.data.data
-            const action = baseActionCreators.updateSuccess(returnedWord)
+            const returnedPhrase = response.data.data
+            const action = baseActionCreators.updateSuccess(returnedPhrase)
             dispatch(action)
           },
           function(response) {
-            const action = baseActionCreators.updateError(response, word)
+            const action = baseActionCreators.updateError(response, phrase)
             dispatch(action)
           }
         )
@@ -125,12 +125,12 @@ let actionCreators = {
     }
   },
 
-  delete(word) {
+  delete(phrase) {
     return function(dispatch) {
-      const optimisticAction = baseActionCreators.deleteStart(word)
+      const optimisticAction = baseActionCreators.deleteStart(phrase)
       dispatch(optimisticAction)
 
-      const url = `/api/dictionary/${word._id}`
+      const url = `/api/phrases/${phrase._id}`
       const promise = axios({
         url,
         method: 'DELETE'
@@ -140,13 +140,13 @@ let actionCreators = {
         .then(
           function(response) {
             // dispatch the success action
-            const successAction = baseActionCreators.deleteSuccess(word)
+            const successAction = baseActionCreators.deleteSuccess(phrase)
             dispatch(successAction)
           },
           function(response) {
             // rejection
             // dispatch the error action
-            const errorAction = baseActionCreators.deleteError(response, word)
+            const errorAction = baseActionCreators.deleteError(response, phrase)
             dispatch(errorAction)
           }
         )
