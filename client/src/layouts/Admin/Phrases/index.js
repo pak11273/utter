@@ -91,10 +91,36 @@ class Phrase extends Component {
         frenchFormalTranslation: {
           phrases: [],
           audioUrl: '/audio/french/'
-        },
-        partsOfSpeech: ''
+        }
       },
-      updatedPhrase: {}
+      updatedPhrase: {
+        level: '1',
+        category: 'phrase',
+        englishInformalTranslation: {
+          phrases: [],
+          audioUrl: '/audio/english/'
+        },
+        englishFormalTranslation: {
+          phrases: [],
+          audioUrl: '/audio/english/'
+        },
+        spanishInformalTranslation: {
+          phrases: [],
+          audioUrl: '/audio/spanish/'
+        },
+        spanishFormalTranslation: {
+          phrases: [],
+          audioUrl: '/audio/spanish/'
+        },
+        frenchInformalTranslation: {
+          phrases: [],
+          audioUrl: '/audio/french/'
+        },
+        frenchFormalTranslation: {
+          phrases: [],
+          audioUrl: '/audio/french/'
+        }
+      }
     }
 
     this.thing = this.thing.bind(this)
@@ -107,6 +133,7 @@ class Phrase extends Component {
     this.selectnewAudioChange = this.selectnewAudioChange.bind(this)
     this.selectnewTranslationChange = this.selectnewTranslationChange.bind(this)
     this.selectUpdatedPhraseChange = this.selectUpdatedPhraseChange.bind(this)
+    this.updatePhraseChange = this.updatePhraseChange.bind(this)
     this.onChange = this.onChange.bind(this)
   }
 
@@ -163,7 +190,6 @@ class Phrase extends Component {
   selectnewTranslationChange(e) {
     let lang = e.target.name
     lang = lang.replace(/InformalTranslation|FormalTranslation/g, '')
-    console.log('lang: ', lang)
     let filename = e.target.value.replace(/\s/g, '').replace(/\,/g, '_')
     let arr = e.target.value.replace(/\s/g, '').split()
     this.setState({
@@ -195,9 +221,26 @@ class Phrase extends Component {
     })
   }
 
+  updatePhraseChange(e) {
+    let lang = e.target.name
+    lang = lang.replace(/InformalTranslation|FormalTranslation/g, '')
+    let filename = e.target.value.replace(/\s/g, '').replace(/\,/g, '_')
+    let arr = e.target.value.replace(/\s/g, '').split()
+    this.setState({
+      updatedPhrase: {
+        ...this.state.updatedPhrase,
+        [e.target.name]: {
+          phrases: arr,
+          audioUrl: '/audio/' + lang + '/' + filename + '.mp3'
+        }
+      }
+    })
+  }
+
   fetchPhrases() {
     const level = this.state.search.level
     this.props.actions.fetchPhrases(level)
+    //TODO: populate updatePhrase from redux
   }
 
   createPhrase(e) {
@@ -209,20 +252,18 @@ class Phrase extends Component {
   }
 
   updatePhrase(gotPhrase, e) {
+    console.log('got: ', gotPhrase)
     const {
       id,
       _id,
       level,
       category,
-      word,
       englishInformalTranslation,
       englishFormalTranslation,
       spanishInformalTranslation,
       spanishFormalTranslation,
       frenchInformalTranslation,
-      frenchFormalTranslation,
-      name,
-      audioUrl
+      frenchFormalTranslation
     } = gotPhrase
     this.setState(
       {
@@ -231,19 +272,17 @@ class Phrase extends Component {
           _id,
           level,
           category,
-          word,
           englishInformalTranslation,
           englishFormalTranslation,
           spanishInformalTranslation,
           spanishFormalTranslation,
           frenchInformalTranslation,
           frenchFormalTranslation,
-          name,
-          audioUrl,
           ...this.state.updatedPhrase
         }
       },
       () => {
+        console.log('updated state: ', this.state.updatedPhrase)
         this.props.actions.updatePhrase(this.state.updatedPhrase)
       }
     )
@@ -261,7 +300,6 @@ class Phrase extends Component {
     let dict = this.props.phraseReducer[
       Object.keys(this.props.phraseReducer)[0]
     ]
-    // let dict = this.props.phraseReducer
     if (dict) {
       var phrases = dict.phrases
     }
@@ -447,7 +485,7 @@ class Phrase extends Component {
               <Text fontsize="1.4rem">level</Text>
             </Column>
             <Column alignitems="flex-start">
-              <Text fontsize="1.4rem">word</Text>
+              <Text fontsize="1.4rem">phrase</Text>
             </Column>
             <Column alignitems="center">
               <Text fontsize="1.4rem">edit</Text>
@@ -479,6 +517,18 @@ class Phrase extends Component {
         </Section>
         <Section width="100%">
           <Title>Results <span>(Total: ?)</span></Title>
+          <p>
+            NEVER change audio fields directly. Use the Tranlation fields to the
+            left to change them.
+          </p>
+          <p>
+            NEVER hit update without changes. This will empty all fields on the
+            record
+          </p>
+          <p>
+            Refresh page to see updated list after updating or deleting a
+            record.
+          </p>
           <Line color="black" width="100%" />
           <Box
             display="block"
@@ -486,8 +536,8 @@ class Phrase extends Component {
             maxwidth="1240px"
             overflow="scroll">
             <DictGrid
-              gridtemplatecolumns="100px 400px 400px 70px 200px 200px 200px 200px 200px 200px 500px 200px 200px 400px 200px"
-              width="4000px">
+              gridtemplatecolumns="70px 400px 400px 70px 100px repeat(12, 400px) 200px 200px"
+              width="7000px">
               <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">count</Text>
               </Column>
@@ -504,34 +554,40 @@ class Phrase extends Component {
                 <Text fontsize="1.4rem">category</Text>
               </Column>
               <Column alignitems="flex-start">
-                <Text fontsize="1.4rem">phrase</Text>
-              </Column>
-              <Column alignitems="flex-start">
-                <Text fontsize="1.4rem">word</Text>
-              </Column>
-              <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">englishInformalTranslation</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">englishInformal audio</Text>
               </Column>
               <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">englishFormalTranslation</Text>
               </Column>
               <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">englishFormal audio</Text>
+              </Column>
+              <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">spanishInformalTranslation</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">spanishInformal audio</Text>
               </Column>
               <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">spanishFormalTranslation</Text>
               </Column>
               <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">spanishFormal audio</Text>
+              </Column>
+              <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">frenchInformalTranslation</Text>
+              </Column>
+              <Column alignitems="flex-start">
+                <Text fontsize="1.4rem">frenchInformal audio</Text>
               </Column>
               <Column alignitems="flex-start">
                 <Text fontsize="1.4rem">frenchFormalTranslation</Text>
               </Column>
               <Column alignitems="flex-start">
-                <Text fontsize="1.4rem">name</Text>
-              </Column>
-              <Column alignitems="flex-start">
-                <Text fontsize="1.4rem">audio url</Text>
+                <Text fontsize="1.4rem">frenchFormal audio</Text>
               </Column>
               <Column alignitems="center">
                 <Text fontsize="1.4rem">Edit</Text>
@@ -542,8 +598,8 @@ class Phrase extends Component {
                   counter++
                   return (
                     <DictGrid
-                      gridtemplatecolumns="100px 400px 400px 200px 70px 200px 200px 200px 200px 200px 500px 200px 200px 400px 200px"
-                      width="4000px">
+                      gridtemplatecolumns="70px 400px 400px 70px 100px repeat(12, 400px) 200px 200px"
+                      width="7000px">
                       <DictBox>
                         <span>{counter}</span>
                       </DictBox>
@@ -577,72 +633,104 @@ class Phrase extends Component {
                       </DictBox>
                       <DictBox>
                         <DictInput
-                          name="phrase"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.phrase}
-                        />
-                      </DictBox>
-                      <DictBox>
-                        <DictInput
-                          name="word"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.word}
+                          name="englishInformalTranslation"
+                          onChange={this.updatePhraseChange}
+                          placeholder={
+                            item.englishInformalTranslation.phrases[0]
+                          }
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
                           name="englishInformalTranslation"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.englishInformalTranslation}
+                          value={
+                            this.state.updatedPhrase.englishInformalTranslation
+                              .audioUrl
+                          }
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
                           name="englishFormalTranslation"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.englishFormalTranslation}
+                          onChange={this.updatePhraseChange}
+                          placeholder={item.englishFormalTranslation.phrases[0]}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="englishFormalTranslation"
+                          value={
+                            this.state.updatedPhrase.englishFormalTranslation
+                              .audioUrl
+                          }
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
                           name="spanishInformalTranslation"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.spanishInformalTranslation}
+                          onChange={this.updatePhraseChange}
+                          placeholder={
+                            item.spanishInformalTranslation.phrases[0]
+                          }
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="spanishInformalTranslation"
+                          value={
+                            this.state.updatedPhrase.spanishInformalTranslation
+                              .audioUrl
+                          }
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
                           name="spanishFormalTranslation"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.spanishFormalTranslation}
+                          onChange={this.updatePhraseChange}
+                          placeholder={item.spanishFormalTranslation.phrases[0]}
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="spanishFormalTranslation"
+                          value={
+                            this.state.updatedPhrase.spanishFormalTranslation
+                              .audioUrl
+                          }
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
                           name="frenchInformalTranslation"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.frenchInformalTranslation}
+                          onChange={this.updatePhraseChange}
+                          placeholder={
+                            item.frenchInformalTranslation.phrases[0]
+                          }
+                        />
+                      </DictBox>
+                      <DictBox>
+                        <DictInput
+                          name="frenchInformalTranslation"
+                          value={
+                            this.state.updatedPhrase.frenchInformalTranslation
+                              .audioUrl
+                          }
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
                           name="frenchFormalTranslation"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.frenchFormalTranslation}
+                          onChange={this.updatePhraseChange}
+                          placeholder={item.frenchFormalTranslation.phrases[0]}
                         />
                       </DictBox>
                       <DictBox>
                         <DictInput
-                          name="name"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.name}
-                        />
-                      </DictBox>
-                      <DictBox>
-                        <DictInput
-                          name="audioUrl"
-                          onChange={this.selectUpdatedPhraseChange}
-                          placeholder={item.audioUrl}
+                          name="frenchFormalTranslation"
+                          value={
+                            this.state.updatedPhrase.frenchFormalTranslation
+                              .audioUrl
+                          }
                         />
                       </DictBox>
                       <DictBox>

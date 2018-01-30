@@ -1,11 +1,11 @@
 import io from 'socket.io'
-import monitorio from 'monitor.io'
+// import monitorio from 'monitor.io'
 import path from 'path'
 import ss from 'socket.io-stream'
 
 export default server => {
   const socketServer = io(server)
-  socketServer.use(monitorio({port: 8000, remote: true}))
+  // socketServer.use(monitorio({port: 8000, remote: true}))
 
   socketServer.on('connection', socket => {
     console.log('User ' + socket.id + ' connected')
@@ -24,10 +24,9 @@ export default server => {
       socket.join('Lobby')
       const count = Object.keys(nsp.sockets).length
 
-      socket.on('create room', function(room, fn) {
-        console.log('room ' + room.title + ' was created.')
-        // socket.rooms[room.title] = room
-        fn(room)
+      socket.on('create room', function(meta, fn) {
+        console.log('meta ' + meta.title + ' was created.')
+        fn(meta)
       })
 
       socket.on('join room', function(room, fn) {
@@ -93,7 +92,9 @@ export default server => {
   // // namespaces
   const kor_for_eng = socketServer.of('/kor_for_eng')
   const span_for_eng = socketServer.of('/span_for_eng')
+  const french_for_eng = socketServer.of('/french_for_eng')
 
   nspInterface(kor_for_eng)
   nspInterface(span_for_eng)
+  nspInterface(french_for_eng)
 }

@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {Button, Box, Input, Text} from '../../components'
+import {Button, Box, Label, Input, Select, Text} from '../../components'
 
 // actions
 import {updateRoomCreator, updateRoomLevel, updateListType} from './actions.js'
 
 import actionCreators from '../../layouts/Admin/Vocabulary/actions.js'
-
 import {loadWordList, loadOriginalWordList} from '../Pictures/actions.js'
 
 import {createRoom, joinRoom} from '../../services/socketio/actions.js'
@@ -17,6 +16,7 @@ class RoomCreator extends Component {
     super(props)
     this.state = {
       room: {
+        ageGroup: '',
         language: this.props.roomReducer.language,
         level: '',
         listType: '',
@@ -92,8 +92,54 @@ class RoomCreator extends Component {
       <Box>
         <Text fontsize="1.5rem">Create your own Room</Text>
         <Box>
-          <Input onChange={this.updateName} placeholder="title" name="title" />
-          <Input onChange={this.updateName} placeholder="level" name="level" />
+          <Input
+            color="black"
+            onChange={this.updateName}
+            placeholder="title"
+            name="title"
+          />
+          <Input
+            color="black"
+            onChange={this.updateName}
+            placeholder="level"
+            name="level"
+          />
+          <Select
+            fontsize="1.5rem"
+            height="2.5rem"
+            margin="10px auto"
+            onChange={this.updateName}
+            name="ageGroup"
+            padding="2px 2px 2px 10px"
+            width="217px">
+            <option>Age Group</option>
+            <option>&lt; 3</option>
+            <option>3-5</option>
+            <option>6-10</option>
+            <option>10-13</option>
+            <option>13-17</option>
+            <option>18-20</option>
+            <option>21-25</option>
+            <option>26-30</option>
+            <option>31-35</option>
+            <option>36-40</option>
+            <option>41-50</option>
+            <option>51-60</option>
+            <option>&gt; 60</option>
+          </Select>
+          <Select
+            fontsize="1.5rem"
+            height="2.5rem"
+            margin="10px auto"
+            onChange={this.updateName}
+            name="rating"
+            padding="2px 2px 2px 10px"
+            width="217px">
+            <option>Rating</option>
+            <option>PG</option>
+            <option>PG-13</option>
+            <option>R</option>
+          </Select>
         </Box>
         <Box>
           <Button onClick={this.createRoom} color="black">

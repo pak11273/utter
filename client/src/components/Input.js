@@ -14,7 +14,6 @@ const Input = styled.input`
   width: ${props => props.width};
 `
 Input.defaultProps = {
-  color: props => props.theme.color,
   fontsize: '1.5rem',
   fontweight: '100',
   fontfamily: 'Arial',

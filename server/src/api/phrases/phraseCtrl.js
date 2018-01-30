@@ -22,9 +22,8 @@ exports.get = (req, res, next) => {
   // find always returns an array
   // empty objects means return everything. eg.find()
   Phrase.find(req.query).then(
-    words => {
-      res.json({words})
-      // res.send(words)
+    phrases => {
+      res.json({phrases})
     },
     err => {
       next(err)
@@ -38,10 +37,14 @@ exports.getOne = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
+  function customizer(objValue, srcValue) {
+    if (_.isArray(objValue)) {
+      return (objValue = srcValue)
+    }
+  }
   let phrase = req.phrase
   let update = req.body.phrase
-
-  let merged = _.merge(phrase, update)
+  _.mergeWith(phrase, update, customizer)
 
   phrase.save((err, saved) => {
     if (err) {

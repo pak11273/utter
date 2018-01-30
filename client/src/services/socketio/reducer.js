@@ -54,6 +54,7 @@ export default (state = {nsp: []}, action) => {
         status: 'failed to create a room'
       }
     case CREATE_ROOM_SUCCESS:
+      console.log('action: ', action)
       return {
         ...state,
         created_room: action.result,
@@ -69,6 +70,7 @@ export default (state = {nsp: []}, action) => {
     case GET_ROOMS_FAIL:
       return {...state, status: 'failed to get a list of rooms'}
     case GET_ROOMS_SUCCESS:
+      console.log('get rooms success: ', action)
       return {
         ...state,
         status: 'got a list of rooms',
