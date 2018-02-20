@@ -6,3 +6,4 @@ export const LOAD_USER_PROFILE_FULFILLED =
 export const SET_CURRENT_USER = 'utter/auth/SET_CURRENT_USER'
 export const SET_SEARCH_TERM = 'utter/auth/SET_SEARCH_TERM'
 export const ADD_ROOM = 'utter/auth/ADD_ROOM'
+export const TOGGLE_FOOTER = 'utter/footer/TOGGLE_FOOTER'

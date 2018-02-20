@@ -10,7 +10,9 @@ import Component from './Section.js'
 import CreateMessge from './CreateMessage.js'
 import Dictionary from './Dictionary'
 import Dropdown from './Dropdowns'
-import Grid from './Grid.js'
+import Flex from './Flex'
+import Form from './Forms'
+import Grid from './Grids'
 import Hamburger from './Buttons/Hamburger.js'
 import Img from './Medias/Img'
 import Input from './Input.js'
@@ -30,7 +32,6 @@ import PlayBox from './Boxes/Playbox.js'
 import PlayButton from './Buttons/PlayButton.js'
 import RememberSection from '../components/RememberSection.js'
 import Row from './Row.js'
-import SideBar from './SideBar'
 import Subtitle from './Text/Subtitle.js'
 import Table from './Table.js'
 import Tbody from './Tbody.js'
@@ -40,9 +41,10 @@ import Thead from './Thead.js'
 import Th from './Th.js'
 import Tr from './Tr.js'
 import TextArea from './TextArea.js'
-import Title from './Title.js'
+import Title from './Text/Title.js'
+import Searching from './Loaders/Searching.js'
 import Select from './Select.js'
-import Spacer from './Spacer.js'
+import Spacer from './Spacer'
 import Wrapper from './Wrapper.js'
 import Zone from './Zone.js'
 import ZoneCreate from './ZoneCreate.js'
@@ -59,6 +61,8 @@ export {
   CreateMessge,
   Dictionary,
   Dropdown,
+  Flex,
+  Form,
   Grid,
   Hamburger,
   Img,
@@ -78,9 +82,9 @@ export {
   PlayButton,
   RememberSection,
   Row,
+  Searching,
   Section,
   Select,
-  SideBar,
   Spacer,
   Subtitle,
   Table,

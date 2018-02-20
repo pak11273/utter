@@ -10,6 +10,9 @@ const Section = styled.section`
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
   flex-wrap: ${props => props.flexwrap};
+  grid-area: ${props => props.gridarea};
+  grid-column: ${props => props.gridcolumn};
+  grid-row: ${props => props.gridrow};
   grid-template-columns: ${props => props.gridtemplatecolumns};
   height: ${props => props.height};
   li {
@@ -29,29 +32,29 @@ const Section = styled.section`
   position: ${props => props.position};
   width: ${props => props.width};
 
-  @media(min-width: 375px) {
+  @media (min-width: 375px) {
     flex-direction: ${props => props.flexdirection375};
-    height:${props => props.height375};
+    height: ${props => props.height375};
     width: ${props => props.width375};
     min-width: ${props => props.width375};
   }
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     flex-direction: ${props => props.flexdirection768};
-    height:${props => props.height768};
+    height: ${props => props.height768};
     width: ${props => props.width768};
   }
 
-  @media(min-width: 960px) {
+  @media (min-width: 960px) {
     flex-direction: ${props => props.flexdirection960};
-    height:${props => props.height960};
+    height: ${props => props.height960};
     width: ${props => props.width960};
     max-width: ${props => props.maxwidth960};
   }
 
-  @media(min-width: 1024px) {
+  @media (min-width: 1024px) {
     flex-direction: ${props => props.flexdirection1024};
-    height:${props => props.height1024};
+    height: ${props => props.height1024};
     width: ${props => props.width1024};
   }
 `

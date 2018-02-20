@@ -32,8 +32,9 @@ const Box = styled.div`
   top: ${props => props.top};
   white-space: ${props => props.whitespace};
   width: ${props => props.width};
+  z-index: ${props => props.zindex};
 
-  @media(min-width: 640px) {
+  @media (min-width: 640px) {
     width: ${props => props.minwidth640};
   }
 `

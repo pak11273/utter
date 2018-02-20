@@ -13,5 +13,7 @@ router.all('*', cors())
 
 // check username and pwd before we send back the jwt
 router.post('/signin', verifyUser(), controller.signin)
+router.get('/google', controller.getGoogleLogin)
+router.get('/google/callback', controller.googleLogin)
 
 module.exports = router

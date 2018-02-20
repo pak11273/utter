@@ -10,7 +10,6 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import Navbar from '../../containers/Navbars/Navbar'
 
 class KoreanLevel4 extends Component {
   render() {
@@ -47,24 +46,12 @@ class KoreanLevel4 extends Component {
               <Subtitle color="#333" padding="15px">
                 consonants + wa
               </Subtitle>
-              <Text>
-                ng + wa = wa
-              </Text>
-              <Text>
-                ng + weo = weo{' '}
-              </Text>
-              <Text>
-                ng + ae = wae
-              </Text>
-              <Text>
-                ng + e = we
-              </Text>
-              <Text>
-                ng + i = wi
-              </Text>
-              <Text>
-                ng + i = weu
-              </Text>
+              <Text>ng + wa = wa</Text>
+              <Text>ng + weo = weo </Text>
+              <Text>ng + ae = wae</Text>
+              <Text>ng + e = we</Text>
+              <Text>ng + i = wi</Text>
+              <Text>ng + i = weu</Text>
               <Text />
             </Column>
           </Column>
@@ -77,24 +64,12 @@ class KoreanLevel4 extends Component {
               <Subtitle color="#333" padding="15px">
                 g + vowels
               </Subtitle>
-              <Text>
-                ho + a = hwa
-              </Text>
-              <Text>
-                hu + eo = hweo
-              </Text>
-              <Text>
-                ho + ae = hwae
-              </Text>
-              <Text>
-                ho + e = we
-              </Text>
-              <Text>
-                o + i = wi
-              </Text>
-              <Text>
-                eu + i = weu
-              </Text>
+              <Text>ho + a = hwa</Text>
+              <Text>hu + eo = hweo</Text>
+              <Text>ho + ae = hwae</Text>
+              <Text>ho + e = we</Text>
+              <Text>o + i = wi</Text>
+              <Text>eu + i = weu</Text>
               <Text />
             </Column>
           </Column>
@@ -107,9 +82,7 @@ class KoreanLevel4 extends Component {
               <Subtitle color="#333" padding="15px">
                 h, d, m, s, t, kk, pp, bb, ss + vowels
               </Subtitle>
-              <Text>
-                pending
-              </Text>
+              <Text>pending</Text>
             </Column>
           </Column>
           <Column>
@@ -117,7 +90,9 @@ class KoreanLevel4 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Native</Subtitle>
+              <Subtitle color="#333" padding="15px">
+                Native
+              </Subtitle>
               <Text>
                 Used for general things like telling age, number of people, hour
                 of the day, number of hours, number of things.

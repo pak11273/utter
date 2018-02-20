@@ -8,11 +8,9 @@ const CommentSchema = mongoose.Schema({
   message: {
     type: String,
     default: ''
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
   }
-})
+},
+  {timestamps: true}
+)
 
 module.exports = mongoose.model('comment', CommentSchema)

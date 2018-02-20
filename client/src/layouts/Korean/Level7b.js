@@ -20,7 +20,6 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import Navbar from '../../containers/Navbars/Navbar'
 
 import PlayImg from '../../assets/images/play.svg'
 
@@ -43,7 +42,8 @@ const ga = cdn + source.category.nouns.speech.participles.가.korean.audioUrl
 const jeo = cdn + source.category.nouns.speech.pronouns.I.korean.audioUrl
 const na = cdn + source.category.nouns.speech.pronouns.I.해체.audioUrl
 const haeYoChe =
-  cdn + source.category.cultureSpecific.category.nouns.misc.해요체.korean.audioUrl
+  cdn +
+  source.category.cultureSpecific.category.nouns.misc.해요체.korean.audioUrl
 const sangJa = cdn + source.category.nouns.misc.box.korean.audioUrl
 const kub = cdn + source.category.nouns.kitchen.cup.korean.audioUrl
 const jeonHoa = cdn + source.category.nouns.bedroom.telephone.korean.audioUrl
@@ -109,14 +109,10 @@ class KoreanLevel7 extends Component {
                   fontweight="600">
                   Greetings{' '}
                 </Subtitle>
-                <Text>
-                  Let's learn how to say "Hello".
-                </Text>
+                <Text>Let's learn how to say "Hello".</Text>
               </Box>
               <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  안영하세요
-                </Text>
+                <Text padding="20px">안영하세요</Text>
                 <audio id="level7_1" src={`${level7_1}`} />
                 <PlayButton
                   name="level7_1"
@@ -124,12 +120,8 @@ class KoreanLevel7 extends Component {
                   src={`${PlayImg}`}
                 />
               </Box>
-              <Text padding="20px">
-                All 3 sentences translate to:
-              </Text>
-              <Text>
-                My name is ______.
-              </Text>
+              <Text padding="20px">All 3 sentences translate to:</Text>
+              <Text>My name is ______.</Text>
             </Column>
           </Column>
         </Section>
@@ -161,9 +153,7 @@ class KoreanLevel7 extends Component {
                 </Text>
               </Box>
               <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  제 이름은 Mary예요.
-                </Text>
+                <Text padding="20px">제 이름은 Mary예요.</Text>
                 <audio id="level7_1" src={`${level7_1}`} />
                 <PlayButton
                   name="level7_1"
@@ -172,9 +162,7 @@ class KoreanLevel7 extends Component {
                 />
               </Box>
               <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  내 이름은 John이에요.
-                </Text>
+                <Text padding="20px">내 이름은 John이에요.</Text>
                 <audio id="level7_2" src={`${level7_2}`} />
                 <PlayButton
                   name="level7_2"
@@ -183,9 +171,7 @@ class KoreanLevel7 extends Component {
                 />
               </Box>
               <Box color="black" flexdirection="row" justifycontent="center">
-                <Text padding="20px">
-                  나의 이름은 Anna예요.
-                </Text>
+                <Text padding="20px">나의 이름은 Anna예요.</Text>
                 <audio id="level7_3" src={`${level7_3}`} />
                 <PlayButton
                   name="level7_3"
@@ -193,12 +179,8 @@ class KoreanLevel7 extends Component {
                   src={`${PlayImg}`}
                 />
               </Box>
-              <Text padding="20px">
-                All 3 sentences translate to:
-              </Text>
-              <Text>
-                My name is ______.
-              </Text>
+              <Text padding="20px">All 3 sentences translate to:</Text>
+              <Text>My name is ______.</Text>
             </Column>
           </Column>
         </Section>
@@ -213,15 +195,9 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto">
             <Table tablelayout="fixed" vertival-align="middle" width="100%">
               <Thead>
-                <Th width="180px">
-                  Pronouns{' '}
-                </Th>
-                <Th width="400px">
-                  Translation
-                </Th>
-                <Th width="80px">
-                  Pronunciation
-                </Th>
+                <Th width="180px">Pronouns </Th>
+                <Th width="400px">Translation</Th>
+                <Th width="80px">Pronunciation</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
@@ -277,24 +253,14 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto">
             <Table tablelayout="fixed" vertival-align="middle" width="100%">
               <Thead>
-                <Th width="180px">
-                  Nouns{' '}
-                </Th>
-                <Th width="400px">
-                  Translation
-                </Th>
-                <Th width="80px">
-                  Pronunciation
-                </Th>
+                <Th width="180px">Nouns </Th>
+                <Th width="400px">Translation</Th>
+                <Th width="80px">Pronunciation</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    이름{' '}
-                  </Td>
-                  <Td>
-                    name{' '}
-                  </Td>
+                  <Td>이름 </Td>
+                  <Td>name </Td>
                   <Td>
                     <audio id="iReum" src={`${iReum}`} />
                     <PlayButton
@@ -320,24 +286,14 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto">
             <Table tablelayout="fixed" vertival-align="middle" width="100%">
               <Thead>
-                <Th width="200px">
-                  Participle{' '}
-                </Th>
-                <Th width="200px">
-                  Translation
-                </Th>
-                <Th width="100px">
-                  Pronunciation
-                </Th>
+                <Th width="200px">Participle </Th>
+                <Th width="200px">Translation</Th>
+                <Th width="100px">Pronunciation</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    이/가 or 은/는
-                  </Td>
-                  <Td>
-                    subject marker{' '}
-                  </Td>
+                  <Td>이/가 or 은/는</Td>
+                  <Td>subject marker </Td>
                   <Td>
                     <audio id="level7_4" src={`${level7_4}`} />
                     <PlayButton
@@ -376,9 +332,9 @@ class KoreanLevel7 extends Component {
               </Subtitle>
               <Text lineheight="3rem">
                 Generally when you introduce a new subject in a conversation you
-                will attach an 이/가 subject marker to the end of the word. After
-                you start talking about the subject you attach the 은/는 subject
-                markers instead. However, normally when you are
+                will attach an 이/가 subject marker to the end of the word.
+                After you start talking about the subject you attach the 은/는
+                subject markers instead. However, normally when you are
                 introducing yourself and stating your name, you will want to use
                 the 은/는 markers. Choosing between which marker depends on the
                 last letter of the subject. If it ends on a vowel you use 가 or
@@ -398,24 +354,14 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto">
             <Table tablelayout="fixed" vertival-align="middle" width="100%">
               <Thead>
-                <Th width="200px">
-                  Verb + Politeness{' '}
-                </Th>
-                <Th width="100px">
-                  Translation
-                </Th>
-                <Th width="100px">
-                  Pronunciation
-                </Th>
+                <Th width="200px">Verb + Politeness </Th>
+                <Th width="100px">Translation</Th>
+                <Th width="100px">Pronunciation</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    이에요/예요
-                  </Td>
-                  <Td>
-                    is{' '}
-                  </Td>
+                  <Td>이에요/예요</Td>
+                  <Td>is </Td>
                   <Td>
                     <audio id="level7_5" src={`${level7_5}`} />
                     <PlayButton
@@ -467,15 +413,13 @@ class KoreanLevel7 extends Component {
                 <Spacer display="inline-block" margin="0 40px 0 0" /> You use
                 this type of politeness towards strangers, elders, and people of
                 authority. Generally you just attach 요 to the end of a verb.
-                When
-                subjects
-                end with a consonant like the name John, you will change 있 to 이에
-                then drop the 다 and
-                replace it with 요, then attach it to the end of the subject to
-                make one word, John이에요. When the subject ends in a vowel like
-                the name Anna, you change 있 to 예 then drop the 다 and replace it
-                with 요, then attach it to the end of the subject to make one
-                word, Anna예요.
+                When subjects end with a consonant like the name John, you will
+                change 있 to 이에 then drop the 다 and replace it with 요, then
+                attach it to the end of the subject to make one word,
+                John이에요. When the subject ends in a vowel like the name Anna,
+                you change 있 to 예 then drop the 다 and replace it with 요,
+                then attach it to the end of the subject to make one word,
+                Anna예요.
               </Text>
             </Column>
           </Column>
@@ -503,8 +447,8 @@ class KoreanLevel7 extends Component {
                 Learning how to describe something with 있.
               </Subtitle>
               <Text>
-                Now that you've learned how to say my(네/나의 or 제/저희) let's learn
-                a few words to combine them with.
+                Now that you've learned how to say my(네/나의 or 제/저희) let's
+                learn a few words to combine them with.
               </Text>
             </Column>
           </Column>
@@ -520,15 +464,9 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto">
             <Table tablelayout="fixed" vertival-align="middle" width="100%">
               <Thead>
-                <Th width="200px">
-                  Nouns{' '}
-                </Th>
-                <Th width="200px">
-                  Translation
-                </Th>
-                <Th width="150px">
-                  Pronunciation
-                </Th>
+                <Th width="200px">Nouns </Th>
+                <Th width="200px">Translation</Th>
+                <Th width="150px">Pronunciation</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
@@ -774,12 +712,8 @@ class KoreanLevel7 extends Component {
               <Text lineheight="2.5rem">
                 Let's examine this basic sentence example:
               </Text>
-              <Text lineheight="2.5rem">
-                going.
-              </Text>
-              <Text lineheight="2.5rem">
-                남차가 달리다요.
-              </Text>
+              <Text lineheight="2.5rem">going.</Text>
+              <Text lineheight="2.5rem">남차가 달리다요.</Text>
             </Column>
           </Column>
         </Section>
@@ -830,9 +764,7 @@ class KoreanLevel7 extends Component {
                   <Td>
                     남차<span style={{fontSize: '1rem'}}>(the boy)</span>
                   </Td>
-                  <Td>
-                    가
-                  </Td>
+                  <Td>가</Td>
                   <Td>
                     달리다<span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
@@ -879,13 +811,13 @@ class KoreanLevel7 extends Component {
                 Subject participles
               </Subtitle>
               <Text lineheight="2.5rem">
-                Every sentence must always end with a verb or adjective.
-                To clarify a word as the subject of a sentence we use the
-                particple 이/가 and 은/는 participles. You use 이 with words that use
-                a 받침 and 가 with words that don't. When your subject is used as a
-                contrast or counter-point, then you would use 은 with words that
-                have 받침 and 는 that don't. Imagine these sentences as being
-                prefaced with However or But.{' '}
+                Every sentence must always end with a verb or adjective. To
+                clarify a word as the subject of a sentence we use the particple
+                이/가 and 은/는 participles. You use 이 with words that use a
+                받침 and 가 with words that don't. When your subject is used as
+                a contrast or counter-point, then you would use 은 with words
+                that have 받침 and 는 that don't. Imagine these sentences as
+                being prefaced with However or But.{' '}
               </Text>
             </Column>
           </Column>
@@ -907,14 +839,16 @@ class KoreanLevel7 extends Component {
                 <Th borderbottom="1px solid black" width="150px">
                   Verb/Adjective
                 </Th>
-                <Th borderbottom="1px solid #333" width="150px">Example</Th>
+                <Th borderbottom="1px solid #333" width="150px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>The boy</Td>
                   <Td>
-                    The boy
+                    b <span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
-                  <Td>b <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
                     <span>남자가 달리고</span>
                     {/* <audio id="test" src={`${test}`} />*/}
@@ -974,15 +908,9 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto">
             <Table tablelayout="fixed" vertival-align="middle" width="100%">
               <Thead>
-                <Th width="180px">
-                  Nouns{' '}
-                </Th>
-                <Th width="400px">
-                  Translation
-                </Th>
-                <Th width="80px">
-                  Pronunciation
-                </Th>
+                <Th width="180px">Nouns </Th>
+                <Th width="400px">Translation</Th>
+                <Th width="80px">Pronunciation</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">

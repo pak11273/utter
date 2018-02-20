@@ -18,7 +18,6 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import Navbar from '../../containers/Navbars/Navbar'
 
 import PlayImg from '../../assets/images/play.svg'
 
@@ -559,9 +558,7 @@ class KoreanLevel8 extends Component {
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    가{' '}
-                  </Td>
+                  <Td>가 </Td>
                   <Td>
                     <span style={{fontSize: '1rem'}}>
                       After a subject has been introduced use this particple to
@@ -584,9 +581,7 @@ class KoreanLevel8 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    은
-                  </Td>
+                  <Td>은</Td>
                   <Td>
                     <span style={{fontSize: '1rem'}}>
                       Use this particlple to mark a subject when introducing a
@@ -637,12 +632,8 @@ class KoreanLevel8 extends Component {
               <Text lineheight="2.5rem">
                 Let's examine this basic sentence example:
               </Text>
-              <Text lineheight="2.5rem">
-                going.
-              </Text>
-              <Text lineheight="2.5rem">
-                남차가 달리다요.
-              </Text>
+              <Text lineheight="2.5rem">going.</Text>
+              <Text lineheight="2.5rem">남차가 달리다요.</Text>
             </Column>
           </Column>
         </Section>
@@ -693,9 +684,7 @@ class KoreanLevel8 extends Component {
                   <Td>
                     남차<span style={{fontSize: '1rem'}}>(the boy)</span>
                   </Td>
-                  <Td>
-                    가
-                  </Td>
+                  <Td>가</Td>
                   <Td>
                     달리다<span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
@@ -742,13 +731,13 @@ class KoreanLevel8 extends Component {
                 Subject participles
               </Subtitle>
               <Text lineheight="2.5rem">
-                Every sentence must always end with a verb or adjective.
-                To clarify a word as the subject of a sentence we use the
-                particple 이/가 and 은/는 participles. You use 이 with words that use
-                a 받침 and 가 with words that don't. When your subject is used as a
-                contrast or counter-point, then you would use 은 with words that
-                have 받침 and 는 that don't. Imagine these sentences as being
-                prefaced with However or But.{' '}
+                Every sentence must always end with a verb or adjective. To
+                clarify a word as the subject of a sentence we use the particple
+                이/가 and 은/는 participles. You use 이 with words that use a
+                받침 and 가 with words that don't. When your subject is used as
+                a contrast or counter-point, then you would use 은 with words
+                that have 받침 and 는 that don't. Imagine these sentences as
+                being prefaced with However or But.{' '}
               </Text>
             </Column>
           </Column>
@@ -770,14 +759,16 @@ class KoreanLevel8 extends Component {
                 <Th borderbottom="1px solid black" width="150px">
                   Verb/Adjective
                 </Th>
-                <Th borderbottom="1px solid #333" width="150px">Example</Th>
+                <Th borderbottom="1px solid #333" width="150px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>The boy</Td>
                   <Td>
-                    The boy
+                    b <span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
-                  <Td>b <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
                     <span>남자가 달리고</span>
                     {/* <audio id="test" src={`${test}`} />*/}

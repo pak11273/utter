@@ -4,12 +4,15 @@ import Home from './Home'
 import About from './About'
 import Contact from './Contact.js'
 import ForgotPassword from './ForgotPassword.js'
+import Test from './Test'
 import GettingStarted from './GettingStarted.js'
 import Connections from '../layouts/Connections/index.js'
 import Login from './Login.js'
 import Settings from './Settings'
 import Signup from './Signup.js'
 import Sponsorship from './Sponsorship.js'
+import Course from './Courses/Course.js'
+import MyCourses from './Courses/MyCourses.js'
 import Courses from './Courses/index.js'
 import CourseDetails from './Courses/CourseDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
@@ -36,11 +39,14 @@ export {
   Home,
   About,
   Contact,
+  Course,
   Courses,
   ForgotPassword,
   GettingStarted,
+  Test,
   Connections,
   Login,
+  MyCourses,
   Settings,
   CourseDetails,
   NotFound,

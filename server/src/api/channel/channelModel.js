@@ -1,22 +1,22 @@
 import mongoose, {Schema} from 'mongoose'
 
-const channelSchema = mongoose.Schema({
-  name: {
-    type: String,
-    default: ''
+const ChannelSchema = mongoose.Schema(
+    {
+      name: {
+        type: String,
+        default: ''
+      },
+      socket: {
+        type: String,
+        default: ''
+      },
+      people: {
+        type: Number,
+        default: ''
+      }
   },
-  socket: {
-    type: String,
-    default: ''
-  },
-  people: {
-    type: Number,
-    default: ''
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
-  }
-})
+  {
+    timestamps: true
+  })
 
-module.exports = mongoose.model('channel', channelSchema)
+module.exports = mongoose.model('channel', ChannelSchema)

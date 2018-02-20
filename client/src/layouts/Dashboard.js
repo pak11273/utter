@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
-import {Box, Button, Grid, SideBar, Spacer, Text} from '../components'
+import {Box, Button, Grid, Spacer, Text} from '../components'
+import {Sidebar} from '../containers'
 import FaCaretDown from 'react-icons/fa/caret-down'
 
 import KoreanLevel1 from '../layouts/Korean/Level1/'
@@ -11,26 +12,26 @@ import SpanishLevel1 from '../layouts/Spanish/Level1/'
 import SpanishLevel2 from '../layouts/Spanish/Level2/'
 
 const Dropdown = styled(Button)`
-  background:transparent;
-  border:none;
-  font-size:1.2rem;
-  outline:none;
-  text-align:left;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  text-align: left;
 `
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: ${props => props.gridtemplatecolumns}; 
+  grid-template-columns: ${props => props.gridtemplatecolumns};
   margin: 0 auto;
   width: 100%;
 
-  @media(min-width: 640px) {
-    grid-template-columns: ${props => props.gridtemplatecolumns640}; 
+  @media (min-width: 640px) {
+    grid-template-columns: ${props => props.gridtemplatecolumns640};
     width: 100%;
   }
 `
 
-const Progress = () =>
+const Progress = () => (
   <Grid
     gridtemplatecolumns="25% 25% 25% 25%"
     gridtemplatecolumns650="25% 25% 25% 25%">
@@ -67,26 +68,39 @@ const Progress = () =>
       <Text>Level 2</Text>
     </Box>
     <Box flexdirection="row">
-      <Box padding="0 20px 0 0"> A </Box> <Box><a href="#">retake</a></Box>
+      <Box padding="0 20px 0 0"> A </Box>{' '}
+      <Box>
+        <a href="#">retake</a>
+      </Box>
     </Box>
     <Box flexdirection="row">
-      <Box padding="0 20px 0 0"> F </Box> <Box><a href="#">retake</a></Box>
+      <Box padding="0 20px 0 0"> F </Box>{' '}
+      <Box>
+        <a href="#">retake</a>
+      </Box>
     </Box>
     <Box flexdirection="row">
       <Box> - </Box>
     </Box>
     <Box flexdirection="row">
-      <Box><a href="#">Take Test</a></Box>
+      <Box>
+        <a href="#">Take Test</a>
+      </Box>
     </Box>
     <Box flexdirection="row">
-      <Box><a href="#">Take Test</a></Box>
+      <Box>
+        <a href="#">Take Test</a>
+      </Box>
     </Box>
     <Box flexdirection="row">
-      <Box><a href="#">Take Test</a></Box>
+      <Box>
+        <a href="#">Take Test</a>
+      </Box>
     </Box>
   </Grid>
+)
 
-class Admin extends Component {
+class Dashboard extends Component {
   constructor(props) {
     super(props)
 
@@ -115,7 +129,7 @@ class Admin extends Component {
           <Grid
             gridtemplatecolumns="300px 1fr"
             gridtemplatecolumns650="300px 1fr">
-            <SideBar padding="20px 0 0 20px">
+            <Sidebar padding="20px 0 0 20px">
               <Text color="white" fontsize="1.5rem">
                 Dashboard
               </Text>
@@ -152,8 +166,10 @@ class Admin extends Component {
                 </Link>
               </Box>
               <Spacer margin="10px" />
-              <Link to="/settings/misc" className="dropButton">Link</Link>
-            </SideBar>
+              <Link to="/settings/misc" className="dropButton">
+                Link
+              </Link>
+            </Sidebar>
             <Route exact path="/settings/progress" component={Progress} />
             <Route exact path="/settings/korean/1" component={KoreanLevel1} />
             <Route exact path="/settings/korean/2" component={KoreanLevel2} />
@@ -167,4 +183,4 @@ class Admin extends Component {
   }
 }
 
-export default Admin
+export default Dashboard

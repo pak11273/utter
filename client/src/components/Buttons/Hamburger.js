@@ -3,15 +3,13 @@ import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
 const Menu = styled.div`
-  box-sizing: border-box; 
+  box-sizing: border-box;
   display: flex;
+  cursor: pointer;
   flex-direction: column;
   justify-content: center;
   margin: ${props => props.margin};
-
-  @media (min-width: 600px) {
-    display: none;
-  }
+  padding: ${props => props.padding};
 `
 
 Menu.defaultProps = {
@@ -23,18 +21,21 @@ const Bar = styled.div`
   color: ${props => props.color};
   height: 5px;
   margin: 3px 0;
-  width: 35px; 
+  width: 35px;
 `
 Bar.defaultProps = {
   background: 'white',
   color: 'white'
 }
 
-export default () =>
-  <a href="">
-    <Menu>
-      <Bar />
-      <Bar />
-      <Bar />
-    </Menu>
-  </a>
+export default props => (
+  <Menu
+    role="button"
+    padding={props.padding}
+    onClick={props.onClick}
+    id={props.id}>
+    <Bar />
+    <Bar />
+    <Bar />
+  </Menu>
+)

@@ -1,31 +1,64 @@
 import React, {Component} from 'react'
 import {NavLink, Link} from 'react-router-dom'
 import {connect} from 'react-redux'
+import Select from 'react-select'
+import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
 import styled, {ThemeProvider} from 'styled-components'
+
+import './styles.css'
 import {
   Box,
   Button,
   ButtonBrowse,
-  Column,
-  Section,
+  Flex,
+  Form,
+  Grid,
   Input,
+  Label,
   LanguageCard,
   Subtitle,
-  Title,
-  Wrapper
+  Title
 } from '../../components'
-import {Masthead, Navbar} from '../../containers'
 
+import {Masthead, Navbar, Staticbar} from '../../containers'
 // actions
 import {chooseCourseLanguage} from './actions'
+
+// const StyledField = styled(Field)``
+
+const StyledGrid = styled(Grid)`
+  grid-template-columns: 20% 80%;
+  grid-template-areas:
+    'sidebar sidebar'
+    'content content';
+
+  min-height: 600px;
+
+  @media (min-width: 640px) {
+    grid-template-areas: 'sidebar content';
+  }
+`
+
+const StyledNavLink = styled(NavLink)`
+  padding: 20px;
+  font-size: 1.5rem;
+  &:visited {
+    color: blue;
+  }
+  &:hover {
+    color: green;
+  }
+`
 
 class CoursesContainer extends Component {
   constructor() {
     super()
     this.state = {
-      search: ''
+      search: '',
+      selectedOption: ''
     }
     this.handleSearch = this.handleSearch.bind(this)
+    this.handleOptionChange = this.handleOptionChange.bind(this)
   }
 
   handleSearch(e) {
@@ -34,42 +67,44 @@ class CoursesContainer extends Component {
     })
   }
 
+  handleOptionChange = selectedOption => {
+    this.setState({selectedOption})
+    console.log(`Selected: ${selectedOption.label}`)
+  }
+
   render() {
+    const {selectedOption} = this.state
+    const value = selectedOption && selectedOption.value
+
     return (
-      <Wrapper>
-        <Masthead height="200px">
-          <Column minwidth="365px" maxwidth="960px">
-            <Title>My Courses</Title>
-            <Subtitle>
-              Click a course to start learning
-            </Subtitle>
-          </Column>
-        </Masthead>
-        <Section>
-          <Column flexdirection="row" justifycontent="center">
-            {this.props.languages
-              .filter(language => {
-                return (
-                  `${language.name}`
-                    .toUpperCase()
-                    .indexOf(this.state.search.toUpperCase()) >= 0
-                )
-              })
-              .map(language => {
-                return <LanguageCard {...language} />
-              })}
-          </Column>
-        </Section>
-        <Masthead height="200px">
-          <Column minwidth="365px" maxwidth="960px">
+      <StyledGrid>
+        <Staticbar>
+          <Flex gridarea="native">
+            <Subtitle>I speak:</Subtitle>
+            <Box>
+              <Select
+                name="form-field-name"
+                value={value}
+                onChange={this.handleChange}
+                options={[
+                  {value: 'one', label: 'One'},
+                  {value: 'two', label: 'Two'}
+                ]}
+              />
+            </Box>
+            <Box>
+              <StyledNavLink to="/courses/my-courses">
+                My Created Courses
+              </StyledNavLink>
+            </Box>
+          </Flex>
+        </Staticbar>
+        <Grid gridarea="content">
+          <Flex>
             <Title>Enroll in a Course</Title>
-            <Subtitle>
-              Choose from several languages
-            </Subtitle>
-          </Column>
-        </Masthead>
-        <Section>
-          <Column flexdirection="row" justifycontent="center">
+            <Subtitle>Choose from several languages</Subtitle>
+          </Flex>
+          <Flex flexdirection="row" justifycontent="center">
             {this.props.languages
               .filter(language => {
                 return (
@@ -81,9 +116,9 @@ class CoursesContainer extends Component {
               .map(language => {
                 return <LanguageCard {...language} />
               })}
-          </Column>
-        </Section>
-      </Wrapper>
+          </Flex>
+        </Grid>
+      </StyledGrid>
     )
   }
 }

@@ -7,15 +7,19 @@ const Title = styled.div`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   padding: ${props => props.padding};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign};
   width: ${props => props.width};
+
+  @media (min-width: 640px) {
+    font-size: ${props => props.fontsize640};
+  }
 `
 Title.defaultProps = {
   color: props => props.theme.color,
-  fontsize: '4rem',
+  fontsize: '2rem',
   fontweight: '600',
   fontfamily: 'Arial',
-  padding: '0 5% 0 5%',
+  padding: '20px 0 0 0',
   width: '100%',
   textalign: 'center'
 }

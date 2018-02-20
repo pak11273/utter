@@ -17,7 +17,6 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import Navbar from '../../containers/Navbars/Navbar'
 import PlayImg from '../../assets/images/play.svg'
 
 // audio

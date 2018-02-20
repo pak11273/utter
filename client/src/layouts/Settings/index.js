@@ -9,12 +9,12 @@ import {
   Column,
   Container,
   Grid,
-  SideBar,
   Spacer,
   Subtitle,
   Text,
   Title
 } from '../../components'
+import {Sidebar} from '../../containers'
 
 const UserSettings = () => <div>settings</div>
 const Misc1 = () => <div>misc 1</div>
@@ -25,11 +25,11 @@ const StyledLink = styled(Link)`
 `
 
 const Dropdown = styled(Button)`
-  background:transparent;
-  border:none;
-  font-size:1.2rem;
-  outline:none;
-  text-align:left;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  text-align: left;
 `
 class Settings extends Component {
   constructor(props) {
@@ -57,7 +57,7 @@ class Settings extends Component {
     return (
       <Container>
         <Grid gridtemplatecolumns="15% 85%" gridtemplatecolumns650="25% 75%">
-          <SideBar padding="20px 0 0 20px">
+          <Sidebar padding="20px 0 0 20px">
             <Text color="white" fontsize="1.5rem">
               Settings
             </Text>
@@ -86,7 +86,7 @@ class Settings extends Component {
               Profile
             </Link>
             <Spacer margin="10px" />
-          </SideBar>
+          </Sidebar>
           <Column>
             <Route path="/settings/profile" component={Profile}>
               <Text color="black" fontsize="2rem" />

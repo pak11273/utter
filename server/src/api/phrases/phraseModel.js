@@ -82,11 +82,9 @@ const PhraseSchema = mongoose.Schema({
   },
   pron: {
     type: String
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
   }
-})
+},
+  {timestamps: true}
+)
 
 module.exports = mongoose.model('phrase', PhraseSchema)

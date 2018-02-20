@@ -7,8 +7,9 @@ const Column = styled.div`
   color: ${props => props.color};
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
-  flex-wrap: ${props => props.flexwrap}; 
+  flex-wrap: ${props => props.flexwrap};
   font-size: ${props => props.fontsize};
+  grid-area: ${props => props.gridarea};
   height: ${props => props.height};
   justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
@@ -19,7 +20,7 @@ const Column = styled.div`
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     align-items: ${props => props.alignitems768};
     flex-direction: ${props => props.flexdirection768};
     justify-content: ${props => props.justifycontent768};
@@ -27,7 +28,7 @@ const Column = styled.div`
     width: ${props => props.width768};
   }
 
-  @media(min-width: 960px) {
+  @media (min-width: 960px) {
     align-items: ${props => props.alignitems960};
     flex-direction: ${props => props.flexdirection960};
     justify-content: ${props => props.justifycontent960};

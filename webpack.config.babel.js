@@ -27,6 +27,7 @@ module.exports = env => {
       proxy: [
         {
           context: [
+            '/admin/uploadFile',
             '/auth',
             '/api',
             '/api/users',
@@ -36,6 +37,7 @@ module.exports = env => {
             '/api/vocab',
             '/api/zones',
             '/cdn',
+            '/wtf',
             '/socket.io',
             '/lions',
             '/tigers',
@@ -59,12 +61,12 @@ module.exports = env => {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: ['react-hot-loader/webpack', 'babel-loader']
+          use: ['cache-loader', 'react-hot-loader/webpack', 'babel-loader']
         },
         {
           test: /\.css$/,
-          exclude: /node_modules/,
-          use: ['style-loader', 'css-loader']
+          // exclude: /node_modules/,
+          use: ['cache-loader', 'style-loader', 'css-loader']
         },
         {
           test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
@@ -72,16 +74,11 @@ module.exports = env => {
         },
         {
           test: /\.ttf$/,
-          use: ['file-loader?prefix=fonts/']
+          use: ['cache-loader', 'file-loader?prefix=fonts/']
         },
         {
           test: /react-icons\/(.)*(.js)$/,
-          use: {
-            loader: 'babel-loader',
-            query: {
-              presets: ['es2015', 'react']
-            }
-          }
+          use: ['cache-loader', 'babel-loader']
         }
       ]
     },

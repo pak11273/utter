@@ -14,7 +14,6 @@ const Subtitle = styled.div`
 `
 Subtitle.defaultProps = {
   boxsizing: 'border-box',
-  color: props => props.theme.color,
   fontfamily: 'Arial',
   fontsize: '2rem',
   fontweight: '400',

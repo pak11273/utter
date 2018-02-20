@@ -15,12 +15,9 @@ const Label = styled.div`
 
 Label.defaultProps = {
   boxsizing: 'border-box',
-  color: props => props.theme.color,
   fontfamily: 'Arial',
   fontsize: '1.2rem',
   fontweight: '400',
-  margin: '3rem 0 0 0',
-  padding: '.5% 5% 0 5%',
   textalign: 'center',
   width: '100%'
 }

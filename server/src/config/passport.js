@@ -1,8 +1,23 @@
-import passport from 'passport'
-const LocalStrategy = require('passport-local').Strategy
+import auth from '../auth/auth'
 import mongoose from 'mongoose'
-const User = mongoose.model('User')
+import passport from 'passport'
+import secret from './secrets.js'
 
+const LocalStrategy = require('passport-local').Strategy
+const User = mongoose.model('User')
+const signToken = auth.signToken
+
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+})
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user)
+  })
+})
+
+// local strategy not used
 passport.use(
   new LocalStrategy(
     {
@@ -21,7 +36,6 @@ passport.use(
           return done(null, user)
         })
         .catch(done)
-      p
     }
   )
 )

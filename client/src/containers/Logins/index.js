@@ -2,27 +2,45 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import {NavLink} from 'react-router-dom'
 
-const Menu = styled.ul`
-    ul {
-      li {
-        display: none;
-      }
+const Menu = styled.div`
+  font-size: 1rem;
+  margin-left: 2rem;
+  ul {
+    li {
+      display: inline;
+      color: #2196f3;
+      margin: 0 20px 0 0;
     }
+  }
+`
+const StyledNavLink = styled(NavLink)`
+  color: #2196f3;
+  &:hover {
+    text-decoration: underline;
+  }
+`
 
-  @media (min-width: 960px) {
-    ul {
-      li {
-        display: inline;
-        font-size: 30px;
-        margin-left: 2rem;
-      }
-    }
-  }`
-
-export default () =>
+export default () => (
   <Menu>
     <ul>
-      <li><NavLink activeClassName="active" to="/signup">Sign Up</NavLink></li>
-      <li><NavLink activeClassName="active" to="/login">Login</NavLink></li>
+      <li>
+        <StyledNavLink
+          activeStyle={{
+            color: 'red'
+          }}
+          to="/signup">
+          Sign Up
+        </StyledNavLink>
+      </li>
+      <li>
+        <StyledNavLink
+          activeStyle={{
+            color: 'red'
+          }}
+          to="/login">
+          Login
+        </StyledNavLink>
+      </li>
     </ul>
   </Menu>
+)

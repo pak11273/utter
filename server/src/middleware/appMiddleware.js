@@ -1,9 +1,13 @@
+import cookieParser from 'cookie-parser'
+import session from 'express-session'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import bluebird from 'bluebird'
 import config from '../../dist/config/config.js'
+import passport from 'passport'
+const MongoStore = require('connect-mongo')(session)
 
 // webpack hmr imports - not necessary for production TODO:remove for production
 // import webpack from 'webpack'
@@ -15,9 +19,20 @@ import config from '../../dist/config/config.js'
 module.exports = app => {
   app.use(cors())
   app.use(morgan('dev'))
+  app.use(cookieParser())
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
   mongoose.Promise = bluebird
+  app.use(
+    session({
+      secret: 'addyourownsecretkey',
+      resave: true,
+      saveUninitialized: false,
+      store: new MongoStore({mongooseConnection: mongoose.connection})
+    })
+  )
+  app.use(passport.initialize())
+  app.use(passport.session())
 
   // hmr global middleware : turn this on for development
   // app.use(

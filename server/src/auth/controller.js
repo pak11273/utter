@@ -1,6 +1,6 @@
-import User from '../api/user/userModel'
 import auth from './auth'
-import mailRouter from '../util/mail.js'
+import passport from 'passport'
+import '../config/passport.js'
 
 const signToken = auth.signToken
 
@@ -10,3 +10,16 @@ exports.signin = (req, res, next) => {
   let token = signToken(req.user._id)
   res.json({token: token})
 }
+
+exports.getGoogleLogin = passport.authenticate('google', {
+  scope: [
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/plus.profile.emails.read'
+  ]
+})
+
+exports.googleLogin = passport.authenticate('google', {
+  successRedirect: '/',
+  failureRedirect: '/signup',
+  failureFlash: true
+})

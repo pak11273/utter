@@ -79,11 +79,9 @@ const DictionarySchema = mongoose.Schema({
   word: {
     type: String,
     default: ''
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
   }
-})
+},
+  {timestamps: true}
+)
 
 module.exports = mongoose.model('word', DictionarySchema)

@@ -6,12 +6,15 @@ import {
   Contact,
   ForgotPassword,
   GettingStarted,
+  Test,
   Login,
   Settings,
   Signup,
   Sponsorship,
   Courses,
+  Course,
   CourseDetails,
+  MyCourses,
   NotFound,
   requireAuth,
   Dashboard,
@@ -80,13 +83,8 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/Login',
-    component: Login,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/courses',
-    component: props => <Courses languages={language.languages} {...props} />,
+    path: '/course',
+    component: Course,
     loadData: () => getSomeData()
   },
   {
@@ -103,6 +101,22 @@ export const routes = [
         />
       )
     },
+    loadData: () => getSomeData()
+  },
+  {
+    exact: true,
+    path: '/courses',
+    component: props => <Courses languages={language.languages} {...props} />,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/courses/my-courses',
+    component: MyCourses,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/Login',
+    component: Login,
     loadData: () => getSomeData()
   },
   {
@@ -203,6 +217,11 @@ export const routes = [
   {
     path: '/french/2',
     component: French2,
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/test',
+    component: Test,
     loadData: () => getSomeData()
   },
   {

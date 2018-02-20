@@ -1,15 +1,21 @@
 import React, {Component} from 'react'
-import Title from '../../components/Text/Title.js'
-import Subtitle from '../../components/Text/Subtitle.js'
-import Label from '../../components/Text/Label.js'
-import Img from '../../components/Medias/Img'
-import Input from '../../components/Inputs/Input.js'
-import Button from '../../components/Buttons/Button.js'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base, anotherOne} from '../../themes/config'
-import InputLine from '../../components/Inputs/InputLine.js'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
 import {connect} from 'react-redux'
+import {
+  Box,
+  Button,
+  Img,
+  Input,
+  InputLine,
+  Label,
+  Text,
+  Subtitle,
+  Title
+} from '../../components'
+import FaFacebook from 'react-icons/fa/facebook'
+import FaGoogle from 'react-icons/fa/google'
 
 // actions
 import {userSignupRequest} from '../../actions/signupActions.js'
@@ -24,7 +30,7 @@ const Form = styled.form`
   align-items: center;
   margin: 0 auto;
 
-  @media(min-width: 640px) {
+  @media (min-width: 640px) {
     flex-direction: row;
     width: 960px;
   }
@@ -36,8 +42,7 @@ const Leftside = styled.div`
   margin: 0 auto;
 `
 
-const Rightside = styled.div`
-`
+const Rightside = styled.div``
 const Error = styled.div`
   padding-top: 5px;
   color: red;
@@ -47,6 +52,8 @@ class SignupForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      facebook: '',
+      google: '',
       username: '',
       email: '',
       isLoading: null,
@@ -128,6 +135,35 @@ class SignupForm extends Component {
           </Subtitle>
         </Leftside>
         <Rightside>
+          <Title fontsize="1.5rem">Sign Up with social media</Title>
+          <Box flexdirection="row" alignitems="baseline">
+            <Box>
+              <a href="/auth/facebook">
+                <Label>Facebook</Label>
+                <FaFacebook
+                  style={{
+                    fontsize: '1.3rem',
+                    verticalalign: 'top',
+                    color: 'blue'
+                  }}
+                />{' '}
+              </a>
+            </Box>
+            <Text>or</Text>
+            <Box>
+              <a href="/auth/google">
+                <Label>Google</Label>
+                <FaGoogle
+                  style={{
+                    fontsize: '1.3rem',
+                    verticalalign: 'top',
+                    color: 'blue'
+                  }}
+                />{' '}
+              </a>
+            </Box>
+          </Box>
+          <Title fontsize="1.5rem">Or with your email</Title>
           <Label>Username</Label>
           <InputLine
             onChange={this.onChange}
@@ -140,11 +176,7 @@ class SignupForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return (
-                <Error key={i}>
-                  {usernameErrors[value]}
-                </Error>
-              )
+              return <Error key={i}>{usernameErrors[value]}</Error>
             })}
           <Label>Email</Label>
           <InputLine
@@ -158,11 +190,7 @@ class SignupForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return (
-                <Error key={i}>
-                  {emailErrors[value]}
-                </Error>
-              )
+              return <Error key={i}>{emailErrors[value]}</Error>
             })}
           <Label>Password</Label>
           <InputLine
@@ -177,11 +205,7 @@ class SignupForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return (
-                <Error key={i}>
-                  {passwordErrors[value]}
-                </Error>
-              )
+              return <Error key={i}>{passwordErrors[value]}</Error>
             })}
           <Label>Password Confirmation</Label>
           <InputLine
@@ -196,13 +220,8 @@ class SignupForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return (
-                <Error key={i}>
-                  {passwordConfirmationErrors[value]}
-                </Error>
-              )
+              return <Error key={i}>{passwordConfirmationErrors[value]}</Error>
             })}
-
           <Label>Timezone</Label>
           <Timezones
             onChange={this.onChange}

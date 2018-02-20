@@ -35,11 +35,9 @@ const RoomSchema = Schema({
     type: String,
     default: '',
     required: [true, "can't be blank"]
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now
   }
-})
+},
+  {timestamps: true}
+)
 
 export default mongoose.model('room', RoomSchema)

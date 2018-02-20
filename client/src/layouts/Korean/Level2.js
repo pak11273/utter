@@ -14,7 +14,6 @@ import {
 } from '../../components'
 
 import {Info, Masthead} from './components'
-import Navbar from '../../containers/Navbars/Navbar'
 import PlayImg from '../../assets/images/play.svg'
 
 // audio
@@ -55,9 +54,7 @@ class KoreanLevel2 extends Component {
             media="Play"
             width="100vw">
             <Box>
-              <p>
-                애{' '}
-              </p>
+              <p>애 </p>
             </Box>
             <Box alignitems="flex-start">
               <p>
@@ -77,26 +74,18 @@ class KoreanLevel2 extends Component {
           </Dictionary>
           <Section minheight="600px" maxwidth="1024px">
             <Box padding="40px">
-              <Subtitle>
-                Introductions{' '}
-              </Subtitle>
+              <Subtitle>Introductions </Subtitle>
               <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
-                As a determiner you add 이,그, or 저 to the left of the noun. eg.
-                this thing is an arm(이거 팔이여요). This thing is used when you have
-                something that is within
-                your reach. 저 is used when things are far away from you and the
-                person
-                you are talking to, while 그 is used when it's far away from you
-                but near the person you are speaking to. You might be wondering
-                about using "the" or "a" in Korean, but in Korean there are no
-                such articles. So "the boy" or "a boy" is simply "boy"
-
-                이것이 저것보다 좋아요
-                이거는 저거보다 좋네요
-
-                이게 is short for 이것이
-                이것이 저거보다 좋아요 = 이게 저거보다 좋아요
-
+                As a determiner you add 이,그, or 저 to the left of the noun.
+                eg. this thing is an arm(이거 팔이여요). This thing is used when
+                you have something that is within your reach. 저 is used when
+                things are far away from you and the person you are talking to,
+                while 그 is used when it's far away from you but near the person
+                you are speaking to. You might be wondering about using "the" or
+                "a" in Korean, but in Korean there are no such articles. So "the
+                boy" or "a boy" is simply "boy" 이것이 저것보다 좋아요 이거는
+                저거보다 좋네요 이게 is short for 이것이 이것이 저거보다 좋아요
+                = 이게 저거보다 좋아요
               </Text>
             </Box>
           </Section>

@@ -1,7 +1,6 @@
 import mongoose, {Schema} from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 import bcrypt from 'bcrypt'
-import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import config from '../../config/config.js'
 
@@ -15,6 +14,7 @@ const UserSchema = new mongoose.Schema(
       match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       index: true
     },
+    bio: String,
     email: {
       type: String,
       lowercase: true,
@@ -49,7 +49,8 @@ const UserSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "can't be blank"]
+      required: [true, "can't be blank"],
+      default: ''
     },
     subscriptions: [
       {
@@ -60,7 +61,11 @@ const UserSchema = new mongoose.Schema(
     bio: String,
     image: String,
     hash: String,
-    salt: String
+    salt: String,
+    userImage: {type: String, default: 'default.png'},
+    facebook: {type: String, default: ''},
+    fbTokens: Array,
+    google: {type: String, default: ''}
   },
   {timestamps: true}
 )
@@ -68,8 +73,8 @@ const UserSchema = new mongoose.Schema(
 // masters code
 UserSchema.pre('save', function(next) {
   // TODO: this was to ensure tampered with passwords got encrypted, but is commented out because it keeps reset password from resetting correctly. Possibly remove this:
-  // if (!this.isModified('password')) return next()
-  // this.password = this.encryptPassword(this.password)
+  if (!this.isModified('password')) return next() // may need to disable if implementing social media auth
+  this.password = this.encryptPassword(this.password)
   next()
 })
 

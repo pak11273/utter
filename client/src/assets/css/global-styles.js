@@ -14,9 +14,9 @@ injectGlobal`
     src: url(${OpenSans});
   }
 
-  body, h1, h2, h3, h4, h6, div, li {
+  body, h1, h2, h3, h4, h6, div, p, li {
     color: #777;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans';
   }
 
   h1 {
@@ -48,9 +48,22 @@ injectGlobal`
     text-decoration: none;
   }
 
-  // a:visited {
-  //   color: purple;
-  // }
+  a:-webkit-any-link {
+    color: #003478;
+  }
+
+// chrome input and textarea fixes
+  textarea:focus, input:focus {
+      -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+      // change text color
+      // -webkit-text-fill-color: red !important;
+  }
+// eof
+
+  input {
+    border: 1px solid rgb(169,169,169);
+    border-width: thin; 
+  }
 
   // // global colors
   // body {

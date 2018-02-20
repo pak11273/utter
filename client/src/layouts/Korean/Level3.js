@@ -10,7 +10,6 @@ import {
   Section,
   Wrapper
 } from '../../components'
-import Navbar from '../../containers/Navbars/Navbar'
 
 class KoreanLevel3 extends Component {
   render() {
@@ -43,7 +42,9 @@ class KoreanLevel3 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Rules</Subtitle>
+              <Subtitle color="#333" padding="15px">
+                Rules
+              </Subtitle>
               <Text>Constructing syllables</Text>
               <Text>Syllables are constructed of either 2, 3 or 4 letters</Text>
               <Text>Must always start with a consonant</Text>
@@ -70,7 +71,9 @@ class KoreanLevel3 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">Construction</Subtitle>
+              <Subtitle color="#333" padding="15px">
+                Construction
+              </Subtitle>
               <Text>Either triangle formation or vertical formation</Text>
               <Text>Which formation depends on the vowel</Text>
               <Text>
@@ -95,7 +98,9 @@ class KoreanLevel3 extends Component {
               fontsize="1.8rem"
               textalign="left"
             />
-            <Subtitle color="#333" padding="15px">Grammar</Subtitle>
+            <Subtitle color="#333" padding="15px">
+              Grammar
+            </Subtitle>
           </Column>
         </Section>
         <Section
@@ -106,7 +111,9 @@ class KoreanLevel3 extends Component {
           maxwidth="960px"
           padding="30px"
           textalign="left">
-          <Subtitle color="#333" padding="15px">Vocabulary</Subtitle>
+          <Subtitle color="#333" padding="15px">
+            Vocabulary
+          </Subtitle>
         </Section>
         <Section
           alignitems="flex-start"
@@ -122,28 +129,16 @@ class KoreanLevel3 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">b + vowels</Subtitle>
-              <Text>
-                bo
-              </Text>
-              <Text>
-                bu{' '}
-              </Text>
-              <Text>
-                beo{' '}
-              </Text>
-              <Text>
-                beu{' '}
-              </Text>
-              <Text>
-                ba{' '}
-              </Text>
-              <Text>
-                bae{' '}
-              </Text>
-              <Text>
-                be{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                b + vowels
+              </Subtitle>
+              <Text>bo</Text>
+              <Text>bu </Text>
+              <Text>beo </Text>
+              <Text>beu </Text>
+              <Text>ba </Text>
+              <Text>bae </Text>
+              <Text>be </Text>
             </Column>
           </Column>
           <Column>
@@ -152,10 +147,10 @@ class KoreanLevel3 extends Component {
               color="#666"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">j + vowels</Subtitle>
-              <Text>
-                jo{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                j + vowels
+              </Subtitle>
+              <Text>jo </Text>
             </Column>
           </Column>
           <Column>
@@ -163,10 +158,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">g + vowels</Subtitle>
-              <Text>
-                go{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                g + vowels
+              </Subtitle>
+              <Text>go </Text>
             </Column>
           </Column>
           <Column>
@@ -174,10 +169,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">g + vowels</Subtitle>
-              <Text>
-                go{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                g + vowels
+              </Subtitle>
+              <Text>go </Text>
             </Column>
           </Column>
           <Column>
@@ -185,10 +180,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">s + vowels</Subtitle>
-              <Text>
-                so{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                s + vowels
+              </Subtitle>
+              <Text>so </Text>
             </Column>
           </Column>
         </Section>
@@ -205,10 +200,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">m + vowels</Subtitle>
-              <Text>
-                mo{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                m + vowels
+              </Subtitle>
+              <Text>mo </Text>
             </Column>
           </Column>
           <Column>
@@ -216,10 +211,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">n + vowels</Subtitle>
-              <Text>
-                no{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                n + vowels
+              </Subtitle>
+              <Text>no </Text>
             </Column>
           </Column>
           <Column>
@@ -227,10 +222,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">ng + vowels</Subtitle>
-              <Text>
-                ngo{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                ng + vowels
+              </Subtitle>
+              <Text>ngo </Text>
             </Column>
           </Column>
           <Column>
@@ -238,10 +233,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">r + vowels</Subtitle>
-              <Text>
-                ro{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                r + vowels
+              </Subtitle>
+              <Text>ro </Text>
             </Column>
           </Column>
           <Column>
@@ -249,10 +244,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">h + vowels</Subtitle>
-              <Text>
-                ho{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                h + vowels
+              </Subtitle>
+              <Text>ho </Text>
             </Column>
           </Column>
           <Column>
@@ -260,10 +255,10 @@ class KoreanLevel3 extends Component {
               justifycontent="flex-start"
               fontsize="1.8rem"
               textalign="left">
-              <Subtitle color="#333" padding="15px">r + vowels</Subtitle>
-              <Text>
-                ho{' '}
-              </Text>
+              <Subtitle color="#333" padding="15px">
+                r + vowels
+              </Subtitle>
+              <Text>ho </Text>
             </Column>
           </Column>
         </Section>
@@ -282,7 +277,9 @@ class KoreanLevel3 extends Component {
               fontsize="1.8rem"
               textalign="left"
             />
-            <Subtitle color="#333" padding="15px">Phrases</Subtitle>
+            <Subtitle color="#333" padding="15px">
+              Phrases
+            </Subtitle>
           </Column>
         </Section>
         <Section
