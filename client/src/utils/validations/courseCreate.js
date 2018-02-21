@@ -5,7 +5,7 @@ exports.validateInput = state => {
   let errors = {}
 
   if (Validator.isEmpty(state.courseName)) {
-    errors.courseName = {message: "can't be blank"}
+    errors.courseName = {message: 'This field is required.'}
   } else if (state.courseName.length > 100 || state.courseName.length < 10) {
     errors.courseName = {
       message: 'Course name needs to be 10 to 100 characters in length.'
@@ -13,7 +13,7 @@ exports.validateInput = state => {
   }
 
   if (Validator.isEmpty(state.courseDescription)) {
-    errors.courseDescription = {message: "can't be blank"}
+    errors.courseDescription = {message: 'This field is required.'}
   } else if (
     state.courseDescription.length > 350 ||
     state.courseDescription.length < 100

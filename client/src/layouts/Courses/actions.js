@@ -1,28 +1,8 @@
 import {
   COURSE_LANGUAGE,
   REQUESTED_COURSE_NAME_FAILED,
-  REQUESTED_COURSE_NAME_SUCCEEDED,
-  REQUESTED_DOG,
-  REQUESTED_DOG_FAILED,
-  REQUESTED_DOG_SUCCEEDED,
-  FETCHED_DOG
+  REQUESTED_COURSE_NAME_SUCCEEDED
 } from './types.js'
-
-const requestDog = () => {
-  return {type: 'REQUESTED_DOG'}
-}
-
-const requestDogSuccess = data => {
-  return {type: 'REQUESTED_DOG_SUCCEEDED', url: data.message}
-}
-
-const requestDogError = () => {
-  return {type: 'REQUESTED_DOG_FAILED'}
-}
-
-const fetchDog = () => {
-  return {type: 'FETCHED_DOG'}
-}
 
 const chooseCourseLanguage = courseLanguage => {
   return {
@@ -47,11 +27,7 @@ const requestCourseNameError = error => {
 
 export {
   chooseCourseLanguage,
-  fetchDog,
   fetchCourseName,
   requestCourseNameError,
-  requestCourseNameSuccess,
-  requestDog,
-  requestDogError,
-  requestDogSuccess
+  requestCourseNameSuccess
 }

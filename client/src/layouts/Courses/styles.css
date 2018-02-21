@@ -5,7 +5,23 @@
 
 .countryLabel {
   background: red;
-  font-size: 3rem;
+  font-size: 1rem;
+}
+
+.displayCount {
+}
+
+.languageOption {
+  align-items: center;
+  display: flex;
+  height: 40px;
+  padding: 0 1rem;
+}
+
+.languageOptionSelected {
+}
+
+.languageOptionsFocused {
 }
 
 .courseError {

@@ -24,9 +24,7 @@ const Grid = styled.div`
 `
 
 Grid.defaultProps = {
-  display: 'grid',
-  overflowx: 'hidden',
-  overflowy: 'hidden'
+  display: 'grid'
 }
 
 export default Grid

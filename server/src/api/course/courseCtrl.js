@@ -32,6 +32,15 @@ exports.post = (req, res, next) => {
 
 exports.unique = (req, res, next) => {
   console.log('req: ', req.body.course)
+  if (!req.body.course) {
+    res.status(400).json({error: 'This field is required.'})
+  }
+  // Put on client side to conserve request calls
+  // if (req.body.course.length > 100 || req.body.course.length < 10) {
+  //   res
+  //     .status(400)
+  //     .json({error: 'Course name needs to be 10 to 100 characters in length.'})
+  // }
   Course.find({name: req.body.course}).then(
     course => {
       console.log('course: ', course)

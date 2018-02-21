@@ -21,6 +21,10 @@ const Flex = styled.div`
   width: ${props => props.width};
 
   @media (min-width: 768px) {
+    margin: ${props => props.margin640};
+  }
+
+  @media (min-width: 768px) {
     align-items: ${props => props.alignitems768};
     flex-direction: ${props => props.flexdirection768};
     justify-content: ${props => props.justifycontent768};

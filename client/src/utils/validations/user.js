@@ -9,19 +9,19 @@ exports.validateInput = state => {
   }
 
   if (Validator.isEmpty(state.email)) {
-    errors.email = {message: "can't be blank"}
+    errors.email = {message: 'This field is required.'}
   }
 
   if (Validator.isEmpty(state.username)) {
-    errors.username = {message: "can't be blank"}
+    errors.username = {message: 'This field is required.'}
   }
 
   if (Validator.isEmpty(state.password)) {
-    errors.password = {message: "can't be blank"}
+    errors.password = {message: 'This field is required.'}
   }
 
   if (Validator.isEmpty(state.passwordConfirmation)) {
-    errors.passwordConfirmation = {message: "can't be blank"}
+    errors.passwordConfirmation = {message: 'This field is required.'}
   }
 
   if (!Validator.equals(state.password, state.passwordConfirmation)) {

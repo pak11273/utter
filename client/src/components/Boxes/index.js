@@ -6,6 +6,7 @@ const Box = styled.div`
   align-self: ${props => props.alignself};
   background: ${props => props.background};
   border: ${props => props.background};
+  bottom: ${props => props.bottom};
   box-sizing: ${props => props.boxsizing};
   color: ${props => props.color};
   display: ${props => props.display};
@@ -17,6 +18,7 @@ const Box = styled.div`
   grid-row: ${props => props.gridrow};
   height: ${props => props.height};
   justify-content: ${props => props.justifycontent};
+  left: ${props => props.left};
   line-height: ${props => props.lineheight};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
@@ -27,6 +29,8 @@ const Box = styled.div`
   overflow: ${props => props.overflow};
   overflow-x: ${props => props.overflowx};
   overflow-y: ${props => props.overflowy};
+  position: ${props => props.position};
+  right: ${props => props.right};
   text-align: ${props => props.textalign};
   text-overflow: ${props => props.textoverflow};
   top: ${props => props.top};
@@ -44,7 +48,6 @@ Box.defaultProps = {
   display: 'flex',
   flexdirection: 'column',
   justifycontent: 'center',
-  overflow: 'hidden',
   textalign: 'left',
   width: '100%'
 }

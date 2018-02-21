@@ -79,7 +79,7 @@ class CoursesContainer extends Component {
     return (
       <StyledGrid>
         <Staticbar>
-          <Flex gridarea="native">
+          <Flex gridarea="sidebar">
             <Subtitle>I speak:</Subtitle>
             <Box>
               <Select
