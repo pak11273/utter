@@ -116,6 +116,7 @@ class CreateCourse extends Component {
     this.state = {
       displayName: 'Tags',
       courseName: '',
+      teachingLang: '',
       charCount: 0,
       courseDescription: '',
       loading: false,
@@ -157,6 +158,12 @@ class CreateCourse extends Component {
     }
   }
 
+  addTeachingLang(value) {
+    this.setState({
+      teachingLang: value
+    })
+  }
+
   onSubmit(e) {
     e.preventDefault()
     if (this.isValid()) {
@@ -164,12 +171,15 @@ class CreateCourse extends Component {
       this.props.actions.createCourseRequest(this.state)
       // clear state
       this.setState({
-        displayName: '',
         courseName: '',
         charCount: 0,
         courseDescription: '',
+        displayName: '',
         errors: {}, // clear errors every time we submit form
-        loading: false
+        loading: false,
+        tags: [],
+        teachingLang: '',
+        usingLang: ''
       })
       // TODO: clear redux
       // this.props.courseReducer.error = null // something to this effect
@@ -254,7 +264,11 @@ class CreateCourse extends Component {
               overflow="initial"
               position="relative">
               <Label>Teaching</Label>
-              <Teaching />
+              <Teaching
+                addTeachingLang={() => {
+                  this.addTeachingLang()
+                }}
+              />
             </Flex>
             <StyledFlex gridarea="using" margin1080="40px 0 0 0">
               <Label>Using</Label>

@@ -29,6 +29,9 @@ class Teaching extends Component {
     this.setState({
       selectValue: newValue
     })
+    // redux
+    console.log(this.props)
+    this.props.addTeachingLang(newValue)
   }
 
   render() {
