@@ -12,10 +12,17 @@
 }
 
 .languageOption {
-  align-items: center;
-  display: flex;
-  height: 40px;
-  padding: 0 1rem;
+  font-size: 1rem;
+  margin-left: 20px;
+}
+
+.languageHeader {
+  font-size: 1.5rem;
+}
+
+.languageSubHeader {
+  font-size: 1.2rem;
+  margin-left: 10px;
 }
 
 .languageOptionSelected {
@@ -38,4 +45,9 @@
 
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+/* overrides */
+.Select {
+  margin: 0;
 }

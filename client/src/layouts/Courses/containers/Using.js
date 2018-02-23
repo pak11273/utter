@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
-import createClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import STATES from '../data/states'
+import languageData from '../data/languageData.js'
 import {Box} from '../../../components'
 import '../styles.css'
 
-class Teaching extends Component {
+class Using extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -43,9 +42,9 @@ class Teaching extends Component {
   }
 
   render() {
-    const options = STATES[this.state.country]
+    const options = languageData
     return (
-      <Box className="section" position="absolute" top="20px" right="30px">
+      <Box width="250px">
         <Select
           id="state-select"
           ref={ref => {
@@ -55,16 +54,21 @@ class Teaching extends Component {
           onSelectResetsInput={false}
           autoFocus
           options={options}
+          required
           simpleValue
           clearable={this.state.clearable}
+          wrapperStyle={{
+            margin: '20px 0 0 0',
+            width: '100%'
+          }}
           style={{
-            width: '250px'
+            width: '100%'
           }}
           menuContainerStyle={{
-            width: '250px'
+            width: '100%'
           }}
           menuStyle={{
-            width: '250px'
+            width: '100%'
           }}
           name="selected-state"
           disabled={this.state.disabled}
@@ -78,14 +82,14 @@ class Teaching extends Component {
   }
 }
 
-Teaching.propTypes = {
+Using.propTypes = {
   label: PropTypes.string,
   searchable: PropTypes.bool
 }
 
-Teaching.defaultProps = {
+Using.defaultProps = {
   label: 'States:',
   searchable: true
 }
 
-export default Teaching
+export default Using

@@ -20,7 +20,7 @@ const Flex = styled.div`
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 
-  @media (min-width: 768px) {
+  @media (min-width: 640px) {
     margin: ${props => props.margin640};
   }
 

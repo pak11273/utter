@@ -6,7 +6,7 @@ import {validateInput} from '../../../utils/validations/courseCreate.js'
 import validator from 'validator'
 import data from '../data'
 import Teaching from './Teaching.js'
-import WithLanguage from './WithLanguage.js'
+import Using from './Using.js'
 import '../styles.css'
 
 import {
@@ -18,6 +18,8 @@ import {
   Input,
   Label,
   Searching,
+  Span,
+  Tags,
   Text,
   TextArea,
   Title
@@ -28,16 +30,67 @@ import transLoader from '../../../assets/images/trans_loader.gif'
 
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
-import {fetchCourseName} from '../actions.js'
+import {createCourseRequest, fetchCourseName} from '../actions.js'
 
+const StyledButton = styled(Button)`
+  border-radius: 50px;
+  color: #02598b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 80px 0 0 0;
+  outline: none;
+  padding: 7px 36px;
+  &:hover: {
+    background: black;
+    color: red;
+  }
+`
 const DisplayCount = styled.div`
   font-size: 0.8rem;
   position: absolute;
-  right: 10%;
-  top: 7px;
+  right: 2%;
+  top: 6px;
+
+  @media (min-width: 330px) {
+    right: 10%;
+  }
+
+  @media (min-width: 640px) {
+    right: 2%;
+  }
+
+  @media (min-width: 740px) {
+    right: 10%;
+  }
 `
 const StyledForm = styled(Form)`
-  margin: 40px;
+  height: 600px;
+  margin: 0 auto;
+  min-width: 250px;
+  width: 70%;
+`
+const StyledFlex = styled(Flex)`
+  grid-area: ${props => props.gridarea};
+  margin: ${props => props.margin};
+  overflow: initial;
+  position: relative;
+
+  @media (min-width: 1080px) {
+    margin: ${props => props.margin1080};
+  }
+`
+StyledFlex.defaultProps = {
+  margin: '80px 0 0 0'
+}
+
+const StyledSpan = styled(Span)`
+  display: none;
+  font-size: 0.6rem;
+  padding: 0 0 0 10px;
+
+  @media (min-width: 640px) {
+    display: ${props => props.display640};
+  }
 `
 const Error = styled.div`
   color: red;
@@ -48,21 +101,24 @@ const StyledGrid = styled(Grid)`
   grid-template-columns: 1fr 1fr;
   grid-template-areas:
     'teaching teaching'
-    'with with';
+    'using using'
+    'tags tags';
 
-  @media (min-width: 640px) {
-    grid-template-areas: 'teaching with';
+  @media (min-width: 1080px) {
+    grid-template-areas:
+      'teaching using'
+      'tags tags';
   }
 `
-
 class CreateCourse extends Component {
   constructor() {
     super()
     this.state = {
+      displayName: 'Tags',
       courseName: '',
       charCount: 0,
       courseDescription: '',
-      isLoading: false,
+      loading: false,
       errors: {}
     }
     this.onBlur = this.onBlur.bind(this)
@@ -104,10 +160,19 @@ class CreateCourse extends Component {
   onSubmit(e) {
     e.preventDefault()
     if (this.isValid()) {
+      // if valid make api request
+      this.props.actions.createCourseRequest(this.state)
+      // clear state
       this.setState({
+        displayName: '',
+        courseName: '',
+        charCount: 0,
+        courseDescription: '',
         errors: {}, // clear errors every time we submit form
-        isLoading: true
+        loading: false
       })
+      // TODO: clear redux
+      // this.props.courseReducer.error = null // something to this effect
       //TODO: this.props.history.push('/dashboard')
     }
   }
@@ -115,18 +180,17 @@ class CreateCourse extends Component {
   render() {
     const courseNameFetchError = this.props.courseReducer.errorMsg
     const courseNameErrors = this.state.errors.courseName
-    console.log('coursenameerr: ', courseNameErrors)
     const courseDescriptionErrors = this.state.errors.courseDescription
     return (
-      <Grid>
+      <Grid height="1200px">
         <StyledForm onSubmit={this.onSubmit}>
           <Title>Create a Course</Title>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
-              Course Name<span
-                style={{fontSize: '.6rem', padding: '0 0 0 10px'}}>
+              Course Name<StyledSpan display640="inline-block">
+                {' '}
                 (10-100 chars.)
-              </span>
+              </StyledSpan>
             </Label>
             <DisplayCount>{this.state.courseName.length}</DisplayCount>
             <Input
@@ -159,10 +223,10 @@ class CreateCourse extends Component {
           </Box>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
-              Course Description<span
-                style={{fontSize: '.6rem', padding: '0 0 0 10px'}}>
+              Course Description<StyledSpan display640="inline-block">
+                {' '}
                 (100-350 chars.)
-              </span>
+              </StyledSpan>
             </Label>
             <DisplayCount>{this.state.courseDescription.length}</DisplayCount>
             <TextArea
@@ -186,26 +250,23 @@ class CreateCourse extends Component {
           <StyledGrid>
             <Flex
               gridarea="teaching"
-              margin="20px 0 0 0"
+              margin="40px 0 0 0"
               overflow="initial"
               position="relative">
               <Label>Teaching</Label>
               <Teaching />
             </Flex>
-            <Flex
-              gridarea="with"
-              margin="80px 0 0 0"
-              margin640="20px 0 0 0"
-              overflow="initial"
-              position="relative">
-              <Label>With</Label>
-              <WithLanguage />
-            </Flex>
+            <StyledFlex gridarea="using" margin1080="40px 0 0 0">
+              <Label>Using</Label>
+              <Using />
+            </StyledFlex>
+            <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+              <Label>Tags</Label>
+              <Tags />
+            </StyledFlex>
           </StyledGrid>
           <Box flexdirection="row">
-            <Button margin="80px 0 0 0" padding="5px 15px" type="submit">
-              Publish
-            </Button>
+            <StyledButton type="submit">Create Course</StyledButton>
           </Box>
         </StyledForm>
       </Grid>
@@ -223,6 +284,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        createCourseRequest,
         fetchCourseName,
         toggleFooter
       },

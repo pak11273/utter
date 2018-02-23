@@ -1,4 +1,7 @@
 import {
+  CREATE_COURSE_REQUEST,
+  CREATE_COURSE_SUCCESS,
+  CREATE_COURSE_FAIL,
   COURSE_NAME_ASYNC_SUCCESS,
   REQUESTED_COURSE_NAME,
   REQUESTED_COURSE_NAME_FAILED,
@@ -12,18 +15,53 @@ const initialState = {
   courseNameMsg: '',
   loading: false,
   error: false,
-  errorMsg: ''
+  errorMsg: '',
+  create: {
+    pending: false,
+    course: null,
+    error: null
+  }
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case 'CREATE_COURSE_REQUEST':
+      return {
+        ...state,
+        create: {
+          ...state.create,
+          pending: true,
+          course: null,
+          error: null
+        }
+      }
+    case 'CREATE_COURSE_SUCCESS':
+      return {
+        ...state,
+        create: {
+          ...state.create,
+          pending: false,
+          course: action.course,
+          error: null
+        }
+      }
+    case 'CREATE_COURSE_FAIL':
+      return {
+        ...state,
+        create: {
+          ...state.create,
+          pending: false,
+          course: null,
+          error: action.error
+        }
+      }
     case 'REQUESTED_COURSE_NAME_SUCCEEDED':
       return {
         courseNameMsg: action.data,
         loading: false,
         error: false
       }
-    case 'REQUESTED_COURSE_NAME_FAILED':
+    case 'REQUESTED_COURSE_NAME_FAIL':
       return {
         loading: false,
         error: true,

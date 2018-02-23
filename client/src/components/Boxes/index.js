@@ -39,7 +39,13 @@ const Box = styled.div`
   z-index: ${props => props.zindex};
 
   @media (min-width: 640px) {
-    width: ${props => props.minwidth640};
+    width: ${props => props.width640};
+    min-width: ${props => props.minwidth640};
+  }
+
+  @media (min-width: 1080px) {
+    width: ${props => props.width1080};
+    min-width: ${props => props.minwidth1080};
   }
 `
 Box.defaultProps = {
@@ -48,8 +54,7 @@ Box.defaultProps = {
   display: 'flex',
   flexdirection: 'column',
   justifycontent: 'center',
-  textalign: 'left',
-  width: '100%'
+  textalign: 'left'
 }
 
 export default Box

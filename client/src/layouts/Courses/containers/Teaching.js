@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
-import createClass from 'create-react-class'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import STATES from '../data/states'
+import languageData from '../data/languageData'
 import {Box} from '../../../components'
 import '../styles.css'
 
@@ -10,8 +9,7 @@ class Teaching extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      displayName: 'StatesField',
-      country: 'AU',
+      displayName: 'TeachingField',
       disabled: false,
       searchable: props.searchable,
       selectValue: '',
@@ -20,20 +18,11 @@ class Teaching extends Component {
     }
 
     this.clearValue = this.clearValue.bind(this)
-    this.switchCountry = this.switchCountry.bind(this)
     this.updateValue = this.updateValue.bind(this)
   }
 
   clearValue(e) {
     this.select.setInputValue('')
-  }
-
-  switchCountry(e) {
-    constnewCountry = e.target.value
-    this.setState({
-      country: newCountry,
-      selectValue: null
-    })
   }
 
   updateValue(newValue) {
@@ -43,30 +32,35 @@ class Teaching extends Component {
   }
 
   render() {
-    const options = STATES[this.state.country]
+    const options = languageData
     return (
-      <Box className="section" position="absolute" top="20px" right="30px">
+      <Box width="250px">
         <Select
-          id="state-select"
+          id="language-select"
           ref={ref => {
             this.select = ref
           }}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
+          required
           autoFocus
           options={options}
           simpleValue
           clearable={this.state.clearable}
+          wrapperStyle={{
+            margin: '20px 0 0 0',
+            width: '100%'
+          }}
           style={{
-            width: '250px'
+            width: '100%'
           }}
           menuContainerStyle={{
-            width: '250px'
+            width: '100%'
           }}
           menuStyle={{
-            width: '250px'
+            width: '100%'
           }}
-          name="selected-state"
+          name="selected-language"
           disabled={this.state.disabled}
           value={this.state.selectValue}
           onChange={this.updateValue}
@@ -84,7 +78,7 @@ Teaching.propTypes = {
 }
 
 Teaching.defaultProps = {
-  label: 'States:',
+  label: 'Languages:',
   searchable: true
 }
 

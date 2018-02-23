@@ -27,12 +27,11 @@ import {chooseCourseLanguage} from './actions'
 // const StyledField = styled(Field)``
 
 const StyledGrid = styled(Grid)`
-  grid-template-columns: 20% 80%;
   grid-template-areas:
     'sidebar sidebar'
     'content content';
-
   min-height: 600px;
+  height: 1200px;
 
   @media (min-width: 640px) {
     grid-template-areas: 'sidebar content';

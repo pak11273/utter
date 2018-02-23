@@ -47,6 +47,7 @@ const StyledGrid = styled(Grid)`
   min-height: 600px;
 
   @media (min-width: 640px) {
+    grid-template-columns: 200px 1fr;
     grid-template-areas: 'sidebar content';
   }
 `

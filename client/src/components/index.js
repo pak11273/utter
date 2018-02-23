@@ -32,8 +32,10 @@ import PlayBox from './Boxes/Playbox.js'
 import PlayButton from './Buttons/PlayButton.js'
 import RememberSection from '../components/RememberSection.js'
 import Row from './Row.js'
+import Span from './Spans'
 import Subtitle from './Text/Subtitle.js'
 import Table from './Table.js'
+import Tags from './Tags'
 import Tbody from './Tbody.js'
 import Td from './Td.js'
 import Text from '../components/Text/Text.js'
@@ -86,8 +88,10 @@ export {
   Section,
   Select,
   Spacer,
+  Span,
   Subtitle,
   Table,
+  Tags,
   Tbody,
   Td,
   Thead,

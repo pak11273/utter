@@ -18,7 +18,8 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.post = (req, res, next) => {
-  let newCourse = req.body
+  console.log(req.body)
+  let newCourse = req.body.course
 
   Course.create(newCourse).then(
     course => {
@@ -31,20 +32,11 @@ exports.post = (req, res, next) => {
 }
 
 exports.unique = (req, res, next) => {
-  console.log('req: ', req.body.course)
-  if (!req.body.course) {
-    res.status(400).json({error: 'This field is required.'})
-  }
-  // Put on client side to conserve request calls
-  // if (req.body.course.length > 100 || req.body.course.length < 10) {
-  //   res
-  //     .status(400)
-  //     .json({error: 'Course name needs to be 10 to 100 characters in length.'})
-  // }
   Course.find({name: req.body.course}).then(
     course => {
-      console.log('course: ', course)
-      if (course.length > 0) {
+      if (!req.body.course) {
+        res.status(400).json({error: 'This field is required.'})
+      } else if (course.length > 0) {
         // next(new Error('This course name is already taken.'))
         res.status(400).json({error: 'This course name is already taken.'})
       } else {

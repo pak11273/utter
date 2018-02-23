@@ -2,7 +2,7 @@ import mongoose, {Schema} from 'mongoose'
 
 const CourseSchema = mongoose.Schema(
   {
-    name: {
+    courseName: {
       type: String,
       default: ''
     },
@@ -19,7 +19,7 @@ const CourseSchema = mongoose.Schema(
       default: ''
     },
     tags: {
-      type: String,
+      type: Array,
       default: ''
     },
     subscribers: [
@@ -33,7 +33,7 @@ const CourseSchema = mongoose.Schema(
       vocabulary: Array,
       grammar: String
     },
-    description: {
+    courseDescription: {
       type: String,
       default: ''
     },
