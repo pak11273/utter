@@ -1,5 +1,5 @@
 import {ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE} from '../actions/types.js'
-import shortid from 'shortid'
+import cuid from 'cuid'
 import findIndex from 'lodash/findIndex'
 
 export default (state = [], action = {}) => {
@@ -8,7 +8,7 @@ export default (state = [], action = {}) => {
       return [
         ...state,
         {
-          id: shortid.generate(),
+          id: cuid(),
           type: action.message.type,
           text: action.message.text
         }

@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import Text from '../../components/Text/Text.js'
 import Button from '../../components/Buttons/Button.js'
+import './styles.css'
 
-const Success = styled.div`
+const StyledMessage = styled.div`
   align-items: center;
   background: #8b1a87;
   display: flex;
@@ -16,6 +17,19 @@ class FlashMessage extends Component {
     this.onClick = this.onClick.bind(this)
   }
 
+  componentDidMount() {
+    switch (this.props.message.type) {
+      case 'success':
+      case 'error':
+        // setTimeout(this.props.deleteFlashMessage(this.props.message.id), 10000)
+        window.setTimeout(() => {
+          this.props.deleteFlashMessage(this.props.message.id)
+        }, 10000)
+      default:
+        null
+    }
+  }
+
   onClick() {
     this.props.deleteFlashMessage(this.props.message.id)
   }
@@ -23,8 +37,10 @@ class FlashMessage extends Component {
   render() {
     const {id, type, text} = this.props.message
     return (
-      <Success>
-        <Text color="white" fontsize="2rem" padding="2rem">{text}</Text>
+      <StyledMessage>
+        <Text color="white" fontsize="2rem" padding="2rem">
+          {text}
+        </Text>
         <Button
           border="none"
           background="none"
@@ -33,7 +49,7 @@ class FlashMessage extends Component {
           onClick={this.onClick}>
           &times;
         </Button>
-      </Success>
+      </StyledMessage>
     )
   }
 }

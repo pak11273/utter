@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
+import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import Vocabulary from './Vocabulary'
 import {Box, Button, Grid, Spacer, Text} from '../../components'
@@ -103,75 +103,68 @@ class Admin extends Component {
 
   render() {
     return (
-      <Router>
-        <Container>
-          <Grid
-            gridtemplatecolumns="200px 75%"
-            gridtemplatecolumns650="25% 75%">
-            <Sidebar>
-              <Spacer margin="20px" />
-              <Link to="/admin" className="dropButton">
-                Dashboard
+      <Container>
+        <Grid gridtemplatecolumns="200px 75%" gridtemplatecolumns650="25% 75%">
+          <Sidebar>
+            <Spacer margin="20px" />
+            <Link to="/admin" className="dropButton">
+              Dashboard
+            </Link>
+            <Spacer margin="10px" />
+            <Dropdown color="white" name="awsAcc" onClick={this.DropFunc}>
+              AWS Module
+              <FaCaretDown />
+            </Dropdown>
+            <Box id="awsAcc" className="hide">
+              <Link to="/admin/aws" className="dropButton">
+                AWS{' '}
               </Link>
-              <Spacer margin="10px" />
-              <Dropdown color="white" name="awsAcc" onClick={this.DropFunc}>
-                AWS Module
-                <FaCaretDown />
-              </Dropdown>
-              <Box id="awsAcc" className="hide">
-                <Link to="/admin/aws" className="dropButton">
-                  AWS{' '}
-                </Link>
-              </Box>
-              <Spacer margin="10px" />
-              <Dropdown color="white" name="userAcc" onClick={this.DropFunc}>
-                User Module
-                <FaCaretDown />
-              </Dropdown>
-              <Box id="userAcc" className="hide">
-                <Link to="/admin/users" className="dropButton">
-                  Users{' '}
-                </Link>
-                <Link to="/admin/team" className="dropButton">
-                  Team
-                </Link>
-                <Link to="/admin/etc" className="dropButton">
-                  Etc{' '}
-                </Link>
-              </Box>
-              <Spacer margin="10px" />
-              <Dropdown
-                color="white"
-                name="languageAcc"
-                onClick={this.DropFunc}>
-                Language Module <FaCaretDown />
-              </Dropdown>
-              <Box id="languageAcc" className="hide">
-                <Link to="/admin/vocabulary" className="dropButton">
-                  Vocabulary
-                </Link>
-                <Link to="/admin/phrases" className="dropButton">
-                  Phrases
-                </Link>
-                <Link to="/admin/challenges" className="dropButton">
-                  Challenges
-                </Link>
-              </Box>
-              <Link to="/misc" className="dropButton">
-                Link
+            </Box>
+            <Spacer margin="10px" />
+            <Dropdown color="white" name="userAcc" onClick={this.DropFunc}>
+              User Module
+              <FaCaretDown />
+            </Dropdown>
+            <Box id="userAcc" className="hide">
+              <Link to="/admin/users" className="dropButton">
+                Users{' '}
               </Link>
-            </Sidebar>
-            <Route exact path="/admin" component={Main} />
-            <Route exact path="/admin/users" component={Users} />
-            <Route exact path="/admin/team" component={Team} />
-            <Route exact path="/admin/etc" component={Etc} />
-            <Route exact path="/admin/vocabulary" component={Vocabulary} />
-            <Route exact path="/admin/phrases" component={Phrases} />
-            <Route exact path="/admin/challenges" component={Challenges} />
-            <Route exact path="/admin/aws" component={Aws} />
-          </Grid>
-        </Container>
-      </Router>
+              <Link to="/admin/team" className="dropButton">
+                Team
+              </Link>
+              <Link to="/admin/etc" className="dropButton">
+                Etc{' '}
+              </Link>
+            </Box>
+            <Spacer margin="10px" />
+            <Dropdown color="white" name="languageAcc" onClick={this.DropFunc}>
+              Language Module <FaCaretDown />
+            </Dropdown>
+            <Box id="languageAcc" className="hide">
+              <Link to="/admin/vocabulary" className="dropButton">
+                Vocabulary
+              </Link>
+              <Link to="/admin/phrases" className="dropButton">
+                Phrases
+              </Link>
+              <Link to="/admin/challenges" className="dropButton">
+                Challenges
+              </Link>
+            </Box>
+            <Link to="/misc" className="dropButton">
+              Link
+            </Link>
+          </Sidebar>
+          <Route exact path="/admin" component={Main} />
+          <Route exact path="/admin/users" component={Users} />
+          <Route exact path="/admin/team" component={Team} />
+          <Route exact path="/admin/etc" component={Etc} />
+          <Route exact path="/admin/vocabulary" component={Vocabulary} />
+          <Route exact path="/admin/phrases" component={Phrases} />
+          <Route exact path="/admin/challenges" component={Challenges} />
+          <Route exact path="/admin/aws" component={Aws} />
+        </Grid>
+      </Container>
     )
   }
 }

@@ -1,43 +1,22 @@
 import React, {Component} from 'react'
-import {Reactables, Header} from 'gigatables-react'
+import {connect} from 'react-redux'
+import {NavLink, Route} from 'react-router-dom'
+import Blah from './Blah.js'
 
 class Test extends Component {
   constructor() {
     super()
   }
   render() {
-    var settings = {
-      struct: {
-        // all in
-        download: {
-          csv: false
-        },
-        search: ['top', 'bottom'],
-        rowsSelector: ['asc', 'top', 'bottom'],
-        pagination: ['bottom']
-      },
-      ajax: '/wtf',
-      columns: [
-        {data: 'id'},
-        {data: 'desc'},
-        {data: 'title'},
-        {data: 'date'},
-        {data: 'types'},
-        {data: 'info'}
-      ]
-    }
+    const {match} = this.props
     return (
-      <Reactables settings={settings}>
-        <Header data="id">ID</Header>
-        <Header data="title">Name</Header>
-        <Header data="desc">Description</Header>
-        <Header data="date">Date</Header>
-        <Header data="info">Info</Header>
-        <Header data="field2">Field123 but data from field2</Header>
-        <Header data="field1">Field1</Header>
-        <Header data="field3">Field3 invisible</Header>
-        <Header>Field3 invisible</Header>
-      </Reactables>
+      <div>
+        <h1>test</h1>
+        <h1>Create</h1>
+        <NavLink to="/test/create">to thing</NavLink>
+        <div>routes</div>
+        <Route exact path={match.url + '/create'} component={Blah} />
+      </div>
     )
   }
 }

@@ -7,7 +7,6 @@ import _ from 'lodash'
 import axios from 'axios'
 import superagent from 'superagent'
 import ApiMgr from '../../utils'
-import shortid from 'shortid'
 import {Box, Button, Input, Text} from '../../components'
 import RoomCreator from './RoomCreator.js'
 
@@ -28,12 +27,18 @@ class Members extends Component {
         <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
           Members{' '}
         </Text>
-        <div>Joe <span style={{color: 'red'}}>offline</span></div>
-        <div>Martha <span style={{color: 'red'}}>online</span></div>
+        <div>
+          Joe <span style={{color: 'red'}}>offline</span>
+        </div>
+        <div>
+          Martha <span style={{color: 'red'}}>online</span>
+        </div>
         <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
           Spectators{' '}
         </Text>
-        <div>Martha <span style={{color: 'orange'}}>afk</span></div>
+        <div>
+          Martha <span style={{color: 'orange'}}>afk</span>
+        </div>
       </div>
     )
   }
@@ -278,9 +283,7 @@ class RoomsContainer extends Component {
               updateListType={this.props.actions.updateListType}
             />
           </Box>
-          <Box margin="20px 0 0 0">
-            {roomCreator}
-          </Box>
+          <Box margin="20px 0 0 0">{roomCreator}</Box>
         </Box>
       )
     } else {

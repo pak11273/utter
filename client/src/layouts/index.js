@@ -12,7 +12,9 @@ import Settings from './Settings'
 import Signup from './Signup.js'
 import Sponsorship from './Sponsorship.js'
 import Course from './Courses/Course.js'
+import CourseEdit from './Courses/containers/CourseEdit.js'
 import MyCourses from './Courses/MyCourses.js'
+import MyCoursesCreate from './Courses/containers/Create.js'
 import Courses from './Courses/index.js'
 import CourseDetails from './Courses/CourseDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
@@ -40,6 +42,8 @@ export {
   About,
   Contact,
   Course,
+  CourseEdit,
+  CourseDetails,
   Courses,
   ForgotPassword,
   GettingStarted,
@@ -47,8 +51,8 @@ export {
   Connections,
   Login,
   MyCourses,
+  MyCoursesCreate,
   Settings,
-  CourseDetails,
   NotFound,
   requireAuth,
   Dashboard,

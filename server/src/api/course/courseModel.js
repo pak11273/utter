@@ -2,13 +2,21 @@ import mongoose, {Schema} from 'mongoose'
 
 const CourseSchema = mongoose.Schema(
   {
+    courseId: {
+      type: String,
+      default: ''
+    },
     courseName: {
       type: String,
       default: ''
     },
-    courseCreator: {
+    courseCreatorId: {
       type: String,
       default: ''
+    },
+    courseMode: {
+      type: String,
+      default: 'draft'
     },
     teachingLang: {
       type: String,

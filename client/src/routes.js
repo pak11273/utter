@@ -13,8 +13,10 @@ import {
   Sponsorship,
   Courses,
   Course,
+  CourseEdit,
   CourseDetails,
   MyCourses,
+  MyCoursesCreate,
   NotFound,
   requireAuth,
   Dashboard,
@@ -48,11 +50,12 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/Admin',
+    path: '/admin',
     component: requireAuth(Admin),
     loadData: () => getSomeData()
   },
   {
+    exact: true,
     path: '/forgot-password',
     component: ForgotPassword,
     loadData: () => getSomeData()
@@ -110,13 +113,27 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
-    path: '/courses/my-courses',
-    component: MyCourses,
+    path: '/Login',
+    component: Login,
     loadData: () => getSomeData()
   },
   {
-    path: '/Login',
-    component: Login,
+    exact: true,
+    path: '/my-courses',
+    component: MyCourses,
+    loadData: () => getSomeData(),
+    routes: [
+      {
+        path: '/my-courses/create',
+        component: MyCoursesCreate,
+        loadData: () => getSomeData()
+      }
+    ]
+  },
+  {
+    exact: true,
+    path: '/my-courses/:id/:name/edit',
+    component: CourseEdit,
     loadData: () => getSomeData()
   },
   {
@@ -220,6 +237,7 @@ export const routes = [
     loadData: () => getSomeData()
   },
   {
+    // exact: true,
     path: '/test',
     component: Test,
     loadData: () => getSomeData()

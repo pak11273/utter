@@ -39,6 +39,7 @@ class Using extends Component {
     this.setState({
       selectValue: newValue
     })
+    this.props.addUsingLang(newValue)
   }
 
   render() {
@@ -88,7 +89,7 @@ Using.propTypes = {
 }
 
 Using.defaultProps = {
-  label: 'States:',
+  label: 'Language:',
   searchable: true
 }
 

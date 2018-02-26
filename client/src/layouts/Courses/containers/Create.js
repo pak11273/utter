@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
+import {NavLink, withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {validateInput} from '../../../utils/validations/courseCreate.js'
+import {addFlashMessage} from '../../../actions/flashMessages.js'
 import validator from 'validator'
+import cuid from 'cuid'
 import data from '../data'
 import Teaching from './Teaching.js'
 import Using from './Using.js'
@@ -111,17 +114,25 @@ const StyledGrid = styled(Grid)`
   }
 `
 class CreateCourse extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      displayName: 'Tags',
-      courseName: '',
-      teachingLang: '',
       charCount: 0,
+      courseId: cuid(),
+      courseCreatorId: this.props.authReducer.user._id,
       courseDescription: '',
+      courseName: '',
+      displayName: '',
+      errors: {},
       loading: false,
-      errors: {}
+      tags: [],
+      teachingLang: '',
+      usingLang: ''
     }
+
+    this.addTags = this.addTags.bind(this)
+    this.addTeachingLang = this.addTeachingLang.bind(this)
+    this.addUsingLang = this.addUsingLang.bind(this)
     this.onBlur = this.onBlur.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -164,26 +175,44 @@ class CreateCourse extends Component {
     })
   }
 
+  addUsingLang(value) {
+    this.setState({
+      usingLang: value
+    })
+  }
+
+  addTags(value) {
+    this.setState({
+      tags: value
+    })
+  }
+
   onSubmit(e) {
     e.preventDefault()
     if (this.isValid()) {
-      // if valid make api request
       this.props.actions.createCourseRequest(this.state)
       // clear state
       this.setState({
+        courseId: '',
+        courseCreatorId: '',
         courseName: '',
         charCount: 0,
         courseDescription: '',
         displayName: '',
         errors: {}, // clear errors every time we submit form
-        loading: false,
-        tags: [],
-        teachingLang: '',
-        usingLang: ''
+        loading: false
       })
       // TODO: clear redux
       // this.props.courseReducer.error = null // something to this effect
-      //TODO: this.props.history.push('/dashboard')
+      this.props.addFlashMessage({
+        type: 'success',
+        text: 'You have successfully created a Course!'
+      })
+      this.props.history.push(
+        `/courses/my-courses/${this.state.courseId}/${
+          this.state.courseName
+        }/edit`
+      )
     }
   }
 
@@ -192,9 +221,12 @@ class CreateCourse extends Component {
     const courseNameErrors = this.state.errors.courseName
     const courseDescriptionErrors = this.state.errors.courseDescription
     return (
-      <Grid height="1200px">
+      <Grid height="1400px">
         <StyledForm onSubmit={this.onSubmit}>
           <Title>Create a Course</Title>
+          <NavLink to={`/my-courses/${this.state.courseId}/whatever/edit`}>
+            try it
+          </NavLink>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
               Course Name<StyledSpan display640="inline-block">
@@ -264,19 +296,15 @@ class CreateCourse extends Component {
               overflow="initial"
               position="relative">
               <Label>Teaching</Label>
-              <Teaching
-                addTeachingLang={() => {
-                  this.addTeachingLang()
-                }}
-              />
+              <Teaching addTeachingLang={this.addTeachingLang} />
             </Flex>
             <StyledFlex gridarea="using" margin1080="40px 0 0 0">
               <Label>Using</Label>
-              <Using />
+              <Using addUsingLang={this.addUsingLang} />
             </StyledFlex>
             <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
               <Label>Tags</Label>
-              <Tags />
+              <Tags addTags={this.addTags} />
             </StyledFlex>
           </StyledGrid>
           <Box flexdirection="row">
@@ -290,6 +318,7 @@ class CreateCourse extends Component {
 
 const mapStateToProps = state => {
   return {
+    authReducer: state.authReducer,
     courseReducer: state.courseReducer
   }
 }
@@ -298,6 +327,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        addFlashMessage,
         createCourseRequest,
         fetchCourseName,
         toggleFooter
@@ -307,4 +337,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateCourse)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CreateCourse)
+)

@@ -1,14 +1,16 @@
 import React, {Component} from 'react'
-import {NavLink, Link, Route} from 'react-router-dom'
+import {withRouter, NavLink, Link, Route} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
+import 'react-table/react-table.css'
 import ReactTable from 'react-table'
 import Create from './containers/Create.js'
 import Created from './Created.js'
 import Edit from './Edit.js'
-import 'react-table/react-table.css'
+import CourseEdit from './containers/CourseEdit.js'
 import data from './data'
+import requireAuth from '../../utils/requireAuth.js'
 
 import {
   Box,
@@ -57,10 +59,13 @@ const StyledNavLink = styled(NavLink)`
     color: #ff9800;
   }
 `
+const Index = styled.section`
+  <h1>My Courses</h1>
+`
 
 class MyCourses extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {}
   }
 
@@ -73,18 +78,19 @@ class MyCourses extends Component {
   }
 
   render() {
+    console.log(this.props)
     return (
       <StyledGrid>
         <Staticbar>
           <Section>
             <Column>
               <StyledSubtitle padding="80px 0 0 20px">
-                <StyledNavLink to="/courses/my-courses/created">
+                <StyledNavLink to="/my-courses/created">
                   My Courses
                 </StyledNavLink>
               </StyledSubtitle>
               <StyledSubtitle padding="20px 0 20px 20px">
-                <StyledNavLink to="/courses/my-courses/create">
+                <StyledNavLink to="/my-courses/create">
                   Create a Course
                 </StyledNavLink>
               </StyledSubtitle>
@@ -92,14 +98,14 @@ class MyCourses extends Component {
           </Section>
         </Staticbar>
         <Section gridarea="content">
-          <Route exact path="/courses/my-courses" component={Created} />
-          <Route exact path="/courses/my-courses/create" component={Create} />
-          <Route exact path="/courses/my-courses/created" component={Created} />
+          <Route exact path="/my-courses" component={Created} />
           <Route
             exact
-            path="/courses/my-courses/created/edit"
-            component={Edit}
+            path="/my-courses/create"
+            component={requireAuth(Create)}
           />
+          <Route exact path="/my-courses/created" component={Created} />
+          <Route exact path="/my-courses/created/edit" component={Edit} />
         </Section>
       </StyledGrid>
     )
@@ -121,4 +127,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyCourses)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(MyCourses)
+)

@@ -18,7 +18,6 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.post = (req, res, next) => {
-  console.log(req.body)
   let newCourse = req.body.course
 
   Course.create(newCourse).then(
@@ -32,7 +31,7 @@ exports.post = (req, res, next) => {
 }
 
 exports.unique = (req, res, next) => {
-  Course.find({name: req.body.course}).then(
+  Course.find({courseName: req.body.course}).then(
     course => {
       if (!req.body.course) {
         res.status(400).json({error: 'This field is required.'})

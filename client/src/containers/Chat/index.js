@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Button, Box, List, ListItem, TextArea} from '../../components'
 import styled from 'styled-components'
-import shortid from 'shortid'
+import cuid from 'cuid'
 import io from 'socket.io-client'
 import RecordRTC from 'recordrtc'
 import filename from '../../assets/images/play.svg'
@@ -19,10 +19,11 @@ import {
   sendMsg
 } from '../../services/socketio/actions.js'
 
-const Msg = ({author, audio, msg}) =>
+const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">
     {author}: {audio ? <audio src={audio} controls /> : null} {msg}
   </ListItem>
+)
 
 class MsgList extends Component {
   render() {
@@ -36,7 +37,7 @@ class MsgList extends Component {
         margin="0 0 20px 0"
         overflowy="scroll">
         <List className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
-          {list.map(item =>
+          {list.map(item => (
             <Msg
               key={item.id}
               author={item.author}
@@ -44,7 +45,7 @@ class MsgList extends Component {
               msg={item.msg}
               onClick={() => onMsgClick(id)}
             />
-          )}
+          ))}
         </List>
       </Box>
     )
@@ -225,7 +226,7 @@ class ChatContainer extends Component {
     }
     // send typed messages
     const body = {
-      id: shortid.generate(),
+      id: cuid(),
       msg: this.state.msg,
       author: this.props.userReducer.userProfile.username,
       room: this.props.socketReducer.joined_room
@@ -304,7 +305,7 @@ class ChatContainer extends Component {
 
     if (e.keyCode === 13 && value) {
       const body = {
-        id: shortid.generate(),
+        id: cuid.generate(),
         msg: value,
         author: this.props.userReducer.userProfile.username,
         room: this.props.socketReducer.joined_room
@@ -353,21 +354,22 @@ class ChatContainer extends Component {
         <Box>
           <MsgList list={this.filteredMessages()} />
           <Box style={{padding: '20px'}}>
-            {' '}<Article className="sound-clips" />
+            {' '}
+            <Article className="sound-clips" />
           </Box>
           <MsgBox onKeyUp={this.onKeyUp} />
           <Box alignitems="flex-start" flexdirection="row" width="200px">
-            {this.props.roomReducer.creator
-              ? <Button
-                  color="black"
-                  fontsize="1.2rem"
-                  margin="5px"
-                  padding="3px"
-                  onClick={this.updateReview}
-                  width="50px">
-                  review{' '}
-                </Button>
-              : null}
+            {this.props.roomReducer.creator ? (
+              <Button
+                color="black"
+                fontsize="1.2rem"
+                margin="5px"
+                padding="3px"
+                onClick={this.updateReview}
+                width="50px">
+                review{' '}
+              </Button>
+            ) : null}
             {recordBtn}
             <Button
               color="black"

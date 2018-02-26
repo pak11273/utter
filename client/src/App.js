@@ -29,6 +29,7 @@ const StyledGrid = styled(Grid)`
     'footer';
   margin: 0 auto;
 `
+
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   render(props) {

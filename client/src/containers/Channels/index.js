@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import axios from 'axios'
 import io from 'socket.io-client'
 import ApiMgr from '../../utils'
-import shortid from 'shortid'
 import {Rooms} from '../../containers'
 import {Box, Button, Column, Input, Ol, Text} from '../../components'
 
@@ -41,7 +40,7 @@ const Channel = ({name, id, onClick}) => {
   )
 }
 
-const ChannelsList = ({channelList, channelSortAsc, onChannelSelect}) =>
+const ChannelsList = ({channelList, channelSortAsc, onChannelSelect}) => (
   <Box alignitems="flex-start" justifycontent="flex-start">
     <Ol fontsize="1.2rem" color="black" padding="20px" textalign="left">
       {channelList.map(({_id, name, language, socket}) => {
@@ -52,6 +51,7 @@ const ChannelsList = ({channelList, channelSortAsc, onChannelSelect}) =>
       })}
     </Ol>
   </Box>
+)
 
 class ChannelsContainer extends Component {
   constructor(props) {
