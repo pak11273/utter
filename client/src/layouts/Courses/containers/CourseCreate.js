@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {NavLink, withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
+import {push} from 'react-router-redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {validateInput} from '../../../utils/validations/courseCreate.js'
@@ -136,6 +137,7 @@ class CreateCourse extends Component {
     this.onBlur = this.onBlur.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.doit = this.doit.bind(this)
   }
 
   componentDidMount() {
@@ -204,16 +206,26 @@ class CreateCourse extends Component {
       })
       // TODO: clear redux
       // this.props.courseReducer.error = null // something to this effect
-      this.props.addFlashMessage({
+      this.props.actions.addFlashMessage({
         type: 'success',
         text: 'You have successfully created a Course!'
       })
-      this.props.history.push(
-        `/courses/my-courses/${this.state.courseId}/${
-          this.state.courseName
-        }/edit`
+      // this.props.history.push(
+      //   `/courses/my-courses/${this.state.courseId}/${
+      //     this.state.courseName
+      //   }/edit`
+      // )
+      this.props.actions.push(
+        `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
       )
     }
+  }
+
+  doit(e) {
+    e.preventDefault()
+    this.props.actions.push(
+      `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
+    )
   }
 
   render() {
@@ -224,9 +236,7 @@ class CreateCourse extends Component {
       <Grid height="1400px">
         <StyledForm onSubmit={this.onSubmit}>
           <Title>Create a Course</Title>
-          <NavLink to={`/my-courses/${this.state.courseId}/whatever/edit`}>
-            try it
-          </NavLink>
+          <button onClick={this.doit}>try it</button>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
               Course Name<StyledSpan display640="inline-block">
@@ -330,7 +340,10 @@ const mapDispatchToProps = dispatch => {
         addFlashMessage,
         createCourseRequest,
         fetchCourseName,
-        toggleFooter
+        toggleFooter,
+        push: location => {
+          dispatch(push(location))
+        }
       },
       dispatch
     )

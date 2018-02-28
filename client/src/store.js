@@ -7,7 +7,7 @@ import SocketIO from './services/socketio'
 import rootSaga from './rootSaga.js'
 const Socket = new SocketIO()
 import history from './history.js'
-import {routerMiddleware} from 'react-router-redux'
+import {routerMiddleware, push} from 'react-router-redux'
 const middleware = routerMiddleware(history)
 
 // redux middleware

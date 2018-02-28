@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
+import {push} from 'react-router-redux'
 import Title from '../../components/Text/Title.js'
 import Subtitle from '../../components/Text/Subtitle.js'
 import Label from '../../components/Text/Label.js'
@@ -85,14 +87,17 @@ class LoginForm extends Component {
         isLoading: true
       })
 
-      this.props
+      this.props.actions
         .login(this.state)
         .then(() => {
-          this.props.history.push('/dashboard')
+          this.props.actions.push('/dashboard')
         })
         .catch(error => {
-          console.log('error: ', error)
-          this.setState({errors: error.response.data.errors, isLoading: false})
+          if (error.response)
+            this.setState({
+              errors: error.response.data.errors,
+              isLoading: false
+            })
         })
     }
   }
@@ -182,4 +187,18 @@ class LoginForm extends Component {
   }
 }
 
-export default connect(null, {login})(LoginForm)
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        login,
+        push: location => {
+          dispatch(push(location))
+        }
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(null, mapDispatchToProps)(LoginForm)

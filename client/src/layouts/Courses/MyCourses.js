@@ -85,7 +85,6 @@ class MyCourses extends Component {
   }
 
   render() {
-    console.log('blah: ', this)
     return (
       <Router>
         <StyledGrid>
@@ -106,7 +105,6 @@ class MyCourses extends Component {
             </Section>
           </Staticbar>
           <Section gridarea="content">
-            <div>{console.log('sub: ', this.props.routes)}</div>
             {this.props.routes.map((route, i) => <Route key={i} {...route} />)}
           </Section>
         </StyledGrid>

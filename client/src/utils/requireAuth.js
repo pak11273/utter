@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {addFlashMessage} from '../actions/flashMessages.js'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {push} from 'react-router-redux'
 
@@ -12,19 +11,18 @@ export default ComposedComponent => {
     }
 
     componentWillMount() {
-      console.log('history: ', this.props)
       if (!this.props.isAuthenticated) {
         this.props.actions.addFlashMessage({
           type: 'error',
           text: 'You need to login to access this page'
         })
-        this.props.actions.pushTo('/login')
+        this.props.actions.push('/login')
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
-        this.props.actions.pushTo('/login')
+        this.props.actions.push('/login')
       }
     }
 
@@ -39,12 +37,12 @@ export default ComposedComponent => {
     }
   }
 
-  const mapDispatchToProps = (dispatch, ownProps) => {
+  const mapDispatchToProps = dispatch => {
     return {
       actions: bindActionCreators(
         {
           addFlashMessage,
-          pushTo: location => {
+          push: location => {
             dispatch(push(location))
           }
         },
@@ -53,5 +51,5 @@ export default ComposedComponent => {
     }
   }
 
-  return withRouter(connect(mapStateToProps, mapDispatchToProps)(Authenticate))
+  return connect(mapStateToProps, mapDispatchToProps)(Authenticate)
 }
