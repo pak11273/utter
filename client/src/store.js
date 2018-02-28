@@ -6,6 +6,9 @@ import jwt from 'jsonwebtoken'
 import SocketIO from './services/socketio'
 import rootSaga from './rootSaga.js'
 const Socket = new SocketIO()
+import history from './history.js'
+import {routerMiddleware} from 'react-router-redux'
+const middleware = routerMiddleware(history)
 
 // redux middleware
 // import {createLogger} from 'redux-logger'
@@ -23,7 +26,13 @@ const sagaMiddleware = createSagaMiddleware()
 const store = createStore(
   rootReducer,
   /* preloadedState, */ composeEnhancers(
-    applyMiddleware(ioMiddleware(Socket), thunk, promise(), sagaMiddleware)
+    applyMiddleware(
+      middleware,
+      ioMiddleware(Socket),
+      thunk,
+      promise(),
+      sagaMiddleware
+    )
   )
 )
 

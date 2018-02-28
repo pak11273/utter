@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
-import {BrowserRouter as Router, Link, Switch, Route} from 'react-router-dom'
+import {Link, Switch, Route} from 'react-router-dom'
 import {render} from 'react-dom'
 import {Provider} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import jwt from 'jsonwebtoken'
 import {AppContainer} from 'react-hot-loader'
-
+import {ConnectedRouter as Router} from 'react-router-redux'
 import './assets/css/global-styles.js'
 import {routes} from './routes'
 import {main} from './themes/config.js'
@@ -16,6 +16,7 @@ import NavbarSpacer from './components/Spacers/NavbarSpacer.js'
 import store from './store.js'
 import rootReducer from './rootReducer'
 import FlashMessagesList from './components/FlashMessages/FlashMessagesList'
+import history from './history.js'
 
 //actions
 // import {setCurrentUser} from './actions/authActions.js' TODO: possibly remove
@@ -32,13 +33,16 @@ const StyledGrid = styled(Grid)`
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
+  constructor(props) {
+    super(props)
+  }
   render(props) {
     const toggleFooter = store.getState().toggleFooterReducer.toggle
     return (
       <AppContainer>
         <ThemeProvider theme={main}>
           <Provider store={store}>
-            <Router>
+            <Router history={history}>
               <StyledGrid>
                 <MainNavbar
                   gridarea="navbar"
@@ -59,7 +63,16 @@ class App extends Component {
                 </Section>
                 <Section gridarea="content">
                   <Switch>
-                    {routes.map((route, i) => <Route key={i} {...route} />)}
+                    {routes.map(route => (
+                      <route.component
+                        path={route.path}
+                        {...route}
+                        render={props => (
+                          // pass the sub-routes down to keep nesting
+                          <route.component subroutes={route.routes} />
+                        )}
+                      />
+                    ))}
                   </Switch>
                 </Section>
                 <Footer gridarea="footer">

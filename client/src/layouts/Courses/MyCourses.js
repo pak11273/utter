@@ -1,17 +1,24 @@
 import React, {Component} from 'react'
-import {withRouter, NavLink, Link, Route} from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  withRouter,
+  NavLink,
+  Link,
+  Route
+} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import 'react-table/react-table.css'
 import ReactTable from 'react-table'
-import Create from './containers/Create.js'
 import Created from './Created.js'
+import MyCoursesCreate from './containers/CourseEdit.js'
 import Edit from './Edit.js'
 import CourseEdit from './containers/CourseEdit.js'
 import data from './data'
 import requireAuth from '../../utils/requireAuth.js'
 
+const Blah = <h1>Blah!!!</h1>
 import {
   Box,
   Button,
@@ -78,36 +85,32 @@ class MyCourses extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log('blah: ', this)
     return (
-      <StyledGrid>
-        <Staticbar>
-          <Section>
-            <Column>
-              <StyledSubtitle padding="80px 0 0 20px">
-                <StyledNavLink to="/my-courses/created">
-                  My Courses
-                </StyledNavLink>
-              </StyledSubtitle>
-              <StyledSubtitle padding="20px 0 20px 20px">
-                <StyledNavLink to="/my-courses/create">
-                  Create a Course
-                </StyledNavLink>
-              </StyledSubtitle>
-            </Column>
+      <Router>
+        <StyledGrid>
+          <Staticbar>
+            <Section>
+              <Column>
+                <StyledSubtitle padding="80px 0 0 20px">
+                  <StyledNavLink to="/my-courses/created">
+                    My Courses
+                  </StyledNavLink>
+                </StyledSubtitle>
+                <StyledSubtitle padding="20px 0 20px 20px">
+                  <StyledNavLink to="/my-courses/create">
+                    Create a Course
+                  </StyledNavLink>
+                </StyledSubtitle>
+              </Column>
+            </Section>
+          </Staticbar>
+          <Section gridarea="content">
+            <div>{console.log('sub: ', this.props.routes)}</div>
+            {this.props.routes.map((route, i) => <Route key={i} {...route} />)}
           </Section>
-        </Staticbar>
-        <Section gridarea="content">
-          <Route exact path="/my-courses" component={Created} />
-          <Route
-            exact
-            path="/my-courses/create"
-            component={requireAuth(Create)}
-          />
-          <Route exact path="/my-courses/created" component={Created} />
-          <Route exact path="/my-courses/created/edit" component={Edit} />
-        </Section>
-      </StyledGrid>
+        </StyledGrid>
+      </Router>
     )
   }
 }

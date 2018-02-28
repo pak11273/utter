@@ -44,206 +44,202 @@ import language from './data/language.json'
 
 export const routes = [
   {
-    exact: true,
-    path: '/',
-    component: Home,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/admin',
-    component: requireAuth(Admin),
-    loadData: () => getSomeData()
-  },
-  {
-    exact: true,
-    path: '/forgot-password',
-    component: ForgotPassword,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/Dashboard',
-    component: requireAuth(Dashboard),
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/Home',
-    component: Home,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/About',
     component: About,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/getting-started',
-    component: requireAuth(GettingStarted),
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/Contact',
-    component: Contact,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/course',
-    component: Course,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/CourseDetails/:name',
-    component: props => {
-      const one = language.languages.filter(
-        language => props.match.params.name === language.name
-      )
-      return (
-        <CourseDetails
-          languages={language.languages}
-          language={one[0]}
-          {...props}
-        />
-      )
-    },
-    loadData: () => getSomeData()
-  },
-  {
     exact: true,
-    path: '/courses',
-    component: props => <Courses languages={language.languages} {...props} />,
-    loadData: () => getSomeData()
+    path: '/About'
   },
   {
-    path: '/Login',
+    component: Home,
+    exact: true,
+    path: '/'
+  },
+  {
+    component: Home,
+    exact: true,
+    path: '/home'
+  },
+  // {
+  //   path: '/admin',
+  //   component: requireAuth(Admin),
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   exact: true,
+  //   path: '/forgot-password',
+  //   component: ForgotPassword,
+  //   loadData: () => getSomeData()
+  // },
+  {
+    component: requireAuth(Dashboard),
+    exact: true,
+    path: '/Dashboard'
+  },
+  // {
+  //   path: '/getting-started',
+  //   component: requireAuth(GettingStarted),
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/Contact',
+  //   component: Contact,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/course',
+  //   component: Course,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/CourseDetails/:name',
+  //   component: props => {
+  //     const one = language.languages.filter(
+  //       language => props.match.params.name === language.name
+  //     )
+  //     return (
+  //       <CourseDetails
+  //         languages={language.languages}
+  //         language={one[0]}
+  //         {...props}
+  //       />
+  //     )
+  //   },
+  //   loadData: () => getSomeData()
+  // },
+  {
+    component: Courses,
+    exact: true,
+    path: '/courses'
+  },
+  {
     component: Login,
-    loadData: () => getSomeData()
+    exact: true,
+    path: '/login'
   },
   {
+    component: MyCourses,
     exact: true,
     path: '/my-courses',
-    component: MyCourses,
-    loadData: () => getSomeData(),
     routes: [
       {
-        path: '/my-courses/create',
-        component: MyCoursesCreate,
-        loadData: () => getSomeData()
+        component: requireAuth(MyCoursesCreate),
+        exact: true,
+        path: '/my-courses/create'
       }
     ]
   },
   {
+    component: requireAuth(CourseEdit),
     exact: true,
-    path: '/my-courses/:id/:name/edit',
-    component: CourseEdit,
-    loadData: () => getSomeData()
+    path: '/my-courses/:id/:name/edit'
   },
+  // {
+  //   path: '/pricing',
+  //   component: Pricing,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/redux',
+  //   component: Redux,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/reset-password',
+  //   component: ResetPassword,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/Settings',
+  //   component: requireAuth(Settings),
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/Signup',
+  //   component: Signup,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/Sponsorship',
+  //   component: Sponsorship,
+  //   loadData: () => getSomeData()
+  // },
   {
-    path: '/pricing',
-    component: Pricing,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/redux',
-    component: Redux,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/reset-password',
-    component: ResetPassword,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/Settings',
-    component: requireAuth(Settings),
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/Signup',
-    component: Signup,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/Sponsorship',
-    component: Sponsorship,
-    loadData: () => getSomeData()
-  },
-  {
+    exact: true,
     path: '/Connections',
-    component: requireAuth(Connections),
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/1',
-    component: Korean1,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/2',
-    component: Korean2,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/3',
-    component: Korean3,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/4',
-    component: Korean4,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/5',
-    component: Korean5,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/6',
-    component: Korean6,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/7',
-    component: Korean7,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/korean/8',
-    component: Korean8,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/spanish/1',
-    component: Spanish1,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/spanish/3',
-    component: Spanish3,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/spanish/2',
-    component: Spanish2,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/french/1',
-    component: French1,
-    loadData: () => getSomeData()
-  },
-  {
-    path: '/french/2',
-    component: French2,
-    loadData: () => getSomeData()
-  },
-  {
-    // exact: true,
-    path: '/test',
-    component: Test,
-    loadData: () => getSomeData()
-  },
-  {
-    component: NotFound,
-    loadData: () => getSomeData()
+    component: requireAuth(Connections)
   }
+  // {
+  //   path: '/korean/1',
+  //   component: Korean1,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/2',
+  //   component: Korean2,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/3',
+  //   component: Korean3,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/4',
+  //   component: Korean4,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/5',
+  //   component: Korean5,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/6',
+  //   component: Korean6,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/7',
+  //   component: Korean7,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/korean/8',
+  //   component: Korean8,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/spanish/1',
+  //   component: Spanish1,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/spanish/3',
+  //   component: Spanish3,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/spanish/2',
+  //   component: Spanish2,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/french/1',
+  //   component: French1,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   path: '/french/2',
+  //   component: French2,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   // exact: true,
+  //   path: '/test',
+  //   component: Test,
+  //   loadData: () => getSomeData()
+  // },
+  // {
+  //   component: NotFound,
+  //   loadData: () => getSomeData()
+  // }
 ]

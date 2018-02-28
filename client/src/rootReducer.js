@@ -14,6 +14,7 @@ import toggleFooterReducer from './reducers/toggleFooterReducer.js'
 import userReducer from './layouts/Connections/reducer.js'
 import utteredReducer from './containers/Uttered/reducer.js'
 import vocabReducer from './layouts/Admin/Vocabulary/reducer.js'
+import {routerReducer} from 'react-router-redux'
 
 export default combineReducers({
   authReducer,
@@ -26,6 +27,7 @@ export default combineReducers({
   pictureReducer,
   phraseReducer,
   roomReducer,
+  router: routerReducer,
   socketReducer,
   toggleFooterReducer,
   vocabReducer,

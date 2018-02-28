@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {NavLink, Link} from 'react-router-dom'
+import {NavLink, Link, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
@@ -101,19 +101,6 @@ class CoursesContainer extends Component {
             <Title>Enroll in a Course</Title>
             <Subtitle>Choose from several languages</Subtitle>
           </Flex>
-          <Flex flexdirection="row" justifycontent="center">
-            {this.props.languages
-              .filter(language => {
-                return (
-                  `${language.name}`
-                    .toUpperCase()
-                    .indexOf(this.state.search.toUpperCase()) >= 0
-                )
-              })
-              .map(language => {
-                return <LanguageCard {...language} />
-              })}
-          </Flex>
         </Grid>
       </StyledGrid>
     )
@@ -130,4 +117,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesContainer)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(CoursesContainer)
+)

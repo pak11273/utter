@@ -28,7 +28,7 @@ const Form = styled.form`
   align-items: center;
   margin: 0 auto;
 
-  @media(min-width: 640px) {
+  @media (min-width: 640px) {
     flex-direction: row;
     width: 960px;
   }
@@ -91,6 +91,7 @@ class LoginForm extends Component {
           this.props.history.push('/dashboard')
         })
         .catch(error => {
+          console.log('error: ', error)
           this.setState({errors: error.response.data.errors, isLoading: false})
         })
     }
@@ -128,17 +129,14 @@ class LoginForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return (
-                <Error key={i}>
-                  {identifierErrors[value]}
-                </Error>
-              )
+              return <Error key={i}>{identifierErrors[value]}</Error>
             })}
           <div>
-            {this.state.errors.form &&
+            {this.state.errors.form && (
               <Error paddingtop="45px">
                 &mdash; {this.state.errors.form} &mdash;{' '}
-              </Error>}
+              </Error>
+            )}
           </div>
           <Label>Password</Label>
           <InputLine
@@ -153,11 +151,7 @@ class LoginForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return (
-                <Error key={i}>
-                  {passwordErrors[value]}
-                </Error>
-              )
+              return <Error key={i}>{passwordErrors[value]}</Error>
             })}
 
           <Box justifycontent="row">
