@@ -51,3 +51,8 @@ input:-webkit-autofill {
 .Select {
   margin: 0;
 }
+
+/* Footer Override */
+.rt-td {
+  display: flex;
+}

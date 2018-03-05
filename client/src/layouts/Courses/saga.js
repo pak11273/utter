@@ -2,6 +2,8 @@ import {takeEvery} from 'redux-saga'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import axios from 'axios'
 import {
+  updateCourseFail,
+  updateCourseSuccess,
   createCourseSuccess,
   createCourseFail,
   requestCourse,
@@ -40,11 +42,53 @@ function* createCourse(action) {
 
 // READ
 // UPDATE
+function* watchUpdateCourse() {
+  yield takeLatest('UPDATE_COURSE', updateCourse)
+}
+
+function* updateCourse(action) {
+  try {
+    const data = yield call(() => {
+      return axios({
+        method: 'put',
+        url: '/api/courses',
+        data: {
+          course: action.course
+        }
+      })
+        .then(res => {
+          return res
+        })
+        .catch(err => {
+          throw err.response.data.error
+        })
+    })
+    yield put(updateCourseSuccess(data.data))
+  } catch (error) {
+    yield put(updateCourseFail(error))
+  }
+}
+
 // DELETE
 
 // Sagas
 function* watchFetchCourseName() {
   yield takeEvery('FETCHED_COURSE_NAME', fetchCourseNameAsync)
+}
+
+function* watchSetCourse() {
+  yield takeEvery('SET_COURSE', setCourseAsync)
+}
+
+function* setCourseAsync(action) {
+  try {
+    const data = yield call(() => {
+      return 'pending'
+    })
+    yield put(setCourseSuccess())
+  } catch (error) {
+    yield put(setCourseError(error))
+  }
 }
 
 function* fetchCourseNameAsync(action) {
@@ -70,4 +114,4 @@ function* fetchCourseNameAsync(action) {
   }
 }
 
-export default [watchCreateCourse, watchFetchCourseName]
+export default [watchCreateCourse, watchFetchCourseName, watchUpdateCourse]

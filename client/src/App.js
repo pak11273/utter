@@ -13,10 +13,10 @@ import {main} from './themes/config.js'
 import {Footer, MainNavbar} from './containers'
 import {Grid, Section} from './components'
 import NavbarSpacer from './components/Spacers/NavbarSpacer.js'
-import store from './store.js'
-import rootReducer from './rootReducer'
+import {store, persistor} from './store.js'
 import FlashMessagesList from './components/FlashMessages/FlashMessagesList'
 import history from './history.js'
+import {PersistGate} from 'redux-persist/integration/react'
 
 //actions
 // import {setCurrentUser} from './actions/authActions.js' TODO: possibly remove
@@ -42,44 +42,46 @@ class App extends Component {
       <AppContainer>
         <ThemeProvider theme={main}>
           <Provider store={store}>
-            <Router history={history}>
-              <StyledGrid>
-                <MainNavbar
-                  gridarea="navbar"
-                  list={[
-                    'about',
-                    'contact',
-                    'courses',
-                    'pricing',
-                    'connections'
-                  ]}
-                  changeMenuOn="640px"
-                  largeMenuClassName="large-menu"
-                  smallMenuClassName="small-menu"
-                />
-                <Section gridarea="flash">
-                  <NavbarSpacer margin="50px 0 0 0" id="spacer" />
-                  <FlashMessagesList />
-                </Section>
-                <Section gridarea="content">
-                  <Switch>
-                    {routes.map(route => (
-                      <route.component
-                        path={route.path}
-                        {...route}
-                        render={props => (
-                          // pass the sub-routes down to keep nesting
-                          <route.component subroutes={route.routes} />
-                        )}
-                      />
-                    ))}
-                  </Switch>
-                </Section>
-                <Footer gridarea="footer">
-                  <p>Footer here</p>
-                </Footer>
-              </StyledGrid>
-            </Router>
+            <PersistGate loading={null} persistor={persistor}>
+              <Router history={history}>
+                <StyledGrid>
+                  <MainNavbar
+                    gridarea="navbar"
+                    list={[
+                      'about',
+                      'contact',
+                      'courses',
+                      'pricing',
+                      'connections'
+                    ]}
+                    changeMenuOn="640px"
+                    largeMenuClassName="large-menu"
+                    smallMenuClassName="small-menu"
+                  />
+                  <Section gridarea="flash">
+                    <NavbarSpacer margin="50px 0 0 0" id="spacer" />
+                    <FlashMessagesList />
+                  </Section>
+                  <Section gridarea="content">
+                    <Switch>
+                      {routes.map(route => (
+                        <route.component
+                          path={route.path}
+                          {...route}
+                          render={props => (
+                            // pass the sub-routes down to keep nesting
+                            <route.component subroutes={route.routes} />
+                          )}
+                        />
+                      ))}
+                    </Switch>
+                  </Section>
+                  <Footer gridarea="footer">
+                    <p>Footer here</p>
+                  </Footer>
+                </StyledGrid>
+              </Router>
+            </PersistGate>
           </Provider>
         </ThemeProvider>
       </AppContainer>

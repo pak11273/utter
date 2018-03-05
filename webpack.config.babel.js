@@ -73,9 +73,16 @@ module.exports = env => {
           use: ['file-loader?name=[name].[ext]']
         },
         {
-          test: /\.ttf$/,
-          use: ['cache-loader', 'file-loader?prefix=fonts/']
+          test: /\.(eot|ttf|woff|woff2)$/,
+          use: [
+            'cache-loader',
+            'file-loader?name=client/src/assets/css/[name].[ext]'
+          ]
         },
+        // {
+        //   test: /\.ttf$/,
+        //   use: ['cache-loader', 'file-loader?prefix=fonts/']
+        // },
         {
           test: /react-icons\/(.)*(.js)$/,
           use: ['cache-loader', 'babel-loader']
@@ -125,30 +132,30 @@ module.exports = env => {
 //   externals: [nodeExternals()] // in order to ignore all modules in node_modules folder
 // }
 
-const shared = {
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: ['react-hot-loader', 'babel-loader']
-      },
-      {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
-        use: ['file-loader?name=[name].[ext]']
-      },
-      {
-        test: /react-icons\/(.)*(.js)$/,
-        use: 'babel-loader'
-      }
-    ]
-  }
-}
+// const shared = {
+//   module: {
+//     rules: [
+//       {
+//         test: /\.jsx?$/,
+//         exclude: /node_modules/,
+//         use: ['react-hot-loader', 'babel-loader']
+//       },
+//       {
+//         test: /\.css$/,
+//         exclude: /node_modules/,
+//         use: ['style-loader', 'css-loader']
+//       },
+//       {
+//         test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
+//         use: ['file-loader?name=[name].[ext]']
+//       },
+//       {
+//         test: /react-icons\/(.)*(.js)$/,
+//         use: 'babel-loader'
+//       }
+//     ]
+//   }
+// }
 
 // module.exports = Object.assign({}, shared, client(env))
 // Object.assign({}, shared, server)

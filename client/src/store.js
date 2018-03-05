@@ -7,8 +7,18 @@ import SocketIO from './services/socketio'
 import rootSaga from './rootSaga.js'
 const Socket = new SocketIO()
 import history from './history.js'
-import {routerMiddleware, push} from 'react-router-redux'
+import {routerMiddleware} from 'react-router-redux'
 const middleware = routerMiddleware(history)
+
+// redux-persist
+import {persistStore, persistReducer} from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage
+const persistConfig = {
+  key: 'root',
+  storage
+}
+
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 // redux middleware
 // import {createLogger} from 'redux-logger'
@@ -23,8 +33,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 // OPTION: add this line to your middleware args if you want to use redux logger
 // createLogger({collapsed: true}),
 const sagaMiddleware = createSagaMiddleware()
-const store = createStore(
-  rootReducer,
+
+let store = createStore(
+  persistedReducer,
   /* preloadedState, */ composeEnhancers(
     applyMiddleware(
       middleware,
@@ -36,6 +47,8 @@ const store = createStore(
   )
 )
 
+let persistor = persistStore(store)
+
 if (localStorage.jwtToken) {
   setAuthorizationToken(localStorage.jwtToken)
   store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
@@ -43,4 +56,4 @@ if (localStorage.jwtToken) {
 
 sagaMiddleware.run(rootSaga)
 
-export default store
+export {store, persistor}

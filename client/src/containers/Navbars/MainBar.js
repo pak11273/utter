@@ -98,7 +98,7 @@ const Nav = styled.div`
 
 const Menu = styled.ul`
   display: flex;
-  width: 180px;
+  width: 185px;
   ul {
     li {
       color: #1e74b7;

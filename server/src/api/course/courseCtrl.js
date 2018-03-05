@@ -2,6 +2,8 @@ import Course from './courseModel.js'
 import _ from 'lodash'
 
 exports.params = (req, res, next, id) => {
+  console.log('id: ', id)
+  console.log('req: ', req)
   Course.findById(id).then(
     course => {
       if (!course) {

@@ -18,6 +18,10 @@ const CourseSchema = mongoose.Schema(
       type: String,
       default: 'draft'
     },
+    coursePages: {
+      type: Number,
+      default: -1
+    },
     teachingLang: {
       type: String,
       default: ''
@@ -36,11 +40,14 @@ const CourseSchema = mongoose.Schema(
         ref: 'User'
       }
     ],
-    levels: {
-      type: Number,
-      vocabulary: Array,
-      grammar: String
-    },
+    levels: [
+      {
+        title: String,
+        type: Number,
+        vocabulary: Array,
+        grammar: String
+      }
+    ],
     courseDescription: {
       type: String,
       default: ''

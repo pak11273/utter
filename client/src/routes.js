@@ -79,11 +79,10 @@ export const routes = [
   //   component: requireAuth(GettingStarted),
   //   loadData: () => getSomeData()
   // },
-  // {
-  //   path: '/Contact',
-  //   component: Contact,
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/contact',
+    component: Contact
+  },
   // {
   //   path: '/course',
   //   component: Course,
@@ -152,11 +151,11 @@ export const routes = [
   //   component: requireAuth(Settings),
   //   loadData: () => getSomeData()
   // },
-  // {
-  //   path: '/Signup',
-  //   component: Signup,
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/signup',
+    component: Signup,
+    loadData: () => getSomeData()
+  },
   // {
   //   path: '/Sponsorship',
   //   component: Sponsorship,
