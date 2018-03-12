@@ -8,6 +8,7 @@ import {
   REQUESTED_COURSE_NAME_FAILED,
   REQUESTED_COURSE_NAME_SUCCEEDED,
   COURSE_LANGUAGE_FULFILLED,
+  RESET_COURSE_CREATE_FORM,
   SAVE_FORM_TO_REDUX
 } from './types'
 
@@ -105,6 +106,14 @@ export default (state = initialState, action) => {
       return {
         ...state,
         courseLanguage: action.payload
+      }
+    case 'RESET_COURSE_CREATE_FORM':
+      return {
+        ...state,
+        courseNameMsg: '',
+        loading: false,
+        error: false,
+        errorMsg: action.error
       }
     case 'SAVE_FORM_TO_REDUX':
       return {

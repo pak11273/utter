@@ -36,6 +36,7 @@ import {toggleFooter} from '../../../actions/toggleFooterAction.js'
 import {
   createCourseRequest,
   fetchCourseName,
+  resetCourseCreateForm,
   saveFormToRedux
 } from '../actions.js'
 
@@ -144,6 +145,7 @@ class CreateCourse extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
+    this.props.actions.resetCourseCreateForm()
   }
 
   componentWillUnmount() {
@@ -331,6 +333,7 @@ const mapDispatchToProps = dispatch => {
       {
         addFlashMessage,
         createCourseRequest,
+        resetCourseCreateForm,
         fetchCourseName,
         toggleFooter,
         push,
