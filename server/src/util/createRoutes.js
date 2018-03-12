@@ -7,6 +7,8 @@ module.exports = (controller, router) => {
     .get(controller.get)
     .post(controller.post)
 
+  router.route('/:id').get(controller.getOne)
+
   router
     .route('/id/:id')
     .get(controller.getOne)
