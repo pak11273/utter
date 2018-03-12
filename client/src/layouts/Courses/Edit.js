@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 import styled from 'styled-components'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import data from './data'
+import data from './data/data.js'
 
 import {
   Box,

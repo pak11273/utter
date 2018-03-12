@@ -10,12 +10,11 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import 'react-table/react-table.css'
-import ReactTable from 'react-table'
 import Created from './Created.js'
 import MyCoursesCreate from './containers/CourseEdit.js'
 import Edit from './Edit.js'
 import CourseEdit from './containers/CourseEdit.js'
-import data from './data'
+import data from './data/data.js'
 import requireAuth from '../../utils/requireAuth.js'
 
 const Blah = <h1>Blah!!!</h1>

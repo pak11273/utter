@@ -8,7 +8,6 @@ import {validateInput} from '../../../utils/validations/courseCreate.js'
 import {addFlashMessage} from '../../../actions/flashMessages.js'
 import validator from 'validator'
 import cuid from 'cuid'
-import data from '../data'
 import Teaching from './Teaching.js'
 import Using from './Using.js'
 import '../styles.css'
@@ -34,7 +33,11 @@ import transLoader from '../../../assets/images/trans_loader.gif'
 
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
-import {createCourseRequest, fetchCourseName} from '../actions.js'
+import {
+  createCourseRequest,
+  fetchCourseName,
+  saveFormToRedux
+} from '../actions.js'
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -137,7 +140,6 @@ class CreateCourse extends Component {
     this.onBlur = this.onBlur.bind(this)
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.doit = this.doit.bind(this)
   }
 
   componentDidMount() {
@@ -152,6 +154,9 @@ class CreateCourse extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
+    // this.props.actions.setReducer({
+    //   [e.target.name]: e.target.value
+    // })
   }
 
   onBlur(e) {
@@ -204,28 +209,16 @@ class CreateCourse extends Component {
         errors: {}, // clear errors every time we submit form
         loading: false
       })
-      // TODO: clear redux
-      // this.props.courseReducer.error = null // something to this effect
+      // push state to redux
+      this.props.actions.saveFormToRedux(this.state)
       this.props.actions.addFlashMessage({
         type: 'success',
         text: 'You have successfully created a Course!'
       })
-      // this.props.history.push(
-      //   `/courses/my-courses/${this.state.courseId}/${
-      //     this.state.courseName
-      //   }/edit`
-      // )
       this.props.actions.push(
         `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
       )
     }
-  }
-
-  doit(e) {
-    e.preventDefault()
-    this.props.actions.push(
-      `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
-    )
   }
 
   render() {
@@ -236,7 +229,6 @@ class CreateCourse extends Component {
       <Grid height="1400px">
         <StyledForm onSubmit={this.onSubmit}>
           <Title>Create a Course</Title>
-          <button onClick={this.doit}>try it</button>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
               Course Name<StyledSpan display640="inline-block">
@@ -341,7 +333,14 @@ const mapDispatchToProps = dispatch => {
         createCourseRequest,
         fetchCourseName,
         toggleFooter,
+<<<<<<< HEAD
         push
+=======
+        push: location => {
+          dispatch(push(location))
+        },
+        saveFormToRedux
+>>>>>>> db9cf38daa9a49a710c4ee2fef647a6b325a5e8e
       },
       dispatch
     )

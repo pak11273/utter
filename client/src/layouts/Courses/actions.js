@@ -1,11 +1,22 @@
 import {
+  ADD_LEVEL,
+  FETCHED_COURSE_NAME,
+  REQUESTED_COURSE_NAME_SUCCEEDED,
+  REQUESTED_COURSE_NAME_FAIL,
+  COURSE_LANGUAGE,
+  SAVE_FORM_TO_REDUX,
+  // CRUD
   CREATE_COURSE_REQUEST,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
-  REQUESTED_COURSE_NAME_SUCCEEDED,
-  REQUESTED_COURSE_NAME_FAIL,
-  COURSE_LANGUAGE
+  UDPATE_COURSE,
+  UDPATE_COURSE_SUCCESS,
+  UDPATE_COURSE_FAIL
 } from './types.js'
+
+const addLevel = level => {
+  return {type: 'ADD_LEVEL', level}
+}
 
 // CREATE
 const createCourseRequest = course => {
@@ -18,6 +29,19 @@ const createCourseSuccess = data => {
 
 const createCourseFail = error => {
   return {type: 'CREATE_COURSE_FAIL', error}
+}
+
+// UPDATE
+const updateCourse = course => {
+  return {type: 'UPDATE_COURSE', course}
+}
+
+const updateCourseSuccess = data => {
+  return {type: 'UPDATE_COURSE_SUCCESS', data: data.msg}
+}
+
+const updateCourseFail = error => {
+  return {type: 'UPDATE_COURSE_FAIL', error}
 }
 
 const chooseCourseLanguage = courseLanguage => {
@@ -41,12 +65,21 @@ const requestCourseNameError = error => {
   return {type: 'REQUESTED_COURSE_NAME_FAIL', error}
 }
 
+const saveFormToRedux = course => {
+  return {type: 'SAVE_FORM_TO_REDUX', course}
+}
+
 export {
+  addLevel,
   createCourseRequest,
   createCourseSuccess,
   createCourseFail,
+  updateCourse,
+  updateCourseSuccess,
+  updateCourseFail,
   chooseCourseLanguage,
   fetchCourseName,
   requestCourseNameError,
-  requestCourseNameSuccess
+  requestCourseNameSuccess,
+  saveFormToRedux
 }

@@ -3,9 +3,7 @@ import {NavLink, Link, Route} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
-import ReactTable from 'react-table'
 import 'react-table/react-table.css'
-import data from './data'
 
 import {Flex, Grid, Subtitle} from '../../components'
 
