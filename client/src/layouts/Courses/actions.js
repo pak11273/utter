@@ -9,6 +9,7 @@ import {
   CREATE_COURSE_REQUEST,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
+  RESET_COURSE_CREATE_FORM,
   UDPATE_COURSE,
   UDPATE_COURSE_SUCCESS,
   UDPATE_COURSE_FAIL
@@ -65,6 +66,10 @@ const requestCourseNameError = error => {
   return {type: 'REQUESTED_COURSE_NAME_FAIL', error}
 }
 
+const resetCourseCreateForm = () => {
+  return {type: 'RESET_COURSE_CREATE_FORM'}
+}
+
 const saveFormToRedux = course => {
   return {type: 'SAVE_FORM_TO_REDUX', course}
 }
@@ -81,5 +86,6 @@ export {
   fetchCourseName,
   requestCourseNameError,
   requestCourseNameSuccess,
+  resetCourseCreateForm,
   saveFormToRedux
 }
