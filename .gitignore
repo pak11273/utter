@@ -12,7 +12,7 @@ dist
 .DS_Store
 .env
 tags
-.cache-loader
+.cache-loader/
 
 # Logs
 logs
