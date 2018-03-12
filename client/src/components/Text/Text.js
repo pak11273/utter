@@ -16,7 +16,6 @@ const Text = styled.div`
 Text.defaultProps = {
   display: 'block',
   fontsize: '1rem',
-  fontfamily: 'Arial',
   textalign: 'left'
 }
 

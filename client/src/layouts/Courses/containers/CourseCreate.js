@@ -333,14 +333,8 @@ const mapDispatchToProps = dispatch => {
         createCourseRequest,
         fetchCourseName,
         toggleFooter,
-<<<<<<< HEAD
-        push
-=======
-        push: location => {
-          dispatch(push(location))
-        },
+        push,
         saveFormToRedux
->>>>>>> db9cf38daa9a49a710c4ee2fef647a6b325a5e8e
       },
       dispatch
     )

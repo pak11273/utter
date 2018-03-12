@@ -1,5 +1,5 @@
 import {injectGlobal} from 'styled-components'
-import OpenSans from './Open_Sans/OpenSans-Regular.ttf'
+import OpenSans from '../../assets/css/fonts/OpenSans-Regular.ttf'
 // box-sizing: border-box;
 // display: flex;
 // flex-direction: column;
@@ -15,8 +15,9 @@ injectGlobal`
   }
 
   body, h1, h2, h3, h4, h6, div, p, li {
-    color: #777;
+    box-sizing: border-box;
     font-family: 'Open Sans';
+    color: #777;
   }
 
   h1 {

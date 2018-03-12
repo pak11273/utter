@@ -75,14 +75,15 @@ module.exports = env => {
         {
           test: /\.(eot|ttf|woff|woff2)$/,
           use: [
-            'cache-loader',
-            'file-loader?name=client/src/assets/css/[name].[ext]'
+            // DO NOT cache this
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]'
+              }
+            }
           ]
         },
-        // {
-        //   test: /\.ttf$/,
-        //   use: ['cache-loader', 'file-loader?prefix=fonts/']
-        // },
         {
           test: /react-icons\/(.)*(.js)$/,
           use: ['cache-loader', 'babel-loader']
