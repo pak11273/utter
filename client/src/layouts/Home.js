@@ -34,9 +34,10 @@ class Home extends Component {
               Speak another language
             </MastheadTitle>
             <MastheadSubtitle color="black" fontsize="2rem">
-              A unique training program to get you to become fluent in another
-              language. We understand the learning process and we create the
-              environment that you can learn in.
+              A better way to learn. This unique training program is a proven
+              way to become fluent in another language. We understand the
+              learning process and we create the environment that you can learn
+              in.
             </MastheadSubtitle>
             <ButtonCta color="black">Learn More</ButtonCta>
           </Column>
@@ -86,9 +87,8 @@ class Home extends Component {
               <Line />
               <Text color="white" fontsize="2rem">
                 You can't go to another country and fully immerse yourself in
-                the culture.
-                Even if you did, most people don't fully immerse themselves and
-                wind up just getting by with broken grammar.
+                the culture. Even if you did, most people don't fully immerse
+                themselves and wind up just getting by with broken grammar.
               </Text>
             </Box>
           </Column>
@@ -147,8 +147,7 @@ class Home extends Component {
             <Box>
               <Text fontsize="2rem" padding="20px" width="300px">
                 You will be learning with peers. Meaning you will be speaking
-                with
-                people who are at your level.
+                with people who are at your level.
               </Text>
             </Box>
             <Img
@@ -168,8 +167,7 @@ class Home extends Component {
             <Box>
               <Text fontsize="2rem" padding="20px" width="300px">
                 You don't need a meetup. If you have internet access you can
-                start
-                practicing with people all over the world.
+                start practicing with people all over the world.
               </Text>
             </Box>
           </Column>
@@ -199,8 +197,7 @@ class Home extends Component {
             <Box>
               <Text fontsize="2rem" padding="20px" width="300px">
                 You don't need a meetup. If you have internet access you can
-                start
-                practicing with people all over the world.
+                start practicing with people all over the world.
               </Text>
             </Box>
             <Img
@@ -227,14 +224,10 @@ class Home extends Component {
         <Section alignitems="center" height="800px">
           <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
             <Box width="50%">
-              <Text fontsize="4rem">
-                Get Sponsored
-              </Text>
+              <Text fontsize="4rem">Get Sponsored</Text>
             </Box>
             <Box width="50%">
-              <Text fontsize="4rem">
-                Become a Sponsor
-              </Text>
+              <Text fontsize="4rem">Become a Sponsor</Text>
             </Box>
             <Box padding="70px">
               <NavLink style={{fontSize: '1.8rem'}} to="/sponsorship">
