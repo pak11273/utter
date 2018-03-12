@@ -20,11 +20,11 @@ export default ComposedComponent => {
       }
     }
 
-    componentWillUpdate(nextProps) {
-      if (!nextProps.isAuthenticated) {
-        this.props.actions.push('/login')
-      }
-    }
+    // componentWillUpdate(nextProps) {
+    //   if (!nextProps.isAuthenticated) {
+    //     this.props.actions.push('/login')
+    //   }
+    // }
 
     render() {
       return <ComposedComponent {...this.props} />
@@ -42,9 +42,7 @@ export default ComposedComponent => {
       actions: bindActionCreators(
         {
           addFlashMessage,
-          push: location => {
-            dispatch(push(location))
-          }
+          push
         },
         dispatch
       )

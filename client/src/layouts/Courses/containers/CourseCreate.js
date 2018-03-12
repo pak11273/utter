@@ -341,9 +341,7 @@ const mapDispatchToProps = dispatch => {
         createCourseRequest,
         fetchCourseName,
         toggleFooter,
-        push: location => {
-          dispatch(push(location))
-        }
+        push
       },
       dispatch
     )
