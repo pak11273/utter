@@ -66,7 +66,7 @@ class CourseEdit extends Component {
     this.addLevel = this.addLevel.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.renderEditable = this.renderEditable.bind(this)
-    this.renderNumberEditable = this.renderNumberEditable.bind(this)
+    this.renderLevelEditable = this.renderLevelEditable.bind(this)
   }
 
   componentDidMount() {
@@ -83,13 +83,20 @@ class CourseEdit extends Component {
     console.log('sup foo')
   }
 
-  renderNumberEditable(cellInfo) {
+  renderLevelEditable(cellInfo) {
     return (
       <div
-        style={{backgroundColor: '#fafafa', width: '100%'}}
+        style={{
+          backgroundColor: '#fafafa',
+          width: '100%',
+          outline: 'none'
+        }}
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
+          if (!e.target.innerHTML) {
+            console.log('cannot be blank')
+          }
           const data = this.props.courseReducer.currentTeachingCourse.levels
           data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
           this.setState({data})
@@ -106,7 +113,7 @@ class CourseEdit extends Component {
   renderEditable(cellInfo) {
     return (
       <div
-        style={{backgroundColor: '#fafafa', width: '100%'}}
+        style={{backgroundColor: '#fafafa', width: '100%', outline: 'none'}}
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
@@ -145,7 +152,7 @@ class CourseEdit extends Component {
       {
         Header: 'Level',
         accessor: 'level', // String-based value accessors!
-        Cell: this.renderNumberEditable,
+        Cell: this.renderLevelEditable,
         maxWidth: 80,
         headerStyle: {fontSize: '1.5rem'},
         Footer: (
