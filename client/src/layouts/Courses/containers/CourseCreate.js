@@ -34,7 +34,7 @@ import transLoader from '../../../assets/images/trans_loader.gif'
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
 import {
-  createCourseRequest,
+  createCourse,
   fetchCourseName,
   resetCourseCreateForm,
   saveFormToRedux
@@ -127,6 +127,7 @@ class CreateCourse extends Component {
       courseCreatorId: this.props.authReducer.user._id,
       courseDescription: '',
       courseName: '',
+      levels: [{level: 1, title: 'Change this title'}],
       displayName: '',
       errors: {},
       loading: false,
@@ -199,7 +200,7 @@ class CreateCourse extends Component {
   onSubmit(e) {
     e.preventDefault()
     if (this.isValid()) {
-      this.props.actions.createCourseRequest(this.state)
+      this.props.actions.createCourse(this.state)
       // clear state
       this.setState({
         courseId: '',
@@ -209,6 +210,7 @@ class CreateCourse extends Component {
         courseDescription: '',
         displayName: '',
         errors: {}, // clear errors every time we submit form
+        currentTeachingCourse: {},
         loading: false
       })
       // push state to redux
@@ -332,7 +334,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         addFlashMessage,
-        createCourseRequest,
+        createCourse,
         resetCourseCreateForm,
         fetchCourseName,
         toggleFooter,

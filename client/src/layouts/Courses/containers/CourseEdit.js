@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {NavLink, Route} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import axios from 'axios'
 import styled from 'styled-components'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
@@ -26,7 +25,12 @@ import {
 import {Masthead, Navbar, Staticbar} from '../../../containers'
 
 // actions
-import {addLevel, chooseCourseLanguage, updateCourse} from '../actions'
+import {
+  addLevel,
+  chooseCourseLanguage,
+  readCourse,
+  updateCourse
+} from '../actions'
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
 
 const Pending = () => <h1>pending</h1>
@@ -51,7 +55,6 @@ class CourseEdit extends Component {
     this.state = {
       course_id: '',
       course_name: '',
-      // data: data.courses,
       filtered: false,
       loading: false,
       page: 0,
@@ -63,20 +66,47 @@ class CourseEdit extends Component {
     this.addLevel = this.addLevel.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.renderEditable = this.renderEditable.bind(this)
+    this.renderNumberEditable = this.renderNumberEditable.bind(this)
   }
 
   componentDidMount() {
+    const currentCourse = this.props.courseReducer
     this.props.actions.toggleFooter(false)
+    this.props.actions.readCourse(currentCourse)
   }
 
   componentWillUnmount() {
     this.props.actions.toggleFooter(true)
   }
 
+  validatorNumberOnly() {
+    console.log('sup foo')
+  }
+
+  renderNumberEditable(cellInfo) {
+    return (
+      <div
+        style={{backgroundColor: '#fafafa', width: '100%'}}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const data = this.props.courseReducer.currentTeachingCourse.levels
+          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
+          this.setState({data})
+        }}
+        dangerouslySetInnerHTML={{
+          __html: this.props.courseReducer.currentTeachingCourse.levels[
+            cellInfo.index
+          ][cellInfo.column.id]
+        }}
+      />
+    )
+  }
+
   renderEditable(cellInfo) {
     return (
       <div
-        style={{backgroundColor: '#fafafa'}}
+        style={{backgroundColor: '#fafafa', width: '100%'}}
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
@@ -115,7 +145,7 @@ class CourseEdit extends Component {
       {
         Header: 'Level',
         accessor: 'level', // String-based value accessors!
-        Cell: this.renderEditable,
+        Cell: this.renderNumberEditable,
         maxWidth: 80,
         headerStyle: {fontSize: '1.5rem'},
         Footer: (
@@ -176,6 +206,7 @@ class CourseEdit extends Component {
             className="-highlight"
             columns={courses}
             defaultPageSize={10}
+            defaultSortDesc={true}
             style={{width: '93%', margin: '0 auto'}}
             SubComponent={row => {
               return (
@@ -223,6 +254,7 @@ const mapDispatchToProps = dispatch => {
       {
         addLevel,
         toggleFooter,
+        readCourse,
         updateCourse
       },
       dispatch

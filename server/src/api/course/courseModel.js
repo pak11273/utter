@@ -42,8 +42,8 @@ const CourseSchema = mongoose.Schema(
     ],
     levels: [
       {
+        level: Number,
         title: String,
-        type: Number,
         vocabulary: Array,
         grammar: String
       }

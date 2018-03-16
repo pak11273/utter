@@ -54,7 +54,7 @@
     "lodash": "^4.17.4",
     "lodash.foreach": "^4.5.0",
     "lodash.get": "^4.4.2",
-    "mongoose": "^4.9.8",
+    "mongoose": "^5.0.10",
     "mongoose-unique-validator": "^1.0.5",
     "morgan": "^1.8.1",
     "node-gyp": "^3.6.2",

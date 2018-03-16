@@ -1,12 +1,18 @@
 import {
   ADD_LEVEL,
-  CREATE_COURSE_REQUEST,
+  CREATE_COURSE,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
+  READ_COURSE,
+  READ_COURSE_SUCCESS,
+  READ_COURSE_FAIL,
   COURSE_NAME_ASYNC_SUCCESS,
   REQUESTED_COURSE_NAME,
   REQUESTED_COURSE_NAME_FAILED,
   REQUESTED_COURSE_NAME_SUCCEEDED,
+  UPDATE_COURSE,
+  UPDATE_COURSE_SUCCESS,
+  UPDATE_COURSE_FAIL,
   COURSE_LANGUAGE_FULFILLED,
   RESET_COURSE_CREATE_FORM,
   SAVE_FORM_TO_REDUX
@@ -47,6 +53,7 @@ export default (state = initialState, action) => {
           error: null
         },
         currentTeachingCourse: {
+          ...state.currentTeachingCourse,
           levels: [
             ...state.currentTeachingCourse.levels,
             {
@@ -56,7 +63,7 @@ export default (state = initialState, action) => {
           ]
         }
       }
-    case 'CREATE_COURSE_REQUEST':
+    case 'CREATE_COURSE':
       return {
         ...state,
         currentTeachingCourse: {...state.currentTeachingCourse},
@@ -88,12 +95,53 @@ export default (state = initialState, action) => {
           error: action.error
         }
       }
+    case 'READ_COURSE_SUCCESS':
+      return {
+        ...state,
+        currentTeachingCourse: {
+          // ...state.currentTeachingCourse,
+          ...action.course
+        }
+      }
+    case 'READ_COURSE_FAIL':
+      return {
+        ...state,
+        create: {
+          ...state.create,
+          pending: false,
+          course: null,
+          error: action.error
+        }
+      }
+    case 'UPDATE_COURSE':
+      return {
+        ...state,
+        currentTeachingCourse: {
+          ...state.currentTeachingCourse
+        }
+      }
+    case 'UPDATE_COURSE_SUCCESS':
+      return {
+        ...state,
+        currentTeachingCourse: {
+          ...state.currentTeachingCourse,
+          course: action.course
+        }
+      }
+    case 'UPDATE_COURSE_FAIL':
+      return {
+        ...state,
+        loading: false,
+        error: true,
+        errorMsg: action.error.message
+      }
     case 'REQUESTED_COURSE_NAME_SUCCEEDED':
       return {
         ...state,
         courseNameMsg: action.data,
         loading: false,
-        error: false
+        error: false,
+        errorMsg: action.error
       }
     case 'REQUESTED_COURSE_NAME_FAIL':
       return {

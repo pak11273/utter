@@ -2,8 +2,6 @@ import Course from './courseModel.js'
 import _ from 'lodash'
 
 exports.params = (req, res, next, id) => {
-  console.log('id: ', id)
-  console.log('req: ', req)
   Course.findById(id).then(
     course => {
       if (!course) {
@@ -21,7 +19,6 @@ exports.params = (req, res, next, id) => {
 
 exports.post = (req, res, next) => {
   let newCourse = req.body.course
-
   Course.create(newCourse).then(
     course => {
       res.json(course)
@@ -65,23 +62,32 @@ exports.get = (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
-  let course = req.course
-  res.json(course)
+  if (req.params.courseId) {
+    Course.findOne({courseId: req.params.courseId}).then(
+      course => {
+        res.json(course)
+      },
+      err => {
+        next(err)
+      }
+    )
+  }
 }
 
 exports.update = (req, res, next) => {
-  let course = req.course
-  let update = req.body
+  let update = req.body.course
 
-  let saved = _.merge(course, update)
-
-  course.save((err, saved) => {
-    if (err) {
-      next(err)
-    } else {
-      res.json(saved)
+  Course.findOneAndUpdate(
+    {courseId: update.courseId},
+    update,
+    (err, course) => {
+      if (err) {
+        next(err)
+      } else {
+        res.json(course)
+      }
     }
-  })
+  )
 }
 
 exports.delete = (req, res, next) => {

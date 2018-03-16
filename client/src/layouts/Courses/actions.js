@@ -9,6 +9,9 @@ import {
   CREATE_COURSE_REQUEST,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
+  READ_COURSE,
+  READ_COURSE_FAIL,
+  READ_COURSE_SUCCESS,
   RESET_COURSE_CREATE_FORM,
   UDPATE_COURSE,
   UDPATE_COURSE_SUCCESS,
@@ -20,8 +23,8 @@ const addLevel = level => {
 }
 
 // CREATE
-const createCourseRequest = course => {
-  return {type: 'CREATE_COURSE_REQUEST', course}
+const createCourse = course => {
+  return {type: 'CREATE_COURSE', course}
 }
 
 const createCourseSuccess = data => {
@@ -32,13 +35,26 @@ const createCourseFail = error => {
   return {type: 'CREATE_COURSE_FAIL', error}
 }
 
+// READ
+const readCourse = course => {
+  return {type: 'READ_COURSE', course}
+}
+
+const readCourseSuccess = data => {
+  return {type: 'READ_COURSE_SUCCESS', course: data}
+}
+
+const readCourseFail = error => {
+  return {type: 'READ_COURSE_FAIL', error}
+}
+
 // UPDATE
 const updateCourse = course => {
   return {type: 'UPDATE_COURSE', course}
 }
 
 const updateCourseSuccess = data => {
-  return {type: 'UPDATE_COURSE_SUCCESS', data: data.msg}
+  return {type: 'UPDATE_COURSE_SUCCESS', data: data.data}
 }
 
 const updateCourseFail = error => {
@@ -76,9 +92,12 @@ const saveFormToRedux = course => {
 
 export {
   addLevel,
-  createCourseRequest,
+  createCourse,
   createCourseSuccess,
   createCourseFail,
+  readCourse,
+  readCourseSuccess,
+  readCourseFail,
   updateCourse,
   updateCourseSuccess,
   updateCourseFail,
