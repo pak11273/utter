@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
+// import ReactDOM from 'react-dom'
 import {NavLink, Route} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import ReactTable from 'react-table'
+import {validateInput} from '../../../utils/validations/courseUpdate.js'
 import 'react-table/react-table.css'
 import data from '../data/data.js'
 import '../styles.css'
@@ -25,6 +27,7 @@ import {
 import {Masthead, Navbar, Staticbar} from '../../../containers'
 
 // actions
+import {addFlashMessage} from '../../../actions/flashMessages.js'
 import {
   addLevel,
   chooseCourseLanguage,
@@ -54,8 +57,11 @@ class CourseEdit extends Component {
     super()
     this.state = {
       course_id: '',
-      course_name: '',
+      courseName: '',
+      courseDescription: '',
+      errors: {},
       filtered: false,
+      levels: [{level: 1}],
       loading: false,
       page: 0,
       pages: -1,
@@ -65,7 +71,7 @@ class CourseEdit extends Component {
 
     this.addLevel = this.addLevel.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
-    this.renderEditable = this.renderEditable.bind(this)
+    this.renderTitleEditable = this.renderTitleEditable.bind(this)
     this.renderLevelEditable = this.renderLevelEditable.bind(this)
   }
 
@@ -73,6 +79,12 @@ class CourseEdit extends Component {
     const currentCourse = this.props.courseReducer
     this.props.actions.toggleFooter(false)
     this.props.actions.readCourse(currentCourse)
+
+    // set dom attributes
+    const nodeList = Array.from(document.getElementsByClassName('level'))
+    for (var i = 0; i < nodeList.length; i++) {
+      nodeList[i].getAttribute('required', true)
+    }
   }
 
   componentWillUnmount() {
@@ -86,19 +98,18 @@ class CourseEdit extends Component {
   renderLevelEditable(cellInfo) {
     return (
       <div
+        className="level"
         style={{
           backgroundColor: '#fafafa',
-          width: '100%',
+          width: '100px',
           outline: 'none'
         }}
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
-          if (!e.target.innerHTML) {
-            console.log('cannot be blank')
-          }
           const data = this.props.courseReducer.currentTeachingCourse.levels
-          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
+          const conv = Number(e.target.innerHTML)
+          data[cellInfo.index][cellInfo.column.id] = conv
           this.setState({data})
         }}
         dangerouslySetInnerHTML={{
@@ -110,7 +121,7 @@ class CourseEdit extends Component {
     )
   }
 
-  renderEditable(cellInfo) {
+  renderTitleEditable(cellInfo) {
     return (
       <div
         style={{backgroundColor: '#fafafa', width: '100%', outline: 'none'}}
@@ -126,6 +137,7 @@ class CourseEdit extends Component {
             cellInfo.index
           ][cellInfo.column.id]
         }}
+        placeholder="Change this title"
       />
     )
   }
@@ -138,10 +150,34 @@ class CourseEdit extends Component {
     this.props.actions.addLevel(newLevel)
   }
 
+  isValid() {
+    // debugger
+    const {errors, isValid} = validateInput(
+      this.props.courseReducer.currentTeachingCourse
+    )
+
+    if (!isValid) {
+      this.setState({
+        errors
+      })
+    } else {
+      return isValid
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault()
-    let updatedCourse = this.props.courseReducer.currentTeachingCourse
-    this.props.actions.updateCourse(updatedCourse)
+
+    if (this.isValid()) {
+      let updatedCourse = this.props.courseReducer.currentTeachingCourse
+      this.props.actions.updateCourse(updatedCourse)
+
+      // push state to redux
+      this.props.actions.addFlashMessage({
+        type: 'success',
+        text: 'Changes were saved.'
+      })
+    }
   }
 
   render() {
@@ -173,7 +209,7 @@ class CourseEdit extends Component {
         accessor: 'title',
         Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
         headerStyle: {fontSize: '1.5rem'},
-        Cell: this.renderEditable,
+        Cell: this.renderTitleEditable,
         Footer: (
           <span style={{display: 'flex', height: '40px', alignItems: 'center'}}>
             Add a Level
@@ -259,6 +295,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        addFlashMessage,
         addLevel,
         toggleFooter,
         readCourse,

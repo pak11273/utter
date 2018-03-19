@@ -127,7 +127,7 @@ class CreateCourse extends Component {
       courseCreatorId: this.props.authReducer.user._id,
       courseDescription: '',
       courseName: '',
-      levels: [{level: 1, title: 'Change this title'}],
+      levels: [{level: 1}],
       displayName: '',
       errors: {},
       loading: false,
@@ -242,6 +242,7 @@ class CreateCourse extends Component {
             </Label>
             <DisplayCount>{this.state.courseName.length}</DisplayCount>
             <Input
+              autoFocus
               className={
                 courseNameErrors || courseNameFetchError ? 'courseError' : null
               }

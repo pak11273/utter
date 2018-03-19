@@ -53,7 +53,6 @@ class Using extends Component {
           }}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
-          autoFocus
           options={options}
           required
           simpleValue

@@ -44,7 +44,6 @@ class Teaching extends Component {
           onBlurResetsInput={false}
           onSelectResetsInput={false}
           required
-          autoFocus
           options={options}
           simpleValue
           clearable={this.state.clearable}
