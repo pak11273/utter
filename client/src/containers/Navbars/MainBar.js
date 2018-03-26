@@ -129,15 +129,9 @@ class MainNavbar extends Component {
     this.state = {
       showMenu: false
     }
-    this.handleHamburger = this.handleHamburger.bind(this)
   }
 
-  logout(e) {
-    e.preventDefault()
-    this.props.logout()
-  }
-
-  handleHamburger() {
+  handleHamburger = () => {
     this.setState({showMenu: !this.state.showMenu})
     var navSection = document.getElementById('NavSection')
     var spacer = document.getElementById('spacer')
@@ -148,6 +142,11 @@ class MainNavbar extends Component {
       navSection.style.height = '50px'
       spacer.style.margin = '50px 0 0 0'
     }
+  };
+
+  logout(e) {
+    e.preventDefault()
+    this.props.logout()
   }
 
   render(props) {

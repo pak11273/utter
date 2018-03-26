@@ -14,22 +14,20 @@ class CreateComment extends Component {
         message: ''
       }
     }
-    this.updateComment = this.updateComment.bind(this)
-    this.addComment = this.addComment.bind(this)
   }
 
-  updateComment(e) {
+  addComment = e => {
+    this.props.addComment(this.state.comment)
+  };
+
+  updateComment = e => {
     e.preventDefault()
     const updatedComment = this.state.comment
     updatedComment[e.target.name] = e.target.value
     this.setState({
       comment: updatedComment
     })
-  }
-
-  addComment(e) {
-    this.props.addComment(this.state.comment)
-  }
+  };
 
   render(props) {
     return (

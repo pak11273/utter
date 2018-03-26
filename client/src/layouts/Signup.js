@@ -8,21 +8,19 @@ import SignupForm from '../containers/Forms/SignupForm.js'
 import {addFlashMessage} from '../actions/flashMessages.js'
 import {Wrapper} from '../components'
 
-class Signup extends Component {
-  render() {
-    const {userSignupRequest, addFlashMessage} = this.props
-    return (
-      <Wrapper>
-        <Masthead height="100%" padding="4rem 0">
-          <SignupForm
-            userSignupRequest={userSignupRequest}
-            addFlashMessage={addFlashMessage}
-            history={this.props.history}
-          />
-        </Masthead>
-      </Wrapper>
-    )
-  }
+function Signup(props) {
+  const {userSignupRequest, addFlashMessage} = props
+  return (
+    <Wrapper>
+      <Masthead height="100%" padding="4rem 0">
+        <SignupForm
+          userSignupRequest={userSignupRequest}
+          addFlashMessage={addFlashMessage}
+          history={props.history}
+        />
+      </Masthead>
+    </Wrapper>
+  );
 }
 
 export default connect(null, {userSignupRequest, addFlashMessage})(Signup)

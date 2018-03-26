@@ -7,23 +7,21 @@ const StyledLink = styled(Link)`
   color: red;
 `
 
-class Zone extends Component {
-  render(props) {
-    return (
-      <Box
-        margin="20px"
-        padding="20px"
-        alignitems="flex-start"
-        background="#fff"
-        style={{background: '#333'}}>
-        <StyledLink to="#" style={{fontSize: '3rem'}}>
-          {this.props.currentZone.name}
-        </StyledLink>
-        <div>{this.props.currentZone.zipCodes[0]}</div>
-        <div>{this.props.currentZone.numComments} comments</div>
-      </Box>
-    )
-  }
+function Zone(props) {
+  return (
+    <Box
+      margin="20px"
+      padding="20px"
+      alignitems="flex-start"
+      background="#fff"
+      style={{background: '#333'}}>
+      <StyledLink to="#" style={{fontSize: '3rem'}}>
+        {props.currentZone.name}
+      </StyledLink>
+      <div>{props.currentZone.zipCodes[0]}</div>
+      <div>{props.currentZone.numComments} comments</div>
+    </Box>
+  );
 }
 
 // we use an object(zone) inside of props

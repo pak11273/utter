@@ -46,10 +46,6 @@ class ResetPassword extends Component {
       token: '',
       errors: {}
     }
-
-    this.onChange = this.onChange.bind(this)
-    // this.resetpassword = this.resetpassword.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -72,24 +68,13 @@ class ResetPassword extends Component {
       })
   }
 
-  onChange(e) {
+  onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
+  };
 
-  isValid() {
-    const {errors, isValid} = validateInput(this.state)
-
-    if (!isValid) {
-      this.setState({
-        errors
-      })
-    }
-    return isValid
-  }
-
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault()
 
     if (this.isValid()) {
@@ -125,6 +110,17 @@ class ResetPassword extends Component {
           })
         })
     }
+  };
+
+  isValid() {
+    const {errors, isValid} = validateInput(this.state)
+
+    if (!isValid) {
+      this.setState({
+        errors
+      })
+    }
+    return isValid
   }
 
   render() {

@@ -17,30 +17,26 @@ class Using extends Component {
       clearable: true,
       rtl: false
     }
-
-    this.clearValue = this.clearValue.bind(this)
-    this.switchCountry = this.switchCountry.bind(this)
-    this.updateValue = this.updateValue.bind(this)
   }
 
-  clearValue(e) {
+  clearValue = e => {
     this.select.setInputValue('')
-  }
+  };
 
-  switchCountry(e) {
+  switchCountry = e => {
     constnewCountry = e.target.value
     this.setState({
       country: newCountry,
       selectValue: null
     })
-  }
+  };
 
-  updateValue(newValue) {
+  updateValue = newValue => {
     this.setState({
       selectValue: newValue
     })
     this.props.addUsingLang(newValue)
-  }
+  };
 
   render() {
     const options = languageData

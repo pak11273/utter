@@ -19,9 +19,6 @@ class Zones extends Component {
       },
       list: []
     }
-
-    this.updateName = this.updateName.bind(this)
-    this.addZone = this.addZone.bind(this)
   }
 
   //TODO: implement the apimgr
@@ -59,16 +56,7 @@ class Zones extends Component {
       })
   }
 
-  updateName(e) {
-    e.preventDefault
-    const updatedZone = Object.assign({}, this.state.zone)
-    updatedZone[e.target.name] = e.target.value
-    this.setState({
-      zone: updatedZone
-    })
-  }
-
-  addZone(e) {
+  addZone = e => {
     e.preventDefault
     superagent.post('/api/zones').send(this.state.zone).end((err, res) => {
       if (err) {
@@ -81,7 +69,16 @@ class Zones extends Component {
         list: updatedList
       })
     })
-  }
+  };
+
+  updateName = e => {
+    e.preventDefault
+    const updatedZone = Object.assign({}, this.state.zone)
+    updatedZone[e.target.name] = e.target.value
+    this.setState({
+      zone: updatedZone
+    })
+  };
 
   render() {
     return (

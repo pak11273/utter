@@ -122,61 +122,73 @@ class Phrase extends Component {
         }
       }
     }
-
-    this.thing = this.thing.bind(this)
-    this.fetchPhrases = this.fetchPhrases.bind(this)
-    this.createPhrase = this.createPhrase.bind(this)
-    this.onAudioLangChg = this.onAudioLangChg.bind(this)
-    this.onAudioCategoryChg = this.onAudioCategoryChg.bind(this)
-    this.selectSearchChange = this.selectSearchChange.bind(this)
-    this.selectnewPhraseChange = this.selectnewPhraseChange.bind(this)
-    this.selectnewAudioChange = this.selectnewAudioChange.bind(this)
-    this.selectnewTranslationChange = this.selectnewTranslationChange.bind(this)
-    this.selectUpdatedPhraseChange = this.selectUpdatedPhraseChange.bind(this)
-    this.updatePhraseChange = this.updatePhraseChange.bind(this)
-    this.onChange = this.onChange.bind(this)
   }
 
   componentDidMount() {}
 
-  thing() {
-    console.log('state: ', this.state)
-  }
-
-  onChange(e) {
-    this.setState({
-      change: e.target.value
-    })
-  }
-
-  onAudioLangChg(e) {
-    this.setState({
-      newPhrase: {
-        ...this.state.newPhrase,
-        audioUel: `/audio/${e.target.value}/${this.state.newPhrase.category}/`
-      }
-    })
-  }
-
-  onAudioCategoryChg(e) {
+  onAudioCategoryChg = e => {
     this.setState({
       newPhrase: {
         ...this.state.newPhrase,
         audioUrl: `/audio/${this.state.newPhrase.language}/${e.target.value}/`
       }
     })
+  };
+
+  onAudioLangChg = e => {
+    this.setState({
+      newPhrase: {
+        ...this.state.newPhrase,
+        audioUel: `/audio/${e.target.value}/${this.state.newPhrase.category}/`
+      }
+    })
+  };
+
+  onChange = e => {
+    this.setState({
+      change: e.target.value
+    })
+  };
+
+  createPhrase = e => {
+    e.preventDefault()
+    let newPhrase = this.state.newPhrase
+    // confirm('Confirm Creation')
+    this.props.actions.createPhrase(newPhrase)
+    // TODO: clear the props after creating a word
+  };
+
+  deletePhrase(word, e) {
+    e.preventDefault()
+    // confirm('Confirm Creation')
+    this.props.actions.deletePhrase(word)
   }
 
-  selectSearchChange(e) {
+  fetchPhrases = () => {
+    const level = this.state.search.level
+    this.props.actions.fetchPhrases(level)
+    //TODO: populate updatePhrase from redux
+  };
+
+  selectSearchChange = e => {
     this.setState({
       search: {
         ...this.state.search,
         [e.target.name]: e.target.value
       }
     })
-  }
+  };
 
-  selectnewAudioChange(e) {
+  selectUpdatedPhraseChange = e => {
+    this.setState({
+      updatedPhrase: {
+        ...this.state.updatedPhrase,
+        [e.target.name]: e.target.value
+      }
+    })
+  };
+
+  selectnewAudioChange = e => {
     this.setState({
       newPhrase: {
         ...this.state.newPhrase,
@@ -185,9 +197,18 @@ class Phrase extends Component {
         }
       }
     })
-  }
+  };
 
-  selectnewTranslationChange(e) {
+  selectnewPhraseChange = e => {
+    this.setState({
+      newPhrase: {
+        ...this.state.newPhrase,
+        [e.target.name]: e.target.value
+      }
+    })
+  };
+
+  selectnewTranslationChange = e => {
     let lang = e.target.name
     lang = lang.replace(/InformalTranslation|FormalTranslation/g, '')
     let filename = e.target.value.replace(/\s/g, '').replace(/\,/g, '_')
@@ -201,55 +222,11 @@ class Phrase extends Component {
         }
       }
     })
-  }
+  };
 
-  selectnewPhraseChange(e) {
-    this.setState({
-      newPhrase: {
-        ...this.state.newPhrase,
-        [e.target.name]: e.target.value
-      }
-    })
-  }
-
-  selectUpdatedPhraseChange(e) {
-    this.setState({
-      updatedPhrase: {
-        ...this.state.updatedPhrase,
-        [e.target.name]: e.target.value
-      }
-    })
-  }
-
-  updatePhraseChange(e) {
-    let lang = e.target.name
-    lang = lang.replace(/InformalTranslation|FormalTranslation/g, '')
-    let filename = e.target.value.replace(/\s/g, '').replace(/\,/g, '_')
-    let arr = e.target.value.replace(/\s/g, '').split()
-    this.setState({
-      updatedPhrase: {
-        ...this.state.updatedPhrase,
-        [e.target.name]: {
-          phrases: arr,
-          audioUrl: '/audio/' + lang + '/' + filename + '.mp3'
-        }
-      }
-    })
-  }
-
-  fetchPhrases() {
-    const level = this.state.search.level
-    this.props.actions.fetchPhrases(level)
-    //TODO: populate updatePhrase from redux
-  }
-
-  createPhrase(e) {
-    e.preventDefault()
-    let newPhrase = this.state.newPhrase
-    // confirm('Confirm Creation')
-    this.props.actions.createPhrase(newPhrase)
-    // TODO: clear the props after creating a word
-  }
+  thing = () => {
+    console.log('state: ', this.state)
+  };
 
   updatePhrase(gotPhrase, e) {
     console.log('got: ', gotPhrase)
@@ -290,11 +267,21 @@ class Phrase extends Component {
     // confirm('Confirm Creation')
   }
 
-  deletePhrase(word, e) {
-    e.preventDefault()
-    // confirm('Confirm Creation')
-    this.props.actions.deletePhrase(word)
-  }
+  updatePhraseChange = e => {
+    let lang = e.target.name
+    lang = lang.replace(/InformalTranslation|FormalTranslation/g, '')
+    let filename = e.target.value.replace(/\s/g, '').replace(/\,/g, '_')
+    let arr = e.target.value.replace(/\s/g, '').split()
+    this.setState({
+      updatedPhrase: {
+        ...this.state.updatedPhrase,
+        [e.target.name]: {
+          phrases: arr,
+          audioUrl: '/audio/' + lang + '/' + filename + '.mp3'
+        }
+      }
+    })
+  };
 
   render() {
     let dict = this.props.phraseReducer[

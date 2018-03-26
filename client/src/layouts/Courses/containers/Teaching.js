@@ -16,21 +16,18 @@ class Teaching extends Component {
       clearable: true,
       rtl: false
     }
-
-    this.clearValue = this.clearValue.bind(this)
-    this.updateValue = this.updateValue.bind(this)
   }
 
-  clearValue(e) {
+  clearValue = e => {
     this.select.setInputValue('')
-  }
+  };
 
-  updateValue(newValue) {
+  updateValue = newValue => {
     this.setState({
       selectValue: newValue
     })
     this.props.addTeachingLang(newValue)
-  }
+  };
 
   render() {
     const options = languageData

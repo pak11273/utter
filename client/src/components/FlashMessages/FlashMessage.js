@@ -12,11 +12,6 @@ const StyledMessage = styled.div`
   margin: ${props => props.margin};
 `
 class FlashMessage extends Component {
-  constructor(props) {
-    super(props)
-    this.onClick = this.onClick.bind(this)
-  }
-
   componentDidMount() {
     switch (this.props.message.type) {
       case 'success':
@@ -30,9 +25,9 @@ class FlashMessage extends Component {
     }
   }
 
-  onClick() {
+  onClick = () => {
     this.props.deleteFlashMessage(this.props.message.id)
-  }
+  };
 
   render() {
     const {id, type, text} = this.props.message

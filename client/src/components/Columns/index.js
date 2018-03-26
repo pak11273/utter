@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import { Component } from 'react';
 import styled from 'styled-components'
 
 const Column = styled.div`

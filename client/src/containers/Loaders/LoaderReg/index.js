@@ -10,6 +10,10 @@ class LoaderRegContainer extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.clearInterval(this.interval)
+  }
+
   ComponentDidMount() {
     var stopper = this.props.text + '...'
     this.interval = window.setInterval(
@@ -30,10 +34,6 @@ class LoaderRegContainer extends Component {
       }.bind(this),
       300
     )
-  }
-
-  componentWillUnmount() {
-    window.clearInterval(this.interval)
   }
 
   render() {

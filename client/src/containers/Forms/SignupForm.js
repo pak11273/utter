@@ -62,29 +62,15 @@ class SignupForm extends Component {
       timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico',
       errors: {}
     }
-
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onChange(e) {
+  onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
+  };
 
-  isValid() {
-    const {errors, isValid} = validateInput(this.state)
-
-    if (!isValid) {
-      this.setState({
-        errors
-      })
-    }
-    return isValid
-  }
-
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault()
 
     if (this.isValid()) {
@@ -115,6 +101,17 @@ class SignupForm extends Component {
           this.setState({errors: error.response.data.errors})
         })
     }
+  };
+
+  isValid() {
+    const {errors, isValid} = validateInput(this.state)
+
+    if (!isValid) {
+      this.setState({
+        errors
+      })
+    }
+    return isValid
   }
 
   render() {

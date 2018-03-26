@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import { Component } from 'react';
 import styled, {ThemeProvider} from 'styled-components'
 
 const Masthead = styled.div`

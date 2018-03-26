@@ -14,9 +14,6 @@ class Comments extends Component {
     this.state = {
       list: []
     }
-
-    this.addComment = this.addComment.bind(this)
-    this.updateName = this.updateName.bind(this)
   }
 
   componentDidMount() {
@@ -37,7 +34,7 @@ class Comments extends Component {
       })
   }
 
-  addComment(comment) {
+  addComment = comment => {
     superagent.post('/api/comments').send(comment).end((err, res) => {
       if (err) {
         console.log(err)
@@ -49,16 +46,16 @@ class Comments extends Component {
         })
       }
     })
-  }
+  };
 
-  updateName(e) {
+  updateName = e => {
     e.preventDefault()
     const updatedName = Object.assign({}, this.state.comment)
     updatedName[e.target.name] = e.target.value
     this.setState({
       comment: updatedName
     })
-  }
+  };
 
   render() {
     const commentList = this.state.list.map((comment, i) => {

@@ -4,16 +4,14 @@ import {Masthead, Navbar} from '../containers'
 import {Subtitle, Title, Wrapper} from '../components'
 import LoginForm from '../containers/Forms/LoginForm.js'
 
-class Login extends Component {
-  render() {
-    return (
-      <Wrapper>
-        <Masthead height="100%" padding="4rem 0">
-          <LoginForm />
-        </Masthead>
-      </Wrapper>
-    )
-  }
+function Login(props) {
+  return (
+    <Wrapper>
+      <Masthead height="100%" padding="4rem 0">
+        <LoginForm />
+      </Masthead>
+    </Wrapper>
+  )
 }
 
 export default Login

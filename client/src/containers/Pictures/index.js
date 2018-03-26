@@ -74,8 +74,6 @@ class Pictures extends Component {
     super(props)
 
     this.roomLevel = this.props.roomReducer.roomLevel
-    this.changePicture = this.changePicture.bind(this)
-    this.onPlay = this.onPlay.bind(this)
   }
 
   componentDidMount() {
@@ -89,12 +87,12 @@ class Pictures extends Component {
     // this.props.actions.loadWordList(listObj.default)
   }
 
-  onPlay(e) {
+  onPlay = e => {
     e.preventDefault()
     document.getElementById(e.target.name).play()
-  }
+  };
 
-  changePicture() {
+  changePicture = () => {
     // load challenge
     const lang = this.props.roomReducer.language
     const roomLevel = this.props.roomReducer.roomLevel
@@ -213,7 +211,7 @@ class Pictures extends Component {
     }
 
     // speechStart()
-  }
+  };
 
   render() {
     var picture = <Ad />

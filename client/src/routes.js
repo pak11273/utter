@@ -38,8 +38,6 @@ import {
   Redux
 } from './layouts'
 
-//data
-import React from 'react'
 import language from './data/language.json'
 
 export const routes = [

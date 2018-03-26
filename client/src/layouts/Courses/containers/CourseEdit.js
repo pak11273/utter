@@ -75,11 +75,6 @@ class CourseEdit extends Component {
       pageSize: 1,
       sorted: null
     }
-
-    this.addLevel = this.addLevel.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.renderTitleEditable = this.renderTitleEditable.bind(this)
-    this.renderLevelEditable = this.renderLevelEditable.bind(this)
   }
 
   componentDidMount() {
@@ -98,7 +93,48 @@ class CourseEdit extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  renderLevelEditable(cellInfo) {
+  onSubmit = e => {
+    e.preventDefault()
+
+    if (this.isValid()) {
+      let updatedCourse = this.props.courseReducer.currentTeachingCourse
+      this.props.actions.updateCourse(updatedCourse)
+
+      // clear errors
+      this.setState({
+        errors: {} // clear errors every time we submit form
+      })
+
+      // push state to redux
+      this.props.actions.addFlashMessage({
+        type: 'success',
+        text: 'Changes were saved.'
+      })
+    }
+  };
+
+  addLevel = e => {
+    e.preventDefault()
+    let length = this.props.courseReducer.currentTeachingCourse.levels.length
+    let newLevel = length + 1
+    this.props.actions.addLevel(newLevel)
+  };
+
+  isValid() {
+    const {errors, isValid} = validateInput(
+      this.props.courseReducer.currentTeachingCourse
+    )
+
+    if (!isValid) {
+      this.setState({
+        errors
+      })
+    } else {
+      return isValid
+    }
+  }
+
+  renderLevelEditable = cellInfo => {
     const levelErrors = this.state.errors.level
     const id = cuid()
     return (
@@ -146,9 +182,9 @@ class CourseEdit extends Component {
         </Error>
       </div>
     )
-  }
+  };
 
-  renderTitleEditable(cellInfo) {
+  renderTitleEditable = cellInfo => {
     return (
       <div
         style={{backgroundColor: '#fafafa', width: '100%', outline: 'none'}}
@@ -167,48 +203,7 @@ class CourseEdit extends Component {
         placeholder="Change this title"
       />
     )
-  }
-
-  addLevel(e) {
-    e.preventDefault()
-    let length = this.props.courseReducer.currentTeachingCourse.levels.length
-    let newLevel = length + 1
-    this.props.actions.addLevel(newLevel)
-  }
-
-  isValid() {
-    const {errors, isValid} = validateInput(
-      this.props.courseReducer.currentTeachingCourse
-    )
-
-    if (!isValid) {
-      this.setState({
-        errors
-      })
-    } else {
-      return isValid
-    }
-  }
-
-  onSubmit(e) {
-    e.preventDefault()
-
-    if (this.isValid()) {
-      let updatedCourse = this.props.courseReducer.currentTeachingCourse
-      this.props.actions.updateCourse(updatedCourse)
-
-      // clear errors
-      this.setState({
-        errors: {} // clear errors every time we submit form
-      })
-
-      // push state to redux
-      this.props.actions.addFlashMessage({
-        type: 'success',
-        text: 'Changes were saved.'
-      })
-    }
-  }
+  };
 
   render() {
     const url = `/api/courses/${

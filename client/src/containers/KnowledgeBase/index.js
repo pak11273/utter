@@ -12,13 +12,7 @@ import {
 import '../../assets/css/sprites.css'
 
 class KnowledgeBase extends Component {
-  constructor() {
-    super()
-
-    this.cellRenderer = this.cellRenderer.bind(this)
-  }
-
-  cellRenderer({columnIndex, key, rowIndex, style}) {
+  cellRenderer = ({columnIndex, key, rowIndex, style}) => {
     var list = [
       ['hello', 'anyeonhaseyo', 'play>'],
       ['hello', 'anyeong', 'play>']
@@ -28,7 +22,7 @@ class KnowledgeBase extends Component {
         {list[rowIndex][columnIndex]}
       </div>
     )
-  }
+  };
 
   render() {
     var list = [

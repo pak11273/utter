@@ -10,7 +10,7 @@ export default ComposedComponent => {
       super(props)
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       if (!this.props.isAuthenticated) {
         this.props.actions.addFlashMessage({
           type: 'error',

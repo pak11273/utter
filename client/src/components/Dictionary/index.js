@@ -15,12 +15,7 @@ const Container = styled.div`
 `
 
 class Dictionary extends Component {
-  constructor() {
-    super()
-    this.renderChildren = this.renderChildren.bind(this)
-  }
-
-  renderChildren() {
+  renderChildren = () => {
     return React.Children.map(this.props.children, child => {
       return React.cloneElement(
         child,
@@ -29,7 +24,7 @@ class Dictionary extends Component {
         }
       )
     })
-  }
+  };
 
   render() {
     const {

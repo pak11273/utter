@@ -78,15 +78,6 @@ class Vocab extends Component {
       },
       updatedWord: {}
     }
-
-    this.fetchWords = this.fetchWords.bind(this)
-    this.createWord = this.createWord.bind(this)
-    this.onAudioLangChg = this.onAudioLangChg.bind(this)
-    this.onAudioCategoryChg = this.onAudioCategoryChg.bind(this)
-    this.selectSearchChange = this.selectSearchChange.bind(this)
-    this.selectnewWordChange = this.selectnewWordChange.bind(this)
-    this.selectUpdatedWordChange = this.selectUpdatedWordChange.bind(this)
-    this.onChange = this.onChange.bind(this)
   }
 
   componentDidMount() {
@@ -99,70 +90,76 @@ class Vocab extends Component {
     })
   }
 
-  onChange(e) {
-    this.setState({
-      change: e.target.value
-    })
-  }
-
-  onAudioLangChg(e) {
-    this.setState({
-      newWord: {
-        ...this.state.newWord,
-        audioUrl: `/audio/${e.target.value}/${this.state.newWord.category}/`
-      }
-    })
-  }
-
-  onAudioCategoryChg(e) {
+  onAudioCategoryChg = e => {
     this.setState({
       newWord: {
         ...this.state.newWord,
         audioUrl: `/audio/${this.state.newWord.language}/${e.target.value}/`
       }
     })
+  };
+
+  onAudioLangChg = e => {
+    this.setState({
+      newWord: {
+        ...this.state.newWord,
+        audioUrl: `/audio/${e.target.value}/${this.state.newWord.category}/`
+      }
+    })
+  };
+
+  onChange = e => {
+    this.setState({
+      change: e.target.value
+    })
+  };
+
+  createWord = e => {
+    e.preventDefault()
+    let newWord = this.state.newWord
+    // confirm('Confirm Creation')
+    this.props.actions.createWord(newWord)
+    // TODO: clear the props after creating a word
+  };
+
+  deleteWord(word, e) {
+    e.preventDefault()
+    // confirm('Confirm Creation')
+    this.props.actions.deleteWord(word)
   }
 
-  selectSearchChange(e) {
+  fetchWords = () => {
+    const level = this.state.search.level
+    const lang = this.state.search.language
+    this.props.actions.fetchWords(level, lang)
+  };
+
+  selectSearchChange = e => {
     this.setState({
       search: {
         ...this.state.search,
         [e.target.name]: e.target.value
       }
     })
-  }
+  };
 
-  selectnewWordChange(e) {
-    this.setState({
-      newWord: {
-        ...this.state.newWord,
-        [e.target.name]: e.target.value
-      }
-    })
-  }
-
-  selectUpdatedWordChange(e) {
+  selectUpdatedWordChange = e => {
     this.setState({
       updatedWord: {
         ...this.state.updatedWord,
         [e.target.name]: e.target.value
       }
     })
-  }
+  };
 
-  fetchWords() {
-    const level = this.state.search.level
-    const lang = this.state.search.language
-    this.props.actions.fetchWords(level, lang)
-  }
-
-  createWord(e) {
-    e.preventDefault()
-    let newWord = this.state.newWord
-    // confirm('Confirm Creation')
-    this.props.actions.createWord(newWord)
-    // TODO: clear the props after creating a word
-  }
+  selectnewWordChange = e => {
+    this.setState({
+      newWord: {
+        ...this.state.newWord,
+        [e.target.name]: e.target.value
+      }
+    })
+  };
 
   updateWord(gotWord, e) {
     const {
@@ -199,12 +196,6 @@ class Vocab extends Component {
     )
     e.preventDefault()
     // confirm('Confirm Creation')
-  }
-
-  deleteWord(word, e) {
-    e.preventDefault()
-    // confirm('Confirm Creation')
-    this.props.actions.deleteWord(word)
   }
 
   render() {

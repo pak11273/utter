@@ -25,31 +25,29 @@ const Msg = ({author, audio, msg}) => (
   </ListItem>
 )
 
-class MsgList extends Component {
-  render() {
-    const {list, onMsgClick} = this.props
-    return (
-      <Box
-        id="chatList"
-        alignitems="flex-start"
-        height="600px"
-        justifycontent="flex-start"
-        margin="0 0 20px 0"
-        overflowy="scroll">
-        <List className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
-          {list.map(item => (
-            <Msg
-              key={item.id}
-              author={item.author}
-              audio={item.dataUrl}
-              msg={item.msg}
-              onClick={() => onMsgClick(id)}
-            />
-          ))}
-        </List>
-      </Box>
-    )
-  }
+function MsgList(props) {
+  const {list, onMsgClick} = props
+  return (
+    <Box
+      id="chatList"
+      alignitems="flex-start"
+      height="600px"
+      justifycontent="flex-start"
+      margin="0 0 20px 0"
+      overflowy="scroll">
+      <List className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
+        {list.map(item => (
+          <Msg
+            key={item.id}
+            author={item.author}
+            audio={item.dataUrl}
+            msg={item.msg}
+            onClick={() => onMsgClick(id)}
+          />
+        ))}
+      </List>
+    </Box>
+  )
 }
 
 class MsgBox extends Component {
@@ -86,11 +84,6 @@ class ChatContainer extends Component {
     super(props)
 
     this.state = {msg: ''}
-
-    this.filteredMessages = this.filteredMessages.bind(this)
-    this.onKeyUp = this.onKeyUp.bind(this)
-    this.onSend = this.onSend.bind(this)
-    this.updateReview = this.updateReview.bind(this)
   }
 
   componentDidMount() {
@@ -175,16 +168,6 @@ class ChatContainer extends Component {
     }
   }
 
-  componentWillUpdate() {
-    // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
-    var node = document.getElementById('chatList')
-
-    if (node) {
-      this.shouldScrollBottom =
-        node.scrollTop + node.offsetHeight === node.scrollHeight
-    }
-  }
-
   componentDidUpdate() {
     var node = document.getElementById('chatList')
     console.log('yep its here: ', this.shouldScrollBottom)
@@ -196,24 +179,25 @@ class ChatContainer extends Component {
     }
   }
 
-  updateReview(e) {
-    e.preventDefault()
-    const wordList = this.props.pictureReducer.wordList
-    const reviewList = this.props.pictureReducer.reviewList
-    const originalList = this.props.pictureReducer.originalList
-    const query = this.props.pictureReducer.query
-    const reviewObj = _.find(originalList, {word: query})
+  onKeyUp = e => {
+    const value = e.target.value
+    this.setState({msg: value})
 
-    if (!this.props.pictureReducer.reviewList) {
-      this.props.actions.updateReviewList(reviewObj)
-      console.log('reviewlist "', this.props.pictureReducer.reviewList)
-    } else {
-      reviewList
-      this.props.actions.updateReviewList(reviewObj)
+    if (e.keyCode === 13 && value) {
+      const body = {
+        id: cuid.generate(),
+        msg: value,
+        author: this.props.userReducer.userProfile.username,
+        room: this.props.socketReducer.joined_room
+      }
+
+      this.props.actions.addMsg(body)
+      this.props.actions.sendMsg(body)
+      e.target.value = ''
     }
-  }
+  };
 
-  onSend(e) {
+  onSend = e => {
     e.preventDefault()
     const audio = this.props.socketReducer.audioBlob
     // send audio file
@@ -289,33 +273,42 @@ class ChatContainer extends Component {
 
     // delete the audio
     this.props.actions.deleteAudioBlob()
+  };
+
+  UNSAFE_componentWillUpdate() {
+    // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
+    var node = document.getElementById('chatList')
+
+    if (node) {
+      this.shouldScrollBottom =
+        node.scrollTop + node.offsetHeight === node.scrollHeight
+    }
   }
 
-  filteredMessages() {
+  filteredMessages = () => {
     let list = this.props.chatReducer.msgList
     // return list.filter(item => {
     //   if (item.message.room_id === this.props.roomReducer.selected) return true
     // })
     return list
-  }
+  };
 
-  onKeyUp(e) {
-    const value = e.target.value
-    this.setState({msg: value})
+  updateReview = e => {
+    e.preventDefault()
+    const wordList = this.props.pictureReducer.wordList
+    const reviewList = this.props.pictureReducer.reviewList
+    const originalList = this.props.pictureReducer.originalList
+    const query = this.props.pictureReducer.query
+    const reviewObj = _.find(originalList, {word: query})
 
-    if (e.keyCode === 13 && value) {
-      const body = {
-        id: cuid.generate(),
-        msg: value,
-        author: this.props.userReducer.userProfile.username,
-        room: this.props.socketReducer.joined_room
-      }
-
-      this.props.actions.addMsg(body)
-      this.props.actions.sendMsg(body)
-      e.target.value = ''
+    if (!this.props.pictureReducer.reviewList) {
+      this.props.actions.updateReviewList(reviewObj)
+      console.log('reviewlist "', this.props.pictureReducer.reviewList)
+    } else {
+      reviewList
+      this.props.actions.updateReviewList(reviewObj)
     }
-  }
+  };
 
   updateScroll() {
     var element = document.getElementById('chatList')

@@ -135,13 +135,6 @@ class CreateCourse extends Component {
       teachingLang: '',
       usingLang: ''
     }
-
-    this.addTags = this.addTags.bind(this)
-    this.addTeachingLang = this.addTeachingLang.bind(this)
-    this.addUsingLang = this.addUsingLang.bind(this)
-    this.onBlur = this.onBlur.bind(this)
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount() {
@@ -153,50 +146,20 @@ class CreateCourse extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  onChange(e) {
+  onBlur = e => {
+    this.props.actions.fetchCourseName(this.state.courseName)
+  };
+
+  onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
     // this.props.actions.setReducer({
     //   [e.target.name]: e.target.value
     // })
-  }
+  };
 
-  onBlur(e) {
-    this.props.actions.fetchCourseName(this.state.courseName)
-  }
-
-  isValid() {
-    const {errors, isValid} = validateInput(this.state)
-
-    if (!isValid) {
-      this.setState({
-        errors
-      })
-    } else {
-      return isValid
-    }
-  }
-
-  addTeachingLang(value) {
-    this.setState({
-      teachingLang: value
-    })
-  }
-
-  addUsingLang(value) {
-    this.setState({
-      usingLang: value
-    })
-  }
-
-  addTags(value) {
-    this.setState({
-      tags: value
-    })
-  }
-
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault()
     if (this.isValid()) {
       this.props.actions.createCourse(this.state)
@@ -221,6 +184,36 @@ class CreateCourse extends Component {
       this.props.actions.push(
         `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
       )
+    }
+  };
+
+  addTags = value => {
+    this.setState({
+      tags: value
+    })
+  };
+
+  addTeachingLang = value => {
+    this.setState({
+      teachingLang: value
+    })
+  };
+
+  addUsingLang = value => {
+    this.setState({
+      usingLang: value
+    })
+  };
+
+  isValid() {
+    const {errors, isValid} = validateInput(this.state)
+
+    if (!isValid) {
+      this.setState({
+        errors
+      })
+    } else {
+      return isValid
     }
   }
 

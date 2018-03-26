@@ -56,20 +56,19 @@ class CoursesContainer extends Component {
       search: '',
       selectedOption: ''
     }
-    this.handleSearch = this.handleSearch.bind(this)
     this.handleOptionChange = this.handleOptionChange.bind(this)
-  }
-
-  handleSearch(e) {
-    this.setState({
-      search: e.target.value
-    })
   }
 
   handleOptionChange = selectedOption => {
     this.setState({selectedOption})
     console.log(`Selected: ${selectedOption.label}`)
   }
+
+  handleSearch = e => {
+    this.setState({
+      search: e.target.value
+    })
+  };
 
   render() {
     const {selectedOption} = this.state

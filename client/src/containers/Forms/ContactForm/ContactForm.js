@@ -136,14 +136,9 @@ class ContactForm extends Component {
       message: '',
       timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico'
     }
-
-    this.onChange = this.onChange.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onSelect2 = this.onSelect2.bind(this)
-    this.validatePhoneNumber = this.validatePhoneNumber.bind(this)
   }
 
-  onChange(e) {
+  onChange = e => {
     const name = e.target.name
     const value = e.target.value
     this.setState({
@@ -152,21 +147,27 @@ class ContactForm extends Component {
     if (e.target.name === 'number') {
       this.validatePhoneNumber('+' + this.state.country + ' ' + e.target.value)
     }
-  }
+  };
 
-  onSelect2(cntrObj) {
+  onSelect2 = cntrObj => {
     this.setState({
       country: cntrObj.value
     })
     this.validatePhoneNumber('+' + cntrObj.value + ' ' + this.state.number)
-  }
+  };
 
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault()
     this.props.contactmail(this.state)
+  };
+
+  getValidNumber(phoneNumber) {
+    const phoneUtil = PhoneNumberUtil.getInstance()
+    const parsedNumber = phoneUtil.parse(phoneNumber)
+    return phoneUtil.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL)
   }
 
-  validatePhoneNumber(phoneNumber) {
+  validatePhoneNumber = phoneNumber => {
     /*
      *     Phone number validation using google-libphonenumber
      *         */
@@ -189,13 +190,7 @@ class ContactForm extends Component {
         color: 'red'
       })
     }
-  }
-
-  getValidNumber(phoneNumber) {
-    const phoneUtil = PhoneNumberUtil.getInstance()
-    const parsedNumber = phoneUtil.parse(phoneNumber)
-    return phoneUtil.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL)
-  }
+  };
 
   render(props) {
     return (

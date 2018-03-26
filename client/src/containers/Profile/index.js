@@ -10,45 +10,43 @@ const ProfileContainer = styled(Container)`
 `
 ProfileContainer.defaultProps = {}
 
-class Profile extends Component {
-  render() {
-    return (
-      <ProfileContainer>
-        <Box background="blue" color="black">
-          {' '}
-          One
-        </Box>
-        <Box background="red" color="black">
-          Two
-        </Box>
-        <Box background="green" color="black">
-          Three
-        </Box>
-        <Box background="papayawhip" color="black">
-          Four{' '}
-        </Box>
-        <Box background="peru" color="black">
-          Five
-        </Box>
-        <Box background="blue" color="black">
-          {' '}
-          One
-        </Box>
-        <Box background="red" color="black">
-          Two
-        </Box>
-        <Box background="green" color="black">
-          Three
-        </Box>
-        <Box background="papayawhip" color="black">
-          Four{' '}
-        </Box>
-        <Box background="peru" color="black">
-          Five
-        </Box>
-      </ProfileContainer>
-    )
-  }
+function Profile(props) {
+  return (
+    <ProfileContainer>
+      <Box background="blue" color="black">
+        {' '}
+        One
+      </Box>
+      <Box background="red" color="black">
+        Two
+      </Box>
+      <Box background="green" color="black">
+        Three
+      </Box>
+      <Box background="papayawhip" color="black">
+        Four{' '}
+      </Box>
+      <Box background="peru" color="black">
+        Five
+      </Box>
+      <Box background="blue" color="black">
+        {' '}
+        One
+      </Box>
+      <Box background="red" color="black">
+        Two
+      </Box>
+      <Box background="green" color="black">
+        Three
+      </Box>
+      <Box background="papayawhip" color="black">
+        Four{' '}
+      </Box>
+      <Box background="peru" color="black">
+        Five
+      </Box>
+    </ProfileContainer>
+  )
 }
 
 export default Profile

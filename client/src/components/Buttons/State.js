@@ -17,15 +17,9 @@ const Button = styled.button`
   }
 `
 class State extends Component {
-  constructor(props) {
-    super(props)
-
-    this.seeState = this.seeState.bind(this)
-  }
-
-  seeState(state) {
+  seeState = state => {
     console.log('STATE: ', JSON.stringify(state, true, 2))
-  }
+  };
 
   render() {
     // signature of Component on parent:

@@ -101,13 +101,7 @@ const Progress = () => (
 )
 
 class Dashboard extends Component {
-  constructor(props) {
-    super(props)
-
-    this.DropFunc = this.DropFunc.bind(this)
-  }
-
-  DropFunc(e) {
+  DropFunc = e => {
     let name = e.target.name
     let x = document.getElementById(name)
     if (x.className.indexOf('show') == -1) {
@@ -120,7 +114,7 @@ class Dashboard extends Component {
         ''
       )
     }
-  }
+  };
 
   render() {
     return (

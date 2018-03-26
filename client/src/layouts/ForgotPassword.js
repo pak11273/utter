@@ -15,18 +15,15 @@ class ForgotPassword extends Component {
     this.state = {
       email: null
     }
-
-    this.onChange = this.onChange.bind(this)
-    this.forgotpassword = this.forgotpassword.bind(this)
   }
 
-  onChange(e) {
+  onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
+  };
 
-  forgotpassword() {
+  forgotpassword = () => {
     this.props.actions
       .forgotpassword({email: this.state.email})
       .then(res => {
@@ -42,7 +39,7 @@ class ForgotPassword extends Component {
           text: error.response.data.message
         })
       })
-  }
+  };
 
   render() {
     return (

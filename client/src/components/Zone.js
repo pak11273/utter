@@ -8,14 +8,9 @@ const StyledLink = styled(Link)`
   color: ${props => (props.selected ? 'red' : 'green')};
 `
 class Zone extends Component {
-  constructor() {
-    super()
-    this.selectTitle = this.selectTitle.bind(this)
-  }
-
-  selectTitle() {
+  selectTitle = () => {
     this.props.selectZone(this.props.index)
-  }
+  };
 
   render() {
     const title = this.props.isSelected

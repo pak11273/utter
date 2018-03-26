@@ -49,8 +49,6 @@ class SpanishLevel1 extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-
-    this.assignStateProps = this.assignStateProps.bind(this)
   }
 
   componentDidMount() {
@@ -64,7 +62,7 @@ class SpanishLevel1 extends Component {
     document.getElementById(e.target.name).play()
   }
 
-  assignStateProps(e) {
+  assignStateProps = e => {
     let words = this.props.vocabReducer
     var val =
       words[
@@ -78,7 +76,7 @@ class SpanishLevel1 extends Component {
         [item.word]: cdn + audioUrl
       })
     })
-  }
+  };
 
   render() {
     return (

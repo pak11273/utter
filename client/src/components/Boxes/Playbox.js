@@ -64,15 +64,11 @@ Img.defaultProps = {
 }
 
 class PlayBox extends Component {
-  constructor() {
-    super()
-    this.onClick = this.onClick.bind(this)
-  }
-
-  onClick(e) {
+  onClick = e => {
     e.preventDefault()
     document.getElementById(e.target.name).play()
-  }
+  };
+
   render() {
     const {alignitems, id, src} = this.props
     return (

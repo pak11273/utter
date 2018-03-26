@@ -11,23 +11,20 @@ class ZoneCreate extends Component {
         numComments: ''
       }
     }
-
-    this.updateName = this.updateName.bind(this)
-    this.addZone = this.addZone.bind(this)
   }
 
-  updateName(e) {
+  addZone = () => {
+    this.props.addZone(this.state.zone)
+  };
+
+  updateName = e => {
     e.preventDefault
     const updatedZone = this.state.zone
     updatedZone[e.target.name] = e.target.value
     this.setState({
       zone: updatedZone
     })
-  }
-
-  addZone() {
-    this.props.addZone(this.state.zone)
-  }
+  };
 
   render() {
     return (

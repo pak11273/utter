@@ -27,9 +27,6 @@ class Aws extends Component {
   constructor(props) {
     super(props)
     this.state = {}
-
-    this.onChange = this.onChange.bind(this)
-    this.upload = this.upload.bind(this)
   }
 
   componentDidMount() {
@@ -51,7 +48,7 @@ class Aws extends Component {
       })
   }
 
-  onChange(e) {
+  onChange = e => {
     if (e.target.value != '') {
       var output = document.getElementById('output')
 
@@ -75,12 +72,12 @@ class Aws extends Component {
           output.innerHTML = err.message
         })
     }
-  }
+  };
 
-  upload(e) {
+  upload = e => {
     e.target.innerText = 'Uploading...'
     document.getElementById('upload_input').click()
-  }
+  };
 
   render() {
     return (

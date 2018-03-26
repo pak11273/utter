@@ -15,10 +15,6 @@ class CourseDetails extends Component {
     this.state = {
       value: 'English'
     }
-
-    this.addCourse = this.addCourse.bind(this)
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
     // load the user profile
@@ -26,20 +22,7 @@ class CourseDetails extends Component {
     this.props.actions.loadUserProfile(userId)
   }
 
-  handleChange(e) {
-    this.setState({
-      value: e.target.value
-    })
-  }
-
-  handleSubmit(e) {
-    e.preventDefault()
-    let button = document.getElementById('submit')
-    this.props.history.push('/getting-started')
-    button.disabled = true
-  }
-
-  addCourse() {
+  addCourse = () => {
     // TODO:add course to user db
     //if course is already in user db then
     // check in redux
@@ -58,7 +41,21 @@ class CourseDetails extends Component {
       const id = this.props.userReducer.userProfile._id
       this.props.actions.addCourse(id, course)
     }
-  }
+  };
+
+  handleChange = e => {
+    this.setState({
+      value: e.target.value
+    })
+  };
+
+  handleSubmit = e => {
+    e.preventDefault()
+    let button = document.getElementById('submit')
+    this.props.history.push('/getting-started')
+    button.disabled = true
+  };
+
   render() {
     const {name, description, levels} = this.props.language
     var items = []

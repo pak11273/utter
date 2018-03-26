@@ -25,21 +25,9 @@ class RoomCreator extends Component {
         title: ''
       }
     }
-
-    this.updateName = this.updateName.bind(this)
-    this.createRoom = this.createRoom.bind(this)
   }
 
-  updateName(e) {
-    e.preventDefault
-    const updatedRoom = this.state.room
-    updatedRoom[e.target.name] = e.target.value
-    this.setState({
-      room: updatedRoom
-    })
-  }
-
-  createRoom() {
+  createRoom = () => {
     const course = this.props.roomReducer.roomTitle
     const courses = this.props.userReducer.userProfile.courses
     const yourLevel = courses.filter(obj => {
@@ -85,7 +73,16 @@ class RoomCreator extends Component {
         this.props.actions.updateRoomLevel(room.level)
       })
     }
-  }
+  };
+
+  updateName = e => {
+    e.preventDefault
+    const updatedRoom = this.state.room
+    updatedRoom[e.target.name] = e.target.value
+    this.setState({
+      room: updatedRoom
+    })
+  };
 
   render() {
     return (

@@ -24,34 +24,32 @@ StyledAd.defaultProps = {
   padding: '40px'
 }
 
-class Ad extends Component {
-  render(props) {
-    const lang = this.props.roomReducer.language
-    const today = ad.today()
-    return (
-      <StyledAd>
-        <Text
-          fontsize="1.4rem"
-          textalign="center"
-          padding="10px 10px 30px 10px">
-          {' '}{ad[lang]['title' + today]}
-        </Text>
-        <a
-          href={ad[lang]['lnk' + today]}
-          title={ad[lang]['alt' + today]}
-          rel="external"
-          target="_blank">
-          <Img
-            src={ad[lang]['gfx' + today]}
-            alt={ad[lang]['gfx' + today]}
-            width="400"
-            height="300"
-          />
-        </a>
-        <br />
-      </StyledAd>
-    )
-  }
+function Ad(props) {
+  const lang = props.roomReducer.language
+  const today = ad.today()
+  return (
+    <StyledAd>
+      <Text
+        fontsize="1.4rem"
+        textalign="center"
+        padding="10px 10px 30px 10px">
+        {' '}{ad[lang]['title' + today]}
+      </Text>
+      <a
+        href={ad[lang]['lnk' + today]}
+        title={ad[lang]['alt' + today]}
+        rel="external"
+        target="_blank">
+        <Img
+          src={ad[lang]['gfx' + today]}
+          alt={ad[lang]['gfx' + today]}
+          width="400"
+          height="300"
+        />
+      </a>
+      <br />
+    </StyledAd>
+  )
 }
 
 const mapStateToProps = state => {

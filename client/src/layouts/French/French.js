@@ -7,25 +7,23 @@ import Navbar from '../../containers/Navbars/Navbar'
 import Title from '../../components/Text/Title.js'
 import Subtitle from '../../components/Text/Subtitle.js'
 
-class French extends Component {
-  render() {
-    return (
-      <Wrapper>
-        <Masthead bg="green">
-          <Title>French</Title>
-          <Subtitle>
-            Hangul for the simple minded for:
-          </Subtitle>
-          <select>
-            <option>English Speakers</option>
-            <option>French Speakers</option>
-            <option>Spanish Speakers</option>
-          </select>
-          <button><NavLink to="/korean/1">Submit</NavLink></button>
-        </Masthead>
-      </Wrapper>
-    )
-  }
+function French(props) {
+  return (
+    <Wrapper>
+      <Masthead bg="green">
+        <Title>French</Title>
+        <Subtitle>
+          Hangul for the simple minded for:
+        </Subtitle>
+        <select>
+          <option>English Speakers</option>
+          <option>French Speakers</option>
+          <option>Spanish Speakers</option>
+        </select>
+        <button><NavLink to="/korean/1">Submit</NavLink></button>
+      </Masthead>
+    </Wrapper>
+  )
 }
 
 export default French

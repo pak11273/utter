@@ -16,32 +16,30 @@ import {loadWordList, updateOriginalWordList} from '../Pictures/actions.js'
 import {updateCurrentRoom, updateListType} from '../Rooms/actions.js'
 import {getRooms, joinRoom} from '../../services/socketio/actions.js'
 
-class Members extends Component {
-  render() {
-    const {currentRoom} = this.props
-    return (
-      <div style={{textAlign: 'left'}}>
-        <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
-          {currentRoom}
-        </Text>
-        <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
-          Members{' '}
-        </Text>
-        <div>
-          Joe <span style={{color: 'red'}}>offline</span>
-        </div>
-        <div>
-          Martha <span style={{color: 'red'}}>online</span>
-        </div>
-        <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
-          Spectators{' '}
-        </Text>
-        <div>
-          Martha <span style={{color: 'orange'}}>afk</span>
-        </div>
+function Members(props) {
+  const {currentRoom} = props
+  return (
+    <div style={{textAlign: 'left'}}>
+      <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
+        {currentRoom}
+      </Text>
+      <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
+        Members{' '}
+      </Text>
+      <div>
+        Joe <span style={{color: 'red'}}>offline</span>
       </div>
-    )
-  }
+      <div>
+        Martha <span style={{color: 'red'}}>online</span>
+      </div>
+      <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
+        Spectators{' '}
+      </Text>
+      <div>
+        Martha <span style={{color: 'orange'}}>afk</span>
+      </div>
+    </div>
+  )
 }
 
 const StyledRoom = styled.div`
@@ -83,153 +81,90 @@ const Room = ({
   return room
 }
 
-// class RoomList extends Component {
-//   render({
-//   }) {
-//     let list = filteredRoomList
-//     !list ? (list = []) : list
-//     list.push(rooms)
-//     if (_.isEmpty(list)) {
-//       var renderList = <div>hi</div>
-//     } else {
-//       var renderList = (
-//         <div>
-//           {list.map(({_id, language, level, creator, people, title}) => {
-//             const isSelected = selectedRoomId == _id
-//             const onRoomSelect = () => {
-//               // update wordList when room is selected
-//               const roomLevel = level
-//               const listObj = require(`../../data/${language.toLowerCase()}/level${roomLevel}/query.js`)
-//                 .default
-//               const listType = require(`../../data/${language.toLowerCase()}/level${roomLevel}/vocab.js`)
-//                 .default
-//               updateListType(listType.meta.listType)
-//               updateOriginalWordList(listObj)
-//               loadWordList(listObj)
+function RoomList(props) {
+  const {
+    loadWordList,
+    roomList,
+    rooms,
+    selectedRoomId,
+    joinRoom,
+    updateCurrentRoom,
+    updateRoomLevel,
+    updateOriginalWordList,
+    updateListType
+  } = props
+  let list = roomList
+  if (_.isEmpty(list)) {
+    var renderList = <div>No rooms available. Try creating your own.</div>
+  } else {
+    // grab lobby and make it the first component
+    var renderLobby = Object.keys(list).map((item, i) => {
+      if (item === 'Lobby') {
+        return (
+          <Room
+            joinRoom={() => joinRoom(item)}
+            title={item}
+            people={list[item].length}
+          />
+        )
+      }
+    })
+    // remove lobby from list
+    delete list['Lobby']
+    var renderList = Object.keys(list).map((item, i) => {
+      if (item.indexOf('/') !== -1) {
+        return <div />
+      } else {
+        return (
+          <Room
+            joinRoom={() => joinRoom(item)}
+            title={item}
+            people={list[item].length}
+          />
+        )
+      }
+    })
+    // for (var x in list) {
+    //   if (x.indexOf('/') !== -1) {
+    //     return <div />
+    //   } else {
+    //     return <Room
+    //         joinRoom={() => joinRoom(x)}
+    //         title={x}
+    //         people={list[x].length}
+    //       />
+    //   }}
 
-//               updateRoomLevel(level)
-//               onSelect(_id)
-//             }
-//             return (
-//               <Room
-//                 creator={creator}
-//                 isSelected={isSelected}
-//                 key={_id}
-//                 level={level}
-//                 onClick={onRoomSelect}
-//                 people={people}
-//                 title={title}
-//               />
-//             )
-//           })}
-//         </div>
-//       )
-//     }
-//     return {renderList}
-//   }
-// }
-
-class RoomList extends Component {
-  render() {
-    const {
-      loadWordList,
-      roomList,
-      rooms,
-      selectedRoomId,
-      joinRoom,
-      updateCurrentRoom,
-      updateRoomLevel,
-      updateOriginalWordList,
-      updateListType
-    } = this.props
-    let list = roomList
-    if (_.isEmpty(list)) {
-      var renderList = <div>No rooms available. Try creating your own.</div>
-    } else {
-      // grab lobby and make it the first component
-      var renderLobby = Object.keys(list).map((item, i) => {
-        if (item === 'Lobby') {
-          return (
-            <Room
-              joinRoom={() => joinRoom(item)}
-              title={item}
-              people={list[item].length}
-            />
-          )
-        }
-      })
-      // remove lobby from list
-      delete list['Lobby']
-      var renderList = Object.keys(list).map((item, i) => {
-        if (item.indexOf('/') !== -1) {
-          return <div />
-        } else {
-          return (
-            <Room
-              joinRoom={() => joinRoom(item)}
-              title={item}
-              people={list[item].length}
-            />
-          )
-        }
-      })
-      // for (var x in list) {
-      //   if (x.indexOf('/') !== -1) {
-      //     return <div />
-      //   } else {
-      //     return <Room
-      //         joinRoom={() => joinRoom(x)}
-      //         title={x}
-      //         people={list[x].length}
-      //       />
-      //   }}
-
-      // var renderList = (
-      //   <div style={{padding: '10px'}}>
-      //     {Object.keys(list).map((title, i) => {
-      //       if (title.indexOf('/') !== -1) {
-      //         return <div />
-      //       } else {
-      //         return (
-      //           <Room joinRoom={() => joinRoom(`${title}`)} title={title} />
-      //         )
-      //       }
-      //     })}
-      //   </div>
-      // )
-    }
-    return (
-      <div>
-        {renderLobby}
-        {renderList}
-      </div>
-    )
+    // var renderList = (
+    //   <div style={{padding: '10px'}}>
+    //     {Object.keys(list).map((title, i) => {
+    //       if (title.indexOf('/') !== -1) {
+    //         return <div />
+    //       } else {
+    //         return (
+    //           <Room joinRoom={() => joinRoom(`${title}`)} title={title} />
+    //         )
+    //       }
+    //     })}
+    //   </div>
+    // )
   }
+  return (
+    <div>
+      {renderLobby}
+      {renderList}
+    </div>
+  )
 }
 
 class RoomsContainer extends Component {
-  constructor(props) {
-    super(props)
-
-    this.joinRoom = this.joinRoom.bind(this)
-    this.updateName = this.updateName.bind(this)
-    this.selectRoom = this.selectRoom.bind(this)
-    // this.filteredRoomList = this.filteredRoomList.bind(this)
-  }
-
   componentDidMount() {
     this.props.actions.getRooms()
   }
 
-  updateName(e) {
-    e.preventDefault
-    //TODO: this doesn't work anymore, we got rid of local state
-    const updatedRoom = Object.assign({}, this.state.room)
-    updatedRoom[e.target.level] = e.target.value
-    this.setState({
-      room: updatedRoom
-    })
-  }
+  joinRoom = name => {
+    this.props.actions.joinRoom(name)
+  };
 
   // filteredRoomList() {
   //   let list = this.props.socketReducer.list
@@ -244,15 +179,21 @@ class RoomsContainer extends Component {
   // }
   // }
 
-  selectRoom(index) {
+  selectRoom = index => {
     this.setState({
       selected: index
     })
-  }
+  };
 
-  joinRoom(name) {
-    this.props.actions.joinRoom(name)
-  }
+  updateName = e => {
+    e.preventDefault
+    //TODO: this doesn't work anymore, we got rid of local state
+    const updatedRoom = Object.assign({}, this.state.room)
+    updatedRoom[e.target.level] = e.target.value
+    this.setState({
+      room: updatedRoom
+    })
+  };
 
   render() {
     if (!this.props.socketReducer.joined_room) {

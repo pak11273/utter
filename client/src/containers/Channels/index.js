@@ -54,11 +54,6 @@ const ChannelsList = ({channelList, channelSortAsc, onChannelSelect}) => (
 )
 
 class ChannelsContainer extends Component {
-  constructor(props) {
-    super(props)
-    this.onChannelSelect = this.onChannelSelect.bind(this)
-  }
-
   componentDidMount() {
     axios
       .get('/api/channels')
@@ -74,7 +69,7 @@ class ChannelsContainer extends Component {
       })
   }
 
-  onChannelSelect(_id, name, language, socket) {
+  onChannelSelect = (_id, name, language, socket) => {
     let obj = this.props.userReducer.userProfile.courses.filter(
       obj => obj.name === name
     )[0]
@@ -87,7 +82,7 @@ class ChannelsContainer extends Component {
     } else {
       alert('you must be enrolled in that course to join a channel')
     }
-  }
+  };
 
   render() {
     if (this.props.channelReducer.channelId) {
