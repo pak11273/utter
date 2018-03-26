@@ -1,4 +1,5 @@
 import {
+  ADD_CUID_TO_LEVELS,
   ADD_LEVEL,
   CREATE_COURSE,
   CREATE_COURSE_SUCCESS,
@@ -41,8 +42,23 @@ const initialState = {
   currentLearningCourse: {}
 }
 
+import cuid from 'cuid'
+
 export default (state = initialState, action) => {
   switch (action.type) {
+    case 'ADD_CUID_TO_LEVELS':
+      return {
+        ...state,
+        ...state.currentTeachingCourse,
+        currentTeachingCourse: {
+          levels: [
+            ...state.currentTeachingCourse.levels,
+            {
+              cuid: action.cuid
+            }
+          ]
+        }
+      }
     case 'ADD_LEVEL':
       return {
         ...state,
@@ -58,7 +74,8 @@ export default (state = initialState, action) => {
             ...state.currentTeachingCourse.levels,
             {
               level: action.level,
-              title: 'Change this title'
+              title: 'Change this title',
+              cuid: cuid()
             }
           ]
         }
@@ -99,7 +116,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         currentTeachingCourse: {
-          // ...state.currentTeachingCourse,
           ...action.course
         }
       }

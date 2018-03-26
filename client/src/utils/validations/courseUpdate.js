@@ -5,13 +5,15 @@ import {store} from '../../store.js'
 
 exports.validateInput = state => {
   let errors = {}
-
   state.levels.map(item => {
     if (isNil(item.level) || item.level === '') {
-      console.log('its EMPTY!')
-      errors.level = {message: 'This field is required.'}
+      errors.level = {
+        _id: item_id,
+        message: 'This field is required.'
+      }
     } else if (isNaN(item.level) || item.level <= 0) {
       errors.level = {
+        _id: item._id,
         message: 'Levels must be numbers and greater than 0'
       }
       console.log('Levels must be numbers and greater than 0')

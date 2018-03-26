@@ -42,6 +42,7 @@ const CourseSchema = mongoose.Schema(
     ],
     levels: [
       {
+        cuid: String,
         level: Number,
         title: String,
         vocabulary: Array,

@@ -127,7 +127,7 @@ class CreateCourse extends Component {
       courseCreatorId: this.props.authReducer.user._id,
       courseDescription: '',
       courseName: '',
-      levels: [{level: 1}],
+      levels: [{level: 1, cuid: cuid()}],
       displayName: '',
       errors: {},
       loading: false,
@@ -167,7 +167,6 @@ class CreateCourse extends Component {
   }
 
   isValid() {
-    // debugger
     const {errors, isValid} = validateInput(this.state)
 
     if (!isValid) {

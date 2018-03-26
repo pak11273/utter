@@ -1,5 +1,6 @@
 import {
   ADD_LEVEL,
+  ADD_CUID_TO_LEVELS,
   FETCHED_COURSE_NAME,
   REQUESTED_COURSE_NAME_SUCCEEDED,
   REQUESTED_COURSE_NAME_FAIL,
@@ -17,6 +18,10 @@ import {
   UDPATE_COURSE_SUCCESS,
   UDPATE_COURSE_FAIL
 } from './types.js'
+
+const addCuidToLevels = cuid => {
+  return {type: 'ADD_CUID_TO_LEVELS', cuid}
+}
 
 const addLevel = level => {
   return {type: 'ADD_LEVEL', level}
@@ -91,6 +96,7 @@ const saveFormToRedux = course => {
 }
 
 export {
+  addCuidToLevels,
   addLevel,
   createCourse,
   createCourseSuccess,

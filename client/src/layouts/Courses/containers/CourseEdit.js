@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import ReactTable from 'react-table'
+import cuid from 'cuid'
 import {validateInput} from '../../../utils/validations/courseUpdate.js'
 import 'react-table/react-table.css'
 import data from '../data/data.js'
@@ -29,6 +30,7 @@ import {Masthead, Navbar, Staticbar} from '../../../containers'
 // actions
 import {addFlashMessage} from '../../../actions/flashMessages.js'
 import {
+  addCuidToLevels,
   addLevel,
   chooseCourseLanguage,
   readCourse,
@@ -51,7 +53,12 @@ const StyledButton = styled(Button)`
     color: red;
   }
 `
-
+const Error = styled.div`
+  color: red;
+  padding-top: ${props => props.paddingtop};
+  position: absolute;
+  text-align: center;
+`
 class CourseEdit extends Component {
   constructor() {
     super()
@@ -61,7 +68,7 @@ class CourseEdit extends Component {
       courseDescription: '',
       errors: {},
       filtered: false,
-      levels: [{level: 1}],
+      levels: [{level: 1, cuid: cuid()}],
       loading: false,
       page: 0,
       pages: -1,
@@ -80,7 +87,7 @@ class CourseEdit extends Component {
     this.props.actions.toggleFooter(false)
     this.props.actions.readCourse(currentCourse)
 
-    // set dom attributes
+    // set dom attributes TODO: remove this?
     const nodeList = Array.from(document.getElementsByClassName('level'))
     for (var i = 0; i < nodeList.length; i++) {
       nodeList[i].getAttribute('required', true)
@@ -91,33 +98,53 @@ class CourseEdit extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  validatorNumberOnly() {
-    console.log('sup foo')
-  }
-
   renderLevelEditable(cellInfo) {
+    const levelErrors = this.state.errors.level
+    const id = cuid()
     return (
-      <div
-        className="level"
-        style={{
-          backgroundColor: '#fafafa',
-          width: '100px',
-          outline: 'none'
-        }}
-        contentEditable
-        suppressContentEditableWarning
-        onBlur={e => {
-          const data = this.props.courseReducer.currentTeachingCourse.levels
-          const conv = Number(e.target.innerHTML)
-          data[cellInfo.index][cellInfo.column.id] = conv
-          this.setState({data})
-        }}
-        dangerouslySetInnerHTML={{
-          __html: this.props.courseReducer.currentTeachingCourse.levels[
-            cellInfo.index
-          ][cellInfo.column.id]
-        }}
-      />
+      <div>
+        <div
+          id={id}
+          className={levelErrors ? 'levelError' : null}
+          style={{
+            backgroundColor: '#fafafa',
+            width: '100px',
+            outline: 'none'
+          }}
+          contentEditable
+          placeholder="Number"
+          suppressContentEditableWarning
+          onBlur={e => {
+            const data = this.props.courseReducer.currentTeachingCourse.levels
+            var conv = null
+
+            e.target.innerHTML !== null ||
+            e.target.innerHTML === '' ||
+            e.target.innerHTML === undefined
+              ? (conv = Number(e.target.innerHTML))
+              : (conv = 0)
+            data[cellInfo.index][cellInfo.column.id] = conv
+            this.setState({data})
+          }}
+          dangerouslySetInnerHTML={{
+            __html: this.props.courseReducer.currentTeachingCourse.levels[
+              cellInfo.index
+            ][cellInfo.column.id]
+          }}
+        />
+        <Error>
+          {this.state.errors.level
+            ? console.log('error: ', this.state.errors.level._id)
+            : null}
+          {console.log('errors: ', levelErrors)}
+          {console.log('id: ', id)}
+          {console.log('error_id: ', levelErrors[id])}
+          {levelErrors &&
+            Object.keys(levelErrors).map((key, i) => {
+              return <Error key={i}>{levelErrors['message']}</Error>
+            })}
+        </Error>
+      </div>
     )
   }
 
@@ -144,14 +171,12 @@ class CourseEdit extends Component {
 
   addLevel(e) {
     e.preventDefault()
-    // get last level add 1
     let length = this.props.courseReducer.currentTeachingCourse.levels.length
     let newLevel = length + 1
     this.props.actions.addLevel(newLevel)
   }
 
   isValid() {
-    // debugger
     const {errors, isValid} = validateInput(
       this.props.courseReducer.currentTeachingCourse
     )
@@ -171,6 +196,11 @@ class CourseEdit extends Component {
     if (this.isValid()) {
       let updatedCourse = this.props.courseReducer.currentTeachingCourse
       this.props.actions.updateCourse(updatedCourse)
+
+      // clear errors
+      this.setState({
+        errors: {} // clear errors every time we submit form
+      })
 
       // push state to redux
       this.props.actions.addFlashMessage({
@@ -295,6 +325,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        addCuidToLevels,
         addFlashMessage,
         addLevel,
         toggleFooter,
