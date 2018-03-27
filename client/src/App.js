@@ -64,8 +64,9 @@ class App extends Component {
                   </Section>
                   <Section gridarea="content">
                     <Switch>
-                      {routes.map(route => (
+                      {routes.map((route, i) => (
                         <route.component
+                          key={i}
                           path={route.path}
                           {...route}
                           render={props => (

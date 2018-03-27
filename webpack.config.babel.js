@@ -13,7 +13,7 @@ module.exports = env => {
   return {
     context: path.resolve(__dirname, 'client/src'),
     // entry: ['webpack-hot-middleware/client', './App.js'],
-    entry: ['react-hot-loader/patch', './App.js'],
+    entry: ['./App.js'],
     output: {
       path: path.join(__dirname, 'client/dist'),
       filename: 'bundle.js',
@@ -61,7 +61,7 @@ module.exports = env => {
         {
           test: /\.jsx?$/,
           exclude: /node_modules/,
-          use: ['cache-loader', 'react-hot-loader/webpack', 'babel-loader']
+          use: ['cache-loader', 'babel-loader']
         },
         {
           test: /\.css$/,
@@ -95,7 +95,7 @@ module.exports = env => {
       new webpack.DefinePlugin({
         // <-- key to reducing React's size
         'process.env': {
-          NODE_ENV: JSON.stringify('production')
+          NODE_ENV: JSON.stringify('development')
         }
       }),
       new webpack.HotModuleReplacementPlugin(),

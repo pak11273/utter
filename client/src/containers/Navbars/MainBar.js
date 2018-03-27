@@ -142,7 +142,7 @@ class MainNavbar extends Component {
       navSection.style.height = '50px'
       spacer.style.margin = '50px 0 0 0'
     }
-  };
+  }
 
   logout(e) {
     e.preventDefault()
@@ -268,12 +268,12 @@ class MainNavbar extends Component {
 }
 
 MainNavbar.propTypes = {
-  menu: PropTypes.node.isRequired,
+  // menu: PropTypes.node.isRequired,
   largeMenuClassName: PropTypes.string,
   smallMenuClassName: PropTypes.string,
-  changeMenuOn: PropTypes.string.isRequired,
-  menuOpenButton: PropTypes.node.isRequired,
-  menuCloseButton: PropTypes.node.isRequired
+  changeMenuOn: PropTypes.string.isRequired
+  // menuOpenButton: PropTypes.node.isRequired,
+  // menuCloseButton: PropTypes.node.isRequired
 }
 
 MainNavbar.defaultProps = {

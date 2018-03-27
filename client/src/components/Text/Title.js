@@ -14,7 +14,6 @@ const Title = styled.div`
   }
 `
 Title.defaultProps = {
-  color: props => props.theme.color,
   fontsize: '2rem',
   fontweight: '600',
   fontfamily: 'Arial',

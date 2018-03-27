@@ -1,4 +1,4 @@
-import {takeEvery} from 'redux-saga'
+import {takeEvery} from 'redux-saga/effects'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import axios from 'axios'
 import {
