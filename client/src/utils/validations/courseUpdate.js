@@ -8,15 +8,14 @@ exports.validateInput = state => {
   state.levels.map(item => {
     if (isNil(item.level) || item.level === '') {
       errors.level = {
-        _id: item_id,
+        cuid: item.cuid,
         message: 'This field is required.'
       }
     } else if (isNaN(item.level) || item.level <= 0) {
       errors.level = {
-        _id: item._id,
+        cuid: item.cuid,
         message: 'Levels must be numbers and greater than 0'
       }
-      console.log('Levels must be numbers and greater than 0')
     }
     // if (isNaN(item.level) || item.level <= 0) {
     //   console.log('negative num')

@@ -148,7 +148,7 @@ class CreateCourse extends Component {
 
   onBlur = e => {
     this.props.actions.fetchCourseName(this.state.courseName)
-  };
+  }
 
   onChange = e => {
     this.setState({
@@ -157,7 +157,7 @@ class CreateCourse extends Component {
     // this.props.actions.setReducer({
     //   [e.target.name]: e.target.value
     // })
-  };
+  }
 
   onSubmit = e => {
     e.preventDefault()
@@ -185,25 +185,25 @@ class CreateCourse extends Component {
         `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
       )
     }
-  };
+  }
 
   addTags = value => {
     this.setState({
       tags: value
     })
-  };
+  }
 
   addTeachingLang = value => {
     this.setState({
       teachingLang: value
     })
-  };
+  }
 
   addUsingLang = value => {
     this.setState({
       usingLang: value
     })
-  };
+  }
 
   isValid() {
     const {errors, isValid} = validateInput(this.state)

@@ -111,14 +111,14 @@ class CourseEdit extends Component {
         text: 'Changes were saved.'
       })
     }
-  };
+  }
 
   addLevel = e => {
     e.preventDefault()
     let length = this.props.courseReducer.currentTeachingCourse.levels.length
     let newLevel = length + 1
     this.props.actions.addLevel(newLevel)
-  };
+  }
 
   isValid() {
     const {errors, isValid} = validateInput(
@@ -136,11 +136,9 @@ class CourseEdit extends Component {
 
   renderLevelEditable = cellInfo => {
     const levelErrors = this.state.errors.level
-    const id = cuid()
     return (
       <div>
         <div
-          id={id}
           className={levelErrors ? 'levelError' : null}
           style={{
             backgroundColor: '#fafafa',
@@ -169,20 +167,16 @@ class CourseEdit extends Component {
           }}
         />
         <Error>
-          {this.state.errors.level
-            ? console.log('error: ', this.state.errors.level._id)
-            : null}
-          {console.log('errors: ', levelErrors)}
-          {console.log('id: ', id)}
-          {console.log('error_id: ', levelErrors[id])}
           {levelErrors &&
-            Object.keys(levelErrors).map((key, i) => {
-              return <Error key={i}>{levelErrors['message']}</Error>
-            })}
+            (this.props.courseReducer.currentTeachingCourse.levels[
+              cellInfo.index
+            ].cuid === levelErrors.cuid ? (
+              <Error>{levelErrors['message']}</Error>
+            ) : null)}
         </Error>
       </div>
     )
-  };
+  }
 
   renderTitleEditable = cellInfo => {
     return (
@@ -203,7 +197,7 @@ class CourseEdit extends Component {
         placeholder="Change this title"
       />
     )
-  };
+  }
 
   render() {
     const url = `/api/courses/${
