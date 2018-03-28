@@ -6,6 +6,8 @@ import {
   Box,
   ButtonCta,
   Column,
+  Flex,
+  Grid,
   Img,
   Line,
   MastheadTitle,
@@ -19,208 +21,138 @@ import {
 
 // images
 import busyPeopleImg from '../assets/images/busy-people.jpg'
+import homeMastheadImg from '../assets/images/two-guys.jpg'
 import embarrassedImg from '../assets/images/embarrassed.jpg'
 import aloneImg from '../assets/images/alone.jpg'
+import teensImg from '../assets/images/teens.jpg'
+import visitingImg from '../assets/images/walking-around.jpg'
+
+const StyledGrid = styled(Grid)`
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    'masthead masthead'
+    'using using'
+    'tags tags';
+`
+
+// @media (min-width: 1080px) {
+//   grid-template-columns: 1fr;
+//   grid-template-areas:
+//     'masthead'ridj
+//     'tags';
+// }
 
 function Home(props) {
   return (
     <Wrapper>
-      <Masthead
-        background="url('https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg') no-repeat center top"
-        height="800px">
-        <Column maxwidth="960px">
-          <MastheadTitle color="#00bcd4">
-            Speak another language
-          </MastheadTitle>
-          <MastheadSubtitle color="black" fontsize="2rem">
-            A better way to learn. This unique training program is a proven
-            way to become fluent in another language. We understand the
-            learning process and we create the environment that you can learn
-            in.
-          </MastheadSubtitle>
-          <ButtonCta color="black">Learn More</ButtonCta>
-        </Column>
-      </Masthead>
-      <Section
-        alignitems="center"
-        gridtemplatecolumns="1fr"
-        height="800px"
-        background={`url(${busyPeopleImg}) no-repeat center/cover`}>
-        <Column margin="0 auto" maxwidth="960px">
+      <StyledGrid>
+        <Masthead
+          gridarea="masthead"
+          background={`url(${homeMastheadImg}) center/contain`}
+          height="600px">
+          <Column maxwidth="960px">
+            <MastheadTitle color="white">Speak another language</MastheadTitle>
+            <MastheadSubtitle color="white" fontsize="1.5rem">
+              Not speaking your new language yet? We can help.
+            </MastheadSubtitle>
+            <ButtonCta color="black">Learn More</ButtonCta>
+          </Column>
+        </Masthead>
+      </StyledGrid>
+      <Section alignitems="center" background="#e3e3e3" height="550px">
+        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
           <Box>
-            <Text color="white" fontsize="2rem">
-              Finding Native Speakers can be hard and time scheduling can be
-              awkward{' '}
+            <Text fontsize="1.3rem" padding="20px">
+              Studied a second language in school but can't hold a basic
+              conversation.
             </Text>
-            <Line />
-            <Text color="white" fontsize="2rem">
-              Not all native speakers are good teachers.
+            <Line color="black" width="200px" />
+            <Text fontsize="1.3rem" padding="20px">
+              Those many hours you spent in class don't have to go to waste. Our
+              platform helps you reclaim that lost knowledge.
+            </Text>
+          </Box>
+          <Img src={`${busyPeopleImg}`} width="500" height="400" />
+        </Column>
+      </Section>
+      <Section alignitems="center" height="550px">
+        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
+          <Img src={`${embarrassedImg}`} width="500" height="400" />
+          <Box>
+            <Text fontsize="1.3rem" padding="20px">
+              The fear of embarrassment is the biggest reason why people won't
+              attempt to speak a new language.
+            </Text>
+            <Line color="black" width="200px" />
+            <Text fontsize="1.3rem" padding="20px">
+              You will be learning with peers. Meaning you will be speaking with
+              people who are at your level.
             </Text>
           </Box>
         </Column>
       </Section>
-      <Section
-        alignitems="center"
-        gridtemplatecolumns="1fr"
-        height="800px"
-        background={`url(${embarrassedImg}) no-repeat center/cover`}>
-        <Column margin="0 auto" maxwidth="960px">
+      <Section alignitems="center" background="#e3e3e3" height="550px">
+        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
           <Box>
-            <Text color="white" fontsize="2rem">
-              Fear of embarrassment is the biggest reason why people won't try
-              to speak a new language.
-            </Text>
-          </Box>
-        </Column>
-      </Section>
-      <Section
-        alignitems="center"
-        gridtemplatecolumns="1fr"
-        height="800px"
-        background={`url(${aloneImg}) no-repeat center/cover`}>
-        <Column margin="0 auto" maxwidth="960px">
-          <Box>
-            <Text color="white" fontsize="2rem">
+            <Text fontsize="1.3rem" padding="20px">
               Not enough meetups or people near you to talk with.
             </Text>
-            <Line />
-            <Text color="white" fontsize="2rem">
-              You can't go to another country and fully immerse yourself in
-              the culture. Even if you did, most people don't fully immerse
-              themselves and wind up just getting by with broken grammar.
+            <Line color="black" width="200px" />
+            <Text fontsize="1.3rem" padding="20px">
+              You don't need a meetup. If you have internet access you can start
+              practicing with people all over the world.
+            </Text>
+          </Box>
+          <Img src={`${aloneImg}`} width="500" height="400" />
+        </Column>
+      </Section>
+      <Section alignitems="center" height="550px">
+        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
+          <Img src={`${visitingImg}`} width="500" height="400" />
+          <Box>
+            <Text fontsize="1.3rem" padding="20px">
+              So you can't go to another country and fully immerse yourself. And
+              even if you did, most people wind up just getting by with basic
+              conversation.
+            </Text>
+            <Line color="black" width="200px" />
+            <Text fontsize="1.3rem" padding="20px">
+              Our platform could possibly be better! You get focused practice
+              anytime you want it.
             </Text>
           </Box>
         </Column>
       </Section>
       <Section alignitems="center">
         <Column>
-          <Title>Solutions</Title>
-        </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              We have native speakers on staff that help create and review our
-              material
+          <Title>Why should you learn a second language?</Title>
+          <Title>There are countless reasons but here are just a few:</Title>
+          <Box width="50%">
+            <Text fontsize="1rem">
+              People who are bilingual have more opportunities to make income
+            </Text>
+            <Text fontsize="1rem">
+              You will increase your perceived value and self-worth
+            </Text>
+            <Text fontsize="1rem">
+              Language is the most important piece to learning another country's
+              culture
+            </Text>
+            <Text fontsize="1rem">
+              You'll meet new people and make new relationships
+            </Text>
+            <Text fontsize="1rem">
+              One of the most rewarding skills to have. Once you learn a second
+              language it's easier to obtain others.
+            </Text>
+            <Text fontsize="1rem">
+              This is the gateway to adapting to the global economy.
+            </Text>
+            <Text fontsize="1rem">
+              You're soulmate could possibly be speaking a different language!
             </Text>
           </Box>
         </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              We know how the brain operates and how you can retain what you
-              learned.
-            </Text>
-          </Box>
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-        </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              You will learn the 1000 most spoken words in conversation
-            </Text>
-          </Box>
-        </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              You will be learning with peers. Meaning you will be speaking
-              with people who are at your level.
-            </Text>
-          </Box>
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-        </Column>
-      </Section>>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              You don't need a meetup. If you have internet access you can
-              start practicing with people all over the world.
-            </Text>
-          </Box>
-        </Column>
-      </Section>
-      <Section alignitems="center">
-        <Column>
-          <Title>Other Features</Title>
-        </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              You will have tracked progress. A scheduler. A system that lets
-              you know where your weak areas are.
-            </Text>
-          </Box>
-        </Column>
-      </Section>>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              You don't need a meetup. If you have internet access you can
-              start practicing with people all over the world.
-            </Text>
-          </Box>
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-        </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img
-            src="http://via.placeholder.com/350x350"
-            width="350"
-            height="350"
-          />
-          <Box>
-            <Text fontsize="2rem" padding="20px" width="300px">
-              A vast community of like minded language learners
-            </Text>
-          </Box>
-        </Column>
-      </Section>
-      <Section alignitems="center" height="800px">
         <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
           <Box width="50%">
             <Text fontsize="4rem">Get Sponsored</Text>
@@ -235,7 +167,7 @@ function Home(props) {
           </Box>
         </Column>
       </Section>
-      <Section height="800px">
+      <Section alignitems="center" height="550px">
         <Column flexdirection768="row" maxwidth="960px" />
       </Section>
     </Wrapper>

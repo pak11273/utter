@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 
 const Masthead = styled.div`
@@ -8,6 +8,7 @@ const Masthead = styled.div`
   box-sizing: ${props => props.borderbox};
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
+  grid-area: ${props => props.gridarea};
   height: ${props => props.height};
   justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
@@ -22,7 +23,7 @@ Masthead.defaultProps = {
   backgroundsize: 'cover',
   background: 'white',
   boxsizing: 'border-box',
-  display: 'flex',
+  display: 'grid',
   flexdirection: 'column',
   height: '500px',
   margin: '0 auto',

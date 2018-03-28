@@ -1,10 +1,10 @@
-import { Component } from 'react';
+import {Component} from 'react'
 import styled from 'styled-components'
 
 const Img = styled.img`
   align-self: ${props => props.alignself};
   alt: ${props => props.alt};
-  background: 'black';
+  background: ${props => props.background};
   background-size: ${props => props.backgroundsize};
   border-radius: ${props => props.radius};
   bottom: ${props => props.bottom};
