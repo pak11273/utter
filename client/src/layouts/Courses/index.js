@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {NavLink, Link, withRouter} from 'react-router-dom'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
@@ -110,9 +111,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: {
-      toggleFooter
-    }
+    actions: bindActionCreators(
+      {
+        toggleFooter
+      },
+      dispatch
+    )
   }
 }
 
