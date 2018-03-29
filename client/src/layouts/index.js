@@ -14,7 +14,8 @@ import Sponsorship from './Sponsorship.js'
 import Course from './Courses/Course.js'
 import CourseEdit from './Courses/containers/CourseEdit.js'
 import MyCourses from './Courses/MyCourses.js'
-import MyCoursesCreate from './Courses/containers/CourseCreate.js'
+import CoursesCreate from './Courses/containers/CourseCreate.js'
+import CoursesCreated from './Courses/containers/CoursesCreated.js'
 import Courses from './Courses/index.js'
 import CourseDetails from './Courses/CourseDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
@@ -51,7 +52,8 @@ export {
   Connections,
   Login,
   MyCourses,
-  MyCoursesCreate,
+  CoursesCreate,
+  CoursesCreated,
   Settings,
   NotFound,
   requireAuth,
