@@ -16,7 +16,6 @@ import CourseEdit from './containers/CourseEdit.js'
 import data from './data/data.js'
 import requireAuth from '../../utils/requireAuth.js'
 
-const Blah = <h1>Blah!!!</h1>
 import {
   Box,
   Button,
@@ -30,6 +29,7 @@ import {
   Subtitle,
   Title
 } from '../../components'
+
 import {Masthead, Navbar, Staticbar} from '../../containers'
 
 // actions
@@ -51,7 +51,7 @@ const StyledGrid = styled(Grid)`
     'sidebar sidebar'
     'content content';
 
-  min-height: 600px;
+  min-height: 2000px;
 
   @media (min-width: 640px) {
     grid-template-columns: 200px 1fr;
@@ -89,7 +89,7 @@ class MyCourses extends Component {
           <Staticbar>
             <Section>
               <Column>
-                <StyledSubtitle padding="80px 0 0 20px">
+                <StyledSubtitle padding="40px 0 0 20px">
                   <StyledNavLink to="/my-courses/created">
                     My Courses
                   </StyledNavLink>

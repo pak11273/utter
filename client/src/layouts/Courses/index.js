@@ -4,7 +4,6 @@ import {connect} from 'react-redux'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
 import styled, {ThemeProvider} from 'styled-components'
-
 import './styles.css'
 import {
   Box,
@@ -21,34 +20,29 @@ import {
 } from '../../components'
 
 import {Masthead, Navbar, Staticbar} from '../../containers'
+
 // actions
 import {chooseCourseLanguage} from './actions'
-
-// const StyledField = styled(Field)``
+import {toggleFooter} from '../../actions/toggleFooterAction.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-areas:
     'sidebar sidebar'
     'content content';
-  min-height: 600px;
-  height: 1200px;
+  height: 700px;
 
   @media (min-width: 640px) {
+    grid-template-columns: 200px 1fr;
     grid-template-areas: 'sidebar content';
   }
 `
-
 const StyledNavLink = styled(NavLink)`
   padding: 20px;
-  font-size: 1.5rem;
-  &:visited {
-    color: blue;
-  }
+
   &:hover {
-    color: green;
+    color: #ff9800;
   }
 `
-
 class CoursesContainer extends Component {
   constructor() {
     super()
@@ -57,6 +51,10 @@ class CoursesContainer extends Component {
       selectedOption: ''
     }
     this.handleOptionChange = this.handleOptionChange.bind(this)
+  }
+
+  componentDidMount() {
+    this.props.actions.toggleFooter(false)
   }
 
   handleOptionChange = selectedOption => {
@@ -68,7 +66,7 @@ class CoursesContainer extends Component {
     this.setState({
       search: e.target.value
     })
-  };
+  }
 
   render() {
     const {selectedOption} = this.state
@@ -85,18 +83,18 @@ class CoursesContainer extends Component {
                 value={value}
                 onChange={this.handleChange}
                 options={[
-                  {value: 'one', label: 'One'},
-                  {value: 'two', label: 'Two'}
+                  {value: 'English', label: 'English'},
+                  {value: 'Spanish', label: 'Spanish'}
                 ]}
               />
             </Box>
             <Box>
-              <StyledNavLink to="/my-courses">My Created Courses</StyledNavLink>
+              <StyledNavLink to="/my-courses">My Courses</StyledNavLink>
             </Box>
           </Flex>
         </Staticbar>
         <Grid gridarea="content">
-          <Flex>
+          <Flex padding="50px 0 0 0">
             <Title>Enroll in a Course</Title>
             <Subtitle>Choose from several languages</Subtitle>
           </Flex>
@@ -112,7 +110,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: {}
+    actions: {
+      toggleFooter
+    }
   }
 }
 

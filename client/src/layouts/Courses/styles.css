@@ -55,7 +55,7 @@ input:-webkit-autofill {
 
 /* overrides */
 .Select {
-  margin: 0;
+  margin: 0 !important;
 }
 
 /* Footer Override */
