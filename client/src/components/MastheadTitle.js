@@ -10,7 +10,7 @@ const MastheadTitle = styled.div`
   width: ${props => props.width};
 `
 MastheadTitle.defaultProps = {
-  color: 'white',
+  color: '#273e63',
   fontsize: '3rem',
   fontweight: '900',
   padding: '20px',

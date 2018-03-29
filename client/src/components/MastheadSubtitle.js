@@ -11,10 +11,10 @@ const MastheadSubtitle = styled.div`
   width: ${props => props.width};
 `
 MastheadSubtitle.defaultProps = {
-  color: '#f1ded9',
+  color: '#273e63',
   fontsize: '1.5rem',
   fontweight: '600',
-  lineheight: '3rem',
+  lineheight: '2.4rem',
   padding: '20px',
   width: '100%',
   textalign: 'left'

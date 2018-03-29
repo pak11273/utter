@@ -31,17 +31,14 @@ function Contact(props) {
         <title>Utter | Contacts</title>
         <link rel="canonical" href="https://utter.zone/contact" />
       </Helmet>
-      <Masthead background="black" padding="20px">
+      <Masthead background="#f3f3f3">
         <Box maxwidth="1024px">
-          <MastheadTitle>
-            Contact Us
-          </MastheadTitle>
+          1 <MastheadTitle>Contact Us</MastheadTitle>
           <MastheadSubtitle>
             Make direct contact with our team throught our contact information
-            form. We will get respond in a timely manner. If you are a
-            business or educational institution, this would be a good place to
-            shoot a short inquiry.
-            Hello World
+            form. We will get respond in a timely manner. If you are a business
+            or educational institution, this would be a good place to shoot a
+            short inquiry. Hello World
           </MastheadSubtitle>
         </Box>
       </Masthead>

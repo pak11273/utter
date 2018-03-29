@@ -23,11 +23,12 @@ Masthead.defaultProps = {
   backgroundsize: 'cover',
   background: 'white',
   boxsizing: 'border-box',
-  display: 'grid',
+  display: 'flex',
   flexdirection: 'column',
-  height: '500px',
+  height: '100%',
   margin: '0 auto',
-  justifycontent: 'center',
+  padding: '100px 20px 100px 20px',
+  justifycontent: 'flex-start',
   textalign: 'center',
   width: '100%'
 }
