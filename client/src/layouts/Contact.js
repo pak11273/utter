@@ -33,7 +33,7 @@ function Contact(props) {
       </Helmet>
       <Masthead background="#f3f3f3">
         <Box maxwidth="1024px">
-          1 <MastheadTitle>Contact Us</MastheadTitle>
+          <MastheadTitle>Contact Us</MastheadTitle>
           <MastheadSubtitle>
             Make direct contact with our team throught our contact information
             form. We will get respond in a timely manner. If you are a business

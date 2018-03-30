@@ -51,6 +51,7 @@ exports.get = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
+  console.log('hello')
   Course.find().then(
     courses => {
       res.json(courses)
@@ -62,10 +63,28 @@ exports.get = (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
+  console.log('hannn')
+  console.log('param: ', req.params)
   if (req.params.courseId) {
     Course.findOne({courseId: req.params.courseId}).then(
       course => {
         res.json(course)
+      },
+      err => {
+        next(err)
+      }
+    )
+  }
+}
+
+exports.getTeachingCourses = (req, res, next) => {
+  console.log('wtf')
+  console.log('param: ', req.params.courseCreatorId)
+  if (req.params.courseCreatorId) {
+    Course.find({courseCreatorId: req.params.courseCreatorId}).then(
+      courses => {
+        console.log('courses: ', courses)
+        res.json(courses)
       },
       err => {
         next(err)

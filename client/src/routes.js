@@ -117,7 +117,6 @@ export const routes = [
     component: MyCourses,
     exact: true,
     path: '/my-courses',
-    redirectTo: '/my-courses/created',
     routes: [
       {
         component: requireAuth(CoursesCreated),

@@ -6,6 +6,8 @@ import {
   updateCourseSuccess,
   createCourseFail,
   createCourseSuccess,
+  fetchTeachingListFail,
+  fetchTeachingListSuccess,
   readCourseFail,
   readCourseSuccess,
   requestCourse,
@@ -13,6 +15,44 @@ import {
   requestCourseNameSuccess,
   requestCourseNameError
 } from './actions.js'
+
+// Fetch teaching list
+function* watchFetchTeachingList() {
+  yield takeLatest('FETCH_TEACHING_LIST', fetchTeachingList)
+}
+
+function* fetchTeachingList(action) {
+  const courseCreatorId = action.course.currentTeachingCourse.courseCreatorId
+  const getAuthId = state => state.authReducer.user._id
+  const authId = yield select(getAuthId)
+  const url = `/api/courses/my-courses/${courseCreatorId}`
+  const htmlReadyUrl = encodeURI(url)
+  try {
+    if (courseCreatorId !== authId) {
+      throw new Error("creator Id's don't match")
+    } else {
+      const data = yield call(() => {
+        return axios({
+          method: 'get',
+          url: htmlReadyUrl,
+          data: {
+            course: action.course
+          }
+        })
+          .then(res => {
+            return res
+          })
+          .catch(err => {
+            throw err.response.data.error
+          })
+      })
+      console.log('data: ', data)
+      yield put(fetchTeachingListSuccess(data))
+    }
+  } catch (error) {
+    yield put(fetchTeachingListFail(error))
+  }
+}
 
 // CREATE
 function* watchCreateCourse() {
@@ -116,7 +156,6 @@ function* updateCourse(action) {
       yield put(updateCourseSuccess(data))
     }
   } catch (error) {
-    console.log(error)
     yield put(updateCourseFail(error))
   }
 }
@@ -169,6 +208,7 @@ function* fetchCourseNameAsync(action) {
 export default [
   watchCreateCourse,
   watchFetchCourseName,
+  watchFetchTeachingList,
   watchReadCourse,
   watchUpdateCourse
 ]

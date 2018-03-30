@@ -4,6 +4,9 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
+  FETCH_TEACHING_LIST,
+  FETCH_TEACHING_LIST_FAIL,
+  FETCH_TEACHING_LIST_SUCCESS,
   READ_COURSE,
   READ_COURSE_SUCCESS,
   READ_COURSE_FAIL,
@@ -39,6 +42,7 @@ const initialState = {
       }
     ]
   },
+  TeachingCourseList: [],
   currentLearningCourse: {}
 }
 
@@ -111,6 +115,23 @@ export default (state = initialState, action) => {
           course: null,
           error: action.error
         }
+      }
+    case 'FETCH_TEACHING_LIST':
+      return {
+        ...state,
+        TeachingCourseList: {...state.TeachingCourseList}
+      }
+    case 'FETCH_TEACHING_LIST_FAIL':
+      return {
+        ...state,
+        error: true,
+        errorMsg: action.error.message
+      }
+    case 'FETCH_TEACHING_LIST_SUCCESS':
+      return {
+        ...state,
+        ...state.TeachingCourseList,
+        TeachingCourseList: action.data
       }
     case 'READ_COURSE_SUCCESS':
       return {

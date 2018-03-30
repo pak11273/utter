@@ -2,6 +2,9 @@ import {
   ADD_LEVEL,
   ADD_CUID_TO_LEVELS,
   FETCHED_COURSE_NAME,
+  FETCH_TEACHING_LIST,
+  FETCH_TEACHING_LIST_FAIL,
+  FETCH_TEACHING_LIST_SUCCESS,
   REQUESTED_COURSE_NAME_SUCCEEDED,
   REQUESTED_COURSE_NAME_FAIL,
   COURSE_LANGUAGE,
@@ -79,6 +82,18 @@ const fetchCourseName = course => {
   return {type: 'FETCHED_COURSE_NAME', course}
 }
 
+const fetchTeachingList = course => {
+  return {type: 'FETCH_TEACHING_LIST', course}
+}
+
+const fetchTeachingListFail = error => {
+  return {type: 'FETCH_TEACHING_LIST_FAIL', error}
+}
+
+const fetchTeachingListSuccess = data => {
+  return {type: 'FETCH_TEACHING_LIST_SUCCESS', data: data.data}
+}
+
 const requestCourseNameSuccess = data => {
   return {type: 'REQUESTED_COURSE_NAME_SUCCEEDED', data: data.msg}
 }
@@ -101,6 +116,9 @@ export {
   createCourse,
   createCourseSuccess,
   createCourseFail,
+  fetchTeachingList,
+  fetchTeachingListFail,
+  fetchTeachingListSuccess,
   readCourse,
   readCourseSuccess,
   readCourseFail,
