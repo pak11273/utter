@@ -3,6 +3,7 @@ import {NavLink, Link, Route, withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
+import 'react-virtualized/styles.css'
 
 import {
   CellMeasurer,
@@ -11,19 +12,12 @@ import {
   Masonry
 } from 'react-virtualized'
 
-import 'react-table/react-table.css'
-
 import {Flex, Grid, Subtitle} from '../../../components'
 
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
 import {fetchTeachingList} from '../actions.js'
 
-const StyledSubtitle = styled(Subtitle)`
-  text-align: left;
-  font-color: #2196f3;
-  font-size: 1.2rem;
-`
 const StyledGrid = styled(Grid)`
   grid-template-columns: 100%;
   grid-template-areas: 'content';
@@ -40,14 +34,6 @@ const StyledNavLink = styled(NavLink)`
     color: green;
   }
 `
-// Array of images with captions
-const list = [
-  {
-    source:
-      'https://static.intercomassets.com/avatars/1720537/square_128/blue-logo-no-text-2800-1515056703.png?1515056703',
-    caption: 'hello world'
-  }
-]
 
 // Default sizes help Masonry decide how many images to batch-measure
 const cache = new CellMeasurerCache({
@@ -64,33 +50,17 @@ const cellPositioner = createMasonryCellPositioner({
   spacer: 10
 })
 
-function cellRenderer({index, key, parent, style}) {
-  const datum = list[index]
-
-  return (
-    <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
-      <div style={style}>
-        <img
-          src={datum.source}
-          style={{
-            height: datum.imageHeight,
-            width: datum.imageWidth
-          }}
-        />
-        <p>{datum.caption}</p>
-      </div>
-    </CellMeasurer>
-  )
-}
-
 class Created extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {}
+    this.list = props.courseReducer.TeachingCourseList
+
+    this._cellRenderer = this._cellRenderer.bind(this)
   }
 
   componentDidMount() {
-    this.props.actions.toggleFooter(false)
+    // this.props.actions.toggleFooter(false)
     const currentCourse = this.props.courseReducer
     this.props.actions.fetchTeachingList(currentCourse)
   }
@@ -99,18 +69,35 @@ class Created extends Component {
     this.props.actions.toggleFooter(true)
   }
 
+  _cellRenderer({index, key, parent, style}) {
+    const datum = this.list[index]
+
+    return (
+      <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
+        <div style={style}>
+          <img
+            src={datum.source}
+            style={{
+              height: 100,
+              width: 100
+            }}
+          />
+          <p>{datum.courseName}</p>
+        </div>
+      </CellMeasurer>
+    )
+  }
+
   render() {
     return (
       <StyledGrid>
-        <p>a list of my courses from redux</p>
-        <p>list</p>
         <Grid gridarea="content">
           <Masonry
             style={{outline: 'none', padding: '100px'}}
-            cellCount={list.length}
+            cellCount={this.list.length}
             cellMeasurerCache={cache}
             cellPositioner={cellPositioner}
-            cellRenderer={cellRenderer}
+            cellRenderer={this._cellRenderer}
             height={600}
             width={800}
           />

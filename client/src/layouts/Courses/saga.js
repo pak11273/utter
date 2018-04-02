@@ -46,7 +46,6 @@ function* fetchTeachingList(action) {
             throw err.response.data.error
           })
       })
-      console.log('data: ', data)
       yield put(fetchTeachingListSuccess(data))
     }
   } catch (error) {
