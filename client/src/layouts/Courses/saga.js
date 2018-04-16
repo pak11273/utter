@@ -1,9 +1,11 @@
 import {takeEvery} from 'redux-saga/effects'
-import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {call, put, select, take, takeLatest} from 'redux-saga/effects'
 import axios from 'axios'
 import {
   updateCourseFail,
   updateCourseSuccess,
+  changeCoursePgFail,
+  changeCoursePgSuccess,
   createCourseFail,
   createCourseSuccess,
   fetchTeachingListFail,
@@ -22,14 +24,15 @@ function* watchFetchTeachingList() {
 }
 
 function* fetchTeachingList(action) {
-  const courseCreatorId = action.course.currentTeachingCourse.courseCreatorId
   const getAuthId = state => state.authReducer.user._id
   const authId = yield select(getAuthId)
-  const url = `/api/courses/my-courses/${courseCreatorId}`
+  const getCoursePg = state => state.courseReducer.coursePg
+  const coursePg = yield select(getCoursePg)
+  const url = `/api/courses/my-courses/${authId}/?pg=${coursePg}`
   const htmlReadyUrl = encodeURI(url)
   try {
-    if (courseCreatorId !== authId) {
-      throw new Error("creator Id's don't match")
+    if (!authId) {
+      throw new Error('No such user exists')
     } else {
       const data = yield call(() => {
         return axios({
@@ -46,10 +49,51 @@ function* fetchTeachingList(action) {
             throw err.response.data.error
           })
       })
+      if (_.isEmpty(data.data.result.docs)) {
+        yield put(changeCoursePgSuccess(1))
+      }
       yield put(fetchTeachingListSuccess(data))
     }
   } catch (error) {
     yield put(fetchTeachingListFail(error))
+  }
+}
+
+// Courses Teaching Pagination
+function* watchChangePg() {
+  yield takeLatest('CHANGE_COURSE_PG', changeCoursePg)
+}
+
+function* changeCoursePg(action) {
+  const getAuthId = state => state.authReducer.user._id
+  const authId = yield select(getAuthId)
+  const coursePg = Number(action.coursePg)
+  const url = `/api/courses/my-courses/${authId}/?pg=${coursePg}`
+  const htmlReadyUrl = encodeURI(url)
+  try {
+    if (!authId) {
+      throw new Error('No author with this id')
+    } else {
+      const data = yield call(() => {
+        return axios({
+          method: 'get',
+          url: htmlReadyUrl,
+          data: {
+            course: action.course
+          }
+        })
+          .then(res => {
+            return res
+          })
+          .catch(err => {
+            throw err
+          })
+      })
+      yield put(changeCoursePgSuccess(coursePg))
+      yield put({type: 'FETCH_TEACHING_LIST'})
+    }
+  } catch (error) {
+    yield put(changeCoursePgFail(error))
   }
 }
 
@@ -88,15 +132,14 @@ function* watchReadCourse() {
 
 function* readCourse(action) {
   const courseId = action.course.currentTeachingCourse.courseId
-  const courseCreatorId = action.course.currentTeachingCourse.courseCreatorId
   const courseName = action.course.currentTeachingCourse.courseName
   const getAuthId = state => state.authReducer.user._id
   const authId = yield select(getAuthId)
   const url = `/api/courses/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
-    if (courseCreatorId !== authId) {
-      throw new Error("creator Id's don't match")
+    if (authId) {
+      throw new Error('No author with this id')
     } else {
       const data = yield call(() => {
         return axios({
@@ -127,14 +170,13 @@ function* watchUpdateCourse() {
 
 function* updateCourse(action) {
   const courseId = action.course.courseId
-  const courseCreatorId = action.course.courseCreatorId
   const courseName = action.course.courseName
   const getAuthId = state => state.authReducer.user._id
   const authId = yield select(getAuthId)
   const url = `/api/courses/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
-    if (courseCreatorId !== authId) {
+    if (authId) {
       throw new Error('You are not the creator of this course.')
     } else {
       const data = yield call(() => {
@@ -205,6 +247,7 @@ function* fetchCourseNameAsync(action) {
 }
 
 export default [
+  watchChangePg,
   watchCreateCourse,
   watchFetchCourseName,
   watchFetchTeachingList,

@@ -1,4 +1,5 @@
 import mongoose, {Schema} from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate'
 
 const CourseSchema = mongoose.Schema(
   {
@@ -61,4 +62,5 @@ const CourseSchema = mongoose.Schema(
   {timestamps: true}
 )
 
+CourseSchema.plugin(mongoosePaginate)
 module.exports = mongoose.model('Course', CourseSchema)

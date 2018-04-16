@@ -10,7 +10,6 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import 'react-table/react-table.css'
-import Created from './Created.js'
 import MyCoursesCreate from './containers/CourseEdit.js'
 import CourseEdit from './containers/CourseEdit.js'
 import data from './data/data.js'
@@ -47,6 +46,7 @@ StyledSubtitle.defaultProps = {
 }
 
 const StyledGrid = styled(Grid)`
+  grid-template-rows: 460px 5000px;
   grid-template-areas:
     'sidebar sidebar'
     'content content';

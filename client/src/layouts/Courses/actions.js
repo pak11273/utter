@@ -7,6 +7,9 @@ import {
   FETCH_TEACHING_LIST_SUCCESS,
   REQUESTED_COURSE_NAME_SUCCEEDED,
   REQUESTED_COURSE_NAME_FAIL,
+  CHANGE_COURSE_PG,
+  CHANGE_COURSE_PG_FAIL,
+  CHANGE_COURSE_PG_SUCCESS,
   COURSE_LANGUAGE,
   SAVE_FORM_TO_REDUX,
   // CRUD
@@ -28,6 +31,27 @@ const addCuidToLevels = cuid => {
 
 const addLevel = level => {
   return {type: 'ADD_LEVEL', level}
+}
+
+const changeCoursePg = coursePg => {
+  return {
+    type: 'CHANGE_COURSE_PG',
+    coursePg
+  }
+}
+
+const changeCoursePgFail = error => {
+  return {
+    type: 'CHANGE_COURSE_PG_FAIL',
+    error
+  }
+}
+
+const changeCoursePgSuccess = coursePg => {
+  return {
+    type: 'CHANGE_COURSE_PG_SUCCESS',
+    coursePg
+  }
 }
 
 // CREATE
@@ -113,6 +137,9 @@ const saveFormToRedux = course => {
 export {
   addCuidToLevels,
   addLevel,
+  changeCoursePg,
+  changeCoursePgFail,
+  changeCoursePgSuccess,
   createCourse,
   createCourseSuccess,
   createCourseFail,

@@ -8,6 +8,7 @@ import KnowledgeBase from '../containers/KnowledgeBase'
 import Login from '../containers/Logins'
 import Masthead from '../containers/Mastheads/Masthead.js'
 import MainNavbar from '../containers/Navbars/MainBar.js'
+import Pagination from '../containers/Pagination'
 import Pictures from '../containers/Pictures'
 import Profile from '../containers/Profile'
 import RemoteSideBar from '../containers/RemoteSideBar'
@@ -28,6 +29,7 @@ export {
   Login,
   Masthead,
   MainNavbar,
+  Pagination,
   Pictures,
   Profile,
   RemoteSideBar,

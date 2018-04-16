@@ -1,4 +1,6 @@
 import Course from './courseModel.js'
+import faker from 'faker'
+import cuid from 'cuid'
 import _ from 'lodash'
 
 exports.params = (req, res, next, id) => {
@@ -47,24 +49,31 @@ exports.unique = (req, res, next) => {
   )
 }
 
+exports.faker = (req, res, next) => {
+  for (var i = 0; i < 6; i++) {
+    var course = new Course()
+
+    course.category = faker.commerce.department()
+    course.courseId = cuid()
+    course.courseCreatorId = '5a7b329229e36c244bde6368'
+    course.courseName = faker.commerce.productName()
+    course.price = faker.commerce.price()
+    course.courseDescription =
+      'Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.'
+    course.image = faker.image.image()
+    course.levels = [{level: 1, title: 'Change Me'}]
+
+    course.save(function(err) {
+      if (err) throw err
+    })
+  }
+  res.json(course)
+}
+
 exports.get = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
-  console.log('hello')
-  Course.find().then(
-    courses => {
-      res.json(courses)
-    },
-    err => {
-      next(err)
-    }
-  )
-}
-
-exports.getOne = (req, res, next) => {
-  console.log('hannn')
-  console.log('param: ', req.params)
   if (req.params.courseId) {
     Course.findOne({courseId: req.params.courseId}).then(
       course => {
@@ -78,19 +87,51 @@ exports.getOne = (req, res, next) => {
 }
 
 exports.getTeachingCourses = (req, res, next) => {
-  console.log('wtf')
-  console.log('param: ', req.params.courseCreatorId)
-  if (req.params.courseCreatorId) {
-    Course.find({courseCreatorId: req.params.courseCreatorId}).then(
-      courses => {
-        console.log('courses: ', courses)
-        res.json(courses)
-      },
-      err => {
-        next(err)
-      }
-    )
-  }
+  const pg = req.query.pg || 1
+  const limit = 10
+  const offset = (pg - 1) * limit
+  // const pageStart = 1
+  // const numPages = 10
+  Course.paginate(
+    {courseCreatorId: req.params.courseCreatorId},
+    {offset, limit, lean: true}
+  )
+    .then(function(result) {
+      res.json({
+        result
+      })
+    })
+    .catch(error => {
+      console.error({
+        message: 'Error occured while paginating Course data',
+        arguments: arguments
+      })
+      throw error // TODO: test return instead of throw
+    })
+
+  // More advanced example
+  // var query = {};
+  // var options = {
+  //   select: 'title date author',
+  //   sort: { date: -1 },
+  //   populate: 'author',
+  //   lean: true,
+  //   offset: 20,
+  //   limit: 10
+  // };
+
+  // Book.paginate(query, options).then(function(result) {
+  //   // ...
+  // });
+  // Zero limit
+  // You can use limit=0 to get only metadata:
+
+  // Course.paginate({}, { offset: 100, limit: 0 }).then(function(result) {
+  //   // result.docs - empty array
+  //   // result.total
+  //   // result.limit - 0
+  //   // result.offset - 100
+  // });
 }
 
 exports.update = (req, res, next) => {

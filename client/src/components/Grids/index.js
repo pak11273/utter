@@ -16,6 +16,7 @@ const Grid = styled.div`
   margin: ${props => props.margin};
   overflow-x: ${props => props.overflowx};
   overflow-y: ${props => props.overflowy};
+  padding: ${props => props.padding};
   position: ${props => props.position};
 
   @media (min-width: 640px) {

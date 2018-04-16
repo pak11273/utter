@@ -1,6 +1,8 @@
 import {
   ADD_CUID_TO_LEVELS,
   ADD_LEVEL,
+  CHANGE_COURSE_PG_FAIL,
+  CHANGE_COURSE_PG_SUCCESS,
   CREATE_COURSE,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
@@ -29,6 +31,7 @@ const initialState = {
   loading: false,
   error: false,
   errorMsg: '',
+  coursePg: 1,
   create: {
     pending: false,
     course: null,
@@ -42,7 +45,7 @@ const initialState = {
       }
     ]
   },
-  TeachingCourseList: [],
+  teachingCourseList: [],
   currentLearningCourse: {}
 }
 
@@ -84,6 +87,16 @@ export default (state = initialState, action) => {
           ]
         }
       }
+    case 'CHANGE_COURSE_PG_FAIL':
+      return {
+        ...state,
+        errorMsg: action.error.message
+      }
+    case 'CHANGE_COURSE_PG_SUCCESS':
+      return {
+        ...state,
+        coursePg: action.coursePg
+      }
     case 'CREATE_COURSE':
       return {
         ...state,
@@ -116,11 +129,6 @@ export default (state = initialState, action) => {
           error: action.error
         }
       }
-    case 'FETCH_TEACHING_LIST':
-      return {
-        ...state,
-        TeachingCourseList: {...state.TeachingCourseList}
-      }
     case 'FETCH_TEACHING_LIST_FAIL':
       return {
         ...state,
@@ -130,8 +138,8 @@ export default (state = initialState, action) => {
     case 'FETCH_TEACHING_LIST_SUCCESS':
       return {
         ...state,
-        ...state.TeachingCourseList,
-        TeachingCourseList: action.data
+        ...state.teachingCourseList,
+        teachingCourseList: action.data
       }
     case 'READ_COURSE_SUCCESS':
       return {

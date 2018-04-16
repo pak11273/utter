@@ -1,18 +1,13 @@
 import React, {Component} from 'react'
 import {NavLink, Link, Route, withRouter} from 'react-router-dom'
+import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import {isEmpty} from 'lodash/isEmpty'
 import styled, {ThemeProvider} from 'styled-components'
-import 'react-virtualized/styles.css'
-
-import {
-  CellMeasurer,
-  CellMeasurerCache,
-  createMasonryCellPositioner,
-  Masonry
-} from 'react-virtualized'
-
-import {Flex, Grid, Subtitle} from '../../../components'
+import {Pagination} from '../../../containers'
+import {Box, Flex, Grid, Text} from '../../../components'
+import IoPeople from 'react-icons/lib/io/android-people'
 
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
@@ -20,13 +15,20 @@ import {fetchTeachingList} from '../actions.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-columns: 100%;
-  grid-template-areas: 'content';
+  grid-template-rows: 60px 4800px 60px;
+  grid-template-areas:
+    'topPagination'
+    'content'
+    'botPagination';
 
   min-height: 600px;
 
   @media (min-width: 640px) {
-    grid-template-areas: 'sidebar content';
   }
+`
+const teachingCard = styled(Grid)`
+  background: blue;
+  max-width: 300px;
 `
 const StyledNavLink = styled(NavLink)`
   padding: 0 0 20px 0;
@@ -35,32 +37,23 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-// Default sizes help Masonry decide how many images to batch-measure
-const cache = new CellMeasurerCache({
-  defaultHeight: 250,
-  defaultWidth: 200,
-  fixedWidth: true
-})
-
-// Our masonry layout will use 3 columns with a 10px gutter between
-const cellPositioner = createMasonryCellPositioner({
-  cellMeasurerCache: cache,
-  columnCount: 3,
-  columnWidth: 200,
-  spacer: 10
-})
-
 class Created extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
-    this.list = props.courseReducer.TeachingCourseList
+    this.state = {
+      page: 1,
+      total: 10
+    }
 
-    this._cellRenderer = this._cellRenderer.bind(this)
+    this.list = props.courseReducer.teachingCourseList
+    this.pushUrl = this.pushUrl.bind(this)
+  }
+
+  pushUrl(url) {
+    this.props.actions.push(url)
   }
 
   componentDidMount() {
-    // this.props.actions.toggleFooter(false)
     const currentCourse = this.props.courseReducer
     this.props.actions.fetchTeachingList(currentCourse)
   }
@@ -69,39 +62,44 @@ class Created extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  _cellRenderer({index, key, parent, style}) {
-    const datum = this.list[index]
-
-    return (
-      <CellMeasurer cache={cache} index={index} key={key} parent={parent}>
-        <div style={style}>
-          <img
-            src={datum.source}
-            style={{
-              height: 100,
-              width: 100
-            }}
-          />
-          <p>{datum.courseName}</p>
-        </div>
-      </CellMeasurer>
-    )
-  }
-
   render() {
+    if (this.props.courseReducer.teachingCourseList.result) {
+      var courses = this.props.courseReducer.teachingCourseList.result.docs
+    }
+    if (_.isEmpty(courses)) {
+      mappedCourses = null
+    } else {
+      var topPagination = <Pagination gridarea="topPagination" />
+      var botPagination = <Pagination gridarea="botPagination" />
+      var mappedCourses = courses.map((item, i) => {
+        const url = `/my-courses/${item.courseId}/${item.courseName}/edit`
+        const htmlReadyUrl = encodeURI(url)
+        return (
+          <Flex key={i} flexdirection="column" padding="40px">
+            <a onClick={() => this.pushUrl(htmlReadyUrl)}>
+              <img src={item.image} width="160px" height="200px" />
+            </a>
+            <Text textalign="center" fontsize="x-large" padding="10px">
+              {item.courseName}
+            </Text>
+            <Text textalign="left" fontsize="1rem" padding="10px">
+              {item.courseDescription}
+            </Text>
+            <Flex flexdirection="row">
+              <IoPeople />
+              <Text>3</Text>
+            </Flex>
+          </Flex>
+        )
+      })
+    }
     return (
       <StyledGrid>
-        <Grid gridarea="content">
-          <Masonry
-            style={{outline: 'none', padding: '100px'}}
-            cellCount={this.list.length}
-            cellMeasurerCache={cache}
-            cellPositioner={cellPositioner}
-            cellRenderer={this._cellRenderer}
-            height={600}
-            width={800}
-          />
-        </Grid>
+        {topPagination}
+        <Flex gridarea="content" height="4800px">
+          {mappedCourses}
+        </Flex>
+        {botPagination}
       </StyledGrid>
     )
   }
@@ -118,6 +116,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         fetchTeachingList,
+        push,
         toggleFooter
       },
       dispatch
