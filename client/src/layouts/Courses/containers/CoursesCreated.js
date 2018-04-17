@@ -80,13 +80,22 @@ class Created extends Component {
             <a onClick={() => this.pushUrl(htmlReadyUrl)}>
               <img src={item.image} width="160px" height="200px" />
             </a>
-            <Text textalign="center" fontsize="x-large" padding="10px">
+            <Text
+              alignitems="center"
+              display="flex"
+              textalign="center"
+              fontsize="x-large"
+              height="120px"
+              padding="10px">
               {item.courseName}
             </Text>
             <Text textalign="left" fontsize="1rem" padding="10px">
               {item.courseDescription}
             </Text>
-            <Flex flexdirection="row">
+            <Flex
+              flexdirection="row"
+              justifycontent="flex-end"
+              padding="0 30px 0 0">
               <IoPeople />
               <Text>3</Text>
             </Flex>

@@ -119,19 +119,6 @@ exports.getTeachingCourses = (req, res, next) => {
   //   offset: 20,
   //   limit: 10
   // };
-
-  // Book.paginate(query, options).then(function(result) {
-  //   // ...
-  // });
-  // Zero limit
-  // You can use limit=0 to get only metadata:
-
-  // Course.paginate({}, { offset: 100, limit: 0 }).then(function(result) {
-  //   // result.docs - empty array
-  //   // result.total
-  //   // result.limit - 0
-  //   // result.offset - 100
-  // });
 }
 
 exports.update = (req, res, next) => {

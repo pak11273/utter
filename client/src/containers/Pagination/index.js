@@ -21,13 +21,14 @@ class Pagination extends Component {
   }
 
   render() {
+    let startPage = this.props.courseReducer.coursePg
     var courseKeys = []
     if (this.props.courseReducer.teachingCourseList.result.total) {
       let limit = 10
       var courseArray = []
       const coursePages =
         this.props.courseReducer.teachingCourseList.result.total / limit + 1
-      for (var i = 1; i <= coursePages; i++) {
+      for (var i = startPage; i <= coursePages; i++) {
         courseArray.push(i)
       }
       var courseKeys = Object.keys(courseArray)
