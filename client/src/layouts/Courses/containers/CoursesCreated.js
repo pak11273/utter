@@ -15,7 +15,7 @@ import {fetchTeachingList} from '../actions.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-columns: 100%;
-  grid-template-rows: 60px 4800px 60px;
+  grid-template-rows: 60px auto 60px;
   grid-template-areas:
     'topPagination'
     'content'
@@ -24,6 +24,7 @@ const StyledGrid = styled(Grid)`
   min-height: 600px;
 
   @media (min-width: 640px) {
+    grid-template-rows: 60px auto 60px;
   }
 `
 const teachingCard = styled(Grid)`
@@ -96,9 +97,16 @@ class Created extends Component {
     return (
       <StyledGrid>
         {topPagination}
-        <Flex gridarea="content" height="4800px">
+        <Grid
+          gridtemplaterows="auto"
+          gridtemplatecolumns="1fr"
+          gridtemplatecolumns640="1fr 1fr"
+          gridtemplatecolumns768="1fr 1fr 1fr"
+          gridtemplatecolumns1024="1fr 1fr 1fr 1fr"
+          gridtemplatecolumns1440="1fr 1fr 1fr 1fr 1fr"
+          gridarea="content">
           {mappedCourses}
-        </Flex>
+        </Grid>
         {botPagination}
       </StyledGrid>
     )

@@ -21,6 +21,19 @@ const Grid = styled.div`
 
   @media (min-width: 640px) {
     grid-template-columns: ${props => props.gridtemplatecolumns640};
+    grid-template-rows: ${props => props.gridtemplaterows640};
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: ${props => props.gridtemplatecolumns768};
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: ${props => props.gridtemplatecolumns1024};
+  }
+
+  @media (min-width: 1440px) {
+    grid-template-columns: ${props => props.gridtemplatecolumns1440};
   }
 `
 
