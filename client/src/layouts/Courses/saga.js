@@ -138,7 +138,7 @@ function* readCourse(action) {
   const url = `/api/courses/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
-    if (authId) {
+    if (!authId) {
       throw new Error('No author with this id')
     } else {
       const data = yield call(() => {
@@ -159,6 +159,7 @@ function* readCourse(action) {
       yield put(readCourseSuccess(data.data))
     }
   } catch (error) {
+    console.log('error: ', error)
     yield put(readCourseFail(error))
   }
 }

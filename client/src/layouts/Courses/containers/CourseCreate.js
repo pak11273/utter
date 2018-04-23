@@ -37,7 +37,7 @@ import {
   createCourse,
   fetchCourseName,
   resetCourseCreateForm,
-  saveFormToRedux
+  loadCurrentTeachingCourse
 } from '../actions.js'
 
 const StyledButton = styled(Button)`
@@ -176,7 +176,7 @@ class CreateCourse extends Component {
         loading: false
       })
       // push state to redux
-      this.props.actions.saveFormToRedux(this.state)
+      this.props.actions.loadCurrentTeachingCourse(this.state)
       this.props.actions.addFlashMessage({
         type: 'success',
         text: 'You have successfully created a Course!'
@@ -332,7 +332,7 @@ const mapDispatchToProps = dispatch => {
         fetchCourseName,
         toggleFooter,
         push,
-        saveFormToRedux
+        loadCurrentTeachingCourse
       },
       dispatch
     )

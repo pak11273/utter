@@ -50,7 +50,7 @@ exports.unique = (req, res, next) => {
 }
 
 exports.faker = (req, res, next) => {
-  for (var i = 0; i < 6; i++) {
+  for (var i = 0; i < 8; i++) {
     var course = new Course()
 
     course.category = faker.commerce.department()
@@ -88,7 +88,7 @@ exports.get = (req, res, next) => {
 
 exports.getTeachingCourses = (req, res, next) => {
   const pg = req.query.pg || 1
-  const limit = 10
+  const limit = 1000
   const offset = (pg - 1) * limit
   // const pageStart = 1
   // const numPages = 10

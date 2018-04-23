@@ -34,6 +34,7 @@ import {Masthead, Navbar, Staticbar} from '../../containers'
 // actions
 import {chooseCourseLanguage} from './actions'
 import {toggleFooter} from '../../actions/toggleFooterAction.js'
+import {fetchTeachingList} from './actions.js'
 
 const StyledSubtitle = styled(Subtitle)`
   text-align: left;
@@ -46,7 +47,7 @@ StyledSubtitle.defaultProps = {
 }
 
 const StyledGrid = styled(Grid)`
-  grid-template-rows: 460px 5000px;
+  grid-template-rows: 460px auto;
   grid-template-areas:
     'sidebar sidebar'
     'content content';
@@ -76,6 +77,7 @@ class MyCourses extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
+    this.props.actions.fetchTeachingList()
   }
 
   componentWillUnmount() {
@@ -119,6 +121,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        fetchTeachingList,
         toggleFooter
       },
       dispatch

@@ -11,7 +11,7 @@ import {
   CHANGE_COURSE_PG_FAIL,
   CHANGE_COURSE_PG_SUCCESS,
   COURSE_LANGUAGE,
-  SAVE_FORM_TO_REDUX,
+  LOAD_CURRENT_TEACHING_COURSE,
   // CRUD
   CREATE_COURSE_REQUEST,
   CREATE_COURSE_SUCCESS,
@@ -130,8 +130,8 @@ const resetCourseCreateForm = () => {
   return {type: 'RESET_COURSE_CREATE_FORM'}
 }
 
-const saveFormToRedux = course => {
-  return {type: 'SAVE_FORM_TO_REDUX', course}
+const loadCurrentTeachingCourse = course => {
+  return {type: 'LOAD_CURRENT_TEACHING_COURSE', course}
 }
 
 export {
@@ -157,5 +157,5 @@ export {
   requestCourseNameError,
   requestCourseNameSuccess,
   resetCourseCreateForm,
-  saveFormToRedux
+  loadCurrentTeachingCourse
 }

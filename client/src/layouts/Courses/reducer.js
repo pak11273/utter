@@ -21,7 +21,7 @@ import {
   UPDATE_COURSE_FAIL,
   COURSE_LANGUAGE_FULFILLED,
   RESET_COURSE_CREATE_FORM,
-  SAVE_FORM_TO_REDUX
+  LOAD_CURRENT_TEACHING_COURSE
 } from './types'
 
 // Reducer
@@ -45,7 +45,11 @@ const initialState = {
       }
     ]
   },
-  teachingCourseList: [],
+  teachingCourseList: {
+    result: {
+      docs: []
+    }
+  },
   currentLearningCourse: {}
 }
 
@@ -208,7 +212,7 @@ export default (state = initialState, action) => {
         error: false,
         errorMsg: action.error
       }
-    case 'SAVE_FORM_TO_REDUX':
+    case 'LOAD_CURRENT_TEACHING_COURSE':
       return {
         ...state,
         currentTeachingCourse: {

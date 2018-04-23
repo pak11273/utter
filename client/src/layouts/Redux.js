@@ -4,7 +4,6 @@ import {Masthead, Navbar, Wrapper} from '../containers'
 import {Subtitle, Title} from '../components'
 
 function Redux(props) {
-  console.log('hello :' + props.store)
   return (
     <Wrapper>
       <Masthead bg="green">
