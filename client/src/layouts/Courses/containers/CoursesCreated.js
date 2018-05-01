@@ -12,7 +12,7 @@ import '../../../assets/css/pagination.css'
 
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
-import {fetchTeachingList} from '../actions.js'
+import {fetchTeachingList, readCourse} from '../actions.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-columns: 100%;
@@ -56,7 +56,9 @@ class Created extends Component {
     this.pushUrl = this.pushUrl.bind(this)
   }
 
-  pushUrl(url) {
+  pushUrl(item) {
+    let url = `/my-courses/${item.courseId}/${item.courseName}/edit`
+    this.props.actions.readCourse(item)
     this.props.actions.push(url)
   }
 
@@ -76,9 +78,6 @@ class Created extends Component {
     if (this.props.courseReducer.teachingCourseList.result.docs) {
       var courses = this.props.courseReducer.teachingCourseList.result.docs
     }
-
-    let url = ''
-    let htmlReadyUrl = ''
     return (
       <StyledGrid>
         <Grid
@@ -90,18 +89,16 @@ class Created extends Component {
           gridtemplatecolumns1440="1fr 1fr 1fr 1fr 1fr"
           gridarea="content">
           {this.state.pageOfItems.map(item => {
-            url = `/my-courses/${item.courseId}/${item.courseName}/edit`
-            htmlReadyUrl = encodeURI(url)
             return (
               <Flex key={item._id} flexdirection="column" padding="40px">
                 <a
                   style={{cursor: 'pointer'}}
-                  onClick={() => this.pushUrl(htmlReadyUrl)}>
+                  onClick={() => this.pushUrl(item)}>
                   <Img src={item.image} width="160px" height="200px" />
                 </a>
                 <a
                   style={{cursor: 'pointer'}}
-                  onClick={() => this.pushUrl(htmlReadyUrl)}>
+                  onClick={() => this.pushUrl(item)}>
                   <Text
                     alignitems="center"
                     display="flex"
@@ -148,6 +145,7 @@ const mapDispatchToProps = dispatch => {
       {
         fetchTeachingList,
         push,
+        readCourse,
         toggleFooter
       },
       dispatch

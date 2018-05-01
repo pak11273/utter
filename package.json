@@ -76,7 +76,7 @@
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-select": "^1.0.0-rc.5",
-    "react-table": "^6.7.6",
+    "react-table": "^6.8.2",
     "react-transition-group": "^2.2.1",
     "recordrtc": "^5.4.6",
     "recordrtc-socketio": "^1.0.6",

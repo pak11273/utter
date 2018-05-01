@@ -131,11 +131,11 @@ function* watchReadCourse() {
 }
 
 function* readCourse(action) {
-  const courseId = action.course.currentTeachingCourse.courseId
-  const courseName = action.course.currentTeachingCourse.courseName
+  const courseId = action.course.courseId
+  const courseName = action.course.courseName
   const getAuthId = state => state.authReducer.user._id
   const authId = yield select(getAuthId)
-  const url = `/api/courses/${courseId}/${courseName}`
+  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     if (!authId) {

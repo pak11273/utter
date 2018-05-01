@@ -78,15 +78,8 @@ class CourseEdit extends Component {
   }
 
   componentDidMount() {
-    const currentCourse = this.props.courseReducer
+    const currentCourse = this.props.courseReducer.currentTeachingCourse
     this.props.actions.toggleFooter(false)
-    this.props.actions.readCourse(currentCourse)
-
-    // set dom attributes TODO: remove this?
-    const nodeList = Array.from(document.getElementsByClassName('level'))
-    for (var i = 0; i < nodeList.length; i++) {
-      nodeList[i].getAttribute('required', true)
-    }
   }
 
   componentWillUnmount() {
@@ -248,12 +241,8 @@ class CourseEdit extends Component {
       },
       {
         id: 'someNumber', // Required because our accessor is not a string
-        Header: 'Friend Name',
+        Header: 'audio',
         accessor: d => d.friend.name // Custom value accessors!
-      },
-      {
-        Header: props => <span>Friend Age</span>, // Custom header components!
-        accessor: 'friend.age'
       }
     ]
     return (

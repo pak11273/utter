@@ -50,7 +50,7 @@ exports.unique = (req, res, next) => {
 }
 
 exports.faker = (req, res, next) => {
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < 3; i++) {
     var course = new Course()
 
     course.category = faker.commerce.department()
@@ -71,6 +71,23 @@ exports.faker = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
+  //populate doesn't return a promise, so call exec()
+  // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
+  // Course.find().populate('subscribers').exec().then(
+  console.log('get it')
+  if (req.params.courseId) {
+    Course.findOne({courseId: req.params.courseId}).then(
+      course => {
+        res.json(course)
+      },
+      err => {
+        next(err)
+      }
+    )
+  }
+}
+
+exports.getOne = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
@@ -122,6 +139,7 @@ exports.getTeachingCourses = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
+  console.log('update')
   let update = req.body.course
 
   Course.findOneAndUpdate(

@@ -9,6 +9,11 @@ createRoutes(controller, router)
 // custom routes
 router.route('/unique').post(controller.unique)
 
+// get current teaching course
+router
+  .route('/teaching-course/:courseCreatorId/:courseId/:courseName')
+  .get(controller.getOne)
+
 // get teaching courses
 router.route('/my-courses/:courseCreatorId').get(controller.getTeachingCourses)
 
