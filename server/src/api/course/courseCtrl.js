@@ -50,6 +50,7 @@ exports.unique = (req, res, next) => {
 }
 
 exports.faker = (req, res, next) => {
+  console.log('faker')
   for (var i = 0; i < 3; i++) {
     var course = new Course()
 
@@ -74,7 +75,6 @@ exports.get = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
-  console.log('get it')
   if (req.params.courseId) {
     Course.findOne({courseId: req.params.courseId}).then(
       course => {
@@ -101,6 +101,20 @@ exports.getOne = (req, res, next) => {
       }
     )
   }
+}
+
+exports.putOne = (req, res, next) => {
+  console.log('hellodog')
+  // if (req.params.courseId) {
+  //   Course.findOne({courseId: req.params.courseId}).then(
+  //     course => {
+  //       res.json(course)
+  //     },
+  //     err => {
+  //       next(err)
+  //     }
+  //   )
+  // }
 }
 
 exports.getTeachingCourses = (req, res, next) => {

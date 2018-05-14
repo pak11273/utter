@@ -174,10 +174,10 @@ function* updateCourse(action) {
   const courseName = action.course.courseName
   const getAuthId = state => state.authReducer.user._id
   const authId = yield select(getAuthId)
-  const url = `/api/courses/${courseId}/${courseName}`
+  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
-    if (authId) {
+    if (!authId) {
       throw new Error('You are not the creator of this course.')
     } else {
       const data = yield call(() => {

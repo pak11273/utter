@@ -20,6 +20,7 @@ import {
   Form,
   Grid,
   Section,
+  State,
   Input,
   LanguageCard,
   Subtitle,
@@ -79,6 +80,7 @@ class CourseEdit extends Component {
 
   componentDidMount() {
     const currentCourse = this.props.courseReducer.currentTeachingCourse
+    this.setState(currentCourse)
     this.props.actions.toggleFooter(false)
   }
 
@@ -90,6 +92,7 @@ class CourseEdit extends Component {
     e.preventDefault()
 
     if (this.isValid()) {
+      // this.props.actions.readCourse(this.state)
       let updatedCourse = this.props.courseReducer.currentTeachingCourse
       this.props.actions.updateCourse(updatedCourse)
 
@@ -98,7 +101,6 @@ class CourseEdit extends Component {
         errors: {} // clear errors every time we submit form
       })
 
-      // push state to redux
       this.props.actions.addFlashMessage({
         type: 'success',
         text: 'Changes were saved.'
@@ -247,6 +249,7 @@ class CourseEdit extends Component {
     ]
     return (
       <Flex>
+        <State state={this.state} />
         <Form onSubmit={this.onSubmit}>
           <Title padding="20px">Edit Your Course</Title>
           <ReactTable

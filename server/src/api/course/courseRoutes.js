@@ -13,6 +13,8 @@ router.route('/unique').post(controller.unique)
 router
   .route('/teaching-course/:courseCreatorId/:courseId/:courseName')
   .get(controller.getOne)
+  // .put(controller.putOne)
+  .put(controller.update)
 
 // get teaching courses
 router.route('/my-courses/:courseCreatorId').get(controller.getTeachingCourses)
