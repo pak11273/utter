@@ -1,6 +1,4 @@
 import {
-  ADD_LEVEL,
-  ADD_CUID_TO_LEVELS,
   FETCHED_COURSE_NAME,
   FETCH_TEACHING_LIST,
   FETCH_TEACHING_LIST_FAIL,
@@ -12,7 +10,8 @@ import {
   CHANGE_COURSE_PG_SUCCESS,
   COURSE_LANGUAGE,
   LOAD_CURRENT_TEACHING_COURSE,
-  // CRUD
+
+  // COURSE CRUD
   CREATE_COURSE_REQUEST,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
@@ -22,16 +21,16 @@ import {
   RESET_COURSE_CREATE_FORM,
   UPDATE_COURSE,
   UPDATE_COURSE_SUCCESS,
-  UPDATE_COURSE_FAIL
+  UPDATE_COURSE_FAIL,
+  DELETE_COURSE_FAIL,
+  DELETE_COURSE_SUCCESS,
+
+  // LEVEL CRUD
+  ADD_LEVEL,
+  ADD_CUID_TO_LEVELS,
+  DELETE_LEVEL_FAIL,
+  DELETE_LEVEL_SUCCESS
 } from './types.js'
-
-const addCuidToLevels = cuid => {
-  return {type: 'ADD_CUID_TO_LEVELS', cuid}
-}
-
-const addLevel = level => {
-  return {type: 'ADD_LEVEL', level}
-}
 
 const changeCoursePg = coursePg => {
   return {
@@ -54,7 +53,7 @@ const changeCoursePgSuccess = coursePg => {
   }
 }
 
-// CREATE
+// COURSE CREATE
 const createCourse = course => {
   return {type: 'CREATE_COURSE', course}
 }
@@ -67,7 +66,7 @@ const createCourseFail = error => {
   return {type: 'CREATE_COURSE_FAIL', error}
 }
 
-// READ
+// COURSE READ
 const readCourse = course => {
   return {type: 'READ_COURSE', course}
 }
@@ -80,7 +79,7 @@ const readCourseFail = error => {
   return {type: 'READ_COURSE_FAIL', error}
 }
 
-// UPDATE
+// COURSE UPDATE
 const updateCourse = course => {
   return {type: 'UPDATE_COURSE', course}
 }
@@ -91,6 +90,41 @@ const updateCourseSuccess = data => {
 
 const updateCourseFail = error => {
   return {type: 'UPDATE_COURSE_FAIL', error}
+}
+
+// COURSE DELETE
+const deleteCourse = course => {
+  return {type: 'DELETE_COURSE', course}
+}
+
+const deleteCourseSuccess = data => {
+  return {type: 'DELETE_COURSE_SUCCESS', data: data.data}
+}
+
+const deleteCourseFail = error => {
+  return {type: 'DELETE_COURSE_FAIL', error}
+}
+
+// LEVEL CREATE
+const addCuidToLevels = cuid => {
+  return {type: 'ADD_CUID_TO_LEVELS', cuid}
+}
+
+const addLevel = level => {
+  return {type: 'ADD_LEVEL', level}
+}
+
+// LEVEL DELETE
+const deleteLevel = (course, levelId) => {
+  return {type: 'DELETE_LEVEL', course, levelId}
+}
+
+const deleteLevelSuccess = data => {
+  return {type: 'DELETE_LEVEL_SUCCESS', data: data.data}
+}
+
+const deleteLevelFail = error => {
+  return {type: 'DELETE_LEVEL_FAIL', error}
 }
 
 const chooseCourseLanguage = courseLanguage => {
@@ -143,6 +177,12 @@ export {
   createCourse,
   createCourseSuccess,
   createCourseFail,
+  deleteCourse,
+  deleteCourseFail,
+  deleteCourseSuccess,
+  deleteLevel,
+  deleteLevelFail,
+  deleteLevelSuccess,
   fetchTeachingList,
   fetchTeachingListFail,
   fetchTeachingListSuccess,

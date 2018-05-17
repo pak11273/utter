@@ -19,6 +19,7 @@ import {
   Flex,
   Form,
   Grid,
+  Img,
   Section,
   State,
   Input,
@@ -33,6 +34,7 @@ import {addFlashMessage} from '../../../actions/flashMessages.js'
 import {
   addCuidToLevels,
   addLevel,
+  deleteLevel,
   chooseCourseLanguage,
   readCourse,
   updateCourse
@@ -49,9 +51,16 @@ const StyledButton = styled(Button)`
   margin: 80px 0 0 0;
   outline: none;
   padding: 7px 36px;
-  &:hover: {
-    background: black;
-    color: red;
+  &:hover {
+    background: #4fa0d1;
+    color: #ecf12a;
+  }
+`
+const Delete = styled.a`
+  cursor: pointer;
+  margin: 0 auto;
+  &:hover {
+    text-decoration: none;
   }
 `
 const Error = styled.div`
@@ -76,6 +85,8 @@ class CourseEdit extends Component {
       pageSize: 1,
       sorted: null
     }
+
+    this.deleteLevel = this.deleteLevel.bind(this)
   }
 
   componentDidMount() {
@@ -88,11 +99,18 @@ class CourseEdit extends Component {
     this.props.actions.toggleFooter(true)
   }
 
+  deleteLevel(id) {
+    console.log('id: ', id)
+    let course = this.props.courseReducer.currentTeachingCourse
+    confirm('Are you sure you want to DELETE this level?')
+      ? this.props.actions.deleteLevel(course, id)
+      : null
+  }
+
   onSubmit = e => {
     e.preventDefault()
 
     if (this.isValid()) {
-      // this.props.actions.readCourse(this.state)
       let updatedCourse = this.props.courseReducer.currentTeachingCourse
       this.props.actions.updateCourse(updatedCourse)
 
@@ -200,7 +218,7 @@ class CourseEdit extends Component {
     }/${this.props.courseReducer.currentTeachingCourse.courseName}`
     const courses = [
       {
-        Header: 'Level',
+        Header: 'level',
         accessor: 'level', // String-based value accessors!
         Cell: this.renderLevelEditable,
         maxWidth: 80,
@@ -229,6 +247,18 @@ class CourseEdit extends Component {
             Add a Level
           </span>
         )
+      },
+      {
+        // id: 'Actions',
+        Header: 'Actions',
+        accessor: '_id', // String-based value accessors!
+        Cell: props => (
+          <Delete onClick={() => this.deleteLevel(props.original._id)}>
+            Delete
+          </Delete>
+        ), // Custom cell components!
+        maxWidth: 80,
+        headerStyle: {fontSize: '1.5rem'}
       }
     ]
     const terms = [
@@ -249,8 +279,21 @@ class CourseEdit extends Component {
     ]
     return (
       <Flex>
-        <State state={this.state} />
+        {/* TODO: implement after chat is finsished 
+        <Box flexdirection640="row">
+          <h1>Course Name</h1>
+          <h1>Course Description</h1>
+          <Img width="30px" height="40px" />
+          <Button onClick={this.deleteCourse}>Delete Course</Button>
+          <p>
+            <span style={{color: 'red'}}>
+              Note: This action cannot be reversed.
+            </span>
+          </p>
+        </Box>
+        */}
         <Form onSubmit={this.onSubmit}>
+          <State state={this.state} />
           <Title padding="20px">Edit Your Course</Title>
           <ReactTable
             data={this.props.courseReducer.currentTeachingCourse.levels} // should default to []
@@ -266,6 +309,15 @@ class CourseEdit extends Component {
               return (
                 <div>
                   <div style={{padding: '20px'}}>Terms</div>
+                  <ReactTable
+                    style={{padding: '20px'}}
+                    data={data.terms}
+                    className="-striped -highlight"
+                    columns={terms}
+                    defaultPageSize={10}
+                    showPagination={false}
+                  />
+                  <div style={{padding: '20px'}}>Grammar</div>
                   <ReactTable
                     style={{padding: '20px'}}
                     data={data.terms}
@@ -309,6 +361,7 @@ const mapDispatchToProps = dispatch => {
         addCuidToLevels,
         addFlashMessage,
         addLevel,
+        deleteLevel,
         toggleFooter,
         readCourse,
         updateCourse

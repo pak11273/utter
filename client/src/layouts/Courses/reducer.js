@@ -6,6 +6,9 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
+  DELETE_LEVEL,
+  DELETE_LEVEL_FAIL,
+  DELETE_LEVEL_SUCCESS,
   FETCH_TEACHING_LIST,
   FETCH_TEACHING_LIST_FAIL,
   FETCH_TEACHING_LIST_SUCCESS,
@@ -132,6 +135,13 @@ export default (state = initialState, action) => {
           course: null,
           error: action.error
         }
+      }
+
+    case 'DELETE_LEVEL_FAIL':
+      return {
+        ...state,
+        error: true,
+        errorMsg: action.error.message
       }
     case 'FETCH_TEACHING_LIST_FAIL':
       return {

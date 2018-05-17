@@ -2,12 +2,14 @@ import {takeEvery} from 'redux-saga/effects'
 import {call, put, select, take, takeLatest} from 'redux-saga/effects'
 import axios from 'axios'
 import {
-  updateCourseFail,
-  updateCourseSuccess,
   changeCoursePgFail,
   changeCoursePgSuccess,
   createCourseFail,
   createCourseSuccess,
+  deleteCourseFail,
+  deleteCourseSuccess,
+  deleteLevelFail,
+  deleteLevelSuccess,
   fetchTeachingListFail,
   fetchTeachingListSuccess,
   readCourseFail,
@@ -15,7 +17,9 @@ import {
   requestCourse,
   requestCourseName,
   requestCourseNameSuccess,
-  requestCourseNameError
+  requestCourseNameError,
+  updateCourseFail,
+  updateCourseSuccess
 } from './actions.js'
 
 // Fetch teaching list
@@ -159,7 +163,6 @@ function* readCourse(action) {
       yield put(readCourseSuccess(data.data))
     }
   } catch (error) {
-    console.log('error: ', error)
     yield put(readCourseFail(error))
   }
 }
@@ -203,6 +206,80 @@ function* updateCourse(action) {
 }
 
 // DELETE
+function* watchDeleteCourse() {
+  yield takeLatest('DELETE_COURSE', deleteCourse)
+}
+
+function* deleteCourse(action) {
+  // TODO: delete course
+  const courseId = action.course.courseId
+  const courseName = action.course.courseName
+  const getAuthId = state => state.authReducer.user._id
+  const authId = yield select(getAuthId)
+  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
+  const htmlReadyUrl = encodeURI(url)
+  try {
+    if (!authId) {
+      throw new Error('You are not the creator of this course.')
+    } else {
+      const data = call(() => {
+        return axios({
+          method: 'delete',
+          url: htmlReadyUrl
+        })
+          .then(res => {
+            return res
+          })
+          .catch(err => {
+            throw err.response.data.error
+          })
+      })
+      yield put(deleteCourseSuccess(data))
+    }
+  } catch (error) {
+    yield put(deleteCourseFail(error))
+  }
+}
+
+// CREATE LEVEL
+
+// DELETE LEVEL
+function* watchDeleteLevel() {
+  yield takeLatest('DELETE_LEVEL', deleteLevel)
+}
+
+function* deleteLevel(action) {
+  const levelId = action.levelId
+  const courseId = action.course.courseId
+  const courseName = action.course.courseName
+  const getAuthId = state => state.authReducer.user._id
+  const authId = yield select(getAuthId)
+  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}/${levelId}`
+  const htmlReadyUrl = encodeURI(url)
+  try {
+    if (!authId) {
+      throw new Error('You are not the creator of this course.')
+    } else {
+      const data = yield call(() => {
+        return axios({
+          method: 'delete',
+          url: htmlReadyUrl
+        })
+          .then(res => {
+            console.log('res: ', res)
+            return res
+          })
+          .catch(err => {
+            throw err.response.data.error
+          })
+      })
+      console.log('data: ', data)
+      yield put(deleteLevelSuccess(data))
+    }
+  } catch (err) {
+    yield put(deleteLevelFail(err))
+  }
+}
 
 // Sagas
 function* watchFetchCourseName() {
@@ -250,6 +327,8 @@ function* fetchCourseNameAsync(action) {
 export default [
   watchChangePg,
   watchCreateCourse,
+  watchDeleteCourse,
+  watchDeleteLevel,
   watchFetchCourseName,
   watchFetchTeachingList,
   watchReadCourse,
