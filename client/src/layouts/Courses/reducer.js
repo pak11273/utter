@@ -143,6 +143,14 @@ export default (state = initialState, action) => {
         error: true,
         errorMsg: action.error.message
       }
+
+    // DELETE_LEVEL_SUCCESS,
+    case 'DELETE_LEVEL_SUCCESS':
+      return {
+        ...state,
+        error: false
+      }
+
     case 'FETCH_TEACHING_LIST_FAIL':
       return {
         ...state,

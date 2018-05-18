@@ -100,7 +100,6 @@ class CourseEdit extends Component {
   }
 
   deleteLevel(id) {
-    console.log('id: ', id)
     let course = this.props.courseReducer.currentTeachingCourse
     confirm('Are you sure you want to DELETE this level?')
       ? this.props.actions.deleteLevel(course, id)

@@ -183,19 +183,18 @@ exports.deleteCourse = (req, res, next) => {
 }
 
 exports.deleteLevel = (req, res, next) => {
-  console.log('course: ', req.params.courseId)
-  console.log('reg: ', req.params.levelId)
-  let id = req.params.levelId
-
-  var blah = Course.findOne(
+  Course.findOne(
     {courseId: req.params.courseId},
-    (err, thing) => {
+    (err, course) => {
       if (err) {
         console.log('err: ', err)
       }
-      thing.update({$pull: {levels: {_id: req.params.levelId}}}, (err, res) => {
-        console.log('rese: ', res)
-      })
+      course.update(
+        {$pull: {levels: {_id: req.params.levelId}}},
+        (err, deleted) => {
+          res.json(deleted)
+        }
+      )
     }
     // {$pullAll: {id: [req.params.levelId]}}
   )

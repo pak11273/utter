@@ -256,6 +256,7 @@ function* deleteLevel(action) {
   const authId = yield select(getAuthId)
   const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}/${levelId}`
   const htmlReadyUrl = encodeURI(url)
+  const course = action.course
   try {
     if (!authId) {
       throw new Error('You are not the creator of this course.')
@@ -266,15 +267,14 @@ function* deleteLevel(action) {
           url: htmlReadyUrl
         })
           .then(res => {
-            console.log('res: ', res)
             return res
           })
           .catch(err => {
             throw err.response.data.error
           })
       })
-      console.log('data: ', data)
       yield put(deleteLevelSuccess(data))
+      yield put({type: 'READ_COURSE', course: course})
     }
   } catch (err) {
     yield put(deleteLevelFail(err))
