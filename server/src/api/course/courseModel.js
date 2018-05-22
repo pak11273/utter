@@ -46,7 +46,13 @@ const CourseSchema = mongoose.Schema(
         cuid: String,
         level: Number,
         title: String,
-        vocabulary: Array,
+        terms: [
+          {
+            word: String,
+            translation: String,
+            audio: String
+          }
+        ],
         grammar: String
       }
     ],

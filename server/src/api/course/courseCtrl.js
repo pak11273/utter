@@ -51,7 +51,7 @@ exports.unique = (req, res, next) => {
 
 exports.faker = (req, res, next) => {
   console.log('faker')
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 1; i++) {
     var course = new Course()
 
     course.category = faker.commerce.department()
@@ -62,7 +62,40 @@ exports.faker = (req, res, next) => {
     course.courseDescription =
       'Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.'
     course.image = faker.image.image()
-    course.levels = [{level: 1, title: 'Change Me'}]
+    course.levels = [
+      {
+        level: 1,
+        title: 'Change Me',
+        terms: [
+          {word: 'hello', translation: '안영'},
+          {word: 'world', translation: '세상'}
+        ]
+      },
+      {
+        level: 2,
+        title: 'Change Me',
+        terms: [
+          {word: 'bart', translation: '안영'},
+          {word: 'sympson', translation: '세상'}
+        ]
+      },
+      {
+        level: 4,
+        title: 'Change Me',
+        terms: [
+          {word: 'cat', translation: '안영'},
+          {word: 'dog', translation: '세상'}
+        ]
+      },
+      {
+        level: 10,
+        title: 'Change Me',
+        terms: [
+          {word: 'merlin', translation: '안영'},
+          {word: 'samson', translation: '세상'}
+        ]
+      }
+    ]
 
     course.save(function(err) {
       if (err) throw err

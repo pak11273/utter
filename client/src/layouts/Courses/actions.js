@@ -29,7 +29,13 @@ import {
   ADD_LEVEL,
   ADD_CUID_TO_LEVELS,
   DELETE_LEVEL_FAIL,
-  DELETE_LEVEL_SUCCESS
+  DELETE_LEVEL_SUCCESS,
+
+  // WORD CRUD
+  ADD_WORD,
+  ADD_CUID_TO_WORDS,
+  DELETE_WORD_FAIL,
+  DELETE_WORD_SUCCESS
 } from './types.js'
 
 const changeCoursePg = coursePg => {

@@ -144,7 +144,6 @@ export default (state = initialState, action) => {
         errorMsg: action.error.message
       }
 
-    // DELETE_LEVEL_SUCCESS,
     case 'DELETE_LEVEL_SUCCESS':
       return {
         ...state,

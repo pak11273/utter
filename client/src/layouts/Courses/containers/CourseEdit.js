@@ -25,7 +25,8 @@ import {
   Input,
   LanguageCard,
   Subtitle,
-  Title
+  Title,
+  Text
 } from '../../../components'
 import {Masthead, Navbar, Staticbar} from '../../../containers'
 
@@ -34,6 +35,7 @@ import {addFlashMessage} from '../../../actions/flashMessages.js'
 import {
   addCuidToLevels,
   addLevel,
+  addWord,
   deleteLevel,
   chooseCourseLanguage,
   readCourse,
@@ -87,6 +89,7 @@ class CourseEdit extends Component {
     }
 
     this.deleteLevel = this.deleteLevel.bind(this)
+    this.addWord = this.addWord.bind(this)
   }
 
   componentDidMount() {
@@ -130,6 +133,22 @@ class CourseEdit extends Component {
     let length = this.props.courseReducer.currentTeachingCourse.levels.length
     let newLevel = length + 1
     this.props.actions.addLevel(newLevel)
+  }
+
+  addWord = e => {
+    e.preventDefault()
+    this.props.actions.addWord()
+  }
+
+  getData() {
+    const data = testData.map(item => {
+      const _id = cuid()
+      return {
+        _id,
+        ...item
+      }
+    })
+    return data
   }
 
   isValid() {
@@ -190,6 +209,27 @@ class CourseEdit extends Component {
     )
   }
 
+  renderWordEditable = cellInfo => {
+    return (
+      <div
+        style={{backgroundColor: '#fafafa', width: '100%', outline: 'none'}}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const data = this.props.courseReducer.currentTeachingCourse.levels
+          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
+          this.setState({data})
+        }}
+        dangerouslySetInnerHTML={{
+          __html: this.props.courseReducer.currentTeachingCourse.levels[
+            cellInfo.index
+          ][cellInfo.column.id]
+        }}
+        placeholder="Change this word"
+      />
+    )
+  }
+
   renderTitleEditable = cellInfo => {
     return (
       <div
@@ -217,7 +257,7 @@ class CourseEdit extends Component {
     }/${this.props.courseReducer.currentTeachingCourse.courseName}`
     const courses = [
       {
-        Header: 'level',
+        Header: 'Level',
         accessor: 'level', // String-based value accessors!
         Cell: this.renderLevelEditable,
         maxWidth: 80,
@@ -260,22 +300,56 @@ class CourseEdit extends Component {
         headerStyle: {fontSize: '1.5rem'}
       }
     ]
+
     const terms = [
       {
-        Header: 'word',
-        accessor: 'word' // String-based value accessors!
+        id: 'levelTerm',
+        Header: 'Word',
+        accessor: 'word',
+        // Cell: this.renderWordEditable,
+        headerStyle: {fontSize: '1.5rem'},
+        Footer: (
+          <Box flexdirection="row" margin="0 auto">
+            <button
+              onClick={this.addWord}
+              style={{
+                display: 'div',
+                height: '25px'
+              }}>
+              +
+            </button>
+            <Text padding="0 0 0 20px">Add Word</Text>
+          </Box>
+        )
       },
       {
-        Header: 'translation',
+        id: 'levelTranslation',
+        Header: 'Translation',
         accessor: 'translation',
-        Cell: props => <span className="number">{props.value}</span> // Custom cell components!
+        Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
+        headerStyle: {fontSize: '1.5rem'}
       },
       {
         id: 'someNumber', // Required because our accessor is not a string
-        Header: 'audio',
-        accessor: d => d.friend.name // Custom value accessors!
+        Header: 'Audio',
+        accessor: 'tbd', // Custom value accessors!
+        headerStyle: {fontSize: '1.5rem'}
+      },
+      {
+        // id: 'Actions',
+        Header: 'Actions',
+        accessor: '_id', // String-based value accessors!
+        Cell: props => (
+          <Delete onClick={() => this.deleteLevel(props.original._id)}>
+            Delete
+          </Delete>
+        ), // Custom cell components!
+        maxWidth: 80,
+        headerStyle: {fontSize: '1.5rem'}
       }
     ]
+    var termsArr = null
+
     return (
       <Flex>
         {/* TODO: implement after chat is finsished 
@@ -295,6 +369,12 @@ class CourseEdit extends Component {
           <State state={this.state} />
           <Title padding="20px">Edit Your Course</Title>
           <ReactTable
+            getTrGroupProps={(state, rowInfo, column, instance) => {
+              if (rowInfo) {
+                console.log('terms-rowinfo: ', rowInfo.original.terms)
+                termsArr = rowInfo.original.terms
+              }
+            }}
             data={this.props.courseReducer.currentTeachingCourse.levels} // should default to []
             contenteditable
             loading={this.state.loading}
@@ -307,7 +387,19 @@ class CourseEdit extends Component {
             SubComponent={row => {
               return (
                 <div>
-                  <div style={{padding: '20px'}}>Terms</div>
+                  <div style={{fontSize: '2rem', padding: '20px'}}>Terms</div>
+                  <ReactTable
+                    style={{padding: '20px'}}
+                    data={
+                      // this.props.courseReducer.currentTeachingCourse.levels[0].terms
+                      termsArr
+                    }
+                    className="-striped -highlight"
+                    columns={terms}
+                    defaultPageSize={10}
+                    showPagination={false}
+                  />
+                  <div style={{fontSize: '2rem', padding: '20px'}}>Grammar</div>
                   <ReactTable
                     style={{padding: '20px'}}
                     data={data.terms}
@@ -316,7 +408,7 @@ class CourseEdit extends Component {
                     defaultPageSize={10}
                     showPagination={false}
                   />
-                  <div style={{padding: '20px'}}>Grammar</div>
+                  <div style={{fontSize: '2rem', padding: '20px'}}>Phrases</div>
                   <ReactTable
                     style={{padding: '20px'}}
                     data={data.terms}
@@ -325,7 +417,7 @@ class CourseEdit extends Component {
                     defaultPageSize={10}
                     showPagination={false}
                   />
-                  <div style={{padding: '20px'}}>Phrases</div>
+                  <div style={{fontSize: '2rem', padding: '20px'}}>Notes</div>
                   <ReactTable
                     style={{padding: '20px'}}
                     data={data.terms}
@@ -360,6 +452,7 @@ const mapDispatchToProps = dispatch => {
         addCuidToLevels,
         addFlashMessage,
         addLevel,
+        addWord,
         deleteLevel,
         toggleFooter,
         readCourse,
