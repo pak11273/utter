@@ -1,6 +1,7 @@
 import Validator from 'validator'
 import isEmpty from 'lodash/isEmpty'
 import isNil from 'lodash/isNil'
+import isNaN from 'lodash/isNaN'
 import {store} from '../../store.js'
 
 exports.validateInput = state => {
@@ -8,25 +9,15 @@ exports.validateInput = state => {
   state.levels.map(item => {
     if (isNil(item.level) || item.level === '') {
       errors.level = {
-        cuid: item.cuid,
-        message: 'This field is required.'
+        cuid: item._id,
+        message: 'Level numbers are required.'
       }
     } else if (isNaN(item.level) || item.level <= 0) {
       errors.level = {
-        cuid: item.cuid,
+        cuid: item._id,
         message: 'Levels must be numbers and greater than 0'
       }
     }
-    // if (isNaN(item.level) || item.level <= 0) {
-    //   console.log('negative num')
-    //   errors.level = {
-    //     message: 'Levels must be numbers and greater than 0'
-    //   }
-    //   console.log('n2nd part ')
-    //   console.log('item: ', item)
-    //   console.log('level: : ', item.level)
-    //   console.log('type: : ', typeof item.level)
-    // }
   })
 
   // if (Validator.isEmpty(state.courseName)) {

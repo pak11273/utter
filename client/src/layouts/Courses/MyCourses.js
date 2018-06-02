@@ -47,7 +47,8 @@ StyledSubtitle.defaultProps = {
 }
 
 const StyledGrid = styled(Grid)`
-  grid-template-rows: 460px auto;
+  display: grid;
+  grid-template-rows: auto;
   grid-template-areas:
     'sidebar sidebar'
     'content content';

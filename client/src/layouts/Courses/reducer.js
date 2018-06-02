@@ -27,6 +27,8 @@ import {
   LOAD_CURRENT_TEACHING_COURSE
 } from './types'
 
+import {normalize, schema} from 'normalizr'
+
 // Reducer
 const initialState = {
   url: '',
@@ -39,6 +41,14 @@ const initialState = {
     pending: false,
     course: null,
     error: null
+  },
+  editTeachingCourse: {
+    levels: [
+      {
+        level: 1,
+        title: 'Change this title'
+      }
+    ]
   },
   currentTeachingCourse: {
     levels: [
@@ -163,10 +173,28 @@ export default (state = initialState, action) => {
         teachingCourseList: action.data
       }
     case 'READ_COURSE_SUCCESS':
+      // TODO: normalize data
+      // define levels
+      const level = new schema.Entity('levels')
+
+      // define terms
+      const term = new schema.Entity('terms')
+
+      // define course
+      const course = new schema.Entity('course', {
+        levels: [level],
+        terms: [term]
+      })
+
+      const normalized = normalize(action.course, course)
+      console.log('normal: ', normalized)
       return {
         ...state,
         currentTeachingCourse: {
           ...action.course
+        },
+        editTeachingCourse: {
+          ...normalized
         }
       }
     case 'READ_COURSE_FAIL':

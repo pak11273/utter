@@ -87,9 +87,12 @@ class CourseEdit extends Component {
       pageSize: 1,
       sorted: null
     }
+    ;['deleteLevel', 'addWord'].forEach(prop => {
+      this[prop] = this[prop].bind(this)
+    })
 
-    this.deleteLevel = this.deleteLevel.bind(this)
-    this.addWord = this.addWord.bind(this)
+    // this.deleteLevel = this.deleteLevel.bind(this)
+    // this.addWord = this.addWord.bind(this)
   }
 
   componentDidMount() {
@@ -111,7 +114,6 @@ class CourseEdit extends Component {
 
   onSubmit = e => {
     e.preventDefault()
-
     if (this.isValid()) {
       let updatedCourse = this.props.courseReducer.currentTeachingCourse
       this.props.actions.updateCourse(updatedCourse)
@@ -166,7 +168,7 @@ class CourseEdit extends Component {
   }
 
   renderLevelEditable = cellInfo => {
-    const levelErrors = this.state.errors.level
+    var levelErrors = this.state.errors.level
     return (
       <div>
         <div
@@ -201,7 +203,7 @@ class CourseEdit extends Component {
           {levelErrors &&
             (this.props.courseReducer.currentTeachingCourse.levels[
               cellInfo.index
-            ].cuid === levelErrors.cuid ? (
+            ]._id === levelErrors.cuid ? (
               <Error>{levelErrors['message']}</Error>
             ) : null)}
         </Error>
@@ -216,16 +218,18 @@ class CourseEdit extends Component {
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
-          const data = this.props.courseReducer.currentTeachingCourse.levels
-          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
-          this.setState({data})
+          const data = [{word: 'hi'}]
         }}
-        dangerouslySetInnerHTML={{
-          __html: this.props.courseReducer.currentTeachingCourse.levels[
-            cellInfo.index
-          ][cellInfo.column.id]
-        }}
-        placeholder="Change this word"
+        // const data = this.props.courseReducer.currentTeachingCourse.levels
+        // data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
+        // this.setState({data})
+        // }}
+        // dangerouslySetInnerHTML={{
+        // __html: this.props.courseReducer.currentTeachingCourse.levels[
+        //   cellInfo.index
+        // ][cellInfo.column.id]
+        // }}
+        placeholder="Change Me"
       />
     )
   }
@@ -255,6 +259,7 @@ class CourseEdit extends Component {
     const url = `/api/courses/${
       this.props.courseReducer.currentTeachingCourse.courseId
     }/${this.props.courseReducer.currentTeachingCourse.courseName}`
+
     const courses = [
       {
         Header: 'Level',
@@ -303,10 +308,9 @@ class CourseEdit extends Component {
 
     const terms = [
       {
-        id: 'levelTerm',
         Header: 'Word',
         accessor: 'word',
-        // Cell: this.renderWordEditable,
+        Cell: this.renderWordEditable,
         headerStyle: {fontSize: '1.5rem'},
         Footer: (
           <Box flexdirection="row" margin="0 auto">
@@ -349,7 +353,6 @@ class CourseEdit extends Component {
       }
     ]
     var termsArr = null
-
     return (
       <Flex>
         {/* TODO: implement after chat is finsished 
@@ -370,10 +373,7 @@ class CourseEdit extends Component {
           <Title padding="20px">Edit Your Course</Title>
           <ReactTable
             getTrGroupProps={(state, rowInfo, column, instance) => {
-              if (rowInfo) {
-                console.log('terms-rowinfo: ', rowInfo.original.terms)
-                termsArr = rowInfo.original.terms
-              }
+              rowInfo && (termsArr = rowInfo.original.terms)
             }}
             data={this.props.courseReducer.currentTeachingCourse.levels} // should default to []
             contenteditable
@@ -390,10 +390,7 @@ class CourseEdit extends Component {
                   <div style={{fontSize: '2rem', padding: '20px'}}>Terms</div>
                   <ReactTable
                     style={{padding: '20px'}}
-                    data={
-                      // this.props.courseReducer.currentTeachingCourse.levels[0].terms
-                      termsArr
-                    }
+                    data={termsArr}
                     className="-striped -highlight"
                     columns={terms}
                     defaultPageSize={10}

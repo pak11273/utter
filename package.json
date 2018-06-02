@@ -61,6 +61,7 @@
     "node-gyp": "^3.6.2",
     "nodemailer": "^4.4.0",
     "nodemailer-express-handlebars": "^2.0.0",
+    "normalizr": "^3.2.4",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "prop-types": "^15.6.0",
