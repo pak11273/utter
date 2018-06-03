@@ -174,27 +174,34 @@ export default (state = initialState, action) => {
       }
     case 'READ_COURSE_SUCCESS':
       // TODO: normalize data
-      // define levels
-      const level = new schema.Entity('levels')
-
-      // define terms
       const term = new schema.Entity('terms')
+
+      const level = new schema.Entity('levels', {
+        terms: [term]
+      })
 
       // define course
       const course = new schema.Entity('course', {
-        levels: [level],
-        terms: [term]
+        levels: [level]
       })
 
       const normalized = normalize(action.course, course)
       console.log('normal: ', normalized)
+      console.log('action: ', action.course)
+      const terms = normalized.entities.terms
+      console.log('terms: ', terms)
+      const objToArr = Object.keys(terms).map(key => {
+        return terms[key]
+      })
+      console.log('objToArr: ', objToArr)
+
       return {
         ...state,
         currentTeachingCourse: {
           ...action.course
         },
         editTeachingCourse: {
-          ...normalized
+          terms: objToArr
         }
       }
     case 'READ_COURSE_FAIL':

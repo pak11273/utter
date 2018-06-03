@@ -310,7 +310,7 @@ class CourseEdit extends Component {
       {
         Header: 'Word',
         accessor: 'word',
-        Cell: this.renderWordEditable,
+        // Cell: this.renderWordEditable,
         headerStyle: {fontSize: '1.5rem'},
         Footer: (
           <Box flexdirection="row" margin="0 auto">
@@ -390,7 +390,14 @@ class CourseEdit extends Component {
                   <div style={{fontSize: '2rem', padding: '20px'}}>Terms</div>
                   <ReactTable
                     style={{padding: '20px'}}
-                    data={termsArr}
+                    data={this.props.courseReducer.editTeachingCourse.terms} // should default to []
+                    resolveData={data => {
+                      // return an array of ob
+                      const newArr = Object.keys(data).map(key => {
+                        // return data[key]
+                        return data
+                      })
+                    }}
                     className="-striped -highlight"
                     columns={terms}
                     defaultPageSize={10}
