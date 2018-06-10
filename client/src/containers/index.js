@@ -16,6 +16,7 @@ import Rooms from '../containers/Rooms'
 import Sidebar from './Sidebar'
 import Staticbar from './Sidebar/Staticbar.js'
 import Speaker from './Speaker'
+import TabBarContainer from './Tabs'
 import Uttered from '../containers/Uttered'
 
 export {
@@ -37,5 +38,6 @@ export {
   Sidebar,
   Staticbar,
   Speaker,
+  TabBarContainer,
   Uttered
 }

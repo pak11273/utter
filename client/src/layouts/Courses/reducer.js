@@ -27,7 +27,7 @@ import {
   LOAD_CURRENT_TEACHING_COURSE
 } from './types'
 
-import {normalize, schema} from 'normalizr'
+// import {normalize, schema} from 'normalizr'
 
 // Reducer
 const initialState = {
@@ -174,26 +174,26 @@ export default (state = initialState, action) => {
       }
     case 'READ_COURSE_SUCCESS':
       // TODO: normalize data
-      const term = new schema.Entity('terms')
+      // const term = new schema.Entity('terms')
 
-      const level = new schema.Entity('levels', {
-        terms: [term]
-      })
+      // const level = new schema.Entity('levels', {
+      //   terms: [term]
+      // })
 
-      // define course
-      const course = new schema.Entity('course', {
-        levels: [level]
-      })
+      // // define course
+      // const course = new schema.Entity('course', {
+      //   levels: [level]
+      // })
 
-      const normalized = normalize(action.course, course)
-      console.log('normal: ', normalized)
-      console.log('action: ', action.course)
-      const terms = normalized.entities.terms
-      console.log('terms: ', terms)
-      const objToArr = Object.keys(terms).map(key => {
-        return terms[key]
-      })
-      console.log('objToArr: ', objToArr)
+      // const normalized = normalize(action.course, course)
+      // console.log('normal: ', normalized)
+      // console.log('action: ', action.course)
+      // const terms = normalized.entities.terms
+      // console.log('terms: ', terms)
+      // const objToArr = Object.keys(terms).map(key => {
+      //   return terms[key]
+      // })
+      // console.log('objToArr: ', objToArr)
 
       return {
         ...state,
@@ -201,7 +201,7 @@ export default (state = initialState, action) => {
           ...action.course
         },
         editTeachingCourse: {
-          terms: objToArr
+          ...action.course
         }
       }
     case 'READ_COURSE_FAIL':
