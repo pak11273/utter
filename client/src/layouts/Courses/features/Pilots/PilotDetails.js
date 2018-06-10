@@ -6,7 +6,6 @@ import {getEntitiesSession} from '../../../../containers/Entities/selectors.js'
 
 import {getEditingEntitiesSession} from '../../../../containers/Editing/selectors'
 
-// TODO implement this feautere
 import {FormEditWrapper} from '../../../../components'
 
 import {selectCurrentPilot, selectIsEditingPilot} from './selectors.js'

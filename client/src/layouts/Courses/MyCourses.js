@@ -12,7 +12,6 @@ import styled, {ThemeProvider} from 'styled-components'
 import 'react-table/react-table.css'
 import MyCoursesCreate from './containers/CourseEdit.js'
 import CourseEdit from './containers/CourseEdit.js'
-import data from './data/data.js'
 import requireAuth from '../../utils/requireAuth.js'
 
 import {

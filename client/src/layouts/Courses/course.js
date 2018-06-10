@@ -3,8 +3,6 @@ import {NavLink, Link, Route} from 'react-router-dom'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import ReactTable from 'react-table'
-import 'react-table/react-table.css'
-import data from './data/data.js'
 import {
   Box,
   Button,

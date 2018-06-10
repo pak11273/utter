@@ -1,13 +1,10 @@
 import React, {Component} from 'react'
-// import ReactDOM from 'react-dom'
 import {NavLink, Route, withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import cuid from 'cuid'
 import {validateInput} from '../../../utils/validations/courseUpdate.js'
-// import 'react-table/react-table.css'
-import data from '../data/data.js'
 import '../styles.css'
 
 import {
@@ -81,6 +78,8 @@ import Pilot from '../features/Pilots/Pilots.js'
 import Mechs from '../features/mechs/Mechs'
 
 import UnitOrganization from '../features/UnitInfo/UnitInfo'
+
+import Tools from '../features/Tools/Tools.js'
 
 class CourseEdit extends Component {
   constructor() {
@@ -192,7 +191,8 @@ class CourseEdit extends Component {
         name: 'unitOrganization',
         label: 'Unit Organization',
         component: UnitOrganization
-      }
+      },
+      {name: 'tools', label: 'Tools', component: Tools}
     ]
 
     return (
