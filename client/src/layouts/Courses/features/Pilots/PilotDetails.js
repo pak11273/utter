@@ -2,28 +2,27 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button} from 'semantic-ui-react'
 
-import {getEntitiesSession} from '../../../../../containers/Entities/selectors.js'
-// TODO implement this feautere
-// import {getEditingEntitiesSession} from 'features/editing/editingSelectors'
+import {getEntitiesSession} from '../../../../containers/Entities/selectors.js'
+
+import {getEditingEntitiesSession} from '../../../../containers/Editing/selectors'
 
 // TODO implement this feautere
-// import FormEditWrapper from 'common/components/FormEditWrapper'
+import {FormEditWrapper} from '../../../../components'
 
-import {selectCurrentPilot, selectIsEditingPilot} from '../selectors.js'
-import {PILOT_RANKS} from '../types.js'
+import {selectCurrentPilot, selectIsEditingPilot} from './selectors.js'
+import {PILOT_RANKS} from './types.js'
 
 import {
   startEditingPilot,
   stopEditingPilot,
   cancelEditingPilot
-} from '../actions.js'
+} from './actions.js'
 
-// TODO implement this feautere
-// import {resetEditedItem} from 'features/editing/editingActions'
+import {resetEditedItem} from '../../../../containers/Editing/actions'
 
-// import {editItemAttributes} from 'features/editing/editingActions'
+import {editItemAttributes} from '../../../../containers/Editing/actions'
 
-// import {getValueFromEvent} from 'common/utils/clientUtils'
+import {getValueFromEvent} from '../../../../utils/clientUtils.js'
 
 const RANKS = PILOT_RANKS.map(rank => ({value: rank, text: rank}))
 

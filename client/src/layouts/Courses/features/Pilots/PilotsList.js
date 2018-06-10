@@ -35,7 +35,6 @@ const mapState = state => {
     .map(pilotModel => pilotModel.getId())
 
   const currentPilot = selectCurrentPilot(state)
-  console.log('cl: ', currentPilot)
 
   // Return the list of pilot IDs and the current pilot ID as props
   return {pilots, currentPilot}

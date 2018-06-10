@@ -2,8 +2,8 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Button} from 'semantic-ui-react'
 
-import {selectIsEditingPilot} from '../selectors'
-import {addNewPilot} from '../actions'
+import {selectIsEditingPilot} from './selectors'
+import {addNewPilot} from './actions'
 
 const mapState = state => {
   const isEditingPilot = selectIsEditingPilot(state)

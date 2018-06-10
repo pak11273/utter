@@ -76,7 +76,7 @@ const Error = styled.div`
 
 import CourseInfo from '../features/CourseInfo.js'
 
-import Pilot from '../features/Pilots/Pilot.js'
+import Pilot from '../features/Pilots/Pilots.js'
 
 import Mechs from '../features/mechs/Mechs'
 
@@ -186,7 +186,7 @@ class CourseEdit extends Component {
     const tabs = [
       {name: 'courseInfo', label: 'Course Info', component: CourseInfo},
       // {name: 'levels', label: 'Levels', component: Levels},
-      // {name: 'pilots', label: 'Pilots', component: Pilot},
+      {name: 'pilots', label: 'Pilots', component: Pilot},
       {name: 'mechs', label: 'Mechs', component: Mechs},
       {
         name: 'unitOrganization',

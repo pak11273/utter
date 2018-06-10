@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 
 import {Grid, Segment, Header} from 'semantic-ui-react'
 
-import PilotsList from '../PilotsList'
-import PilotDetails from '../PilotDetails'
-import PilotCommands from '../PilotDetails/PilotCommands'
+import PilotsList from './PilotsList.js'
+import PilotDetails from './PilotDetails.js'
+import PilotCommands from './PilotCommands.js'
 
 export default class Pilots extends Component {
   render() {
