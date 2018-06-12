@@ -155,11 +155,11 @@ export const routes = [
   //   component: ResetPassword,
   //   loadData: () => getSomeData()
   // },
-  // {
-  //   path: '/Settings',
-  //   component: requireAuth(Settings),
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/Settings',
+    component: requireAuth(Settings),
+    loadData: () => getSomeData()
+  },
   {
     path: '/signup',
     component: Signup,

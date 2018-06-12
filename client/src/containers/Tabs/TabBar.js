@@ -6,7 +6,6 @@ import Tab from './Tab'
 
 const TabBar = props => {
   const {tabs, currentTab, onTabClick, ...otherProps} = props
-
   const tabItems = tabs.map((tabInfo, i) => {
     const {name, label} = tabInfo
     return (

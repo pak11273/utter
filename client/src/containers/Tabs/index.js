@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import TabBar from './TabBar'
@@ -25,23 +26,31 @@ class TabBarContainer extends Component {
   render() {
     const {tabs, ...otherProps} = this.props
     const {currentTab} = this.state
-
     return (
       <TabBar
         {...otherProps}
         currentTab={currentTab}
-        onTabClick={this.onTabClick}
+        onTabClick={this.props.actions.selectTab}
         tabs={tabs}
       />
     )
   }
 }
 
-const mapState = state => {
+const mapStateToProps = state => {
   const currentTab = selectCurrentTab(state)
   return {currentTab: state.tabsReducer}
 }
 
-const actions = {onTabClick: selectTab}
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        selectTab
+      },
+      dispatch
+    )
+  }
+}
 
-export default connect(mapState, actions)(TabBarContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TabBarContainer)

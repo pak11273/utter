@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {List} from 'semantic-ui-react'
 
-import {getEntitiesSession} from '../../../../containers/Entities/selectors.js'
+import {getEntitiesSession} from '../../features/Entities/selectors.js'
 
 const mapState = (state, ownProps) => {
   const session = getEntitiesSession(state)

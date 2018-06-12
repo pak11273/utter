@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect'
 
-import orm from '../../app/schema'
+import orm from '../../../../app/schema'
 
 export const selectEntities = state => state.entities
 

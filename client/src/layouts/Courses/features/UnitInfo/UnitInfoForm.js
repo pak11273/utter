@@ -8,7 +8,7 @@ import {getValueFromEvent} from '../../../../../src/utils/clientUtils'
 import FormEditWrapper from '../../../../components/'
 import {ColorPickerButton} from '../../../../components/ColorPicker/ColorPickerButton.js'
 
-import {getEntitiesSession} from '../../../../containers/Entities/selectors.js'
+import {getEntitiesSession} from '../../features/Entities/selectors'
 
 import {selectCurrentUnitInfo} from '../UnitInfo/selectors.js'
 import {updateUnitInfo, setUnitColor} from '../UnitInfo/actions.js'

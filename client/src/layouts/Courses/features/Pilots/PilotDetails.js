@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button} from 'semantic-ui-react'
 
-import {getEntitiesSession} from '../../../../containers/Entities/selectors.js'
+import {getEntitiesSession} from '../../features/Entities/selectors.js'
 
 import {getEditingEntitiesSession} from '../../../../containers/Editing/selectors'
 

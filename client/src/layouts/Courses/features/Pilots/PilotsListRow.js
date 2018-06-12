@@ -3,12 +3,12 @@ import {connect} from 'react-redux'
 import {Table, Button, Icon} from 'semantic-ui-react'
 import _ from 'lodash'
 
-import {getEntitiesSession} from '../../../../containers/Entities/selectors'
-import {deleteEntity} from '../../../../containers/Entities/actions.js'
+import {getEntitiesSession} from '../../features/Entities/selectors.js'
+import {deleteEntity} from '../../features/Entities/actions.js'
 import {showContextMenu} from '../contextMenus/actions.js'
 
-const mapState = (state, ownProps) => {
-  const session = getEntitiesSession(state)
+const mapStateToProps = (state, ownProps) => {
+  const session = getEntitiesSession(state.entitiesReducer)
   const {Pilot} = session
 
   let pilot
@@ -35,7 +35,6 @@ const mapState = (state, ownProps) => {
       pilot.mechType = mech.type.id
     }
   }
-
   return {pilot}
 }
 
@@ -108,4 +107,4 @@ const PilotsListRow = ({
   )
 }
 
-export default connect(mapState, actions)(PilotsListRow)
+export default connect(mapStateToProps, actions)(PilotsListRow)

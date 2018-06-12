@@ -5,15 +5,15 @@ import {Table} from 'semantic-ui-react'
 import PilotsListHeader from './PilotsListHeader.js'
 import PilotsListRow from './PilotsListRow.js'
 
-import {getEntitiesSession} from '../../../../containers/Entities/selectors'
+import {getEntitiesSession} from '../../features/Entities/selectors'
 
 import {selectPilot} from './actions'
 import {selectCurrentPilot} from './selectors'
 
-const mapState = state => {
+const mapStateToProps = state => {
   // Create a Redux-ORM Session from our "entities" slice, which
   // contains the "tables" for each model type
-  const session = getEntitiesSession(state)
+  const session = getEntitiesSession(state.entitiesReducer)
 
   // Retrieve the model class that we need.  Each Session
   // specifically "binds" model classes to itself, so that
@@ -48,14 +48,13 @@ const actions = {
 
 export class PilotsList extends Component {
   render() {
-    const {pilots = [], selectPilot, currentPilot} = this.props
-
-    const pilotRows = pilots.map(pilotID => (
+    const {pilots, selectPilot, currentPilot} = this.props
+    const pilotRows = pilots.map(pilot => (
       <PilotsListRow
-        pilotID={pilotID}
-        key={pilotID}
+        pilotID={pilot.id}
+        key={pilot.id}
         onPilotClicked={selectPilot}
-        selected={pilotID === currentPilot}
+        selected={pilot === currentPilot}
       />
     ))
 
@@ -68,4 +67,4 @@ export class PilotsList extends Component {
   }
 }
 
-export default connect(mapState, actions)(PilotsList)
+export default connect(null, actions)(PilotsList)

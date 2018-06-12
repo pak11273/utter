@@ -79,7 +79,7 @@ import Mechs from '../features/mechs/Mechs'
 
 import UnitOrganization from '../features/UnitInfo/UnitInfo'
 
-import Tools from '../features/Tools/Tools.js'
+import Tools from '../features/Tools'
 
 class CourseEdit extends Component {
   constructor() {

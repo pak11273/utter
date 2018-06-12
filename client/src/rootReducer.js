@@ -4,6 +4,8 @@ import authReducer from './reducers/auth'
 import challengeReducer from './containers/Challenge/reducer.js'
 import channelReducer from './containers/Channels/reducer.js'
 import courseReducer from './layouts/Courses/reducer.js'
+import entitiesCrudReducer from './layouts/Courses/features/Entities/reducers.js'
+import entitiesReducer from './app/reducer.js'
 import roomReducer from './containers/Rooms/reducer.js'
 import chatReducer from './containers/Chat/reducer.js'
 import chatPanelReducer from './containers/ChatPanel/reducer.js'
@@ -27,6 +29,8 @@ export default combineReducers({
   chatReducer,
   chatPanelReducer,
   courseReducer,
+  entitiesReducer,
+  entitiesCrudReducer,
   flashMessages,
   mechReducer,
   pictureReducer,
