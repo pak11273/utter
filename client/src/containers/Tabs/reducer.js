@@ -3,7 +3,7 @@ import {createReducer} from '../../utils/reducerUtils.js'
 import {TAB_SELECTED} from './types.js'
 
 const initialState = {
-  currentTab: 'courseInfo'
+  currentTab: ''
 }
 
 export function selectTab(state, payload) {

@@ -8,6 +8,7 @@ const TabBar = props => {
   const {tabs, currentTab, onTabClick, ...otherProps} = props
   const tabItems = tabs.map((tabInfo, i) => {
     const {name, label} = tabInfo
+
     return (
       <Tab
         key={name}
@@ -21,7 +22,6 @@ const TabBar = props => {
 
   const tabPanels = tabs.map(tabInfo => {
     const {name, component: TabComponent} = tabInfo
-
     return (
       <ToggleDisplay show={name === currentTab} key={name}>
         <TabComponent />
