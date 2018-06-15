@@ -1,8 +1,8 @@
 import {ENTITY_UPDATE, ENTITY_DELETE, ENTITY_CREATE} from './types.js'
 
-import {createConditionalSliceReducer} from '../../../../utils/reducerUtils'
+import {createConditionalSliceReducer} from '../../utils/reducerUtils'
 
-import orm from '../../../../app/schema'
+import orm from '../../app/schema'
 
 export function updateEntity(state, payload) {
   const {itemType, itemID, newItemAttributes} = payload

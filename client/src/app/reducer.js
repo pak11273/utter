@@ -10,9 +10,9 @@ export function loadData(state, payload) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
   // Get a reference to the correct version of model classes for this Session
-  const {Unit, Faction, Pilot, Mech, MechDesign} = session
+  const {Unit, Faction, Pilot, Mech, MechDesign, Term} = session
 
-  const {unit, factions, designs} = payload
+  const {unit, factions, designs, terms} = payload
 
   // Clear out any existing models from state so that we can avoid
   // conflicts from the new data coming in if data is reloaded

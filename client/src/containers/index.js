@@ -2,6 +2,7 @@ import Chat from '../containers/Chat'
 import ChatPanel from '../containers/ChatPanel'
 import Challenge from '../containers/Challenge'
 import Channels from '../containers/Channels'
+import ContextMenu from '../containers/ContextMenus'
 import Container from '../containers/Container'
 import Footer from '../containers/Footers/Footer'
 import KnowledgeBase from '../containers/KnowledgeBase'
@@ -25,6 +26,7 @@ export {
   Chat,
   ChatPanel,
   Container,
+  ContextMenu,
   Footer,
   KnowledgeBase,
   Login,

@@ -73,9 +73,13 @@ const Error = styled.div`
 
 import CourseInfo from '../features/CourseInfo.js'
 
+import Levels from '../../../api/level/levelComponent.js'
+
+import Terms from '../../../api/terms/containers'
+
 import Pilot from '../features/Pilots/Pilots.js'
 
-import Mechs from '../features/mechs/Mechs'
+// import Mechs from '../features/mechs/Mechs'
 
 import UnitOrganization from '../features/UnitInfo/UnitInfo'
 
@@ -184,14 +188,15 @@ class CourseEdit extends Component {
 
     const tabs = [
       {name: 'courseInfo', label: 'Course Info', component: CourseInfo},
-      // {name: 'levels', label: 'Levels', component: Levels},
+      {name: 'levels', label: 'Levels', component: Levels},
+      {name: 'terms', label: 'Terms', component: Terms},
       {name: 'pilots', label: 'Pilots', component: Pilot},
-      {name: 'mechs', label: 'Mechs', component: Mechs},
-      {
-        name: 'unitOrganization',
-        label: 'Unit Organization',
-        component: UnitOrganization
-      },
+      // {name: 'mechs', label: 'Mechs', component: Mechs},
+      // {
+      //   name: 'unitOrganization',
+      //   label: 'Unit Organization',
+      //   component: UnitOrganization
+      // },
       {name: 'tools', label: 'Tools', component: Tools}
     ]
 

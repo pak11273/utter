@@ -2,7 +2,7 @@ import {createReducer} from '../../../../utils/reducerUtils.js'
 
 import {PILOT_SELECT, PILOT_EDIT_START, PILOT_EDIT_STOP} from './types.js'
 
-import {ENTITY_DELETE} from '../../features/Entities/types.js'
+import {ENTITY_DELETE} from '../../../../api/entities/types.js'
 
 const initialState = {
   currentPilot: null,

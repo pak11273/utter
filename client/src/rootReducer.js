@@ -4,7 +4,7 @@ import authReducer from './reducers/auth'
 import challengeReducer from './containers/Challenge/reducer.js'
 import channelReducer from './containers/Channels/reducer.js'
 import courseReducer from './layouts/Courses/reducer.js'
-import entitiesCrudReducer from './layouts/Courses/features/Entities/reducers.js'
+import entitiesCrudReducer from './api/entities/reducers.js'
 import entitiesReducer from './app/reducer.js'
 import roomReducer from './containers/Rooms/reducer.js'
 import chatReducer from './containers/Chat/reducer.js'
@@ -15,6 +15,7 @@ import pictureReducer from './containers/Pictures/reducer.js'
 import phraseReducer from './layouts/Admin/Phrases/reducer.js'
 import socketReducer from './services/socketio/reducer.js'
 import tabsReducer from './containers/Tabs/reducer.js'
+import termsReducer from './api/terms/reducer.js'
 import toggleFooterReducer from './reducers/toggleFooterReducer.js'
 import userReducer from './layouts/Connections/reducer.js'
 import unitReducer from './layouts/Courses/features/UnitInfo/reducer.js'
@@ -40,6 +41,7 @@ export default combineReducers({
   router: routerReducer,
   socketReducer,
   tabsReducer,
+  termsReducer,
   toggleFooterReducer,
   vocabReducer,
   unitReducer,

@@ -5,10 +5,12 @@ import MechDesign from '../layouts/Courses/features/mechs/MechDesign'
 import Mech from '../layouts/Courses/features/mechs/Mech'
 import Unit from '../layouts/Courses/features/UnitInfo/Unit'
 import Lance from '../layouts/Courses/features/UnitInfo/Lance'
+import Level from '../api/level/levelModel.js'
 import Faction from '../layouts/Courses/features/UnitInfo/Faction'
+import Term from '../api/terms/termModel.js'
 import User from '../api/user/userModel.js'
 
 const orm = new ORM()
-orm.register(Faction, Lance, Mech, MechDesign, Pilot, Unit, User)
+orm.register(Faction, Lance, Level, Mech, MechDesign, Pilot, Term, Unit, User)
 
 export default orm

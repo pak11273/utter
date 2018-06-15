@@ -14,7 +14,7 @@ import {selectCurrentPilot, selectIsEditingPilot} from './selectors'
 import {
   getEntitiesSession,
   getUnsharedEntitiesSession
-} from '../../features/Entities/selectors.js'
+} from '../../../../api/entities/selectors.js'
 
 export function selectPilot(pilotID) {
   return (dispatch, getState) => {

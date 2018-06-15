@@ -8,8 +8,7 @@ const PilotsListHeader = () => (
       <Table.HeaderCell width={3}>Rank</Table.HeaderCell>
       <Table.HeaderCell width={2}>Age</Table.HeaderCell>
       <Table.HeaderCell width={2}>Skills</Table.HeaderCell>
-      <Table.HeaderCell width={3}>Mech</Table.HeaderCell>
-      <Table.HeaderCell width={1} />
+      <Table.HeaderCell width={4}>Mech</Table.HeaderCell>
     </Table.Row>
   </Table.Header>
 )

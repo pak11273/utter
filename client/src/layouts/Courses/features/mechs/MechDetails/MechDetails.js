@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Form} from 'semantic-ui-react'
 
-import {getEntitiesSession} from '../../Entities/selectors.js'
+import {getEntitiesSession} from '../../../../../api/entities/selectors.js'
 
 import {getWeightClass, selectCurrentMech} from '../selectors.js'
 

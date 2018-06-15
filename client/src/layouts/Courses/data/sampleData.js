@@ -8,26 +8,26 @@ const sampleData = {
       {
         id: 1,
         name: 'Command Lance',
-        pilots: [1, 2, 3, 4]
+        terms: [1, 2, 3, 4]
       },
       {
         id: 2,
         name: 'Fire Lance',
-        pilots: [5, 6, 7, 8]
+        terms: [5, 6, 7, 8]
       },
       {
         id: 3,
         name: 'Recon Lance',
-        pilots: [9, 10, 11, 12]
+        terms: [9, 10, 11, 12]
       }
     ],
-    pilots: [
+    terms: [
       {
         id: 1,
         name: 'Natasha Kerensky',
         rank: 'Captain',
         gunnery: 2,
-        piloting: 2,
+        terming: 2,
         age: 52,
         mech: 1
       },
@@ -36,7 +36,7 @@ const sampleData = {
         name: 'Colin Maclaren',
         rank: 'Sergeant',
         gunnery: 3,
-        piloting: 4,
+        terming: 4,
         age: 43,
         mech: 2
       },
@@ -45,7 +45,7 @@ const sampleData = {
         name: 'Lynn Sheridan',
         rank: 'Corporal',
         gunnery: 4,
-        piloting: 5,
+        terming: 5,
         age: 27,
         mech: 3
       },
@@ -54,7 +54,7 @@ const sampleData = {
         name: 'John Hayes',
         rank: 'Sergeant',
         gunnery: 3,
-        piloting: 4,
+        terming: 4,
         age: 34,
         mech: 4
       },
@@ -63,7 +63,7 @@ const sampleData = {
         name: 'Takiro Ikeda',
         rank: 'Lieutenant',
         gunnery: 3,
-        piloting: 4,
+        terming: 4,
         age: 41,
         mech: 5
       },
@@ -72,7 +72,7 @@ const sampleData = {
         name: 'Miklos Delius',
         rank: 'Corporal',
         gunnery: 4,
-        piloting: 4,
+        terming: 4,
         age: 31,
         mech: 6
       },
@@ -81,7 +81,7 @@ const sampleData = {
         name: 'Nikolai Koniev',
         rank: 'Private',
         gunnery: 3,
-        piloting: 4,
+        terming: 4,
         age: 39,
         mech: 7
       },
@@ -90,7 +90,7 @@ const sampleData = {
         name: 'Alex Ward',
         rank: 'Corporal',
         gunnery: 4,
-        piloting: 5,
+        terming: 5,
         age: 36,
         mech: 8
       },
@@ -99,7 +99,7 @@ const sampleData = {
         name: "John 'Gentlemen Johnny' Clavell",
         rank: 'Lieutenant',
         gunnery: 3,
-        piloting: 4,
+        terming: 4,
         age: 40,
         mech: 9
       },
@@ -108,7 +108,7 @@ const sampleData = {
         name: 'Piet Nichols',
         rank: 'Corporal',
         gunnery: 4,
-        piloting: 5,
+        terming: 5,
         age: 37,
         mech: 10
       },
@@ -117,7 +117,7 @@ const sampleData = {
         name: 'Simon Fraser',
         rank: 'Sergeant',
         gunnery: 3,
-        piloting: 4,
+        terming: 4,
         age: 32,
         mech: 11
       },
@@ -126,7 +126,7 @@ const sampleData = {
         name: 'Mohammar Jahan',
         rank: 'Corporal',
         gunnery: 3,
-        piloting: 5,
+        terming: 5,
         age: 29,
         mech: 12
       }
@@ -135,62 +135,62 @@ const sampleData = {
       {
         id: 1,
         type: 'WHM-6R',
-        pilot: 1
+        term: 1
       },
       {
         id: 2,
         type: 'MAD-3R',
-        pilot: 2
+        term: 2
       },
       {
         id: 3,
         type: 'CRD-3R',
-        pilot: 3
+        term: 3
       },
       {
         id: 4,
         type: 'GRF-1N',
-        pilot: 4
+        term: 4
       },
       {
         id: 5,
         type: 'ARC-2R',
-        pilot: 5
+        term: 5
       },
       {
         id: 6,
         type: 'ARC-2R',
-        pilot: 6
+        term: 6
       },
       {
         id: 7,
         type: 'WSP-1A',
-        pilot: 7
+        term: 7
       },
       {
         id: 8,
         type: 'STG-3R',
-        pilot: 8
+        term: 8
       },
       {
         id: 9,
         type: 'RFL-3N',
-        pilot: 9
+        term: 9
       },
       {
         id: 10,
         type: 'PXH-1K',
-        pilot: 10
+        term: 10
       },
       {
         id: 11,
         type: 'STG-3R',
-        pilot: 11
+        term: 11
       },
       {
         id: 12,
         type: 'STG-3R',
-        pilot: 12
+        term: 12
       }
     ]
   },

@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import {List} from 'semantic-ui-react'
 
-import {getEntitiesSession} from '../../features/Entities/selectors'
+import {getEntitiesSession} from '../../../../api/entities/selectors.js'
 
 import LancePilot from './LancePilot'
 

@@ -1,5 +1,5 @@
 import {createSelector} from 'reselect'
-import {getEntitiesSession} from '../../features/Entities/selectors'
+import {getEntitiesSession} from '../../../../api/entities/selectors.js'
 
 export const selectUnitInfo = state => state.unitInfo
 
