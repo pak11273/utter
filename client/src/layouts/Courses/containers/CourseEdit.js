@@ -73,7 +73,7 @@ const Error = styled.div`
 
 import CourseInfo from '../features/CourseInfo.js'
 
-import Levels from '../../../api/level/levelComponent.js'
+import Levels from '../../../api/level/containers'
 
 import Terms from '../../../api/terms/containers'
 

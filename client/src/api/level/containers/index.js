@@ -2,35 +2,33 @@ import React, {Component} from 'react'
 
 import {Grid, Segment, Header} from 'semantic-ui-react'
 
-import TermsList from '../components/termsList.js'
-import TermDetails from './termDetails.js'
-const terms = [
+import LevelsList from '../components/levelsList.js'
+import LevelDetails from '../components/levelDetails.js'
+const levels = [
   {
     level: 1,
-    name: 'head',
-    translation: '머리',
-    audio: 'head.mp3'
+    name: 'alphabet'
   }
 ]
 
-export default class Terms extends Component {
+export default class Levels extends Component {
   state = {
-    terms
+    levels
   }
   render() {
-    const {terms} = this.state
-    const currentTerm = terms[0] || {}
+    const {levels} = this.state
+    const currentLevel = levels[0] || {}
     return (
       <Segment>
         <Grid>
           <Grid.Column width={10}>
-            <Header as="h3">Terms</Header>
-            <TermsList terms={terms} />
+            <Header as="h3">Levels</Header>
+            <LevelsList levels={levels} />
           </Grid.Column>
           <Grid.Column width={6}>
             <Header as="h3">Details</Header>
             <Segment>
-              <TermDetails />
+              <LevelDetails />
             </Segment>
           </Grid.Column>
         </Grid>

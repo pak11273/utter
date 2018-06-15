@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import {Table} from 'semantic-ui-react'
 
-import TermsListHeader from './termsListHeader.js'
-import TermsListRow from './termsListRow'
+import TermsListHeader from '../containers/termsListHeader.js'
+import TermsListRow from '../containers/termsListRow'
 
 import {getEntitiesSession} from '../../../api/entities/selectors'
 

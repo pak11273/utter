@@ -9,6 +9,7 @@ import entitiesReducer from './app/reducer.js'
 import roomReducer from './containers/Rooms/reducer.js'
 import chatReducer from './containers/Chat/reducer.js'
 import chatPanelReducer from './containers/ChatPanel/reducer.js'
+import levelReducer from './api/level/reducer.js'
 import mechReducer from './layouts/Courses/features/mechs/reducer.js'
 import pilotReducer from './layouts/Courses/features/Pilots/reducer.js'
 import pictureReducer from './containers/Pictures/reducer.js'
@@ -33,6 +34,7 @@ export default combineReducers({
   entitiesReducer,
   entitiesCrudReducer,
   flashMessages,
+  levelReducer,
   mechReducer,
   pictureReducer,
   pilotReducer,
