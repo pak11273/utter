@@ -108,14 +108,7 @@ export class LevelDetails extends Component {
       isEditingLevel = false
     } = this.props
 
-    const {
-      name = '',
-      rank = '',
-      age = '',
-      gunnery = '',
-      leveling = '',
-      mechType = ''
-    } = level
+    const {name = '', rank = ''} = level
 
     const canStartEditing = levelIsSelected && !isEditinLevelg
     const canStopEditing = levelIsSelected && isEditinLevelg
@@ -130,16 +123,6 @@ export class LevelDetails extends Component {
           onChange={this.onInputChanged}
           passIsEditing={false}>
           <Form.Field
-            name="name"
-            label="Name"
-            width={16}
-            placeholder="Name"
-            disabled={!canStopEditing}
-            control="input"
-          />
-        </FormEditWrapper>
-        <Form.Group>
-          <Form.Field
             name="rank"
             label="Rank"
             width={10}
@@ -151,57 +134,17 @@ export class LevelDetails extends Component {
             onChange={this.onDropdownChanged}
             disabled={!canStopEditing}
           />
-          <FormEditWrapper
-            singleValue={true}
-            value={{age}}
-            onChange={this.onInputChanged}
-            passIsEditing={false}>
-            <Form.Field
-              name="age"
-              width={6}
-              label="Age"
-              placeholder="Age"
-              control="input"
-              disabled={!canStopEditing}
-            />
-          </FormEditWrapper>
-        </Form.Group>
-        <Form.Group widths="equal">
+        </FormEditWrapper>
+        <Form.Group>
           <Form.Field
-            name="gunnery"
-            label="Gunnery"
-            control={Dropdown}
-            fluid
-            selection
-            options={SKILL_VALUES}
-            value={gunnery}
-            onChange={this.onDropdownChanged}
+            name="name"
+            label="Name"
+            width={16}
+            placeholder="Name"
             disabled={!canStopEditing}
-          />
-          <Form.Field
-            name="leveling"
-            label="Leveling"
-            control={Dropdown}
-            fluid
-            selection
-            options={SKILL_VALUES}
-            value={leveling}
-            onChange={this.onDropdownChanged}
-            disabled={!canStopEditing}
+            control="input"
           />
         </Form.Group>
-
-        <Form.Field
-          name="mech"
-          label="Mech"
-          width={16}
-          control={Dropdown}
-          fluid
-          selection
-          options={MECHS}
-          value={mechType}
-          disabled={true}
-        />
         <Grid.Row width={16}>
           <Button
             primary

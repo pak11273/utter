@@ -6,8 +6,12 @@ import LevelsList from '../components/levelsList.js'
 import LevelDetails from '../components/levelDetails.js'
 const levels = [
   {
-    level: 1,
+    rank: 1,
     name: 'alphabet'
+  },
+  {
+    rank: 2,
+    name: 'body parts'
   }
 ]
 

@@ -79,7 +79,9 @@ import Terms from '../../../api/terms/containers'
 
 import Pilot from '../features/Pilots/Pilots.js'
 
-// import Mechs from '../features/mechs/Mechs'
+import Mechs from '../features/Mechs'
+
+import UnitInfo from '../features/UnitInfo'
 
 import UnitOrganization from '../features/UnitInfo/UnitInfo'
 
@@ -191,7 +193,8 @@ class CourseEdit extends Component {
       {name: 'levels', label: 'Levels', component: Levels},
       {name: 'terms', label: 'Terms', component: Terms},
       {name: 'pilots', label: 'Pilots', component: Pilot},
-      // {name: 'mechs', label: 'Mechs', component: Mechs},
+      {name: 'mechs', label: 'Mechs', component: Mechs},
+      {name: 'unitInfo', label: 'Unit Info', component: UnitInfo},
       // {
       //   name: 'unitOrganization',
       //   label: 'Unit Organization',

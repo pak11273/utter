@@ -1,36 +1,8 @@
-import orm from '../../../../app/schema'
-import {createConditionalSliceReducer} from '../../../../utils/reducerUtils.js'
+import {createReducer} from '../../../../utils/reducerUtils'
 
-import {UNIT_INFO_UPDATE, UNIT_INFO_SET_COLOR} from './types.js'
-
-function updateUnitInfo(state, payload) {
-  const session = orm.session(state)
-  const {Unit} = session
-
-  const currentUnit = Unit.all().first()
-
-  if (currentUnit) {
-    currentUnit.update(payload)
-  }
-
-  return session.state
+const initialState = {
+  name: 'Black Widow Company',
+  affiliation: 'wd'
 }
 
-function setUnitColor(state, payload) {
-  const {color} = payload
-  const session = orm.session(state)
-  const {Unit} = session
-
-  const currentUnit = Unit.all().first()
-
-  if (currentUnit) {
-    currentUnit.color = color
-  }
-
-  return session.state
-}
-
-export default createConditionalSliceReducer('entities', {
-  [UNIT_INFO_UPDATE]: updateUnitInfo,
-  [UNIT_INFO_SET_COLOR]: setUnitColor
-})
+export default createReducer(initialState, {})

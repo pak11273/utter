@@ -1,24 +1,18 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 
 import {Grid, Segment, Header} from 'semantic-ui-react'
 
 import TermsList from '../components/termsList.js'
 import TermDetails from './termDetails.js'
-const terms = [
-  {
-    level: 1,
-    name: 'head',
-    translation: '머리',
-    audio: 'head.mp3'
-  }
-]
 
-export default class Terms extends Component {
-  state = {
-    terms
-  }
+import {selectCurrentPilot} from '../selectors'
+
+import orm from '../../../app/schema.js'
+
+class Terms extends Component {
   render() {
-    const {terms} = this.state
+    const {terms} = this.props
     const currentTerm = terms[0] || {}
     return (
       <Segment>
@@ -30,7 +24,7 @@ export default class Terms extends Component {
           <Grid.Column width={6}>
             <Header as="h3">Details</Header>
             <Segment>
-              <TermDetails />
+              <TermDetails term={currentTerm} />
             </Segment>
           </Grid.Column>
         </Grid>
@@ -38,3 +32,16 @@ export default class Terms extends Component {
     )
   }
 }
+
+const mapStateToProps = state => {
+  // create an orm session from entities slice
+  const session = orm.session(state.entitiesReducer)
+  // destructure the Term slice
+  const {Term} = session
+  // convert to array
+  const terms = Term.all().toRefArray()
+  // return the result
+  return {terms}
+}
+
+export default connect(mapStateToProps)(Terms)

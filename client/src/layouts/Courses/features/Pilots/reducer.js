@@ -1,12 +1,8 @@
 import {createReducer} from '../../../../utils/reducerUtils.js'
-
-import {PILOT_SELECT, PILOT_EDIT_START, PILOT_EDIT_STOP} from './types.js'
-
-import {ENTITY_DELETE} from '../../../../api/entities/types.js'
+import {PILOT_SELECT} from './types.js'
 
 const initialState = {
-  currentPilot: null,
-  isEditing: false
+  currentPilot: null
 }
 
 export function selectPilot(state, payload) {
@@ -16,45 +12,12 @@ export function selectPilot(state, payload) {
   const isSamePilot = prevSelectedPilot === newSelectedPilot
 
   return {
-    ...state,
     // Deselect entirely if it's a second click on the same pilot,
     // otherwise go ahead and select the one that was clicked
     currentPilot: isSamePilot ? null : newSelectedPilot
   }
 }
 
-export function startEditingPilot(state, payload) {
-  return {
-    ...state,
-    isEditing: true
-  }
-}
-
-export function stopEditingPilot(state, payload) {
-  return {
-    ...state,
-    isEditing: false
-  }
-}
-
-export function stopEditingIfDeleted(state, payload) {
-  const {itemType, itemID} = payload
-  const {currentPilot} = state
-
-  if (itemType === 'Pilot' && itemID === currentPilot) {
-    return {
-      ...state,
-      isEditing: false,
-      currentPilot: null
-    }
-  }
-
-  return state
-}
-
 export default createReducer(initialState, {
-  [PILOT_SELECT]: selectPilot,
-  [PILOT_EDIT_START]: startEditingPilot,
-  [PILOT_EDIT_STOP]: stopEditingPilot,
-  [ENTITY_DELETE]: stopEditingIfDeleted
+  [PILOT_SELECT]: selectPilot
 })

@@ -17,19 +17,23 @@ import {
 } from '../../../../api/entities/selectors.js'
 
 export function selectPilot(pilotID) {
-  return (dispatch, getState) => {
-    const state = getState()
-    const isEditing = selectIsEditingPilot(state)
-
-    if (isEditing) {
-      dispatch(cancelEditingPilot())
-    }
-
-    dispatch({
-      type: PILOT_SELECT,
-      payload: {currentPilot: pilotID}
-    })
+  return {
+    type: PILOT_SELECT,
+    payload: {currentPilot: pilotID}
   }
+  // return (dispatch, getState) => {
+  //   const state = getState()
+  //   const isEditing = selectIsEditingPilot(state)
+
+  //   if (isEditing) {
+  //     dispatch(cancelEditingPilot())
+  //   }
+
+  //   dispatch({
+  //     type: PILOT_SELECT,
+  //     payload: {currentPilot: pilotID}
+  //   })
+  // }
 }
 
 export function startEditingPilot() {

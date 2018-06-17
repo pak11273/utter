@@ -4,17 +4,16 @@ import {Table} from 'semantic-ui-react'
 import PilotsListHeader from './PilotsListHeader.js'
 import PilotsListRow from './PilotsListRow.js'
 
-import {getEntitiesSession} from '../../../../api/entities/selectors'
-
-import {selectPilot} from './actions'
-import {selectCurrentPilot} from './selectors'
-
 export default class PilotsList extends Component {
   render() {
-    const {pilots} = this.props
-
+    const {pilots, onPilotClicked, currentPilot} = this.props
     const pilotRows = pilots.map(pilot => (
-      <PilotsListRow pilot={pilot} key={pilot.name} />
+      <PilotsListRow
+        pilot={pilot}
+        key={pilot.name}
+        onPilotClicked={onPilotClicked}
+        selected={pilot.id === currentPilot}
+      />
     ))
 
     return (
