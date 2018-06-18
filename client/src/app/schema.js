@@ -1,8 +1,8 @@
 import {Schema, ORM} from 'redux-orm'
 
 import Pilot from '../layouts/Courses/features/Pilots/Pilot'
-import Mech from '../layouts/Courses/features/mechs/mechModel.js'
-import MechDesign from '../layouts/Courses/features/mechs/mechDesignModel.js'
+import Mech from '../layouts/Courses/features/Mechs/mechModel.js'
+import MechDesign from '../layouts/Courses/features/Mechs/mechDesignModel.js'
 import Unit from '../layouts/Courses/features/UnitInfo/Unit'
 import Lance from '../layouts/Courses/features/UnitInfo/Lance'
 import Level from '../api/level/level.js'

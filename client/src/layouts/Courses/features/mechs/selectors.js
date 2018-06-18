@@ -18,7 +18,6 @@ const selectMechs = state => {
   return state.mechReducer
 }
 
-export const selectCurrentMech = createSelector(
-  selectMechs,
-  result => result.currentMech
-)
+export const selectCurrentMech = createSelector(selectMechs, result => {
+  return result.currentMech
+})

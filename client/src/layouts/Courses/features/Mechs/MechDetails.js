@@ -1,9 +1,10 @@
 import React from 'react'
 import {Form} from 'semantic-ui-react'
 
-import {getWeightClass, selectCurrentMech} from './selectors.js'
+import {getWeightClass} from './selectors.js'
 
 const MechDetails = ({mech = {}}) => {
+  console.log('mech: ', mech)
   const {id = '', type = '', mechType = {}} = mech
   const {name = '', weight = ''} = mechType
 
@@ -13,23 +14,23 @@ const MechDetails = ({mech = {}}) => {
     <Form size="large">
       <Form.Field name="id" width={6}>
         <label>ID</label>
-        <input placeholder="ID" defaultValue={id} />
+        <input placeholder="ID" value={id} readOnly />
       </Form.Field>
       <Form.Field name="name" width={16}>
         <label>Name</label>
-        <input placeholder="Name" defaultValue={name} />
+        <input placeholder="Name" value={name} readOnly />
       </Form.Field>
       <Form.Field name="model" width={6}>
         <label>Model</label>
-        <input placeholder="Model" defaultValue={type} />
+        <input placeholder="Model" value={type} readOnly />
       </Form.Field>
       <Form.Field name="weight" width={6}>
         <label>Weight</label>
-        <input defaultValue={weight} />
+        <input value={weight} readOnly />
       </Form.Field>
       <Form.Field name="class" width={6}>
         <label>Class</label>
-        <input defaultValue={weightClass} />
+        <input value={weightClass} readOnly />
       </Form.Field>
     </Form>
   )
