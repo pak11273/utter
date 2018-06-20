@@ -10,8 +10,8 @@ import {
   deleteCourseSuccess,
   deleteLevelFail,
   deleteLevelSuccess,
-  fetchTeachingListFail,
-  fetchTeachingListSuccess,
+  getTeachingListFail,
+  getTeachingListSuccess,
   readCourseFail,
   readCourseSuccess,
   requestCourse,
@@ -22,12 +22,12 @@ import {
   updateCourseSuccess
 } from './actions.js'
 
-// Fetch teaching list
-function* watchFetchTeachingList() {
-  yield takeLatest('FETCH_TEACHING_LIST', fetchTeachingList)
+// Get teaching list
+function* watchGetTeachingList() {
+  yield takeLatest('GET_TEACHING_LIST', getTeachingList)
 }
 
-function* fetchTeachingList(action) {
+function* getTeachingList(action) {
   const getAuthId = state => state.authReducer.user._id
   const authId = yield select(getAuthId)
   const getCoursePg = state => state.courseReducer.coursePg
@@ -56,10 +56,10 @@ function* fetchTeachingList(action) {
       if (_.isEmpty(data.data.result.docs)) {
         yield put(changeCoursePgSuccess(1))
       }
-      yield put(fetchTeachingListSuccess(data))
+      yield put(getTeachingListSuccess(data))
     }
   } catch (error) {
-    yield put(fetchTeachingListFail(error))
+    yield put(getTeachingListFail(error))
   }
 }
 
@@ -94,7 +94,7 @@ function* changeCoursePg(action) {
           })
       })
       yield put(changeCoursePgSuccess(coursePg))
-      yield put({type: 'FETCH_TEACHING_LIST'})
+      yield put({type: 'GET_TEACHING_LIST'})
     }
   } catch (error) {
     yield put(changeCoursePgFail(error))
@@ -282,8 +282,8 @@ function* deleteLevel(action) {
 }
 
 // Sagas
-function* watchFetchCourseName() {
-  yield takeEvery('FETCHED_COURSE_NAME', fetchCourseNameAsync)
+function* watchGetCourseName() {
+  yield takeEvery('GETED_COURSE_NAME', getCourseNameAsync)
 }
 
 function* watchSetCourse() {
@@ -301,7 +301,7 @@ function* setCourseAsync(action) {
   }
 }
 
-function* fetchCourseNameAsync(action) {
+function* getCourseNameAsync(action) {
   try {
     const data = yield call(() => {
       return axios({
@@ -329,8 +329,8 @@ export default [
   watchCreateCourse,
   watchDeleteCourse,
   watchDeleteLevel,
-  watchFetchCourseName,
-  watchFetchTeachingList,
+  watchGetCourseName,
+  watchGetTeachingList,
   watchReadCourse,
   watchUpdateCourse
 ]

@@ -10,12 +10,13 @@ export function loadData(state, payload) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state.entitiesReducer)
   // Get a reference to the correct version of the Pilots class for this Session
-  const {MechDesign, Mech, Pilot, Term} = session
+  const {Level, MechDesign, Mech, Pilot, Term} = session
 
-  const {pilots, designs, mechs, terms} = payload
+  const {pilots, designs, levels, mechs, terms} = payload
   // Queue up creation commands for each pilot entry
   pilots.forEach(pilot => Pilot.parse(pilot))
   designs.forEach(design => MechDesign.parse(design))
+  levels.forEach(level => Level.parse(level))
   mechs.forEach(mech => Mech.parse(mech))
   terms.forEach(term => Term.parse(term))
 

@@ -8,88 +8,88 @@ import cuid from 'cuid'
 //   stopEditingItem
 // } from 'features/editing/editingActions'
 
-import {COURSE_SELECT, COURSE_EDIT_START, COURSE_EDIT_STOP} from './types.js'
+import {LEVEL_SELECT, LEVEL_EDIT_START, LEVEL_EDIT_STOP} from './types.js'
 
-import {selectCurrentCourse, selectIsEditingCourse} from './selectors'
+import {selectCurrentLevel, selectIsEditingLevel} from './selectors'
 import {
   getEntitiesSession,
   getUnsharedEntitiesSession
 } from '../../api/entities/selectors.js'
 
-export function selectCourse(levelID) {
+export function selectLevel(levelID) {
   return (dispatch, getState) => {
     const state = getState()
-    const isEditing = selectIsEditingCourse(state)
+    const isEditing = selectIsEditingLevel(state)
 
     if (isEditing) {
-      dispatch(cancelEditingCourse())
+      dispatch(cancelEditingLevel())
     }
 
     dispatch({
-      type: COURSE_SELECT,
-      payload: {currentCourse: levelID}
+      type: LEVEL_SELECT,
+      payload: {currentLevel: levelID}
     })
   }
 }
 
-export function startEditingCourse() {
+export function startEditingLevel() {
   return (dispatch, getState) => {
-    const currentCourse = selectCurrentCourse(getState())
+    const currentLevel = selectCurrentLevel(getState())
 
-    dispatch(editExistingItem('Course', currentCourse))
-    dispatch({type: COURSE_EDIT_START})
+    dispatch(editExistingItem('Level', currentLevel))
+    dispatch({type: LEVEL_EDIT_START})
   }
 }
 
-export function handleStopEditingCourse(applyEdits = true) {
+export function handleStopEditingLevel(applyEdits = true) {
   return (dispatch, getState) => {
-    const currentCourse = selectCurrentCourse(getState())
+    const currentLevel = selectCurrentLevel(getState())
 
     // Determine if it's a new pilot based on the "current" slice contents
     const session = getEntitiesSession(getState())
-    const {Course} = session
+    const {Level} = session
 
-    const isNewCourse = !Course.hasId(currentCourse)
+    const isNewLevel = !Level.hasId(currentLevel)
 
-    dispatch({type: COURSE_EDIT_STOP})
+    dispatch({type: LEVEL_EDIT_STOP})
 
     if (applyEdits) {
-      dispatch(applyItemEdits('Course', currentCourse))
+      dispatch(applyItemEdits('Level', currentLevel))
     }
 
-    dispatch(stopEditingItem('Course', currentCourse))
+    dispatch(stopEditingItem('Level', currentLevel))
 
-    if (isNewCourse) {
-      dispatch({type: COURSE_SELECT, payload: {currentCourse: null}})
+    if (isNewLevel) {
+      dispatch({type: LEVEL_SELECT, payload: {currentLevel: null}})
     }
   }
 }
 
-export function stopEditingCourse() {
+export function stopEditingLevel() {
   return (dispatch, getState) => {
-    dispatch(handleStopEditingCourse(true))
+    dispatch(handleStopEditingLevel(true))
   }
 }
 
-export function cancelEditingCourse() {
+export function cancelEditingLevel() {
   return (dispatch, getState) => {
-    dispatch(handleStopEditingCourse(false))
+    dispatch(handleStopEditingLevel(false))
   }
 }
 
-export function addNewCourse() {
+export function addNewLevel() {
   return (dispatch, getState) => {
     const session = getUnsharedEntitiesSession(getState())
-    const {Course} = session
+    const {Level} = session
 
     const id = cuid()
 
-    const newCourse = Course.generate({id})
+    const newLevel = Level.generate({id})
 
-    const levelContents = newCourse.toJSON()
+    const levelContents = newLevel.toJSON()
 
-    dispatch(editNewItem('Course', id, levelContents))
-    dispatch(selectCourse(id))
-    dispatch({type: COURSE_EDIT_START})
+    dispatch(editNewItem('Level', id, levelContents))
+    dispatch(selectLevel(id))
+    dispatch({type: LEVEL_EDIT_START})
   }
 }

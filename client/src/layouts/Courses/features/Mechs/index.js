@@ -42,7 +42,6 @@ class Mechs extends Component {
     const {mechs = [], selectMech, currentMech} = this.props
 
     const currentMechEntry = mechs.find(mech => mech.id === currentMech) || {}
-    console.log('currentMechEntry: ', currentMechEntry)
 
     return (
       <Segment>

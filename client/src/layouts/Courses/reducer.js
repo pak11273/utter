@@ -10,8 +10,8 @@ import {
   DELETE_LEVEL_FAIL,
   DELETE_LEVEL_SUCCESS,
   FETCH_TEACHING_LIST,
-  FETCH_TEACHING_LIST_FAIL,
-  FETCH_TEACHING_LIST_SUCCESS,
+  GET_TEACHING_LIST_FAIL,
+  GET_TEACHING_LIST_SUCCESS,
   READ_COURSE,
   READ_COURSE_SUCCESS,
   READ_COURSE_FAIL,
@@ -160,13 +160,13 @@ export default (state = initialState, action) => {
         error: false
       }
 
-    case 'FETCH_TEACHING_LIST_FAIL':
+    case 'GET_TEACHING_LIST_FAIL':
       return {
         ...state,
         error: true,
         errorMsg: action.error.message
       }
-    case 'FETCH_TEACHING_LIST_SUCCESS':
+    case 'GET_TEACHING_LIST_SUCCESS':
       return {
         ...state,
         ...state.teachingCourseList,

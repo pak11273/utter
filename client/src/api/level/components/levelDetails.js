@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import orm from '../../../app/schema'
 import {Form, Dropdown, Grid, Button} from 'semantic-ui-react'
 
 import {getEntitiesSession} from '../../../api/entities/selectors.js'
@@ -39,26 +40,19 @@ const SKILL_VALUES = [
 
 const MECHS = [{value: 'WHM-6R', text: 'Warhammer WHM-6R'}]
 
-const mapState = state => {
+const mapStateToProps = state => {
   let level
 
   const currentLevel = selectCurrentLevel(state)
 
-  const levelIsSelected = Boolean(currentLevel)
-  const isEditingLevel = selectIsEditingLevel(state)
+  const session = orm.session(state.entitiesReducer)
 
-  if (levelIsSelected) {
-    const session = isEditinLevelg
-      ? getEditingEntitiesSession(state)
-      : getEntitiesSession(state)
+  const {Level} = session
 
-    const {Level} = session
-
-    if (Level.hasId(currentLevel)) {
-      level = Level.withId(currentLevel).ref
-    }
+  if (Level.hasId(currentLevel)) {
+    level = Level.withId(currentLevel).ref
   }
-  return {level, levelIsSelected, isEditingLevel}
+  return {level}
 }
 
 const actions = {
@@ -185,4 +179,4 @@ export class LevelDetails extends Component {
   }
 }
 
-export default connect(mapState, actions)(LevelDetails)
+export default connect(mapStateToProps, actions)(LevelDetails)

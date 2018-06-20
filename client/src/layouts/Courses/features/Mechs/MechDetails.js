@@ -4,7 +4,6 @@ import {Form} from 'semantic-ui-react'
 import {getWeightClass} from './selectors.js'
 
 const MechDetails = ({mech = {}}) => {
-  console.log('mech: ', mech)
   const {id = '', type = '', mechType = {}} = mech
   const {name = '', weight = ''} = mechType
 

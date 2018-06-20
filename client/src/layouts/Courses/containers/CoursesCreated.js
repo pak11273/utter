@@ -12,7 +12,7 @@ import '../../../assets/css/pagination.css'
 
 // actions
 import {toggleFooter} from '../../../actions/toggleFooterAction.js'
-import {fetchTeachingList, readCourse} from '../actions.js'
+import {getTeachingList, readCourse} from '../actions.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-columns: 100%;
@@ -63,7 +63,7 @@ class Created extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchTeachingList()
+    this.props.actions.getTeachingList()
   }
   componentWillUnmount() {
     this.props.actions.toggleFooter(true)
@@ -143,7 +143,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        fetchTeachingList,
+        getTeachingList,
         push,
         readCourse,
         toggleFooter

@@ -3,6 +3,18 @@ const sampleData = {
     name: 'Black Widow Company',
     affiliation: 'wd'
   },
+  levels: [
+    {
+      id: 1,
+      level: 1,
+      name: 'alphabet'
+    },
+    {
+      id: 2,
+      level: 1,
+      name: 'body parts'
+    }
+  ],
   pilots: [
     {
       id: 1,

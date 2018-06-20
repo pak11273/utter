@@ -24,10 +24,15 @@ class Level extends Model {
     }
     // Return value is ignored.
   }
+
   toString() {
     return `Level: ${this.name}`
   }
+
   // Declare any static or instance methods you need.
+  static parse(levelData) {
+    return this.upsert(levelData)
+  }
 }
 
 Level.modelName = 'Level'

@@ -1,8 +1,8 @@
 import {
   FETCHED_COURSE_NAME,
-  FETCH_TEACHING_LIST,
-  FETCH_TEACHING_LIST_FAIL,
-  FETCH_TEACHING_LIST_SUCCESS,
+  GET_TEACHING_LIST,
+  GET_TEACHING_LIST_FAIL,
+  GET_TEACHING_LIST_SUCCESS,
   REQUESTED_COURSE_NAME_SUCCEEDED,
   REQUESTED_COURSE_NAME_FAIL,
   CHANGE_COURSE_PG,
@@ -146,16 +146,17 @@ const fetchCourseName = course => {
   return {type: 'FETCHED_COURSE_NAME', course}
 }
 
-const fetchTeachingList = course => {
-  return {type: 'FETCH_TEACHING_LIST', course}
+const getTeachingList = course => {
+  return {type: 'GET_TEACHING_LIST', course}
 }
 
-const fetchTeachingListFail = error => {
-  return {type: 'FETCH_TEACHING_LIST_FAIL', error}
+const getTeachingListFail = error => {
+  return {type: 'GET_TEACHING_LIST_FAIL', error}
 }
 
-const fetchTeachingListSuccess = data => {
-  return {type: 'FETCH_TEACHING_LIST_SUCCESS', data: data.data}
+const getTeachingListSuccess = data => {
+  console.log('data:', data.data)
+  return {type: 'GET_TEACHING_LIST_SUCCESS', data: data.data}
 }
 
 const requestCourseNameSuccess = data => {
@@ -189,9 +190,9 @@ export {
   deleteLevel,
   deleteLevelFail,
   deleteLevelSuccess,
-  fetchTeachingList,
-  fetchTeachingListFail,
-  fetchTeachingListSuccess,
+  getTeachingList,
+  getTeachingListFail,
+  getTeachingListSuccess,
   readCourse,
   readCourseSuccess,
   readCourseFail,

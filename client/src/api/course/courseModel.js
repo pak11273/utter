@@ -6,8 +6,8 @@ export default class Course extends Model {
   static fields = {
     id: attr(),
     name: attr(),
-    teaching: attr(),
-    using: attr(),
+    teachingLang: attr(),
+    usingLang: attr(),
     description: attr(),
     tags: attr()
   }
