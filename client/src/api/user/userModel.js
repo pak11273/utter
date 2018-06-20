@@ -13,14 +13,6 @@ class User extends Model {
         const book = User.withId(action.payload)
         book.delete()
         break
-      case 'ADD_AUTHOR_TO_USER':
-        User.withId(action.payload.userId).authors.add(action.payload.author)
-        break
-      case 'REMOVE_AUTHOR_FROM_USER':
-        User.withId(action.payload.userId).authors.remove(
-          action.payload.authorId
-        )
-        break
     }
     // Return value is ignored.
   }

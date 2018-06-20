@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
-import {Masthead, Navbar} from '../containers'
-import {Subtitle, Title, Wrapper} from '../components'
-import LoginForm from '../containers/Forms/LoginForm.js'
+import {Masthead} from '../../containers'
+import {Wrapper} from '../../components'
+import LoginForm from './containers/LoginForm.js'
 
 function Login(props) {
   return (

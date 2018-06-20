@@ -1,26 +1,27 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {push} from 'react-router-redux'
-import Title from '../../components/Text/Title.js'
-import Subtitle from '../../components/Text/Subtitle.js'
-import Label from '../../components/Text/Label.js'
-import Img from '../../components/Medias/Img'
-import Input from '../../components/Inputs/Input.js'
-import Button from '../../components/Buttons/Button.js'
-import styled, {ThemeProvider} from 'styled-components'
-import {main, base} from '../../themes/config'
-import InputLine from '../../components/Inputs/InputLine.js'
-import Timezones from '../../components/Selects/Timezones/Timezones.js'
-import {validateInput} from '../../utils/validations/login.js'
 import {NavLink} from 'react-router-dom'
-import {connect} from 'react-redux'
-import {Box} from '../../components'
+import styled, {ThemeProvider} from 'styled-components'
+import {main, base} from '../../../themes/config'
+import Timezones from '../../../components/Selects/Timezones/Timezones.js'
+import {validateInput} from '../../../utils/validations/login.js'
+import {
+  Box,
+  Button,
+  Img,
+  Input,
+  InputLine,
+  Label,
+  Subtitle
+} from '../../../components'
 
 // password reset
 // https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0
 
 // actions
-import {login} from '../../actions/authActions.js'
+import {login} from '../../../actions/authActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -63,7 +64,7 @@ class LoginForm extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  };
+  }
 
   onSubmit = e => {
     e.preventDefault()
@@ -86,7 +87,7 @@ class LoginForm extends Component {
             })
         })
     }
-  };
+  }
 
   isValid() {
     const {errors, isValid} = validateInput(this.state)
