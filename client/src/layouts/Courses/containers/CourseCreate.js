@@ -5,7 +5,7 @@ import {push} from 'react-router-redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {validateInput} from '../../../utils/validations/courseCreate.js'
-import {addFlashMessage} from '../../../actions/flashMessages.js'
+import {addFlashMessage} from '../../../app/actions/flashMessages.js'
 import validator from 'validator'
 import cuid from 'cuid'
 import Teaching from './Teaching.js'
@@ -32,7 +32,7 @@ import {
 import transLoader from '../../../assets/images/trans_loader.gif'
 
 // actions
-import {toggleFooter} from '../../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 import {
   createCourse,
   fetchCourseName,

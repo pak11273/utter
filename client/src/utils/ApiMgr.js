@@ -1,20 +1,12 @@
 import superagent from 'superagent'
 import axios from 'axios'
+import jwt from 'jsonwebtoken'
+
+export const fetchData = (url, data, params, cb) => {
+  return axios.post(url, data)
+}
 
 export default {
-  fetch: (url, params, cb) => {
-    // third party api
-    // example of url '/teaching-course/:courseCreatorId/:courseId/:courseName')
-    axios
-      .get(url)
-      .then(function(response) {
-        console.log(response)
-      })
-      .catch(function(error) {
-        console.log(error)
-      })
-  },
-
   get: (url, params, cb) => {
     superagent
       .get(url)

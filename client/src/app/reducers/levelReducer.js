@@ -1,4 +1,4 @@
-import {LOAD_ROOM_LEVEL_FULFILLED} from '../actions/types.js'
+import {LOAD_ROOM_LEVEL_FULFILLED} from '../types.js'
 
 export default (
   state = {

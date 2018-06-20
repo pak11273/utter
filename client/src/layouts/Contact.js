@@ -10,7 +10,7 @@ import {
   Wrapper
 } from '../components'
 import {connect} from 'react-redux'
-import {contactmail} from '../actions/contactmailActions'
+import {contactmail} from '../app/actions/contactmailActions'
 import ContactForm from '../containers/Forms/ContactForm/ContactForm.js'
 
 function Contact(props) {

@@ -30,7 +30,7 @@ import {Header, Container, Menu} from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.css'
 
 // actions
-import {addFlashMessage} from '../../../actions/flashMessages.js'
+import {addFlashMessage} from '../../../app/actions/flashMessages.js'
 import {
   addCuidToLevels,
   addLevel,
@@ -40,7 +40,7 @@ import {
   readCourse,
   updateCourse
 } from '../actions'
-import {toggleFooter} from '../../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 
 const Pending = () => <h1>pending</h1>
 

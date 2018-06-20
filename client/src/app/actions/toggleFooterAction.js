@@ -1,4 +1,4 @@
-import {TOGGLE_FOOTER} from './types'
+import {TOGGLE_FOOTER} from '../types'
 
 export function toggleFooter(bool) {
   return {

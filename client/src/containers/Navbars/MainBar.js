@@ -13,7 +13,7 @@ import {Box, Hamburger, Logo, Section} from '../../components'
 import Graphic from '../../assets/images/logo.svg'
 
 // actions
-import {logout} from '../../actions/authActions.js'
+import {logout} from '../../app/actions/authActions.js'
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};

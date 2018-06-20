@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {addFlashMessage} from '../actions/flashMessages.js'
+import {addFlashMessage} from '../app/actions/flashMessages.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {push} from 'react-router-redux'

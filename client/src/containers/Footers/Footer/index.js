@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import styled from 'styled-components'
 
-import {toggleFooter} from '../../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 
 const StyledFooter = styled.section`
   align-items: ${props => props.alignitems};

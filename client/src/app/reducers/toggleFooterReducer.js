@@ -1,4 +1,4 @@
-import {TOGGLE_FOOTER} from '../actions/types.js'
+import {TOGGLE_FOOTER} from '../types.js'
 
 const initialState = {
   toggle: true

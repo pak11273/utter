@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux'
 import {Link} from 'react-router-dom'
 import styled, {ThemeProvider} from 'styled-components'
 import {Masthead, Navbar} from '../containers'
-import {login} from '../actions/authActions.js'
+import {login} from '../app/actions/authActions.js'
 import {validateInput} from '../utils/validations/resetPassword.js'
 import {
   Box,
@@ -16,8 +16,8 @@ import {
 } from '../components'
 import {Helmet} from 'react-helmet'
 import {connect} from 'react-redux'
-import {addFlashMessage} from '../actions/flashMessages.js'
-import {resetpassword} from '../actions/authActions.js'
+import {addFlashMessage} from '../app/actions/flashMessages.js'
+import {resetpassword} from '../app/actions/authActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -27,7 +27,7 @@ const Form = styled.form`
   align-items: center;
   margin: 0 auto;
 
-  @media(min-width: 640px) {
+  @media (min-width: 640px) {
     flex-direction: row;
     width: 960px;
   }
@@ -72,7 +72,7 @@ class ResetPassword extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  };
+  }
 
   onSubmit = e => {
     e.preventDefault()
@@ -110,7 +110,7 @@ class ResetPassword extends Component {
           })
         })
     }
-  };
+  }
 
   isValid() {
     const {errors, isValid} = validateInput(this.state)
@@ -150,7 +150,9 @@ class ResetPassword extends Component {
               (e.g. 111 is not allowed) and not more than 128 characters.
             </Subtitle>
             <Box flexdirection="row" margin="20px 0 0 0">
-              <Label margin="0" padding="0" width="180px">New Password</Label>
+              <Label margin="0" padding="0" width="180px">
+                New Password
+              </Label>
               <Box>
                 <Input
                   autoComplete="new-password"
@@ -164,11 +166,7 @@ class ResetPassword extends Component {
                     if (key === 'message') {
                       var value = key
                     }
-                    return (
-                      <Error key={i}>
-                        {passwordErrors[value]}
-                      </Error>
-                    )
+                    return <Error key={i}>{passwordErrors[value]}</Error>
                   })}
               </Box>
               <Label margin="0" padding="0" width="180px">
@@ -188,9 +186,7 @@ class ResetPassword extends Component {
                       var value = key
                     }
                     return (
-                      <Error key={i}>
-                        {passwordConfirmationErrors[value]}
-                      </Error>
+                      <Error key={i}>{passwordConfirmationErrors[value]}</Error>
                     )
                   })}
               </Box>

@@ -24,7 +24,7 @@ import {Masthead, Navbar, Staticbar} from '../../containers'
 
 // actions
 import {chooseCourseLanguage} from './actions'
-import {toggleFooter} from '../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-areas:

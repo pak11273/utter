@@ -11,7 +11,7 @@ import IoPeople from 'react-icons/lib/io/android-people'
 import '../../../assets/css/pagination.css'
 
 // actions
-import {toggleFooter} from '../../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 import {getTeachingList, readCourse} from '../actions.js'
 
 const StyledGrid = styled(Grid)`

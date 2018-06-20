@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux'
 import rootReducer from './rootReducer'
 import setAuthorizationToken from './utils/setAuthorizationToken.js'
-import {setCurrentUser} from './actions/authActions.js'
+import {setCurrentUser} from './app/actions/authActions.js'
 import jwt from 'jsonwebtoken'
 import SocketIO from './services/socketio'
 import rootSaga from './rootSaga.js'

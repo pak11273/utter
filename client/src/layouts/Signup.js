@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {userSignupRequest} from '../actions/signupActions'
+import {userSignupRequest} from '../app/actions/signupActions'
 import styled, {ThemeProvider} from 'styled-components'
 import Masthead from '../containers/Mastheads/Masthead'
 import Subtitle from '../components/Text/Subtitle.js'
 import SignupForm from '../containers/Forms/SignupForm.js'
-import {addFlashMessage} from '../actions/flashMessages.js'
+import {addFlashMessage} from '../app/actions/flashMessages.js'
 import {Wrapper} from '../components'
 
 function Signup(props) {
@@ -20,7 +20,7 @@ function Signup(props) {
         />
       </Masthead>
     </Wrapper>
-  );
+  )
 }
 
 export default connect(null, {userSignupRequest, addFlashMessage})(Signup)

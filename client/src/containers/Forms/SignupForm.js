@@ -18,8 +18,8 @@ import FaFacebook from 'react-icons/fa/facebook'
 import FaGoogle from 'react-icons/fa/google'
 
 // actions
-import {userSignupRequest} from '../../actions/signupActions.js'
-import {login} from '../../actions/authActions.js'
+import {userSignupRequest} from '../../app/actions/signupActions.js'
+import {login} from '../../app/actions/authActions.js'
 import {validateInput} from '../../utils/validations/user.js'
 
 const Form = styled.form`
@@ -68,7 +68,7 @@ class SignupForm extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  };
+  }
 
   onSubmit = e => {
     e.preventDefault()
@@ -101,7 +101,7 @@ class SignupForm extends Component {
           this.setState({errors: error.response.data.errors})
         })
     }
-  };
+  }
 
   isValid() {
     const {errors, isValid} = validateInput(this.state)

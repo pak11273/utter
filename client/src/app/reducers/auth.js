@@ -1,4 +1,4 @@
-import {LOAD_USER_PROFILE, SET_CURRENT_USER} from '../actions/types.js'
+import {LOAD_USER_PROFILE, SET_CURRENT_USER} from '../types.js'
 import isEmpty from 'lodash/isEmpty'
 
 const initialState = {

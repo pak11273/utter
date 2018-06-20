@@ -1,4 +1,4 @@
-import {ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE} from '../actions/types.js'
+import {ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE} from '../types.js'
 import cuid from 'cuid'
 import findIndex from 'lodash/findIndex'
 
