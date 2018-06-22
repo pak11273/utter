@@ -42,31 +42,18 @@ export function loadUserSuccess(user) {
   return {type: types.LOAD_USER_SUCCESS, user}
 }
 
-// export function login(data) {
-//   return dispatch => {
-//     return axios.post('auth/signin', data).then(res => {
-//       const token = res.data.token
-//       localStorage.setItem('jwtToken', token)
-//       setAuthorizationToken(token)
-//       const user = jwt.decode(token)
-//       dispatch(setCurrentUser(user))
-//       // sample id; "59d2a7bb24a8b73675b527d7"
-//       axios.get(`api/users/${user._id}`).then(res => {
-//         dispatch(loadUserProfile(res.data))
-//       })
-//     })
-//   }
-// }
-
-import {DATA_LOADED} from '../types.js'
-
 export function login(data) {
   const url = 'auth/signin'
-  return (dispatch, getState) => {
-    fetchData(url, params, cb).then(data => {
-      dispatch({
-        type: DATA_LOADED,
-        payload: data
+  return dispatch => {
+    return fetchData(url, data).then(res => {
+      const token = res.data.token
+      localStorage.setItem('jwtToken', token)
+      setAuthorizationToken(token)
+      const user = jwt.decode(token)
+      dispatch(setCurrentUser(user))
+      // sample id; "59d2a7bb24a8b73675b527d7"
+      axios.get(`api/users/${user._id}`).then(res => {
+        dispatch(loadUserProfile(res.data))
       })
     })
   }

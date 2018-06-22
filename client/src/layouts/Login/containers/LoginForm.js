@@ -21,9 +21,7 @@ import {
 // https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0
 
 // actions
-// TODO: trash
-// import {login} from '../../../app/actions/authActions.js'
-import {login} from '../../../api/user/actions.js'
+import {login} from '../../../app/actions/authActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -76,17 +74,9 @@ class LoginForm extends Component {
         isLoading: true
       })
 
-      this.props.actions.login(this.state)
-      // .then(() => {
-      //   this.props.actions.push('/dashboard')
-      // })
-      // .catch(error => {
-      //   if (error.response)
-      //     this.setState({
-      //       errors: error.response.data.errors,
-      //       isLoading: false
-      //     })
-      // })
+      this.props.actions.login(this.state).then(() => {
+        this.props.actions.push('/dashboard')
+      })
     }
   }
 

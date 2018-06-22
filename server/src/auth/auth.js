@@ -29,9 +29,10 @@ exports.getFreshUser = () => {
 exports.verifyUser = () => {
   return (req, res, next) => {
     let {identifier, password} = req.body
-    let criteria = identifier.indexOf('@') === -1
-      ? {username: identifier}
-      : {email: identifier}
+    let criteria =
+      identifier.indexOf('@') === -1
+        ? {username: identifier}
+        : {email: identifier}
     if (!identifier || !password) {
       return res.status(400).send('You need a username/email and password')
     }

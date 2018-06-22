@@ -2,9 +2,30 @@ import superagent from 'superagent'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 
-export const fetchData = (url, data, params, cb) => {
-  return axios.post(url, data)
+export const fetchData = (
+  url = null,
+  data = null,
+  params = null,
+  cb = null
+) => {
+  // this.setState({isLoading: true})
+  return axios
+    .post(url, data)
+    .then(res => {
+      // this.setState({isLoading: false})
+      return res
+    })
+    .catch(err => console.log(err))
 }
+
+// export const fetchData = (
+//   url = null,
+//   data = null,
+//   params = null,
+//   cb = null
+// ) => {
+//   return axios.post(url, data)
+// }
 
 export default {
   get: (url, params, cb) => {

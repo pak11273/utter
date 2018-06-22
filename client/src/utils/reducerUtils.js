@@ -15,13 +15,21 @@ export const createAsyncTypes = typeString =>
 
 export const createAction = (type, payload = {}) => ({type, ...payload})
 
-export function createReducer(initialState, fnMap) {
-  return (state = initialState, {type, payload}) => {
-    const handler = fnMap[type]
+// export function createReducer(initialState, fnMap) {
+//   return (state = initialState, {type, payload}) => {
+//     const handler = fnMap[type]
 
-    return handler ? handler(state, payload) : state
-  }
-}
+//     return handler ? handler(state, payload) : state
+//   }
+// }
+
+export const createReducer = (initialState, handlers) => (
+  state = initialState,
+  action
+) =>
+  handlers.hasOwnProperty(action.type)
+    ? handlers[action.type](state, action)
+    : state
 
 export function reduceReducers(...reducers) {
   return (previous, current) =>

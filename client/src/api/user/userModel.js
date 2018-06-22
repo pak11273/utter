@@ -1,6 +1,9 @@
 import {fk, many, attr, Model} from 'redux-orm'
 
 class User extends Model {
+  static parse(userData) {
+    return this.create(userData)
+  }
   static reducer(action, User, session) {
     switch (action.type) {
       case 'CREATE_USER':
