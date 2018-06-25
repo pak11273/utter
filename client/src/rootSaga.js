@@ -1,9 +1,11 @@
 import {all, fork} from 'redux-saga/effects'
-import coursSaga from './layouts/Courses/saga.js'
+import courseSaga from './layouts/Courses/sagas.js'
+import userSaga from './api/user/sagas.js'
 // import MyOtherSaga from './path/to/MyOtherSaga'
 
 const sagas = [
-  ...coursSaga
+  ...courseSaga,
+  ...userSaga
   // ...MyOtherSaga
 ]
 

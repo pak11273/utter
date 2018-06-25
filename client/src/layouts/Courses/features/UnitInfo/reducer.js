@@ -1,4 +1,4 @@
-import {createReducer} from '../../../../utils/reducerUtils'
+import {createReducer} from '../../../../utils/reduxUtils'
 
 const initialState = {
   name: 'Black Widow Company',

@@ -1,4 +1,4 @@
-import {fetchData} from '../../utils/ApiMgr.js'
+import {fetchData} from '../../utils/apiMgr.js'
 
 // function* getUser(url, data, params, cb) {
 //   try {
@@ -13,7 +13,7 @@ import {fetchData} from '../../utils/ApiMgr.js'
 //         localStorage.setItem('jwtToken', token)
 //         setAuthorizationToken(token)
 //         dispatch({
-//           type: GET_USER_ASYNC.SUCCESS,
+//           type: LOGIN_ASYNC.SUCCESS,
 //           payload: res
 //         })
 //         const user = jwt.decode(token)

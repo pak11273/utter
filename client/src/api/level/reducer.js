@@ -1,4 +1,4 @@
-import {createReducer} from '../../utils/reducerUtils.js'
+import {createReducer} from '../../utils/reduxUtils.js'
 
 import {LEVEL_SELECT, LEVEL_EDIT_START, LEVEL_EDIT_STOP} from './types.js'
 

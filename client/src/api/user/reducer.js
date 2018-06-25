@@ -1,8 +1,21 @@
 // import orm from '../../app/schema.js'
-// import {createReducer} from '../../utils/reducerUtils.js'
-import * as types from './types'
+import isEmpty from 'lodash/isEmpty'
+import {createReducer} from '../../utils/reduxUtils.js'
+// import * as types from './types'
+import {LOGIN_ASYNC, LOAD_USER_PROFILE, SET_CURRENT_USER} from './types.js'
 
-// const initialState = {}
+const initialState = {
+  isAuthenticated: false,
+  _id: null,
+  loading: false,
+  password: null,
+  user: {},
+  userProfile: {},
+  userImage: 'default.png',
+  username: null,
+  email: '',
+  errors: {}
+}
 
 // export function getUser(state, payload) {
 //   const session = orm.session(state.entitiesReducer)
@@ -12,32 +25,35 @@ import * as types from './types'
 
 //   return session.reduce()
 // }
-
-// export default createReducer(initialState, {
-//   [types.GET_USER_ASYNC.PENDING]: state => ({
-//     ...state,
-//     loading: true
-//   }),
-//   [types.GET_USER_ASYNC.SUCCESS]: (state, action) => ({
-//     ...state,
-//     posts: action.posts,
-//     loading: false
-//   }),
-//   [types.GET_USER_ASYNC.ERROR]: state => ({
-//     ...state,
-//     loading: false
-//   })
-// })
 //
 
-export default function userReducer(state = {}, action) {
-  switch (action.type) {
-    case 'LOAD_USER_SUCCESS':
-      return {
-        ...state,
-        info: action.payload
-      }
-    default:
-      return state
-  }
-}
+export default createReducer(initialState, {
+  [LOGIN_ASYNC.LOADING]: state => ({
+    ...state,
+    loading: true
+  }),
+  [LOGIN_ASYNC.SUCCESS]: (state, action) => ({
+    ...state,
+    ...action.payload,
+    errors: {},
+    loading: false
+  }),
+  [LOGIN_ASYNC.ERROR]: (state, action) => ({
+    ...state,
+    errors: action.payload,
+    loading: false
+  }),
+  [LOGIN_ASYNC.RESET]: state => ({
+    ...state,
+    loading: false
+  }),
+  [SET_CURRENT_USER]: (state, action) => ({
+    ...state,
+    isAuthenticated: !isEmpty(action.user),
+    user: action.user
+  }),
+  [LOAD_USER_PROFILE]: (state, action) => ({
+    ...state,
+    userProfile: action.payload
+  })
+})

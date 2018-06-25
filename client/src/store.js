@@ -1,13 +1,15 @@
 import {createStore, applyMiddleware, compose} from 'redux'
+import {routerMiddleware} from 'react-router-redux'
+import jwt from 'jsonwebtoken'
+
 import rootReducer from './rootReducer'
 import setAuthorizationToken from './utils/setAuthorizationToken.js'
 import {setCurrentUser} from './app/actions/authActions.js'
-import jwt from 'jsonwebtoken'
 import SocketIO from './services/socketio'
 import rootSaga from './rootSaga.js'
 const Socket = new SocketIO()
 import history from './history.js'
-import {routerMiddleware} from 'react-router-redux'
+
 const middleware = routerMiddleware(history)
 
 // redux-persist

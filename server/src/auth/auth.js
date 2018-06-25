@@ -29,6 +29,8 @@ exports.getFreshUser = () => {
 exports.verifyUser = () => {
   return (req, res, next) => {
     let {identifier, password} = req.body
+    console.log('identifierErrors: ', identifier)
+    console.log('password: ', password)
     let criteria =
       identifier.indexOf('@') === -1
         ? {username: identifier}

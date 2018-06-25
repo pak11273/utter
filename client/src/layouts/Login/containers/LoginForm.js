@@ -5,12 +5,10 @@ import {push} from 'react-router-redux'
 import {NavLink} from 'react-router-dom'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base} from '../../../themes/config'
-import Timezones from '../../../components/Selects/Timezones/Timezones.js'
 import {validateInput} from '../../../utils/validations/login.js'
 import {
   Box,
   Button,
-  Img,
   Input,
   InputLine,
   Label,
@@ -21,7 +19,7 @@ import {
 // https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0
 
 // actions
-import {login} from '../../../app/actions/authActions.js'
+import actions from '../../../api/user/actions.js'
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -42,11 +40,11 @@ const Center = styled.div`
   margin: 0 auto;
 `
 const Error = styled.div`
-  padding-top: ${props => props.paddingtop};
+  padding: ${props => props.padding};
   color: red;
 `
 Error.defaultProps = {
-  paddingtop: '5px'
+  padding: '45px 0 45px 0'
 }
 
 class LoginForm extends Component {
@@ -55,7 +53,9 @@ class LoginForm extends Component {
     this.state = {
       identifier: '',
       password: '',
-      isLoading: false,
+      url: '',
+      loading: false,
+      cb: null,
       errors: {}
     }
   }
@@ -69,14 +69,21 @@ class LoginForm extends Component {
   onSubmit = e => {
     e.preventDefault()
     if (this.isValid()) {
+      // clear all form errors
       this.setState({
-        errors: {}, // clear errors every time we submit form
-        isLoading: true
+        errors: {} // clears local errors every time we submit form
+      })
+      this.setState({
+        errors: {} // clears store errors every time we submit form
       })
 
-      this.props.actions.login(this.state).then(() => {
-        this.props.actions.push('/dashboard')
+      this.props.actions.login(this.state)
+      this.setState({
+        errors: this.props.userReducer.errors
       })
+      console.log('state: ', this.state)
+      // TODO: if user is logged in then
+      // this.props.actions.push('/dashboard')
     }
   }
 
@@ -126,9 +133,9 @@ class LoginForm extends Component {
               return <Error key={i}>{identifierErrors[value]}</Error>
             })}
           <div>
-            {this.state.errors.form && (
-              <Error paddingtop="45px">
-                &mdash; {this.state.errors.form} &mdash;{' '}
+            {this.props.userReducer.errors.form && (
+              <Error>
+                &mdash; {this.props.userReducer.errors.form} &mdash;{' '}
               </Error>
             )}
           </div>
@@ -152,7 +159,6 @@ class LoginForm extends Component {
             <ThemeProvider theme={main}>
               <Button
                 color="black"
-                disabled={this.isLoading}
                 fontsize="1.5rem"
                 margin="20px auto"
                 padding=".2rem 1rem"
@@ -176,11 +182,17 @@ class LoginForm extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        login,
+        login: actions.loading,
         push: location => {
           dispatch(push(location))
         }
@@ -190,4 +202,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

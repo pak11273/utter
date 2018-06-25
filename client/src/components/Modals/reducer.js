@@ -1,6 +1,6 @@
 import {MODAL_CLOSE, MODAL_OPEN} from './types.js'
 
-import {createReducer} from '../../../src/utils/reducerUtils.js'
+import {createReducer} from '../../../src/utils/reduxUtils.js'
 
 const initialState = []
 

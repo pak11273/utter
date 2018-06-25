@@ -1,41 +1,44 @@
-import {all, call, put, takeLatest} from 'redux-saga/effects'
+import {all, call, put, take, takeLatest} from 'redux-saga/effects'
+import {showLoading, hideLoading} from 'react-redux-loading-bar'
 import {actions} from './actions.js'
 import * as types from './types'
-import {fetchData} from '../../utils/ApiMgr.js'
+import {fetchData} from '../../utils/apiMgr'
+// import {SET_CURRENT_USER} from '../../api/user/actions.js'
+import setAuthorizationToken from '../../utils/setAuthorizationToken.js'
 
-function* getUser(url, data, params, cb) {
+function* login(state) {
   try {
-    console.log('here now')
+    const {identifier, password} = state
     const url = 'auth/signin'
-    const params = null
+    const data = {identifier, password}
     const cb = null
-    return (dispatch, getState) => {
-      // example url: '/teaching-course/:courseCreatorId/:courseId/:courseName')
-      return fetchData(url, data, params, cb).then(res => {
-        const token = res.data.token
-        localStorage.setItem('jwtToken', token)
-        setAuthorizationToken(token)
-        dispatch({
-          type: GET_USER_ASYNC.SUCCESS,
-          payload: res
-        })
-        const user = jwt.decode(token)
-        dispatch(setCurrentUser(user))
-        // sample id; "59d2a7bb24a8b73675b527d7"
-        // axios.get(`api/users/${user._id}`).then(res => {
-        //   dispatch(loadUserProfile(res.data))
-        // })
+    const params = null
+
+    /**
+     * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
+     */
+    const response = yield call(fetchData, {url, data, params, cb})
+
+    if (response.status >= 200 && response.status < 300) {
+      // yield put({SET_CURRENT_USER, res})
+      yield put({
+        type: types.LOGIN_ASYNC.SUCCESS,
+        payload: response
       })
+    } else {
+      throw response
     }
-    const users = yield call(fetchData(url, data, params, cb))
-    console.log('actions: ', actions)
-    yield put(actions.success(thing))
-  } catch (e) {
-    console.log(e)
-    yield put(actions.error(e))
+  } catch (error) {
+    yield put({
+      type: types.LOGIN_ASYNC.ERROR,
+      payload: error.response.data.errors
+    })
+  } finally {
   }
 }
 
-export default function*() {
-  yield all([takeLatest(types.GET_USER.PENDING, getUser)])
+function* watchLogin() {
+  yield all([takeLatest(types.LOGIN_ASYNC.LOADING, login)])
 }
+
+export default [watchLogin]

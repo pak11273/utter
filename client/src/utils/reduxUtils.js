@@ -2,9 +2,10 @@
 // ActionHelpers //
 ///////////////////
 const asyncTypes = {
-  PENDING: 'PENDING',
+  LOADING: 'LOADING',
   SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
+  ERROR: 'ERROR',
+  RESET: 'RESET'
 }
 
 export const createAsyncTypes = typeString =>

@@ -1,4 +1,4 @@
-import {createReducer} from '../../utils/reducerUtils.js'
+import {createReducer} from '../../utils/reduxUtils.js'
 
 import {TERM_SELECT, TERM_EDIT_START, TERM_EDIT_STOP} from './types.js'
 

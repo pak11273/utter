@@ -1,4 +1,4 @@
-import {createReducer} from '../../../../utils/reducerUtils.js'
+import {createReducer} from '../../../../utils/reduxUtils.js'
 
 import {CONTEXT_MENU_SHOW, CONTEXT_MENU_HIDE} from './types.js'
 

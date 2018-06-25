@@ -1,5 +1,5 @@
-// import {createAsyncTypes} from '../../utils/reducerUtils.js'
+import {createAsyncTypes} from '../../utils/reduxUtils.js'
 
-// export const GET_USER_ASYNC = createAsyncTypes('GET_USER')
-
-export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS'
+export const LOGIN_ASYNC = createAsyncTypes('LOGIN_ASYNC')
+export const LOAD_USER_PROFILE = 'utter/auth/LOAD_USER_PROFILE'
+export const SET_CURRENT_USER = 'utter/auth/SET_CURRENT_USER'

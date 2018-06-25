@@ -1,6 +1,6 @@
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-import {fetchData} from '../../utils/ApiMgr.js'
+import {fetchData} from '../../utils/apiMgr'
 import setAuthorizationToken from '../../utils/setAuthorizationToken.js'
 import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../types.js'
 

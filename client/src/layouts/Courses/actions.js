@@ -155,7 +155,6 @@ const getTeachingListFail = error => {
 }
 
 const getTeachingListSuccess = data => {
-  console.log('data:', data.data)
   return {type: 'GET_TEACHING_LIST_SUCCESS', data: data.data}
 }
 

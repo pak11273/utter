@@ -1,6 +1,6 @@
 import {ENTITY_UPDATE, ENTITY_DELETE, ENTITY_CREATE} from './types.js'
 
-import {createConditionalSliceReducer} from '../../utils/reducerUtils.js'
+import {createConditionalSliceReducer} from '../../utils/reduxUtils.js'
 
 import orm from '../../app/schema'
 

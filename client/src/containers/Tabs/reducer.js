@@ -1,4 +1,4 @@
-import {createReducer} from '../../utils/reducerUtils.js'
+import {createReducer} from '../../utils/reduxUtils.js'
 
 import {TAB_SELECTED} from './types.js'
 
