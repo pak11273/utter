@@ -60,6 +60,10 @@ class LoginForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.actions.reset()
+  }
+
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -192,6 +196,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        reset: actions.reset,
         login: actions.loading,
         push: location => {
           dispatch(push(location))

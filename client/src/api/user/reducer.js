@@ -45,7 +45,8 @@ export default createReducer(initialState, {
   }),
   [LOGIN_ASYNC.RESET]: state => ({
     ...state,
-    loading: false
+    loading: false,
+    errors: {}
   }),
   [SET_CURRENT_USER]: (state, action) => ({
     ...state,

@@ -29,14 +29,14 @@ exports.getFreshUser = () => {
 exports.verifyUser = () => {
   return (req, res, next) => {
     let {identifier, password} = req.body
-    console.log('identifierErrors: ', identifier)
-    console.log('password: ', password)
+
+    // checks input for email or username
     let criteria =
       identifier.indexOf('@') === -1
         ? {username: identifier}
         : {email: identifier}
     if (!identifier || !password) {
-      return res.status(400).send('You need a username/email and password')
+      return res.status(400).send('username/email or password cannot be blank')
     }
     // check if passwords match
     User.findOne(criteria).then(
