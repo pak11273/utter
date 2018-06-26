@@ -134,7 +134,11 @@ class LoginForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return <Error key={i}>{identifierErrors[value]}</Error>
+              return (
+                <Error key={i} padding="0 0 45px 0">
+                  {identifierErrors[value]}
+                </Error>
+              )
             })}
           <div>
             {this.props.userReducer.errors.form && (
@@ -156,7 +160,11 @@ class LoginForm extends Component {
               if (key === 'message') {
                 var value = key
               }
-              return <Error key={i}>{passwordErrors[value]}</Error>
+              return (
+                <Error key={i} padding="0 0 45px 0">
+                  {passwordErrors[value]}
+                </Error>
+              )
             })}
 
           <Box justifycontent="row">
