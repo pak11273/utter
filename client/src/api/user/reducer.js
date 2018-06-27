@@ -39,6 +39,10 @@ export default createReducer(initialState, {
     ...state,
     userProfile: action.payload
   }),
+  LOGOUT: state => ({
+    ...state,
+    isAuthenticated: false
+  }),
   DEAUTHORIZE: state => ({
     ...state,
     isAuthenticated: false
