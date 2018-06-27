@@ -18,8 +18,8 @@ import FaFacebook from 'react-icons/fa/facebook'
 import FaGoogle from 'react-icons/fa/google'
 
 // actions
-import {userSignupRequest} from '../../app/actions/signupActions.js'
-import {login} from '../../app/actions/authActions.js'
+import {userSignupRequest} from '../../api/user/actions.js'
+import {login} from '../../api/user/actions.js'
 import {validateInput} from '../../utils/validations/user.js'
 
 const Form = styled.form`

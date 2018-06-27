@@ -1,6 +1,5 @@
 import {combineReducers} from 'redux'
 import flashMessages from './app/reducers/flashMessages'
-import authReducer from './app/reducers/auth'
 import challengeReducer from './containers/Challenge/reducer.js'
 import channelReducer from './containers/Channels/reducer.js'
 import courseReducer from './layouts/Courses/reducer.js'
@@ -26,7 +25,6 @@ import {routerReducer} from 'react-router-redux'
 import {loadingBarReducer} from 'react-redux-loading-bar'
 
 export default combineReducers({
-  authReducer,
   challengeReducer,
   channelReducer,
   chatReducer,

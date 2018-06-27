@@ -18,7 +18,7 @@ class CourseDetails extends Component {
   }
   componentDidMount() {
     // load the user profile
-    const userId = this.props.authReducer.user._id
+    const userId = this.props.userReducer.user._id
     this.props.actions.loadUserProfile(userId)
   }
 
@@ -114,7 +114,7 @@ class CourseDetails extends Component {
 
 const mapStateToProps = state => {
   return {
-    authReducer: state.authReducer,
+    userReducer: state.userReducer,
     courseReducer: state.courseReducer,
     userReducer: state.userReducer
   }

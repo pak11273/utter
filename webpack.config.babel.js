@@ -37,7 +37,6 @@ module.exports = env => {
             '/api/vocab',
             '/api/zones',
             '/cdn',
-            '/wtf',
             '/socket.io',
             '/lions',
             '/tigers',

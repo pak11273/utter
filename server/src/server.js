@@ -24,9 +24,6 @@ app.use('/cdn', express.static('cdn'))
 import api from '../dist/api'
 import auth from '../dist/auth/routes.js'
 import admin from '../dist/admin/adminRoutes.js'
-import wtfRouter from '../dist/wtf.js'
-import lionRouter from '../dist/lions.js'
-import tigerRouter from '../dist/tigers.js'
 
 // import mailRouter from '../dist/util/mail.js'
 import mailRouter from '../dist/mail/routes.js'
@@ -35,9 +32,6 @@ import mailRouter from '../dist/mail/routes.js'
 app.use('/admin', admin)
 app.use('/api', api)
 app.use('/auth', auth)
-app.use('/wtf', wtfRouter)
-app.use('/lions', lionRouter)
-app.use('/tigers', tigerRouter)
 app.use('/mail', mailRouter)
 
 // used for gzipping bundle.js

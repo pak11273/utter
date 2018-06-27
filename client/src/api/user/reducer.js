@@ -2,7 +2,12 @@
 import isEmpty from 'lodash/isEmpty'
 import {createReducer} from '../../utils/reduxUtils.js'
 // import * as types from './types'
-import {LOGIN_ASYNC, LOAD_USER_PROFILE, SET_CURRENT_USER} from './types.js'
+import {
+  LOGIN_ASYNC,
+  LOAD_USER_PROFILE,
+  LOGOUT,
+  SET_CURRENT_USER
+} from './types.js'
 
 const initialState = {
   isAuthenticated: false,

@@ -28,7 +28,7 @@ function* watchGetTeachingList() {
 }
 
 function* getTeachingList(action) {
-  const getAuthId = state => state.authReducer.user._id
+  const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
   const getCoursePg = state => state.courseReducer.coursePg
   const coursePg = yield select(getCoursePg)
@@ -69,7 +69,7 @@ function* watchChangePg() {
 }
 
 function* changeCoursePg(action) {
-  const getAuthId = state => state.authReducer.user._id
+  const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
   const coursePg = Number(action.coursePg)
   const url = `/api/courses/my-courses/${authId}/?pg=${coursePg}`
@@ -137,7 +137,7 @@ function* watchReadCourse() {
 function* readCourse(action) {
   const courseId = action.course.courseId
   const courseName = action.course.courseName
-  const getAuthId = state => state.authReducer.user._id
+  const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
   const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
@@ -175,7 +175,7 @@ function* watchUpdateCourse() {
 function* updateCourse(action) {
   const courseId = action.course.courseId
   const courseName = action.course.courseName
-  const getAuthId = state => state.authReducer.user._id
+  const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
   const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
@@ -214,7 +214,7 @@ function* deleteCourse(action) {
   // TODO: delete course
   const courseId = action.course.courseId
   const courseName = action.course.courseName
-  const getAuthId = state => state.authReducer.user._id
+  const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
   const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
@@ -252,7 +252,7 @@ function* deleteLevel(action) {
   const levelId = action.levelId
   const courseId = action.course.courseId
   const courseName = action.course.courseName
-  const getAuthId = state => state.authReducer.user._id
+  const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
   const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}/${levelId}`
   const htmlReadyUrl = encodeURI(url)

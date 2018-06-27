@@ -124,7 +124,7 @@ class CreateCourse extends Component {
     this.state = {
       charCount: 0,
       courseId: cuid(),
-      courseCreatorId: this.props.authReducer.user._id,
+      courseCreatorId: this.props.userReducer.user._id,
       courseDescription: '',
       courseName: '',
       levels: [{level: 1, cuid: cuid()}],
@@ -317,7 +317,7 @@ class CreateCourse extends Component {
 
 const mapStateToProps = state => {
   return {
-    authReducer: state.authReducer,
+    userReducer: state.userReducer,
     courseReducer: state.courseReducer
   }
 }

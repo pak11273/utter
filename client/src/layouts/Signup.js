@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {userSignupRequest} from '../app/actions/signupActions'
+import {userSignupRequest} from '../api/user/actions.js'
 import styled, {ThemeProvider} from 'styled-components'
 import Masthead from '../containers/Mastheads/Masthead'
 import Subtitle from '../components/Text/Subtitle.js'

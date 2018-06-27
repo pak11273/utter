@@ -8,7 +8,6 @@ import {actions} from './actions.js'
 
 // actions
 import * as types from './types'
-import {DEAUTHORIZE} from './types'
 
 import {fetchData} from '../../utils/apiMgr'
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
@@ -85,7 +84,7 @@ export function* login(state) {
 export function* logout() {
   localStorage.removeItem('jwtToken')
   localStorage.setItem('jwtToken', null)
-  yield put({type: DEAUTHORIZE})
+  yield put({type: types.DEAUTHORIZE})
   yield put(push('/login'))
   // dispatch(setCurrentUser({}))
 }
@@ -95,11 +94,11 @@ function* watchLogin() {
 }
 
 function* watchLogout() {
-  yield all([takeLatest('LOGOUT', logout)])
+  yield all([takeLatest(types.LOGOUT, logout)])
 }
 
 function* watchDeAuthorize() {
-  yield all([takeLatest(DEAUTHORIZE, deAuthorize)])
+  yield all([takeLatest(types.DEAUTHORIZE, deAuthorize)])
 }
 
 export default [watchDeAuthorize, watchLogin, watchLogout]

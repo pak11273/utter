@@ -40,6 +40,10 @@ const CourseSchema = mongoose.Schema(
       type: String,
       default: ''
     },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
     courseCreatorId: {
       type: String,
       default: ''
