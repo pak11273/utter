@@ -7,6 +7,7 @@ import {LOGIN_ASYNC, LOAD_USER_PROFILE, SET_CURRENT_USER} from './types.js'
 const initialState = {
   isAuthenticated: false,
   _id: null,
+  isAuthenticated: false,
   loading: false,
   password: null,
   user: {},
@@ -14,7 +15,9 @@ const initialState = {
   userImage: 'default.png',
   username: null,
   email: '',
-  errors: {}
+  errors: {
+    message: ''
+  }
 }
 
 // export function getUser(state, payload) {
@@ -28,6 +31,18 @@ const initialState = {
 //
 
 export default createReducer(initialState, {
+  SET_CURRENT_USER: state => ({
+    isAuthenticated: !isEmpty(action.user),
+    user: action.user
+  }),
+  LOAD_USER_PROFILE: state => ({
+    ...state,
+    userProfile: action.payload
+  }),
+  DEAUTHORIZE: state => ({
+    ...state,
+    isAuthenticated: false
+  }),
   [LOGIN_ASYNC.LOADING]: state => ({
     ...state,
     loading: true
@@ -36,11 +51,14 @@ export default createReducer(initialState, {
     ...state,
     ...action.payload,
     errors: {},
+    isAuthenticated: true,
     loading: false
   }),
   [LOGIN_ASYNC.ERROR]: (state, action) => ({
     ...state,
-    errors: action.payload,
+    errors: {
+      message: action.payload
+    },
     loading: false
   }),
   [LOGIN_ASYNC.RESET]: state => ({

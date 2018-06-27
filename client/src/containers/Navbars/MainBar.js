@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import {CSSTransitionGroup} from 'react-transition-group'
 import {NavLink, Link} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -13,7 +13,7 @@ import {Box, Hamburger, Logo, Section} from '../../components'
 import Graphic from '../../assets/images/logo.svg'
 
 // actions
-import {logout} from '../../app/actions/authActions.js'
+import actions from '../../api/user/actions.js'
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -146,7 +146,7 @@ class MainNavbar extends Component {
 
   logout(e) {
     e.preventDefault()
-    this.props.logout()
+    this.props.actions.logout()
   }
 
   render(props) {
@@ -161,7 +161,7 @@ class MainNavbar extends Component {
     } = this.props
 
     // handle login section
-    const {isAuthenticated} = this.props.authReducer
+    const {isAuthenticated} = this.props.userReducer
 
     const userLinks = (
       <Menu>
@@ -283,10 +283,21 @@ MainNavbar.defaultProps = {
 
 const mapStateToProps = state => {
   return {
-    authReducer: state.authReducer
+    userReducer: state.userReducer
   }
 }
 
-export default connect(mapStateToProps, {logout}, null, {pure: false})(
-  MainNavbar
-) // {pure:false} needed for NavLink: activeStyle
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        logout: actions.logout
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, null, {
+  pure: false
+})(MainNavbar) // {pure:false} needed for NavLink: activeStyle

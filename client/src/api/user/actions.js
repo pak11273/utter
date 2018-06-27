@@ -1,21 +1,23 @@
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import {
-  LOGIN_ASYNC
   // CHANGE_FORM,
   // SET_AUTH,
   // SENDING_REQUEST,
   // LOGIN_REQUEST,
   // REGISTER_REQUEST,
-  // LOGOUT,
+  LOAD_USER_PROFILE,
+  LOGIN_ASYNC,
+  LOGOUT,
   // REQUEST_ERROR,
   // CLEAR_ERROR
+  SET_CURRENT_USER
 } from './types.js'
 
 import {createAction} from '../../utils/reduxUtils.js'
-import setAuthorizationToken from '../../utils/setAuthorizationToken.js'
-import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
-import {fetchData} from '../../utils/apiMgr'
+
+// import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
+// import {fetchData} from '../../utils/apiMgr'
 
 // export function setCurrentUser(user) {
 //   return {
@@ -23,36 +25,37 @@ import {fetchData} from '../../utils/apiMgr'
 //     user
 //   }
 // }
+//
 
-export function loadUserProfile(payload) {
-  return dispatch => {
-    return {
-      type: LOAD_USER_PROFILE,
-      payload
-    }
-  }
-}
+// export function loadUserProfile(payload) {
+//   return dispatch => {
+//     return {
+//       type: LOAD_USER_PROFILE,
+//       payload
+//     }
+//   }
+// }
 
 // get user
-export function getUser(state) {
-  const url = 'auth/signin'
-  // return dispatch => {
-  //   fetchData(url, state).then(res => {
-  //     const token = res.data.token
-  //     localStorage.setItem('jwtToken', token)
-  //     setAuthorizationToken(token)
-  //     const user = jwt.decode(token)
-  //     // dispatch(setCurrentUser(user))
-  //     // sample id; "59d2a7bb24a8b73675b527d7"
-  //     return axios.get(`api/users/${user._id}`).then(res => {
-  //       console.log('ge asyuct: ', LOGIN_ASYNC.LOADING)
-  //       // dispatch({type: LOGIN_ASYNC.LOADING, payload: res.data})
-  //       // dispatch({type: LOGIN_ASYNC.SUCCESS, payload: res.data})
-  //       // dispatch(loadUserProfile(res.data))
-  //     })
-  //   })
-  // }
-}
+// export function getUser(state) {
+//   const url = 'auth/signin'
+// return dispatch => {
+//   fetchData(url, state).then(res => {
+//     const token = res.data.token
+//     localStorage.setItem('jwtToken', token)
+//     setAuthorizationToken(token)
+//     const user = jwt.decode(token)
+//     // dispatch(setCurrentUser(user))
+//     // sample id; "59d2a7bb24a8b73675b527d7"
+//     return axios.get(`api/users/${user._id}`).then(res => {
+//       console.log('ge asyuct: ', LOGIN_ASYNC.LOADING)
+//       // dispatch({type: LOGIN_ASYNC.LOADING, payload: res.data})
+//       // dispatch({type: LOGIN_ASYNC.SUCCESS, payload: res.data})
+//       // dispatch(loadUserProfile(res.data))
+//     })
+//   })
+// }
+// }
 
 // export function loadUserSuccess(user) {
 //   return {type: LOGIN_ASYNC.SUCCESS, user}
@@ -140,6 +143,7 @@ export function getUser(state) {
 export default {
   loading: state => createAction(LOGIN_ASYNC.LOADING, state),
   success: posts => createAction(LOGIN_ASYNC.SUCCESS, {user}),
-  error: error => createAction(LOGIN_ASYNC.ERROR, {error}),
-  reset: () => createAction(LOGIN_ASYNC.RESET)
+  error: error => createAction(LOGIN_ASYNC.ERROR, error),
+  reset: () => createAction(LOGIN_ASYNC.RESET),
+  logout: () => ({type: 'LOGOUT'})
 }

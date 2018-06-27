@@ -77,17 +77,11 @@ class LoginForm extends Component {
       this.setState({
         errors: {} // clears local errors every time we submit form
       })
-      this.setState({
-        errors: {} // clears store errors every time we submit form
-      })
 
       this.props.actions.login(this.state)
       this.setState({
         errors: this.props.userReducer.errors
       })
-      console.log('state: ', this.state)
-      // TODO: if user is logged in then
-      // this.props.actions.push('/dashboard')
     }
   }
 
@@ -141,9 +135,9 @@ class LoginForm extends Component {
               )
             })}
           <div>
-            {this.props.userReducer.errors.form && (
+            {this.props.userReducer.errors.message && (
               <Error>
-                &mdash; {this.props.userReducer.errors.form} &mdash;{' '}
+                &mdash; {this.props.userReducer.errors.message} &mdash;{' '}
               </Error>
             )}
           </div>

@@ -2,14 +2,12 @@ import {createStore, applyMiddleware, compose} from 'redux'
 import {routerMiddleware} from 'react-router-redux'
 import jwt from 'jsonwebtoken'
 
-import rootReducer from './rootReducer'
-import setAuthorizationToken from './utils/setAuthorizationToken.js'
-import {setCurrentUser} from './app/actions/authActions.js'
 import SocketIO from './services/socketio'
 import rootSaga from './rootSaga.js'
 const Socket = new SocketIO()
 import history from './history.js'
 
+import rootReducer from './rootReducer.js'
 const middleware = routerMiddleware(history)
 
 // redux-persist
@@ -49,11 +47,6 @@ let store = createStore(
 )
 
 let persistor = persistStore(store)
-
-if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken)
-  store.dispatch(setCurrentUser(jwt.decode(localStorage.jwtToken)))
-}
 
 sagaMiddleware.run(rootSaga)
 
