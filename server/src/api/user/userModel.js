@@ -6,6 +6,9 @@ import config from '../../config/config.js'
 
 const UserSchema = new mongoose.Schema(
   {
+    siteAdmin: {
+      type: Boolean
+    },
     username: {
       type: String,
       lowercase: true,

@@ -7,6 +7,6 @@ import jwt from 'jsonwebtoken'
  */
 
 export const fetchData = state => {
-  const {url, data, params, cb} = state
-  return axios.post(url, data)
+  const {url, method, data, params, cb} = state
+  return axios[method](url, data)
 }

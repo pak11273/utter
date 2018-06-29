@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {bindActionCreators} from 'redux'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base, anotherOne} from '../../themes/config'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
@@ -18,8 +19,9 @@ import FaFacebook from 'react-icons/fa/facebook'
 import FaGoogle from 'react-icons/fa/google'
 
 // actions
-import {userSignupRequest} from '../../api/user/actions.js'
-import {login} from '../../api/user/actions.js'
+import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
+import signup from '../../api/user/actions/signupActions.js'
+import login from '../../api/user/actions/loginActions.js'
 import {validateInput} from '../../utils/validations/user.js'
 
 const Form = styled.form`
@@ -64,6 +66,10 @@ class SignupForm extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.actions.toggleFooter(false)
+  }
+
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -78,28 +84,7 @@ class SignupForm extends Component {
         isLoading: true,
         errors: {} // clear errors every time we submit form
       })
-      this.props
-        .userSignupRequest(this.state)
-        .then(() => {
-          this.props.addFlashMessage({
-            type: 'success',
-            text: 'You signed up successfully. Welcome aboard.'
-          })
-          this.props.history.push('/')
-        })
-        .then(() => {
-          const {username, password, isLoading, errors} = this.state
-          const loginState = {
-            identifier: username,
-            password,
-            isLoading,
-            errors
-          }
-          this.props.login(loginState)
-        })
-        .catch(error => {
-          this.setState({errors: error.response.data.errors})
-        })
+      this.props.actions.signup(this.state)
     }
   }
 
@@ -132,6 +117,7 @@ class SignupForm extends Component {
           </Subtitle>
         </Leftside>
         <Rightside>
+          {/* TODO: implement social media oauth
           <Title fontsize="1.5rem">Sign Up with social media</Title>
           <Box flexdirection="row" alignitems="baseline">
             <Box>
@@ -160,7 +146,8 @@ class SignupForm extends Component {
               </a>
             </Box>
           </Box>
-          <Title fontsize="1.5rem">Or with your email</Title>
+            */}
+          <Title fontsize="1.5rem">With your email</Title>
           <Label>Username</Label>
           <InputLine
             onChange={this.onChange}
@@ -236,9 +223,22 @@ class SignupForm extends Component {
   }
 }
 
-export default connect(
-  state => {
-    return {}
-  },
-  {userSignupRequest, login}
-)(SignupForm)
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        toggleFooter,
+        login: login.loading,
+        signup: signup.loading,
+        push: location => {
+          dispatch(push(location))
+        }
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(state => {
+  return {}
+}, mapDispatchToProps)(SignupForm)

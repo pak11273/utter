@@ -1,13 +1,13 @@
 // import orm from '../../app/schema.js'
 import isEmpty from 'lodash/isEmpty'
-import {createReducer} from '../../utils/reduxUtils.js'
+import {createReducer} from '../../../utils/reduxUtils.js'
 import {
   DEAUTHORIZE,
-  LOGIN_ASYNC,
+  SIGNUP_ASYNC,
   LOAD_USER_PROFILE,
   LOGOUT,
   SET_CURRENT_USER
-} from './types.js'
+} from '../types.js'
 
 const initialState = {
   isAdmin: false,
@@ -51,25 +51,24 @@ export default createReducer(initialState, {
     ...state,
     isAuthenticated: false
   }),
-  [LOGIN_ASYNC.LOADING]: state => ({
+  [SIGNUP_ASYNC.LOADING]: state => ({
     ...state,
     loading: true
   }),
-  [LOGIN_ASYNC.SUCCESS]: (state, action) => ({
+  [SIGNUP_ASYNC.SUCCESS]: (state, action) => ({
     ...state,
     ...action.payload,
     errors: {},
-    isAuthenticated: true,
     loading: false
   }),
-  [LOGIN_ASYNC.ERROR]: (state, action) => ({
+  [SIGNUP_ASYNC.ERROR]: (state, action) => ({
     ...state,
     errors: {
       message: action.payload
     },
     loading: false
   }),
-  [LOGIN_ASYNC.RESET]: state => ({
+  [SIGNUP_ASYNC.RESET]: state => ({
     ...state,
     loading: false,
     errors: {}

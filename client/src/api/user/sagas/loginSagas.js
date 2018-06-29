@@ -4,12 +4,12 @@ import {all, call, put, take, takeLatest} from 'redux-saga/effects'
 import {showLoading, hideLoading} from 'react-redux-loading-bar'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-import {actions} from './actions/loginActions.js'
+import {actions} from '../actions/loginActions.js'
 
 // actions
-import * as types from './types'
+import * as types from '../types'
 
-import {fetchData} from '../../utils/apiMgr'
+import {fetchData} from '../../../utils/apiMgr'
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
 
 export function* authorize(token) {
@@ -30,6 +30,7 @@ export function* login(state) {
   try {
     const {identifier, password} = state
     const url = 'auth/signin'
+    const method = 'post'
     const data = {identifier, password}
     const cb = null
     const params = null
@@ -37,9 +38,9 @@ export function* login(state) {
     /**
      * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
      */
-    const res = yield call(fetchData, {url, data, params, cb})
+    const res = yield call(fetchData, {url, method, data, params, cb})
 
-    // TODO
+    // TODO may not need this
     // A `LOGOUT` action may happen while the `authorize` effect is going on, which may
     // lead to a race condition. This is unlikely, but just in case, we call `race` which
     // returns the "winner", i.e. the one that finished first
@@ -68,7 +69,7 @@ export function* login(state) {
     if (!error.response) {
       yield put({
         type: types.LOGIN_ASYNC.ERROR,
-        payload: ''
+        payload: error.message || 'Something went wrong.'
       })
     } else {
       const err = error.response.data.errors.form

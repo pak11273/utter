@@ -32,7 +32,7 @@ class Connections extends Component {
 
   componentDidMount() {
     // load the user profile
-    const userId = this.props.userReducer.user._id
+    const userId = this.props.userReducer.login.user._id
     this.props.actions.loadUserProfile(userId)
     // if user is logged in then start socket connection
     // if (window.localStorage.jwtToken) {

@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import Vocabulary from './Vocabulary'
@@ -11,6 +13,9 @@ import Challenges from './Challenges'
 import Users from './Users'
 import Team from './Team'
 import Etc from './Etc'
+
+// actions
+import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 
 const Dropdown = styled(Button)`
   background: transparent;
@@ -93,7 +98,15 @@ class Admin extends Component {
         ''
       )
     }
-  };
+  }
+
+  componentDidMount() {
+    this.props.actions.toggleFooter(false)
+  }
+
+  componentWillUnmount() {
+    this.props.actions.toggleFooter(true)
+  }
 
   render() {
     return (
@@ -163,4 +176,21 @@ class Admin extends Component {
   }
 }
 
-export default Admin
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        toggleFooter
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin)

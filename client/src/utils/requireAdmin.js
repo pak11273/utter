@@ -11,12 +11,12 @@ export default ComposedComponent => {
     }
 
     componentDidMount() {
-      if (!this.props.isAuthenticated) {
+      if (!this.props.isAdmin) {
         this.props.actions.addFlashMessage({
           type: 'error',
-          text: 'You need to login to access this page'
+          text: 'You need to be an admin to access this page'
         })
-        this.props.actions.push('/login')
+        this.props.actions.push('/dashboard')
       }
     }
 
@@ -27,7 +27,7 @@ export default ComposedComponent => {
 
   const mapStateToProps = state => {
     return {
-      isAuthenticated: state.userReducer.login.isAuthenticated
+      isAdmin: state.userReducer.isAdmin
     }
   }
 

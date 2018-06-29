@@ -20,6 +20,7 @@ import Courses from './Courses/index.js'
 import CourseDetails from './Courses/CourseDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
 import requireAuth from '../utils/requireAuth.js'
+import requireAdmin from '../utils/requireAdmin.js'
 import Dashboard from './Dashboard.js'
 import Korean1 from './Korean/Level1'
 import Korean2 from './Korean/Level2'
@@ -57,6 +58,7 @@ export {
   Settings,
   NotFound,
   requireAuth,
+  requireAdmin,
   Dashboard,
   Korean1,
   Korean2,

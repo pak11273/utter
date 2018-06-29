@@ -1,13 +1,13 @@
 // import orm from '../../app/schema.js'
 import isEmpty from 'lodash/isEmpty'
-import {createReducer} from '../../utils/reduxUtils.js'
+import {createReducer} from '../../../utils/reduxUtils.js'
 import {
   DEAUTHORIZE,
   LOGIN_ASYNC,
   LOAD_USER_PROFILE,
   LOGOUT,
   SET_CURRENT_USER
-} from './types.js'
+} from '../types.js'
 
 const initialState = {
   isAdmin: false,
@@ -45,7 +45,8 @@ export default createReducer(initialState, {
     userProfile: action.payload
   }),
   [LOGOUT]: state => ({
-    ...state
+    ...state,
+    isAuthenticated: false
   }),
   [DEAUTHORIZE]: state => ({
     ...state,

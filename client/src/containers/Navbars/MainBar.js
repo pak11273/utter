@@ -13,7 +13,7 @@ import {Box, Hamburger, Logo, Section} from '../../components'
 import Graphic from '../../assets/images/logo.svg'
 
 // actions
-import actions from '../../api/user/actions.js'
+import actions from '../../api/user/actions/loginActions.js'
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -161,7 +161,7 @@ class MainNavbar extends Component {
     } = this.props
 
     // handle login section
-    const {isAuthenticated} = this.props.userReducer
+    const {isAuthenticated} = this.props.userReducer.login
 
     const userLinks = (
       <Menu>

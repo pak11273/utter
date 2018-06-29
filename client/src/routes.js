@@ -20,6 +20,7 @@ import {
   CoursesCreated,
   NotFound,
   requireAuth,
+  requireAdmin,
   Dashboard,
   Korean1,
   Korean2,
@@ -57,11 +58,11 @@ export const routes = [
     exact: true,
     path: '/home'
   },
-  // {
-  //   path: '/admin',
-  //   component: requireAuth(Admin),
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/admin',
+    component: requireAdmin(Admin),
+    loadData: () => getSomeData()
+  },
   // {
   //   exact: true,
   //   path: '/forgot-password',

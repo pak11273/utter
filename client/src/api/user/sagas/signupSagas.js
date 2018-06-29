@@ -4,12 +4,12 @@ import {all, call, put, take, takeLatest} from 'redux-saga/effects'
 import {showLoading, hideLoading} from 'react-redux-loading-bar'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
-import {actions} from './actions/loginActions.js'
+import {actions} from '../actions/signupActions.js'
 
 // actions
-import * as types from './types'
+import * as types from '../types'
 
-import {fetchData} from '../../utils/apiMgr'
+import {fetchData} from '../../../utils/apiMgr'
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
 
 export function* authorize(token) {
@@ -26,34 +26,48 @@ export function* deAuthorize() {
   delete axios.defaults.headers.common['Authorization']
 }
 
-export function* login(state) {
+export function* signup(data) {
   try {
     const {identifier, password} = state
-    const url = 'auth/signin'
+    const url = 'api/users'
+    const method = 'post'
     const data = {identifier, password}
     const cb = null
     const params = null
 
     /**
-     * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
+     * @param {object} data
      */
-    const res = yield call(fetchData, {url, data, params, cb})
-
-    // TODO
-    // A `LOGOUT` action may happen while the `authorize` effect is going on, which may
-    // lead to a race condition. This is unlikely, but just in case, we call `race` which
-    // returns the "winner", i.e. the one that finished first
-    // const winner = yield race({
-    //   auth: call(authorize, {username, password, isRegistering: false}),
-    //   logout: take(LOGOUT)
-    // })
+    const res = yield call(fetchData, {url, method, data, params, cb})
 
     if (res.status >= 200 && res.status < 300) {
       // yield put({SET_CURRENT_USER, res})
       yield put({
-        type: types.LOGIN_ASYNC.SUCCESS,
+        type: types.SIGNUP_ASYNC.SUCCESS,
         payload: res
       })
+        //TODO implement
+        // this.props.addFlashMessage({
+        //   type: 'success',
+        //   text: 'You signed up successfully. Welcome aboard.'
+        // })
+        // this.props.history.push('/')
+        // })
+        // .then(() => {
+        // const {username, password, isLoading, errors} = this.state
+        // const loginState = {
+        //   identifier: username,
+        //   password,
+        //   isLoading,
+        //   errors
+        // }
+
+        // this.props.actions.login(loginState)
+        // })
+
+        .catch(error => {
+          this.setState({errors: error.response.data.errors})
+        })
       const token = res.data.token
 
       yield call(authorize, token)
@@ -67,13 +81,13 @@ export function* login(state) {
   } catch (error) {
     if (!error.response) {
       yield put({
-        type: types.LOGIN_ASYNC.ERROR,
+        type: types.SIGNUP_ASYNC.ERROR,
         payload: ''
       })
     } else {
       const err = error.response.data.errors.form
       yield put({
-        type: types.LOGIN_ASYNC.ERROR,
+        type: types.SIGNUP_ASYNC.ERROR,
         payload: err
       })
     }
@@ -81,24 +95,12 @@ export function* login(state) {
   }
 }
 
-export function* logout() {
-  localStorage.removeItem('jwtToken')
-  localStorage.setItem('jwtToken', null)
-  yield put({type: types.DEAUTHORIZE})
-  yield put(push('/login'))
-  // dispatch(setCurrentUser({}))
-}
-
-function* watchLogin() {
-  yield all([takeLatest(types.LOGIN_ASYNC.LOADING, login)])
-}
-
-function* watchLogout() {
-  yield all([takeLatest(types.LOGOUT, logout)])
+function* watchSignup() {
+  yield all([takeLatest(types.SIGNUP_ASYNC.LOADING, signup)])
 }
 
 function* watchDeAuthorize() {
   yield all([takeLatest(types.DEAUTHORIZE, deAuthorize)])
 }
 
-export default [watchDeAuthorize, watchLogin, watchLogout]
+export default [watchDeAuthorize, watchSignup]

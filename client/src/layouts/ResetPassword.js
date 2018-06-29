@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux'
 import {Link} from 'react-router-dom'
 import styled, {ThemeProvider} from 'styled-components'
 import {Masthead, Navbar} from '../containers'
-import {login} from '../api/user/actions.js'
+import {login} from '../api/user/actions/loginActions.js'
 import {validateInput} from '../utils/validations/resetPassword.js'
 import {
   Box,
@@ -17,7 +17,7 @@ import {
 import {Helmet} from 'react-helmet'
 import {connect} from 'react-redux'
 import {addFlashMessage} from '../app/actions/flashMessages.js'
-import {resetpassword} from '../api/user/actions.js'
+import {resetpassword} from '../api/user/actions/loginActions.js'
 
 const Form = styled.form`
   box-sizing: border-box;

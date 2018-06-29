@@ -12,9 +12,9 @@ import {
   // REQUEST_ERROR,
   // CLEAR_ERROR
   SET_CURRENT_USER
-} from './types.js'
+} from '../types.js'
 
-import {createAction} from '../../utils/reduxUtils.js'
+import {createAction} from '../../../utils/reduxUtils.js'
 
 // import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
 // import {fetchData} from '../../utils/apiMgr'
@@ -153,23 +153,17 @@ export function resetpassword(data) {
   }
 }
 
-export function logout() {
-  return dispatch => {
-    localStorage.removeItem('jwtToken')
-    dispatch(setCurrentUser({}))
-  }
-}
+// export function logout() {
+//   return dispatch => {
+//     localStorage.removeItem('jwtToken')
+//     dispatch(setCurrentUser({}))
+//   }
+// }
 
 export function setCurrentUser(user) {
   return {
     type: SET_CURRENT_USER,
     user
-  }
-}
-
-exports.userSignupRequest = userData => {
-  return dispatch => {
-    return axios.post('api/users/', userData)
   }
 }
 
