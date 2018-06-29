@@ -26,12 +26,12 @@ export function* deAuthorize() {
   delete axios.defaults.headers.common['Authorization']
 }
 
-export function* signup(data) {
+export function* signup(state) {
   try {
-    const {identifier, password} = state
+    const {username, email, password} = state
     const url = 'api/users'
     const method = 'post'
-    const data = {identifier, password}
+    const data = {username, email, password}
     const cb = null
     const params = null
 
@@ -82,13 +82,15 @@ export function* signup(data) {
     if (!error.response) {
       yield put({
         type: types.SIGNUP_ASYNC.ERROR,
-        payload: ''
+        payload: error.message || 'Something went wrong.'
       })
     } else {
+      console.log('error: ', error.message)
+      console.log('fomr error: ', error)
       const err = error.response.data.errors.form
       yield put({
         type: types.SIGNUP_ASYNC.ERROR,
-        payload: err
+        payload: error
       })
     }
   } finally {
