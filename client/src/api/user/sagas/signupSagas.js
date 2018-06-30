@@ -5,6 +5,7 @@ import {showLoading, hideLoading} from 'react-redux-loading-bar'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import {actions} from '../actions/signupActions.js'
+import {request as login} from '../actions/loginActions.js'
 
 // actions
 import * as types from '../types'
@@ -27,6 +28,11 @@ export function* deAuthorize() {
 }
 
 export function* signup(state) {
+  // reset errors
+  yield put({
+    type: types.SIGNUP_ASYNC.RESET
+  })
+
   try {
     const {username, email, password} = state
     const url = 'api/users'
@@ -40,37 +46,44 @@ export function* signup(state) {
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
+    // reset errors
+    yield put({
+      type: types.SIGNUP_ASYNC.RESET
+    })
+
     if (res.status >= 200 && res.status < 300) {
       // yield put({SET_CURRENT_USER, res})
       yield put({
         type: types.SIGNUP_ASYNC.SUCCESS,
         payload: res
       })
-        //TODO implement
-        // this.props.addFlashMessage({
-        //   type: 'success',
-        //   text: 'You signed up successfully. Welcome aboard.'
-        // })
-        // this.props.history.push('/')
-        // })
-        // .then(() => {
-        // const {username, password, isLoading, errors} = this.state
-        // const loginState = {
-        //   identifier: username,
-        //   password,
-        //   isLoading,
-        //   errors
-        // }
 
-        // this.props.actions.login(loginState)
-        // })
-
-        .catch(error => {
-          this.setState({errors: error.response.data.errors})
-        })
       const token = res.data.token
 
-      yield call(authorize, token)
+      // yield call(login(res))
+      yield put({
+        type: types.LOGIN_ASYNC.REQUEST,
+        payload: res.data
+      })
+      //TODO implement
+      // this.props.addFlashMessage({
+      //   type: 'success',
+      //   text: 'You signed up successfully. Welcome aboard.'
+      // })
+      // this.props.history.push('/')
+      // })
+      // .then(() => {
+      // const {username, password, isLoading, errors} = this.state
+      // const loginState = {
+      //   identifier: username,
+      //   password,
+      //   isLoading,
+      //   errors
+      // }
+
+      // .catch(error => {
+      //   this.setState({errors: error.response.data.errors})
+      // })
       yield put(push('/dashboard'))
 
       //TODO this may not belong
@@ -85,12 +98,9 @@ export function* signup(state) {
         payload: error.message || 'Something went wrong.'
       })
     } else {
-      console.log('error: ', error.message)
-      console.log('fomr error: ', error)
-      const err = error.response.data.errors.form
       yield put({
         type: types.SIGNUP_ASYNC.ERROR,
-        payload: error
+        payload: error.response.data.errors
       })
     }
   } finally {
@@ -98,7 +108,7 @@ export function* signup(state) {
 }
 
 function* watchSignup() {
-  yield all([takeLatest(types.SIGNUP_ASYNC.LOADING, signup)])
+  yield all([takeLatest(types.SIGNUP_ASYNC.REQUEST, signup)])
 }
 
 function* watchDeAuthorize() {

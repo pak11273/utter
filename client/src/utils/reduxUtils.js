@@ -2,7 +2,7 @@
 // ActionHelpers //
 ///////////////////
 const asyncTypes = {
-  LOADING: 'LOADING',
+  REQUEST: 'REQUEST',
   SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
   RESET: 'RESET'

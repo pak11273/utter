@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {bindActionCreators} from 'redux'
+import isEmpty from 'lodash/isEmpty'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base, anotherOne} from '../../themes/config'
 import Timezones from '../../components/Selects/Timezones/Timezones.js'
@@ -70,8 +71,15 @@ class SignupForm extends Component {
     this.props.actions.toggleFooter(false)
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      errors: nextProps.signupReducer.errors.message
+    })
+  }
+
   onChange = e => {
     this.setState({
+      ...this.state,
       [e.target.name]: e.target.value
     })
   }
@@ -81,10 +89,29 @@ class SignupForm extends Component {
 
     if (this.isValid()) {
       this.setState({
-        isLoading: true,
-        errors: {} // clear errors every time we submit form
+        isLoading: true
       })
       this.props.actions.signup(this.state)
+      // .then(() => {
+      //   this.props.addFlashMessage({
+      //     type: 'success',
+      //     text: 'You signed up successfully. Welcome aboard.'
+      //   })
+      //   this.props.history.push('/')
+      // })
+      // .then(() => {
+      //   const {username, password, isLoading, errors} = this.state
+      //   const loginState = {
+      //     identifier: username,
+      //     password,
+      //     isLoading,
+      //     errors
+      //   }
+      //   this.props.actions.login(loginState)
+      // })
+      // .catch(error => {
+      //   this.setState({errors: error.response.data.errors})
+      // })
     }
   }
 
@@ -100,10 +127,12 @@ class SignupForm extends Component {
   }
 
   render() {
-    const usernameErrors = this.state.errors.username
-    const emailErrors = this.state.errors.email
-    const passwordErrors = this.state.errors.password
-    const passwordConfirmationErrors = this.state.errors.passwordConfirmation
+    const {errors} = this.state
+    // const usernameErrors = this.state.errors.username || ''
+    // const emailErrors = this.state.errors.email || ''
+    // const passwordErrors = this.state.errors.password || ''
+    // const passwordConfirmationErrors =
+    //   this.state.errors.passwordConfirmation || ''
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>
@@ -155,12 +184,12 @@ class SignupForm extends Component {
             type="text"
             name="username"
           />
-          {this.state.errors.username &&
-            Object.keys(usernameErrors).map((key, i) => {
+          {errors.username &&
+            Object.keys(errors.username).map((key, i) => {
               if (key === 'message') {
                 var value = key
               }
-              return <Error key={i}>{usernameErrors[value]}</Error>
+              return <Error key={i}>{errors.username[value]}</Error>
             })}
           <Label>Email</Label>
           <InputLine
@@ -169,12 +198,12 @@ class SignupForm extends Component {
             type="text"
             name="email"
           />
-          {this.state.errors.email &&
-            Object.keys(emailErrors).map((key, i) => {
+          {errors.email &&
+            Object.keys(errors.email).map((key, i) => {
               if (key === 'message') {
                 var value = key
               }
-              return <Error key={i}>{emailErrors[value]}</Error>
+              return <Error key={i}>{errors.email[value]}</Error>
             })}
           <Label>Password</Label>
           <InputLine
@@ -184,12 +213,12 @@ class SignupForm extends Component {
             type="password"
             name="password"
           />
-          {this.state.errors.password &&
-            Object.keys(passwordErrors).map((key, i) => {
+          {errors.password &&
+            Object.keys(errors.password).map((key, i) => {
               if (key === 'message') {
                 var value = key
               }
-              return <Error key={i}>{passwordErrors[value]}</Error>
+              return <Error key={i}>{errors.password[value]}</Error>
             })}
           <Label>Password Confirmation</Label>
           <InputLine
@@ -199,12 +228,12 @@ class SignupForm extends Component {
             type="password"
             name="passwordConfirmation"
           />
-          {this.state.errors.passwordConfirmation &&
-            Object.keys(passwordConfirmationErrors).map((key, i) => {
+          {errors.passwordConfirmation &&
+            Object.keys(errors.passwordConfirmation).map((key, i) => {
               if (key === 'message') {
                 var value = key
               }
-              return <Error key={i}>{passwordConfirmationErrors[value]}</Error>
+              return <Error key={i}>{errors.passwordConfirmation[value]}</Error>
             })}
           <Label>Timezone</Label>
           <Timezones
@@ -223,13 +252,19 @@ class SignupForm extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    signupReducer: state.userReducer.signup
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
         toggleFooter,
-        login: login.loading,
-        signup: signup.loading,
+        login: login.request,
+        signup: signup.request,
         push: location => {
           dispatch(push(location))
         }
@@ -239,6 +274,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(state => {
-  return {}
-}, mapDispatchToProps)(SignupForm)
+export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)

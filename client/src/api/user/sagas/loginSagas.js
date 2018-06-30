@@ -91,7 +91,7 @@ export function* logout() {
 }
 
 function* watchLogin() {
-  yield all([takeLatest(types.LOGIN_ASYNC.LOADING, login)])
+  yield all([takeLatest(types.LOGIN_ASYNC.REQUEST, login)])
 }
 
 function* watchLogout() {

@@ -51,7 +51,7 @@ export default createReducer(initialState, {
     ...state,
     isAuthenticated: false
   }),
-  [SIGNUP_ASYNC.LOADING]: state => ({
+  [SIGNUP_ASYNC.REQUEST]: state => ({
     ...state,
     loading: true
   }),

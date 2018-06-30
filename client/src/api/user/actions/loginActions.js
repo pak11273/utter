@@ -48,8 +48,8 @@ import {createAction} from '../../../utils/reduxUtils.js'
 //     // dispatch(setCurrentUser(user))
 //     // sample id; "59d2a7bb24a8b73675b527d7"
 //     return axios.get(`api/users/${user._id}`).then(res => {
-//       console.log('ge asyuct: ', LOGIN_ASYNC.LOADING)
-//       // dispatch({type: LOGIN_ASYNC.LOADING, payload: res.data})
+//       console.log('ge asyuct: ', LOGIN_ASYNC.REQUEST)
+//       // dispatch({type: LOGIN_ASYNC.REQUEST, payload: res.data})
 //       // dispatch({type: LOGIN_ASYNC.SUCCESS, payload: res.data})
 //       // dispatch(loadUserProfile(res.data))
 //     })
@@ -195,7 +195,7 @@ export function login(data) {
 }
 
 export default {
-  loading: state => createAction(LOGIN_ASYNC.LOADING, state),
+  request: state => createAction(LOGIN_ASYNC.REQUEST, state),
   success: posts => createAction(LOGIN_ASYNC.SUCCESS, {user}),
   error: error => createAction(LOGIN_ASYNC.ERROR, error),
   reset: () => createAction(LOGIN_ASYNC.RESET),
