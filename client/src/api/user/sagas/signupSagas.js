@@ -28,11 +28,6 @@ export function* deAuthorize() {
 }
 
 export function* signup(state) {
-  // reset errors
-  yield put({
-    type: types.SIGNUP_ASYNC.RESET
-  })
-
   try {
     const {username, email, password} = state
     const url = 'api/users'
@@ -46,10 +41,10 @@ export function* signup(state) {
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
-    // reset errors
-    yield put({
-      type: types.SIGNUP_ASYNC.RESET
-    })
+    // TODO: reset errors
+    // yield put({
+    //   type: types.SIGNUP_ASYNC.RESET
+    // })
 
     if (res.status >= 200 && res.status < 300) {
       // yield put({SET_CURRENT_USER, res})
@@ -59,12 +54,17 @@ export function* signup(state) {
       })
 
       const token = res.data.token
+      const identifier = data.username || data.eamil
+      const formattedData = {...data, identifier}
 
+      // TODO:
       // yield call(login(res))
-      yield put({
-        type: types.LOGIN_ASYNC.REQUEST,
-        payload: res.data
-      })
+      //
+      // yield put({
+      //   type: types.LOGIN_ASYNC.REQUEST,
+      //   payload: formattedData
+      // })
+
       //TODO implement
       // this.props.addFlashMessage({
       //   type: 'success',
@@ -84,7 +84,10 @@ export function* signup(state) {
       // .catch(error => {
       //   this.setState({errors: error.response.data.errors})
       // })
-      yield put(push('/dashboard'))
+      //
+      //:TODO:
+      // yield put(push('/dashboard'))
+      //
 
       //TODO this may not belong
       const user = jwt.decode(token)

@@ -79,7 +79,6 @@ class SignupForm extends Component {
 
   onChange = e => {
     this.setState({
-      ...this.state,
       [e.target.name]: e.target.value
     })
   }
@@ -88,9 +87,12 @@ class SignupForm extends Component {
     e.preventDefault()
 
     if (this.isValid()) {
+      // clear all form errors
       this.setState({
+        errors: {}, // clears local errors every time we submit form
         isLoading: true
       })
+
       this.props.actions.signup(this.state)
       // .then(() => {
       //   this.props.addFlashMessage({
@@ -128,11 +130,6 @@ class SignupForm extends Component {
 
   render() {
     const {errors} = this.state
-    // const usernameErrors = this.state.errors.username || ''
-    // const emailErrors = this.state.errors.email || ''
-    // const passwordErrors = this.state.errors.password || ''
-    // const passwordConfirmationErrors =
-    //   this.state.errors.passwordConfirmation || ''
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>

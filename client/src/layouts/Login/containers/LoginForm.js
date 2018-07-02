@@ -199,7 +199,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         reset: actions.reset,
-        login: actions.loading,
+        login: actions.request,
         push: location => {
           dispatch(push(location))
         }
