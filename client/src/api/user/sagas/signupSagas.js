@@ -41,16 +41,15 @@ export function* signup(state) {
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
-    // TODO: reset errors
-    // yield put({
-    //   type: types.SIGNUP_ASYNC.RESET
-    // })
-
     if (res.status >= 200 && res.status < 300) {
       // yield put({SET_CURRENT_USER, res})
       yield put({
         type: types.SIGNUP_ASYNC.SUCCESS,
         payload: res
+      })
+
+      yield put({
+        type: types.SIGNUP_ASYNC.RESET
       })
 
       const token = res.data.token
@@ -59,11 +58,11 @@ export function* signup(state) {
 
       // TODO:
       // yield call(login(res))
-      //
-      // yield put({
-      //   type: types.LOGIN_ASYNC.REQUEST,
-      //   payload: formattedData
-      // })
+
+      yield put({
+        type: types.LOGIN_ASYNC.REQUEST,
+        ...formattedData
+      })
 
       //TODO implement
       // this.props.addFlashMessage({
