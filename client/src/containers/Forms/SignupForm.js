@@ -129,7 +129,9 @@ class SignupForm extends Component {
   }
 
   render() {
+    console.log('satet: ', this.state)
     const {errors} = this.state
+    console.log('errors: ', errors)
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>

@@ -48,9 +48,9 @@ export function* signup(state) {
         payload: res
       })
 
-      yield put({
-        type: types.SIGNUP_ASYNC.RESET
-      })
+      // yield put({
+      //   type: types.SIGNUP_ASYNC.RESET
+      // })
 
       const token = res.data.token
       const identifier = data.username || data.eamil
@@ -59,10 +59,10 @@ export function* signup(state) {
       // TODO:
       // yield call(login(res))
 
-      yield put({
-        type: types.LOGIN_ASYNC.REQUEST,
-        ...formattedData
-      })
+      // yield put({
+      //   type: types.LOGIN_ASYNC.REQUEST,
+      //   ...formattedData
+      // })
 
       //TODO implement
       // this.props.addFlashMessage({

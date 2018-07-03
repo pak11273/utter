@@ -27,7 +27,6 @@ export function* deAuthorize() {
 }
 
 export function* login(state) {
-  console.log('stae: ', state)
   try {
     const {identifier, password} = state
     const url = 'auth/signin'
@@ -36,7 +35,6 @@ export function* login(state) {
     const cb = null
     const params = null
 
-    console.log('ident: ', identifier)
     /**
      * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
      */
@@ -74,8 +72,7 @@ export function* login(state) {
         payload: error.message || 'Something went wrong.'
       })
     } else {
-      // const err = error.response.data.errors.form
-      const err = error.response.data.errors
+      const err = error.response.data.errors.form
       yield put({
         type: types.LOGIN_ASYNC.ERROR,
         payload: err
