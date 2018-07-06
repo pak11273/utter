@@ -11,7 +11,7 @@ export default ComposedComponent => {
     }
 
     componentDidMount() {
-      if (!this.props.isAdmin) {
+      if (!this.props.siteAdmin) {
         this.props.actions.addFlashMessage({
           type: 'error',
           text: 'You need to be an admin to access this page'
@@ -27,7 +27,7 @@ export default ComposedComponent => {
 
   const mapStateToProps = state => {
     return {
-      isAdmin: state.userReducer.isAdmin
+      siteAdmin: state.userReducer.login.siteAdmin
     }
   }
 

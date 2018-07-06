@@ -154,6 +154,7 @@ function Home(props) {
             </Text>
           </Box>
         </Column>
+        {/*
         <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
           <Box width="50%">
             <Text fontsize="4rem">Get Sponsored</Text>
@@ -167,6 +168,7 @@ function Home(props) {
             </NavLink>
           </Box>
         </Column>
+        */}
       </Section>
       <Section alignitems="center" height="550px">
         <Column flexdirection768="row" maxwidth="960px" />

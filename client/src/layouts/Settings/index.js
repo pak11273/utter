@@ -58,8 +58,10 @@ const Error = styled.div`
   text-align: center;
 `
 
-import AccountInfo from '../Settings/features/Account/AccountInfo.js'
-import Notifications from '../Settings/features/Notifications'
+import Account from './containers/account.js'
+import Notifications from './containers/notifications.js'
+// const Account = () => <div>hello</div>
+// const Notifications = () => <div>bye</div>
 
 class Settings extends Component {
   constructor() {
@@ -99,7 +101,7 @@ class Settings extends Component {
     }/${this.props.courseReducer.currentTeachingCourse.courseName}`
 
     const tabs = [
-      {name: 'accountInfo', label: 'Account Info', component: AccountInfo},
+      {name: 'account', label: 'Account', component: Account},
       {name: 'notifications', label: 'Notifications', component: Notifications}
     ]
 
@@ -108,11 +110,6 @@ class Settings extends Component {
         <div>
           <Title padding="20px">Edit Your Settings</Title>
           <div className="App">
-            <div className="App-header">
-              <Header inverted as="h1">
-                Project Mini-Mek
-              </Header>
-            </div>
             <Container>
               <TabBarContainer tabs={tabs} size="massive" />
             </Container>

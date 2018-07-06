@@ -34,7 +34,6 @@ const TabBar = props => {
       <Menu tabular attached="top" {...otherProps}>
         {tabItems}
       </Menu>
-
       {tabPanels}
     </div>
   )

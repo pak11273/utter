@@ -1,8 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Grid, Table, Segment, Header, Form, Dropdown} from 'semantic-ui-react'
-
-import UnitOrganizationTree from '../UnitInfo/UnitOrganizationTree'
-import UnitInfoForm from './UnitInfoForm'
 
 const RANKS = [
   {value: 'Private', text: 'Private'},
@@ -16,12 +13,12 @@ const RANKS = [
 
 const MECHS = [{value: 'WHM-6R', text: 'Warhammer WHM-6R'}]
 
-const UnitInfo = () => {
+const UserList = () => {
   return (
     <Segment>
       <Grid>
         <Grid.Column width={10}>
-          <Header as="h3">Pilot List</Header>
+          <Header as="h3">User List</Header>
           <Table celled>
             <Table.Header>
               <Table.Row>
@@ -44,32 +41,42 @@ const UnitInfo = () => {
           </Table>
         </Grid.Column>
         <Grid.Column width={6}>
-          <Header as="h3">Pilot Details</Header>
+          <Header as="h3">UserDetails</Header>
           <Segment>
             <Form size="large">
               <Form.Field name="name" width={16}>
                 <label>Name</label>
-                <input placeholder="Name" value="Natasha Kerensky" />
+                <input placeholder="Name" defaultValue="Natasha Kerensky" />
               </Form.Field>
               <Form.Field name="rank" width={16}>
                 <label>Rank</label>
-                <Dropdown fluid selection options={RANKS} value="Colonel" />
+                <Dropdown
+                  fluid
+                  selection
+                  options={RANKS}
+                  defaultValue="Colonel"
+                />
               </Form.Field>
               <Form.Field name="age" width={6}>
                 <label>Age</label>
-                <input placeholder="Age" value="52" />
+                <input placeholder="Age" defaultValue="52" />
               </Form.Field>
               <Form.Field name="gunnery" width={6}>
                 <label>Gunnery</label>
-                <input value="2" />
+                <input defaultValue="2" />
               </Form.Field>
-              <Form.Field name="piloting" width={6}>
-                <label>Piloting</label>
-                <input value="3" />
+              <Form.Field name="usering" width={6}>
+                <label>Usering</label>
+                <input defaultValue="3" />
               </Form.Field>
               <Form.Field name="mech" width={16}>
                 <label>Mech</label>
-                <Dropdown fluid selection options={MECHS} value="WHM-6R" />
+                <Dropdown
+                  fluid
+                  selection
+                  options={MECHS}
+                  defaultValue="WHM-6R"
+                />
               </Form.Field>
             </Form>
           </Segment>
@@ -79,4 +86,4 @@ const UnitInfo = () => {
   )
 }
 
-export default UnitInfo
+export default UserList

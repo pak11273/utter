@@ -22,7 +22,6 @@ import FaGoogle from 'react-icons/fa/google'
 // actions
 import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 import signup from '../../api/user/actions/signupActions.js'
-import login from '../../api/user/actions/loginActions.js'
 import {validateInput} from '../../utils/validations/user.js'
 
 const Form = styled.form`
@@ -94,26 +93,6 @@ class SignupForm extends Component {
       })
 
       this.props.actions.signup(this.state)
-      // .then(() => {
-      //   this.props.addFlashMessage({
-      //     type: 'success',
-      //     text: 'You signed up successfully. Welcome aboard.'
-      //   })
-      //   this.props.history.push('/')
-      // })
-      // .then(() => {
-      //   const {username, password, isLoading, errors} = this.state
-      //   const loginState = {
-      //     identifier: username,
-      //     password,
-      //     isLoading,
-      //     errors
-      //   }
-      //   this.props.actions.login(loginState)
-      // })
-      // .catch(error => {
-      //   this.setState({errors: error.response.data.errors})
-      // })
     }
   }
 
@@ -129,9 +108,15 @@ class SignupForm extends Component {
   }
 
   render() {
-    console.log('satet: ', this.state)
-    const {errors} = this.state
-    console.log('errors: ', errors)
+    var {errors} = this.state
+    if (isEmpty(errors)) {
+      errors = {
+        username: '',
+        email: '',
+        password: '',
+        passwordConfirmation: ''
+      }
+    }
     return (
       <Form onSubmit={this.onSubmit}>
         <Leftside>
@@ -262,7 +247,6 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         toggleFooter,
-        login: login.request,
         signup: signup.request,
         push: location => {
           dispatch(push(location))

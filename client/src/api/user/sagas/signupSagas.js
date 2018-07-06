@@ -9,6 +9,7 @@ import {request as login} from '../actions/loginActions.js'
 
 // actions
 import * as types from '../types'
+import ADD_FLASH_MESSAGE from '../../../app/types.js'
 
 import {fetchData} from '../../../utils/apiMgr'
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
@@ -56,40 +57,16 @@ export function* signup(state) {
       const identifier = data.username || data.eamil
       const formattedData = {...data, identifier}
 
-      // TODO:
-      // yield call(login(res))
-
-      // yield put({
-      //   type: types.LOGIN_ASYNC.REQUEST,
-      //   ...formattedData
-      // })
+      yield put({
+        type: types.LOGIN_ASYNC.REQUEST,
+        ...formattedData
+      })
 
       //TODO implement
-      // this.props.addFlashMessage({
-      //   type: 'success',
-      //   text: 'You signed up successfully. Welcome aboard.'
-      // })
-      // this.props.history.push('/')
-      // })
-      // .then(() => {
-      // const {username, password, isLoading, errors} = this.state
-      // const loginState = {
-      //   identifier: username,
-      //   password,
-      //   isLoading,
-      //   errors
-      // }
-
-      // .catch(error => {
-      //   this.setState({errors: error.response.data.errors})
-      // })
-      //
-      //:TODO:
-      // yield put(push('/dashboard'))
-      //
-
-      //TODO this may not belong
-      const user = jwt.decode(token)
+      yield put({
+        type: ADD_FLASH_MESSAGE,
+        text: 'You signed up successfully. Welcome aboard.'
+      })
     } else {
       throw res
     }

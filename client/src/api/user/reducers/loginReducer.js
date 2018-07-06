@@ -10,7 +10,7 @@ import {
 } from '../types.js'
 
 const initialState = {
-  isAdmin: false,
+  siteAdmin: false,
   _id: null,
   isAuthenticated: false,
   loading: false,
@@ -58,7 +58,11 @@ export default createReducer(initialState, {
   }),
   [LOGIN_ASYNC.SUCCESS]: (state, action) => ({
     ...state,
-    ...action.payload,
+    // ...action.payload,
+    // username: action.payload.config.data,
+    username: action.payload.data.user.username,
+    email: action.payload.data.user.email,
+    siteAdmin: action.payload.data.user.siteAdmin,
     errors: {},
     isAuthenticated: true,
     loading: false

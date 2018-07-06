@@ -21,8 +21,7 @@ import {
 } from '../../../components'
 
 import actionCreators from './actions.js'
-import UserInfo from './features/UserInfo.js'
-import Notifications from '../../../layouts/Settings/features/Notifications'
+import UserInfo from './features/UsersList.js'
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -43,10 +42,7 @@ class Users extends Component {
   }
 
   render() {
-    const tabs = [
-      {name: 'userInfo', label: 'User Info', component: UserInfo},
-      {name: 'notifications', label: 'Notifications', component: Notifications}
-    ]
+    const tabs = [{name: 'userInfo', label: 'User Info', component: UserInfo}]
 
     return (
       <Flex>
