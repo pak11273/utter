@@ -10,7 +10,7 @@ import './styles.css'
 import Aws from './Aws'
 import Phrases from './Phrases'
 import Challenges from './Challenges'
-import Users from './Users'
+import Api from './Api'
 import Team from './Team'
 import Etc from './Etc'
 
@@ -133,8 +133,8 @@ class Admin extends Component {
               <FaCaretDown />
             </Dropdown>
             <Box id="userAcc" className="hide">
-              <Link to="/admin/users" className="dropButton">
-                Users{' '}
+              <Link to="/admin/api" className="dropButton">
+                API{' '}
               </Link>
               <Link to="/admin/team" className="dropButton">
                 Team
@@ -163,7 +163,7 @@ class Admin extends Component {
             </Link>
           </Sidebar>
           <Route exact path="/admin" component={Main} />
-          <Route exact path="/admin/users" component={Users} />
+          <Route exact path="/admin/api" component={Api} />
           <Route exact path="/admin/team" component={Team} />
           <Route exact path="/admin/etc" component={Etc} />
           <Route exact path="/admin/vocabulary" component={Vocabulary} />

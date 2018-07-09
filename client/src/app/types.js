@@ -1,6 +1,7 @@
 import {createAsyncTypes} from '../utils/reduxUtils.js'
 
 export const FLASH_ASYNC = createAsyncTypes('FLASH_ASYNC')
+export const DATA_LOADED = createAsyncTypes('DATA_LOADED')
 
 export const ADD_FLASH_MESSAGE = 'utter/auth/ADD_FLASH_MESSAGE'
 export const DELETE_FLASH_MESSAGE = 'utter/auth/DELETE_FLASH_MESSAGE'

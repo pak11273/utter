@@ -3,11 +3,11 @@ import flashMessages from './app/reducers/flashMessages'
 import challengeReducer from './containers/Challenge/reducer.js'
 import channelReducer from './containers/Channels/reducer.js'
 import courseReducer from './layouts/Courses/reducer.js'
-import entitiesCrudReducer from './api/entities/reducer.js'
-import entitiesReducer from './app/reducer.js'
+import entitiesReducer from './api/entities/reducer.js'
 import roomReducer from './containers/Rooms/reducer.js'
 import chatReducer from './containers/Chat/reducer.js'
 import chatPanelReducer from './containers/ChatPanel/reducer.js'
+import clubReducer from './api/club/reducer.js'
 import levelReducer from './api/level/reducer.js'
 import mechReducer from './layouts/Courses/features/Mechs/reducer.js'
 import pilotReducer from './layouts/Courses/features/Pilots/reducer.js'
@@ -29,9 +29,9 @@ export default combineReducers({
   channelReducer,
   chatReducer,
   chatPanelReducer,
+  clubReducer,
   courseReducer,
   entitiesReducer,
-  entitiesCrudReducer,
   flashMessages,
   levelReducer,
   loadingBar: loadingBarReducer,

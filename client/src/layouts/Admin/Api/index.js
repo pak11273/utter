@@ -21,7 +21,8 @@ import {
 } from '../../../components'
 
 import actionCreators from './actions.js'
-import UsersList from './containers/UserLists.js'
+import UsersList from '../Users/containers/UserLists.js'
+import ClubsList from '../Clubs/containers/ClubsList.js'
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
