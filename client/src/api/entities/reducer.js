@@ -45,8 +45,13 @@ export function loadData(state, payload) {
   const session = orm.session(state)
   // Get a reference to the correct version of the Pilots class for this Session
   const {User} = session
-  const user = payload.payload.data.user
-  User.parse(user)
+  const loggedInUser = payload.payload.data.user
+  // add id by converting _id
+  loggedInUser.id = loggedInUser._id
+  const users = [loggedInUser]
+  users.forEach(user => User.parse(user))
+
+  // User.parse(user)
 
   // Apply the queued updates and return the updated "tables"
   // return session.reduce()
