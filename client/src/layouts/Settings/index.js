@@ -60,8 +60,6 @@ const Error = styled.div`
 
 import Account from './containers/account.js'
 import Notifications from './containers/notifications.js'
-// const Account = () => <div>hello</div>
-// const Notifications = () => <div>bye</div>
 
 class Settings extends Component {
   constructor() {

@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema(
       match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       index: true
     },
+    nativeLang: {
+      type: String,
+      required: [true, "can't be blank"]
+    },
     bio: String,
     email: {
       type: String,

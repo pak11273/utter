@@ -4,8 +4,8 @@ import {Form, Dropdown, Segment} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 
 const NATIVE_LANG = [
-  {value: 'en', text: 'English'},
-  {value: 'ko', text: 'Korean'}
+  {value: 'English', text: 'English'},
+  {value: 'Korean', text: 'Korean'}
 ]
 
 // import {selectUserInfo} from '../../../../api/user/selectors.js'
@@ -19,21 +19,25 @@ class AccountInfo extends Component {
     // const {unitInfo} = this.props
     // const {name, affiliation} = unitInfo
 
-    console.log('props: ', this.props)
+    let user = this.props.user
     return (
       <Segment attached="bottom">
         <Form size="large">
           <Form.Field name="name" width={6}>
             <label>Username</label>
-            <input placeholder="Name" defaultValue="my name" />
+            <input placeholder="Name" defaultValue={user.username} disabled />
           </Form.Field>
           <Form.Field name="email" width={6}>
             <label>Email</label>
-            <input placeholder="Email" defaultValue="my email" />
+            <input placeholder="Email" defaultValue={user.email} />
           </Form.Field>
           <Form.Field name="native-language" width={6}>
             <label>Native Language</label>
-            <Dropdown selection options={NATIVE_LANG} defaultValue="en" />
+            <Dropdown
+              selection
+              options={NATIVE_LANG}
+              defaultValue={user.nativeLang}
+            />
           </Form.Field>
         </Form>
       </Segment>
@@ -44,7 +48,7 @@ class AccountInfo extends Component {
 const mapStateToProps = state => {
   // Create a Redux-ORM Session from our "entities" slice, which
   // contains the "tables" for each model type
-  const session = orm.from(state.entities)
+  const session = orm.session(state.entitiesReducer)
 
   // Retrieve the model class that we need.  Each Session
   // specifically "binds" model classes to itself, so that
@@ -59,7 +63,7 @@ const mapStateToProps = state => {
   // The toRefArray() method will give us an array of the
   // plain JS objects for each item in the QuerySet.
 
-  const user = User.all().toRefArray()
+  let user = User.first()
 
   // Now that we have an array of all pilot objects, return it as a prop
   // return {users}

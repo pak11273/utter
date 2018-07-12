@@ -1,5 +1,7 @@
 import {ENTITY_UPDATE, ENTITY_DELETE, ENTITY_CREATE} from './types.js'
-import * as types from '../user/types.js'
+import * as userTypes from '../user/types.js'
+import * as usersTypes from '../users/types.js'
+import {LOGOUT} from '../user/types.js'
 
 // import {createConditionalSliceReducer} from '../../utils/reduxUtils.js'
 import {createReducer} from '../../utils/reduxUtils.js'
@@ -40,10 +42,17 @@ export function deleteEntity(state, payload) {
   return session.state
 }
 
-export function loadData(state, payload) {
+export function resetUser(state) {
+  const session = orm.session(state)
+  const {User} = session
+  User.delete()
+  return session.state
+}
+
+export function loadUser(state, payload) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
-  // Get a reference to the correct version of the Pilots class for this Session
+  // Get a reference to the correct version of the Users class for this Session
   const {User} = session
   const loggedInUser = payload.payload.data.user
   // add id by converting _id
@@ -56,6 +65,38 @@ export function loadData(state, payload) {
   // Apply the queued updates and return the updated "tables"
   // return session.reduce()
   return session.state
+}
+
+export function loadUsers(state, payload) {
+  // Create a Redux-ORM session from our entities "tables"
+  const session = orm.session(state)
+  // Get a reference to the correct version of the Users class for this Session
+  const {User} = session
+  const loggedInUser = payload.payload.data.user
+  // add id by converting _id
+  loggedInUser.id = loggedInUser._id
+  const users = [loggedInUser]
+  users.forEach(user => User.parse(user))
+
+  // User.parse(user)
+
+  // Apply the queued updates and return the updated "tables"
+  // return session.reduce()
+  return session.state
+}
+
+export function loadUsersData(state, payload) {
+  // Create a Redux-ORM session from our entities "tables"
+  const session = orm.session(state)
+  // Get a reference to the correct version of the Pilots class for this Session
+  const {Users} = session
+
+  const {users} = payload
+  // Queue up creation commands for each pilot entry
+  users.forEach(user => Users.parse(user))
+
+  // Apply the queued updates and return the updated "tables"
+  return session.reduce()
 }
 
 export function createEntity(state, payload) {
@@ -83,5 +124,7 @@ const entityHandlers = {
 
 // export default entityCrudFeatureReducer
 export default createReducer(initialState, {
-  [types.LOGIN_ASYNC.SUCCESS]: loadData
+  [userTypes.LOGIN_ASYNC.SUCCESS]: loadUser,
+  [usersTypes.LOAD_USERS_ASYNC.SUCCESS]: loadUsers,
+  [LOGOUT]: resetUser
 })

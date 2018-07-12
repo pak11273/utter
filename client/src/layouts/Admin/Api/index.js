@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
-import {TabBarContainer} from '../../../containers'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
+import orm from '../../../app/schema.js'
+import {TabBarContainer} from '../../../containers'
 import {Header, Container} from 'semantic-ui-react'
 
 import {
@@ -23,6 +24,7 @@ import {
 import actionCreators from './actions.js'
 import UsersList from '../Users/containers/UserLists.js'
 import ClubsList from '../Clubs/containers/ClubsList.js'
+import Tools from '../Tools'
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -45,7 +47,8 @@ class Users extends Component {
   render() {
     const tabs = [
       {name: 'users', label: 'Users', component: UsersList},
-      {name: 'clubs', label: 'Clubs', component: ClubsList}
+      {name: 'clubs', label: 'Clubs', component: ClubsList},
+      {name: 'tools', label: 'Tools', component: Tools}
     ]
 
     return (
@@ -67,7 +70,10 @@ class Users extends Component {
 }
 
 const mapStateToProps = state => {
-  return {}
+  const session = orm.session(state.entitiesReducer)
+  const {User} = session
+  let users = User.all().toRefArray()
+  return {users}
 }
 
 const mapDispatchToProps = dispatch => {
