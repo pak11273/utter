@@ -16,6 +16,7 @@ import phraseReducer from './layouts/Admin/Phrases/reducer.js'
 import socketReducer from './services/socketio/reducer.js'
 import tabsReducer from './containers/Tabs/reducer.js'
 import termsReducer from './api/terms/reducer.js'
+import toolsReducer from './layouts/Admin/Tools/reducers.js'
 import toggleFooterReducer from './app/reducers/toggleFooterReducer.js'
 import userReducer from './api/user/reducers'
 import unitReducer from './layouts/Courses/features/UnitInfo/reducer.js'
@@ -45,6 +46,7 @@ export default combineReducers({
   tabsReducer,
   termsReducer,
   toggleFooterReducer,
+  toolsReducer,
   vocabReducer,
   unitReducer,
   userReducer,

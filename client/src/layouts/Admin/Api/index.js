@@ -22,7 +22,7 @@ import {
 } from '../../../components'
 
 import actionCreators from './actions.js'
-import UsersList from '../Users/containers/UserLists.js'
+import Users from '../Users/containers/Users.js'
 import ClubsList from '../Clubs/containers/ClubsList.js'
 import Tools from '../Tools'
 
@@ -39,14 +39,14 @@ const StyledButton = styled(Button)`
     color: #ecf12a;
   }
 `
-class Users extends Component {
+class Api extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
     const tabs = [
-      {name: 'users', label: 'Users', component: UsersList},
+      {name: 'users', label: 'Users', component: Users},
       {name: 'clubs', label: 'Clubs', component: ClubsList},
       {name: 'tools', label: 'Tools', component: Tools}
     ]
@@ -88,4 +88,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users)
+export default connect(mapStateToProps, mapDispatchToProps)(Api)

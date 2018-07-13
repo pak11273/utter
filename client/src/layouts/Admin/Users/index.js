@@ -21,7 +21,7 @@ import {
 } from '../../../components'
 
 import actionCreators from './actions.js'
-import UsersList from './containers/UserLists.js'
+import Users from './containers/User.js'
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -43,8 +43,8 @@ class Users extends Component {
 
   render() {
     const tabs = [
-      {name: 'users', label: 'Users', component: UsersList},
-      {name: 'clubs', label: 'Clubs', component: ClubsList}
+      {name: 'users', label: 'Users', component: Users},
+      {name: 'clubs', label: 'Clubs', component: Clubs}
     ]
 
     return (

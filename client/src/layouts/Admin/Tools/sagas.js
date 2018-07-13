@@ -7,35 +7,31 @@ import jwt from 'jsonwebtoken'
 import {actions} from '../actions.js'
 
 // actions
-import {LOAD_USERS_ASYNC} from './types'
+import * as types from './types'
 
 import {fetchData} from '../../../utils/apiMgr'
 
 function* loadUsers() {
-  console.log('hi')
   try {
-    const {identifier, password} = state
-    const url = 'api/users'
+    // const {identifier, password} = state
+    const url = '/api/users'
     const method = 'get'
-    const data = {identifier, password}
-    const cb = null
-    const params = null
+    // const data = {identifier, password}
 
-    const res = yield call(fetchData, {url, method, data, params, cb})
+    const res = yield call(fetchData, {
+      url,
+      method,
+      data: null,
+      params: null,
+      cb: null
+    })
 
     if (res.status >= 200 && res.status < 300) {
-      // yield put({SET_CURRENT_USER, res})
       yield put({
         type: types.LOAD_USERS_ASYNC.SUCCESS,
         payload: res
       })
-      const token = res.data.token
-
-      yield call(authorize, token)
-      yield put(push('/dashboard'))
-
-      //TODO this may not belong
-      const user = jwt.decode(token)
+      // const token = res.data.token
     } else {
       throw res
     }
@@ -46,7 +42,8 @@ function* loadUsers() {
         payload: error.message || 'Something went wrong.'
       })
     } else {
-      const err = error.response.data.errors.form
+      // const err = error.response.data.errors.form
+      const err = error.response.statusText
       yield put({
         type: types.LOAD_USERS_ASYNC.ERROR,
         payload: err
@@ -57,5 +54,7 @@ function* loadUsers() {
 }
 
 function* watchLoadUsers() {
-  yield all([takeLatest(LOAD_USERS_ASYNC.REQUEST, loadUsers)])
+  yield all([takeLatest(types.LOAD_USERS_ASYNC.REQUEST, loadUsers)])
 }
+
+export default [watchLoadUsers]

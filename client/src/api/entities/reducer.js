@@ -71,17 +71,13 @@ export function loadUsers(state, payload) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
-  const {User} = session
-  const loggedInUser = payload.payload.data.user
-  // add id by converting _id
-  loggedInUser.id = loggedInUser._id
-  const users = [loggedInUser]
-  users.forEach(user => User.parse(user))
-
-  // User.parse(user)
-
-  // Apply the queued updates and return the updated "tables"
-  // return session.reduce()
+  const {Users} = session
+  let users = payload.payload.data
+  // add id by converting _id for each record
+  users.map(user => {
+    return (user.id = user._id)
+  })
+  users.forEach(user => Users.parse(user))
   return session.state
 }
 
