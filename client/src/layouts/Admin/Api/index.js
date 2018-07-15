@@ -23,6 +23,7 @@ import {
 
 import actionCreators from './actions.js'
 import Users from '../Users/containers/Users.js'
+import Courses from '../Courses/containers/Courses.js'
 import ClubsList from '../Clubs/containers/ClubsList.js'
 import Tools from '../Tools'
 
@@ -47,6 +48,7 @@ class Api extends Component {
   render() {
     const tabs = [
       {name: 'users', label: 'Users', component: Users},
+      {name: 'courses', label: 'Courses', component: Courses},
       {name: 'clubs', label: 'Clubs', component: ClubsList},
       {name: 'tools', label: 'Tools', component: Tools}
     ]

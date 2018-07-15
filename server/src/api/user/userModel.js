@@ -30,6 +30,7 @@ const UserSchema = new mongoose.Schema(
       match: [/\S+@\S+\.\S+/, 'is invalid'],
       index: true
     },
+    courses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}],
     coursesTeaching: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     coursesLearning: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     reset_password_token: {

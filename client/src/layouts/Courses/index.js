@@ -47,20 +47,26 @@ const StyledNavLink = styled(NavLink)`
 class CoursesContainer extends Component {
   constructor() {
     super()
-    this.state = {
-      search: '',
-      selectedOption: ''
-    }
-    this.handleOptionChange = this.handleOptionChange.bind(this)
+    this.handleSpeakingChange = this.handleSpeakingChange.bind(this)
+    this.handleLearningChange = this.handleLearningChange.bind(this)
+  }
+
+  state = {
+    search: '',
+    learningOption: 'Korean',
+    speakingOption: 'English'
   }
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
   }
 
-  handleOptionChange = selectedOption => {
-    this.setState({selectedOption})
-    console.log(`Selected: ${selectedOption.label}`)
+  handleSpeakingChange = speakingOption => {
+    this.setState({speakingOption})
+  }
+
+  handleLearningChange = learningOption => {
+    this.setState({learningOption})
   }
 
   handleSearch = e => {
@@ -70,9 +76,7 @@ class CoursesContainer extends Component {
   }
 
   render() {
-    const {selectedOption} = this.state
-    const value = selectedOption && selectedOption.value
-
+    const speakingOption = this.state.speakingOption
     return (
       <StyledGrid>
         <Staticbar>
@@ -81,12 +85,21 @@ class CoursesContainer extends Component {
             <Box>
               <Select
                 name="form-field-name"
-                value={value}
-                onChange={this.handleChange}
+                value={speakingOption}
+                onChange={this.handleSpeakingChange}
                 options={[
                   {value: 'English', label: 'English'},
                   {value: 'Spanish', label: 'Spanish'}
                 ]}
+              />
+            </Box>
+            <Subtitle>I want to learn:</Subtitle>
+            <Box>
+              <Select
+                name="form-field-name"
+                value={this.state.learningOption}
+                onChange={this.handleLearningChange}
+                options={[{value: 'Korean', label: 'Korean'}]}
               />
             </Box>
             <Box>

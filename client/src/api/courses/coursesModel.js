@@ -1,7 +1,7 @@
 import {Model, many, fk, attr} from 'redux-orm'
 
-export default class Course extends Model {
-  static modelName = 'Course'
+export default class Courses extends Model {
+  static modelName = 'Courses'
 
   static fields = {
     id: attr(),
