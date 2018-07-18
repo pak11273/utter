@@ -1,6 +1,8 @@
 import {ENTITY_UPDATE, ENTITY_DELETE, ENTITY_CREATE} from './types.js'
 import * as userTypes from '../user/types.js'
 import * as usersTypes from '../users/types.js'
+import * as courseTypes from '../course/types.js'
+import * as coursesTypes from '../courses/types.js'
 import {LOGOUT} from '../user/types.js'
 
 // import {createConditionalSliceReducer} from '../../utils/reduxUtils.js'
@@ -95,6 +97,32 @@ export function loadUsersData(state, payload) {
   return session.reduce()
 }
 
+export function loadCourse(state, payload) {
+  // Create a Redux-ORM session from our entities "tables"
+  const session = orm.session(state)
+  // Get a reference to the correct version of the Users class for this Session
+  const {Course} = session
+  let course = payload.payload.course
+  // add id by converting _id for each record
+  course.courseId = course._id
+  Course.parse(course)
+  return session.state
+}
+
+export function loadCourses(state, payload) {
+  // Create a Redux-ORM session from our entities "tables"
+  const session = orm.session(state)
+  // Get a reference to the correct version of the Users class for this Session
+  const {Courses} = session
+  let courses = payload.payload
+  // add id by converting _id for each record
+  // courses.map(course => {
+  //   return (course.id = course._id)
+  // })
+  courses.forEach(course => Courses.parse(course))
+  return session.state
+}
+
 export function createEntity(state, payload) {
   const {itemType, newItemAttributes} = payload
 
@@ -122,5 +150,9 @@ const entityHandlers = {
 export default createReducer(initialState, {
   [userTypes.LOGIN_ASYNC.SUCCESS]: loadUser,
   [usersTypes.LOAD_USERS_ASYNC.SUCCESS]: loadUsers,
+  [courseTypes.COURSE_ASYNC.SUCCESS]: loadCourse,
+  [courseTypes.COURSE_ASYNC.ERROR]: loadCourse,
+  [coursesTypes.COURSES_ASYNC.SUCCESS]: loadCourses,
+  [coursesTypes.COURSES_ASYNC.ERROR]: loadCourses,
   [LOGOUT]: resetUser
 })

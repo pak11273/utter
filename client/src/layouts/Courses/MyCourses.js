@@ -33,7 +33,7 @@ import {Masthead, Navbar, Staticbar} from '../../containers'
 // actions
 import {chooseCourseLanguage} from './actions'
 import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
-import {getTeachingList} from './actions.js'
+// import {getTeachingList} from './actions.js'
 
 const StyledSubtitle = styled(Subtitle)`
   text-align: left;
@@ -77,7 +77,7 @@ class MyCourses extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
-    this.props.actions.getTeachingList()
+    // this.props.actions.getTeachingList()
   }
 
   componentWillUnmount() {
@@ -121,7 +121,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        getTeachingList,
+        // getTeachingList,
         toggleFooter
       },
       dispatch

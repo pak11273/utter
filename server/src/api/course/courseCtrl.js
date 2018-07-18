@@ -51,12 +51,12 @@ exports.unique = (req, res, next) => {
 
 exports.faker = (req, res, next) => {
   console.log('faker')
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 10; i++) {
     var course = new Course()
 
     course.category = faker.commerce.department()
     course.courseId = cuid()
-    course.courseCreatorId = '5a7b329229e36c244bde6368'
+    course.courseCreatorId = '5b3cdaa73e9eb21cbd5bbf8f'
     course.courseName = faker.commerce.productName()
     course.price = faker.commerce.price()
     course.courseDescription =
@@ -108,26 +108,29 @@ exports.get = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
-  if (req.params.courseId) {
-    Course.findOne({courseId: req.params.courseId}).then(
-      course => {
-        res.json(course)
-      },
-      err => {
-        next(err)
-      }
-    )
-  }
+  Course.find({}).then(
+    courses => {
+      res.json(courses)
+    },
+    err => {
+      next(err)
+    }
+  )
 }
 
 exports.getOne = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
+  console.log('creatorId: ', req.params.courseCreatorId)
+  console.log('courseId: ', req.params.courseId)
   if (req.params.courseId) {
-    Course.findOne({courseId: req.params.courseId}).then(
+    Course.findOne({
+      courseId: req.params.courseId,
+      courseCreatorId: req.params.courseCreatorId
+    }).then(
       course => {
-        res.json(course)
+        res.json({course})
       },
       err => {
         next(err)

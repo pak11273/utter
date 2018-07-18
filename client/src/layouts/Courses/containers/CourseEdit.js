@@ -17,7 +17,6 @@ import {
   Grid,
   Img,
   Section,
-  State,
   Input,
   LanguageCard,
   Subtitle,
@@ -220,8 +219,7 @@ class CourseEdit extends Component {
         <Form onSubmit={this.onSubmit}>
         */}
         <div>
-          <State state={this.state} />
-          <Title padding="20px">Edit Your Course</Title>
+          <Title padding="20px">Your Course Details</Title>
           <div className="App">
             <div className="App-header">
               <Header inverted as="h1">

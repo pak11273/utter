@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {push} from 'react-router-redux'
 import {NavLink} from 'react-router-dom'
 import styled, {ThemeProvider} from 'styled-components'
 import {main, base} from '../../../themes/config'
@@ -199,10 +198,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         reset: actions.reset,
-        login: actions.request,
-        push: location => {
-          dispatch(push(location))
-        }
+        login: actions.request
       },
       dispatch
     )

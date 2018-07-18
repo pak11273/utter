@@ -1,5 +1,5 @@
 import {Schema, ORM} from 'redux-orm'
-
+import Course from '../api/course/courseModel.js'
 import Courses from '../api/courses/coursesModel.js'
 import Pilot from '../layouts/Courses/features/Pilots/Pilot'
 import Mech from '../layouts/Courses/features/Mechs/mechModel.js'
@@ -14,6 +14,7 @@ import Users from '../api/users/usersModel.js'
 
 const orm = new ORM()
 orm.register(
+  Course,
   Courses,
   Faction,
   Lance,
