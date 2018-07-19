@@ -17,7 +17,7 @@ const actions = {
 class Levels extends Component {
   render() {
     const {levels, selectLevel, currentLevel} = this.props
-    const currentLevelEntry = levels.find(level => level.id === currentLevel)
+    // const currentLevelEntry = levels.find(level => level.id === currentLevel)
     return (
       <Segment>
         <Grid>
@@ -49,7 +49,13 @@ const mapStateToProps = state => {
         ...levelModel.ref
       }
 
-      return level
+      // const {course} = levelModel
+
+      // if (course && course.type) {
+      //   levels.courseType = course.type.id
+      // }
+
+      // return level
     })
 
   const currentLevel = selectCurrentLevel(state)

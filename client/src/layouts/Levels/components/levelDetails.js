@@ -50,13 +50,12 @@ const mapStateToProps = state => {
 
   const session = orm.session(state.entitiesReducer)
 
-  const {Level} = session
-  //TODO
-  // if (Level.hasId(currentLevel)) {
-  //   level = Level.withId(currentLevel).ref
-  // }
-  const bevel = 1
-  return {bevel}
+  const {Levels} = session
+
+  if (Levels.hasId(currentLevel)) {
+    level = Levels.withId(currentLevel).ref
+  }
+  return {level}
 }
 
 const actions = {
@@ -121,8 +120,8 @@ export class LevelDetails extends Component {
           onChange={this.onInputChanged}
           passIsEditing={false}>
           <Form.Field
-            name="rank"
-            label="Rank"
+            name="level"
+            label="Level"
             width={10}
             control={Dropdown}
             fluid
