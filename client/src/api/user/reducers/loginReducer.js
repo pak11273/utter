@@ -58,8 +58,6 @@ export default createReducer(initialState, {
   }),
   [LOGIN_ASYNC.SUCCESS]: (state, action) => ({
     ...state,
-    // ...action.payload,
-    // username: action.payload.config.data,
     username: action.payload.data.user.username,
     email: action.payload.data.user.email,
     siteAdmin: action.payload.data.user.siteAdmin,

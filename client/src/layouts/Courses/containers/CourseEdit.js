@@ -72,7 +72,7 @@ const Error = styled.div`
 
 import CourseInfo from '../features/CourseInfo.js'
 
-import Levels from '../../../api/level/containers'
+import Levels from '../../Levels/containers'
 
 import Terms from '../../../api/terms/containers'
 
@@ -183,9 +183,9 @@ class CourseEdit extends Component {
   }
 
   render() {
-    const url = `/api/courses/${
-      this.props.courseReducer.currentTeachingCourse.courseId
-    }/${this.props.courseReducer.currentTeachingCourse.courseName}`
+    // const url = `/api/courses/${
+    //   this.props.courseReducer.currentTeachingCourse.courseId
+    // }/${this.props.courseReducer.currentTeachingCourse.courseName}`
 
     const tabs = [
       {name: 'courseInfo', label: 'Course Info', component: CourseInfo},

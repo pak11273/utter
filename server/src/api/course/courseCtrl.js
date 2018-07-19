@@ -64,6 +64,7 @@ exports.faker = (req, res, next) => {
     course.image = faker.image.image()
     course.levels = [
       {
+        course: course._id,
         level: 1,
         title: 'Change Me',
         terms: [
@@ -72,6 +73,7 @@ exports.faker = (req, res, next) => {
         ]
       },
       {
+        course: course._id,
         level: 2,
         title: 'Change Me',
         terms: [
@@ -80,6 +82,7 @@ exports.faker = (req, res, next) => {
         ]
       },
       {
+        course: course._id,
         level: 4,
         title: 'Change Me',
         terms: [
@@ -88,6 +91,7 @@ exports.faker = (req, res, next) => {
         ]
       },
       {
+        course: course._id,
         level: 10,
         title: 'Change Me',
         terms: [

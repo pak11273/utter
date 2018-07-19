@@ -16,6 +16,10 @@ TermsSchema.set('toJSON', {
 })
 
 const LevelsSchema = new Schema({
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  },
   level: Number,
   title: String,
   terms: [TermsSchema],

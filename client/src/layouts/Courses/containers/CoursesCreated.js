@@ -99,9 +99,9 @@ class Created extends Component {
   }
 
   render() {
-    if (this.props.courseReducer.teachingCourseList.result.docs) {
-      var courses = this.props.courseReducer.teachingCourseList.result.docs
-    }
+    // if (this.props.courseReducer.teachingCourseList.result.docs) {
+    //   var courses = this.props.courseReducer.teachingCourseList.result.docs
+    // }
     const LangCard = this.props.courses.map(item => {
       return (
         <Card key={item.id}>

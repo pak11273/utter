@@ -29,6 +29,8 @@ export function* fetchTeachingCourse(state) {
         type: types.COURSE_ASYNC.SUCCESS,
         payload: res.data
       })
+
+      yield put(push(`/my-courses/${courseId}/${courseName}/edit`))
     } else {
       throw res
     }

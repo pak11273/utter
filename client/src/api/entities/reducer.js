@@ -106,6 +106,10 @@ export function loadCourse(state, payload) {
   // add id by converting _id for each record
   course.courseId = course._id
   Course.parse(course)
+
+  const {Levels} = session
+  let levels = payload.payload.course.levels
+  levels.forEach(level => Levels.parse(level))
   return session.state
 }
 

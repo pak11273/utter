@@ -8,17 +8,19 @@ import LevelsListRow from './levelsListRow.js'
 
 import {getEntitiesSession} from '../../../api/entities/selectors'
 
-import {selectlevel} from '../actions'
-import {selectCurrentLevel} from '../selectors'
+import {selectlevel} from '../../../api/levels/actions.js'
+import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 
 const mapStateToProps = state => {
   const session = orm.session(state.entitiesReducer)
 
-  const {Level} = session
-
+  const {Levels} = session
   // Extract a list of IDs for each Level entry
-  // const levels = Level.all().toModelArray.map(levelModel => levelModel.getId())
-  const levels = [{name: 'bye'}, {name: 'hello'}]
+  // const levels = Levels.all().toRefArray.map(level => level.getId())
+
+  const levels = Levels.all().toRefArray()
+  // .map(level => level.Id)
+  // const levels = [{name: 'bye'}, {name: 'hello'}]
 
   const currentLevel = selectCurrentLevel(state)
 
@@ -31,7 +33,7 @@ class levelsList extends Component {
     const {levels} = this.props
 
     const levelRows = levels.map(level => (
-      <LevelsListRow level={level} key={level.name} />
+      <LevelsListRow level={level} key={level.id} />
     ))
 
     return (

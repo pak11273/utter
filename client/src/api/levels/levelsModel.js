@@ -1,6 +1,15 @@
 import {fk, many, attr, Model} from 'redux-orm'
 
-class Level extends Model {
+class Levels extends Model {
+  static get fields() {
+    return {
+      course: fk('Courses')
+    }
+  }
+
+  static parse(levelsData) {
+    return this.upsert(levelsData)
+  }
   static reducer(action, Level, session) {
     switch (action.type) {
       case 'CREATE_LEVEL':
@@ -30,19 +39,10 @@ class Level extends Model {
   }
 
   // Declare any static or instance methods you need.
-  static parse(levelData) {
-    return this.upsert(levelData)
-  }
 }
 
-Level.modelName = 'Level'
+Levels.modelName = 'Levels'
 
 // Declare your related fields.
 
-Level.fields = {
-  id: attr(),
-  levelRank: attr(),
-  levelName: attr()
-}
-
-export default Level
+export default Levels

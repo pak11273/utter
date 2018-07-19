@@ -7,28 +7,8 @@ import {Grid, Segment, Header} from 'semantic-ui-react'
 import LevelsList from '../components/levelsList.js'
 import LevelDetails from '../components/levelDetails.js'
 
-import {selectLevel} from '../actions.js'
-import {selectCurrentLevel} from '../selectors.js'
-
-const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
-
-  const {Level} = session
-
-  const levels = Level.all()
-    .toModelArray()
-    .map(levelModel => {
-      const level = {
-        ...levelModel.ref
-      }
-
-      return level
-    })
-
-  const currentLevel = selectCurrentLevel(state)
-
-  return {levels, currentLevel}
-}
+import {selectLevel} from '../../../api/levels/actions.js'
+import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 
 const actions = {
   selectLevel
@@ -55,6 +35,27 @@ class Levels extends Component {
       </Segment>
     )
   }
+}
+
+const mapStateToProps = state => {
+  const session = orm.session(state.entitiesReducer)
+
+  const {Levels} = session
+
+  const levels = Levels.all()
+    .toModelArray()
+    .map(levelModel => {
+      const level = {
+        ...levelModel.ref
+      }
+
+      return level
+    })
+
+  const currentLevel = selectCurrentLevel(state)
+
+  return {levels, currentLevel}
+  return session.state
 }
 
 export default connect(mapStateToProps, actions)(Levels)

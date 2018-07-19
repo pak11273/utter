@@ -9,14 +9,17 @@ import {getEditingEntitiesSession} from '../../../containers/Editing/selectors'
 
 import {FormEditWrapper} from '../../../components'
 
-import {selectCurrentLevel, selectIsEditingLevel} from '../selectors.js'
-import {LEVEL_RANKS} from '../types.js'
+import {
+  selectCurrentLevel,
+  selectIsEditingLevel
+} from '../../../api/levels/selectors.js'
+import {LEVEL_RANKS} from '../../../api/levels/types.js'
 
 import {
   startEditingLevel,
   stopEditingLevel,
   cancelEditinLevelg
-} from '../actions.js'
+} from '../../../api/levels/actions.js'
 
 import {resetEditedItem} from '../../../containers/Editing/actions.js'
 
@@ -48,11 +51,12 @@ const mapStateToProps = state => {
   const session = orm.session(state.entitiesReducer)
 
   const {Level} = session
-
-  if (Level.hasId(currentLevel)) {
-    level = Level.withId(currentLevel).ref
-  }
-  return {level}
+  //TODO
+  // if (Level.hasId(currentLevel)) {
+  //   level = Level.withId(currentLevel).ref
+  // }
+  const bevel = 1
+  return {bevel}
 }
 
 const actions = {

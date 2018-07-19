@@ -54,7 +54,7 @@ const UserSchema = new mongoose.Schema(
     subscriptions: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Language'
+        ref: 'Course'
       }
     ],
     bio: String,
