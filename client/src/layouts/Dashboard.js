@@ -5,7 +5,7 @@ import {Box, Button, Grid, Spacer, Text} from '../components'
 import {Sidebar} from '../containers'
 import FaCaretDown from 'react-icons/fa/caret-down'
 
-import KoreanLevel1 from '../layouts/Korean/lLevel1/'
+import KoreanLevel1 from '../layouts/Korean/Level1/'
 import KoreanLevel2 from '../layouts/Korean/Level2/'
 import KoreanLevel3 from '../layouts/Korean/Level3/'
 import SpanishLevel1 from '../layouts/Spanish/level1/'
