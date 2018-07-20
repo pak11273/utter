@@ -2,24 +2,24 @@ import _ from 'lodash'
 import pwd from './pwd.js'
 
 // default config object
-module.exports = {
-// const config = {
+// module.exports = {
+const config = {
   dev: 'development',
   test: 'testing',
   prod: 'production',
   port: process.env.PORT || 3001,
   expireTime: 24 * 60 * 10, // 10 days expiration
   // TODO: move this to ./secrets file
-  secret: process.env.NODE_ENV === 'production' ? process.env.SECRET : 'secret', 
+  secret: process.env.NODE_ENV === 'production' ? process.env.SECRET : 'secret',
   secrets: {
     jwt: process.env.JWT || 'gumball',
-  facebook: {
-    clientID: '218390765395433',
-    clientSecret: '621df9fb56685485b52033ac147bef73',
-    profileField: ['email', 'displayName', 'photos'],
-    callbackUrl: 'http://192.168.68.8:3030/auth/facebook/callback',
-    passReqToCallback: true
-  },
+    facebook: {
+      clientID: '218390765395433',
+      clientSecret: '621df9fb56685485b52033ac147bef73',
+      profileField: ['email', 'displayName', 'photos'],
+      callbackUrl: 'http://192.168.68.8:3030/auth/facebook/callback',
+      passReqToCallback: true
+    },
     google: {
       clientID:
         '598278254339-2fdd4dfnr8gte0jm4a5p7f3s9p9jpprb.apps.googleusercontent.com',

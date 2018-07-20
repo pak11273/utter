@@ -5,7 +5,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import bluebird from 'bluebird'
-import config from '../../dist/config/config.js'
+import config from '../../dist/config/index.js'
 import passport from 'passport'
 const MongoStore = require('connect-mongo')(session)
 

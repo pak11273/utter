@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import config from '../config/config.js'
+import config from '../config/index.js'
 import User from '../api/user/userModel.js'
 
 export default (req, res, next) => {

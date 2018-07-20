@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Grid as VirtualGrid} from 'react-virtualized'
+// import {Grid as VirtualGrid} from 'react-virtualized'
 import {
   Box,
   Button,
@@ -22,7 +22,7 @@ class KnowledgeBase extends Component {
         {list[rowIndex][columnIndex]}
       </div>
     )
-  };
+  }
 
   render() {
     var list = [
@@ -31,7 +31,9 @@ class KnowledgeBase extends Component {
     ]
     return (
       <Section gridtemplatecolumns="1fr" padding="10px" width="88%">
-        <Text fontsize="2rem" textalign="center">KnowledgeBase</Text>
+        <Text fontsize="2rem" textalign="center">
+          KnowledgeBase
+        </Text>
         <Section
           border="1px solid black"
           borderradius="5px"
@@ -61,7 +63,7 @@ class KnowledgeBase extends Component {
         </Section>
         <Section margin="20px 0 0 0" gridtemplatecolumns="1">
           <Column>
-            <VirtualGrid
+            {/*            <VirtualGrid
               cellRenderer={this.cellRenderer}
               columnCount={list[0].length}
               columnWidth={100}
@@ -70,6 +72,7 @@ class KnowledgeBase extends Component {
               rowHeight={30}
               width={400}
             />
+            */}
           </Column>
         </Section>
       </Section>

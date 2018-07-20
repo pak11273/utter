@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
-import config from '../config/config'
+import config from '../config/index.js'
 import User from '../api/user/userModel'
 
 const checkToken = expressJwt({secret: config.secrets.jwt})
@@ -29,9 +29,10 @@ exports.getFreshUser = () => {
 exports.verifyUser = () => {
   return (req, res, next) => {
     let {identifier, password} = req.body
-    let criteria = identifier.indexOf('@') === -1
-      ? {username: identifier}
-      : {email: identifier}
+    let criteria =
+      identifier.indexOf('@') === -1
+        ? {username: identifier}
+        : {email: identifier}
     if (!identifier || !password) {
       return res.status(400).send('You need a username/email and password')
     }
