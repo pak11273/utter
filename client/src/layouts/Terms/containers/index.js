@@ -4,9 +4,9 @@ import {connect} from 'react-redux'
 import {Grid, Segment, Header} from 'semantic-ui-react'
 
 import TermsList from '../components/termsList.js'
-import TermDetails from './termDetails.js'
+import TermDetails from '../components/termDetails.js'
 
-import {selectCurrentPilot} from '../selectors'
+import {selectCurrentPilot} from '../../../api/terms/selectors.js'
 
 import orm from '../../../app/schema.js'
 
@@ -37,9 +37,11 @@ const mapStateToProps = state => {
   // create an orm session from entities slice
   const session = orm.session(state.entitiesReducer)
   // destructure the Term slice
-  const {Term} = session
+  const {Terms} = session
   // convert to array
-  const terms = Term.all().toRefArray()
+  // TODO
+  // const terms = Terms.all().toRefArray()
+  const terms = [{name: 'el'}]
   // return the result
   return {terms}
 }

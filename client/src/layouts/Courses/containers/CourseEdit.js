@@ -74,7 +74,7 @@ import CourseInfo from '../features/CourseInfo.js'
 
 import Levels from '../../Levels/containers'
 
-import Terms from '../../../api/terms/containers'
+import Terms from '../../Terms/containers'
 
 import Pilot from '../features/Pilots/Pilots.js'
 

@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Menu} from 'semantic-ui-react'
 
-import {selectTerm} from '../actions.js'
-import {deleteEntity} from '../../entities/actions.js'
+import {selectTerm} from '../../../api/terms/actions.js'
+import {deleteEntity} from '../../../api/entities/actions.js'
 import {hideContextMenu} from '../../../containers/ContextMenus/actions.js'
 
 const actions = {

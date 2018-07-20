@@ -113,7 +113,11 @@ class Created extends Component {
             />
           </div>
           <Card.Content>
-            <Card.Header>{item.courseName}</Card.Header>
+            <Card.Header
+              onClick={e => this.onClick(e, item)}
+              style={{cursor: 'pointer', hover: 'underline'}}>
+              {item.courseName}
+            </Card.Header>
             <Card.Meta>
               <span className="date">Joined in 2013</span>
             </Card.Meta>

@@ -5,7 +5,7 @@ import {Portal} from 'react-portal'
 import ContextMenu from './ContextMenu'
 
 import TestContextMenu from './TestContextMenu'
-import PilotsListItemMenu from '../../api/terms/containers/termsListItemMenu.js'
+import PilotsListItemMenu from '../../layouts/Terms/components/termsListItemMenu.js'
 
 import {selectContextMenu} from './selectors.js'
 

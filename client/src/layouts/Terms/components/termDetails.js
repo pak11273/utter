@@ -2,19 +2,22 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button} from 'semantic-ui-react'
 
-import {getEntitiesSession} from '../../entities/selectors'
+import {getEntitiesSession} from '../../../api/entities/selectors'
 import {getEditingEntitiesSession} from '../../../containers/Editing/selectors.js'
 
 import {FormEditWrapper} from '../../../components'
 
-import {selectCurrentTerm, selectIsEditingTerm} from '../selectors'
-import {TERM_RANKS} from '../types.js'
+import {
+  selectCurrentTerm,
+  selectIsEditingTerm
+} from '../../../api/terms/selectors'
+import {TERM_RANKS} from '../../../api/terms/types.js'
 
 import {
   startEditingTerm,
   stopEditingTerm,
   cancelEditingTerm
-} from '../actions.js'
+} from '../../../api/terms/actions.js'
 
 import {resetEditedItem} from '../../../containers/Editing/actions.js'
 

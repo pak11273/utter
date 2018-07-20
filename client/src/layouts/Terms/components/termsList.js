@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
 import {Table} from 'semantic-ui-react'
 
-import TermsListHeader from '../containers/termsListHeader.js'
-import TermsListRow from '../containers/termsListRow'
+import TermsListHeader from './termsListHeader.js'
+import TermsListRow from './termsListRow'
 
 import {getEntitiesSession} from '../../../api/entities/selectors'
 
-import {selectTerm} from '../actions'
-import {selectCurrentTerm} from '../selectors'
+import {selectTerm} from '../../../api/terms/actions'
+import {selectCurrentTerm} from '../../../api/terms/selectors'
 
 export default class TermsList extends Component {
   render() {
