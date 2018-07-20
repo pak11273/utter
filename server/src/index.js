@@ -1,4 +1,4 @@
-import config from '../dist/config/config.js'
+import config from '../dist/config/index.js'
 import server from './server.js'
 import logger from '../dist/util/logger'
 import socketServer from './socketServer'

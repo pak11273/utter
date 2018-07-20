@@ -1,4 +1,4 @@
-import config from '../config/config'
+import config from '../config/index.js'
 import express from 'express'
 import controller from './controller'
 import auth from './auth'

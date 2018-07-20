@@ -2,7 +2,7 @@ import mongoose, {Schema} from 'mongoose'
 import uniqueValidator from 'mongoose-unique-validator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import config from '../../config/config.js'
+import config from '../../config/index.js'
 
 const UserSchema = new mongoose.Schema(
   {
