@@ -5,7 +5,7 @@ import {push} from 'react-router-redux'
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 import {validateInput} from '../../../utils/validations/courseCreate.js'
-import {addFlashMessage} from '../../../actions/flashMessages.js'
+import {addFlashMessage} from '../../../app/actions/flashMessages.js'
 import validator from 'validator'
 import cuid from 'cuid'
 import Teaching from './Teaching.js'
@@ -32,12 +32,12 @@ import {
 import transLoader from '../../../assets/images/trans_loader.gif'
 
 // actions
-import {toggleFooter} from '../../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 import {
   createCourse,
   fetchCourseName,
   resetCourseCreateForm,
-  saveFormToRedux
+  loadCurrentTeachingCourse
 } from '../actions.js'
 
 const StyledButton = styled(Button)`
@@ -124,7 +124,7 @@ class CreateCourse extends Component {
     this.state = {
       charCount: 0,
       courseId: cuid(),
-      courseCreatorId: this.props.authReducer.user._id,
+      // courseCreatorId: this.props.userReducer.user._id,
       courseDescription: '',
       courseName: '',
       levels: [{level: 1, cuid: cuid()}],
@@ -148,7 +148,7 @@ class CreateCourse extends Component {
 
   onBlur = e => {
     this.props.actions.fetchCourseName(this.state.courseName)
-  };
+  }
 
   onChange = e => {
     this.setState({
@@ -157,7 +157,7 @@ class CreateCourse extends Component {
     // this.props.actions.setReducer({
     //   [e.target.name]: e.target.value
     // })
-  };
+  }
 
   onSubmit = e => {
     e.preventDefault()
@@ -176,7 +176,7 @@ class CreateCourse extends Component {
         loading: false
       })
       // push state to redux
-      this.props.actions.saveFormToRedux(this.state)
+      this.props.actions.loadCurrentTeachingCourse(this.state)
       this.props.actions.addFlashMessage({
         type: 'success',
         text: 'You have successfully created a Course!'
@@ -185,25 +185,25 @@ class CreateCourse extends Component {
         `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
       )
     }
-  };
+  }
 
   addTags = value => {
     this.setState({
       tags: value
     })
-  };
+  }
 
   addTeachingLang = value => {
     this.setState({
       teachingLang: value
     })
-  };
+  }
 
   addUsingLang = value => {
     this.setState({
       usingLang: value
     })
-  };
+  }
 
   isValid() {
     const {errors, isValid} = validateInput(this.state)
@@ -317,7 +317,7 @@ class CreateCourse extends Component {
 
 const mapStateToProps = state => {
   return {
-    authReducer: state.authReducer,
+    userReducer: state.userReducer,
     courseReducer: state.courseReducer
   }
 }
@@ -332,7 +332,7 @@ const mapDispatchToProps = dispatch => {
         fetchCourseName,
         toggleFooter,
         push,
-        saveFormToRedux
+        loadCurrentTeachingCourse
       },
       dispatch
     )

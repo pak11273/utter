@@ -7,18 +7,20 @@ import ForgotPassword from './ForgotPassword.js'
 import Test from './Test'
 import GettingStarted from './GettingStarted.js'
 import Connections from '../layouts/Connections/index.js'
-import Login from './Login.js'
+import Login from './Login'
 import Settings from './Settings'
 import Signup from './Signup.js'
 import Sponsorship from './Sponsorship.js'
 import Course from './Courses/index.js'
 import CourseEdit from './Courses/containers/CourseEdit.js'
 import MyCourses from './Courses/MyCourses.js'
-import MyCoursesCreate from './Courses/containers/CourseCreate.js'
+import CoursesCreate from './Courses/containers/CourseCreate.js'
+import CoursesCreated from './Courses/containers/CoursesCreated.js'
 import Courses from './Courses/index.js'
 import CourseDetails from './Courses/CourseDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
 import requireAuth from '../utils/requireAuth.js'
+import requireAdmin from '../utils/requireAdmin.js'
 import Dashboard from './Dashboard.js'
 import Korean1 from './Korean/Level1'
 import Korean2 from './Korean/Level2'
@@ -51,10 +53,12 @@ export {
   Connections,
   Login,
   MyCourses,
-  MyCoursesCreate,
+  CoursesCreate,
+  CoursesCreated,
   Settings,
   NotFound,
   requireAuth,
+  requireAdmin,
   Dashboard,
   Korean1,
   Korean2,

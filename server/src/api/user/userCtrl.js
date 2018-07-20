@@ -21,18 +21,21 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.get = (req, res, next) => {
-  User.find({}).select('-password').exec().then(
-    users => {
-      res.json(
-        users.map(user => {
-          return user.toJSON()
-        })
-      )
-    },
-    err => {
-      next(err)
-    }
-  )
+  User.find({})
+    .select('-password')
+    .exec()
+    .then(
+      users => {
+        res.json(
+          users.map(user => {
+            return user.toJSON()
+          })
+        )
+      },
+      err => {
+        next(err)
+      }
+    )
 }
 
 exports.getOne = (req, res, next) => {

@@ -32,7 +32,7 @@ class Connections extends Component {
 
   componentDidMount() {
     // load the user profile
-    const userId = this.props.authReducer.user._id
+    const userId = this.props.userReducer.login.user._id
     this.props.actions.loadUserProfile(userId)
     // if user is logged in then start socket connection
     // if (window.localStorage.jwtToken) {
@@ -79,10 +79,10 @@ class Connections extends Component {
           <Box flexdirection="row" justifycontent="center">
             <Text color="black" fontsize="2rem">
               {this.props.socketReducer.status === 'connected to a namespace' ||
-                this.props.socketReducer.status === 'got a list of rooms' ||
-                this.props.socketReducer.joined_room === 'Lobby'
-                ? null
-                : <Challenge />}
+              this.props.socketReducer.status === 'got a list of rooms' ||
+              this.props.socketReducer.joined_room === 'Lobby' ? null : (
+                <Challenge />
+              )}
             </Text>
           </Box>
           {intro}
@@ -101,7 +101,7 @@ const mapStateToProps = state => {
     channelReducer: state.channelReducer,
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer,
-    authReducer: state.authReducer
+    userReducer: state.userReducer
   }
 }
 

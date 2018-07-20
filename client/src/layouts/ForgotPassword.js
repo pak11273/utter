@@ -6,8 +6,8 @@ import {Masthead, Navbar} from '../containers'
 import {Box, Button, Input, Subtitle, Title, Wrapper} from '../components'
 import {Helmet} from 'react-helmet'
 import {connect} from 'react-redux'
-import {addFlashMessage} from '../actions/flashMessages.js'
-import {forgotpassword} from '../actions/authActions.js'
+import {addFlashMessage} from '../app/actions/flashMessages.js'
+import {forgotpassword} from '../api/user/actions/loginActions.js'
 
 class ForgotPassword extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ class ForgotPassword extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  };
+  }
 
   forgotpassword = () => {
     this.props.actions
@@ -39,7 +39,7 @@ class ForgotPassword extends Component {
           text: error.response.data.message
         })
       })
-  };
+  }
 
   render() {
     return (

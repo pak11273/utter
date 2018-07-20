@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import Vocabulary from './Vocabulary'
@@ -8,9 +10,12 @@ import './styles.css'
 import Aws from './Aws'
 import Phrases from './Phrases'
 import Challenges from './Challenges'
-import Users from './Users'
+import Api from './Api'
 import Team from './Team'
 import Etc from './Etc'
+
+// actions
+import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 
 const Dropdown = styled(Button)`
   background: transparent;
@@ -93,7 +98,15 @@ class Admin extends Component {
         ''
       )
     }
-  };
+  }
+
+  componentDidMount() {
+    this.props.actions.toggleFooter(false)
+  }
+
+  componentWillUnmount() {
+    this.props.actions.toggleFooter(true)
+  }
 
   render() {
     return (
@@ -120,8 +133,8 @@ class Admin extends Component {
               <FaCaretDown />
             </Dropdown>
             <Box id="userAcc" className="hide">
-              <Link to="/admin/users" className="dropButton">
-                Users{' '}
+              <Link to="/admin/api" className="dropButton">
+                API{' '}
               </Link>
               <Link to="/admin/team" className="dropButton">
                 Team
@@ -150,7 +163,7 @@ class Admin extends Component {
             </Link>
           </Sidebar>
           <Route exact path="/admin" component={Main} />
-          <Route exact path="/admin/users" component={Users} />
+          <Route exact path="/admin/api" component={Api} />
           <Route exact path="/admin/team" component={Team} />
           <Route exact path="/admin/etc" component={Etc} />
           <Route exact path="/admin/vocabulary" component={Vocabulary} />
@@ -163,4 +176,21 @@ class Admin extends Component {
   }
 }
 
-export default Admin
+const mapStateToProps = state => {
+  return {
+    userReducer: state.userReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        toggleFooter
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Admin)

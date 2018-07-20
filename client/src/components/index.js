@@ -1,3 +1,4 @@
+import AbsolutePosition from './Misc/AbsolutePosition.js'
 import Ad from './Ads'
 import Audio from './Audio.js'
 import Box from './Boxes/index.js'
@@ -6,11 +7,13 @@ import ButtonBrowse from './Buttons/ButtonBrowse.js'
 import ButtonCta from './Buttons/CTA.js'
 import Container from './Container'
 import Column from './Columns/index.js'
+import ColorPickerButton from './ColorPicker/ColorPickerButton.js'
 import Component from './Section.js'
 import CreateMessge from './CreateMessage.js'
 import Dictionary from './Dictionary'
 import Dropdown from './Dropdowns'
 import Flex from './Flex'
+import FormEditWrapper from './FormEditWrapper'
 import Form from './Forms'
 import Grid from './Grids'
 import Hamburger from './Buttons/Hamburger.js'
@@ -53,6 +56,7 @@ import Zone from './Zone.js'
 import ZoneCreate from './ZoneCreate.js'
 
 export {
+  AbsolutePosition,
   Ad,
   Audio,
   Box,
@@ -60,12 +64,14 @@ export {
   ButtonBrowse,
   ButtonCta,
   Column,
+  ColorPickerButton,
   Container,
   CreateMessge,
   Dictionary,
   Dropdown,
   Flex,
   Form,
+  FormEditWrapper,
   Grid,
   Hamburger,
   Img,

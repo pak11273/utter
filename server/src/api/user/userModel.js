@@ -6,6 +6,9 @@ import config from '../../config/index.js'
 
 const UserSchema = new mongoose.Schema(
   {
+    siteAdmin: {
+      type: Boolean
+    },
     username: {
       type: String,
       lowercase: true,
@@ -13,6 +16,10 @@ const UserSchema = new mongoose.Schema(
       required: [true, "can't be blank"],
       match: [/^[a-zA-Z0-9]+$/, 'is invalid'],
       index: true
+    },
+    nativeLang: {
+      type: String,
+      required: [true, "can't be blank"]
     },
     bio: String,
     email: {
@@ -23,6 +30,7 @@ const UserSchema = new mongoose.Schema(
       match: [/\S+@\S+\.\S+/, 'is invalid'],
       index: true
     },
+    courses: [{type: mongoose.Schema.Types.ObjectId, ref: 'Course'}],
     coursesTeaching: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     coursesLearning: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
     reset_password_token: {
@@ -46,7 +54,7 @@ const UserSchema = new mongoose.Schema(
     subscriptions: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Language'
+        ref: 'Course'
       }
     ],
     bio: String,

@@ -1,104 +1,141 @@
 import React, {Component} from 'react'
-import {NavLink, Route, Link} from 'react-router-dom'
-import FaCaretDown from 'react-icons/fa/caret-down'
-import styled, {ThemeProvider} from 'styled-components'
-import {Masthead, Navbar, Profile} from '../../containers'
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+import styled from 'styled-components'
+import cuid from 'cuid'
+import {validateInput} from '../../utils/validations/courseUpdate.js'
+import '../Courses/styles.css'
+
 import {
-  Button,
   Box,
+  Button,
+  ButtonBrowse,
   Column,
-  Container,
+  Flex,
+  Form,
   Grid,
-  Spacer,
+  Img,
+  Section,
+  Input,
+  LanguageCard,
   Subtitle,
-  Text,
-  Title
+  Title,
+  Text
 } from '../../components'
-import {Sidebar} from '../../containers'
+import {Masthead, Navbar, Staticbar, TabBarContainer} from '../../containers'
 
-const UserSettings = () => <div>settings</div>
-const Misc1 = () => <div>misc 1</div>
-const Misc2 = () => <div>misc 2</div>
+import {Header, Container, Menu} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.css'
 
-const StyledLink = styled(Link)`
-  color: ${props => props.color};
-`
+// actions
+import {addFlashMessage} from '../../app/actions/flashMessages.js'
+import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 
-const Dropdown = styled(Button)`
-  background: transparent;
-  border: none;
-  font-size: 1.2rem;
+const StyledButton = styled(Button)`
+  border-radius: 50px;
+  color: #02598b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 80px 0 0 0;
   outline: none;
-  text-align: left;
+  padding: 7px 36px;
+  &:hover {
+    background: #4fa0d1;
+    color: #ecf12a;
+  }
 `
+const Delete = styled.a`
+  cursor: pointer;
+  margin: 0 auto;
+  &:hover {
+    text-decoration: none;
+  }
+`
+const Error = styled.div`
+  color: red;
+  padding-top: ${props => props.paddingtop};
+  position: absolute;
+  text-align: center;
+`
+
+import Account from './containers/account.js'
+import Notifications from './containers/notifications.js'
+
 class Settings extends Component {
-  DropFunc = e => {
-    let name = e.target.name
-    let x = document.getElementById(name)
-    if (x.className.indexOf('show') == -1) {
-      x.className += ' show'
-      x.previousElementSibling.className += ' w3-green'
-    } else {
-      x.className = x.className.replace(' show', '')
-      x.previousElementSibling.className = x.previousElementSibling.className.replace(
-        ' w3-green',
-        ''
-      )
+  constructor() {
+    super()
+    this.state = {}
+  }
+
+  componentDidMount() {
+    this.props.actions.toggleFooter(false)
+  }
+
+  componentWillUnmount() {
+    this.props.actions.toggleFooter(true)
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+    if (this.isValid()) {
+      let updatedCourse = this.props.courseReducer.currentTeachingCourse
+      this.props.actions.updateCourse(updatedCourse)
+
+      // clear errors
+      this.setState({
+        errors: {} // clear errors every time we submit form
+      })
+
+      this.props.actions.addFlashMessage({
+        type: 'success',
+        text: 'Changes were saved.'
+      })
     }
-  };
+  }
 
   render() {
+    const url = `/api/courses/${
+      this.props.courseReducer.currentTeachingCourse.courseId
+    }/${this.props.courseReducer.currentTeachingCourse.courseName}`
+
+    const tabs = [
+      {name: 'account', label: 'Account', component: Account},
+      {name: 'notifications', label: 'Notifications', component: Notifications}
+    ]
+
     return (
-      <Container>
-        <Grid gridtemplatecolumns="15% 85%" gridtemplatecolumns650="25% 75%">
-          <Sidebar padding="20px 0 0 20px">
-            <Text color="white" fontsize="1.5rem">
-              Settings
-            </Text>
-            <Spacer margin="20px" />
-            <StyledLink color="white" to="/dashboard" className="dropButton">
-              Dashboard
-            </StyledLink>
-            <Spacer margin="20px" />
-            <Link to="/settings/profile" className="dropButton">
-              Profile
-            </Link>
-            <Dropdown color="white" name="misc" onClick={this.DropFunc}>
-              Dropdown
-              <FaCaretDown />
-            </Dropdown>
-            <Box id="misc" className="hide">
-              <Link to="/settings/misc1" className="dropButton">
-                misc 1
-              </Link>
-              <Link to="/settings/misc2" className="dropButton">
-                misc 2
-              </Link>
-            </Box>
-            <Spacer margin="10px" />
-            <Link to="/settings/billing" className="dropButton">
-              Profile
-            </Link>
-            <Spacer margin="10px" />
-          </Sidebar>
-          <Column>
-            <Route path="/settings/profile" component={Profile}>
-              <Text color="black" fontsize="2rem" />
-            </Route>
-            <Route path="/settings/settings" component={UserSettings}>
-              <Text color="black" fontsize="2rem" />
-            </Route>
-            <Route path="/settings/misc1" component={Misc1}>
-              <Text color="black" fontsize="2rem" />
-            </Route>
-            <Route path="/settings/misc2" component={Misc2}>
-              <Text color="black" fontsize="2rem" />
-            </Route>
-          </Column>
-        </Grid>
-      </Container>
+      <Flex>
+        <div>
+          <Title padding="20px">Edit Your Settings</Title>
+          <div className="App">
+            <Container>
+              <TabBarContainer tabs={tabs} size="massive" />
+            </Container>
+          </div>
+          <Box flexdirection="row">
+            <StyledButton type="submit">Save Changes</StyledButton>
+          </Box>
+        </div>
+      </Flex>
     )
   }
 }
 
-export default Settings
+const mapStateToProps = state => {
+  return {
+    courseReducer: state.courseReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(
+      {
+        toggleFooter
+      },
+      dispatch
+    )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

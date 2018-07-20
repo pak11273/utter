@@ -73,6 +73,7 @@ class KnowledgeBase extends Component {
               width={400}
             />
             */}
+            <h1>nah</h1>
           </Column>
         </Section>
       </Section>
