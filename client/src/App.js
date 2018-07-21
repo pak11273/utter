@@ -7,6 +7,8 @@ import styled, {ThemeProvider} from 'styled-components'
 import jwt from 'jsonwebtoken'
 import {AppContainer} from 'react-hot-loader'
 import {ConnectedRouter as Router} from 'react-router-redux'
+import LoadingBar from 'react-redux-loading-bar'
+
 import './assets/css/global-styles.js'
 import {routes} from './routes'
 import {main} from './themes/config.js'
@@ -17,6 +19,7 @@ import {store, persistor} from './store.js'
 import FlashMessagesList from './components/FlashMessages/FlashMessagesList'
 import history from './history.js'
 import {PersistGate} from 'redux-persist/integration/react'
+import 'semantic-ui-css/semantic.css'
 
 //actions
 // import {setCurrentUser} from './actions/authActions.js' TODO: possibly remove
@@ -24,12 +27,49 @@ import {PersistGate} from 'redux-persist/integration/react'
 const StyledGrid = styled(Grid)`
   display: grid;
   grid-template-areas:
-    'navbar'
+    'navBar'
     'flash'
     'content'
     'footer';
   margin: 0 auto;
 `
+
+var options = {
+  target: document.getElementById('nanobar')
+}
+
+/**
+ * * Checks authentication status on route change
+ * * @param  {object}   nextState The state we want to change into when we change routes
+ * * @param  {function} replace Function provided by React Router to replace the location
+ * */
+
+function checkAuth(nextState, replace) {
+  const {loggedIn} = store.getState()
+
+  store.dispatch(clearError())
+
+  // Check if the path isn't dashboard. That way we can apply specific logic to
+  // display/render the path we want to
+  if (nextState.location.pathname !== '/dashboard') {
+    if (loggedIn) {
+      if (nextState.location.state && nextState.location.pathname) {
+        replace(nextState.location.pathname)
+      } else {
+        replace('/')
+      }
+    }
+  } else {
+    // If the user is already logged in, forward them to the homepage
+    if (!loggedIn) {
+      if (nextState.location.state && nextState.location.pathname) {
+        replace(nextState.location.pathname)
+      } else {
+        replace('/')
+      }
+    }
+  }
+}
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
@@ -46,7 +86,7 @@ class App extends Component {
               <Router history={history}>
                 <StyledGrid>
                   <MainNavbar
-                    gridarea="navbar"
+                    gridarea="navBar"
                     list={[
                       'about',
                       'contact',
@@ -61,6 +101,11 @@ class App extends Component {
                   <Section gridarea="flash">
                     <NavbarSpacer margin="50px 0 0 0" id="spacer" />
                     <FlashMessagesList />
+                    {/* TODO: fix
+                    <LoadingBar
+                      style={{backgroundColor: '#8b1a87', height: '5px'}}
+                    />
+                   */}
                   </Section>
                   <Section gridarea="content">
                     <Switch>

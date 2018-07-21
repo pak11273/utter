@@ -24,11 +24,17 @@ function flattenZones(arr) {
 
 const zones = flattenZones(timezones)
 
-export default props =>
+export default props => (
   <div>
     <Select onChange={props.onChange} value={props.value} name={props.name}>
       {zones.map((zone, i) => {
-        return <Option key={i}>  {zone.name} {zone.value}</Option>
+        return (
+          <Option key={i}>
+            {' '}
+            {zone.name} {zone.value}
+          </Option>
+        )
       })}
     </Select>
   </div>
+)

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {addFlashMessage} from '../actions/flashMessages.js'
+import {addFlashMessage} from '../app/actions/flashMessages.js'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {push} from 'react-router-redux'
@@ -20,12 +20,6 @@ export default ComposedComponent => {
       }
     }
 
-    // componentWillUpdate(nextProps) {
-    //   if (!nextProps.isAuthenticated) {
-    //     this.props.actions.push('/login')
-    //   }
-    // }
-
     render() {
       return <ComposedComponent {...this.props} />
     }
@@ -33,7 +27,7 @@ export default ComposedComponent => {
 
   const mapStateToProps = state => {
     return {
-      isAuthenticated: state.authReducer.isAuthenticated
+      isAuthenticated: state.userReducer.login.isAuthenticated
     }
   }
 

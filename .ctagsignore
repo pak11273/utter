@@ -1,0 +1,10 @@
+.git
+.DS_Store
+vendor
+Gemfile.lock
+node_modules
+flow-typed
+.next
+package-lock.json
+yarn.lock
+

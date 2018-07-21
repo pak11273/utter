@@ -16,9 +16,11 @@ import {
   CourseEdit,
   CourseDetails,
   MyCourses,
-  MyCoursesCreate,
+  CoursesCreate,
+  CoursesCreated,
   NotFound,
   requireAuth,
+  requireAdmin,
   Dashboard,
   Korean1,
   Korean2,
@@ -56,11 +58,11 @@ export const routes = [
     exact: true,
     path: '/home'
   },
-  // {
-  //   path: '/admin',
-  //   component: requireAuth(Admin),
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/admin',
+    component: requireAdmin(Admin),
+    loadData: () => getSomeData()
+  },
   // {
   //   exact: true,
   //   path: '/forgot-password',
@@ -118,9 +120,19 @@ export const routes = [
     path: '/my-courses',
     routes: [
       {
-        component: requireAuth(MyCoursesCreate),
+        component: requireAuth(CoursesCreated),
+        exact: true,
+        path: '/my-courses'
+      },
+      {
+        component: requireAuth(CoursesCreate),
         exact: true,
         path: '/my-courses/create'
+      },
+      {
+        component: requireAuth(CoursesCreated),
+        exact: true,
+        path: '/my-courses/created'
       }
     ]
   },
@@ -129,11 +141,11 @@ export const routes = [
     exact: true,
     path: '/my-courses/:id/:name/edit'
   },
-  // {
-  //   path: '/pricing',
-  //   component: Pricing,
-  //   loadData: () => getSomeData()
-  // },
+  {
+    component: Pricing,
+    exact: true,
+    path: '/pricing'
+  },
   // {
   //   path: '/redux',
   //   component: Redux,
@@ -144,11 +156,11 @@ export const routes = [
   //   component: ResetPassword,
   //   loadData: () => getSomeData()
   // },
-  // {
-  //   path: '/Settings',
-  //   component: requireAuth(Settings),
-  //   loadData: () => getSomeData()
-  // },
+  {
+    path: '/Settings',
+    component: requireAuth(Settings),
+    loadData: () => getSomeData()
+  },
   {
     path: '/signup',
     component: Signup,

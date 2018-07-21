@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import _ from 'lodash'
 import axios from 'axios'
 import superagent from 'superagent'
-import ApiMgr from '../../utils'
 import {Box, Button, Input, Text} from '../../components'
 import RoomCreator from './RoomCreator.js'
 
@@ -164,7 +163,7 @@ class RoomsContainer extends Component {
 
   joinRoom = name => {
     this.props.actions.joinRoom(name)
-  };
+  }
 
   // filteredRoomList() {
   //   let list = this.props.socketReducer.list
@@ -183,7 +182,7 @@ class RoomsContainer extends Component {
     this.setState({
       selected: index
     })
-  };
+  }
 
   updateName = e => {
     e.preventDefault
@@ -193,7 +192,7 @@ class RoomsContainer extends Component {
     this.setState({
       room: updatedRoom
     })
-  };
+  }
 
   render() {
     if (!this.props.socketReducer.joined_room) {
