@@ -29,7 +29,11 @@ exports.getFreshUser = () => {
 exports.verifyUser = () => {
   return (req, res, next) => {
     let {identifier, password} = req.body
+<<<<<<< HEAD
+=======
+
     // checks input for email or username
+>>>>>>> 7518998078d7748d283b7abed54a586d523f2f6c
     let criteria =
       identifier.indexOf('@') === -1
         ? {username: identifier}
