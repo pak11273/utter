@@ -38,11 +38,13 @@ const Box = styled.div`
   z-index: ${props => props.zindex};
 
   @media (min-width: 640px) {
+    flex-direction: ${props => props.flexdirection640};
     width: ${props => props.width640};
     min-width: ${props => props.minwidth640};
   }
 
   @media (min-width: 1080px) {
+    flex-direction: ${props => props.flexdirection1080};
     width: ${props => props.width1080};
     min-width: ${props => props.minwidth1080};
   }

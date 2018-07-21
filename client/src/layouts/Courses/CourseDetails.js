@@ -18,7 +18,7 @@ class CourseDetails extends Component {
   }
   componentDidMount() {
     // load the user profile
-    const userId = this.props.authReducer.user._id
+    const userId = this.props.userReducer.user._id
     this.props.actions.loadUserProfile(userId)
   }
 
@@ -41,20 +41,20 @@ class CourseDetails extends Component {
       const id = this.props.userReducer.userProfile._id
       this.props.actions.addCourse(id, course)
     }
-  };
+  }
 
   handleChange = e => {
     this.setState({
       value: e.target.value
     })
-  };
+  }
 
   handleSubmit = e => {
     e.preventDefault()
     let button = document.getElementById('submit')
     this.props.history.push('/getting-started')
     button.disabled = true
-  };
+  }
 
   render() {
     const {name, description, levels} = this.props.language
@@ -82,7 +82,6 @@ class CourseDetails extends Component {
           <Subtitle>Levels: {levels}</Subtitle>
           <Subtitle>Choose the language you will be learning with?</Subtitle>
           <form onSubmit={this.handleSubmit}>
-
             <Select
               fontsize="2rem"
               color="black"
@@ -91,11 +90,7 @@ class CourseDetails extends Component {
               value={this.state.value}>
               {items.map(item => {
                 if (item != name) {
-                  return (
-                    <option value={item}>
-                      {item}
-                    </option>
-                  )
+                  return <option value={item}>{item}</option>
                 }
               })}
             </Select>
@@ -119,7 +114,7 @@ class CourseDetails extends Component {
 
 const mapStateToProps = state => {
   return {
-    authReducer: state.authReducer,
+    userReducer: state.userReducer,
     courseReducer: state.courseReducer,
     userReducer: state.userReducer
   }

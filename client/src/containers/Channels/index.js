@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import axios from 'axios'
 import io from 'socket.io-client'
-import ApiMgr from '../../utils'
 import {Rooms} from '../../containers'
 import {Box, Button, Column, Input, Ol, Text} from '../../components'
 
@@ -82,7 +81,7 @@ class ChannelsContainer extends Component {
     } else {
       alert('you must be enrolled in that course to join a channel')
     }
-  };
+  }
 
   render() {
     if (this.props.channelReducer.channelId) {

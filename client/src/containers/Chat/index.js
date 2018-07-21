@@ -195,7 +195,7 @@ class ChatContainer extends Component {
       this.props.actions.sendMsg(body)
       e.target.value = ''
     }
-  };
+  }
 
   onSend = e => {
     e.preventDefault()
@@ -231,7 +231,7 @@ class ChatContainer extends Component {
 
     // TODO: code below for uttered lists
     // const obj = {
-    //   // author: this.props.authReducer.userProfile.username,
+    //   // author: this.props.userReducer.userProfile.username,
     //   room_id: this.props.roomReducer.selected,
     //   message: this.props.chatReducer.current_msg
     // }
@@ -257,7 +257,7 @@ class ChatContainer extends Component {
     //   })
 
     //   // TODO: save utterlist to db (this feature to halted for now)
-    //   const userObjId = this.props.authReducer.userProfile._id
+    //   const userObjId = this.props.userReducer.userProfile._id
     //   console.log('userObjId: ', userObjId)
     //   superagent
     //     .put(`/api/users/${userObjId}`)
@@ -273,7 +273,7 @@ class ChatContainer extends Component {
 
     // delete the audio
     this.props.actions.deleteAudioBlob()
-  };
+  }
 
   UNSAFE_componentWillUpdate() {
     // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
@@ -291,7 +291,7 @@ class ChatContainer extends Component {
     //   if (item.message.room_id === this.props.roomReducer.selected) return true
     // })
     return list
-  };
+  }
 
   updateReview = e => {
     e.preventDefault()
@@ -308,7 +308,7 @@ class ChatContainer extends Component {
       reviewList
       this.props.actions.updateReviewList(reviewObj)
     }
-  };
+  }
 
   updateScroll() {
     var element = document.getElementById('chatList')
@@ -389,7 +389,7 @@ const mapStateToProps = state => {
     pictureReducer: state.pictureReducer,
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer,
-    authReducer: state.authReducer,
+    userReducer: state.userReducer,
     userReducer: state.userReducer,
     utteredList: state.utteredReducer.utteredList
   }

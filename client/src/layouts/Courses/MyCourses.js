@@ -10,13 +10,10 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
 import 'react-table/react-table.css'
-import Created from './Created.js'
 import MyCoursesCreate from './containers/CourseEdit.js'
 import CourseEdit from './containers/CourseEdit.js'
-import data from './data/data.js'
 import requireAuth from '../../utils/requireAuth.js'
 
-const Blah = <h1>Blah!!!</h1>
 import {
   Box,
   Button,
@@ -30,11 +27,13 @@ import {
   Subtitle,
   Title
 } from '../../components'
+
 import {Masthead, Navbar, Staticbar} from '../../containers'
 
 // actions
 import {chooseCourseLanguage} from './actions'
-import {toggleFooter} from '../../actions/toggleFooterAction.js'
+import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
+// import {getTeachingList} from './actions.js'
 
 const StyledSubtitle = styled(Subtitle)`
   text-align: left;
@@ -47,11 +46,13 @@ StyledSubtitle.defaultProps = {
 }
 
 const StyledGrid = styled(Grid)`
+  display: grid;
+  grid-template-rows: auto;
   grid-template-areas:
     'sidebar sidebar'
     'content content';
 
-  min-height: 600px;
+  min-height: 2000px;
 
   @media (min-width: 640px) {
     grid-template-columns: 200px 1fr;
@@ -76,6 +77,7 @@ class MyCourses extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
+    // this.props.actions.getTeachingList()
   }
 
   componentWillUnmount() {
@@ -89,7 +91,7 @@ class MyCourses extends Component {
           <Staticbar>
             <Section>
               <Column>
-                <StyledSubtitle padding="80px 0 0 20px">
+                <StyledSubtitle padding="40px 0 0 20px">
                   <StyledNavLink to="/my-courses/created">
                     My Courses
                   </StyledNavLink>
@@ -119,6 +121,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
+        // getTeachingList,
         toggleFooter
       },
       dispatch

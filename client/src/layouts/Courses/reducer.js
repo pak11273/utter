@@ -1,9 +1,17 @@
 import {
   ADD_CUID_TO_LEVELS,
   ADD_LEVEL,
+  CHANGE_COURSE_PG_FAIL,
+  CHANGE_COURSE_PG_SUCCESS,
   CREATE_COURSE,
   CREATE_COURSE_SUCCESS,
   CREATE_COURSE_FAIL,
+  DELETE_LEVEL,
+  DELETE_LEVEL_FAIL,
+  DELETE_LEVEL_SUCCESS,
+  FETCH_TEACHING_LIST,
+  GET_TEACHING_LIST_FAIL,
+  GET_TEACHING_LIST_SUCCESS,
   READ_COURSE,
   READ_COURSE_SUCCESS,
   READ_COURSE_FAIL,
@@ -16,8 +24,10 @@ import {
   UPDATE_COURSE_FAIL,
   COURSE_LANGUAGE_FULFILLED,
   RESET_COURSE_CREATE_FORM,
-  SAVE_FORM_TO_REDUX
+  LOAD_CURRENT_TEACHING_COURSE
 } from './types'
+
+// import {normalize, schema} from 'normalizr'
 
 // Reducer
 const initialState = {
@@ -26,10 +36,19 @@ const initialState = {
   loading: false,
   error: false,
   errorMsg: '',
+  coursePg: 1,
   create: {
     pending: false,
     course: null,
     error: null
+  },
+  editTeachingCourse: {
+    levels: [
+      {
+        level: 1,
+        title: 'Change this title'
+      }
+    ]
   },
   currentTeachingCourse: {
     levels: [
@@ -38,6 +57,11 @@ const initialState = {
         title: 'Change this title'
       }
     ]
+  },
+  teachingCourseList: {
+    result: {
+      docs: []
+    }
   },
   currentLearningCourse: {}
 }
@@ -80,6 +104,16 @@ export default (state = initialState, action) => {
           ]
         }
       }
+    case 'CHANGE_COURSE_PG_FAIL':
+      return {
+        ...state,
+        errorMsg: action.error.message
+      }
+    case 'CHANGE_COURSE_PG_SUCCESS':
+      return {
+        ...state,
+        coursePg: action.coursePg
+      }
     case 'CREATE_COURSE':
       return {
         ...state,
@@ -112,10 +146,61 @@ export default (state = initialState, action) => {
           error: action.error
         }
       }
+
+    case 'DELETE_LEVEL_FAIL':
+      return {
+        ...state,
+        error: true,
+        errorMsg: action.error.message
+      }
+
+    case 'DELETE_LEVEL_SUCCESS':
+      return {
+        ...state,
+        error: false
+      }
+
+    case 'GET_TEACHING_LIST_FAIL':
+      return {
+        ...state,
+        error: true,
+        errorMsg: action.error.message
+      }
+    case 'GET_TEACHING_LIST_SUCCESS':
+      return {
+        ...state,
+        ...state.teachingCourseList,
+        teachingCourseList: action.data
+      }
     case 'READ_COURSE_SUCCESS':
+      // TODO: normalize data
+      // const term = new schema.Entity('terms')
+
+      // const level = new schema.Entity('levels', {
+      //   terms: [term]
+      // })
+
+      // // define course
+      // const course = new schema.Entity('course', {
+      //   levels: [level]
+      // })
+
+      // const normalized = normalize(action.course, course)
+      // console.log('normal: ', normalized)
+      // console.log('action: ', action.course)
+      // const terms = normalized.entities.terms
+      // console.log('terms: ', terms)
+      // const objToArr = Object.keys(terms).map(key => {
+      //   return terms[key]
+      // })
+      // console.log('objToArr: ', objToArr)
+
       return {
         ...state,
         currentTeachingCourse: {
+          ...action.course
+        },
+        editTeachingCourse: {
           ...action.course
         }
       }
@@ -179,7 +264,7 @@ export default (state = initialState, action) => {
         error: false,
         errorMsg: action.error
       }
-    case 'SAVE_FORM_TO_REDUX':
+    case 'LOAD_CURRENT_TEACHING_COURSE':
       return {
         ...state,
         currentTeachingCourse: {

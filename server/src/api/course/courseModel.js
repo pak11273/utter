@@ -1,4 +1,38 @@
 import mongoose, {Schema} from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate'
+
+const TermsSchema = new Schema({
+  word: String,
+  translation: String,
+  audio: String
+})
+
+TermsSchema.virtual('id').get(function() {
+  return this._id.toHexString()
+})
+
+TermsSchema.set('toJSON', {
+  virtuals: true
+})
+
+const LevelsSchema = new Schema({
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  },
+  level: Number,
+  title: String,
+  terms: [TermsSchema],
+  grammar: String
+})
+
+LevelsSchema.virtual('id').get(function() {
+  return this._id.toHexString()
+})
+
+LevelsSchema.set('toJSON', {
+  virtuals: true
+})
 
 const CourseSchema = mongoose.Schema(
   {
@@ -9,6 +43,10 @@ const CourseSchema = mongoose.Schema(
     courseName: {
       type: String,
       default: ''
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     },
     courseCreatorId: {
       type: String,
@@ -40,15 +78,7 @@ const CourseSchema = mongoose.Schema(
         ref: 'User'
       }
     ],
-    levels: [
-      {
-        cuid: String,
-        level: Number,
-        title: String,
-        vocabulary: Array,
-        grammar: String
-      }
-    ],
+    levels: [LevelsSchema],
     courseDescription: {
       type: String,
       default: ''
@@ -61,4 +91,13 @@ const CourseSchema = mongoose.Schema(
   {timestamps: true}
 )
 
+CourseSchema.virtual('id').get(function() {
+  return this._id.toHexString()
+})
+
+CourseSchema.set('toJSON', {
+  virtuals: true
+})
+
+CourseSchema.plugin(mongoosePaginate)
 module.exports = mongoose.model('Course', CourseSchema)

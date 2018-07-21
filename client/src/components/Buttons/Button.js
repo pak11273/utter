@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import {Component} from 'react'
 import styled from 'styled-components'
 
 const Button = styled.button`
@@ -13,7 +13,7 @@ const Button = styled.button`
   height: ${props => props.height};
   &:hover {
     color: ${props => props.hovercolor};
-    background: ${props => props.hoverbackground}; 
+    background: ${props => props.hoverbackground};
   }
   outline: ${props => props.outline};
   margin: ${props => props.margin};

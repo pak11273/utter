@@ -8,21 +8,21 @@ const StaticSidebar = styled.div`
   grid-area: ${props => props.gridarea};
   grid-column: ${props => props.gridcolumn};
   grid-row: ${props => props.gridrow};
-  grid-template-areas:
-    'native'
-    'courses';
-  grid-template-rows: auto;
+  grid-template-rows: ${props => props.gridtemplaterows};
+  height: ${props => props.height};
   padding: ${props => props.padding};
 
   @media (min-width: 640px) {
     grid-template-rows: auto;
+    height: 2000px;
   }
 `
-
 StaticSidebar.defaultProps = {
   background: '#f3f3f3',
-  display: 'grid',
+  display: 'flex',
   gridarea: 'sidebar',
+  height: '400px',
+  padding: '100px 0 0 0',
   minwidth: '200px'
 }
 
