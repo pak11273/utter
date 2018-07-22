@@ -91,7 +91,6 @@ module.exports = env => {
       ]
     },
     plugins: removeEmpty([
-      ifProd(new webpack.optimize.DedupePlugin()),
       new ProgressBarPlugin(),
       ifProd(
         new webpack.DefinePlugin({
