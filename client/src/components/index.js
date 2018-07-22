@@ -39,7 +39,7 @@ import Span from './Spans'
 import State from './Buttons/State.js'
 import Subtitle from './Text/Subtitle.js'
 import Table from './Table.js'
-// import Tags from './Tags'
+import Tags from './Tags'
 import Tbody from './Tbody.js'
 import Td from './Td.js'
 import Text from '../components/Text/Text.js'
@@ -99,7 +99,7 @@ export {
   State,
   Subtitle,
   Table,
-  // Tags,
+  Tags,
   Tbody,
   Td,
   Thead,
