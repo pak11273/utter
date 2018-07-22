@@ -56,9 +56,6 @@ export function loadUser(state, payload) {
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
   const {User} = session
-  console.log('payload: ', payload)
-  console.log('payload.payload: ', payload.payload)
-  console.log('payload.payload.data: ', payload.payload.data)
   const loggedInUser = payload.payload.data.user
   // add id by converting _id
   loggedInUser.id = loggedInUser._id
