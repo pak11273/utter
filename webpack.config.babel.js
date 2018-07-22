@@ -8,7 +8,7 @@ const nodeExternals = require('webpack-node-externals')
 const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = env => {
-  const {getIfUtils} = require('webpack-config-utils')
+  const {getIfUtils, removeEmpty} = require('webpack-config-utils')
   const {ifProd, ifNotProd} = getIfUtils(env)
   return {
     context: path.resolve(__dirname, 'client/src'),
@@ -90,14 +90,17 @@ module.exports = env => {
         }
       ]
     },
-    plugins: [
+    plugins: removeEmpty([
+      ifProd(new webpack.optimize.DedupePlugin()),
       new ProgressBarPlugin(),
-      new webpack.DefinePlugin({
-        // <-- key to reducing React's size
-        'process.env': {
-          NODE_ENV: JSON.stringify('development')
-        }
-      }),
+      ifProd(
+        new webpack.DefinePlugin({
+          // <-- key to reducing React's size
+          'process.env': {
+            NODE_ENV: JSON.stringify('production')
+          }
+        })
+      ),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
@@ -105,7 +108,7 @@ module.exports = env => {
         // favicon: './assets/images/favicon.ico',
         inject: false
       }),
-      new webpack.optimize.UglifyJsPlugin({sourceMap: true}), //minify everything
+      ifProd(new webpack.optimize.UglifyJsPlugin({sourceMap: true})), //minify everything
       new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks
       new CompressionPlugin({
         asset: '[path].gz[query]',
@@ -114,7 +117,7 @@ module.exports = env => {
         threshold: 10240,
         minRatio: 0.8
       })
-    ],
+    ]),
     node: {
       net: 'empty',
       dns: 'empty'

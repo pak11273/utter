@@ -5,7 +5,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline  --env.dev",
+    "fserver":
+      "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline  --env.dev",
     "prebserver": "babel server/src --out-dir server/dist",
     "prebuild": "babel server/src --out-dir server/dist",
     "build": "webpack -p --env.prod",
