@@ -1,38 +1,49 @@
 import mongoose, {Schema} from 'mongoose'
 import mongoosePaginate from 'mongoose-paginate'
+// import Level from '../level/levelModel.js'
 
-const TermsSchema = new Schema({
+const TermSchema = new Schema({
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  },
+  level: {
+    type: Schema.Types.ObjectId,
+    ref: 'Level'
+  },
   word: String,
   translation: String,
   audio: String
 })
 
-TermsSchema.virtual('id').get(function() {
+TermSchema.virtual('id').get(function() {
   return this._id.toHexString()
 })
 
-TermsSchema.set('toJSON', {
+TermSchema.set('toJSON', {
   virtuals: true
 })
 
-const LevelsSchema = new Schema({
+const LevelSchema = new Schema({
   course: {
     type: Schema.Types.ObjectId,
     ref: 'Course'
   },
   level: Number,
   title: String,
-  terms: [TermsSchema],
+  terms: [TermSchema],
   grammar: String
 })
 
-LevelsSchema.virtual('id').get(function() {
+LevelSchema.virtual('id').get(function() {
   return this._id.toHexString()
 })
 
-LevelsSchema.set('toJSON', {
+LevelSchema.set('toJSON', {
   virtuals: true
 })
+
+mongoose.model('Level', LevelSchema)
 
 const CourseSchema = mongoose.Schema(
   {
@@ -78,7 +89,13 @@ const CourseSchema = mongoose.Schema(
         ref: 'User'
       }
     ],
-    levels: [LevelsSchema],
+    levels: [LevelSchema],
+    // levels: [
+    //   {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Level'
+    //   }
+    // ],
     courseDescription: {
       type: String,
       default: ''

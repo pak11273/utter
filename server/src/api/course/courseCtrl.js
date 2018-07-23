@@ -50,8 +50,7 @@ exports.unique = (req, res, next) => {
 }
 
 exports.faker = (req, res, next) => {
-  console.log('faker')
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 3; ++i) {
     var course = new Course()
 
     course.category = faker.commerce.department()
@@ -68,8 +67,16 @@ exports.faker = (req, res, next) => {
         level: 1,
         title: 'Change Me',
         terms: [
-          {word: 'hello', translation: '안영'},
-          {word: 'world', translation: '세상'}
+          {
+            level: course._id,
+            word: 'hello',
+            translation: '안영'
+          },
+          {
+            level: course._id,
+            word: 'world',
+            translation: '세상'
+          }
         ]
       },
       {
@@ -77,8 +84,16 @@ exports.faker = (req, res, next) => {
         level: 2,
         title: 'Change Me',
         terms: [
-          {word: 'bart', translation: '안영'},
-          {word: 'sympson', translation: '세상'}
+          {
+            level: course._id,
+            word: 'bart',
+            translation: '안영'
+          },
+          {
+            level: course._id,
+            word: 'sympson',
+            translation: '세상'
+          }
         ]
       },
       {
@@ -86,8 +101,16 @@ exports.faker = (req, res, next) => {
         level: 4,
         title: 'Change Me',
         terms: [
-          {word: 'cat', translation: '안영'},
-          {word: 'dog', translation: '세상'}
+          {
+            level: course._id,
+            word: 'cat',
+            translation: '안영'
+          },
+          {
+            level: course._id,
+            word: 'dog',
+            translation: '세상'
+          }
         ]
       },
       {
@@ -95,12 +118,21 @@ exports.faker = (req, res, next) => {
         level: 10,
         title: 'Change Me',
         terms: [
-          {word: 'merlin', translation: '안영'},
-          {word: 'samson', translation: '세상'}
+          {
+            level: course._id,
+            word: 'merlin',
+            translation: '안영'
+          },
+          {
+            level: course._id,
+            word: 'samson',
+            translation: '세상'
+          }
         ]
       }
     ]
 
+    // console.log('course', course.levels[i]._id)
     course.save(function(err) {
       if (err) throw err
     })
