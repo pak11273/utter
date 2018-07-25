@@ -116,9 +116,12 @@ export function loadCourse(state, payload) {
   const {Terms} = session
   // reset Terms
   Terms.delete()
-  let terms = payload.payload.course.levels.terms
-  console.log('terms: ', terms)
-  // terms.forEach(term => Terms.parse(term))
+  let terms = payload.payload.course.levels
+  levels.forEach(level => {
+    level['terms'].forEach(term => {
+      Terms.parse(term)
+    })
+  })
 
   return session.state
 }

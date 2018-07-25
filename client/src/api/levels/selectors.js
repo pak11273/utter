@@ -130,13 +130,12 @@ export function getLevelRank(level) {
   return rank.name
 }
 
-export const selectLevels = state => {
-  return state.levelReducer
-}
+export const selectLevels = state => state.levelReducer
 
-export const selectCurrentLevel = createSelector(selectLevels, levels => {
-  return levels.currentLevel
-})
+export const selectCurrentLevel = createSelector(
+  selectLevels,
+  levels => levels.currentLevel
+)
 
 export const selectIsEditingLevel = createSelector(
   selectLevels,

@@ -12,10 +12,7 @@ import {selectCurrentTerm} from '../../../api/terms/selectors'
 export default class TermsList extends Component {
   render() {
     const {terms} = this.props
-
-    const termRows = terms.map(term => (
-      <TermsListRow term={term} key={term.name} />
-    ))
+    const termRows = terms.map(obj => <TermsListRow term={obj} key={obj.id} />)
 
     return (
       <Table celled>

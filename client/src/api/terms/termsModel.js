@@ -1,6 +1,12 @@
 import {fk, many, attr, Model} from 'redux-orm'
 
 class Terms extends Model {
+  static get fields() {
+    return {
+      level: fk('Levels')
+    }
+  }
+
   static parse(termsData) {
     // We could do useful stuff in here with relations,
     // but since we have no relations yet, all we need
@@ -63,10 +69,10 @@ Terms.modelName = 'Terms'
 
 // Declare your related fields.
 
-Terms.fields = {
-  id: attr(),
-  level: attr(),
-  name: attr()
-}
+// Terms.fields = {
+//   id: attr(),
+//   level: attr(),
+//   name: attr()
+// }
 
 export default Terms

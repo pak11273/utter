@@ -40,8 +40,8 @@ const mapStateToProps = state => {
   const {Terms} = session
   // convert to array
   // TODO
-  // const terms = Terms.all().toRefArray()
-  const terms = [{name: 'el'}]
+  // const terms = Terms.all().toModelArray()
+  const terms = Terms.all().toRefArray()
   // return the result
   return {terms}
 }

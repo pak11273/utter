@@ -53,6 +53,11 @@ exports.faker = (req, res, next) => {
   for (var i = 0; i < 3; ++i) {
     var course = new Course()
 
+    // random object ids for terms.level
+    var id1 = require('mongoose').Types.ObjectId()
+    var id2 = require('mongoose').Types.ObjectId()
+    var id3 = require('mongoose').Types.ObjectId()
+    var id4 = require('mongoose').Types.ObjectId()
     course.category = faker.commerce.department()
     course.courseId = cuid()
     course.courseCreatorId = '5b3cdaa73e9eb21cbd5bbf8f'
@@ -68,12 +73,12 @@ exports.faker = (req, res, next) => {
         title: 'Change Me',
         terms: [
           {
-            level: course._id,
+            level: id1,
             word: 'hello',
             translation: '안영'
           },
           {
-            level: course._id,
+            level: id1,
             word: 'world',
             translation: '세상'
           }
@@ -85,12 +90,12 @@ exports.faker = (req, res, next) => {
         title: 'Change Me',
         terms: [
           {
-            level: course._id,
+            level: id2,
             word: 'bart',
             translation: '안영'
           },
           {
-            level: course._id,
+            level: id2,
             word: 'sympson',
             translation: '세상'
           }
@@ -102,12 +107,12 @@ exports.faker = (req, res, next) => {
         title: 'Change Me',
         terms: [
           {
-            level: course._id,
+            level: id3,
             word: 'cat',
             translation: '안영'
           },
           {
-            level: course._id,
+            level: id3,
             word: 'dog',
             translation: '세상'
           }
@@ -119,12 +124,12 @@ exports.faker = (req, res, next) => {
         title: 'Change Me',
         terms: [
           {
-            level: course._id,
+            level: id4,
             word: 'merlin',
             translation: '안영'
           },
           {
-            level: course._id,
+            level: id4,
             word: 'samson',
             translation: '세상'
           }

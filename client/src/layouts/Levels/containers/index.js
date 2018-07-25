@@ -16,19 +16,24 @@ const actions = {
 
 class Levels extends Component {
   render() {
-    const {levels, selectLevel, currentLevel} = this.props
-    // const currentLevelEntry = levels.find(level => level.id === currentLevel)
+    const {levels = [], selectLevel, currentLevel} = this.props
+    const currentLevelEntry = levels.find(level => level.id === currentLevel)
+    console.log('currentLevelEntry: ', currentLevelEntry)
     return (
       <Segment>
         <Grid>
           <Grid.Column width={10}>
             <Header as="h3">Levels</Header>
-            <LevelsList levels={levels} onLevelClicked={selectLevel} />
+            <LevelsList
+              levels={levels}
+              onLevelClicked={selectLevel}
+              currentLevel={currentLevel}
+            />
           </Grid.Column>
           <Grid.Column width={6}>
             <Header as="h3">Details</Header>
             <Segment>
-              <LevelDetails />
+              <LevelDetails level={currentLevelEntry} />
             </Segment>
           </Grid.Column>
         </Grid>
@@ -55,13 +60,13 @@ const mapStateToProps = state => {
       //   levels.courseType = course.type.id
       // }
 
-      // return level
+      return level
     })
 
   const currentLevel = selectCurrentLevel(state)
 
+  console.log('current', currentLevel)
   return {levels, currentLevel}
-  return session.state
 }
 
 export default connect(mapStateToProps, actions)(Levels)

@@ -4,6 +4,7 @@ class Courses extends Model {
   static parse(courseData) {
     return this.upsert(courseData)
   }
+
   static reducer(action, Courses, session) {
     switch (action.type) {
       case 'CREATE_COURSES':

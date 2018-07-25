@@ -41,15 +41,15 @@ const SKILL_VALUES = [
 
 const MECHS = [{value: 'WHM-6R', text: 'Warhammer WHM-6R'}]
 
-const mapState = state => {
-  let pilot
+const mapStateToProps = state => {
+  let term
 
   const currentTerm = selectCurrentTerm(state)
 
-  const pilotIsSelected = Boolean(currentTerm)
+  const termSelected = Boolean(currentTerm)
   const isEditingTerm = selectIsEditingTerm(state)
 
-  if (pilotIsSelected) {
+  if (termSelected) {
     const session = isEditingTerm
       ? getEditingEntitiesSession(state)
       : getEntitiesSession(state)
@@ -57,10 +57,10 @@ const mapState = state => {
     const {Term} = session
 
     if (Term.hasId(currentTerm)) {
-      pilot = Term.withId(currentTerm).ref
+      term = Term.withId(currentTerm).ref
     }
   }
-  return {pilot, pilotIsSelected, isEditingTerm}
+  return {term, termSelected, isEditingTerm}
 }
 
 const actions = {
@@ -74,7 +74,7 @@ const actions = {
 export class TermDetails extends Component {
   onInputChanged = e => {
     const newValues = getValueFromEvent(e)
-    const {id} = this.props.pilot
+    const {id} = this.props.term
 
     this.props.editItemAttributes('Term', id, newValues)
   }
@@ -82,7 +82,7 @@ export class TermDetails extends Component {
   onDropdownChanged = (e, result) => {
     const {name, value} = result
     const newValues = {[name]: value}
-    const {id} = this.props.pilot
+    const {id} = this.props.term
 
     this.props.editItemAttributes('Term', id, newValues)
   }
@@ -95,28 +95,24 @@ export class TermDetails extends Component {
   }
 
   onResetClicked = () => {
-    const {id} = this.props.pilot
+    const {id} = this.props.term
     this.props.resetEditedItem('Term', id)
   }
 
   render() {
-    const {
-      pilot = {},
-      pilotIsSelected = false,
-      isEditingTerm = false
-    } = this.props
+    const {term = {}, termSelected = false, isEditingTerm = false} = this.props
 
     const {
       name = '',
       rank = '',
       translation = '',
       gunnery = '',
-      piloting = '',
+      terming = '',
       mechType = ''
-    } = pilot
+    } = term
 
-    const canStartEditing = pilotIsSelected && !isEditingTerm
-    const canStopEditing = pilotIsSelected && isEditingTerm
+    const canStartEditing = termSelected && !isEditingTerm
+    const canStopEditing = termSelected && isEditingTerm
 
     const buttonWidth = 140
 
@@ -218,4 +214,4 @@ export class TermDetails extends Component {
   }
 }
 
-export default connect(mapState, actions)(TermDetails)
+export default connect(mapStateToProps, actions)(TermDetails)

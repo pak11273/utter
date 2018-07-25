@@ -8,7 +8,7 @@ import Unit from '../layouts/Courses/features/UnitInfo/Unit'
 import Lance from '../layouts/Courses/features/UnitInfo/Lance'
 import Level from '../api/levels/levelsModel.js'
 import Faction from '../layouts/Courses/features/UnitInfo/Faction'
-import Gooks from '../api/terms/termsModel.js'
+import Terms from '../api/terms/termsModel.js'
 import User from '../api/user/userModel.js'
 import Users from '../api/users/usersModel.js'
 
@@ -22,7 +22,7 @@ orm.register(
   Mech,
   MechDesign,
   Pilot,
-  Gooks,
+  Terms,
   Unit,
   User,
   Users

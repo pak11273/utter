@@ -30,10 +30,15 @@ const mapStateToProps = state => {
 
 class levelsList extends Component {
   render() {
-    const {levels} = this.props
+    const {levels, onLevelClicked, currentLevel} = this.props
 
     const levelRows = levels.map(level => (
-      <LevelsListRow level={level} key={level.id} />
+      <LevelsListRow
+        level={level}
+        key={level.id}
+        onLevelClicked={onLevelClicked}
+        selected={level.id === currentLevel}
+      />
     ))
 
     return (
