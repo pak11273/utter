@@ -8,7 +8,7 @@ const initialState = {
 
 export function selectLevel(state, payload) {
   const prevSelectedLevel = state.currentLevel
-  const newSelectedLevel = payload.payload.currentLevel
+  const newSelectedLevel = payload.currentLevel
 
   const isSameLevel = prevSelectedLevel === newSelectedLevel
 

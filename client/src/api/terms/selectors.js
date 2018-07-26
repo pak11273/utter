@@ -1,13 +1,13 @@
 import {createSelector} from 'reselect'
 
-export const selectTerms = state => state.termsReducer
+export const selectTerm = state => state.termsReducer
 
 export const selectCurrentTerm = createSelector(
-  selectTerms,
+  selectTerm,
   terms => terms.currentTerm
 )
 
-export const selectIsEditingTerm = createSelector(
-  selectTerms,
-  terms => terms.isEditing
-)
+// export const selectIsEditingTerm = createSelector(
+//   selectTerm,
+//   terms => terms.isEditing
+// )

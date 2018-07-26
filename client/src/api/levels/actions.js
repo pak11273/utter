@@ -11,6 +11,7 @@ import cuid from 'cuid'
 import {LEVEL_SELECT, LEVEL_EDIT_START, LEVEL_EDIT_STOP} from './types.js'
 
 import {selectCurrentLevel, selectIsEditingLevel} from './selectors'
+
 import {
   getEntitiesSession,
   getUnsharedEntitiesSession
@@ -27,7 +28,7 @@ export function selectLevel(levelID) {
 
     dispatch({
       type: LEVEL_SELECT,
-      payload: {currentLevel: levelID}
+      currentLevel: levelID
     })
   }
 }

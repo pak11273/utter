@@ -1,32 +1,33 @@
 import cuid from 'cuid'
 
-import {
-  editExistingItem,
-  editNewItem,
-  applyItemEdits,
-  stopEditingItem
-} from '../../containers/Editing/actions.js'
+// import {
+//   editExistingItem,
+//   editNewItem,
+//   applyItemEdits,
+//   stopEditingItem
+// } from '../../containers/Editing/actions.js'
 
 import {TERM_SELECT, TERM_EDIT_START, TERM_EDIT_STOP} from './types.js'
 
 import {selectCurrentTerm, selectIsEditingTerm} from './selectors'
+
 import {
   getEntitiesSession,
   getUnsharedEntitiesSession
-} from '../entities/selectors.js'
+} from '../../api/entities/selectors.js'
 
 export function selectTerm(termID) {
   return (dispatch, getState) => {
     const state = getState()
-    const isEditing = selectIsEditingTerm(state)
+    // const isEditing = selectIsEditingTerm(state)
 
-    if (isEditing) {
-      dispatch(cancelEditingTerm())
-    }
+    // if (isEditing) {
+    //   dispatch(cancelEditingTerm())
+    // }
 
     dispatch({
       type: TERM_SELECT,
-      payload: {currentTerm: termID}
+      currentTerm: termID
     })
   }
 }

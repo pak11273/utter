@@ -11,7 +11,6 @@ import {
   selectCurrentTerm,
   selectIsEditingTerm
 } from '../../../api/terms/selectors'
-import {TERM_RANKS} from '../../../api/terms/types.js'
 
 import {
   startEditingTerm,
@@ -24,8 +23,6 @@ import {resetEditedItem} from '../../../containers/Editing/actions.js'
 import {editItemAttributes} from '../../../containers/Editing/actions.js'
 
 import {getValueFromEvent} from '../../../utils/clientUtils'
-
-const RANKS = TERM_RANKS.map(rank => ({value: rank, text: rank}))
 
 const SKILL_VALUES = [
   {value: 0, text: 0},
@@ -47,20 +44,21 @@ const mapStateToProps = state => {
   const currentTerm = selectCurrentTerm(state)
 
   const termSelected = Boolean(currentTerm)
-  const isEditingTerm = selectIsEditingTerm(state)
+  // const isEditingTerm = selectIsEditingTerm(state)
 
-  if (termSelected) {
-    const session = isEditingTerm
-      ? getEditingEntitiesSession(state)
-      : getEntitiesSession(state)
+  // if (termSelected) {
+  //   const session = isEditingTerm
+  //     ? getEditingEntitiesSession(state)
+  //     : getEntitiesSession(state)
 
-    const {Term} = session
+  //   const {Term} = session
 
-    if (Term.hasId(currentTerm)) {
-      term = Term.withId(currentTerm).ref
-    }
-  }
-  return {term, termSelected, isEditingTerm}
+  //   if (Term.hasId(currentTerm)) {
+  //     term = Term.withId(currentTerm).ref
+  //   }
+  // }
+  // return {term, termSelected, isEditingTerm}
+  return {term, termSelected}
 }
 
 const actions = {
@@ -100,7 +98,8 @@ export class TermDetails extends Component {
   }
 
   render() {
-    const {term = {}, termSelected = false, isEditingTerm = false} = this.props
+    // const {term = {}, termSelected = false, isEditingTerm = false} = this.props
+    const {term = {}, termSelected = false} = this.props
 
     const {
       name = '',
@@ -111,8 +110,8 @@ export class TermDetails extends Component {
       mechType = ''
     } = term
 
-    const canStartEditing = termSelected && !isEditingTerm
-    const canStopEditing = termSelected && isEditingTerm
+    // const canStartEditing = termSelected && !isEditingTerm
+    // const canStopEditing = termSelected && isEditingTerm
 
     const buttonWidth = 140
 
@@ -128,23 +127,10 @@ export class TermDetails extends Component {
             label="Name"
             width={16}
             placeholder="Name"
-            disabled={!canStopEditing}
             control="input"
           />
         </FormEditWrapper>
         <Form.Group>
-          <Form.Field
-            name="level"
-            label="Level"
-            width={2}
-            control={Dropdown}
-            fluid
-            selection
-            options={RANKS}
-            value={rank}
-            onChange={this.onDropdownChanged}
-            disabled={!canStopEditing}
-          />
           <FormEditWrapper
             singleValue={true}
             value={{translation}}
@@ -156,27 +142,13 @@ export class TermDetails extends Component {
               label="Translation"
               placeholder="Translation"
               control="input"
-              disabled={!canStopEditing}
             />
           </FormEditWrapper>
-          <Form.Field
-            name="audio"
-            label="Audio"
-            width={2}
-            control={Dropdown}
-            fluid
-            selection
-            options={RANKS}
-            value={rank}
-            onChange={this.onDropdownChanged}
-            disabled={!canStopEditing}
-          />
         </Form.Group>
         <Form.Group widths="equal">
           <Grid.Row width={16}>
             <Button
               primary
-              disabled={!canStartEditing}
               type="button"
               onClick={this.onStartEditingClicked}
               style={{width: buttonWidth, marginRight: 10}}>
@@ -184,7 +156,6 @@ export class TermDetails extends Component {
             </Button>
             <Button
               secondary
-              disabled={!canStopEditing}
               type="button"
               style={{width: buttonWidth}}
               onClick={this.onStopEditingClicked}>
@@ -193,7 +164,6 @@ export class TermDetails extends Component {
           </Grid.Row>
           <Grid.Row width={16}>
             <Button
-              disabled={!canStopEditing}
               type="button"
               onClick={this.onResetClicked}
               style={{width: buttonWidth, marginRight: 10}}>
@@ -201,7 +171,6 @@ export class TermDetails extends Component {
             </Button>
             <Button
               negative
-              disabled={!canStopEditing}
               type="button"
               style={{width: buttonWidth}}
               onClick={this.props.cancelEditingTerm}>

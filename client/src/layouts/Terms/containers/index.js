@@ -1,30 +1,39 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import orm from '../../../app/schema.js'
 
 import {Grid, Segment, Header} from 'semantic-ui-react'
 
 import TermsList from '../components/termsList.js'
 import TermDetails from '../components/termDetails.js'
 
-import {selectCurrentPilot} from '../../../api/terms/selectors.js'
+import {selectTerm} from '../../../api/terms/actions.js'
 
-import orm from '../../../app/schema.js'
+import {selectCurrentTerm} from '../../../api/terms/selectors.js'
+
+const actions = {
+  selectTerm
+}
 
 class Terms extends Component {
   render() {
-    const {terms} = this.props
-    const currentTerm = terms[0] || {}
+    const {terms = [], selectTerm, currentTerm} = this.props
+    const currentTermEntry = terms.find(term => term.id === currentTerm)
     return (
       <Segment>
         <Grid>
           <Grid.Column width={10}>
             <Header as="h3">Terms</Header>
-            <TermsList terms={terms} />
+            <TermsList
+              terms={terms}
+              onTermClicked={selectTerm}
+              currentTerm={currentTerm}
+            />
           </Grid.Column>
           <Grid.Column width={6}>
             <Header as="h3">Details</Header>
             <Segment>
-              <TermDetails term={currentTerm} />
+              <TermDetails entry={currentTermEntry} />
             </Segment>
           </Grid.Column>
         </Grid>
@@ -34,16 +43,23 @@ class Terms extends Component {
 }
 
 const mapStateToProps = state => {
-  // create an orm session from entities slice
   const session = orm.session(state.entitiesReducer)
-  // destructure the Term slice
+
   const {Terms} = session
-  // convert to array
-  // TODO
-  // const terms = Terms.all().toModelArray()
-  const terms = Terms.all().toRefArray()
-  // return the result
-  return {terms}
+
+  const terms = Terms.all()
+    .toModelArray()
+    .map(termModel => {
+      const term = {
+        ...termModel.ref
+      }
+
+      return term
+    })
+
+  console.log('state: ', state)
+  const currentTerm = selectCurrentTerm(state)
+  return {terms, currentTerm}
 }
 
-export default connect(mapStateToProps)(Terms)
+export default connect(mapStateToProps, actions)(Terms)

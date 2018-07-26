@@ -18,7 +18,6 @@ class Levels extends Component {
   render() {
     const {levels = [], selectLevel, currentLevel} = this.props
     const currentLevelEntry = levels.find(level => level.id === currentLevel)
-    console.log('currentLevelEntry: ', currentLevelEntry)
     return (
       <Segment>
         <Grid>
@@ -33,7 +32,7 @@ class Levels extends Component {
           <Grid.Column width={6}>
             <Header as="h3">Details</Header>
             <Segment>
-              <LevelDetails level={currentLevelEntry} />
+              <LevelDetails entry={currentLevelEntry} />
             </Segment>
           </Grid.Column>
         </Grid>
@@ -65,7 +64,6 @@ const mapStateToProps = state => {
 
   const currentLevel = selectCurrentLevel(state)
 
-  console.log('current', currentLevel)
   return {levels, currentLevel}
 }
 

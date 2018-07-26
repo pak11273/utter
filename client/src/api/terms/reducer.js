@@ -10,6 +10,7 @@ const initialState = {
 }
 
 export function selectTerm(state, payload) {
+  console.log('payoad: ', payload)
   const prevSelectedTerm = state.currentTerm
   const newSelectedTerm = payload.currentTerm
 
@@ -23,38 +24,6 @@ export function selectTerm(state, payload) {
   }
 }
 
-export function startEditingTerm(state, payload) {
-  return {
-    ...state,
-    isEditing: true
-  }
-}
-
-export function stopEditingTerm(state, payload) {
-  return {
-    ...state,
-    isEditing: false
-  }
-}
-
-export function stopEditingIfDeleted(state, payload) {
-  const {itemType, itemID} = payload
-  const {currentTerm} = state
-
-  if (itemType === 'Term' && itemID === currentTerm) {
-    return {
-      ...state,
-      isEditing: false,
-      currentTerm: null
-    }
-  }
-
-  return state
-}
-
 export default createReducer(initialState, {
-  [TERM_SELECT]: selectTerm,
-  [TERM_EDIT_START]: startEditingTerm,
-  [TERM_EDIT_STOP]: stopEditingTerm,
-  [ENTITY_DELETE]: stopEditingIfDeleted
+  [TERM_SELECT]: selectTerm
 })
