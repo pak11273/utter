@@ -38,29 +38,6 @@ const SKILL_VALUES = [
 
 const MECHS = [{value: 'WHM-6R', text: 'Warhammer WHM-6R'}]
 
-const mapStateToProps = state => {
-  let term
-
-  const currentTerm = selectCurrentTerm(state)
-
-  const termSelected = Boolean(currentTerm)
-  // const isEditingTerm = selectIsEditingTerm(state)
-
-  // if (termSelected) {
-  //   const session = isEditingTerm
-  //     ? getEditingEntitiesSession(state)
-  //     : getEntitiesSession(state)
-
-  //   const {Term} = session
-
-  //   if (Term.hasId(currentTerm)) {
-  //     term = Term.withId(currentTerm).ref
-  //   }
-  // }
-  // return {term, termSelected, isEditingTerm}
-  return {term, termSelected}
-}
-
 const actions = {
   startEditingTerm,
   stopEditingTerm,
@@ -99,16 +76,17 @@ export class TermDetails extends Component {
 
   render() {
     // const {term = {}, termSelected = false, isEditingTerm = false} = this.props
-    const {term = {}, termSelected = false} = this.props
+    const {entry = {}, termSelected = false} = this.props
+    console.log('props: ', this.props)
 
     const {
-      name = '',
+      word = '',
       rank = '',
       translation = '',
       gunnery = '',
       terming = '',
       mechType = ''
-    } = term
+    } = entry
 
     // const canStartEditing = termSelected && !isEditingTerm
     // const canStopEditing = termSelected && isEditingTerm
@@ -119,14 +97,14 @@ export class TermDetails extends Component {
       <Form size="large">
         <FormEditWrapper
           singleValue={true}
-          value={{name}}
+          value={{word}}
           onChange={this.onInputChanged}
           passIsEditing={false}>
           <Form.Field
-            name="name"
-            label="Name"
+            name="word"
+            label="Word"
             width={16}
-            placeholder="Name"
+            placeholder="Word"
             control="input"
           />
         </FormEditWrapper>
@@ -181,6 +159,29 @@ export class TermDetails extends Component {
       </Form>
     )
   }
+}
+
+const mapStateToProps = state => {
+  let term
+
+  const currentTerm = selectCurrentTerm(state)
+
+  const termSelected = Boolean(currentTerm)
+  // const isEditingTerm = selectIsEditingTerm(state)
+
+  // if (termSelected) {
+  //   const session = isEditingTerm
+  //     ? getEditingEntitiesSession(state)
+  //     : getEntitiesSession(state)
+
+  //   const {Term} = session
+
+  //   if (Term.hasId(currentTerm)) {
+  //     term = Term.withId(currentTerm).ref
+  //   }
+  // }
+  // return {term, termSelected, isEditingTerm}
+  return {term, termSelected}
 }
 
 export default connect(mapStateToProps, actions)(TermDetails)

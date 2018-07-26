@@ -57,7 +57,6 @@ const mapStateToProps = state => {
       return term
     })
 
-  console.log('state: ', state)
   const currentTerm = selectCurrentTerm(state)
   return {terms, currentTerm}
 }

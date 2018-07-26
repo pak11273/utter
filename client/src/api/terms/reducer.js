@@ -10,7 +10,6 @@ const initialState = {
 }
 
 export function selectTerm(state, payload) {
-  console.log('payoad: ', payload)
   const prevSelectedTerm = state.currentTerm
   const newSelectedTerm = payload.currentTerm
 
