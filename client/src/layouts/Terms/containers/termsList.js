@@ -13,14 +13,14 @@ import {selectCurrentTerm} from '../../../api/terms/selectors'
 
 class TermsList extends Component {
   render() {
-    const {terms, onTermClicked, currentTerm} = this.props
+    const {terms = [], selectTerm, currentTerm} = this.props
 
-    const termRows = terms.map(obj => (
+    const termRows = terms.map(term => (
       <TermsListRow
-        term={obj}
-        key={obj.id}
-        onTermClicked={onTermClicked}
-        selected={obj.id === currentTerm}
+        term={term}
+        key={term.id}
+        onTermClicked={selectTerm}
+        selected={term.id === currentTerm}
       />
     ))
 
@@ -38,11 +38,22 @@ const mapStateToProps = state => {
 
   const {Terms} = session
 
-  const terms = Terms.all().toRefArray()
+  const terms = Terms.all()
+    .toModelArray()
+    .map(termModel => {
+      const term = {
+        ...termModel.ref
+      }
+      return term
+    })
 
   const currentTerm = selectCurrentTerm(state)
 
   return {terms, currentTerm}
 }
 
-export default connect(mapStateToProps)(TermsList)
+const actions = {
+  selectTerm
+}
+
+export default connect(mapStateToProps, actions)(TermsList)
