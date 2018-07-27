@@ -70,19 +70,15 @@ const Error = styled.div`
   text-align: center;
 `
 
-import CourseInfo from '../features/CourseInfo.js'
+import CourseSettings from './CourseSettings.js'
 
-import Levels from '../../Levels/containers'
+import Levels from '../../Levels/components'
 
-import Terms from '../../Terms/containers'
+import Terms from '../../Terms/components'
 
 import Pilot from '../features/Pilots/Pilots.js'
 
 import Mechs from '../features/Mechs'
-
-import UnitInfo from '../features/UnitInfo'
-
-import UnitOrganization from '../features/UnitInfo/UnitInfo'
 
 import Tools from '../features/Tools'
 
@@ -188,12 +184,11 @@ class CourseEdit extends Component {
     // }/${this.props.courseReducer.currentTeachingCourse.courseName}`
 
     const tabs = [
-      {name: 'courseInfo', label: 'Course Info', component: CourseInfo},
+      {name: 'courseInfo', label: 'Settings', component: CourseSettings},
       {name: 'levels', label: 'Levels', component: Levels},
       {name: 'terms', label: 'Terms', component: Terms},
       {name: 'pilots', label: 'Pilots', component: Pilot},
       {name: 'mechs', label: 'Mechs', component: Mechs},
-      {name: 'unitInfo', label: 'Unit Info', component: UnitInfo},
       // {
       //   name: 'unitOrganization',
       //   label: 'Unit Organization',

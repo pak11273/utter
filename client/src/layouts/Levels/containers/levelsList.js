@@ -3,23 +3,23 @@ import {connect} from 'react-redux'
 import {Table} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 
-import LevelsListHeader from './levelsListHeader.js'
+import LevelsListHeader from '../components/levelsListHeader.js'
 import LevelsListRow from './levelsListRow.js'
 
 import {getEntitiesSession} from '../../../api/entities/selectors'
 
-import {selectlevel} from '../../../api/levels/actions.js'
+import {selectLevel} from '../../../api/levels/actions.js'
 import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 
 class levelsList extends Component {
   render() {
-    const {levels, onLevelClicked, currentLevel} = this.props
+    const {levels = [], selectLevel, currentLevel} = this.props
 
     const levelRows = levels.map(level => (
       <LevelsListRow
         level={level}
         key={level.id}
-        onLevelClicked={onLevelClicked}
+        onLevelClicked={selectLevel}
         selected={level.id === currentLevel}
       />
     ))
@@ -38,11 +38,15 @@ const mapStateToProps = state => {
 
   const {Levels} = session
   // Extract a list of IDs for each Level entry
-  // const levels = Levels.all().toRefArray.map(level => level.getId())
+  const levels = Levels.all()
+    .toModelArray()
+    .map(levelModel => {
+      const level = {
+        ...levelModel.ref
+      }
 
-  const levels = Levels.all().toRefArray()
-  // .map(level => level.Id)
-  // const levels = [{name: 'bye'}, {name: 'hello'}]
+      return level
+    })
 
   const currentLevel = selectCurrentLevel(state)
 
@@ -50,4 +54,8 @@ const mapStateToProps = state => {
   return {levels, currentLevel}
 }
 
-export default connect(mapStateToProps)(levelsList)
+const actions = {
+  selectLevel
+}
+
+export default connect(mapStateToProps, actions)(levelsList)

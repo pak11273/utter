@@ -77,7 +77,6 @@ export class TermDetails extends Component {
   render() {
     // const {term = {}, termSelected = false, isEditingTerm = false} = this.props
     const {entry = {}, termSelected = false} = this.props
-    console.log('props: ', this.props)
 
     const {
       word = '',

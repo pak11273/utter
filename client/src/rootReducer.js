@@ -20,7 +20,6 @@ import termsReducer from './api/terms/reducer.js'
 import toolsReducer from './layouts/Admin/Tools/reducers.js'
 import toggleFooterReducer from './app/reducers/toggleFooterReducer.js'
 import userReducer from './api/user/reducers'
-import unitReducer from './layouts/Courses/features/UnitInfo/reducer.js'
 import utteredReducer from './containers/Uttered/reducer.js'
 import vocabReducer from './layouts/Admin/Vocabulary/reducer.js'
 import {routerReducer} from 'react-router-redux'
@@ -50,7 +49,6 @@ export default combineReducers({
   toggleFooterReducer,
   toolsReducer,
   vocabReducer,
-  unitReducer,
   userReducer,
   utteredReducer
 })

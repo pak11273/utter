@@ -4,8 +4,8 @@ import orm from '../../../app/schema.js'
 
 import {Grid, Segment, Header} from 'semantic-ui-react'
 
-import TermsList from '../components/termsList.js'
-import TermDetails from '../components/termDetails.js'
+import TermsList from '../containers/termsList.js'
+import TermDetails from '../containers/termDetails.js'
 
 import {selectTerm} from '../../../api/terms/actions.js'
 

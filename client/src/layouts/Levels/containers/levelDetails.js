@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button} from 'semantic-ui-react'
+import orm from '../../../app/schema.js'
+import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 
 const LevelDetails = ({entry = {}}) => {
   const {title = '', level = '', id = ''} = entry
@@ -22,4 +24,20 @@ const LevelDetails = ({entry = {}}) => {
   )
 }
 
-export default LevelDetails
+const mapStateToProps = state => {
+  let entry
+
+  const currentLevel = selectCurrentLevel(state)
+
+  const session = orm.session(state.entitiesReducer)
+
+  const {Levels} = session
+
+  if (Levels.hasId(currentLevel)) {
+    entry = Levels.withId(currentLevel).ref
+  }
+
+  return {entry}
+}
+
+export default connect(mapStateToProps)(LevelDetails)

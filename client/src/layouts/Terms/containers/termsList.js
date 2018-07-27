@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Table} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 
-import TermsListHeader from './termsListHeader.js'
+import TermsListHeader from '../components/termsListHeader.js'
 import TermsListRow from './termsListRow'
 
 import {getEntitiesSession} from '../../../api/entities/selectors'
