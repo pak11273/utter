@@ -76,12 +76,6 @@ import Levels from '../../Levels/components'
 
 import Terms from '../../Terms/components'
 
-import Pilot from '../features/Pilots/Pilots.js'
-
-import Mechs from '../features/Mechs'
-
-import Tools from '../features/Tools'
-
 class CourseEdit extends Component {
   constructor() {
     super()
@@ -184,17 +178,14 @@ class CourseEdit extends Component {
     // }/${this.props.courseReducer.currentTeachingCourse.courseName}`
 
     const tabs = [
-      {name: 'courseInfo', label: 'Settings', component: CourseSettings},
+      {name: 'settings', label: 'Settings', component: CourseSettings},
       {name: 'levels', label: 'Levels', component: Levels},
-      {name: 'terms', label: 'Terms', component: Terms},
-      {name: 'pilots', label: 'Pilots', component: Pilot},
-      {name: 'mechs', label: 'Mechs', component: Mechs},
+      {name: 'terms', label: 'Terms', component: Terms}
       // {
       //   name: 'unitOrganization',
       //   label: 'Unit Organization',
       //   component: UnitOrganization
       // },
-      {name: 'tools', label: 'Tools', component: Tools}
     ]
 
     return (

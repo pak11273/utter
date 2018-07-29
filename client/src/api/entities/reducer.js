@@ -86,7 +86,7 @@ export function loadUsers(state, payload) {
 export function loadUsersData(state, payload) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
-  // Get a reference to the correct version of the Pilots class for this Session
+  // Get a reference to the correct version of the Users class for this Session
   const {Users} = session
 
   const {users} = payload

@@ -55,8 +55,8 @@ class Terms extends Model {
     return {...this.ref}
   }
 
-  updateFrom(otherPilot) {
-    this.update(otherPilot.ref)
+  updateFrom(otherUser) {
+    this.update(otherUser.ref)
   }
 
   toString() {

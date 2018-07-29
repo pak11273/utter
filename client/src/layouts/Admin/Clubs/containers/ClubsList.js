@@ -26,7 +26,6 @@ const UserList = () => {
                 <Table.HeaderCell width={3}>Rank</Table.HeaderCell>
                 <Table.HeaderCell width={2}>Age</Table.HeaderCell>
                 <Table.HeaderCell width={2}>Skills</Table.HeaderCell>
-                <Table.HeaderCell width={4}>Mech</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -68,15 +67,6 @@ const UserList = () => {
               <Form.Field name="usering" width={6}>
                 <label>Usering</label>
                 <input defaultValue="3" />
-              </Form.Field>
-              <Form.Field name="mech" width={16}>
-                <label>Mech</label>
-                <Dropdown
-                  fluid
-                  selection
-                  options={MECHS}
-                  defaultValue="WHM-6R"
-                />
               </Form.Field>
             </Form>
           </Segment>

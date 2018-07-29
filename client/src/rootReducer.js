@@ -1,4 +1,7 @@
 import {combineReducers} from 'redux'
+import {reduceReducers} from './utils/reduxUtils.js'
+
+import dataReducer from './app/reducers/dataReducer.js'
 import flashMessages from './app/reducers/flashMessages'
 import challengeReducer from './containers/Challenge/reducer.js'
 import channelReducer from './containers/Channels/reducer.js'
@@ -10,8 +13,6 @@ import chatReducer from './containers/Chat/reducer.js'
 import chatPanelReducer from './containers/ChatPanel/reducer.js'
 import clubReducer from './api/club/reducer.js'
 import levelReducer from './api/levels/reducer.js'
-import mechReducer from './layouts/Courses/features/Mechs/reducer.js'
-import pilotReducer from './layouts/Courses/features/Pilots/reducer.js'
 import pictureReducer from './containers/Pictures/reducer.js'
 import phraseReducer from './layouts/Admin/Phrases/reducer.js'
 import socketReducer from './services/socketio/reducer.js'
@@ -25,7 +26,8 @@ import vocabReducer from './layouts/Admin/Vocabulary/reducer.js'
 import {routerReducer} from 'react-router-redux'
 import {loadingBarReducer} from 'react-redux-loading-bar'
 
-export default combineReducers({
+const combinedReducers = combineReducers({
+  dataReducer,
   challengeReducer,
   channelReducer,
   chatReducer,
@@ -37,9 +39,7 @@ export default combineReducers({
   flashMessages,
   levelReducer,
   loadingBar: loadingBarReducer,
-  mechReducer,
   pictureReducer,
-  pilotReducer,
   phraseReducer,
   roomReducer,
   router: routerReducer,
@@ -52,3 +52,7 @@ export default combineReducers({
   userReducer,
   utteredReducer
 })
+
+const rootReducer = reduceReducers(combinedReducers)
+
+export default rootReducer

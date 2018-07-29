@@ -5,13 +5,13 @@ import {Portal} from 'react-portal'
 import ContextMenu from './ContextMenu'
 
 import TestContextMenu from './TestContextMenu'
-import PilotsListItemMenu from '../Pilots/PilotsListItemMenu.js'
+import TermsListItemMenu from '../Pilots/TermsListItemMenu.js'
 
 import {selectContextMenu} from './selectors.js'
 
 const menuTypes = {
   TestContextMenu,
-  PilotsListItemMenu
+  TermsListItemMenu
 }
 
 export function contextMenuManagerMapState(state) {
