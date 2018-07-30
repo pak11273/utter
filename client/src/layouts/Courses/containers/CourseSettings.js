@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Dropdown, Segment} from 'semantic-ui-react'
+import {Dropdown, Form, Grid, Image, Segment} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 
 const USING_LANG = [
@@ -26,41 +26,53 @@ class CourseSettings extends Component {
 
     let course = this.props.course
     return (
-      <Segment attached="bottom">
-        <Form size="large">
-          <Form.Field name="name" width={6}>
-            <label>Course Name</label>
-            <input
-              placeholder="Name"
-              defaultValue={course.courseName}
-              disabled
-            />
-          </Form.Field>
-          <Form.Field name="courseDescription" width={6}>
-            <label>Course Description</label>
-            <textarea
-              placeholder="This section will describe this course."
-              defaultValue={course.courseDescription}
-            />
-          </Form.Field>
-          <Form.Field name="usingLanguage" width={6}>
-            <label>Teaching Language</label>
-            <Dropdown
-              selection
-              options={USING_LANG}
-              defaultValue={course.usingLang}
-            />
-          </Form.Field>
-          <Form.Field name="teachingLanguage" width={6}>
-            <label>Teaching Language</label>
-            <Dropdown
-              selection
-              options={TEACHING_LANG}
-              defaultValue={course.teachingLang}
-            />
-          </Form.Field>
-        </Form>
-      </Segment>
+      <Form size="large">
+        <Segment>
+          <Grid>
+            <Grid.Column width={8}>
+              <Form.Field name="image">
+                <label>Course Thumbnail</label>
+                <Image src={course.image} size="small" />
+              </Form.Field>
+              <Form.Field name="name">
+                <label>Course Name</label>
+                <input
+                  placeholder="Name"
+                  defaultValue={course.courseName}
+                  disabled
+                />
+              </Form.Field>
+              <Form.Field name="courseDescription">
+                <label>Course Description</label>
+                <textarea
+                  placeholder="This section will describe this course."
+                  defaultValue={course.courseDescription}
+                />
+              </Form.Field>
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Segment>
+                <Form.Field name="usingLanguage">
+                  <label>Using Language</label>
+                  <Dropdown
+                    selection
+                    options={USING_LANG}
+                    defaultValue={course.usingLang}
+                  />
+                </Form.Field>
+                <Form.Field name="teachingLanguage">
+                  <label>Teaching Language</label>
+                  <Dropdown
+                    selection
+                    options={TEACHING_LANG}
+                    defaultValue={course.teachingLang}
+                  />
+                </Form.Field>
+              </Segment>
+            </Grid.Column>
+          </Grid>
+        </Segment>
+      </Form>
     )
   }
 }

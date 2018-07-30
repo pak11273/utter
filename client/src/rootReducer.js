@@ -1,13 +1,13 @@
 import {combineReducers} from 'redux'
 import {reduceReducers} from './utils/reduxUtils.js'
 
-import dataReducer from './app/reducers/dataReducer.js'
 import flashMessages from './app/reducers/flashMessages'
 import challengeReducer from './containers/Challenge/reducer.js'
 import channelReducer from './containers/Channels/reducer.js'
 import courseReducer from './api/course/reducers'
 import coursesReducer from './api/courses/reducers/coursesReducer.js'
-import entitiesReducer from './api/entities/reducer.js'
+import entitiesReducer from './api/entities/reducers/reducer.js'
+import entitiesCrudReducer from './api/entities/reducers/crudReducer.js'
 import roomReducer from './containers/Rooms/reducer.js'
 import chatReducer from './containers/Chat/reducer.js'
 import chatPanelReducer from './containers/ChatPanel/reducer.js'
@@ -27,7 +27,6 @@ import {routerReducer} from 'react-router-redux'
 import {loadingBarReducer} from 'react-redux-loading-bar'
 
 const combinedReducers = combineReducers({
-  dataReducer,
   challengeReducer,
   channelReducer,
   chatReducer,
@@ -36,6 +35,7 @@ const combinedReducers = combineReducers({
   courseReducer,
   coursesReducer,
   entitiesReducer,
+  entitiesCrudReducer,
   flashMessages,
   levelReducer,
   loadingBar: loadingBarReducer,
