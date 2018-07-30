@@ -3,7 +3,11 @@ import {createReducer} from '../../utils/reduxUtils.js'
 import {LEVEL_SELECT} from './types.js'
 
 const initialState = {
-  currentLevel: null
+  currentLevel: {
+    title: '',
+    level: '',
+    id: ''
+  }
 }
 
 export function selectLevel(state, payload) {

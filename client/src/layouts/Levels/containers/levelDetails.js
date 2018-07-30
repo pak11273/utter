@@ -3,45 +3,57 @@ import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button, Input} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 import {selectCurrentLevel} from '../../../api/levels/selectors.js'
+import {updateEntity} from '../../../api/entities/actions.js'
+import {getValueFromEvent} from '../../../utils/clientUtils.js'
 
-const LevelDetails = ({entry = {}}) => {
-  const {title = '', level = '', id = ''} = entry
-  return (
-    <Form size="large">
-      <label>Name</label>
-      <Form.Field
-        name="title"
-        width={16}
-        control={Input}
-        placeholder="Name"
-        value={title}
-      />
-      <label>Level</label>
-      <Form.Field
-        name="rank"
-        width={16}
-        control={Input}
-        placeholder="Name"
-        value={level}
-        readOnly
-      />
-      <label>Level ID</label>
-      <Form.Field
-        name="rank"
-        width={16}
-        control={Input}
-        placeholder="id"
-        value={id}
-        readOnly
-      />
-    </Form>
-  )
+class LevelDetails extends Component {
+  onNameChanged = e => {
+    const newValues = getValueFromEvent(e)
+    const {id} = this.props.entry
+
+    this.props.updateEntity('Level', id, newValues)
+  }
+  render() {
+    const {title = '', level = '', id = ''} = this.props.entry
+    return (
+      <Form size="large">
+        <label>Name</label>
+        <Form.Field
+          name="title"
+          width={16}
+          control={Input}
+          placeholder="Name"
+          value={title}
+          onChange={this.onNameChanged}
+        />
+        <label>Level</label>
+        <Form.Field
+          name="rank"
+          width={16}
+          control={Input}
+          placeholder="Name"
+          value={level}
+          readOnly
+        />
+        <label>Level ID</label>
+        <Form.Field
+          name="rank"
+          width={16}
+          control={Input}
+          placeholder="id"
+          value={id}
+          readOnly
+        />
+      </Form>
+    )
+  }
 }
 
 const mapStateToProps = state => {
   let entry
 
   const currentLevel = selectCurrentLevel(state)
+  console.log('currentLevel: ', currentLevel)
 
   const session = orm.session(state.entitiesReducer)
 
@@ -54,4 +66,8 @@ const mapStateToProps = state => {
   return {entry}
 }
 
-export default connect(mapStateToProps)(LevelDetails)
+const actions = {
+  updateEntity
+}
+
+export default connect(mapStateToProps, actions)(LevelDetails)

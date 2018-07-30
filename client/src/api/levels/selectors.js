@@ -134,7 +134,7 @@ export const selectLevels = state => state.levelReducer
 
 export const selectCurrentLevel = createSelector(
   selectLevels,
-  levels => levels.currentLevel
+  levelReducer => levelReducer.currentLevel
 )
 
 export const selectIsEditingLevel = createSelector(
