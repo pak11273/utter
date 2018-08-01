@@ -44,9 +44,12 @@ class CourseDetails extends Component {
   }
 
   handleChange = e => {
-    this.setState({
-      value: e.target.value
-    })
+    const newValues = getValueFromEvent(e)
+    const {id} = this.props.course
+    this.props.actions.updateEntity('Course', id, newValues)
+    // this.setState({
+    //   value: e.target.value
+    // })
   }
 
   handleSubmit = e => {

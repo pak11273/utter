@@ -17,7 +17,6 @@ import MyCourses from './Courses/MyCourses.js'
 import CoursesCreate from './Courses/containers/CourseCreate.js'
 import CoursesCreated from './Courses/containers/CoursesCreated.js'
 import Courses from './Courses/index.js'
-import CourseDetails from './Courses/CourseDetails.js'
 import NotFound from '../components/Misc/NotFound.js'
 import requireAuth from '../utils/requireAuth.js'
 import requireAdmin from '../utils/requireAdmin.js'
@@ -45,7 +44,6 @@ export {
   Contact,
   Course,
   CourseEdit,
-  CourseDetails,
   Courses,
   ForgotPassword,
   GettingStarted,

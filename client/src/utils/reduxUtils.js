@@ -43,11 +43,11 @@ export function createConditionalSliceReducer(sliceName, fnMap) {
 
   // Create a new wrapping reducer
   return (state, action) => {
-    if (!state) {
-      state = {
-        test: null
-      }
-    }
+    // if (!state) {
+    //   state = {
+    //     test: null
+    //   }
+    // }
     // Check to see if this slice reducer knows how to handle this action
     if (fnMap[action.type]) {
       // If it does, pass the slice to the slice reducer, and update the slice

@@ -1,6 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Dropdown, Form, Grid, Image, Segment} from 'semantic-ui-react'
+import {
+  Dropdown,
+  Form,
+  Grid,
+  Image,
+  Input,
+  Segment,
+  TextArea
+} from 'semantic-ui-react'
+import {updateEntity} from '../../../api/entities/actions.js'
+import {getValueFromEvent} from '../../../utils/clientUtils.js'
 import orm from '../../../app/schema.js'
 
 const USING_LANG = [
@@ -13,61 +23,75 @@ const TEACHING_LANG = [
   {value: 'Korean', text: 'Korean'}
 ]
 
-// import {selectUserInfo} from '../../../../api/course/selectors.js'
-
 class CourseSettings extends Component {
   constructor(props) {
     super(props)
   }
 
-  render() {
-    // const {unitInfo} = this.props
-    // const {name, affiliation} = unitInfo
+  inputChange = (e, result) => {
+    const newValues = getValueFromEvent(e)
+    const {id} = this.props.course
+    this.props.updateEntity('Course', id, newValues)
+  }
 
+  dropdownChange = (e, result) => {
+    const {name, value} = result
+    const newValues = {[name]: value}
+    const {id} = this.props.course
+    this.props.updateEntity('Course', id, newValues)
+  }
+
+  render() {
     let course = this.props.course
     return (
       <Form size="large">
         <Segment>
           <Grid>
             <Grid.Column width={8}>
-              <Form.Field name="image">
-                <label>Course Thumbnail</label>
-                <Image src={course.image} size="small" />
-              </Form.Field>
-              <Form.Field name="name">
-                <label>Course Name</label>
-                <input
-                  placeholder="Name"
-                  defaultValue={course.courseName}
-                  disabled
-                />
-              </Form.Field>
-              <Form.Field name="courseDescription">
-                <label>Course Description</label>
-                <textarea
-                  placeholder="This section will describe this course."
-                  defaultValue={course.courseDescription}
-                />
-              </Form.Field>
+              <label>Course Thumbnail</label>
+              <Form.Field
+                name="image"
+                control={Image}
+                src={course.image}
+                size="small"
+              />
+              <label>Course Name</label>
+              <Form.Field
+                name="name"
+                control={Input}
+                placeholder="Name"
+                defaultValue={course.courseName}
+                disabled
+              />
+              <label>Course Description</label>
+              <Form.Field
+                name="courseDescription"
+                control={TextArea}
+                placeholder="This section will describe this course."
+                value={course.courseDescription}
+                onChange={this.inputChange}
+              />
             </Grid.Column>
             <Grid.Column width={8}>
               <Segment>
-                <Form.Field name="usingLanguage">
-                  <label>Using Language</label>
-                  <Dropdown
-                    selection
-                    options={USING_LANG}
-                    defaultValue={course.usingLang}
-                  />
-                </Form.Field>
-                <Form.Field name="teachingLanguage">
-                  <label>Teaching Language</label>
-                  <Dropdown
-                    selection
-                    options={TEACHING_LANG}
-                    defaultValue={course.teachingLang}
-                  />
-                </Form.Field>
+                <label>Using Language</label>
+                <Form.Field
+                  name="usingLang"
+                  control={Dropdown}
+                  selection
+                  options={USING_LANG}
+                  value={course.usingLang}
+                  onChange={this.dropdownChange}
+                />
+                <label>Teaching Language</label>
+                <Form.Field
+                  name="teachingLang"
+                  control={Dropdown}
+                  selection
+                  options={TEACHING_LANG}
+                  value={course.teachingLang}
+                  onChange={this.dropdownChange}
+                />
               </Segment>
             </Grid.Column>
           </Grid>
@@ -95,11 +119,15 @@ const mapStateToProps = state => {
   // The toRefArray() method will give us an array of the
   // plain JS objects for each item in the QuerySet.
 
-  let course = Course.first()
+  let course = Course.first().ref
 
   // Now that we have an array of all pilot objects, return it as a prop
   // return {users}
   return {course}
 }
 
-export default connect(mapStateToProps)(CourseSettings)
+const actions = {
+  updateEntity
+}
+
+export default connect(mapStateToProps, actions)(CourseSettings)

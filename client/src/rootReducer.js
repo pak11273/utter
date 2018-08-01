@@ -35,7 +35,6 @@ const combinedReducers = combineReducers({
   courseReducer,
   coursesReducer,
   entitiesReducer,
-  entitiesCrudReducer,
   flashMessages,
   levelReducer,
   loadingBar: loadingBarReducer,
@@ -53,6 +52,6 @@ const combinedReducers = combineReducers({
   utteredReducer
 })
 
-const rootReducer = reduceReducers(combinedReducers)
+const rootReducer = reduceReducers(combinedReducers, entitiesCrudReducer)
 
 export default rootReducer

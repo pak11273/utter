@@ -11,10 +11,11 @@ class LevelDetails extends Component {
     const newValues = getValueFromEvent(e)
     const {id} = this.props.entry
 
-    this.props.updateEntity('Level', id, newValues)
+    this.props.updateEntity('Levels', id, newValues)
   }
   render() {
-    const {title = '', level = '', id = ''} = this.props.entry
+    const {entry = {}, levelIsSelected = false} = this.props
+    const {title = '', level = '', id = ''} = entry
     return (
       <Form size="large">
         <label>Name</label>
@@ -22,7 +23,7 @@ class LevelDetails extends Component {
           name="title"
           width={16}
           control={Input}
-          placeholder="Name"
+          placeholder="Title"
           value={title}
           onChange={this.onNameChanged}
         />
@@ -53,7 +54,6 @@ const mapStateToProps = state => {
   let entry
 
   const currentLevel = selectCurrentLevel(state)
-  console.log('currentLevel: ', currentLevel)
 
   const session = orm.session(state.entitiesReducer)
 
@@ -61,9 +61,13 @@ const mapStateToProps = state => {
 
   if (Levels.hasId(currentLevel)) {
     entry = Levels.withId(currentLevel).ref
+  } else {
+    entry = {title: '', level: '', id: ''}
   }
 
-  return {entry}
+  const levelIsSelected = Boolean(currentLevel)
+
+  return {entry, levelIsSelected}
 }
 
 const actions = {
