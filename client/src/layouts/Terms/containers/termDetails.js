@@ -88,9 +88,13 @@ const mapStateToProps = state => {
 
   if (Terms.hasId(currentTerm)) {
     entry = Terms.withId(currentTerm).ref
+  } else {
+    entry = {word: '', level: '', id: '', translation: ''}
   }
 
-  return {entry}
+  const termIsSelected = Boolean(currentTerm)
+
+  return {entry, termIsSelected}
 }
 
 const actions = {
