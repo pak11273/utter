@@ -50,8 +50,8 @@ class CourseSettings extends Component {
         <Segment>
           <Grid>
             <Grid.Column width={8}>
-              <label>Course Thumbnail</label>
               <Form.Field
+                label="Course Thumbnail"
                 name="image"
                 control={Image}
                 src={course.image}
@@ -79,8 +79,8 @@ class CourseSettings extends Component {
             </Grid.Column>
             <Grid.Column width={8}>
               <Segment>
-                <label>Using Language</label>
                 <Form.Field
+                  label="Using Language"
                   name="usingLang"
                   control={Dropdown}
                   selection
@@ -88,8 +88,8 @@ class CourseSettings extends Component {
                   value={course.usingLang}
                   onChange={this.dropdownChange}
                 />
-                <label>Teaching Language</label>
                 <Form.Field
+                  label="Teaching Language"
                   name="teachingLang"
                   control={Dropdown}
                   selection

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button, Input} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
+import FormEditWrapper from '../../../components/FormEditWrapper'
 import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
@@ -26,26 +27,32 @@ class LevelDetails extends Component {
     const {title = '', level = '', id = ''} = entry
     return (
       <Form size="large">
-        <label>Name</label>
+        <FormEditWrapper
+          singleValue={true}
+          value={{title}}
+          onChange={this.inputChange}>
+          <Form.Field
+            label="Name"
+            name="title"
+            width={16}
+            control={Input}
+            placeholder="Title"
+          />
+        </FormEditWrapper>
+        <FormEditWrapper
+          singleValue={true}
+          value={{level}}
+          onChange={this.inputChange}>
+          <Form.Field
+            label="Level"
+            name="level"
+            width={16}
+            control={Input}
+            placeholder="level"
+          />
+        </FormEditWrapper>
         <Form.Field
-          name="title"
-          width={16}
-          control={Input}
-          placeholder="Title"
-          value={title}
-          onChange={this.inputChange}
-        />
-        <label>Level</label>
-        <Form.Field
-          name="level"
-          width={16}
-          control={Input}
-          placeholder="level"
-          value={level}
-          onChange={this.inputChange}
-        />
-        <label>Level ID</label>
-        <Form.Field
+          label="Level ID"
           name="id"
           width={16}
           control={Input}
