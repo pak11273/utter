@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Button, Input} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 import FormEditWrapper from '../../../components/FormEditWrapper'
+import {getEntitiesSession} from '../../../api/entities/selectors.js'
 import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
@@ -70,7 +71,7 @@ const mapStateToProps = state => {
 
   const currentLevel = selectCurrentLevel(state)
 
-  const session = orm.session(state.entitiesReducer)
+  const session = getEntitiesSession(state)
 
   const {Levels} = session
 

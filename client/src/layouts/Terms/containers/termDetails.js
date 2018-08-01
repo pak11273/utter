@@ -4,6 +4,7 @@ import {Form, Dropdown, Grid, Input, Button} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 import {selectCurrentTerm} from '../../../api/terms/selectors.js'
 import FormEditWrapper from '../../../components/FormEditWrapper'
+import {getEntitiesSession} from '../../../api/entities/selectors.js'
 
 //actions
 import {updateEntity} from '../../../api/entities/actions.js'
@@ -81,7 +82,7 @@ const mapStateToProps = state => {
 
   const currentTerm = selectCurrentTerm(state)
 
-  const session = orm.session(state.entitiesReducer)
+  const session = getEntitiesSession(state)
 
   const {Terms} = session
 
