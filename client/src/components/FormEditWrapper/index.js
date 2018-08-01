@@ -8,7 +8,7 @@ import {getValueFromEvent} from '../../../src/utils/clientUtils'
 class FormEditWrapper extends Component {
   static propTypes = {
     value: PropTypes.object.isRequired,
-    isEditing: PropTypes.bool,
+    // isEditing: PropTypes.bool,
     onChange: PropTypes.func,
     valuePropName: PropTypes.string,
     onChangePropName: PropTypes.string,
@@ -18,7 +18,7 @@ class FormEditWrapper extends Component {
   }
 
   static defaultProps = {
-    isEditing: true,
+    // isEditing: true,
     onChange: noop,
     valuePropName: 'value',
     onChangePropName: 'onChange',
@@ -47,26 +47,26 @@ class FormEditWrapper extends Component {
   }
 
   onChildChange = e => {
-    const {isEditing} = this.props
+    // const {isEditing} = this.props
 
-    if (isEditing) {
-      const newValues = getValueFromEvent(e)
+    // if (isEditing) {
+    const newValues = getValueFromEvent(e)
 
-      if (newValues) {
-        const change = {
-          ...this.state.value,
-          ...newValues
-        }
-
-        // Update our component-local state with these changes, so that the child components
-        // will re-render with the new values right away
-        this.setState({value: change})
-
-        // Because this is debounced, we will only call the passed-in props.onChange
-        // once there is a pause in changes (like letting go of a held-down key)
-        this.dispatchAttributeChange(change)
+    if (newValues) {
+      const change = {
+        ...this.state.value,
+        ...newValues
       }
+
+      // Update our component-local state with these changes, so that the child components
+      // will re-render with the new values right away
+      this.setState({value: change})
+
+      // Because this is debounced, we will only call the passed-in props.onChange
+      // once there is a pause in changes (like letting go of a held-down key)
+      this.dispatchAttributeChange(change)
     }
+    // }
   }
 
   dispatchAttributeChange(change) {
@@ -76,8 +76,8 @@ class FormEditWrapper extends Component {
   render() {
     const {value: propsValue, children} = this.props
     const {
-      isEditing,
-      passIsEditing,
+      // isEditing,
+      // passIsEditing,
       valuePropName,
       onChangePropName,
       singleValue
@@ -94,15 +94,15 @@ class FormEditWrapper extends Component {
       valueToPassDown = values(currentValues)[0]
     }
 
-    const editingValue = passIsEditing ? {isEditing} : {}
+    // const editingValue = passIsEditing ? {isEditing} : {}
 
     // Force the child form to re-render itself with these values
     const child = React.Children.only(children)
 
     const updatedChild = React.cloneElement(child, {
       [valuePropName]: valueToPassDown,
-      [onChangePropName]: this.onChildChange,
-      ...editingValue
+      [onChangePropName]: this.onChildChange
+      // ...editingValue
     })
 
     return updatedChild

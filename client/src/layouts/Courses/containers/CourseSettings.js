@@ -9,6 +9,7 @@ import {
   Segment,
   TextArea
 } from 'semantic-ui-react'
+import FormEditWrapper from '../../../components/FormEditWrapper'
 import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
 import orm from '../../../app/schema.js'
@@ -43,6 +44,7 @@ class CourseSettings extends Component {
 
   render() {
     let course = this.props.course
+    const {courseDescription} = course
     return (
       <Form size="large">
         <Segment>
@@ -55,22 +57,25 @@ class CourseSettings extends Component {
                 src={course.image}
                 size="small"
               />
-              <label>Course Name</label>
               <Form.Field
+                label="Course Name"
                 name="name"
                 control={Input}
                 placeholder="Name"
                 defaultValue={course.courseName}
                 disabled
               />
-              <label>Course Description</label>
-              <Form.Field
-                name="courseDescription"
-                control={TextArea}
-                placeholder="This section will describe this course."
-                value={course.courseDescription}
-                onChange={this.inputChange}
-              />
+              <FormEditWrapper
+                singleValue={true}
+                value={{courseDescription}}
+                onChange={this.inputChange}>
+                <Form.Field
+                  label="Course Description"
+                  name="courseDescription"
+                  control={TextArea}
+                  placeholder="This section will describe this course."
+                />
+              </FormEditWrapper>
             </Grid.Column>
             <Grid.Column width={8}>
               <Segment>

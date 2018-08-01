@@ -7,12 +7,20 @@ import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
 
 class LevelDetails extends Component {
-  onNameChanged = e => {
+  inputChange = e => {
     const newValues = getValueFromEvent(e)
     const {id} = this.props.entry
 
     this.props.updateEntity('Levels', id, newValues)
   }
+
+  dropdownChange = (e, result) => {
+    const {name, value} = result
+    const newValues = {[name]: value}
+    const {id} = this.props.course
+    this.props.updateEntity('Levels', id, newValues)
+  }
+
   render() {
     const {entry = {}, levelIsSelected = false} = this.props
     const {title = '', level = '', id = ''} = entry
@@ -25,20 +33,20 @@ class LevelDetails extends Component {
           control={Input}
           placeholder="Title"
           value={title}
-          onChange={this.onNameChanged}
+          onChange={this.inputChange}
         />
         <label>Level</label>
         <Form.Field
-          name="rank"
+          name="level"
           width={16}
           control={Input}
-          placeholder="Name"
+          placeholder="level"
           value={level}
-          readOnly
+          onChange={this.inputChange}
         />
         <label>Level ID</label>
         <Form.Field
-          name="rank"
+          name="id"
           width={16}
           control={Input}
           placeholder="id"

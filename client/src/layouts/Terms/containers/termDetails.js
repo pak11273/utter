@@ -1,46 +1,72 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Dropdown, Grid, Button} from 'semantic-ui-react'
+import {Form, Dropdown, Grid, Input, Button} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 import {selectCurrentTerm} from '../../../api/terms/selectors.js'
 
-const TermDetails = ({entry = {}}) => {
-  const {word = '', level = '', id = '', translation = ''} = entry
-  return (
-    <Form size="large">
-      <Form.Field name="level" width={16}>
+//actions
+import {updateEntity} from '../../../api/entities/actions.js'
+import {getValueFromEvent} from '../../../utils/clientUtils.js'
+
+class TermDetails extends Component {
+  inputChange = (e, result) => {
+    const newValues = getValueFromEvent(e)
+    const {id} = this.props.entry
+    this.props.updateEntity('Terms', id, newValues)
+  }
+
+  dropdownChange = (e, result) => {
+    const {name, value} = result
+    const newValues = {[name]: value}
+    const {id} = this.props.entry
+    this.props.updateEntity('Terms', id, newValues)
+  }
+  render() {
+    const {word = '', level = '', id = '', translation = ''} = this.props.entry
+    return (
+      <Form size="large">
         <label>Level</label>
-        <input placeholder="Level" value={level} readOnly />
-      </Form.Field>
-      <Form.Field name="word" width={16}>
+        <Form.Field
+          name="level"
+          width={16}
+          control={Input}
+          placeholder="Level"
+          value={level}
+          readOnly
+        />
         <label>Word</label>
-        <input placeholder="Word" value={word} readOnly />
-      </Form.Field>
-      <Form.Field name="translation" width={16}>
+        <Form.Field
+          name="word"
+          width={16}
+          control={Input}
+          placeholder="Word"
+          value={word}
+          onChange={this.inputChange}
+        />
         <label>Translation</label>
-        <input placeholder="Translation" value={translation} readOnly />
-      </Form.Field>
-      <Form.Group>
         <Form.Field
           name="translation"
-          width={6}
-          label="Translation"
+          width={16}
+          control={Input}
           placeholder="Translation"
-          control="input"
+          value={translation}
+          onChange={this.inputChange}
         />
-      </Form.Group>
-      <Form.Group widths="equal">
-        <Grid.Row width={16}>
-          <Button primary type="button" />
-          <Button secondary type="button" />
-        </Grid.Row>
-        <Grid.Row width={16}>
-          <Button>Reset Values</Button>
-          <Button negative type="button" />
-        </Grid.Row>
-      </Form.Group>
-    </Form>
-  )
+        <Form.Group widths="equal">
+          <Form.Field
+            name="audio"
+            width={6}
+            label="audio"
+            placeholder=".mp3"
+            control="Input"
+            readOnly
+          />
+          <Button>Upload</Button>
+          <Button>Record</Button>
+        </Form.Group>
+      </Form>
+    )
+  }
 }
 
 const mapStateToProps = state => {
@@ -59,4 +85,8 @@ const mapStateToProps = state => {
   return {entry}
 }
 
-export default connect(mapStateToProps)(TermDetails)
+const actions = {
+  updateEntity
+}
+
+export default connect(mapStateToProps, actions)(TermDetails)
