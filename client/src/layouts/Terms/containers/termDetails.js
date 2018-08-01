@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Form, Dropdown, Grid, Input, Button} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 import {selectCurrentTerm} from '../../../api/terms/selectors.js'
+import FormEditWrapper from '../../../components/FormEditWrapper'
 
 //actions
 import {updateEntity} from '../../../api/entities/actions.js'
@@ -25,8 +26,8 @@ class TermDetails extends Component {
     const {word = '', level = '', id = '', translation = ''} = this.props.entry
     return (
       <Form size="large">
-        <label>Level</label>
         <Form.Field
+          label="Level"
           name="level"
           width={16}
           control={Input}
@@ -34,24 +35,30 @@ class TermDetails extends Component {
           value={level}
           readOnly
         />
-        <label>Word</label>
-        <Form.Field
-          name="word"
-          width={16}
-          control={Input}
-          placeholder="Word"
-          value={word}
-          onChange={this.inputChange}
-        />
-        <label>Translation</label>
-        <Form.Field
-          name="translation"
-          width={16}
-          control={Input}
-          placeholder="Translation"
-          value={translation}
-          onChange={this.inputChange}
-        />
+        <FormEditWrapper
+          singleValue={true}
+          value={{word}}
+          onChange={this.inputChange}>
+          <Form.Field
+            label="Word"
+            name="word"
+            width={16}
+            control={Input}
+            placeholder="Word"
+          />
+        </FormEditWrapper>
+        <FormEditWrapper
+          singleValue={true}
+          value={{translation}}
+          onChange={this.inputChange}>
+          <Form.Field
+            label="Translation"
+            name="translation"
+            width={16}
+            control={Input}
+            placeholder="Translation"
+          />
+        </FormEditWrapper>
         <Form.Group widths="equal">
           <Form.Field
             name="audio"
