@@ -1,15 +1,41 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import _ from 'lodash'
-import {Table} from 'semantic-ui-react'
+import {Button, Icon, Table} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
+import {deleteEntity} from '../../../api/entities/actions.js'
 
-const LevelsListRow = ({entry = {}, onLevelClicked = _.noop, selected}) => {
+const LevelsListRow = ({
+  entry = {},
+  onLevelClicked = _.noop,
+  selected,
+  deleteEntity
+}) => {
   const {id = null, title = '', level = ''} = entry
+
+  const onDeleteClicked = e => {
+    e.stopPropagation()
+    e.preventDefault()
+    deleteEntity('Levels', id)
+  }
+
+  const onRowClicked = () => onLevelClicked(id)
+
   return (
-    <Table.Row onClick={() => onLevelClicked(id)} active={selected}>
+    <Table.Row onClick={onRowClicked} active={selected}>
       <Table.Cell>{level}</Table.Cell>
       <Table.Cell>{title}</Table.Cell>
+      <Table.Cell>
+        <Button
+          compact
+          basic
+          circular
+          size="tiny"
+          color="red"
+          icon={<Icon name="delete" />}
+          onClick={onDeleteClicked}
+        />
+      </Table.Cell>
     </Table.Row>
   )
 }
@@ -31,4 +57,8 @@ const mapStateToProps = (state, ownProps) => {
   return {entry}
 }
 
-export default connect(mapStateToProps)(LevelsListRow)
+const actions = {
+  deleteEntity
+}
+
+export default connect(mapStateToProps, actions)(LevelsListRow)

@@ -61,6 +61,7 @@ class LevelDetails extends Component {
           value={id}
           readOnly
         />
+        <Button style={{background: '#F6D155'}}>Save</Button>
       </Form>
     )
   }

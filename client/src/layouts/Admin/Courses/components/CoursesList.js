@@ -7,7 +7,6 @@ import CoursesListRow from '../components/CoursesListRow'
 export default class CoursesList extends Component {
   render() {
     const {courses = []} = this.props
-    console.log('courses: ', courses)
 
     const courseRows = courses.map((course, i) => (
       <CoursesListRow course={course} key={i} />

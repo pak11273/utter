@@ -6,6 +6,7 @@ const LevelsListHeader = () => (
     <Table.Row>
       <Table.HeaderCell width={1}>Level</Table.HeaderCell>
       <Table.HeaderCell width={6}>Name</Table.HeaderCell>
+      <Table.HeaderCell width={1}>Actions</Table.HeaderCell>
     </Table.Row>
   </Table.Header>
 )

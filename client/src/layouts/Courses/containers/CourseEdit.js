@@ -216,10 +216,6 @@ class CourseEdit extends Component {
               <TabBarContainer tabs={tabs} size="massive" />
             </Container>
           </div>
-          <Box flexdirection="row">
-            <StyledButton type="submit">Save Changes</StyledButton>
-          </Box>
-          {/* </Form>*/}
         </div>
       </Flex>
     )

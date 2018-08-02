@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Form, Dropdown, Grid, Input, Button} from 'semantic-ui-react'
+import {Form, Dropdown, Grid, Input, Button, Segment} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 import {selectCurrentTerm} from '../../../api/terms/selectors.js'
 import FormEditWrapper from '../../../components/FormEditWrapper'
@@ -60,7 +60,7 @@ class TermDetails extends Component {
             placeholder="Translation"
           />
         </FormEditWrapper>
-        <Form.Group widths="equal">
+        <Segment>
           <Form.Field
             name="audio"
             width={6}
@@ -71,7 +71,8 @@ class TermDetails extends Component {
           />
           <Button>Upload</Button>
           <Button>Record</Button>
-        </Form.Group>
+        </Segment>
+        <Button style={{background: '#F6D155'}}>Save</Button>
       </Form>
     )
   }

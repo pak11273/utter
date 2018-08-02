@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {
+  Button,
   Dropdown,
   Form,
   Grid,
@@ -45,7 +46,7 @@ class CourseSettings extends Component {
 
   render() {
     let course = this.props.course
-    const {courseDescription} = course
+    const {courseDescription, courseName} = course
     return (
       <Form size="large">
         <Segment>
@@ -58,14 +59,17 @@ class CourseSettings extends Component {
                 src={course.image}
                 size="small"
               />
-              <Form.Field
-                label="Course Name"
-                name="name"
-                control={Input}
-                placeholder="Name"
-                defaultValue={course.courseName}
-                disabled
-              />
+              <FormEditWrapper
+                singleValue={true}
+                value={{courseName}}
+                onChange={this.inputChange}>
+                <Form.Field
+                  label="Course Name"
+                  name="courseName"
+                  control={Input}
+                  placeholder="Name"
+                />
+              </FormEditWrapper>
               <FormEditWrapper
                 singleValue={true}
                 value={{courseDescription}}
@@ -99,6 +103,8 @@ class CourseSettings extends Component {
                   onChange={this.dropdownChange}
                 />
               </Segment>
+              <Button style={{background: '#F6D155'}}>Save</Button>
+              <Button color="red">Delete Course</Button>
             </Grid.Column>
           </Grid>
         </Segment>

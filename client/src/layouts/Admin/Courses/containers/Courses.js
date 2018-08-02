@@ -33,7 +33,6 @@ const mapStateToProps = state => {
 
 class Courses extends Component {
   componentDidMount() {
-    console.log('hi')
     // load courses from db
   }
 

@@ -1,4 +1,5 @@
 import {createReducer} from '../../utils/reduxUtils.js'
+import {ENTITY_DELETE} from '../../api/entities/types.js'
 
 import {LEVEL_SELECT} from './types.js'
 
@@ -39,24 +40,23 @@ export function selectLevel(state, payload) {
 //   }
 // }
 
-// export function stopEditingIfDeleted(state, payload) {
-//   const {itemType, itemID} = payload
-//   const {currentLevel} = state
+export function stopEditingIfDeleted(state, payload) {
+  const {itemType, itemID} = payload.payload
+  const {currentLevel} = state
+  if (itemType === 'Levels' && itemID === currentLevel) {
+    return {
+      ...state,
+      isEditing: false,
+      currentLevel: null
+    }
+  }
 
-//   if (itemType === 'Level' && itemID === currentLevel) {
-//     return {
-//       ...state,
-//       isEditing: false,
-//       currentLevel: null
-//     }
-// }
-
-// return state
-// }
+  return state
+}
 
 export default createReducer(initialState, {
-  [LEVEL_SELECT]: selectLevel
+  [LEVEL_SELECT]: selectLevel,
   // [LEVEL_EDIT_START]: startEditingLevel,
   // [LEVEL_EDIT_STOP]: stopEditingLevel,
-  // [ENTITY_DELETE]: stopEditingIfDeleted
+  [ENTITY_DELETE]: stopEditingIfDeleted
 })
