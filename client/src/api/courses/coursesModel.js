@@ -1,6 +1,14 @@
 import {Model, many, fk, attr} from 'redux-orm'
 
 class Courses extends Model {
+  static get fields() {
+    return {
+      id: attr(),
+      courseName: attr(),
+      email: attr()
+    }
+  }
+
   static parse(courseData) {
     return this.upsert(courseData)
   }
@@ -8,7 +16,7 @@ class Courses extends Model {
   static reducer(action, Courses, session) {
     switch (action.type) {
       case 'CREATE_COURSES':
-        Courses.create(action.payload)
+        Courses.upsert(action.payload)
         break
       case 'UPDATE_COURSES':
         Courses.withId(action.payload.id).update(action.payload)
@@ -27,13 +35,5 @@ class Courses extends Model {
 }
 
 Courses.modelName = 'Courses'
-
-// Declare your related fields.
-
-Courses.fields = {
-  id: attr(),
-  courseName: attr(),
-  email: attr()
-}
 
 export default Courses

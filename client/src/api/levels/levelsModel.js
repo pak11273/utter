@@ -13,7 +13,7 @@ class Levels extends Model {
   static reducer(action, Level, session) {
     switch (action.type) {
       case 'CREATE_LEVEL':
-        Level.create(action.payload)
+        Level.upsert(action.payload)
         break
       case 'UPDATE_LEVEL':
         Level.withId(action.payload.id).update(action.payload)
@@ -42,7 +42,5 @@ class Levels extends Model {
 }
 
 Levels.modelName = 'Levels'
-
-// Declare your related fields.
 
 export default Levels

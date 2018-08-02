@@ -1,6 +1,14 @@
 import {fk, many, attr, Model} from 'redux-orm'
 
 class User extends Model {
+  static get fields() {
+    return {
+      id: attr(),
+      username: attr(),
+      email: attr()
+    }
+  }
+
   static parse(userData) {
     return this.upsert(userData)
   }
@@ -26,13 +34,5 @@ class User extends Model {
 }
 
 User.modelName = 'User'
-
-// Declare your related fields.
-
-User.fields = {
-  id: attr(),
-  username: attr(),
-  email: attr()
-}
 
 export default User

@@ -12,6 +12,14 @@ import orm from '../../../app/schema.js'
 
 const initialState = orm.getEmptyState()
 
+//TODO: may implement this to clear out models for each load model data function below
+//Clear out any existing models from state so that we can avoid conflicts from the new data coming in if data is reloaded
+// [Levels, Courses, Users, etc].forEach(modelType => {
+//        modelType.all().withModels.forEach(model => model.delete());
+//        session.state = session.reduce();
+//        modelType.all().toModelArray().forEach(model => model.delete());
+//     });
+
 export function resetUser(state) {
   const session = orm.session(state)
   const {User} = session

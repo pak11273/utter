@@ -1,9 +1,18 @@
 import {fk, many, attr, Model} from 'redux-orm'
 
 class Users extends Model {
+  static get fields() {
+    return {
+      id: attr(),
+      username: attr(),
+      email: attr()
+    }
+  }
+
   static parse(userData) {
     return this.upsert(userData)
   }
+
   static reducer(action, User, session) {
     switch (action.type) {
       case 'CREATE_USER':
@@ -26,13 +35,5 @@ class Users extends Model {
 }
 
 Users.modelName = 'Users'
-
-// Declare your related fields.
-
-Users.fields = {
-  id: attr(),
-  username: attr(),
-  email: attr()
-}
 
 export default Users

@@ -3,6 +3,10 @@ import {fk, many, attr, Model} from 'redux-orm'
 class Terms extends Model {
   static get fields() {
     return {
+      id: attr(),
+      level: attr(),
+      word: attr(),
+      translation: attr(),
       level: fk('Levels')
     }
   }
@@ -10,7 +14,7 @@ class Terms extends Model {
   static parse(termsData) {
     // We could do useful stuff in here with relations,
     // but since we have no relations yet, all we need
-    // to do is pass the pilot data on to create()
+    // to do is pass the pilot data on to upsert()
 
     // Note that in a static class method, `this` is the
     // class itself, not an instance
@@ -23,13 +27,13 @@ class Terms extends Model {
       ...newAttributes
     }
 
-    return this.create(combinedAttributes)
+    return this.upsert(combinedAttributes)
   }
 
   static reducer(action, Terms, session) {
     switch (action.type) {
       case 'CREATE_TERM':
-        Terms.create(action.payload)
+        Terms.upsert(action.payload)
         break
       case 'UPDATE_TERM':
         Terms.withId(action.payload.id).update(action.payload)
@@ -66,13 +70,5 @@ class Terms extends Model {
 }
 
 Terms.modelName = 'Terms'
-
-// Declare your related fields.
-
-// Terms.fields = {
-//   id: attr(),
-//   level: attr(),
-//   name: attr()
-// }
 
 export default Terms

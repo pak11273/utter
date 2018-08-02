@@ -14,7 +14,11 @@ import FormEditWrapper from '../../../components/FormEditWrapper'
 import {getEntitiesSession} from '../../../api/entities/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
+import ModalMgr from '../../../containers/Modals/ModalMgr.js'
 import orm from '../../../app/schema.js'
+
+// actions
+import {openModal} from '../../../containers/Modals/actions.js'
 
 const USING_LANG = [
   {value: 'English', text: 'English'},
@@ -44,11 +48,16 @@ class CourseSettings extends Component {
     this.props.updateEntity('Course', id, newValues)
   }
 
+  openModalClicked = () => {
+    this.props.openModal('ModalContainer', {counter: 1})
+  }
+
   render() {
     let course = this.props.course
     const {courseDescription, courseName} = course
     return (
       <Form size="large">
+        <ModalMgr />
         <Segment>
           <Grid>
             <Grid.Column width={8}>
@@ -104,7 +113,9 @@ class CourseSettings extends Component {
                 />
               </Segment>
               <Button style={{background: '#F6D155'}}>Save</Button>
-              <Button color="red">Delete Course</Button>
+              <Button color="red" onClick={this.openModalClicked}>
+                Delete Course
+              </Button>
             </Grid.Column>
           </Grid>
         </Segment>
@@ -139,6 +150,7 @@ const mapStateToProps = state => {
 }
 
 const actions = {
+  openModal,
   updateEntity
 }
 
