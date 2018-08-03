@@ -1,3 +1,8 @@
+const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset_id'
+// 'https://api.cloudinary.com/v1_1/your_cloudinary_app_name/upload'
+// 'http://res.cloudinary.com/dgvw5b6pf/video/upload'
+const CLOUDINARY_UPLOAD_URL = 'http://res.cloudinary.com/z28ks5gg/upload'
+import axios from 'axios'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {
@@ -10,6 +15,7 @@ import {
   Segment,
   TextArea
 } from 'semantic-ui-react'
+import Dropzone from 'react-dropzone'
 import FormEditWrapper from '../../../components/FormEditWrapper'
 import {getEntitiesSession} from '../../../api/entities/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'
@@ -33,6 +39,12 @@ const TEACHING_LANG = [
 class CourseSettings extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      uploadedFile: {},
+      uploadedFileCloudinaryUrl: '',
+      uploadFileCloudinaryUrl: ''
+    }
   }
 
   inputChange = (e, result) => {
@@ -52,22 +64,102 @@ class CourseSettings extends Component {
     this.props.openModal('ModalContainer', {counter: 1})
   }
 
+  onImageDrop = files => {
+    this.setState({
+      uploadedFile: files[0]
+    })
+
+    this.handleImageUpload(files)
+  }
+
+  handleImageUpload(files) {
+    // Push all the axios request promise into a single array
+    const uploaders = files.map(file => {
+      // Initial FormData
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('tags', `course-name`)
+      formData.append('upload_preset', 'z28ks5gg') // Replace the preset name with your own
+      formData.append('folder', 'course-thumbnails') // Folder to place image in
+      formData.append('api_key', '225688292439754') // Replace API key with your own Cloudinary key
+      formData.append('timestamp', (Date.now() / 1000) | 0)
+
+      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+      return axios
+        .post(
+          'https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/',
+          formData,
+          {
+            headers: {'X-Requested-With': 'XMLHttpRequest'}
+          }
+        )
+        .then(res => {
+          const data = res.data
+
+          // if (res.body.secure_url !== '') {
+          if (data.secure_url !== '') {
+            this.setState({
+              // uploadedFileCloudinaryUrl: res.body.secure_url
+              uploadedFileCloudinaryUrl: data.secure_url
+            })
+          }
+
+          const fileURL = data.secure_url // You should store this URL for future references in your app
+          return fileURL
+        })
+    })
+
+    // Once all the files are uploaded
+    axios.all(uploaders).then(values => {
+      // ... perform after upload is successful operation
+      // TODO: update course database
+      console.log('res: ', values)
+    })
+  }
+
   render() {
     let course = this.props.course
     const {courseDescription, courseName} = course
+    const reminder = this.state.uploadedFile.name ? (
+      <p style={{color: 'red'}}>Click save for permanent changes</p>
+    ) : null
     return (
       <Form size="large">
         <ModalMgr />
         <Segment>
           <Grid>
             <Grid.Column width={8}>
-              <Form.Field
-                label="Course Thumbnail"
-                name="image"
-                control={Image}
-                src={course.image}
-                size="small"
-              />
+              <Segment>
+                <div>
+                  {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                    <Form.Field
+                      label="Course Thumbnail"
+                      name="image"
+                      control={Image}
+                      src={this.state.uploadedFileCloudinaryUrl}
+                      size="small"
+                    />
+                  )}
+                </div>
+                <p>{this.state.uploadedFile.name}</p>
+                <div>{reminder}</div>
+                <Dropzone
+                  style={{
+                    padding: '3px',
+                    position: 'relative',
+                    width: '100px',
+                    height: '50px',
+                    borderWidth: '2px',
+                    borderColor: 'rgb(102, 102, 102)',
+                    borderStyle: 'dashed',
+                    borderRadius: '5px'
+                  }}
+                  multiple={false}
+                  accept="image/*"
+                  onDrop={this.onImageDrop}>
+                  <p>Drop an image or click to select a file to upload.</p>
+                </Dropzone>
+              </Segment>
               <FormEditWrapper
                 singleValue={true}
                 value={{courseName}}
