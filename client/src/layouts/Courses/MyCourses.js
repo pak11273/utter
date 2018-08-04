@@ -22,7 +22,6 @@ import {
   Flex,
   Grid,
   Section,
-  Input,
   LanguageCard,
   Subtitle,
   Title

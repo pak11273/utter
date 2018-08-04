@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "acl": "^0.4.11",
     "aws-sdk": "^2.77.0",
     "axios": "^0.16.2",
     "babel": "^6.23.0",

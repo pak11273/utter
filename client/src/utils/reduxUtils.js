@@ -3,6 +3,7 @@
 ///////////////////
 const asyncTypes = {
   REQUEST: 'REQUEST',
+  UPDATE: 'UPDATE',
   SUCCESS: 'SUCCESS',
   ERROR: 'ERROR',
   RESET: 'RESET'

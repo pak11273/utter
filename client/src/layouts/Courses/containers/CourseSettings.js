@@ -1,6 +1,4 @@
 const CLOUDINARY_UPLOAD_PRESET = 'your_upload_preset_id'
-// 'https://api.cloudinary.com/v1_1/your_cloudinary_app_name/upload'
-// 'http://res.cloudinary.com/dgvw5b6pf/video/upload'
 const CLOUDINARY_UPLOAD_URL = 'http://res.cloudinary.com/z28ks5gg/upload'
 import axios from 'axios'
 import React, {Component} from 'react'
@@ -25,6 +23,7 @@ import orm from '../../../app/schema.js'
 
 // actions
 import {openModal} from '../../../containers/Modals/actions.js'
+import updateSettings from '../../../api/course/actions/courseActions.js'
 
 const USING_LANG = [
   {value: 'English', text: 'English'},
@@ -42,9 +41,14 @@ class CourseSettings extends Component {
 
     this.state = {
       uploadedFile: {},
-      uploadedFileCloudinaryUrl: '',
+      uploadedFileCloudinaryUrl: this.props.course.image,
       uploadFileCloudinaryUrl: ''
     }
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.updateSettings(this.props.course)
   }
 
   inputChange = (e, result) => {
@@ -90,7 +94,9 @@ class CourseSettings extends Component {
           'https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/',
           formData,
           {
-            headers: {'X-Requested-With': 'XMLHttpRequest'}
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest'
+            }
           }
         )
         .then(res => {
@@ -111,9 +117,9 @@ class CourseSettings extends Component {
 
     // Once all the files are uploaded
     axios.all(uploaders).then(values => {
-      // ... perform after upload is successful operation
-      // TODO: update course database
-      console.log('res: ', values)
+      const id = this.props.course.id
+      const newValues = {image: values[0]}
+      this.props.updateEntity('Course', id, newValues)
     })
   }
 
@@ -124,7 +130,7 @@ class CourseSettings extends Component {
       <p style={{color: 'red'}}>Click save for permanent changes</p>
     ) : null
     return (
-      <Form size="large">
+      <Form size="large" onSubmit={this.handleSubmit}>
         <ModalMgr />
         <Segment>
           <Grid>
@@ -243,7 +249,8 @@ const mapStateToProps = state => {
 
 const actions = {
   openModal,
-  updateEntity
+  updateEntity,
+  updateSettings: updateSettings.update
 }
 
 export default connect(mapStateToProps, actions)(CourseSettings)
