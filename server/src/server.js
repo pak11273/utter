@@ -16,6 +16,10 @@ const server = http.createServer(app)
 import middleware from '../dist/middleware/appMiddleware'
 middleware(app)
 
+// acl
+import utterAcl from '../dist/acl'
+utterAcl(app)
+
 // express middleware
 app.use(express.static(path.join(__dirname, 'client/dist'))) //path is relative to this directory
 app.use('/cdn', express.static('cdn'))
