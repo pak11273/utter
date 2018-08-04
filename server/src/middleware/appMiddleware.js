@@ -44,7 +44,7 @@ module.exports = app => {
   // )
   // app.use(webpackHotMiddleware(compiler))
 
-  mongoose.connect(config.db.url)
+  mongoose.connect(config.db.url, {useNewUrlParser: true})
 }
 
 // cors preflight

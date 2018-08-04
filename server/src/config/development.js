@@ -2,6 +2,6 @@ module.exports = {
   logging: true,
   seed: true,
   db: {
-    url: 'mongodb://localhost/utter-dev'
+    url: 'mongodb://localhost:27017/utter-dev'
   }
 }
