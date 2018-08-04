@@ -1,3 +1,7 @@
+// http://pm2.keymetrics.io/docs/usage/environment/
+// Do the following in production:
+// pm2 start ecosystem.config.js --env production
+
 module.exports = {
   apps: [
     {
