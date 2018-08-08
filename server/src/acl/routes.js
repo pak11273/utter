@@ -19,40 +19,40 @@ router.route('/info').get(function(req, res, next) {
   )
 })
 
-// // Only for users and higher
-// router.route('/secret', acl.middleware(1, get_user_id), function(
-//   request,
-//   response,
-//   next
-// ) {
-//   response.send('Welcome Sir!')
-// })
+// Only for users and higher
+router.route('/secret', acl.middleware(1, get_user_id), function(
+  request,
+  response,
+  next
+) {
+  response.send('Welcome Sir!')
+})
 
-// // Only for admins
-// router.route('/topsecret', acl.middleware(1, get_user_id), function(
-//   request,
-//   response,
-//   next
-// ) {
-//   response.send('Hi Admin!')
-// })
+// Only for admins
+router.route('/topsecret', acl.middleware(1, get_user_id), function(
+  request,
+  response,
+  next
+) {
+  response.send('Hi Admin!')
+})
 
-// // Setting a new role
-// router.route('/allow/:user/:role', function(request, response, next) {
-//   acl.addUserRoles(request.params.user, request.params.role)
-//   response.send(request.params.user + ' is a ' + request.params.role)
-// })
+// Setting a new role
+router.route('/allow/:user/:role', function(request, response, next) {
+  acl.addUserRoles(request.params.user, request.params.role)
+  response.send(request.params.user + ' is a ' + request.params.role)
+})
 
-// // Unsetting a role
-// router.route('/disallow/:user/:role', function(request, response, next) {
-//   acl.removeUserRoles(request.params.user, request.params.role)
-//   response.send(
-//     request.params.user + ' is not a ' + request.params.role + ' anymore.'
-//   )
-// })
+// Unsetting a role
+router.route('/disallow/:user/:role', function(request, response, next) {
+  acl.removeUserRoles(request.params.user, request.params.role)
+  response.send(
+    request.params.user + ' is not a ' + request.params.role + ' anymore.'
+  )
+})
 
-// // Provide logic for getting the logged-in user
-// //  This is a job for your authentication layer
+// Provide logic for getting the logged-in user
+//  This is a job for your authentication layer
 function get_user_id(request, response) {
   return 'bob'
 }

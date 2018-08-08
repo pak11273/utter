@@ -34,7 +34,7 @@ import admin from '../dist/admin/adminRoutes.js'
 import mailRouter from '../dist/mail/routes.js'
 
 // mounts
-// app.use('/acl', aclRoutes)
+// app.use('/acl', aclRoutes) // moved inside of the mongoose function in Routers section
 app.use('/admin', admin)
 app.use('/api', api)
 app.use('/auth', auth)

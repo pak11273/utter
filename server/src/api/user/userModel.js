@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema(
     },
     nativeLang: {
       type: String,
-      required: [true, "can't be blank"]
+      default: 'English'
     },
     bio: String,
     email: {
@@ -39,8 +39,9 @@ const UserSchema = new mongoose.Schema(
     reset_password_expires: {
       type: Date
     },
-    role: {
-      type: String
+    roles: {
+      type: [String],
+      default: 'registeredUser'
     },
     utteredList: {
       type: Array,
