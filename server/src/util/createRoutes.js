@@ -1,5 +1,3 @@
-import Course from '../api/course/courseModel.js'
-
 module.exports = (controller, router) => {
   // router.param('id', controller.params)
 

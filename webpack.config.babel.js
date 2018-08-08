@@ -27,6 +27,7 @@ module.exports = env => {
       proxy: [
         {
           context: [
+            '/acl',
             '/admin/uploadFile',
             '/auth',
             '/api',
@@ -38,9 +39,6 @@ module.exports = env => {
             '/api/vocab',
             '/api/zones',
             '/cdn',
-            '/info',
-            '/secret',
-            '/topsecret',
             '/socket.io',
             '/lions',
             '/tigers',

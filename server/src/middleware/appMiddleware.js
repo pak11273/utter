@@ -7,6 +7,8 @@ import mongoose from 'mongoose'
 import bluebird from 'bluebird'
 import config from '../../dist/config/index.js'
 import passport from 'passport'
+import node_acl from 'acl'
+import roles from '../acl/roles.js'
 const MongoStore = require('connect-mongo')(session)
 
 // webpack hmr imports - not necessary for production TODO:remove for production
@@ -45,6 +47,10 @@ module.exports = app => {
   // app.use(webpackHotMiddleware(compiler))
 
   mongoose.connect(config.db.url, {useNewUrlParser: true})
+
+  mongoose.connection.on('connected', function(test) {
+    require('../acl/index.js').init()
+  })
 }
 
 // cors preflight

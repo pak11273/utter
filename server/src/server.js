@@ -4,6 +4,7 @@ import logger from '../dist/util/logger'
 import error from '../dist/middleware/error'
 import config from '../dist/config/index.js'
 import pwd from '../dist/config/pwd.js'
+import mongoose from 'mongoose'
 import nodemailer from 'nodemailer'
 import _ from 'lodash'
 import express from 'express'
@@ -16,15 +17,15 @@ const server = http.createServer(app)
 import middleware from '../dist/middleware/appMiddleware'
 middleware(app)
 
-// acl
-import utterAcl from '../dist/acl'
-utterAcl(app)
-
 // express middleware
 app.use(express.static(path.join(__dirname, 'client/dist'))) //path is relative to this directory
 app.use('/cdn', express.static('cdn'))
 
 // Routers
+mongoose.connection.on('connected', function() {
+  const aclRoutes = require('../dist/acl/routes.js')
+  app.use('/acl', aclRoutes)
+})
 import api from '../dist/api'
 import auth from '../dist/auth/routes.js'
 import admin from '../dist/admin/adminRoutes.js'
@@ -33,6 +34,7 @@ import admin from '../dist/admin/adminRoutes.js'
 import mailRouter from '../dist/mail/routes.js'
 
 // mounts
+// app.use('/acl', aclRoutes)
 app.use('/admin', admin)
 app.use('/api', api)
 app.use('/auth', auth)
