@@ -53,7 +53,7 @@ registeredUserRoles = {
   roles: ['registeredUser'],
   allows: [
     {
-      resources: ['/courses'],
+      resources: ['/'],
       permissions: ['get', 'post']
     }
   ]

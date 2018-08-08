@@ -5,6 +5,11 @@ import createRoutes from '../../util/createRoutes.js'
 
 createRoutes(controller, router)
 
+router
+  .route('/')
+  .get(controller.get)
+  .post(controller.post)
+
 // custom routes
 router.route('/unique').post(controller.unique)
 

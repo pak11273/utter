@@ -24,21 +24,19 @@ app.use('/cdn', express.static('cdn'))
 // Routers
 mongoose.connection.on('connected', function() {
   const aclRoutes = require('../dist/acl/routes.js')
+  const api = require('../dist/api')
+  const auth = require('../dist/auth/routes.js')
+  const admin = require('../dist/admin/adminRoutes.js')
+  const mailRouter = require('../dist/mail/routes.js')
+
+  // mounts
+  // app.use('/acl', aclRoutes) // moved inside of the mongoose function in Routers section
   app.use('/acl', aclRoutes)
+  app.use('/api', api)
+  app.use('/admin', admin)
+  app.use('/auth', auth)
+  app.use('/mail', mailRouter)
 })
-import api from '../dist/api'
-import auth from '../dist/auth/routes.js'
-import admin from '../dist/admin/adminRoutes.js'
-
-// import mailRouter from '../dist/util/mail.js'
-import mailRouter from '../dist/mail/routes.js'
-
-// mounts
-// app.use('/acl', aclRoutes) // moved inside of the mongoose function in Routers section
-app.use('/admin', admin)
-app.use('/api', api)
-app.use('/auth', auth)
-app.use('/mail', mailRouter)
 
 // used for gzipping bundle.js
 app.get('*.js', function(req, res, next) {

@@ -10,13 +10,13 @@ module.exports = {
     acl.allow(roles)
     acl.addRoleParents('admin', 'registeredUser')
 
-    var user = User.findOne({username: 'brad'}, (err, user) => {
-      if (!user) {
-        null
-      } else {
-        acl.addUserRoles(user.id, 'admin')
-      }
-    })
+    // var user = User.findOne({username: 'brad'}, (err, user) => {
+    //   if (!user) {
+    //     null
+    //   } else {
+    //     acl.addUserRoles(user.id, 'admin')
+    //   }
+    // })
   },
   getAcl: function() {
     return acl
