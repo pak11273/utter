@@ -2,13 +2,14 @@ import express from 'express'
 const router = express.Router()
 import controller from './courseCtrl.js'
 import createRoutes from '../../util/createRoutes.js'
+import acl from '../../acl/middleware.js'
 
 createRoutes(controller, router)
 
+// get teaching courses
 router
-  .route('/')
-  .get(controller.get)
-  .post(controller.post)
+  .route('/my-courses/:courseCreatorId')
+  .get(acl.roleCheck, controller.getTeachingCourses)
 
 // custom routes
 router.route('/unique').post(controller.unique)
@@ -23,9 +24,6 @@ router
 router
   .route('/teaching-course/:courseCreatorId/:courseId/:courseName/:levelId')
   .delete(controller.deleteLevel)
-
-// get teaching courses
-router.route('/my-courses/:courseCreatorId').get(controller.getTeachingCourses)
 
 router.route('/faker').get(controller.faker)
 

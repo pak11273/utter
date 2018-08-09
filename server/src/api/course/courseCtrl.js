@@ -3,7 +3,6 @@ import faker from 'faker'
 import cuid from 'cuid'
 import _ from 'lodash'
 import mongoose from 'mongoose'
-const node_acl = require('../../acl/index.js').getAcl()
 
 exports.params = (req, res, next, id) => {
   Course.findById(id).then(
@@ -147,8 +146,7 @@ exports.faker = (req, res, next) => {
   res.json(course)
 }
 
-exports.get = (node_acl.middleware(),
-(req, res, next) => {
+exports.get = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
@@ -160,7 +158,7 @@ exports.get = (node_acl.middleware(),
       next(err)
     }
   )
-})
+}
 
 exports.getOne = (req, res, next) => {
   //populate doesn't return a promise, so call exec()

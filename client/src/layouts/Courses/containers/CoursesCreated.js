@@ -146,62 +146,9 @@ class Created extends Component {
         </Flex>
       </Grid>
     )
-    {
-      /*<StyledGrid>
-        <Grid
-          gridtemplaterows="auto"
-          gridtemplatecolumns="1fr"
-          gridtemplatecolumns640="1fr 1fr"
-          gridtemplatecolumns768="1fr 1fr 1fr"
-          gridtemplatecolumns1024="1fr 1fr 1fr 1fr"
-          gridtemplatecolumns1440="1fr 1fr 1fr 1fr 1fr"
-          gridarea="content">
-          {this.state.pageOfItems.map(item => {
-            return (
-              <Flex key={item._id} flexdirection="column" padding="40px">
-                <a
-                  style={{cursor: 'pointer'}}
-                  onClick={() => this.pushUrl(item)}>
-                  <Img src={item.image} width="160px" height="200px" />
-                </a>
-                <a
-                  style={{cursor: 'pointer'}}
-                  onClick={() => this.pushUrl(item)}>
-                  <Text
-                    alignitems="center"
-                    display="flex"
-                    textalign="center"
-                    fontsize="x-large"
-                    height="120px"
-                    padding="10px">
-                    {item.courseName}
-                  </Text>
-                </a>
-                <Text textalign="left" fontsize="1rem" padding="10px">
-                  {item.courseDescription}
-                </Text>
-                <Flex
-                  flexdirection="row"
-                  justifycontent="flex-end"
-                  padding="0 30px 0 0">
-                  <IoPeople />
-                  <Text>3</Text>
-                </Flex>
-              </Flex>
-            )
-          })}
-        </Grid>
-        <div gridarea="Pagination">
-          <Pagination
-            items={this.props.courseReducer.teachingCourseList.result.docs}
-            onChangePage={this.onChangePage}
-          />
-          <Pagination defaultActivePage={1} totalPages={10} />
-        </div>
-      </StyledGrid> */
-    }
   }
 }
+
 const mapStateToProps = state => {
   const session = orm.session(state.entitiesReducer)
   const {Courses} = session

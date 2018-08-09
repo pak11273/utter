@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import {Container, Grid, Header, List, Segment} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.css'
 import styled from 'styled-components'
 
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
@@ -83,7 +85,44 @@ class Footer extends Component {
   render() {
     const toggleFooterReducer = this.props.toggleFooterReducer
     if (toggleFooterReducer.toggle) {
-      var MainFooter = <StyledFooter {...this.props} />
+      var MainFooter = (
+        <StyledFooter {...this.props}>
+          <Segment inverted vertical style={{padding: '5em 0em'}}>
+            <Container>
+              <Grid divided inverted stackable>
+                <Grid.Row>
+                  <Grid.Column width={3}>
+                    <Header inverted as="h4" content="About" />
+                    <List link inverted>
+                      <List.Item as="a">Contact Us</List.Item>
+                      <List.Item as="a">Pending</List.Item>
+                      <List.Item as="a">Pending</List.Item>
+                      <List.Item as="a">Pending</List.Item>
+                    </List>
+                  </Grid.Column>
+                  <Grid.Column width={3}>
+                    <Header inverted as="h4" content="Services" />
+                    <List link inverted>
+                      <List.Item as="a">Pending</List.Item>
+                      <List.Item as="a">FAQ</List.Item>
+                      <List.Item as="a">Blog</List.Item>
+                    </List>
+                  </Grid.Column>
+                  <Grid.Column width={7}>
+                    <Header as="h4" inverted>
+                      Footer Header
+                    </Header>
+                    <p>
+                      Extra space for a call to action inside the footer that
+                      could help re-engage users.
+                    </p>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </Container>
+          </Segment>
+        </StyledFooter>
+      )
     } else {
       var MainFooter = <div />
     }

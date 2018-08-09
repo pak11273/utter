@@ -1,181 +1,300 @@
-import React, {Component} from 'react'
+import PropTypes from 'prop-types'
+import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import styled from 'styled-components'
-import {Masthead} from '../containers'
-
+import React, {Component} from 'react'
 import {
-  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  Header,
+  Icon,
+  Item,
+  Image,
+  List,
+  Menu,
+  Responsive,
+  Segment,
+  Sidebar
+} from 'semantic-ui-react'
+import 'semantic-ui-css/semantic.css'
+import styled from 'styled-components'
+import {
   ButtonCta,
   Column,
-  Flex,
-  Grid,
-  Img,
   Line,
   MastheadTitle,
-  MastheadSubtitle,
-  Section,
-  Subtitle,
-  Text,
-  Title,
-  Wrapper
+  MastheadSubtitle
 } from '../components'
+import {Masthead} from '../containers'
 
 // images
 import busyPeopleImg from '../assets/images/busy-people.jpg'
 import homeMastheadImg from '../assets/images/two-guys.jpg'
 import embarrassedImg from '../assets/images/embarrassed.jpg'
-import aloneImg from '../assets/images/alone.jpg'
-import teensImg from '../assets/images/teens.jpg'
+import ceoImg from '../assets/images/ceo.jpg'
 import visitingImg from '../assets/images/walking-around.jpg'
 
-const StyledGrid = styled(Grid)`
-  grid-template-columns: 1fr;
-  grid-template-areas:
-    'masthead masthead'
-    'using using'
-    'tags tags';
-`
+// actions
+import {toggleFooter} from '../app/actions/toggleFooterAction.js'
 
-// @media (min-width: 1080px) {
-//   grid-template-columns: 1fr;
-//   grid-template-areas:
-//     'masthead'ridj
-//     'tags';
-// }
+/* eslint-disable react/no-multi-comp */
 
-function Home(props) {
-  return (
-    <Wrapper>
-      <StyledGrid>
-        <Masthead
-          gridarea="masthead"
-          background={`url(${homeMastheadImg}) center/contain`}
-          height="600px"
-          padding="200px 20px 100px 20px">
-          <Column maxwidth="960px">
-            <MastheadTitle color="white">Speak another language</MastheadTitle>
-            <MastheadSubtitle color="white" fontsize="1.5rem">
-              Not speaking your new language yet? We can help.
-            </MastheadSubtitle>
-            <ButtonCta color="black">Learn More</ButtonCta>
-          </Column>
-        </Masthead>
-      </StyledGrid>
-      <Section alignitems="center" background="#e3e3e3" height="550px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Box>
-            <Text fontsize="1.3rem" padding="20px">
-              Studied a second language in school but can't hold a basic
-              conversation.
-            </Text>
-            <Line color="black" width="200px" />
-            <Text fontsize="1.3rem" padding="20px">
-              Those many hours you spent in class don't have to go to waste. Our
-              platform helps you reclaim that lost knowledge.
-            </Text>
-          </Box>
-          <Img src={`${busyPeopleImg}`} width="500" height="400" />
-        </Column>
-      </Section>
-      <Section alignitems="center" height="550px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img src={`${embarrassedImg}`} width="500" height="400" />
-          <Box>
-            <Text fontsize="1.3rem" padding="20px">
-              The fear of embarrassment is the biggest reason why people won't
-              attempt to speak a new language.
-            </Text>
-            <Line color="black" width="200px" />
-            <Text fontsize="1.3rem" padding="20px">
-              You will be learning with peers. Meaning you will be speaking with
-              people who are at your level.
-            </Text>
-          </Box>
-        </Column>
-      </Section>
-      <Section alignitems="center" background="#e3e3e3" height="550px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Box>
-            <Text fontsize="1.3rem" padding="20px">
-              Not enough meetups or people near you to talk with.
-            </Text>
-            <Line color="black" width="200px" />
-            <Text fontsize="1.3rem" padding="20px">
-              You don't need a meetup. If you have internet access you can start
-              practicing with people all over the world.
-            </Text>
-          </Box>
-          <Img src={`${aloneImg}`} width="500" height="400" />
-        </Column>
-      </Section>
-      <Section alignitems="center" height="550px">
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Img src={`${visitingImg}`} width="500" height="400" />
-          <Box>
-            <Text fontsize="1.3rem" padding="20px">
-              So you can't go to another country and fully immerse yourself. And
-              even if you did, most people wind up just getting by with basic
-              conversation.
-            </Text>
-            <Line color="black" width="200px" />
-            <Text fontsize="1.3rem" padding="20px">
-              Our platform could possibly be better! You get focused practice
-              anytime you want it.
-            </Text>
-          </Box>
-        </Column>
-      </Section>
-      <Section alignitems="center">
-        <Column>
-          <Title>Why should you learn a second language?</Title>
-          <Title>There are countless reasons but here are just a few:</Title>
-          <Box width="50%">
-            <Text fontsize="1rem">
-              People who are bilingual have more opportunities to make income
-            </Text>
-            <Text fontsize="1rem">
-              You will increase your perceived value and self-worth
-            </Text>
-            <Text fontsize="1rem">
-              Language is the most important piece to learning another country's
-              culture
-            </Text>
-            <Text fontsize="1rem">
-              You'll meet new people and make new relationships
-            </Text>
-            <Text fontsize="1rem">
-              One of the most rewarding skills to have. Once you learn a second
-              language it's easier to obtain others.
-            </Text>
-            <Text fontsize="1rem">
-              This is the gateway to adapting to the global economy.
-            </Text>
-            <Text fontsize="1rem">
-              You're soulmate could possibly be speaking a different language!
-            </Text>
-          </Box>
-        </Column>
-        {/*
-        <Column flexdirection768="row" margin="0 auto" maxwidth="960px">
-          <Box width="50%">
-            <Text fontsize="4rem">Get Sponsored</Text>
-          </Box>
-          <Box width="50%">
-            <Text fontsize="4rem">Become a Sponsor</Text>
-          </Box>
-          <Box padding="70px">
-            <NavLink style={{fontSize: '1.8rem'}} to="/sponsorship">
-              How does this work?
-            </NavLink>
-          </Box>
-        </Column>
-        */}
-      </Section>
-      <Section alignitems="center" height="550px">
-        <Column flexdirection768="row" maxwidth="960px" />
-      </Section>
-    </Wrapper>
-  )
+const HomepageHeading = ({mobile}) => (
+  <Masthead
+    gridarea="masthead"
+    background={`url(${homeMastheadImg}) center/contain`}
+    height="600px"
+    padding="200px 20px 100px 20px">
+    <Column maxwidth="960px">
+      <MastheadTitle color="white">Speak another language</MastheadTitle>
+      <MastheadSubtitle color="white" fontsize="1.5rem">
+        Not speaking your new language yet? We can help.
+      </MastheadSubtitle>
+      <ButtonCta color="black">
+        <NavLink style={{fontSize: '1.8rem'}} to="/about">
+          Learn More
+        </NavLink>
+      </ButtonCta>
+    </Column>
+  </Masthead>
+)
+
+HomepageHeading.propTypes = {
+  mobile: PropTypes.bool
 }
 
-export default Home
+/* Heads up!
+ * Neither Semantic UI nor Semantic UI React offer a responsive navbar, however, it can be implemented easily.
+ * It can be more complicated, but you can create really flexible markup.
+ */
+class DesktopContainer extends Component {
+  state = {}
+
+  render() {
+    const {children} = this.props
+    const {fixed} = this.state
+
+    return (
+      <Responsive minWidth={Responsive.onlyTablet.minWidth}>
+        <Segment style={{padding: 0}} inverted textAlign="center" vertical>
+          <HomepageHeading />
+        </Segment>
+
+        {children}
+      </Responsive>
+    )
+  }
+}
+
+DesktopContainer.propTypes = {
+  children: PropTypes.node
+}
+
+class MobileContainer extends Component {
+  state = {}
+
+  render() {
+    const {children} = this.props
+
+    return (
+      <Responsive maxWidth={Responsive.onlyMobile.maxWidth}>
+        <Segment
+          inverted
+          textAlign="center"
+          style={{minHeight: 350, padding: 0}}
+          vertical>
+          <HomepageHeading mobile />
+        </Segment>
+
+        {children}
+      </Responsive>
+    )
+  }
+}
+
+MobileContainer.propTypes = {
+  children: PropTypes.node
+}
+
+const ResponsiveContainer = ({children}) => (
+  <div>
+    <DesktopContainer>{children}</DesktopContainer>
+    <MobileContainer>{children}</MobileContainer>
+  </div>
+)
+
+ResponsiveContainer.propTypes = {
+  children: PropTypes.node
+}
+
+class Home extends Component {
+  componentDidMount() {
+    this.props.toggleFooter(true)
+  }
+  render() {
+    return (
+      <ResponsiveContainer>
+        <Segment style={{padding: '8em 0em'}} vertical>
+          <Grid container stackable verticalAlign="middle">
+            <Grid.Row>
+              <Grid.Column width={8}>
+                <Header as="h3" style={{fontSize: '2em', textAlign: 'center'}}>
+                  Studied a second language in school but can't hold a basic
+                  conversation.
+                </Header>
+                <Line />
+                <p style={{fontSize: '1.33em', textAlign: 'center'}}>
+                  Those many hours you spent in class don't have to go to waste.
+                  Our platform helps you reclaim that lost knowledge.
+                </p>
+              </Grid.Column>
+              <Grid.Column floated="right" width={6}>
+                <Image
+                  bordered
+                  rounded
+                  size="large"
+                  src={`${busyPeopleImg}`}
+                  centered
+                />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column floated="right" width={6}>
+                <Image
+                  bordered
+                  rounded
+                  size="large"
+                  style={{height: '300px'}}
+                  src={`${embarrassedImg}`}
+                  centered
+                />
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <Header as="h3" style={{fontSize: '2em', textAlign: 'center'}}>
+                  The fear of embarrassment and looking stupid.
+                </Header>
+                <Line />
+                <p style={{fontSize: '1.33em', textAlign: 'center'}}>
+                  You will be learning with peers. Meaning you will be speaking
+                  with people who are at your level.
+                </p>
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={8}>
+                <Header as="h3" style={{fontSize: '2em', textAlign: 'center'}}>
+                  So you can't go to another country and fully immerse yourself.
+                </Header>
+                <Line />
+                <p style={{fontSize: '1.33em', textAlign: 'center'}}>
+                  Our platform could possibly be better! You get focused
+                  practice anytime you want it.
+                </p>
+              </Grid.Column>
+              <Grid.Column floated="right" width={6}>
+                <Image
+                  bordered
+                  rounded
+                  size="large"
+                  src={`${visitingImg}`}
+                  centered
+                />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+        <Segment vertical>
+          <Grid celled="internally" columns="equal" stackable>
+            <Grid.Row textAlign="center">
+              <Grid.Column style={{paddingBottom: '5em', paddingTop: '5em'}}>
+                <Header as="h3" style={{fontSize: '2em'}}>
+                  Bilingual Benefits
+                </Header>
+                <p style={{fontSize: '1.33em'}}>
+                  People who are bilingual have more opportunities to make
+                  income
+                </p>
+                <p style={{fontSize: '1.33em'}}>
+                  Language is the most important piece to learning another
+                  country's culture
+                </p>
+                <p style={{fontSize: '1.33em'}}>
+                  This is the gateway to adapting to the global economy.
+                </p>
+              </Grid.Column>
+              <Grid.Column
+                style={{paddingBottom: '5em', paddingTop: '5em'}}
+                verticalAlign="middle">
+                <Header as="h3" style={{fontSize: '1.5em'}}>
+                  "I built this platform and used it exclusively to learn my
+                  native tongue. After 6 months of use I can have successful,
+                  everyday conversations with native speakers."
+                </Header>
+                <p style={{fontSize: '1.33em'}}>
+                  <Image avatar src={`${ceoImg}`} />
+                  <b>Isaac Pak</b> CEO of Utter.com
+                </p>
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
+        </Segment>
+        <Segment style={{padding: '8em 0em'}} vertical>
+          <Container text>
+            <Header as="h3" style={{fontSize: '2em'}}>
+              Latest News
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+              We will be adding Spanish, French and other popular languages in
+              the very near future. Subscribe to our newsletter and find out
+              when we add a course for your language!
+            </p>
+            <Button size="large">
+              <NavLink style={{fontSize: '1.8rem'}} to="#">
+                Subscribe
+              </NavLink>
+            </Button>
+            <Divider
+              as="h4"
+              className="header"
+              horizontal
+              style={{margin: '3em 0em', textTransform: 'uppercase'}}>
+              <a href="#">Sponsorship</a>
+            </Divider>
+            <Header as="h3" style={{fontSize: '2em'}}>
+              Can't afford the program?
+            </Header>
+            <p style={{fontSize: '1.33em'}}>
+              Get sponsored. There are many people who are willing to support
+              you in this learning endeavor, but they don't know about your
+              interest in language learning. We can help facilitate this process
+              by informing and petitioning these sponsors.
+            </p>
+            <Button size="large">
+              <NavLink style={{fontSize: '1.8rem'}} to="/sponsorship">
+                Find out more
+              </NavLink>
+            </Button>
+          </Container>
+        </Segment>
+      </ResponsiveContainer>
+    )
+  }
+}
+
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     actions: bindActionCreators(
+//       {
+//         toggleFooter,
+//       },
+//       dispatch
+//     )
+//   }
+// }
+
+const actions = {
+  toggleFooter
+}
+
+export default connect(null, actions)(Home)

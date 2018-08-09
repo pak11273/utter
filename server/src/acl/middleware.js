@@ -1,6 +1,57 @@
 import acl from '../acl'
 
-export const isAllowed = function(req, res, next) {
+exports.roleCheck = (req, res, next) => {
+  console.log('res: ', req.body)
+  next()
+  // var userId = req.user ? req.user._id : null
+
+  // var userId = req.user._id || 'public'
+
+  // var route = req.path
+
+  // console.log('Matches Route:', req.route.path)
+
+  // console.log('Original route:', route)
+
+  // route = toACLDefinition(route).replace(/\/$/, '') || '/'
+
+  // // check permissions
+  // return acl.isAllowed(id, route, req.method.toLowerCase(), function(
+  //   err,
+  //   allow
+  // ) {
+  //   if (err) {
+  //     // Oh no! An error.
+  //     return res.send(500, 'Unexpected authorization error')
+  //   }
+
+  //   if (allow) {
+  //     // Woohoo, access granted. Invoke next()
+  //     return next()
+  //   }
+
+  //   // Check again with the raw path
+  //   return acl.isAllowed(id, req.path, req.method.toLowerCase(), function(
+  //     err,
+  //     allow
+  //   ) {
+  //     if (err) {
+  //       // Oh no! An error.
+  //       return res.send(500, 'Unexpected authorization error')
+  //     }
+
+  //     if (allow) {
+  //       // Woohoo, access granted. Invoke next()
+  //       return next()
+  //     }
+
+  //     // not allowed, sorry
+  //     return res.send(403)
+  //   })
+  // })
+}
+
+exports.isAllowed = function(req, res, next) {
   var roles = req.user ? req.user.roles : ['guest']
   // If a course is being processed and the current user created it then allow any manipulation
   if (

@@ -122,9 +122,7 @@ class App extends Component {
                       ))}
                     </Switch>
                   </Section>
-                  <Footer gridarea="footer">
-                    <p>Footer here</p>
-                  </Footer>
+                  <Footer gridarea="footer" />
                 </StyledGrid>
               </Router>
             </PersistGate>
