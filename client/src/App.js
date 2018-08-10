@@ -26,6 +26,7 @@ import 'semantic-ui-css/semantic.css'
 
 const StyledGrid = styled(Grid)`
   display: grid;
+  grid-template-rows: auto auto 1fr 200px;
   grid-template-areas:
     'navBar'
     'flash'
@@ -84,7 +85,7 @@ class App extends Component {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <Router history={history}>
-                <StyledGrid>
+                <StyledGrid style={{minHeight: '100vh'}}>
                   <MainNavbar
                     gridarea="navBar"
                     list={[

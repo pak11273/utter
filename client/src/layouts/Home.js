@@ -282,17 +282,6 @@ class Home extends Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     actions: bindActionCreators(
-//       {
-//         toggleFooter,
-//       },
-//       dispatch
-//     )
-//   }
-// }
-
 const actions = {
   toggleFooter
 }
