@@ -62,7 +62,7 @@ const Form = styled.form`
   position: ${props => props.position};
   width: ${props => props.width};
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     display: flex;
     flex-direction: ${props => props.flexdirection768};
     justify-content: center;
@@ -83,7 +83,7 @@ const Rightside = styled.div`
   position: ${props => props.position};
   width: ${props => props.width};
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     padding: 5rem 0;
   }
 `
@@ -147,19 +147,19 @@ class ContactForm extends Component {
     if (e.target.name === 'number') {
       this.validatePhoneNumber('+' + this.state.country + ' ' + e.target.value)
     }
-  };
+  }
 
   onSelect2 = cntrObj => {
     this.setState({
       country: cntrObj.value
     })
     this.validatePhoneNumber('+' + cntrObj.value + ' ' + this.state.number)
-  };
+  }
 
   onSubmit = e => {
     e.preventDefault()
     this.props.contactmail(this.state)
-  };
+  }
 
   getValidNumber(phoneNumber) {
     const phoneUtil = PhoneNumberUtil.getInstance()
@@ -190,7 +190,7 @@ class ContactForm extends Component {
         color: 'red'
       })
     }
-  };
+  }
 
   render(props) {
     return (
@@ -262,7 +262,6 @@ class ContactForm extends Component {
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-
               <div
                 className="message"
                 style={{
@@ -313,7 +312,8 @@ class ContactForm extends Component {
                 </Button>
               </ThemeProvider>
             </Box>
-            <Section>
+            {/* missing section below */}
+            {/* <Section>
               <Title
                 color="#273e63"
                 fontsize="2.5rem"
@@ -336,7 +336,6 @@ class ContactForm extends Component {
                       color: 'blue'
                     }}
                   />{' '}
-                  {/*this.props.managingDirectorTitle*/}
                   {this.props.managingDirector}
                 </Title>
                 <Title
@@ -365,7 +364,6 @@ class ContactForm extends Component {
                     {this.props.managingDirectorEmail}
                   </a>
                 </Title>
-                {/* TODO: company address 
                 <Subtitle fontsize="1.5rem" textalign="left">
                   {this.props.mailingTitle}
                 </Subtitle>
@@ -388,9 +386,8 @@ class ContactForm extends Component {
                   style={{color: '#227fab'}}>
                   {this.props.email}
                 </a>
-                */}
               </Grid>
-            </Section>
+            </Section>*/}
           </Section>
         </Form>
       </ThemeProvider>

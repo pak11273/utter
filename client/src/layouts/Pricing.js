@@ -1,45 +1,64 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
+import {Button, Container, Grid, Header, Menu, Segment} from 'semantic-ui-react'
 import {Masthead, Navbar} from '../containers'
-import {Box, Column, Grid, Subtitle, Title, Wrapper} from '../components'
+import {Box, Column, Subtitle, Title, Wrapper} from '../components'
 
-function About(props) {
+function Pricing(props) {
   return (
-    <Wrapper fontsize="2rem" width="1240px">
-      <Masthead height="200px">
-        <Column maxwidth="1240px">
-          <Title>Pricing</Title>
-        </Column>
-      </Masthead>
-      <Grid gridtemplatecolumns="1fr 1fr 1fr 1fr 1fr 1fr">
-        {' '}
-        <Box>Feature</Box> <Box>Babbel.com</Box> <Box>Fluencia</Box>{' '}
-        <Box>Memrise</Box> <Box>Utter</Box> <Box>Rosetta Stone</Box>
-        <Box>Lifetime/Once</Box> <Box>no</Box> <Box>no</Box> <Box>129</Box>{' '}
-        <Box>idk</Box> <Box>idk</Box>
-        <Box>2 year</Box> <Box>no</Box> <Box>6.95</Box> <Box>no</Box>{' '}
-        <Box>no</Box> <Box>idk</Box>
-        <Box>1 year</Box> <Box>6.95</Box> <Box>7.95</Box> <Box>2.50</Box>{' '}
-        <Box>no</Box> <Box>idk</Box>
-        <Box>6 months</Box> <Box>7.45</Box> <Box>no</Box> <Box>no</Box>{' '}
-        <Box>no</Box> <Box>idk</Box>
-        <Box>3 months</Box> <Box>8.95 best seller</Box> <Box>no</Box>{' '}
-        <Box>6.33</Box> <Box>no</Box> <Box>idk</Box>
-        <Box>Monthly</Box> <Box>12.95</Box> <Box>14.95</Box> <Box>9.00</Box>{' '}
-        <Box>yes</Box> <Box>idk</Box>
-        <Box>Cancel Anytime</Box> <Box>yes</Box> <Box>yes</Box> <Box>yes</Box>{' '}
-        <Box>yes</Box> <Box>idk</Box>
-        <Box>Guarantee</Box> <Box>20 Days</Box> <Box>30 Days</Box>{' '}
-        <Box>30 Days</Box> <Box>yes</Box> <Box>idk</Box>
+    <Container style={{padding: '80px'}}>
+      <Header as="h2" align="center" color="red">
+        Obtain a priceless skill for the price of a Starbucks coffee.
+      </Header>
+      <p style={{textAlign: 'center', padding: '5px 0 20px 0'}}>
+        Your payments are processed over the highest security connections.
+      </p>
+      <Grid stackable textAlign="center" columns={4}>
+        <Grid.Row>
+          <Grid.Column>
+            <Segment>
+              <Menu fluid vertical>
+                <Menu.Item className="header">1 month</Menu.Item>
+              </Menu>
+              <div>$12.95/mo.</div>
+              <Button>Select</Button>
+              <p>$12.95 charged every month</p>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment raised>
+              <Menu fluid vertical>
+                <Menu.Item className="header">3 months</Menu.Item>
+              </Menu>
+              <div>$8.95/mo.</div>
+              <Button>Select</Button>
+              <p>$26.85 charged every 3 months</p>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment>
+              <Menu fluid vertical>
+                <Menu.Item className="header">6 months</Menu.Item>
+              </Menu>
+              <div>$7.45/mo.</div>
+              <Button>Select</Button>
+              <p>$44.70 charged every 6 months</p>
+            </Segment>
+          </Grid.Column>
+          <Grid.Column>
+            <Segment>
+              <Menu fluid vertical>
+                <Menu.Item className="header">12 months</Menu.Item>
+              </Menu>
+              <div>$6.95/mo.</div>
+              <Button>Select</Button>
+              <p>$83.40 charged every 12 months</p>
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
-      <Grid gridtemplatecolumns="1fr" gridautorows="300px">
-        <Box>
-          Upcoming Competitors: Berlitz, busuu, pimsleur, michelle thomas{' '}
-        </Box>
-        <Box>Get Sponsored</Box>
-      </Grid>
-    </Wrapper>
+    </Container>
   )
 }
 
-export default About
+export default Pricing
