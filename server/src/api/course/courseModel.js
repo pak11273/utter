@@ -1,5 +1,4 @@
 import mongoose, {Schema} from 'mongoose'
-import mongoosePaginate from 'mongoose-paginate'
 // import Level from '../level/levelModel.js'
 
 const TermSchema = new Schema({
@@ -116,5 +115,4 @@ CourseSchema.set('toJSON', {
   virtuals: true
 })
 
-CourseSchema.plugin(mongoosePaginate)
 module.exports = mongoose.model('Course', CourseSchema)

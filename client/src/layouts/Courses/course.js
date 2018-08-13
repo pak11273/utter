@@ -12,7 +12,6 @@ import {
   Grid,
   Section,
   Input,
-  LanguageCard,
   Subtitle,
   Title
 } from '../../components'

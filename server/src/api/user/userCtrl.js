@@ -70,10 +70,8 @@ exports.update = (req, res, next) => {
 }
 
 exports.post = (req, res, next) => {
+  console.log('users: ', req.user)
   let newUser = new User(req.body)
-
-  console.log('user: ', newUser)
-  newUser.hashedPassword = newUser.encryptPassword(newUser.password)
 
   newUser.save(function(err, user) {
     if (err) {

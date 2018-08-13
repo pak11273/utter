@@ -17,7 +17,6 @@ import {
   Img,
   Section,
   Input,
-  LanguageCard,
   Subtitle,
   Title,
   Text

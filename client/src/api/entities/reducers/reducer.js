@@ -120,8 +120,6 @@ export default createReducer(initialState, {
   [userTypes.LOGIN_ASYNC.SUCCESS]: loadUser,
   [usersTypes.LOAD_USERS_ASYNC.SUCCESS]: loadUsers,
   [courseTypes.COURSE_ASYNC.SUCCESS]: loadCourse,
-  [courseTypes.COURSE_ASYNC.ERROR]: loadCourse,
   [coursesTypes.COURSES_ASYNC.SUCCESS]: loadCourses,
-  [coursesTypes.COURSES_ASYNC.ERROR]: loadCourses,
   [LOGOUT]: resetUser
 })

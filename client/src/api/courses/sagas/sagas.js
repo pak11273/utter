@@ -36,7 +36,6 @@ export function* courses(state) {
         payload: error.message || 'Something went wrong.'
       })
     } else {
-      console.log('errror: ', error.response.statusText)
       const err = error.response.statusText
       yield put({
         type: types.COURSES_ASYNC.ERROR,

@@ -1,3 +1,6 @@
+import {decodeToken, getFreshUser} from '../auth/auth.js'
+const checkUser = [decodeToken(), getFreshUser()]
+
 module.exports = (controller, router) => {
   // router.param('id', controller.params)
 

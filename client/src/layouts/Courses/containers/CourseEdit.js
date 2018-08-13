@@ -17,7 +17,6 @@ import {
   Grid,
   Img,
   Section,
-  LanguageCard,
   Subtitle,
   Title,
   Text

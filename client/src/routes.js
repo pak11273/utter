@@ -110,32 +110,37 @@ export const routes = [
     path: '/courses'
   },
   {
+    component: requireAuth(CoursesCreated),
+    exact: true,
+    path: '/courses/:id'
+  },
+  {
     component: Login,
     exact: true,
     path: '/login'
   },
-  {
-    component: MyCourses,
-    exact: true,
-    path: '/my-courses',
-    routes: [
-      {
-        component: requireAuth(CoursesCreated),
-        exact: true,
-        path: '/my-courses'
-      },
-      {
-        component: requireAuth(CoursesCreate),
-        exact: true,
-        path: '/my-courses/create'
-      },
-      {
-        component: requireAuth(CoursesCreated),
-        exact: true,
-        path: '/my-courses/created'
-      }
-    ]
-  },
+  // {
+  //   component: MyCourses,
+  //   exact: true,
+  //   path: '/my-courses',
+  //   routes: [
+  //     {
+  //       component: requireAuth(CoursesCreated),
+  //       exact: true,
+  //       path: '/my-courses'
+  //     },
+  //     {
+  //       component: requireAuth(CoursesCreate),
+  //       exact: true,
+  //       path: '/my-courses/create'
+  //     },
+  //     {
+  //       component: requireAuth(CoursesCreated),
+  //       exact: true,
+  //       path: '/my-courses/created'
+  //     }
+  //   ]
+  // },
   {
     component: requireAuth(CourseEdit),
     exact: true,

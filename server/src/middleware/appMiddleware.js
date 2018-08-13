@@ -46,7 +46,7 @@ module.exports = app => {
   // )
   // app.use(webpackHotMiddleware(compiler))
 
-  mongoose.connect(config.db.url, {useNewUrlParser: true})
+  mongoose.connect(config.db.url)
 
   mongoose.connection.on('connected', function(test) {
     require('../acl/index.js').init()

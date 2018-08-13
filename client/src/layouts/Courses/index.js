@@ -3,7 +3,17 @@ import {NavLink, Link, withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Select from 'react-select'
-import {Card, Container, Grid as SGrid, Icon, Image} from 'semantic-ui-react'
+import isEmpty from 'lodash/isEmpty'
+import {
+  Card,
+  Dropdown,
+  Grid as SemGrid,
+  Icon,
+  Image,
+  Input,
+  Item,
+  Select as SemSelect
+} from 'semantic-ui-react'
 import Pagination from '../../containers/Pagination'
 import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
 import styled, {ThemeProvider} from 'styled-components'
@@ -15,9 +25,7 @@ import {
   Flex,
   Form,
   Grid,
-  Input,
   Label,
-  LanguageCard,
   Subtitle,
   Title
 } from '../../components'
@@ -30,6 +38,13 @@ import course from '../../api/course/actions/courseActions.js'
 import courses from '../../api/courses/actions/coursesActions.js'
 import {chooseCourseLanguage} from './actions'
 import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
+
+const options = [
+  {key: 'all', text: 'All', value: 'all'},
+  {key: 'title', text: 'Title', value: 'title'},
+  {key: 'course', text: 'Course', value: 'course'},
+  {key: 'author', text: 'Author', value: 'author'}
+]
 
 const StyledGrid = styled(Grid)`
   grid-template-areas:
@@ -94,13 +109,11 @@ class CoursesContainer extends Component {
     const LangCard = this.props.courses.map(item => {
       return (
         <Card key={item.id}>
-          <div className="image">
-            <Image
-              src={item.image}
-              onClick={this.onClick}
-              style={{cursor: 'pointer'}}
-            />
-          </div>
+          <Image
+            src={item.image}
+            onClick={this.onClick}
+            style={{cursor: 'pointer'}}
+          />
           <Card.Content>
             <Card.Header>{item.courseName}</Card.Header>
             <Card.Meta>
@@ -120,6 +133,28 @@ class CoursesContainer extends Component {
         </Card>
       )
     })
+    var renderGrid
+    if (isEmpty(this.props.courses)) {
+      renderGrid = (
+        <Grid>
+          <Item align="center">
+            <h1>There are currently no courses created for this lanugage.</h1>
+          </Item>
+        </Grid>
+      )
+    } else {
+      renderGrid = (
+        <div>
+          <SemGrid style={{padding: '40px'}}>
+            <Card.Group stackable itemsPerRow={3}>
+              {LangCard}
+            </Card.Group>
+            <Pagination defaultActivePage={1} totalPages={10} />
+          </SemGrid>
+        </div>
+      )
+    }
+
     return (
       <StyledGrid>
         <Staticbar>
@@ -143,19 +178,20 @@ class CoursesContainer extends Component {
               />
             </Box>
             <Box>
-              <StyledNavLink to="/my-courses">My Courses</StyledNavLink>
+              <StyledNavLink to="/courses/123">My Courses</StyledNavLink>
             </Box>
           </Flex>
         </Staticbar>
-        <Grid gridarea="content">
-          <Flex padding="50px 0 0 0">
+        <Grid gridarea="content" gridtemplaterows="100px auto">
+          <Item align="center">
             <Title>Subscribe to a Course</Title>
-            <Subtitle>Filter: My Subscriptions</Subtitle>
-            <Container>
-              <Card.Group itemsPerRow={3}>{LangCard}</Card.Group>
-              <Pagination defaultActivePage={1} totalPages={10} />
-            </Container>
-          </Flex>
+            <Input type="text" placeholder="Search..." action>
+              <input />
+              <SemSelect options={options} defaultValue="all" />
+              <Button type="submit">Search</Button>
+            </Input>
+          </Item>
+          {renderGrid}
         </Grid>
       </StyledGrid>
     )

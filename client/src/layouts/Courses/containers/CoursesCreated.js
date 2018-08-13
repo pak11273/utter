@@ -3,13 +3,13 @@ import {NavLink, Link, Route, withRouter} from 'react-router-dom'
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import Select from 'react-select'
 import orm from '../../../app/schema.js'
 import {isEmpty} from 'lodash/isEmpty'
 import styled, {ThemeProvider} from 'styled-components'
 import {Card, Container, Grid as SGrid, Icon, Image} from 'semantic-ui-react'
-import Pagination from '../../../containers/Pagination'
-// import {Pagination} from '../../../containers'
-import {Box, Flex, Grid, Img, Title, Text} from '../../../components'
+import {Pagination, Staticbar} from '../../../containers'
+import {Box, Flex, Grid, Img, Subtitle, Title, Text} from '../../../components'
 import IoPeople from 'react-icons/lib/io/android-people'
 import '../../../assets/css/pagination.css'
 
@@ -19,16 +19,14 @@ import course from '../../../api/course/actions/courseActions.js'
 // import {getTeachingList, readCourse} from '../actions.js'
 
 const StyledGrid = styled(Grid)`
-  grid-template-columns: 100%;
-  grid-template-rows: auto 60px;
   grid-template-areas:
-    'content'
-    'Pagination';
-
-  min-height: 600px;
+    'sidebar sidebar';
+    'content content';
+  height: 700px;
 
   @media (min-width: 640px) {
-    grid-template-rows: auto 60px;
+    grid-template-columns: 200px 1fr;
+    grid-template-areas: 'sidebar content';
   }
 `
 const teachingCard = styled(Grid)`
@@ -136,15 +134,24 @@ class Created extends Component {
       )
     })
     return (
-      <Grid gridarea="content">
-        <Flex padding="50px 0 0 0">
+      <StyledGrid>
+        <Staticbar>
+          <Flex gridarea="sidebar">
+            <Box>
+              <StyledNavLink to="/courses/create">
+                Create a Course
+              </StyledNavLink>
+            </Box>
+          </Flex>
+        </Staticbar>
+        <Grid gridarea="content" gridtemplaterows="100px auto">
           <Title>Edit a Course</Title>
           <Container>
             <Card.Group itemsPerRow={3}>{LangCard}</Card.Group>
             <Pagination defaultActivePage={1} totalPages={10} />
           </Container>
-        </Flex>
-      </Grid>
+        </Grid>
+      </StyledGrid>
     )
   }
 }

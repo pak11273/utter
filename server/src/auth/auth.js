@@ -21,8 +21,21 @@ exports.decodeToken = () => {
 
 exports.getFreshUser = () => {
   return (req, res, next) => {
-    // we use decodeToken before this function in the middleware stack
-    // to have access to req.user here
+    User.findById(req.user._id).then(
+      user => {
+        if (!user) {
+          /* if no user was found it was a valid jwt token but no user was found with the id provided.  Either the user was deleted or the jwt was from another source.
+           */
+          res.status(401).send('UnAuthorized')
+        } else {
+          req.user = user
+          next()
+        }
+      },
+      function(err) {
+        next(err)
+      }
+    )
   }
 }
 

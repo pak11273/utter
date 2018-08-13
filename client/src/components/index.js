@@ -23,7 +23,6 @@ import InputLine from '../components/Inputs/InputLine.js'
 import Label from '../components/Text/Label.js'
 import Ol from './OrderedList.js'
 import Section from './Section.js'
-import LanguageCard from './LanguageCard.js'
 import Line from './Line.js'
 import Link from './Link.js'
 import Logo from './Logo.js'
@@ -79,7 +78,6 @@ export {
   InputLine,
   Ol,
   Label,
-  LanguageCard,
   Line,
   Link,
   Logo,

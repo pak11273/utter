@@ -22,7 +22,6 @@ import {
   Flex,
   Grid,
   Section,
-  LanguageCard,
   Subtitle,
   Title
 } from '../../components'
