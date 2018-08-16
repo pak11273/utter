@@ -1,20 +1,26 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-// import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import styled from 'styled-components'
 import {Grid, Form, Pagination, Segment} from 'semantic-ui-react'
 import {Flex, Box, Text} from '../../components'
 
+// selectors
+import {selectCourseProp} from './selectors.js'
+
+// actions
+import {paginateRequest} from './actions.js'
+
 class PaginationContainer extends Component {
   state = {
-    activePage: 5,
+    activePage: 1,
     boundaryRange: 1,
     siblingRange: 1,
     showEllipsis: true,
     showFirstAndLastNav: true,
     showPreviousAndNextNav: true,
-    totalPages: 20
+    totalPages: 10
   }
 
   handleCheckboxChange = (e, {checked, name}) =>
@@ -22,7 +28,10 @@ class PaginationContainer extends Component {
 
   handleInputChange = (e, {name, value}) => this.setState({[name]: value})
 
-  handlePaginationChange = (e, {activePage}) => this.setState({activePage})
+  handlePaginationChange = (e, {activePage}) => {
+    this.setState({activePage}, () => console.log('active: ', this.state))
+    console.log('props: ', this.props)
+  }
 
   render() {
     const {
@@ -34,6 +43,8 @@ class PaginationContainer extends Component {
       showPreviousAndNextNav,
       totalPages
     } = this.state
+
+    const parentState = this.props
 
     return (
       <Grid columns={1}>
@@ -51,6 +62,7 @@ class PaginationContainer extends Component {
             lastItem={showFirstAndLastNav ? undefined : null}
             prevItem={showPreviousAndNextNav ? undefined : null}
             nextItem={showPreviousAndNextNav ? undefined : null}
+            state={parentState}
           />
         </Grid.Column>
       </Grid>
@@ -58,4 +70,10 @@ class PaginationContainer extends Component {
   }
 }
 
-export default PaginationContainer
+const mapStateToProps = () => {
+  // const getCourseProp = selectCourseProp()
+  // return (state, props) => getCourseProp(state, props)
+  return {}
+}
+
+export default connect(mapStateToProps)(PaginationContainer)

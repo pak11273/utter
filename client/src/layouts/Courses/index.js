@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import isEmpty from 'lodash/isEmpty'
+import update from 'immutability-helper'
 import {
   Card,
   Dropdown,
@@ -68,14 +69,17 @@ class CoursesContainer extends Component {
   constructor() {
     super()
     this.onClick = this.onClick.bind(this)
-    this.handleSpeakingChange = this.handleSpeakingChange.bind(this)
-    this.handleLearningChange = this.handleLearningChange.bind(this)
   }
 
   state = {
     search: '',
-    learningOption: '',
-    speakingOption: ''
+    query: {
+      courseProp: 'all',
+      learningLang: 'all',
+      nativeLang: 'english',
+      items: '',
+      limit: ''
+    }
   }
 
   componentDidMount() {
@@ -83,14 +87,48 @@ class CoursesContainer extends Component {
     this.props.actions.courses(this.state)
   }
 
-  handleSpeakingChange = speakingOption => {
-    this.setState({speakingOption})
-    // Make api call
-    this.props.actions.courses(this.state)
+  handleSpeakingChange = nativeLang => {
+    if (nativeLang === null) {
+      const newState = update(this.state, {
+        query: {
+          nativeLang: {$set: ''}
+        }
+      })
+
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        query: {
+          nativeLang: {$set: nativeLang.value}
+        }
+      })
+
+      this.setState(newState)
+      // Make api call
+      this.props.actions.courses(this.state)
+    }
   }
 
-  handleLearningChange = learningOption => {
-    this.setState({learningOption})
+  handleLearningChange = learningLang => {
+    if (learningLang === null) {
+      const newState = update(this.state, {
+        query: {
+          learningLang: {$set: ''}
+        }
+      })
+
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        query: {
+          learningLang: {$set: learningLang.value}
+        }
+      })
+
+      this.setState(newState)
+      // Make api call
+      this.props.actions.courses(this.state)
+    }
   }
 
   handleSearch = e => {
@@ -103,6 +141,20 @@ class CoursesContainer extends Component {
     e.preventDefault()
     // go to edit page and load redux with course
     this.props.actions.course(this.state)
+  }
+
+  handleCourseFilterChg = (e, data) => {
+    const newState = update(this.state, {
+      query: {
+        courseProp: {$set: data.value}
+      }
+    })
+    this.setState(newState)
+  }
+
+  submitQuery = e => {
+    e.preventDefault()
+    console.log('submitQuery: ', this.state)
   }
 
   render() {
@@ -149,7 +201,11 @@ class CoursesContainer extends Component {
             <Card.Group stackable itemsPerRow={3}>
               {LangCard}
             </Card.Group>
-            <Pagination defaultActivePage={1} totalPages={10} />
+            <Pagination
+              defaultActivePage={2}
+              totalPages={4}
+              state={this.state}
+            />
           </SemGrid>
         </div>
       )
@@ -163,16 +219,16 @@ class CoursesContainer extends Component {
             <Box>
               <Select
                 name="form-field-name"
-                value={this.state.speakingOption}
+                value={this.state.query.nativeLang}
                 onChange={this.handleSpeakingChange}
-                options={[{value: 'English', label: 'English'}]}
+                options={[{value: 'english', label: 'English'}]}
               />
             </Box>
             <Subtitle>I want to learn:</Subtitle>
             <Box>
               <Select
                 name="form-field-name"
-                value={this.state.learningOption}
+                value={this.state.query.learningLang}
                 onChange={this.handleLearningChange}
                 options={[{value: 'Korean', label: 'Korean'}]}
               />
@@ -187,8 +243,14 @@ class CoursesContainer extends Component {
             <Title>Subscribe to a Course</Title>
             <Input type="text" placeholder="Search..." action>
               <input />
-              <SemSelect options={options} defaultValue="all" />
-              <Button type="submit">Search</Button>
+              <SemSelect
+                onChange={this.handleCourseFilterChg}
+                options={options}
+                defaultValue="all"
+              />
+              <Button onClick={this.submitQuery} type="submit">
+                Search
+              </Button>
             </Input>
           </Item>
           {renderGrid}

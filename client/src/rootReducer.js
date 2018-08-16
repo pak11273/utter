@@ -14,6 +14,7 @@ import chatPanelReducer from './containers/ChatPanel/reducer.js'
 import clubReducer from './api/club/reducer.js'
 import levelReducer from './api/levels/reducer.js'
 import modalReducer from './containers/Modals/reducer.js'
+import paginateReducer from './containers/Pagination/reducer.js'
 import pictureReducer from './containers/Pictures/reducer.js'
 import phraseReducer from './layouts/Admin/Phrases/reducer.js'
 import socketReducer from './services/socketio/reducer.js'
@@ -40,6 +41,7 @@ const combinedReducers = combineReducers({
   levelReducer,
   loadingBar: loadingBarReducer,
   modalReducer,
+  paginateReducer,
   pictureReducer,
   phraseReducer,
   roomReducer,
