@@ -9,6 +9,7 @@ import {
   Test,
   Login,
   Settings,
+  ShoppingCart,
   Signup,
   Sponsorship,
   Courses,
@@ -164,6 +165,11 @@ export const routes = [
   {
     path: '/Settings',
     component: requireAuth(Settings),
+    loadData: () => getSomeData()
+  },
+  {
+    path: '/shoppingcart',
+    component: requireAuth(ShoppingCart),
     loadData: () => getSomeData()
   },
   {

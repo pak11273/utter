@@ -4,6 +4,39 @@ import cuid from 'cuid'
 import _ from 'lodash'
 import mongoose from 'mongoose'
 
+exports.get = (req, res, noxt) => {
+  const limit = parseInt(req.query.limit, 10)
+  Course.paginate({limit}).then(
+    courses => {
+      res.json(courses)
+    },
+    err => {
+      next(err)
+    }
+  )
+}
+
+exports.getOne = (req, res, next) => {
+  //populate doesn't return a promise, so call exec()
+  // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
+  // Course.find().populate('subscribers').exec().then(
+  console.log('creatorId: ', req.params.courseCreatorId)
+  console.log('courseId: ', req.params.courseId)
+  if (req.params.courseId) {
+    Course.findOne({
+      courseId: req.params.courseId,
+      courseCreatorId: req.params.courseCreatorId
+    }).then(
+      course => {
+        res.json({course})
+      },
+      err => {
+        next(err)
+      }
+    )
+  }
+}
+
 exports.params = (req, res, next, id) => {
   Course.findById(id).then(
     course => {
@@ -144,41 +177,6 @@ exports.faker = (req, res, next) => {
     })
   }
   res.json(course)
-}
-
-exports.get = (req, res, next) => {
-  //populate doesn't return a promise, so call exec()
-  // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
-  // Course.find().populate('subscribers').exec().then(
-  Course.find({}).then(
-    courses => {
-      res.json(courses)
-    },
-    err => {
-      next(err)
-    }
-  )
-}
-
-exports.getOne = (req, res, next) => {
-  //populate doesn't return a promise, so call exec()
-  // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
-  // Course.find().populate('subscribers').exec().then(
-  console.log('creatorId: ', req.params.courseCreatorId)
-  console.log('courseId: ', req.params.courseId)
-  if (req.params.courseId) {
-    Course.findOne({
-      courseId: req.params.courseId,
-      courseCreatorId: req.params.courseCreatorId
-    }).then(
-      course => {
-        res.json({course})
-      },
-      err => {
-        next(err)
-      }
-    )
-  }
 }
 
 exports.putOne = (req, res, next) => {

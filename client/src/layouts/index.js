@@ -9,6 +9,7 @@ import GettingStarted from './GettingStarted.js'
 import Connections from '../layouts/Connections/index.js'
 import Login from './Login'
 import Settings from './Settings'
+import ShoppingCart from './ShoppingCart/components'
 import Signup from './Signup.js'
 import Sponsorship from './Sponsorship.js'
 import Course from './Courses/index.js'
@@ -68,6 +69,7 @@ export {
   Korean8,
   Pricing,
   ResetPassword,
+  ShoppingCart,
   Spanish1,
   Spanish2,
   Spanish3,

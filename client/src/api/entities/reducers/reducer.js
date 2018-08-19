@@ -107,11 +107,11 @@ export function loadCourses(state, payload) {
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
   const {Courses} = session
-  let courses = payload.payload
+  let courses = payload.payload.results
   // add id by converting _id for each record
-  // courses.map(course => {
-  //   return (course.id = course._id)
-  // })
+  courses.map(course => {
+    return (course.id = course._id)
+  })
   courses.forEach(course => Courses.parse(course))
   return session.state
 }

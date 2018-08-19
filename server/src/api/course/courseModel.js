@@ -1,5 +1,5 @@
 import mongoose, {Schema} from 'mongoose'
-// import Level from '../level/levelModel.js'
+import MongoPaging from 'mongo-cursor-pagination'
 
 const TermSchema = new Schema({
   course: {
@@ -114,5 +114,7 @@ CourseSchema.virtual('id').get(function() {
 CourseSchema.set('toJSON', {
   virtuals: true
 })
+
+CourseSchema.plugin(MongoPaging.mongoosePlugin)
 
 module.exports = mongoose.model('Course', CourseSchema)

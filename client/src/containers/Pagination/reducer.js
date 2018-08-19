@@ -2,7 +2,7 @@ import {createReducer} from '../../utils/reduxUtils.js'
 import {PAGINATE_ASYNC} from './types.js'
 
 const initialState = {
-  resource: '',
+  collection: '',
   loading: false,
   search: '',
   query: {

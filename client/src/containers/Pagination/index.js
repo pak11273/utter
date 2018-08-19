@@ -14,6 +14,7 @@ import {paginateRequest} from './actions.js'
 
 class PaginationContainer extends Component {
   state = {
+    collection: '',
     activePage: 1,
     boundaryRange: 1,
     siblingRange: 1,
