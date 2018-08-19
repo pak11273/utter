@@ -38,6 +38,10 @@ import {
   DELETE_WORD_SUCCESS
 } from './types.js'
 
+const addWord = () => {
+  // TODO: pending
+}
+
 const changeCoursePg = coursePg => {
   return {
     type: 'CHANGE_COURSE_PG',
@@ -175,6 +179,7 @@ const loadCurrentTeachingCourse = course => {
 }
 
 export {
+  addWord,
   addCuidToLevels,
   addLevel,
   changeCoursePg,

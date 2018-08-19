@@ -4,7 +4,7 @@ import isNil from 'lodash/isNil'
 import isNaN from 'lodash/isNaN'
 import {store} from '../../store.js'
 
-exports.validateInput = state => {
+export const validateInput = state => {
   let errors = {}
   state.levels.map(item => {
     if (isNil(item.level) || item.level === '') {

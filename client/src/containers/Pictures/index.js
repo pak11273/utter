@@ -24,7 +24,6 @@ import {
   sendTranslated
 } from './actions.js'
 
-import {setInterimScript, setFinalTranscript} from '../ChatPanel/actions.js'
 import {sendRoomMeta} from '../../services/socketio/actions.js'
 // import {loadQuestion} from '../../containers/Challenge/actions.js'
 
@@ -50,10 +49,10 @@ const Wrap = styled.section`
   position: ${props => props.position};
   width: ${props => props.width};
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
   }
 
-  @media(min-width: 960px) {
+  @media (min-width: 960px) {
     flex-direction: ${props => props.flexdirection960};
     max-width: 960px;
   }
@@ -90,7 +89,7 @@ class Pictures extends Component {
   onPlay = e => {
     e.preventDefault()
     document.getElementById(e.target.name).play()
-  };
+  }
 
   changePicture = () => {
     // load challenge
@@ -211,7 +210,7 @@ class Pictures extends Component {
     }
 
     // speechStart()
-  };
+  }
 
   render() {
     var picture = <Ad />
@@ -305,8 +304,6 @@ const mapDispatchToProps = dispatch => {
         sendRomanized,
         sendRoomMeta,
         sendTranslated,
-        setFinalTranscript,
-        setInterimScript,
         updatePicture,
         updateWordList,
         updateReviewList

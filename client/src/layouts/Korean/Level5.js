@@ -1,15 +1,9 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 
-import {
-  Column,
-  Masthead,
-  Subtitle,
-  Text,
-  Title,
-  Section,
-  Wrapper
-} from '../../components'
+import {Masthead} from '../../containers'
+
+import {Column, Subtitle, Text, Title, Section, Wrapper} from '../../components'
 
 function KoreanLevel5(props) {
   return (

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 
+import {Masthead} from '../../containers'
+
 import {
   Audio,
   Box,
@@ -22,7 +24,7 @@ import {
   Wrapper
 } from '../../components'
 
-import {Info, Masthead} from './components'
+import {Info} from './components'
 
 import PlayImg from '../../assets/images/play.svg'
 
@@ -83,12 +85,14 @@ const eun =
 const neun =
   cdn + sharedVocab.category.nouns.speech.participles.는.korean.audioUrl
 const i = cdn + sharedVocab.category.nouns.speech.participles.이.korean.audioUrl
-const ga = cdn + sharedVocab.category.nouns.speech.participles.가.korean.audioUrl
+const ga =
+  cdn + sharedVocab.category.nouns.speech.participles.가.korean.audioUrl
 const jeo = cdn + sharedVocab.category.nouns.speech.pronouns.I.korean.audioUrl
 const na = cdn + sharedVocab.category.nouns.speech.pronouns.I.해체.audioUrl
 const haeYoChe =
   cdn +
-  sharedVocab.category.cultureSpecific.category.nouns.misc.해요체.korean.audioUrl
+  sharedVocab.category.cultureSpecific.category.nouns.misc.해요체.korean
+    .audioUrl
 const iReum = cdn + sharedVocab.category.nouns.misc.name.korean.audioUrl
 
 // lessons
@@ -117,18 +121,14 @@ class KoreanLevel7 extends Component {
         />
         <Section height="600px" maxwidth="1024px">
           <Box padding="40px">
-            <Subtitle>
-              Introductions
-            </Subtitle>
+            <Subtitle>Introductions</Subtitle>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
               We are going to deconstruct the following sentences:
             </Text>
           </Box>
 
           <Box color="black" flexdirection="row" justifycontent="center">
-            <Text padding="20px">
-              제 이름은 Mary예요.
-            </Text>
+            <Text padding="20px">제 이름은 Mary예요.</Text>
             <audio id="level7_1" src={`${level7_1}`} />
             <PlayButton
               name="level7_1"
@@ -137,9 +137,7 @@ class KoreanLevel7 extends Component {
             />
           </Box>
           <Box color="black" flexdirection="row" justifycontent="center">
-            <Text padding="20px">
-              내 이름은 John이에요.
-            </Text>
+            <Text padding="20px">내 이름은 John이에요.</Text>
             <audio id="level7_2" src={`${level7_2}`} />
             <PlayButton
               name="level7_2"
@@ -148,9 +146,7 @@ class KoreanLevel7 extends Component {
             />
           </Box>
           <Box color="black" flexdirection="row" justifycontent="center">
-            <Text padding="20px">
-              나의 이름은 Anna예요.
-            </Text>
+            <Text padding="20px">나의 이름은 Anna예요.</Text>
             <audio id="level7_3" src={`${level7_3}`} />
             <PlayButton
               name="level7_3"
@@ -182,9 +178,7 @@ class KoreanLevel7 extends Component {
               </Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                my{' '}
-              </p>
+              <p>my </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="level7_8" src={`${level7_8}`} />
@@ -200,9 +194,7 @@ class KoreanLevel7 extends Component {
               </Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                my{' '}
-              </p>
+              <p>my </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="level7_7" src={`${level7_7}`} />
@@ -227,14 +219,10 @@ class KoreanLevel7 extends Component {
             definition="Translation"
             media="Play">
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                이름{' '}
-              </Text>
+              <Text padding="0 0 0 20px">이름 </Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                name{' '}
-              </p>
+              <p>name </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="iReum" src={`${iReum}`} />
@@ -260,14 +248,10 @@ class KoreanLevel7 extends Component {
             definition="Translation"
             media="Play">
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                이/가 or 은/는
-              </Text>
+              <Text padding="0 0 0 20px">이/가 or 은/는</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                subject marker{' '}
-              </p>
+              <p>subject marker </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="level7_4" src={`${level7_4}`} />
@@ -282,18 +266,16 @@ class KoreanLevel7 extends Component {
         </Section>
         <Section minheight="600px" maxwidth="1024px">
           <Box padding="40px">
-            <Subtitle>
-              Subject Markers
-            </Subtitle>
+            <Subtitle>Subject Markers</Subtitle>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
               Generally when you introduce a new subject in a conversation you
               will attach an 이/가 subject marker to the end of the word. After
               you start talking about the subject you attach the 은/는 subject
-              markers instead. However, normally when you are
-              introducing yourself and stating your name, you will want to use
-              the 은/는 markers. Choosing between which marker depends on the
-              last letter of the subject(받침). If it ends on a vowel you use 가 or
-              는. If it ends on a consonant you use 이 or 은.{' '}
+              markers instead. However, normally when you are introducing
+              yourself and stating your name, you will want to use the 은/는
+              markers. Choosing between which marker depends on the last letter
+              of the subject(받침). If it ends on a vowel you use 가 or 는. If
+              it ends on a consonant you use 이 or 은.{' '}
             </Text>
           </Box>
         </Section>
@@ -310,13 +292,11 @@ class KoreanLevel7 extends Component {
             definition="Translation"
             media="Play">
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                이에요/예요
-              </Text>
+              <Text padding="0 0 0 20px">이에요/예요</Text>
             </Box>
             <Box alignitems="flex-start">
               <p>
-                is{' '} <span style={{fontSize: '1rem'}}>(formal)</span>
+                is <span style={{fontSize: '1rem'}}>(formal)</span>
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -328,13 +308,11 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                입니다{' '}
-              </Text>
+              <Text padding="0 0 0 20px">입니다 </Text>
             </Box>
             <Box alignitems="flex-start">
               <p>
-                is{' '} <span style={{fontSize: '1rem'}}>(more formal)</span>
+                is <span style={{fontSize: '1rem'}}>(more formal)</span>
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -350,9 +328,7 @@ class KoreanLevel7 extends Component {
         </Section>
         <Section minheight="600px" maxwidth="1024px">
           <Box padding="40px">
-            <Subtitle>
-              Which form of respect do I use?
-            </Subtitle>
+            <Subtitle>Which form of respect do I use?</Subtitle>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
               There are many different types of respect forms in Korean. But the
               more common way to introduce yourself to the general public is to
@@ -368,30 +344,26 @@ class KoreanLevel7 extends Component {
         </Section>
         <Section minheight="600px" maxwidth="1024px">
           <Box padding="40px">
-            <Subtitle>
-              있다{' '}
-            </Subtitle>
+            <Subtitle>있다 </Subtitle>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
               The verb 있다 conjugates differently depending on the tense and
-              formality. In this lesson we will be using the present verb
-              tense and the formal politeness level of speech(요). When subjects
-              end with a consonant like the name John, you will change 있 to 이에
+              formality. In this lesson we will be using the present verb tense
+              and the formal politeness level of speech(요). When subjects end
+              with a consonant like the name John, you will change 있 to 이에
               then drop the 다 and replace it with 요, then attach it to the end
-              of the subject to make one word, John이에요. When the subject ends in
-              a vowel like the name Anna, you change 있 to 예 then drop the 다 and
-              replace it with 요, then attach it to the end of the subject to
-              make one word, Anna예요.
+              of the subject to make one word, John이에요. When the subject ends
+              in a vowel like the name Anna, you change 있 to 예 then drop the
+              다 and replace it with 요, then attach it to the end of the
+              subject to make one word, Anna예요.
             </Text>
           </Box>
         </Section>
         <Section minheight="600px" maxwidth="1024px">
           <Box padding="40px">
-            <Subtitle>
-              Learning how to describe something with 있.
-            </Subtitle>
+            <Subtitle>Learning how to describe something with 있.</Subtitle>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
-              Now that you've learned how to say my(네/나의 or 제) let's learn
-              a few words besides name(이름) to combine them with. We'll start by
+              Now that you've learned how to say my(네/나의 or 제) let's learn a
+              few words besides name(이름) to combine them with. We'll start by
               learning the the names of basic body parts. Be sure to repeat the
               words slowly after playing the recording. Say it over and over
               again until you can say it at a faster speed.
@@ -413,14 +385,10 @@ class KoreanLevel7 extends Component {
             media="Play"
             overflowy="scroll">
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                신체
-              </Text>
+              <Text padding="0 0 0 20px">신체</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                body{' '}
-              </p>
+              <p>body </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="sinChe" src={`${sinChe}`} />
@@ -431,14 +399,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                발
-              </Text>
+              <Text padding="0 0 0 20px">발</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                arm{' '}
-              </p>
+              <p>arm </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="bar" src={`${bar}`} />
@@ -449,14 +413,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                등
-              </Text>
+              <Text padding="0 0 0 20px">등</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                back{' '}
-              </p>
+              <p>back </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="deung" src={`${deung}`} />
@@ -467,14 +427,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                눈
-              </Text>
+              <Text padding="0 0 0 20px">눈</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                eye{' '}
-              </p>
+              <p>eye </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="nun" src={`${nun}`} />
@@ -485,14 +441,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                가슴
-              </Text>
+              <Text padding="0 0 0 20px">가슴</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                chest{' '}
-              </p>
+              <p>chest </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="gaSeum" src={`${gaSeum}`} />
@@ -503,14 +455,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                귀
-              </Text>
+              <Text padding="0 0 0 20px">귀</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                ear{' '}
-              </p>
+              <p>ear </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="gui" src={`${gui}`} />
@@ -521,14 +469,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                팔꿈치
-              </Text>
+              <Text padding="0 0 0 20px">팔꿈치</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                elbow{' '}
-              </p>
+              <p>elbow </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="parGgumChi" src={`${parGgumChi}`} />
@@ -539,14 +483,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                얼굴
-              </Text>
+              <Text padding="0 0 0 20px">얼굴</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                face{' '}
-              </p>
+              <p>face </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="eorGur" src={`${eorGur}`} />
@@ -557,14 +497,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                머리카락
-              </Text>
+              <Text padding="0 0 0 20px">머리카락</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                hair{' '}
-              </p>
+              <p>hair </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="meoRiKaRag" src={`${meoRiKaRag}`} />
@@ -576,14 +512,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                손
-              </Text>
+              <Text padding="0 0 0 20px">손</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                hand{' '}
-              </p>
+              <p>hand </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="son" src={`${son}`} />
@@ -595,14 +527,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                머리
-              </Text>
+              <Text padding="0 0 0 20px">머리</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                head{' '}
-              </p>
+              <p>head </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="meoRi" src={`${meoRi}`} />
@@ -614,14 +542,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                무릎
-              </Text>
+              <Text padding="0 0 0 20px">무릎</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                knee{' '}
-              </p>
+              <p>knee </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="muReup" src={`${muReup}`} />
@@ -633,14 +557,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                입
-              </Text>
+              <Text padding="0 0 0 20px">입</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                mouth{' '}
-              </p>
+              <p>mouth </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="ib" src={`${ib}`} />
@@ -652,14 +572,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                목
-              </Text>
+              <Text padding="0 0 0 20px">목</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                neck{' '}
-              </p>
+              <p>neck </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="mog" src={`${mog}`} />
@@ -671,14 +587,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                코
-              </Text>
+              <Text padding="0 0 0 20px">코</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                nose{' '}
-              </p>
+              <p>nose </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="ko" src={`${ko}`} />
@@ -690,14 +602,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                발가락
-              </Text>
+              <Text padding="0 0 0 20px">발가락</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                toe{' '}
-              </p>
+              <p>toe </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="barGaRag" src={`${barGaRag}`} />
@@ -709,14 +617,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                다리
-              </Text>
+              <Text padding="0 0 0 20px">다리</Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                leg{' '}
-              </p>
+              <p>leg </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="daRi" src={`${daRi}`} />
@@ -731,17 +635,14 @@ class KoreanLevel7 extends Component {
         </Section>
         <Section minheight="600px" maxwidth="1024px">
           <Box padding="40px">
-            <Subtitle>
-              Determiners
-            </Subtitle>
+            <Subtitle>Determiners</Subtitle>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
               Let's learn some special pronouns called determiners, so we can
-              reference the body parts
-              we just learned.
+              reference the body parts we just learned.
             </Text>
             <Text fontsize="1.5rem" lineheight="2.5rem" margin="20px 0 0 0">
-              This(이), That(저 or 그), Thing(것), That thing(이것), That thing(그것 or
-              저것)
+              This(이), That(저 or 그), Thing(것), That thing(이것), That
+              thing(그것 or 저것)
             </Text>
           </Box>
         </Section>
@@ -758,16 +659,12 @@ class KoreanLevel7 extends Component {
             definition="Translation"
             media="Play">
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                이{' '}
-              </Text>
+              <Text padding="0 0 0 20px">이 </Text>
             </Box>
             <Box alignitems="flex-start">
               <p>
                 this{' '}
-                <span style={{fontSize: '1rem'}}>
-                  (something reachable)
-                </span>
+                <span style={{fontSize: '1rem'}}>(something reachable)</span>
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -780,9 +677,7 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                저{' '}
-              </Text>
+              <Text padding="0 0 0 20px">저 </Text>
             </Box>
             <Box alignitems="flex-start">
               <p>
@@ -802,16 +697,14 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                그{' '}
-              </Text>
+              <Text padding="0 0 0 20px">그 </Text>
             </Box>
             <Box alignitems="flex-start">
               <p>
                 that{' '}
                 <span style={{fontSize: '1rem'}}>
-                  (far from you, but near the other person)(and if the
-                  object is not seen)
+                  (far from you, but near the other person)(and if the object is
+                  not seen)
                 </span>
               </p>
             </Box>
@@ -839,14 +732,10 @@ class KoreanLevel7 extends Component {
             definition="Translation"
             media="Play">
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                것{' '}
-              </Text>
+              <Text padding="0 0 0 20px">것 </Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                thing{' '}
-              </p>
+              <p>thing </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="daRi" src={`${daRi}`} />
@@ -858,14 +747,10 @@ class KoreanLevel7 extends Component {
               />
             </Box>
             <Box alignitems="flex-start">
-              <Text padding="0 0 0 20px">
-                사람{' '}
-              </Text>
+              <Text padding="0 0 0 20px">사람 </Text>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                person{' '}
-              </p>
+              <p>person </p>
             </Box>
             <Box alignitems="flex-start">
               <audio id="daRi" src={`${daRi}`} />
@@ -881,9 +766,7 @@ class KoreanLevel7 extends Component {
         <Section maxwidth="960px">
           <Column>
             <Box padding="40px">
-              <Subtitle>
-                What you should know{' '}
-              </Subtitle>
+              <Subtitle>What you should know </Subtitle>
               <Text lineheight="3rem">
                 Some things you should be able to utter now.
               </Text>
@@ -894,27 +777,18 @@ class KoreanLevel7 extends Component {
           <Box color="black" overflowx="auto" margin="30px">
             <Table verticalalign="middle">
               <Thead>
-                <Th width="30%">
-                  Examples{' '}
-                </Th>
-                <Th width="50%">
-                  Translation
-                </Th>
-                <Th width="20%">
-                  Play
-                </Th>
+                <Th width="30%">Examples </Th>
+                <Th width="50%">Translation</Th>
+                <Th width="20%">Play</Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    것{' '}
-                  </Td>
+                  <Td>것 </Td>
                   <Td>
                     thing{' '}
                     <span style={{fontSize: '1rem'}}>
                       (something reachable)
                     </span>
-
                   </Td>
                   <Td>
                     <audio id="daRi" src={`${daRi}`} />

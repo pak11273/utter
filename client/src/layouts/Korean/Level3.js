@@ -1,15 +1,9 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 
-import {
-  Column,
-  Masthead,
-  Subtitle,
-  Text,
-  Title,
-  Section,
-  Wrapper
-} from '../../components'
+import {Masthead} from '../../containers'
+
+import {Column, Subtitle, Text, Title, Section, Wrapper} from '../../components'
 
 function KoreanLevel3(props) {
   return (
@@ -47,9 +41,7 @@ function KoreanLevel3(props) {
             <Text>Constructing syllables</Text>
             <Text>Syllables are constructed of either 2, 3 or 4 letters</Text>
             <Text>Must always start with a consonant</Text>
-            <Text>
-              Vowels always go in the middle of three letter syllable
-            </Text>
+            <Text>Vowels always go in the middle of three letter syllable</Text>
             <Text>
               Vowels always go in the second position of four letter syllable
             </Text>

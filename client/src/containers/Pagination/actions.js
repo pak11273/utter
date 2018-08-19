@@ -1,13 +1,13 @@
 import capitalize from 'lodash/capitalize'
 import {PAGINATE_ASYNC} from './types.js'
 import {createAction} from '../../utils/reduxUtils.js'
-import {selectSearch} from './selectors.js'
+import {selectCourseProp} from './selectors.js'
 
 export function paginateRequest(resource, state) {
   resource = capitalize(resource)
   return (dispatch, getState) => {
     const state = getState()
-    const page = selectSearch(state)
+    const page = selectCourseProp(state)
 
     // dispatch(editExistingItem('Level', currentLevel))
     dispatch({type: PAGINATE_ASYNC.REQUEST})

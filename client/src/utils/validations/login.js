@@ -1,7 +1,7 @@
 import Validator from 'validator'
 import isEmpty from 'lodash/isEmpty'
 
-exports.validateInput = state => {
+export const validateInput = state => {
   let errors = {}
 
   if (Validator.isEmpty(state.identifier)) {

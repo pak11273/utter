@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
+
+import {Masthead} from '../../containers'
+
 import {
   Audio,
   Box,
   Column,
   Img,
-  Masthead,
   Subtitle,
   Table,
   Td,
@@ -87,10 +89,9 @@ class KoreanLevel6 extends Component {
             </Title>
             <Subtitle color="#bbb" fontsize="2rem" textalign="left">
               The last consonant(s) of a syllable is called a badchim. In this
-              lesson you
-              will
-              learn the special conjugation rules that apply to badchim. Listen
-              closely to the examples and try to mimic them as you play them.
+              lesson you will learn the special conjugation rules that apply to
+              badchim. Listen closely to the examples and try to mimic them as
+              you play them.
             </Subtitle>
           </Box>
         </Masthead>
@@ -136,14 +137,16 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="150px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid #333" width="150px">Example</Th>
+                <Th borderbottom="1px solid #333" width="150px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㅂ,ㅍ</Td>
                   <Td>
-                    ㅂ,ㅍ
+                    b <span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
-                  <Td>b <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
                     <span>밥을</span>
                     <audio id="babeul" src={`${babeul}`} />
@@ -161,10 +164,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄱ,ㄲ,ㅋ</Td>
                   <Td>
-                    ㄱ,ㄲ,ㅋ
+                    g <span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
-                  <Td>g <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
                     <span>부엌</span>
                     <audio id="buEok" src={`${buEok}`} />
@@ -182,10 +185,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄹ</Td>
                   <Td>
-                    ㄹ
+                    l <span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
-                  <Td>l <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
                     <span>살</span>
                     <audio id="sar" src={`${sar}`} />
@@ -207,7 +210,9 @@ class KoreanLevel6 extends Component {
                     ㄹ{' '}
                     <span style={{fontSize: '1rem'}}>(preceding a vowel)</span>
                   </Td>
-                  <Td>r <span style={{fontSize: '1rem'}}>(soft)</span></Td>
+                  <Td>
+                    r <span style={{fontSize: '1rem'}}>(soft)</span>
+                  </Td>
                   <Td>
                     <span>말하</span>
                     <audio id="marHa" src={`${marHa}`} />
@@ -225,10 +230,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄷ, ㅎ,ㅈ,ㅅ,ㅆ,ㅌ,ㅊ</Td>
                   <Td>
-                    ㄷ, ㅎ,ㅈ,ㅅ,ㅆ,ㅌ,ㅊ
+                    d <span style={{fontSize: '1rem'}}>(soft)</span>
                   </Td>
-                  <Td>d <span style={{fontSize: '1rem'}}>(soft)</span></Td>
                   <Td>
                     <span>찾다</span>
                     <audio id="chajDa" src={`${chajDa}`} />
@@ -246,9 +251,7 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅇ
-                  </Td>
+                  <Td>ㅇ</Td>
                   <Td>ng</Td>
                   <Td>
                     <span>강</span>
@@ -303,17 +306,18 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="150px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="300px">Example</Th>
+                <Th borderbottom="1px solid black" width="300px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅈ{' '}
-                  </Td>
+                  <Td>ㅈ </Td>
                   <Td>j</Td>
                   <Td>
                     <span>
-                      잦아 <span style={{fontSize: '1rem'}}>sounds like</span> 자자{' '}
+                      잦아 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      자자{' '}
                     </span>
                     <audio id="jajA" src={`${jajA}`} />
                     <Img
@@ -330,15 +334,14 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅅ
-                  </Td>
+                  <Td>ㅅ</Td>
                   <Td>
                     s <span style={{fontSize: '1rem'}}>(preceding 으)</span>
                   </Td>
                   <Td>
                     <span>
-                      옷은 <span style={{fontSize: '1rem'}}>sounds like</span> 오슨{' '}
+                      옷은 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      오슨{' '}
                     </span>
                     <audio id="osEun" src={`${osEun}`} />
                     <Img
@@ -355,16 +358,15 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅅ
-                  </Td>
+                  <Td>ㅅ</Td>
                   <Td>
                     n <span style={{fontSize: '1rem'}}>or</span> sh{' '}
                     <span style={{fontSize: '1rem'}}>(preceding 이)</span>
                   </Td>
                   <Td>
                     <span>
-                      곳이 <span style={{fontSize: '1rem'}}>sounds like</span> 고시{' '}
+                      곳이 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      고시{' '}
                     </span>
                     <audio id="gosI" src={`${gosI}`} />
                     <Img
@@ -381,19 +383,14 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅅ
-                  </Td>
+                  <Td>ㅅ</Td>
                   <Td>
                     n <span style={{fontSize: '1rem'}}>or</span> sh{' '}
                     <span style={{fontSize: '1rem'}}>(preceding 이)</span>
                   </Td>
                   <Td>
                     <span>
-                      나뭇입{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like
-                      </span>{' '}
+                      나뭇입 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
                       나무닙
                     </span>
                     <audio id="naMusIb" src={`${naMusIb}`} />
@@ -411,15 +408,14 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅎ{' '}
-                  </Td>
+                  <Td>ㅎ </Td>
                   <Td>
                     ㅎ <span style={{fontSize: '1rem'}}>(is silent)</span>
                   </Td>
                   <Td>
                     <span>
-                      놓으 <span style={{fontSize: '1rem'}}>sounds like</span> 노흐{' '}
+                      놓으 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      노흐{' '}
                     </span>
                     <audio id="nohEu" src={`${nohEu}`} />
                     <Img
@@ -436,15 +432,12 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㄹ
-                  </Td>
-                  <Td>
-                    r
-                  </Td>
+                  <Td>ㄹ</Td>
+                  <Td>r</Td>
                   <Td>
                     <span>
-                      칼이 <span style={{fontSize: '1rem'}}>sounds like</span> 카리
+                      칼이 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      카리
                     </span>
                     <audio id="karI" src={`${karI}`} />
                     <Img
@@ -501,13 +494,13 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="200px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="380px">Example</Th>
+                <Th borderbottom="1px solid black" width="380px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr>
-                  <Td>
-                    ㄱ, ㄷ, ㅂ{' '}
-                  </Td>
+                  <Td>ㄱ, ㄷ, ㅂ </Td>
                   <Td>
                     ㅎ{' '}
                     <span style={{fontSize: '1rem'}}>
@@ -516,7 +509,8 @@ class KoreanLevel6 extends Component {
                   </Td>
                   <Td>
                     <span>
-                      악하 <span style={{fontSize: '1rem'}}>sounds like</span> 아카
+                      악하 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      아카
                     </span>
                     <audio id="agHa" src={`${agHa}`} />
                     <Img
@@ -537,10 +531,7 @@ class KoreanLevel6 extends Component {
                   <Td />
                   <Td>
                     <span>
-                      닫히다{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like
-                      </span>{' '}
+                      닫히다 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
                       다티다{' '}
                     </span>
                     <audio id="dadHida" src={`${dadHida}`} />
@@ -562,7 +553,8 @@ class KoreanLevel6 extends Component {
                   <Td />
                   <Td>
                     <span>
-                      압하 <span style={{fontSize: '1rem'}}>sounds like</span> 아파
+                      압하 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      아파
                     </span>
                     <audio id="abHa" src={`${abHa}`} />
                     <Img
@@ -579,21 +571,15 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr>
+                  <Td>ㄹ</Td>
                   <Td>
-                    ㄹ
-                  </Td>
-                  <Td>
-                    <span style={{fontSize: '1rem'}}>
-                      aspirated
-                    </span>{' '}
-                    r{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      almost a d sound.
-                    </span>
+                    <span style={{fontSize: '1rem'}}>aspirated</span> r{' '}
+                    <span style={{fontSize: '1rem'}}>almost a d sound.</span>
                   </Td>
                   <Td>
                     <span>
-                      열학 <span style={{fontSize: '1rem'}}>sounds like</span> 여닥
+                      열학 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      여닥
                     </span>
                     <audio id="yeorHag" src={`${yeorHag}`} />
                     <Img
@@ -650,13 +636,13 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="150px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="400px">Example</Th>
+                <Th borderbottom="1px solid black" width="400px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr>
-                  <Td>
-                    ㅎ
-                  </Td>
+                  <Td>ㅎ</Td>
                   <Td>
                     ㅎ{' '}
                     <span style={{fontSize: '1rem'}}>
@@ -665,7 +651,8 @@ class KoreanLevel6 extends Component {
                   </Td>
                   <Td>
                     <span>
-                      앟가 <span style={{fontSize: '1rem'}}>sounds like</span> 아카
+                      앟가 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      아카
                     </span>
                     <audio id="ahGa" src={`${ahGa}`} />
                     <Img
@@ -686,7 +673,8 @@ class KoreanLevel6 extends Component {
                   <Td />
                   <Td>
                     <span>
-                      앟자 <span style={{fontSize: '1rem'}}>sounds like</span> 아차
+                      앟자 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      아차
                     </span>
                     <audio id="ahJa" src={`${ahJa}`} />
                     <Img
@@ -741,19 +729,18 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="180px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="300px">Example</Th>
+                <Th borderbottom="1px solid black" width="300px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㄷ + 이{' '}
-                  </Td>
-                  <Td>
-                    지{' '}
-                  </Td>
+                  <Td>ㄷ + 이 </Td>
+                  <Td>지 </Td>
                   <Td>
                     <span>
-                      굳이 <span style={{fontSize: '1rem'}}>sounds like</span> 구지{' '}
+                      굳이 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      구지{' '}
                     </span>
                     <audio id="gudI" src={`${gudI}`} />
                     <Img
@@ -770,15 +757,12 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅌ + 이{' '}
-                  </Td>
-                  <Td>
-                    치{' '}
-                  </Td>
+                  <Td>ㅌ + 이 </Td>
+                  <Td>치 </Td>
                   <Td>
                     <span>
-                      같이 <span style={{fontSize: '1rem'}}>sounds like</span> 가치
+                      같이 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      가치
                     </span>
                     <audio id="gatI" src={`${gatI}`} />
                     <Img
@@ -831,14 +815,16 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="150px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="250px">Example</Th>
+                <Th borderbottom="1px solid black" width="250px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄶ</Td>
                   <Td>
-                    ㄶ
+                    ㅎ <span style={{fontSize: '1rem'}}>(is silent)</span>
                   </Td>
-                  <Td>ㅎ <span style={{fontSize: '1rem'}}>(is silent)</span></Td>
                   <Td>
                     <span>
                       많 <span style={{fontSize: '1rem'}}>sounds like</span> 만
@@ -858,10 +844,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄺ</Td>
                   <Td>
-                    ㄺ
+                    ㄹ <span style={{fontSize: '1rem'}}>(is silent)</span>
                   </Td>
-                  <Td>ㄹ <span style={{fontSize: '1rem'}}>(is silent)</span></Td>
                   <Td>
                     <span>
                       닭 <span style={{fontSize: '1rem'}}>sounds like</span> 닥
@@ -881,13 +867,14 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄼ</Td>
                   <Td>
-                    ㄼ
+                    ㅂ <span style={{fontSize: '1rem'}}>(is silent)</span>
                   </Td>
-                  <Td>ㅂ <span style={{fontSize: '1rem'}}>(is silent)</span></Td>
                   <Td>
                     <span>
-                      여덟 <span style={{fontSize: '1rem'}}>sounds like</span> 여덜
+                      여덟 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      여덜
                     </span>
                     <audio id="yeoDeorb" src={`${yeoDeorb}`} />
                     <Img
@@ -940,20 +927,21 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="235px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="250px">Example</Th>
+                <Th borderbottom="1px solid black" width="250px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㄶ
-                  </Td>
+                  <Td>ㄶ</Td>
                   <Td>
                     ㅎ <span style={{fontSize: '1rem'}}>(is silent),</span> ㄴ{' '}
                     <span style={{fontSize: '1rem'}}>replaces</span> ㅇ
                   </Td>
                   <Td>
                     <span>
-                      많이 <span style={{fontSize: '1rem'}}>sounds like</span> 마니
+                      많이 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      마니
                     </span>
                     <audio id="manhI" src={`${manhI}`} />
                     <Img
@@ -970,10 +958,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄺ</Td>
                   <Td>
-                    ㄺ
+                    ㄱ <span style={{fontSize: '1rem'}}>replaces</span> ㅇ
                   </Td>
-                  <Td>ㄱ <span style={{fontSize: '1rem'}}>replaces</span> ㅇ</Td>
                   <Td>
                     <span>얽어</span>{' '}
                     <span style={{fontSize: '1rem'}}>sounds like </span>얼거
@@ -992,10 +980,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㅄ </Td>
                   <Td>
-                    ㅄ{' '}
+                    ㅅ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ
                   </Td>
-                  <Td>ㅅ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ</Td>
                   <Td>
                     없어 <span style={{fontSize: '1rem'}}>sounds like </span>
                     업서
@@ -1014,10 +1002,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄵ </Td>
                   <Td>
-                    ㄵ{' '}
+                    ㅈ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ
                   </Td>
-                  <Td>ㅈ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ</Td>
                   <Td>
                     앉아 <span style={{fontSize: '1rem'}}>sounds like </span>
                     안자
@@ -1036,10 +1024,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄼ</Td>
                   <Td>
-                    ㄼ
+                    ㅂ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ
                   </Td>
-                  <Td>ㅂ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ</Td>
                   <Td>
                     짧아 <span style={{fontSize: '1rem'}}>sounds like </span>
                     짤바
@@ -1058,10 +1046,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄾ </Td>
                   <Td>
-                    ㄾ{' '}
+                    ㅌ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ
                   </Td>
-                  <Td>ㅌ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ</Td>
                   <Td>
                     핥아 <span style={{fontSize: '1rem'}}>sounds like </span>
                     할타
@@ -1080,10 +1068,10 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄻ </Td>
                   <Td>
-                    ㄻ{' '}
+                    ㅁ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ
                   </Td>
-                  <Td>ㅁ <span style={{fontSize: '1rem'}}>replaces</span>ㅇ</Td>
                   <Td>
                     굶어 <span style={{fontSize: '1rem'}}>sounds like </span>
                     굴머
@@ -1138,19 +1126,20 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="235px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="250px">Example</Th>
+                <Th borderbottom="1px solid black" width="250px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㅆ{' '}
-                  </Td>
+                  <Td>ㅆ </Td>
                   <Td>
                     ㅆ <span style={{fontSize: '1rem'}}>replaces</span> ㅇ
                   </Td>
                   <Td>
                     <span>
-                      껬어 <span style={{fontSize: '1rem'}}>sounds like</span> 께써
+                      껬어 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      께써
                     </span>
                     <audio id="ggessEo" src={`${ggessEo}`} />
                     <Img
@@ -1203,20 +1192,21 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="310px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="300px">Example</Th>
+                <Th borderbottom="1px solid black" width="300px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
-                  <Td>
-                    ㄷ
-                  </Td>
+                  <Td>ㄷ</Td>
                   <Td>
                     ㄷ <span style={{fontSize: '1rem'}}>replaces</span> ㄷ{' '}
                     <span style={{fontSize: '1rem'}}>with</span> ㄸ
                   </Td>
                   <Td>
                     <span>
-                      듣다 <span style={{fontSize: '1rem'}}>sounds like</span> 드따{' '}
+                      듣다 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
+                      드따{' '}
                     </span>
                     <audio id="deudDa" src={`${deudDa}`} />
                     <Img
@@ -1269,22 +1259,20 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="180px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="330px">Example</Th>
+                <Th borderbottom="1px solid black" width="330px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄹ </Td>
                   <Td>
                     ㄹ{' '}
-                  </Td>
-                  <Td>
-                    ㄹ <span style={{fontSize: '1rem'}}>(a hard 'L' sound)</span>
+                    <span style={{fontSize: '1rem'}}>(a hard 'L' sound)</span>
                   </Td>
                   <Td>
                     <span>
-                      죽을래{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like
-                      </span>{' '}
+                      죽을래 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
                       주그래
                     </span>
                     <audio id="jugEurRae" src={`${jugEurRae}`} />
@@ -1360,12 +1348,15 @@ class KoreanLevel6 extends Component {
                 <Th borderbottom="1px solid black" width="200px">
                   Pronunciation
                 </Th>
-                <Th borderbottom="1px solid black" width="340px">Example</Th>
+                <Th borderbottom="1px solid black" width="340px">
+                  Example
+                </Th>
               </Thead>
               <tbody>
                 <Tr height="80px">
                   <Td>
-                    ㄱ, ㄲ, ㅋ + ㄴ <span style={{fontSize: '1rem'}}>or</span> ㅁ
+                    ㄱ, ㄲ, ㅋ + ㄴ <span style={{fontSize: '1rem'}}>or</span>{' '}
+                    ㅁ
                   </Td>
                   <Td>
                     ㄱ, ㄲ, ㅋ{' '}
@@ -1373,10 +1364,8 @@ class KoreanLevel6 extends Component {
                   </Td>
                   <Td>
                     <span>
-                      앆마{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 앙마
+                      앆마 <span style={{fontSize: '1rem'}}>sounds like </span>{' '}
+                      앙마
                     </span>
                     <audio id="aggMa" src={`${aggMa}`} />
                     <Img
@@ -1397,10 +1386,7 @@ class KoreanLevel6 extends Component {
                   <Td />
                   <Td>
                     <span>
-                      악나{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like
-                      </span>{' '}
+                      악나 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
                       앙나
                     </span>
                     <audio id="agNa" src={`${agNa}`} />
@@ -1425,15 +1411,12 @@ class KoreanLevel6 extends Component {
                     ㅂ, ㅍ
                     <span style={{fontSize: '1rem'}}>
                       (transforms to)
-                    </span>{' '}
-                    ㅁ{' '}
+                    </span> ㅁ{' '}
                   </Td>
                   <Td>
                     <span>
-                      압나{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 암나
+                      압나 <span style={{fontSize: '1rem'}}>sounds like </span>{' '}
+                      암나
                     </span>
                     <audio id="abNa" src={`${abNa}`} />
                     <Img
@@ -1454,10 +1437,7 @@ class KoreanLevel6 extends Component {
                   <Td />
                   <Td>
                     <span>
-                      앞나{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like
-                      </span>{' '}
+                      앞나 <span style={{fontSize: '1rem'}}>sounds like</span>{' '}
                       암나
                     </span>
                     <audio id="apNa" src={`${apNa}`} />
@@ -1477,22 +1457,16 @@ class KoreanLevel6 extends Component {
                 <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄷ, ㅌ, ㅅ, ㅆ, ㅈ, ㅊ, ㅎ + ㄴ{' '}
-                    <span style={{fontSize: '1rem'}}>or</span>{' '}
-                    ㅁ
+                    <span style={{fontSize: '1rem'}}>or</span> ㅁ
                   </Td>
                   <Td>
                     ㄷ, ㅌ, ㅅ, ㅆ, ㅈ, ㅊ, ㅎ{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      (transforms to)
-                    </span>{' '}
-                    ㄴ{' '}
+                    <span style={{fontSize: '1rem'}}>(transforms to)</span> ㄴ{' '}
                   </Td>
                   <Td>
                     <span>
-                      앗마{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 안마{' '}
+                      앗마 <span style={{fontSize: '1rem'}}>sounds like </span>{' '}
+                      안마{' '}
                     </span>
                     <audio id="anMa" src={`${anMa}`} />
                     <Img
@@ -1511,24 +1485,17 @@ class KoreanLevel6 extends Component {
                 <Tr borderbottom="1px solid #333" height="80px">
                   <Td>
                     ㄹ + ㄴ
-                    <span style={{fontSize: '1rem'}}>
-                      or
-                    </span>
+                    <span style={{fontSize: '1rem'}}>or</span>
                     ㄴ + ㄹ
                   </Td>
                   <Td>
-                    <span style={{fontSize: '1rem'}}>
-                      transforms to
-                    </span>{' '}
-                    ㄹㄹ{' '}
+                    <span style={{fontSize: '1rem'}}>transforms to</span> ㄹㄹ{' '}
                     <span style={{fontSize: '1rem'}}>(a hard 'L' sound)</span>
                   </Td>
                   <Td>
                     <span>
-                      알나{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 알라{' '}
+                      알나 <span style={{fontSize: '1rem'}}>sounds like </span>{' '}
+                      알라{' '}
                     </span>
                     <audio id="arNa" src={`${arNa}`} />
                     <Img
@@ -1545,27 +1512,17 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㄱ + ㄹ </Td>
                   <Td>
-                    ㄱ + ㄹ{' '}
-                  </Td>
-                  <Td>
-                    ㄱ{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      transforms to
-                    </span>{' '}
-                    ㅇ{' '},
-                    ㄹ{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      transforms to
-                    </span>{' '}
+                    ㄱ <span style={{fontSize: '1rem'}}>transforms to</span> ㅇ{' '}
+                    , ㄹ <span style={{fontSize: '1rem'}}>transforms to</span>{' '}
                     ㄴ{' '}
                   </Td>
                   <Td>
                     <span>
                       대학로{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 대항노{' '}
+                      <span style={{fontSize: '1rem'}}>sounds like </span>{' '}
+                      대항노{' '}
                     </span>
                     <audio id="daeHagRo" src={`${daeHagRo}`} />
                     <Img
@@ -1582,22 +1539,14 @@ class KoreanLevel6 extends Component {
                   </Td>
                 </Tr>
                 <Tr borderbottom="1px solid #333" height="80px">
+                  <Td>ㅇ + ㄹ </Td>
                   <Td>
-                    ㅇ + ㄹ{' '}
-                  </Td>
-                  <Td>
-                    ㄹ{' '}
-                    <span style={{fontSize: '1rem'}}>
-                      transforms to
-                    </span>{' '}
-                    ㄴ{' '}
+                    ㄹ <span style={{fontSize: '1rem'}}>transforms to</span> ㄴ{' '}
                   </Td>
                   <Td>
                     <span>
-                      종로{' '}
-                      <span style={{fontSize: '1rem'}}>
-                        sounds like{' '}
-                      </span>{' '} 종노{' '}
+                      종로 <span style={{fontSize: '1rem'}}>sounds like </span>{' '}
+                      종노{' '}
                     </span>
                     <audio id="jongRo" src={`${jongRo}`} />
                     <Img

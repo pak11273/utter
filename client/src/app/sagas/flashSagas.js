@@ -1,4 +1,5 @@
-import types from '../types'
+import * as types from '../types'
+import {all, takeLatest} from 'redux-saga/effects'
 
 // TODO: implement
 function* createFlash() {
@@ -8,3 +9,5 @@ function* createFlash() {
 function* watchCreateFlash() {
   yield all([takeLatest(types.FLASH_ASYNC.REQUEST, createFlash)])
 }
+
+export default [watchCreateFlash]

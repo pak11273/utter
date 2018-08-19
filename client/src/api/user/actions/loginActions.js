@@ -104,7 +104,8 @@ import {createAction} from '../../../utils/reduxUtils.js'
  * @param  {string} data.username The username of the user to log in
  * @param  {string} data.password The password of the user to log in
  */
-// export function loginRequest(data) {
+
+// export function login(data) {
 //   return {type: LOGIN_REQUEST, data}
 // }
 

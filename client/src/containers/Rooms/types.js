@@ -1,5 +1,6 @@
 // MUST have action types in the form npm-module-or-app/reducer/ACTION_TYPE
 
+const JOIN_ROOM = 'utter/rooms/JOIN_ROOM'
 const LOAD_LIST_TYPE = 'utter/rooms/LOAD_LIST_TYPE'
 const LOAD_LIST_TYPE_FULFILLED = 'utter/rooms/LOAD_LIST_TYPE_FULFILLED'
 const UPDATE_LIST_TYPE = 'utter/rooms/UPDATE_LIST_TYPE'
@@ -19,10 +20,12 @@ const UPDATE_ROOM_LEVEL_FULFILLED = 'utter/rooms/UPDATE_ROOM_LEVEL_FULFILLED'
 const UPDATE_ROOM_TITLE = 'utter/rooms/UPDATE_ROOM_TITLE'
 const UPDATE_ROOM_TITLE_FULFILLED = 'utter/rooms/UPDATE_ROOM_TITLE_FULFILLED'
 const DELETE = 'utter/rooms/DELETE'
+const REMOVE = 'utter/rooms/REMOVE'
 const ROOM_SELECT = 'utter/rooms/ROOM_SELECT'
 const ROOM_SELECT_FULFILLED = 'utter/rooms/ROOM_SELECT_FULFILLED'
 
 export {
+  JOIN_ROOM,
   LOAD_FULFILLED,
   LOAD_LIST_TYPE,
   LOAD_LIST_TYPE_FULFILLED,
@@ -39,6 +42,7 @@ export {
   UPDATE_ROOM_TITLE,
   UPDATE_ROOM_TITLE_FULFILLED,
   DELETE,
+  REMOVE,
   ROOM_SELECT,
   ROOM_SELECT_FULFILLED
 }

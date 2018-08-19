@@ -37,6 +37,7 @@ import {
   readCourse,
   updateCourse
 } from '../actions'
+
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 
 const Pending = () => <h1>pending</h1>

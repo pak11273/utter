@@ -1,12 +1,13 @@
 import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 
+import {Masthead} from '../../containers'
+
 import {
   Audio,
   Box,
   Column,
   Img,
-  Masthead,
   Subtitle,
   Table,
   Td,

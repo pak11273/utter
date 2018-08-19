@@ -13,7 +13,9 @@ import {
   Wrapper
 } from '../../components'
 
-import {Info, Masthead} from './components'
+import {Masthead} from '../../containers'
+
+import {Info} from './components'
 import PlayImg from '../../assets/images/play.svg'
 
 // audio
