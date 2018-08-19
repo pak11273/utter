@@ -2,11 +2,11 @@ import express from 'express'
 import mongoose from 'mongoose'
 const router = express.Router()
 import createRoutes from '../util/createRoutes.js'
-import controller from './ctrl.js'
+// import controller from './ctrl.js'
 
 const acl = require('../acl/index.js').getAcl()
 
-createRoutes(controller, router)
+// createRoutes(controller, router)
 
 // Simple overview of granted permissions
 router.route('/info').get(function(req, res, next) {
