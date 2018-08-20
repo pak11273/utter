@@ -80,7 +80,8 @@ module.exports = env => {
               // before url-loader/svg-url-loader
               // and not duplicate it in rules with them
               options: {
-                enforce: 'pre'
+                enforce: 'pre',
+                bypassOnDebug: true
               }
             }
           ]
