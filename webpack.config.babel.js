@@ -12,11 +12,14 @@ module.exports = env => {
   const {ifProd, ifNotProd} = getIfUtils(env)
   return {
     context: path.resolve(__dirname, 'client/src'),
-    // entry: ['webpack-hot-middleware/client', './App.js'],
-    entry: ['./App.js'],
+    entry: {
+      app: './App.js',
+      vendor: ['react', 'redux', 'lodash']
+    },
+    // ['./App.js'],
     output: {
       path: path.join(__dirname, 'client/dist'),
-      filename: 'bundle.js',
+      filename: 'bundle.[name].[hash].js',
       publicPath: '/', // use with historyApiFallback
       pathinfo: ifNotProd() // for dev, makes comments for files in browser devtools
     },
@@ -104,6 +107,15 @@ module.exports = env => {
         }
       ]
     },
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          commons: {
+            name: 'vendor'
+          }
+        }
+      }
+    },
     plugins: removeEmpty([
       new ProgressBarPlugin(),
       ifProd(
@@ -114,14 +126,20 @@ module.exports = env => {
           }
         })
       ),
+      // ifProd(
+      //   new webpack.optimize.CommonsChunkPlugin({
+      //     name: 'vendor'
+      //   })
+      // ),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
-        template: 'index.html',
+        template: 'index.html'
+        // inject: 'head'
         // favicon: './assets/images/favicon.ico',
-        inject: false
+        // inject: false
       }),
-      ifProd(new webpack.optimize.UglifyJsPlugin({sourceMap: true})), //minify everything
+      // ifProd(new webpack.optimize.UglifyJsPlugin({sourceMap: true})), //minify everything
       new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks
       new CompressionPlugin({
         asset: '[path].gz[query]',
