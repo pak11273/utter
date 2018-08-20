@@ -71,7 +71,19 @@ module.exports = env => {
         },
         {
           test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
-          use: ['file-loader?name=[name].[ext]']
+          use: [
+            {loader: 'file-loader?name=[name].[ext]'},
+            {
+              loader: 'image-webpack-loader',
+              // This loader reduces image size by half
+              // Specify enforce: 'pre' to apply the loader
+              // before url-loader/svg-url-loader
+              // and not duplicate it in rules with them
+              options: {
+                enforce: 'pre'
+              }
+            }
+          ]
         },
         {
           test: /\.(eot|ttf|woff|woff2)$/,
@@ -124,42 +136,3 @@ module.exports = env => {
     }
   }
 }
-
-// const server = {
-//   context: path.resolve(__dirname, 'server/dist'),
-//   entry: ['./index.js'],
-//   output: {
-//     path: path.join(__dirname, 'server/dist'),
-//     filename: 'bundle.js'
-//   },
-//   target: 'node',
-//   externals: [nodeExternals()] // in order to ignore all modules in node_modules folder
-// }
-
-// const shared = {
-//   module: {
-//     rules: [
-//       {
-//         test: /\.jsx?$/,
-//         exclude: /node_modules/,
-//         use: ['react-hot-loader', 'babel-loader']
-//       },
-//       {
-//         test: /\.css$/,
-//         exclude: /node_modules/,
-//         use: ['style-loader', 'css-loader']
-//       },
-//       {
-//         test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
-//         use: ['file-loader?name=[name].[ext]']
-//       },
-//       {
-//         test: /react-icons\/(.)*(.js)$/,
-//         use: 'babel-loader'
-//       }
-//     ]
-//   }
-// }
-
-// module.exports = Object.assign({}, shared, client(env))
-// Object.assign({}, shared, server)
