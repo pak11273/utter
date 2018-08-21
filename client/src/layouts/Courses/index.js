@@ -78,7 +78,7 @@ class CoursesContainer extends Component {
       learningLang: 'all',
       nativeLang: 'english',
       items: '',
-      limit: 10,
+      limit: 12,
       previous: '',
       hasPrevious: '',
       next: '',
