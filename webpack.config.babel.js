@@ -1,11 +1,13 @@
 const path = require('path')
+const CompressionPlugin = require('compression-webpack-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin
 // puts our index.html in the output folder and adds a <script> tag including bundle.js
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 // informs webpack to bundle in production
 const webpack = require('webpack')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
-const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = env => {
   const {getIfUtils, removeEmpty} = require('webpack-config-utils')
@@ -75,18 +77,18 @@ module.exports = env => {
         {
           test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
           use: [
-            {loader: 'file-loader?name=[name].[ext]'},
-            {
-              loader: 'image-webpack-loader',
-              // This loader reduces image size by half
-              // Specify enforce: 'pre' to apply the loader
-              // before url-loader/svg-url-loader
-              // and not duplicate it in rules with them
-              options: {
-                enforce: 'pre',
-                bypassOnDebug: true
-              }
-            }
+            {loader: 'file-loader?name=[name].[ext]'}
+            // {
+            //   loader: 'image-webpack-loader',
+            //   // This loader reduces image size by half
+            //   // Specify enforce: 'pre' to apply the loader
+            //   // before url-loader/svg-url-loader
+            //   // and not duplicate it in rules with them
+            //   options: {
+            //     enforce: 'pre',
+            //     bypassOnDebug: true
+            //   }
+            // }
           ]
         },
         {
@@ -107,6 +109,7 @@ module.exports = env => {
         }
       ]
     },
+    // This replaces the deprecated CommonsChunkPlugin
     optimization: {
       splitChunks: {
         cacheGroups: {
@@ -117,6 +120,12 @@ module.exports = env => {
       }
     },
     plugins: removeEmpty([
+      ifNotProd(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'server',
+          analyzerHost: '0.0.0.0'
+        })
+      ),
       new ProgressBarPlugin(),
       ifProd(
         new webpack.DefinePlugin({
@@ -126,11 +135,6 @@ module.exports = env => {
           }
         })
       ),
-      // ifProd(
-      //   new webpack.optimize.CommonsChunkPlugin({
-      //     name: 'vendor'
-      //   })
-      // ),
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new HtmlWebpackPlugin({
@@ -140,14 +144,14 @@ module.exports = env => {
         // inject: false
       }),
       // ifProd(new webpack.optimize.UglifyJsPlugin({sourceMap: true})), //minify everything
-      new webpack.optimize.AggressiveMergingPlugin(), //Merge chunks
       new CompressionPlugin({
         asset: '[path].gz[query]',
         algorithm: 'gzip',
         test: /\.js$|\.css$|\.html$/,
         threshold: 10240,
         minRatio: 0.8
-      })
+      }),
+      new webpack.optimize.AggressiveMergingPlugin() //Merge chunks
     ]),
     node: {
       net: 'empty',
