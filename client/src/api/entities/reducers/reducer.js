@@ -102,12 +102,24 @@ export function loadCourse(state, payload) {
   return session.state
 }
 
+export function defaultUpdater(session, action) {
+  session.sessionBoundModels.forEach(modelClass => {
+    if (typeof modelClass.reducer === 'function') {
+      // This calls this.applyUpdate to update this.state
+      modelClass.reducer(action, modelClass, session)
+    }
+  })
+}
+
 export function loadCourses(state, payload) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
   const {Courses} = session
-  let courses = payload.payload.results
+  // reset the entity
+  Courses.all().delete()
+  // let courses = payload.payload.results
+  let courses = payload.payload
   // add id by converting _id for each record
   courses.map(course => {
     return (course.id = course._id)

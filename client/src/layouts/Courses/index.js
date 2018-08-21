@@ -78,7 +78,11 @@ class CoursesContainer extends Component {
       learningLang: 'all',
       nativeLang: 'english',
       items: '',
-      limit: 4
+      limit: 10,
+      previous: '',
+      hasPrevious: '',
+      next: '',
+      hasNext: ''
     }
   }
 
@@ -281,5 +285,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CoursesContainer)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CoursesContainer)
 )

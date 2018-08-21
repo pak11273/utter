@@ -6,15 +6,28 @@ import mongoose from 'mongoose'
 
 exports.get = (req, res, noxt) => {
   const limit = parseInt(req.query.limit, 10)
-  Course.paginate({limit}).then(
-    courses => {
-      res.json(courses)
-    },
-    err => {
-      next(err)
-    }
-  )
+
+  console.log('limit: ', limit)
+  const items = Course.find({})
+    .sort({
+      _id: -1
+    })
+    .limit(limit)
+  items.then(courses => {
+    // const next = items[items.length - 1]._id
+    // res.json({items, next})
+    res.json(courses)
+  })
 }
+// Course.paginate({limit}).then(
+//   courses => {
+//     // res.json(courses)
+//   },
+//   err => {
+//     next(err)
+//   }
+// )
+// }
 
 exports.getOne = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
