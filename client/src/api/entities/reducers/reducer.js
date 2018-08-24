@@ -119,7 +119,7 @@ export function loadCourses(state, payload) {
   // reset the entity
   Courses.all().delete()
   // let courses = payload.payload.results
-  let courses = payload.payload
+  let courses = payload.payload.courses
   // add id by converting _id for each record
   courses.map(course => {
     return (course.id = course._id)

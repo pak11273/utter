@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import isEmpty from 'lodash/isEmpty'
+import Waypoint from 'react-waypoint'
 import update from 'immutability-helper'
 import {
   Card,
@@ -15,7 +16,6 @@ import {
   Item,
   Select as SemSelect
 } from 'semantic-ui-react'
-import Pagination from '../../containers/Pagination'
 import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
 import styled, {ThemeProvider} from 'styled-components'
 import './styles.css'
@@ -78,7 +78,7 @@ class CoursesContainer extends Component {
       learningLang: 'all',
       nativeLang: 'english',
       items: '',
-      limit: 12,
+      limit: 3,
       previous: '',
       hasPrevious: '',
       next: '',
@@ -161,6 +161,20 @@ class CoursesContainer extends Component {
     console.log('submitQuery: ', this.state)
   }
 
+  nextCourses = () => {
+    const newNext = this.props.coursesMeta.next
+    // add next to local state
+    const newState = update(this.state, {
+      query: {
+        next: {$set: newNext}
+      }
+    })
+    this.setState(newState, () => {
+      // api more courses
+      this.props.actions.courses(this.state)
+    })
+  }
+
   render() {
     const LangCard = this.props.courses.map(item => {
       return (
@@ -205,12 +219,8 @@ class CoursesContainer extends Component {
             <Card.Group stackable itemsPerRow={3}>
               {LangCard}
             </Card.Group>
-            <Pagination
-              defaultActivePage={2}
-              totalPages={4}
-              state={this.state}
-            />
           </SemGrid>
+          <Button onClick={this.nextCourses}>More Courses</Button>
         </div>
       )
     }
@@ -268,7 +278,10 @@ const mapStateToProps = state => {
   const session = orm.session(state.entitiesReducer)
   const {Courses} = session
   const courses = Courses.all().toRefArray()
-  return {courses}
+  return {
+    courses,
+    coursesMeta: state.coursesReducer
+  }
 }
 
 const mapDispatchToProps = dispatch => {

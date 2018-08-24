@@ -4,30 +4,28 @@ import cuid from 'cuid'
 import _ from 'lodash'
 import mongoose from 'mongoose'
 
-exports.get = (req, res, noxt) => {
+exports.get = (req, res, next) => {
+  let after = {}
   const limit = parseInt(req.query.limit, 10)
-
-  console.log('limit: ', limit)
-  const items = Course.find({})
+  if (req.query.next) {
+    after = {_id: {$lt: req.query.next}}
+  }
+  console.log('afet: ', after)
+  Course.find(after)
     .sort({
       _id: -1
     })
     .limit(limit)
-  items.then(courses => {
-    // const next = items[items.length - 1]._id
-    // res.json({items, next})
-    res.json(courses)
-  })
+    .then(
+      courses => {
+        const next = courses[courses.length - 1]._id
+        res.json({courses, next})
+      },
+      err => {
+        next(err)
+      }
+    )
 }
-// Course.paginate({limit}).then(
-//   courses => {
-//     // res.json(courses)
-//   },
-//   err => {
-//     next(err)
-//   }
-// )
-// }
 
 exports.getOne = (req, res, next) => {
   //populate doesn't return a promise, so call exec()

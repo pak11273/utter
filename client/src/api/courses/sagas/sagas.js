@@ -8,14 +8,15 @@ import * as types from '../types'
 import {fetchData} from '../../../utils/apiMgr'
 
 export function* courses(state) {
+  console.log('state: ', state)
   try {
     const limit = state.query.limit
-    console.log('limit: ', limit)
+    const next = state.query.next
     const url = 'api/courses'
     const method = 'get'
     const data = null
     const cb = null
-    const params = {limit}
+    const params = {limit, next}
 
     /**
      * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
