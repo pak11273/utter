@@ -3,28 +3,34 @@ import faker from 'faker'
 import cuid from 'cuid'
 import _ from 'lodash'
 import mongoose from 'mongoose'
+import MongoPaging from 'mongo-cursor-pagination'
 
 exports.get = (req, res, next) => {
-  let after = {}
   const limit = parseInt(req.query.limit, 10)
   if (req.query.next) {
-    after = {_id: {$lt: req.query.next}}
-  }
-  console.log('afet: ', after)
-  Course.find(after)
-    .sort({
-      _id: -1
-    })
-    .limit(limit)
-    .then(
+    Course.paginate({
+      limit,
+      next: req.query.next
+    }).then(
       courses => {
-        const next = courses[courses.length - 1]._id
-        res.json({courses, next})
+        res.json(courses)
       },
       err => {
         next(err)
       }
     )
+  } else {
+    Course.paginate({
+      limit
+    }).then(
+      courses => {
+        res.json(courses)
+      },
+      err => {
+        next(err)
+      }
+    )
+  }
 }
 
 exports.getOne = (req, res, next) => {

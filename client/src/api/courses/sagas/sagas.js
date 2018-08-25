@@ -8,7 +8,6 @@ import * as types from '../types'
 import {fetchData} from '../../../utils/apiMgr'
 
 export function* courses(state) {
-  console.log('state: ', state)
   try {
     const limit = state.query.limit
     const next = state.query.next

@@ -14,14 +14,14 @@ const StaticSidebar = styled.div`
 
   @media (min-width: 640px) {
     grid-template-rows: auto;
-    height: 2000px;
+    height: auto;
   }
 `
 StaticSidebar.defaultProps = {
   background: '#f3f3f3',
   display: 'flex',
   gridarea: 'sidebar',
-  height: '400px',
+  height: 'auto',
   padding: '100px 0 0 0',
   minwidth: '200px'
 }

@@ -20,6 +20,13 @@ const initialState = orm.getEmptyState()
 //        modelType.all().toModelArray().forEach(model => model.delete());
 //     });
 
+export function resetCourses(state) {
+  const session = orm.session(state)
+  const {Courses} = session
+  Courses.delete()
+  return session.state
+}
+
 export function resetUser(state) {
   const session = orm.session(state)
   const {User} = session
@@ -117,9 +124,8 @@ export function loadCourses(state, payload) {
   // Get a reference to the correct version of the Users class for this Session
   const {Courses} = session
   // reset the entity
-  Courses.all().delete()
-  // let courses = payload.payload.results
-  let courses = payload.payload.courses
+  // Courses.all().delete()
+  let courses = payload.payload.results
   // add id by converting _id for each record
   courses.map(course => {
     return (course.id = course._id)
@@ -133,5 +139,6 @@ export default createReducer(initialState, {
   [usersTypes.LOAD_USERS_ASYNC.SUCCESS]: loadUsers,
   [courseTypes.COURSE_ASYNC.SUCCESS]: loadCourse,
   [coursesTypes.COURSES_ASYNC.SUCCESS]: loadCourses,
+  [coursesTypes.COURSES_ASYNC.RESET]: resetCourses,
   [LOGOUT]: resetUser
 })

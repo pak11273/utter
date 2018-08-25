@@ -14,7 +14,9 @@ import {
   Image,
   Input,
   Item,
-  Select as SemSelect
+  Segment,
+  Select as SemSelect,
+  Text
 } from 'semantic-ui-react'
 import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
 import styled, {ThemeProvider} from 'styled-components'
@@ -51,7 +53,6 @@ const StyledGrid = styled(Grid)`
   grid-template-areas:
     'sidebar sidebar';
     'content content';
-  height: 700px;
 
   @media (min-width: 640px) {
     grid-template-columns: 200px 1fr;
@@ -78,7 +79,7 @@ class CoursesContainer extends Component {
       learningLang: 'all',
       nativeLang: 'english',
       items: '',
-      limit: 3,
+      limit: 9,
       previous: '',
       hasPrevious: '',
       next: '',
@@ -88,6 +89,7 @@ class CoursesContainer extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
+    this.props.actions.resetCourses()
     this.props.actions.courses(this.state)
   }
 
@@ -109,7 +111,7 @@ class CoursesContainer extends Component {
 
       this.setState(newState)
       // Make api call
-      this.props.actions.courses(this.state)
+      // TODO this.props.actions.courses(this.state)
     }
   }
 
@@ -131,7 +133,7 @@ class CoursesContainer extends Component {
 
       this.setState(newState)
       // Make api call
-      this.props.actions.courses(this.state)
+      //TODO   this.props.actions.courses(this.state)
     }
   }
 
@@ -144,7 +146,7 @@ class CoursesContainer extends Component {
   onClick(e) {
     e.preventDefault()
     // go to edit page and load redux with course
-    this.props.actions.course(this.state)
+    // TODO this.props.actions.course(this.state)
   }
 
   handleCourseFilterChg = (e, data) => {
@@ -175,6 +177,16 @@ class CoursesContainer extends Component {
     })
   }
 
+  handleWaypoint = () => {
+    console.log('way')
+  }
+
+  waypoint = () => {
+    if (!this.props.coursesMeta.loading && this.props.coursesMeta.hasNext) {
+      return <Waypoint onEnter={this.nextCourses} />
+    }
+  }
+
   render() {
     const LangCard = this.props.courses.map(item => {
       return (
@@ -203,6 +215,17 @@ class CoursesContainer extends Component {
         </Card>
       )
     })
+    if (this.props.coursesMeta.hasNext) {
+      var scrollMsg = (
+        <SemGrid centered style={{margin: '0 0 40px 0'}}>
+          <Segment compact loading={this.props.coursesMeta.loading}>
+            Scroll down for more
+          </Segment>
+        </SemGrid>
+      )
+    } else {
+      var scrollMsg = <div />
+    }
     var renderGrid
     if (isEmpty(this.props.courses)) {
       renderGrid = (
@@ -220,7 +243,8 @@ class CoursesContainer extends Component {
               {LangCard}
             </Card.Group>
           </SemGrid>
-          <Button onClick={this.nextCourses}>More Courses</Button>
+          {scrollMsg}
+          {this.waypoint()}
         </div>
       )
     }
@@ -290,6 +314,7 @@ const mapDispatchToProps = dispatch => {
       {
         course: course.request,
         courses: courses.request,
+        resetCourses: courses.reset,
         toggleFooter
       },
       dispatch

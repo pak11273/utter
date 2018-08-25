@@ -26,7 +26,7 @@ import 'semantic-ui-css/semantic.css'
 
 const StyledGrid = styled(Grid)`
   display: grid;
-  grid-template-rows: auto auto 1fr 200px;
+  grid-template-rows: auto auto 1fr;
   grid-template-areas:
     'navBar'
     'flash'
