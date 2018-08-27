@@ -9,13 +9,12 @@ import {fetchData} from '../../../utils/apiMgr'
 
 export function* courses(state) {
   try {
-    const limit = state.query.limit
-    const next = state.query.next
+    // const {limit, next} = state.query
     const url = 'api/courses'
     const method = 'get'
     const data = null
     const cb = null
-    const params = {limit, next}
+    const params = state.query
 
     /**
      * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'

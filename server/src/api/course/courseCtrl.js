@@ -3,33 +3,68 @@ import faker from 'faker'
 import cuid from 'cuid'
 import _ from 'lodash'
 import mongoose from 'mongoose'
-import MongoPaging from 'mongo-cursor-pagination'
 
-exports.get = (req, res, next) => {
+exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
-  if (req.query.next) {
-    Course.paginate({
-      limit,
-      next: req.query.next
-    }).then(
-      courses => {
-        res.json(courses)
-      },
-      err => {
-        next(err)
-      }
-    )
-  } else {
-    Course.paginate({
-      limit
-    }).then(
-      courses => {
-        res.json(courses)
-      },
-      err => {
-        next(err)
-      }
-    )
+  console.log('query: ', req.query)
+  try {
+    // initial query
+    if (!req.query.next) {
+      //   const query = Course.find()
+      //   query.setOptions({lean: true})
+      //   query.sort({_id: -1})
+      //   query.limit(limit)
+
+      //   query.exec((err, result) => {
+      //     if (err) {
+      //       console.log('WTF WTF WTF')
+      //       let next = 'done'
+      //       res.json({result, next, err})
+      //     }
+      //     const next = result[result.length - 1]._id
+      //     res.json({result, next})
+      //   })
+      var result = await Course.find({})
+        .sort({_id: -1})
+        .limit(limit)
+      const next = result[result.length - 1]._id
+
+      res.json({result, next})
+    } else {
+      // next queries
+      // const query = Course.find({
+      //   _id: {$lt: req.query.next}
+      // })
+      // query.setOptions({lean: true})
+      // query.sort({_id: -1})
+      // query.limit(limit)
+
+      // query.exec().then((err, result) => {
+      //   // (err, result) => {
+      //   if (err) {
+      //     console.log('BLAH BLAHLAJLFJA LJJ')
+      //     console.log(err)
+      //     // let next = 'done'
+      //     res.json({result, next, err})
+      //   }
+      //   const next = result[result.length - 1]._id
+      //   res.json({result, next})
+      // })
+      result = await Course.find({
+        _id: {$lt: req.query.next}
+      })
+        .sort({_id: -1})
+        .limit(limit)
+
+      next = result[result.length - 1]._id
+
+      console.log('next: ', next)
+
+      res.json({result, next})
+    }
+  } catch (err) {
+    next = 'done'
+    res.send({result, next, err})
   }
 }
 

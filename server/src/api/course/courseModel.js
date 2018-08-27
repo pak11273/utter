@@ -1,5 +1,4 @@
 import mongoose, {Schema} from 'mongoose'
-import MongoPaging from 'mongo-cursor-pagination'
 
 const TermSchema = new Schema({
   course: {
@@ -107,6 +106,8 @@ const CourseSchema = mongoose.Schema(
   {timestamps: true}
 )
 
+CourseSchema.index({courseName: 'text', courseDescription: 'text'})
+
 CourseSchema.virtual('id').get(function() {
   return this._id.toHexString()
 })
@@ -114,7 +115,5 @@ CourseSchema.virtual('id').get(function() {
 CourseSchema.set('toJSON', {
   virtuals: true
 })
-
-CourseSchema.plugin(MongoPaging.mongoosePlugin)
 
 module.exports = mongoose.model('Course', CourseSchema)

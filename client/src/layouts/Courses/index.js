@@ -76,14 +76,13 @@ class CoursesContainer extends Component {
     search: '',
     query: {
       courseProp: 'all',
-      learningLang: 'all',
+      learningLang: 'korean',
       nativeLang: 'english',
       items: '',
-      limit: 9,
+      limit: 3,
       previous: '',
       hasPrevious: '',
-      next: '',
-      hasNext: ''
+      next: ''
     }
   }
 
@@ -182,7 +181,10 @@ class CoursesContainer extends Component {
   }
 
   waypoint = () => {
-    if (!this.props.coursesMeta.loading && this.props.coursesMeta.hasNext) {
+    if (
+      !this.props.coursesMeta.loading &&
+      this.props.coursesMeta.next !== 'done'
+    ) {
       return <Waypoint onEnter={this.nextCourses} />
     }
   }
@@ -215,7 +217,7 @@ class CoursesContainer extends Component {
         </Card>
       )
     })
-    if (this.props.coursesMeta.hasNext) {
+    if (this.props.coursesMeta.next !== 'done') {
       var scrollMsg = (
         <SemGrid centered style={{margin: '0 0 40px 0'}}>
           <Segment compact loading={this.props.coursesMeta.loading}>
