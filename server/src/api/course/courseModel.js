@@ -69,6 +69,10 @@ const CourseSchema = mongoose.Schema(
       type: Number,
       default: -1
     },
+    courseRef: {
+      type: String,
+      default: ''
+    },
     teachingLang: {
       type: String,
       default: ''

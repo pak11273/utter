@@ -7,10 +7,11 @@
   "scripts": {
     "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline  --env.dev --mode development",
     "//": "babel server/src --out-dir server/dist --no-babelrc --presets=es2015,react,es2016,stage-2,stage-0 ",
-    "prebserver": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
+    "buildserver": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
     "prebuild": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
     "build": "webpack -p --env.production --mode production",
-    "bserver": "nodemon --watch server server/dist/index.js",
+    "bserver": "nodemon server/dist/index.js",
+    "watch": "watch 'npm run buildserver' server/src",
     "test": "NODE_ENV=test jest",
     "test-update": "npm run test -- -u",
     "test-cover": "npm run test -- --coverage"
@@ -139,6 +140,7 @@
     "redux-logger": "^3.0.6",
     "supertest": "^3.0.0",
     "uglifyjs-webpack-plugin": "^1.3.0",
+    "watch": "^1.0.2",
     "webpack": "^4.8.3",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^2.1.3",

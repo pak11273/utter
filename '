@@ -1,0 +1,289 @@
+'use strict';
+
+var _arguments = arguments;
+
+var _courseModel = require('./courseModel.js');
+
+var _courseModel2 = _interopRequireDefault(_courseModel);
+
+var _faker = require('faker');
+
+var _faker2 = _interopRequireDefault(_faker);
+
+var _cuid = require('cuid');
+
+var _cuid2 = _interopRequireDefault(_cuid);
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _mongoose = require('mongoose');
+
+var _mongoose2 = _interopRequireDefault(_mongoose);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.get = function (req, res, next) {
+  var limit = parseInt(req.query.limit, 10);
+
+  // try {
+  // initial query
+  if (!req.query.next) {
+    var result = _courseModel2.default.find({
+      // courseName: 'Bacon'
+    }).sort({ _id: -1 }).limit(limit);
+    console.log('res: ', result);
+    var next = result[result.length - 1]._id;
+
+    result.exec(function (err, result) {
+      if (err) {
+        next = 'done';
+        res.send({ result: result, next: next, err: err });
+      }
+      res.json({ result: result, next: next });
+    });
+
+    // res.json({result, next})
+  } else {
+    // next queries
+    var _next = void 0;
+    result = _courseModel2.default.find({
+      _id: { $lt: req.query.next }
+    }).sort({ _id: -1 }).limit(limit);
+
+    _next = result[result.length - 1]._id;
+
+    console.log('next: ', _next);
+
+    result.exec(function (err, result) {
+      if (err) {
+        _next = 'done';
+        res.send({ result: result, next: _next, err: err });
+      }
+      res.json({ result: result, next: _next });
+    });
+
+    // res.json({result, next})
+  }
+  // } catch (err) {
+  //   next = 'done'
+  //   res.send({result, next, err})
+  // }
+};
+
+exports.getOne = function (req, res, next) {
+  //populate doesn't return a promise, so call exec()
+  // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
+  // Course.find().populate('subscribers').exec().then(
+  console.log('creatorId: ', req.params.courseCreatorId);
+  console.log('courseId: ', req.params.courseId);
+  if (req.params.courseId) {
+    _courseModel2.default.findOne({
+      courseId: req.params.courseId,
+      courseCreatorId: req.params.courseCreatorId
+    }).then(function (course) {
+      res.json({ course: course });
+    }, function (err) {
+      next(err);
+    });
+  }
+};
+
+exports.params = function (req, res, next, id) {
+  _courseModel2.default.findById(id).then(function (course) {
+    if (!course) {
+      next(new Error('No course with that id'));
+    } else {
+      req.course = course;
+      next();
+    }
+  }, function (err) {
+    next(err);
+  });
+};
+
+exports.post = function (req, res, next) {
+  var newCourse = req.body.course;
+  _courseModel2.default.create(newCourse).then(function (course) {
+    res.json(course);
+  }, function (err) {
+    next(err);
+  });
+};
+
+exports.unique = function (req, res, next) {
+  _courseModel2.default.find({ courseName: req.body.course }).then(function (course) {
+    if (!req.body.course) {
+      res.status(400).json({ error: 'This field is required.' });
+    } else if (course.length > 0) {
+      // next(new Error('This course name is already taken.'))
+      res.status(400).json({ error: 'This course name is already taken.' });
+    } else {
+      res.json({ msg: 'This course name is available' });
+    }
+  }, function (err) {
+    next(err);
+  });
+};
+
+exports.faker = function (req, res, next) {
+  for (var i = 0; i < 3; ++i) {
+    var course = new _courseModel2.default();
+
+    // random object ids for terms.level
+    var id1 = require('mongoose').Types.ObjectId();
+    var id2 = require('mongoose').Types.ObjectId();
+    var id3 = require('mongoose').Types.ObjectId();
+    var id4 = require('mongoose').Types.ObjectId();
+    course.category = _faker2.default.commerce.department();
+    course.courseId = (0, _cuid2.default)();
+    course.courseCreatorId = '5b3cdaa73e9eb21cbd5bbf8f';
+    course.courseName = _faker2.default.commerce.productName();
+    course.price = _faker2.default.commerce.price();
+    course.courseDescription = 'Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.';
+    course.image = _faker2.default.image.image();
+    course.levels = [{
+      course: course._id,
+      level: 1,
+      title: 'Change Me',
+      terms: [{
+        level: id1,
+        word: 'hello',
+        translation: '안영'
+      }, {
+        level: id1,
+        word: 'world',
+        translation: '세상'
+      }]
+    }, {
+      course: course._id,
+      level: 2,
+      title: 'Change Me',
+      terms: [{
+        level: id2,
+        word: 'bart',
+        translation: '안영'
+      }, {
+        level: id2,
+        word: 'sympson',
+        translation: '세상'
+      }]
+    }, {
+      course: course._id,
+      level: 4,
+      title: 'Change Me',
+      terms: [{
+        level: id3,
+        word: 'cat',
+        translation: '안영'
+      }, {
+        level: id3,
+        word: 'dog',
+        translation: '세상'
+      }]
+    }, {
+      course: course._id,
+      level: 10,
+      title: 'Change Me',
+      terms: [{
+        level: id4,
+        word: 'merlin',
+        translation: '안영'
+      }, {
+        level: id4,
+        word: 'samson',
+        translation: '세상'
+      }]
+    }];
+
+    // console.log('course', course.levels[i]._id)
+    course.save(function (err) {
+      if (err) throw err;
+    });
+  }
+  res.json(course);
+};
+
+exports.putOne = function (req, res, next) {
+  console.log('hellodog');
+  // if (req.params.courseId) {
+  //   Course.findOne({courseId: req.params.courseId}).then(
+  //     course => {
+  //       res.json(course)
+  //     },
+  //     err => {
+  //       next(err)
+  //     }
+  //   )
+  // }
+};
+
+exports.getTeachingCourses = function (req, res, next) {
+  var pg = req.query.pg || 1;
+  var limit = 1000;
+  var offset = (pg - 1) * limit;
+  // const pageStart = 1
+  // const numPages = 10
+  _courseModel2.default.paginate({ courseCreatorId: req.params.courseCreatorId }, { offset: offset, limit: limit, lean: true }).then(function (result) {
+    res.json({
+      result: result
+    });
+  }).catch(function (error) {
+    console.error({
+      message: 'Error occured while paginating Course data',
+      arguments: _arguments
+    });
+    throw error; // TODO: test return instead of throw
+  });
+
+  // More advanced example
+  // var query = {};
+  // var options = {
+  //   select: 'title date author',
+  //   sort: { date: -1 },
+  //   populate: 'author',
+  //   lean: true,
+  //   offset: 20,
+  //   limit: 10
+  // };
+};
+
+exports.update = function (req, res, next) {
+  console.log('update');
+  var update = req.body.course;
+
+  _courseModel2.default.findOneAndUpdate({ courseId: update.courseId }, update, function (err, course) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(course);
+    }
+  });
+};
+
+// TODO: use this to delete whole courses.  levelId is actually the courseId
+exports.deleteCourse = function (req, res, next) {
+  console.log('reg: ', req.params.levelId);
+  var id = req.params.levelId;
+  _courseModel2.default.findByIdAndRemove(id, function (err, deleted) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(deleted);
+    }
+  });
+};
+
+exports.deleteLevel = function (req, res, next) {
+  _courseModel2.default.findOne({ courseId: req.params.courseId }, function (err, course) {
+    if (err) {
+      console.log('err: ', err);
+    }
+    course.update({ $pull: { levels: { _id: req.params.levelId } } }, function (err, deleted) {
+      res.json(deleted);
+    });
+  }
+  // {$pullAll: {id: [req.params.levelId]}}
+  );
+};

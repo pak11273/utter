@@ -45,7 +45,7 @@ import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 const options = [
   {key: 'all', text: 'All', value: 'all'},
   {key: 'title', text: 'Title', value: 'title'},
-  {key: 'course', text: 'Course', value: 'course'},
+  {key: 'reference', text: 'Reference', value: 'reference'},
   {key: 'author', text: 'Author', value: 'author'}
 ]
 
@@ -75,6 +75,7 @@ class CoursesContainer extends Component {
   state = {
     search: '',
     query: {
+      courseName: '',
       courseProp: 'all',
       learningLang: 'korean',
       nativeLang: 'english',
@@ -157,9 +158,22 @@ class CoursesContainer extends Component {
     this.setState(newState)
   }
 
+  handleInputChg = (e, data) => {
+    e.preventDefault()
+    console.log('data: ', data.value)
+    const newState = update(this.state, {
+      query: {
+        courseName: {$set: data.value}
+      }
+    })
+
+    this.setState(newState)
+  }
+
   submitQuery = e => {
     e.preventDefault()
     console.log('submitQuery: ', this.state)
+    this.props.actions.courses(this.state)
   }
 
   nextCourses = () => {
@@ -281,7 +295,11 @@ class CoursesContainer extends Component {
         <Grid gridarea="content" gridtemplaterows="100px auto">
           <Item align="center">
             <Title>Subscribe to a Course</Title>
-            <Input type="text" placeholder="Search..." action>
+            <Input
+              type="text"
+              placeholder="Search..."
+              onChange={this.handleInputChg}
+              action>
               <input />
               <SemSelect
                 onChange={this.handleCourseFilterChg}

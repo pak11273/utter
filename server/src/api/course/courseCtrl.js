@@ -6,50 +6,24 @@ import mongoose from 'mongoose'
 
 exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
-  console.log('query: ', req.query)
+  const blame = req.query.courseName || ''
+
   try {
     // initial query
+    console.log('req: ', req.query)
     if (!req.query.next) {
-      //   const query = Course.find()
-      //   query.setOptions({lean: true})
-      //   query.sort({_id: -1})
-      //   query.limit(limit)
-
-      //   query.exec((err, result) => {
-      //     if (err) {
-      //       console.log('WTF WTF WTF')
-      //       let next = 'done'
-      //       res.json({result, next, err})
-      //     }
-      //     const next = result[result.length - 1]._id
-      //     res.json({result, next})
-      //   })
       var result = await Course.find({})
         .sort({_id: -1})
         .limit(limit)
-      const next = result[result.length - 1]._id
+
+      var next = result[result.length - 1]._id
 
       res.json({result, next})
+
+      // res.json({result, next})
     } else {
       // next queries
-      // const query = Course.find({
-      //   _id: {$lt: req.query.next}
-      // })
-      // query.setOptions({lean: true})
-      // query.sort({_id: -1})
-      // query.limit(limit)
-
-      // query.exec().then((err, result) => {
-      //   // (err, result) => {
-      //   if (err) {
-      //     console.log('BLAH BLAHLAJLFJA LJJ')
-      //     console.log(err)
-      //     // let next = 'done'
-      //     res.json({result, next, err})
-      //   }
-      //   const next = result[result.length - 1]._id
-      //   res.json({result, next})
-      // })
+      let next
       result = await Course.find({
         _id: {$lt: req.query.next}
       })
@@ -58,12 +32,13 @@ exports.get = async (req, res, next) => {
 
       next = result[result.length - 1]._id
 
-      console.log('next: ', next)
+      console.log('nexts: ', next)
 
       res.json({result, next})
     }
-  } catch (err) {
+  } catch (error) {
     next = 'done'
+    let err = error
     res.send({result, next, err})
   }
 }
