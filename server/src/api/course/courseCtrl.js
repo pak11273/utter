@@ -1,45 +1,71 @@
 import Course from './courseModel.js'
 import faker from 'faker'
 import cuid from 'cuid'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+
 import mongoose from 'mongoose'
 
 exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
-  const blame = req.query.courseName || ''
-
+  const courseName = new RegExp(`${req.query.courseName}`)
+  const teachingLang = new RegExp(`${req.query.teachingLang}`)
+  console.log('query" ', req.query)
   try {
     // initial query
-    console.log('req: ', req.query)
     if (!req.query.next) {
-      var result = await Course.find({})
+      var result = await Course.find({
+        courseName,
+        teachingLang
+      })
         .sort({_id: -1})
         .limit(limit)
 
-      var next = result[result.length - 1]._id
+      var totalRecords = await Course.find({courseName, teachingLang}).count()
 
+      if (totalRecords <= limit) {
+        var next = 'done'
+      } else {
+        var next = result[result.length - 1]._id
+      }
       res.json({result, next})
-
-      // res.json({result, next})
     } else {
-      // next queries
+      // remaining queries
       let next
       result = await Course.find({
+        courseName,
+        teachingLang,
+        _id: {$lt: req.query.next}
+      })
+
+      result = await Course.find({
+        courseName,
+        teachingLang,
         _id: {$lt: req.query.next}
       })
         .sort({_id: -1})
         .limit(limit)
 
-      next = result[result.length - 1]._id
+      var lastResultId = result[result.length - 1]._id.toString()
 
-      console.log('nexts: ', next)
+      var lastOne = await Course.findOne({
+        courseName,
+        teachingLang
+      }).sort({_id: 1})
 
-      res.json({result, next})
+      var lastOneId = lastOne._id.toString()
+
+      if (lastResultId == lastOneId) {
+        next = 'done'
+        res.json({result, next})
+      } else {
+        next = result[result.length - 1]._id
+        res.json({result, next})
+      }
     }
   } catch (error) {
-    next = 'done'
-    let err = error
-    res.send({result, next, err})
+    console.log('WTF WTF WTF WTF')
+    console.log('err: ', error)
+    res.json({result, next, err: error})
   }
 }
 
@@ -120,6 +146,11 @@ exports.faker = (req, res, next) => {
     var id3 = require('mongoose').Types.ObjectId()
     var id4 = require('mongoose').Types.ObjectId()
     course.category = faker.commerce.department()
+    course.teachingLang = faker.random.arrayElement([
+      'korean',
+      'french',
+      'spanish'
+    ])
     course.courseId = cuid()
     course.courseCreatorId = '5b3cdaa73e9eb21cbd5bbf8f'
     course.courseName = faker.commerce.productName()

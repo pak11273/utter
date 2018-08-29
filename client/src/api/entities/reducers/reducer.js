@@ -123,7 +123,6 @@ export function loadCourses(state, payload) {
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
   const {Courses} = session
-  console.log('pay: ', payload)
   // reset the entity
   // Courses.all().delete()
   let courses = payload.payload.result || []

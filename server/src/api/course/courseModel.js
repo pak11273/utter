@@ -77,7 +77,7 @@ const CourseSchema = mongoose.Schema(
       type: String,
       default: ''
     },
-    usingLang: {
+    nativeLang: {
       type: String,
       default: ''
     },

@@ -43,7 +43,6 @@ import {chooseCourseLanguage} from './actions'
 import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
 
 const options = [
-  {key: 'all', text: 'All', value: 'all'},
   {key: 'title', text: 'Title', value: 'title'},
   {key: 'reference', text: 'Reference', value: 'reference'},
   {key: 'author', text: 'Author', value: 'author'}
@@ -76,13 +75,11 @@ class CoursesContainer extends Component {
     search: '',
     query: {
       courseName: '',
-      courseProp: 'all',
-      learningLang: 'korean',
+      courseProp: 'title',
+      teachingLang: 'korean',
       nativeLang: 'english',
       items: '',
-      limit: 3,
-      previous: '',
-      hasPrevious: '',
+      limit: 9,
       next: ''
     }
   }
@@ -115,11 +112,11 @@ class CoursesContainer extends Component {
     }
   }
 
-  handleLearningChange = learningLang => {
-    if (learningLang === null) {
+  handleTeachingChange = teachingLang => {
+    if (teachingLang === null) {
       const newState = update(this.state, {
         query: {
-          learningLang: {$set: ''}
+          teachingLang: {$set: ''}
         }
       })
 
@@ -127,7 +124,7 @@ class CoursesContainer extends Component {
     } else {
       const newState = update(this.state, {
         query: {
-          learningLang: {$set: learningLang.value}
+          teachingLang: {$set: teachingLang.value}
         }
       })
 
@@ -160,7 +157,6 @@ class CoursesContainer extends Component {
 
   handleInputChg = (e, data) => {
     e.preventDefault()
-    console.log('data: ', data.value)
     const newState = update(this.state, {
       query: {
         courseName: {$set: data.value}
@@ -172,7 +168,14 @@ class CoursesContainer extends Component {
 
   submitQuery = e => {
     e.preventDefault()
-    console.log('submitQuery: ', this.state)
+    // reset next in local state
+    const newState = update(this.state, {
+      query: {
+        next: {$set: ''}
+      }
+    })
+    this.setState(newState)
+    this.props.actions.resetCourses()
     this.props.actions.courses(this.state)
   }
 
@@ -191,10 +194,6 @@ class CoursesContainer extends Component {
   }
 
   handleWaypoint = () => {
-    console.log('way')
-  }
-
-  waypoint = () => {
     if (
       !this.props.coursesMeta.loading &&
       this.props.coursesMeta.next !== 'done'
@@ -242,12 +241,14 @@ class CoursesContainer extends Component {
     } else {
       var scrollMsg = <div />
     }
+
     var renderGrid
+
     if (isEmpty(this.props.courses)) {
       renderGrid = (
         <Grid>
           <Item align="center">
-            <h1>There are currently no courses created for this lanugage.</h1>
+            <h1>No results found.</h1>
           </Item>
         </Grid>
       )
@@ -260,7 +261,7 @@ class CoursesContainer extends Component {
             </Card.Group>
           </SemGrid>
           {scrollMsg}
-          {this.waypoint()}
+          {this.handleWaypoint()}
         </div>
       )
     }
@@ -282,9 +283,13 @@ class CoursesContainer extends Component {
             <Box>
               <Select
                 name="form-field-name"
-                value={this.state.query.learningLang}
-                onChange={this.handleLearningChange}
-                options={[{value: 'Korean', label: 'Korean'}]}
+                value={this.state.query.teachingLang}
+                onChange={this.handleTeachingChange}
+                options={[
+                  {value: 'korean', label: 'Korean'},
+                  {value: 'english', label: 'English'},
+                  {value: 'spanish', label: 'Spanish'}
+                ]}
               />
             </Box>
             <Box>
@@ -304,7 +309,7 @@ class CoursesContainer extends Component {
               <SemSelect
                 onChange={this.handleCourseFilterChg}
                 options={options}
-                defaultValue="all"
+                defaultValue="title"
               />
               <Button onClick={this.submitQuery} type="submit">
                 Search

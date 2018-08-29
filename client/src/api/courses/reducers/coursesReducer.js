@@ -29,6 +29,7 @@ export default createReducer(initialState, {
   [COURSES_ASYNC.RESET]: state => ({
     ...state,
     loading: false,
+    next: '',
     errors: {}
   })
 })

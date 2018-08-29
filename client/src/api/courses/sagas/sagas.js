@@ -7,9 +7,12 @@ import * as types from '../types'
 
 import {fetchData} from '../../../utils/apiMgr'
 
-export function* courses(state) {
+export function* resetCourses() {
+  yield put({type: types.COURSES_ASYNC.RESET})
+}
+
+export function* fetchCourses(state) {
   try {
-    // const {limit, next} = state.query
     const url = 'api/courses'
     const method = 'get'
     const data = null
@@ -46,8 +49,12 @@ export function* courses(state) {
   }
 }
 
-function* watchCourses() {
-  yield all([takeLatest(types.COURSES_ASYNC.REQUEST, courses)])
+function* resetCourses() {
+  yield all([takeLatest(types.COURSES_ASYNC.RESET, resetCourses)])
 }
 
-export default [watchCourses]
+function* watchCourses() {
+  yield all([takeLatest(types.COURSES_ASYNC.REQUEST, fetchCourses)])
+}
+
+export default [resetCourses, watchCourses]
