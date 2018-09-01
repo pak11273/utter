@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Select from 'react-select'
 import isEmpty from 'lodash/isEmpty'
+import cloneDeep from 'lodash/cloneDeep'
 import Waypoint from 'react-waypoint'
 import update from 'immutability-helper'
 import {
@@ -65,23 +66,26 @@ const StyledNavLink = styled(NavLink)`
     color: #ff9800;
   }
 `
-class CoursesContainer extends Component {
-  constructor() {
-    super()
-    this.onClick = this.onClick.bind(this)
-  }
 
-  state = {
-    search: '',
-    query: {
-      courseName: '',
-      courseProp: 'title',
-      teachingLang: 'korean',
-      nativeLang: 'english',
-      items: '',
-      limit: 9,
-      next: ''
-    }
+const initialState = {
+  search: '',
+  courseAuthor: '',
+  courseInput: '',
+  courseName: '',
+  courseProp: 'title',
+  couresRef: '',
+  teachingLang: '',
+  nativeLang: '',
+  items: '',
+  limit: 3,
+  next: ''
+}
+
+class CoursesContainer extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = cloneDeep(initialState)
   }
 
   componentDidMount() {
@@ -93,17 +97,13 @@ class CoursesContainer extends Component {
   handleSpeakingChange = nativeLang => {
     if (nativeLang === null) {
       const newState = update(this.state, {
-        query: {
-          nativeLang: {$set: ''}
-        }
+        nativeLang: {$set: ''}
       })
 
       this.setState(newState)
     } else {
       const newState = update(this.state, {
-        query: {
-          nativeLang: {$set: nativeLang.value}
-        }
+        nativeLang: {$set: nativeLang.value}
       })
 
       this.setState(newState)
@@ -115,20 +115,18 @@ class CoursesContainer extends Component {
   handleTeachingChange = teachingLang => {
     if (teachingLang === null) {
       const newState = update(this.state, {
-        query: {
-          teachingLang: {$set: ''}
-        }
+        teachingLang: {$set: ''}
       })
 
       this.setState(newState)
     } else {
       const newState = update(this.state, {
-        query: {
-          teachingLang: {$set: teachingLang.value}
-        }
+        teachingLang: {$set: teachingLang.value}
       })
 
-      this.setState(newState)
+      this.setState(newState, () => {
+        console.log('teaching: ', this.state)
+      })
       // Make api call
       //TODO   this.props.actions.courses(this.state)
     }
@@ -140,7 +138,7 @@ class CoursesContainer extends Component {
     })
   }
 
-  onClick(e) {
+  handleImageClick = e => {
     e.preventDefault()
     // go to edit page and load redux with course
     // TODO this.props.actions.course(this.state)
@@ -148,19 +146,15 @@ class CoursesContainer extends Component {
 
   handleCourseFilterChg = (e, data) => {
     const newState = update(this.state, {
-      query: {
-        courseProp: {$set: data.value}
-      }
+      courseProp: {$set: data.value}
     })
-    this.setState(newState)
+    this.setState(newState, console.log('course Prop: ', this.state))
   }
 
   handleInputChg = (e, data) => {
     e.preventDefault()
     const newState = update(this.state, {
-      query: {
-        courseName: {$set: data.value}
-      }
+      courseInput: {$set: data.value}
     })
 
     this.setState(newState)
@@ -168,24 +162,85 @@ class CoursesContainer extends Component {
 
   submitQuery = e => {
     e.preventDefault()
-    // reset next in local state
-    const newState = update(this.state, {
-      query: {
-        next: {$set: ''}
-      }
-    })
-    this.setState(newState)
-    this.props.actions.resetCourses()
-    this.props.actions.courses(this.state)
+
+    // this.setState(initialState, () => console.log('init: ', this.state))
+
+    // change state props based on courseProp
+    const courseProp = this.state.courseProp
+    const courseInput = this.state.courseInput
+    switch (courseProp) {
+      case 'title':
+        // set courseName
+        let newName = update(this.state, {
+          courseAuthor: {
+            $set: ''
+          },
+          courseName: {
+            $set: courseInput
+          },
+          courseRef: {
+            $set: ''
+          },
+          next: {
+            $set: ''
+          }
+        })
+
+        this.setState(newName, () => {
+          this.props.actions.resetCourses()
+          this.props.actions.courses(this.state)
+        })
+
+        break
+
+      case 'reference':
+        // set courseRef
+        let newRef = update(this.state, {
+          courseAuthor: {
+            $set: ''
+          },
+          courseName: {
+            $set: ''
+          },
+          courseRef: {
+            $set: courseInput
+          },
+          next: {
+            $set: ''
+          }
+        })
+
+        this.setState(newRef, () => {
+          console.log('ref state: ', this.state)
+          this.props.actions.resetCourses()
+          this.props.actions.courses(this.state)
+        })
+        break
+
+      //   case 'author':
+      //     // set courseAuthor
+
+      //     let newAuthor = update(this.state, {
+      //       courseAuthor: {
+      //         $set: courseInput
+      //       }
+      //     })
+
+      //     this.setState(newAuthor, () => {
+      //       console.log('auth: ', this.state)
+      //       // this.props.actions.resetCourses()
+      //       // this.props.actions.courses(this.state)
+      //       this.setState(initialState, console.log('AUTHORS'))
+      //     })
+      //     break
+    }
   }
 
   nextCourses = () => {
     const newNext = this.props.coursesMeta.next
     // add next to local state
     const newState = update(this.state, {
-      query: {
-        next: {$set: newNext}
-      }
+      next: {$set: newNext}
     })
     this.setState(newState, () => {
       // api more courses
@@ -208,24 +263,33 @@ class CoursesContainer extends Component {
         <Card key={item.id}>
           <Image
             src={item.image}
-            onClick={this.onClick}
+            onClick={this.handleImageClick}
             style={{cursor: 'pointer'}}
           />
           <Card.Content>
             <Card.Header>{item.courseName}</Card.Header>
             <Card.Meta>
-              <span className="date">Joined in 2013</span>
+              <Icon name="pencil" />
+              <a style={{padding: '0 20px 0 0'}}>{item.courseAuthor}</a>
             </Card.Meta>
             <div className="description">{item.courseDescription}</div>
+            <div
+              style={{
+                color: 'white',
+                background: 'red',
+                padding: '4px',
+                textAlign: 'center'
+              }}>
+              Subscribed
+            </div>
           </Card.Content>
           <Card.Content extra>
-            <a style={{padding: '0 20px 0 0'}}>
-              <Icon name="user" />
-              22 Subscribers
-            </a>
-            <span style={{color: 'white', background: 'red', padding: '4px'}}>
-              Subscribed
-            </span>
+            <Icon name="user" />
+            <span style={{padding: '0 20px 0 0'}}>22 Subscribers</span>
+            <p>
+              <Icon name="book" />
+              <span style={{padding: '0 20px 0 0'}}>{item.courseRef}</span>
+            </p>
           </Card.Content>
         </Card>
       )
@@ -244,27 +308,17 @@ class CoursesContainer extends Component {
 
     var renderGrid
 
-    if (isEmpty(this.props.courses)) {
-      renderGrid = (
-        <Grid>
-          <Item align="center">
-            <h1>No results found.</h1>
-          </Item>
-        </Grid>
-      )
-    } else {
-      renderGrid = (
-        <div>
-          <SemGrid style={{padding: '40px'}}>
-            <Card.Group stackable itemsPerRow={3}>
-              {LangCard}
-            </Card.Group>
-          </SemGrid>
-          {scrollMsg}
-          {this.handleWaypoint()}
-        </div>
-      )
-    }
+    renderGrid = (
+      <div>
+        <SemGrid style={{padding: '40px'}}>
+          <Card.Group stackable itemsPerRow={3}>
+            {LangCard}
+          </Card.Group>
+        </SemGrid>
+        {scrollMsg}
+        {this.handleWaypoint()}
+      </div>
+    )
 
     return (
       <StyledGrid>
@@ -274,7 +328,7 @@ class CoursesContainer extends Component {
             <Box>
               <Select
                 name="form-field-name"
-                value={this.state.query.nativeLang}
+                value={this.state.nativeLang}
                 onChange={this.handleSpeakingChange}
                 options={[{value: 'english', label: 'English'}]}
               />
@@ -283,7 +337,7 @@ class CoursesContainer extends Component {
             <Box>
               <Select
                 name="form-field-name"
-                value={this.state.query.teachingLang}
+                value={this.state.teachingLang}
                 onChange={this.handleTeachingChange}
                 options={[
                   {value: 'korean', label: 'Korean'},
@@ -311,9 +365,7 @@ class CoursesContainer extends Component {
                 options={options}
                 defaultValue="title"
               />
-              <Button onClick={this.submitQuery} type="submit">
-                Search
-              </Button>
+              <Button onClick={this.submitQuery}>Search</Button>
             </Input>
           </Item>
           {renderGrid}

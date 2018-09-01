@@ -53,11 +53,11 @@ const CourseSchema = mongoose.Schema(
       type: String,
       default: ''
     },
-    author: {
+    courseAuthor: {
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    courseCreatorId: {
+    courseAuthorId: {
       type: String,
       default: ''
     },

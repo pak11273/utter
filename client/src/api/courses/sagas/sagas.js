@@ -12,15 +12,16 @@ export function* resetCourses() {
 }
 
 export function* fetchCourses(state) {
+  console.log('sagacoruse: ', state)
   try {
     const url = 'api/courses'
     const method = 'get'
     const data = null
     const cb = null
-    const params = state.query
+    const params = state
 
     /**
-     * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
+     * @param {string} url ex.'/teaching-course/:courseAuthorId/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 

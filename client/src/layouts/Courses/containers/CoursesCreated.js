@@ -48,7 +48,7 @@ class Created extends Component {
     //   name: 'Item ' + (i + 1)
     // }))
     this.state = {
-      courseCreatorId: '',
+      courseAuthorId: '',
       courseId: '',
       courseName: '',
       page: 1,
@@ -81,12 +81,12 @@ class Created extends Component {
 
   onClick(e, item) {
     e.preventDefault()
-    const courseCreatorId = this.props.user.id
+    const courseAuthorId = this.props.user.id
     const courseId = item.courseId
     const courseName = item.courseName
     this.setState(
       {
-        courseCreatorId,
+        courseAuthorId,
         courseId,
         courseName
       },
@@ -185,4 +185,9 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Created))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Created)
+)

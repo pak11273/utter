@@ -7,8 +7,8 @@ import {fetchData} from '../../../utils/apiMgr'
 import * as types from '../types'
 
 export function* fetchTeachingCourse(state) {
-  const {courseCreatorId, courseId, courseName} = state
-  const url = `api/courses/teaching-course/${courseCreatorId}/${courseId}/${courseName}`
+  const {courseAuthorId, courseId, courseName} = state
+  const url = `api/courses/teaching-course/${courseAuthorId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     const {identifier = '', password = ''} = state
@@ -19,7 +19,7 @@ export function* fetchTeachingCourse(state) {
     const params = null
 
     /**
-     * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
+     * @param {string} url ex.'/teaching-course/:courseAuthorId/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
@@ -52,8 +52,8 @@ export function* fetchTeachingCourse(state) {
 }
 
 export function* updateTeachingCourse(state) {
-  const {courseCreatorId, courseId, courseName} = state
-  const url = `api/courses/teaching-course/${courseCreatorId}/${courseId}/${courseName}`
+  const {courseAuthorId, courseId, courseName} = state
+  const url = `api/courses/teaching-course/${courseAuthorId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     const {identifier = '', password = ''} = state
@@ -64,7 +64,7 @@ export function* updateTeachingCourse(state) {
     const params = null
 
     /**
-     * @param {string} url ex.'/teaching-course/:courseCreatorId/:courseId/:courseName'
+     * @param {string} url ex.'/teaching-course/:courseAuthorId/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 

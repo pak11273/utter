@@ -124,7 +124,7 @@ class CreateCourse extends Component {
     this.state = {
       charCount: 0,
       courseId: cuid(),
-      // courseCreatorId: this.props.userReducer.user._id,
+      // courseAuthorId: this.props.userReducer.user._id,
       courseDescription: '',
       courseName: '',
       levels: [{level: 1, cuid: cuid()}],
@@ -166,7 +166,7 @@ class CreateCourse extends Component {
       // clear state
       this.setState({
         courseId: '',
-        courseCreatorId: '',
+        courseAuthorId: '',
         courseName: '',
         charCount: 0,
         courseDescription: '',
@@ -227,7 +227,8 @@ class CreateCourse extends Component {
           <Title>Create a Course</Title>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
-              Course Name<StyledSpan display640="inline-block">
+              Course Name
+              <StyledSpan display640="inline-block">
                 {' '}
                 (10-100 chars.)
               </StyledSpan>
@@ -264,7 +265,8 @@ class CreateCourse extends Component {
           </Box>
           <Box margin="40px 0 0 0" position="relative">
             <Label>
-              Course Description<StyledSpan display640="inline-block">
+              Course Description
+              <StyledSpan display640="inline-block">
                 {' '}
                 (100-350 chars.)
               </StyledSpan>
@@ -340,5 +342,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CreateCourse)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CreateCourse)
 )

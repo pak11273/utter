@@ -7,38 +7,50 @@ import mongoose from 'mongoose'
 
 exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
-  const courseName = new RegExp(`${req.query.courseName}`)
-  const teachingLang = new RegExp(`${req.query.teachingLang}`)
-  console.log('query" ', req.query)
+  const courseName = new RegExp(`${req.query.courseName}`, 'i')
+  const courseRef = new RegExp(`${req.query.courseRef}`, 'i')
+  const teachingLang = new RegExp(`${req.query.teachingLang}`, 'i')
+  console.log('query: ', req.query)
   try {
     // initial query
     if (!req.query.next) {
       var result = await Course.find({
         courseName,
+        courseRef,
         teachingLang
       })
         .sort({_id: -1})
         .limit(limit)
 
-      var totalRecords = await Course.find({courseName, teachingLang}).count()
+      var totalRecords = await Course.find({
+        courseName,
+        courseRef,
+        teachingLang
+      }).count()
 
       if (totalRecords <= limit) {
         var next = 'done'
       } else {
         var next = result[result.length - 1]._id
       }
+      console.log('res: ', result)
       res.json({result, next})
     } else {
       // remaining queries
       let next
+
+      // if one of the keys in the query array has value then do a search on that value
+      const value = req.params
       result = await Course.find({
         courseName,
+        courseRef,
         teachingLang,
         _id: {$lt: req.query.next}
       })
 
       result = await Course.find({
         courseName,
+        courseRef,
         teachingLang,
         _id: {$lt: req.query.next}
       })
@@ -49,6 +61,7 @@ exports.get = async (req, res, next) => {
 
       var lastOne = await Course.findOne({
         courseName,
+        courseRef,
         teachingLang
       }).sort({_id: 1})
 
@@ -73,12 +86,12 @@ exports.getOne = (req, res, next) => {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
-  console.log('creatorId: ', req.params.courseCreatorId)
+  console.log('creatorId: ', req.params.courseAuthorId)
   console.log('courseId: ', req.params.courseId)
   if (req.params.courseId) {
     Course.findOne({
       courseId: req.params.courseId,
-      courseCreatorId: req.params.courseCreatorId
+      courseAuthorId: req.params.courseAuthorId
     }).then(
       course => {
         res.json({course})
@@ -146,13 +159,19 @@ exports.faker = (req, res, next) => {
     var id3 = require('mongoose').Types.ObjectId()
     var id4 = require('mongoose').Types.ObjectId()
     course.category = faker.commerce.department()
+    course.courseRef = faker.random.arrayElement([
+      'TTMIK',
+      'Topik Level 1',
+      'How to study Korean'
+    ])
     course.teachingLang = faker.random.arrayElement([
       'korean',
       'french',
       'spanish'
     ])
     course.courseId = cuid()
-    course.courseCreatorId = '5b3cdaa73e9eb21cbd5bbf8f'
+    course.courseAuthor = '5b6b21e445912f4b8277bb06'
+    course.courseAuthorId = '5b6b21e445912f4b8277bb06'
     course.courseName = faker.commerce.productName()
     course.price = faker.commerce.price()
     course.courseDescription =
@@ -258,7 +277,7 @@ exports.getTeachingCourses = (req, res, next) => {
   // const pageStart = 1
   // const numPages = 10
   Course.paginate(
-    {courseCreatorId: req.params.courseCreatorId},
+    {courseAuthorId: req.params.courseAuthorId},
     {offset, limit, lean: true}
   )
     .then(function(result) {

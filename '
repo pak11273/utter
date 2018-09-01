@@ -76,12 +76,12 @@ exports.getOne = function (req, res, next) {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
-  console.log('creatorId: ', req.params.courseCreatorId);
+  console.log('creatorId: ', req.params.courseAuthorId);
   console.log('courseId: ', req.params.courseId);
   if (req.params.courseId) {
     _courseModel2.default.findOne({
       courseId: req.params.courseId,
-      courseCreatorId: req.params.courseCreatorId
+      courseAuthorId: req.params.courseAuthorId
     }).then(function (course) {
       res.json({ course: course });
     }, function (err) {
@@ -138,7 +138,7 @@ exports.faker = function (req, res, next) {
     var id4 = require('mongoose').Types.ObjectId();
     course.category = _faker2.default.commerce.department();
     course.courseId = (0, _cuid2.default)();
-    course.courseCreatorId = '5b3cdaa73e9eb21cbd5bbf8f';
+    course.courseAuthorId = '5b3cdaa73e9eb21cbd5bbf8f';
     course.courseName = _faker2.default.commerce.productName();
     course.price = _faker2.default.commerce.price();
     course.courseDescription = 'Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.';
@@ -225,7 +225,7 @@ exports.getTeachingCourses = function (req, res, next) {
   var offset = (pg - 1) * limit;
   // const pageStart = 1
   // const numPages = 10
-  _courseModel2.default.paginate({ courseCreatorId: req.params.courseCreatorId }, { offset: offset, limit: limit, lean: true }).then(function (result) {
+  _courseModel2.default.paginate({ courseAuthorId: req.params.courseAuthorId }, { offset: offset, limit: limit, lean: true }).then(function (result) {
     res.json({
       result: result
     });
