@@ -211,28 +211,34 @@ class CoursesContainer extends Component {
         })
 
         this.setState(newRef, () => {
-          console.log('ref state: ', this.state)
           this.props.actions.resetCourses()
           this.props.actions.courses(this.state)
         })
         break
 
-      //   case 'author':
-      //     // set courseAuthor
+      case 'author':
+        // set courseAuthor
 
-      //     let newAuthor = update(this.state, {
-      //       courseAuthor: {
-      //         $set: courseInput
-      //       }
-      //     })
+        let newAuthor = update(this.state, {
+          courseAuthor: {
+            $set: courseInput
+          },
+          courseName: {
+            $set: ''
+          },
+          courseRef: {
+            $set: ''
+          },
+          next: {
+            $set: ''
+          }
+        })
 
-      //     this.setState(newAuthor, () => {
-      //       console.log('auth: ', this.state)
-      //       // this.props.actions.resetCourses()
-      //       // this.props.actions.courses(this.state)
-      //       this.setState(initialState, console.log('AUTHORS'))
-      //     })
-      //     break
+        this.setState(newAuthor, () => {
+          this.props.actions.resetCourses()
+          this.props.actions.courses(this.state)
+        })
+        break
     }
   }
 
@@ -270,7 +276,9 @@ class CoursesContainer extends Component {
             <Card.Header>{item.courseName}</Card.Header>
             <Card.Meta>
               <Icon name="pencil" />
-              <a style={{padding: '0 20px 0 0'}}>{item.courseAuthor}</a>
+              <a style={{padding: '0 20px 0 0'}}>
+                {item.courseAuthor.username}
+              </a>
             </Card.Meta>
             <div className="description">{item.courseDescription}</div>
             <div

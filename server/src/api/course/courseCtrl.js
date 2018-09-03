@@ -1,17 +1,35 @@
-import Course from './courseModel.js'
+import mongoose from 'mongoose'
 import faker from 'faker'
 import cuid from 'cuid'
 import isEmpty from 'lodash/isEmpty'
 
-import mongoose from 'mongoose'
+import Course from './courseModel.js'
 
 exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
   const courseName = new RegExp(`${req.query.courseName}`, 'i')
   const courseRef = new RegExp(`${req.query.courseRef}`, 'i')
   const teachingLang = new RegExp(`${req.query.teachingLang}`, 'i')
+
   console.log('query: ', req.query)
+
   try {
+    // find courseAuthorId from name
+    if (req.query.courseAuthor) {
+      var courseAuthor = await Course.findByUsername(
+        req.query.courseAuthor,
+        (err, docs) => {
+          if (err) {
+            console.log('err: ', err)
+          }
+          if (!isEmpty(docs)) {
+            var courseAuthor = docs._id
+            console.log('course author: ', courseAuthor)
+          }
+        }
+      )
+    }
+
     // initial query
     if (!req.query.next) {
       var result = await Course.find({
@@ -19,6 +37,7 @@ exports.get = async (req, res, next) => {
         courseRef,
         teachingLang
       })
+        .populate('courseAuthor')
         .sort({_id: -1})
         .limit(limit)
 
@@ -33,7 +52,6 @@ exports.get = async (req, res, next) => {
       } else {
         var next = result[result.length - 1]._id
       }
-      console.log('res: ', result)
       res.json({result, next})
     } else {
       // remaining queries
@@ -76,7 +94,6 @@ exports.get = async (req, res, next) => {
       }
     }
   } catch (error) {
-    console.log('WTF WTF WTF WTF')
     console.log('err: ', error)
     res.json({result, next, err: error})
   }
@@ -169,9 +186,9 @@ exports.faker = (req, res, next) => {
       'french',
       'spanish'
     ])
+    course.subscribers = ['5b6b21e445912f4b8277bb06']
     course.courseId = cuid()
-    course.courseAuthor = '5b6b21e445912f4b8277bb06'
-    course.courseAuthorId = '5b6b21e445912f4b8277bb06'
+    course.courseAuthor = '5b8c152f15cc9e71f1d8f079'
     course.courseName = faker.commerce.productName()
     course.price = faker.commerce.price()
     course.courseDescription =

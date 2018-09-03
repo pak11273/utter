@@ -1,4 +1,5 @@
 import mongoose, {Schema} from 'mongoose'
+import User from '../user/userModel.js'
 
 const TermSchema = new Schema({
   course: {
@@ -57,10 +58,6 @@ const CourseSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    courseAuthorId: {
-      type: String,
-      default: ''
-    },
     courseMode: {
       type: String,
       default: 'draft'
@@ -112,6 +109,13 @@ const CourseSchema = mongoose.Schema(
 
 CourseSchema.index({courseName: 'text', courseDescription: 'text'})
 
+CourseSchema.statics.findByUsername = function(username, callback) {
+  var query = this.findOne()
+
+  User.findOne({username}).exec(callback)
+  return query
+}
+
 CourseSchema.virtual('id').get(function() {
   return this._id.toHexString()
 })
@@ -120,4 +124,4 @@ CourseSchema.set('toJSON', {
   virtuals: true
 })
 
-module.exports = mongoose.model('Course', CourseSchema)
+export default mongoose.model('Course', CourseSchema)
