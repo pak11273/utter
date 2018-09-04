@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken'
 import {AppContainer} from 'react-hot-loader'
 import {ConnectedRouter as Router} from 'react-router-redux'
 import LoadingBar from 'react-redux-loading-bar'
+import ReactGA from 'react-ga'
 
 import './assets/css/global-styles.js'
 import {routes} from './routes'
@@ -70,6 +71,13 @@ function checkAuth(nextState, replace) {
       }
     }
   }
+}
+
+// google analytics
+ReactGA.initialize('UA-125119993-1')
+function logPageView() {
+    ReactGA.set({page: window.location.pathname + window.location.search})
+        ReactGA.pageview(window.location.pathname + window.location.search)
 }
 
 // wrapped in AppContainer for react-hot-loader
