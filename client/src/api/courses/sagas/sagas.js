@@ -50,7 +50,7 @@ export function* fetchCourses(state) {
   }
 }
 
-function* resetCourses() {
+function* watchResetCourses() {
   yield all([takeLatest(types.COURSES_ASYNC.RESET, resetCourses)])
 }
 
@@ -58,4 +58,4 @@ function* watchCourses() {
   yield all([takeLatest(types.COURSES_ASYNC.REQUEST, fetchCourses)])
 }
 
-export default [resetCourses, watchCourses]
+export default [watchResetCourses, watchCourses]
