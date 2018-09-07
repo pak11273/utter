@@ -64,7 +64,7 @@ exports.get = async (req, res, next) => {
       })
         .sort({_id: -1})
         .limit(limit)
-      console.log('result: ', result)
+      console.log('result : ', result)
 
       var lastResultId = ''
       if (!isEmpty(lastResultId)) {
@@ -81,9 +81,10 @@ exports.get = async (req, res, next) => {
       }).sort({_id: 1})
 
       var lastOneId = lastOne._id.toString()
+      console.log('last result id: ', lastResultId)
       console.log('last: ', lastOneId)
 
-      if (lastResultId == lastOneId) {
+      if (isEmpty(result)) {
         next = 'done'
         res.json({result, next})
       } else {
