@@ -7,10 +7,6 @@ import * as types from '../types'
 
 import {fetchData} from '../../../utils/apiMgr'
 
-export function* resetCourses() {
-  yield put({type: types.COURSES_ASYNC.RESET})
-}
-
 export function* fetchCourses(state) {
   console.log('sagacoruse: ', state)
   try {
@@ -51,11 +47,12 @@ export function* fetchCourses(state) {
 }
 
 function* watchResetCourses() {
-  yield all([takeLatest(types.COURSES_ASYNC.RESET, resetCourses)])
+  // yield all([takeLatest(types.COURSES_ASYNC.RESET, resetCourses)])
+  console.log('hello world')
 }
 
 function* watchCourses() {
   yield all([takeLatest(types.COURSES_ASYNC.REQUEST, fetchCourses)])
 }
 
-export default [watchResetCourses, watchCourses]
+export default [watchCourses]

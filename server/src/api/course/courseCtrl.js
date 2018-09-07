@@ -33,20 +33,16 @@ exports.get = async (req, res, next) => {
     // initial query
     if (!req.query.next) {
       var result = await Course.find({
-        courseName,
-        courseRef,
-        teachingLang
+        $or: [{courseName}, {courseRef}, {teachingLang}]
       })
         .populate('courseAuthor')
         .sort({_id: -1})
         .limit(limit)
 
       var totalRecords = await Course.find({
-        courseName,
-        courseRef,
-        teachingLang
-      }).count()
-
+        $or: [{courseName}, {courseRef}, {teachingLang}]
+      }).countDocuments()
+      console.log('total: ', totalRecords)
       if (totalRecords <= limit) {
         var next = 'done'
       } else {
@@ -58,38 +54,41 @@ exports.get = async (req, res, next) => {
       let next
 
       // if one of the keys in the query array has value then do a search on that value
-      const value = req.params
       result = await Course.find({
-        courseName,
-        courseRef,
-        teachingLang,
-        _id: {$lt: req.query.next}
-      })
-
-      result = await Course.find({
-        courseName,
-        courseRef,
-        teachingLang,
-        _id: {$lt: req.query.next}
+        $and: [
+          {
+            $or: [{courseName}, {courseRef}, {teachingLang}]
+          },
+          {_id: {$lt: req.query.next}}
+        ]
       })
         .sort({_id: -1})
         .limit(limit)
+      console.log('result: ', result)
 
-      var lastResultId = result[result.length - 1]._id.toString()
+      var lastResultId = ''
+      if (!isEmpty(lastResultId)) {
+        lastResultId = result[result.length - 1]._id.toString()
+      }
 
       var lastOne = await Course.findOne({
-        courseName,
-        courseRef,
-        teachingLang
+        $or: [
+          {courseName},
+          {courseRef},
+          {teachingLang},
+          {_id: {$lt: req.query.next}}
+        ]
       }).sort({_id: 1})
 
       var lastOneId = lastOne._id.toString()
+      console.log('last: ', lastOneId)
 
       if (lastResultId == lastOneId) {
         next = 'done'
         res.json({result, next})
       } else {
         next = result[result.length - 1]._id
+        console.log('next: ', next)
         res.json({result, next})
       }
     }
@@ -359,7 +358,7 @@ exports.deleteLevel = (req, res, next) => {
       if (err) {
         console.log('err: ', err)
       }
-      course.update(
+      course.updateOne(
         {$pull: {levels: {_id: req.params.levelId}}},
         (err, deleted) => {
           res.json(deleted)

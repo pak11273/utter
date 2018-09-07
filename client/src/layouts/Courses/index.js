@@ -242,7 +242,9 @@ class CoursesContainer extends Component {
     }
   }
 
-  nextCourses = () => {
+  nextCourses = ({previousPos, currentPosition, event}) => {
+    console.log('prev: ', previousPos)
+    console.log('current: ', currentPosition)
     const newNext = this.props.coursesMeta.next
     // add next to local state
     const newState = update(this.state, {
@@ -265,6 +267,8 @@ class CoursesContainer extends Component {
 
   render() {
     const LangCard = this.props.courses.map(item => {
+      var author = ''
+      item.courseAuthor ? (author = item.courseAuthor) : null
       return (
         <Card key={item.id}>
           <Image
@@ -276,9 +280,7 @@ class CoursesContainer extends Component {
             <Card.Header>{item.courseName}</Card.Header>
             <Card.Meta>
               <Icon name="pencil" />
-              <a style={{padding: '0 20px 0 0'}}>
-                {item.courseAuthor.username}
-              </a>
+              <a style={{padding: '0 20px 0 0'}}>{author}</a>
             </Card.Meta>
             <div className="description">{item.courseDescription}</div>
             <div
@@ -323,8 +325,8 @@ class CoursesContainer extends Component {
             {LangCard}
           </Card.Group>
         </SemGrid>
-        {scrollMsg}
         {this.handleWaypoint()}
+        {scrollMsg}
       </div>
     )
 
