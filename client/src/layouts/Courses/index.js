@@ -243,8 +243,6 @@ class CoursesContainer extends Component {
   }
 
   nextCourses = ({previousPos, currentPosition, event}) => {
-    console.log('prev: ', previousPos)
-    console.log('current: ', currentPosition)
     const newNext = this.props.coursesMeta.next
     // add next to local state
     const newState = update(this.state, {

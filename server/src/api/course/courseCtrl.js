@@ -7,11 +7,20 @@ import Course from './courseModel.js'
 
 exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
-  const courseName = new RegExp(`${req.query.courseName}`, 'i')
-  const courseRef = new RegExp(`${req.query.courseRef}`, 'i')
-  const teachingLang = new RegExp(`${req.query.teachingLang}`, 'i')
+  // const courseName = new RegExp(`${req.query.courseName}`, 'i')
+  // const courseRef = new RegExp(`${req.query.courseRef}`, 'i')
+  // const teachingLang = new RegExp(`${req.query.teachingLang}`, 'i')
 
   console.log('query: ', req.query)
+  // query builder
+  var query = {}
+
+  if (req.query.courseName) {
+    query.courseName = new RegExp(`${req.query.courseName}`, 'i')
+  }
+  if (req.query.courseRef) {
+    query.courseRef = new RegExp(`${req.query.courseRef}`, 'i')
+  }
 
   try {
     // find courseAuthorId from name
@@ -32,16 +41,22 @@ exports.get = async (req, res, next) => {
 
     // initial query
     if (!req.query.next) {
-      var result = await Course.find({
-        $or: [{courseName}, {courseRef}, {teachingLang}]
-      })
+      var result = await Course.find(
+        // courseName: courseName,
+        // courseRef: courseRef,
+        // teachingLang: teachingLang
+        query
+      )
         .populate('courseAuthor')
         .sort({_id: -1})
         .limit(limit)
 
-      var totalRecords = await Course.find({
-        $or: [{courseName}, {courseRef}, {teachingLang}]
-      }).countDocuments()
+      var totalRecords = await Course.find(
+        // courseName: courseName,
+        // courseRef: courseRef,
+        // teachingLang: teachingLang
+        query
+      ).countDocuments()
       console.log('total: ', totalRecords)
       if (totalRecords <= limit) {
         var next = 'done'
@@ -54,35 +69,25 @@ exports.get = async (req, res, next) => {
       let next
 
       // if one of the keys in the query array has value then do a search on that value
-      result = await Course.find({
-        $and: [
-          {
-            $or: [{courseName}, {courseRef}, {teachingLang}]
-          },
-          {_id: {$lt: req.query.next}}
-        ]
-      })
+      query._id = {$lt: req.query.next}
+      result = await Course.find(query)
         .sort({_id: -1})
         .limit(limit)
-      console.log('result : ', result)
 
       var lastResultId = ''
+
       if (!isEmpty(lastResultId)) {
         lastResultId = result[result.length - 1]._id.toString()
       }
 
-      var lastOne = await Course.findOne({
-        $or: [
-          {courseName},
-          {courseRef},
-          {teachingLang},
-          {_id: {$lt: req.query.next}}
-        ]
-      }).sort({_id: 1})
+      var lastOne = await Course.findOne(query).sort({_id: 1})
+      console.log('new query: ', query)
+      console.log('result: ', result)
+      console.log('lastOne: ', lastOne)
 
-      var lastOneId = lastOne._id.toString()
+      // var lastOneId = lastOne._id.toString()
       console.log('last result id: ', lastResultId)
-      console.log('last: ', lastOneId)
+      // console.log('last: ', lastOneId)
 
       if (isEmpty(result)) {
         next = 'done'
