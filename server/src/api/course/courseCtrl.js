@@ -7,11 +7,9 @@ import Course from './courseModel.js'
 
 exports.get = async (req, res, next) => {
   const limit = parseInt(req.query.limit, 10)
-  // const courseName = new RegExp(`${req.query.courseName}`, 'i')
-  // const courseRef = new RegExp(`${req.query.courseRef}`, 'i')
-  // const teachingLang = new RegExp(`${req.query.teachingLang}`, 'i')
 
   console.log('query: ', req.query)
+
   // query builder
   var query = {}
 
@@ -21,6 +19,15 @@ exports.get = async (req, res, next) => {
   if (req.query.courseRef) {
     query.courseRef = new RegExp(`${req.query.courseRef}`, 'i')
   }
+  if (req.query.courseAuthor) {
+    query.courseAuthor = req.query.courseAuthor
+  }
+  if (req.query.nativeLang) {
+    query.nativeLang = req.query.nativeLang
+  }
+  if (req.query.teachingLang) {
+    query.teachingLang = req.query.teachingLang
+  }
 
   try {
     // find courseAuthorId from name
@@ -29,49 +36,46 @@ exports.get = async (req, res, next) => {
         req.query.courseAuthor,
         (err, docs) => {
           if (err) {
-            console.log('err: ', err)
+            // console.log doesn't work here
           }
           if (!isEmpty(docs)) {
             var courseAuthor = docs._id
             console.log('course author: ', courseAuthor)
+            query.courseAuthor = courseAuthor
           }
         }
       )
     }
 
+    console.log('QUERY: ', query)
+
     // initial query
-    if (!req.query.next) {
-      var result = await Course.find(
-        // courseName: courseName,
-        // courseRef: courseRef,
-        // teachingLang: teachingLang
-        query
-      )
+    console.log('initial query')
+    if (!req.query.next || req.query.next === 'done') {
+      var result = await Course.find(query)
         .populate('courseAuthor')
         .sort({_id: -1})
         .limit(limit)
 
-      var totalRecords = await Course.find(
-        // courseName: courseName,
-        // courseRef: courseRef,
-        // teachingLang: teachingLang
-        query
-      ).countDocuments()
-      console.log('total: ', totalRecords)
+      var totalRecords = await Course.find(query).countDocuments()
+
       if (totalRecords <= limit) {
         var next = 'done'
       } else {
         var next = result[result.length - 1]._id
       }
+      console.log('result: ', result)
       res.json({result, next})
     } else {
       // remaining queries
+      console.log('remaining queries')
       let next
 
       // if one of the keys in the query array has value then do a search on that value
       query._id = {$lt: req.query.next}
       result = await Course.find(query)
         .sort({_id: -1})
+        .populate('courseAuthor')
         .limit(limit)
 
       var lastResultId = ''
@@ -79,15 +83,6 @@ exports.get = async (req, res, next) => {
       if (!isEmpty(lastResultId)) {
         lastResultId = result[result.length - 1]._id.toString()
       }
-
-      var lastOne = await Course.findOne(query).sort({_id: 1})
-      console.log('new query: ', query)
-      console.log('result: ', result)
-      console.log('lastOne: ', lastOne)
-
-      // var lastOneId = lastOne._id.toString()
-      console.log('last result id: ', lastResultId)
-      // console.log('last: ', lastOneId)
 
       if (isEmpty(result)) {
         next = 'done'
@@ -99,7 +94,8 @@ exports.get = async (req, res, next) => {
       }
     }
   } catch (error) {
-    console.log('err: ', error)
+    // console.log('err: ', error)
+    next = 'done'
     res.json({result, next, err: error})
   }
 }
@@ -191,9 +187,18 @@ exports.faker = (req, res, next) => {
       'french',
       'spanish'
     ])
+    course.nativeLang = faker.random.arrayElement([
+      'korean',
+      'french',
+      'spanish'
+    ])
     course.subscribers = ['5b6b21e445912f4b8277bb06']
     course.courseId = cuid()
-    course.courseAuthor = '5b8c152f15cc9e71f1d8f079'
+    course.courseAuthor = faker.random.arrayElement([
+      '5b9012f043aa4329f187f01a',
+      '5b93f90c4d034f51d0e72286',
+      '5b93f9184d034f51d0e72287'
+    ])
     course.courseName = faker.commerce.productName()
     course.price = faker.commerce.price()
     course.courseDescription =

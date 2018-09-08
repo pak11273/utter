@@ -266,7 +266,7 @@ class CoursesContainer extends Component {
   render() {
     const LangCard = this.props.courses.map(item => {
       var author = ''
-      item.courseAuthor ? (author = item.courseAuthor) : null
+      item.courseAuthor.username ? (author = item.courseAuthor.username) : null
       return (
         <Card key={item.id}>
           <Image
@@ -281,6 +281,7 @@ class CoursesContainer extends Component {
               <a style={{padding: '0 20px 0 0'}}>{author}</a>
             </Card.Meta>
             <div className="description">{item.courseDescription}</div>
+            {/* TODO
             <div
               style={{
                 color: 'white',
@@ -290,6 +291,7 @@ class CoursesContainer extends Component {
               }}>
               Subscribed
             </div>
+            */}
           </Card.Content>
           <Card.Content extra>
             <Icon name="user" />
@@ -338,7 +340,11 @@ class CoursesContainer extends Component {
                 name="form-field-name"
                 value={this.state.nativeLang}
                 onChange={this.handleSpeakingChange}
-                options={[{value: 'english', label: 'English'}]}
+                options={[
+                  {value: 'english', label: 'English'},
+                  {value: 'spanish', label: 'Spanish'},
+                  {value: 'french', label: 'French'}
+                ]}
               />
             </Box>
             <Subtitle>I want to learn:</Subtitle>
