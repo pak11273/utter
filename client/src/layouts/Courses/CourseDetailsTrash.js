@@ -7,7 +7,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 // actions
-import {addCourse, loadUserProfile} from '../Connections/actions.js'
+import {addCourse, loadUserProfile} from '../Zones/actions.js'
 
 class CourseDetails extends Component {
   constructor(props) {
@@ -135,4 +135,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseDetails)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CourseDetails)

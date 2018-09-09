@@ -291,7 +291,7 @@ class CoursesContainer extends Component {
           </Card.Content>
           <Card.Content extra>
             <Icon name="user" />
-            <span style={{padding: '0 20px 0 0'}}>22 Subscribers</span>
+            <span style={{padding: '0 20px 0 0'}}>{item.subscribers}</span>
             <p>
               <Icon name="book" />
               <span style={{padding: '0 20px 0 0'}}>{item.courseRef}</span>

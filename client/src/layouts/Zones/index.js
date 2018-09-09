@@ -25,7 +25,7 @@ import {ad} from '../../services/index.js'
 import {loadUserProfile} from './actions.js'
 import {setAuthor} from '../../containers/ChatPanel/actions.js'
 
-class Connections extends Component {
+class Zones extends Component {
   constructor() {
     super()
   }
@@ -117,4 +117,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Connections)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Zones)

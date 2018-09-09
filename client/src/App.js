@@ -76,8 +76,8 @@ function checkAuth(nextState, replace) {
 // google analytics
 ReactGA.initialize('UA-125119993-1')
 function logPageView() {
-    ReactGA.set({page: window.location.pathname + window.location.search})
-        ReactGA.pageview(window.location.pathname + window.location.search)
+  ReactGA.set({page: window.location.pathname + window.location.search})
+  ReactGA.pageview(window.location.pathname + window.location.search)
 }
 
 // wrapped in AppContainer for react-hot-loader
@@ -96,13 +96,7 @@ class App extends Component {
                 <StyledGrid style={{minHeight: '100vh'}}>
                   <MainNavbar
                     gridarea="navBar"
-                    list={[
-                      'about',
-                      'contact',
-                      'courses',
-                      'pricing',
-                      'connections'
-                    ]}
+                    list={['about', 'contact', 'courses', 'pricing', 'zones']}
                     changeMenuOn="640px"
                     largeMenuClassName="large-menu"
                     smallMenuClassName="small-menu"

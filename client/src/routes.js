@@ -2,7 +2,7 @@ import {
   Admin,
   Home,
   About,
-  Connections,
+  Zones,
   Contact,
   ForgotPassword,
   GettingStarted,
@@ -184,8 +184,8 @@ export const routes = [
   // },
   {
     exact: true,
-    path: '/Connections',
-    component: requireAuth(Connections)
+    path: '/Zones',
+    component: requireAuth(Zones)
   }
   // {
   //   path: '/korean/1',

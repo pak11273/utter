@@ -51,8 +51,10 @@ exports.get = async (req, res, next) => {
 
     // initial query
     console.log('initial query')
+
     if (!req.query.next || req.query.next === 'done') {
       var result = await Course.find(query)
+        .select('courseName courseDescription courseRef')
         .populate('courseAuthor')
         .sort({_id: -1})
         .limit(limit)
@@ -64,7 +66,7 @@ exports.get = async (req, res, next) => {
       } else {
         var next = result[result.length - 1]._id
       }
-      console.log('result: ', result)
+
       res.json({result, next})
     } else {
       // remaining queries

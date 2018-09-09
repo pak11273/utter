@@ -16,7 +16,9 @@ function GettingStarted(props) {
           <li>First go over the syllabus</li>
           <li>Briefly look at vocabulary</li>
           <li>Briefly go over any grammar</li>
-          <li><Link to="/Connections">Start Speaking!</Link></li>
+          <li>
+            <Link to="/Zones">Start Speaking!</Link>
+          </li>
         </ol>
       </Masthead>
     </Wrapper>

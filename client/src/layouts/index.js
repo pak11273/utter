@@ -6,7 +6,7 @@ import Contact from './Contact.js'
 import ForgotPassword from './ForgotPassword.js'
 import Test from './Test'
 import GettingStarted from './GettingStarted.js'
-import Connections from '../layouts/Connections/index.js'
+import Zones from '../layouts/Zones/index.js'
 import Login from './Login'
 import Settings from './Settings'
 import ShoppingCart from './ShoppingCart/components'
@@ -49,7 +49,7 @@ export {
   ForgotPassword,
   GettingStarted,
   Test,
-  Connections,
+  Zones,
   Login,
   MyCourses,
   CoursesCreate,
