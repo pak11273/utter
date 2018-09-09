@@ -192,7 +192,29 @@ exports.faker = (req, res, next) => {
       'french',
       'spanish'
     ])
-    course.subscribers = ['5b6b21e445912f4b8277bb06']
+    course.subscribers = faker.random.arrayElement([
+      ['5b6b21e445912f4b8277bb06'],
+      ['5b6b21e445912f4b8277bb06', '5b9012f043aa4329f187f01a'],
+      [
+        '5b6b21e445912f4b8277bb06',
+        '5b93f9184d034f51d0e72287',
+        '5b9012f043aa4329f187f01a'
+      ],
+      ['5b9012f043aa4329f187f01a'],
+      ['5b9012f043aa4329f187f01a', '5b93f9184d034f51d0e72287'],
+      [
+        '5b9012f043aa4329f187f01a',
+        '5b6b21e445912f4b8277bb06',
+        '5b93f9184d034f51d0e72287'
+      ],
+      ['5b93f9184d034f51d0e72287'],
+      ['5b93f9184d034f51d0e72287', '5b6b21e445912f4b8277bb06'],
+      [
+        '5b93f9184d034f51d0e72287',
+        '5b9012f043aa4329f187f01a',
+        '5b93f9184d034f51d0e72287'
+      ]
+    ])
     course.courseId = cuid()
     course.courseAuthor = faker.random.arrayElement([
       '5b9012f043aa4329f187f01a',

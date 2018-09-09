@@ -124,9 +124,7 @@ class CoursesContainer extends Component {
         teachingLang: {$set: teachingLang.value}
       })
 
-      this.setState(newState, () => {
-        console.log('teaching: ', this.state)
-      })
+      this.setState(newState)
       // Make api call
       //TODO   this.props.actions.courses(this.state)
     }
@@ -148,7 +146,7 @@ class CoursesContainer extends Component {
     const newState = update(this.state, {
       courseProp: {$set: data.value}
     })
-    this.setState(newState, console.log('course Prop: ', this.state))
+    this.setState(newState)
   }
 
   handleInputChg = (e, data) => {
@@ -162,8 +160,6 @@ class CoursesContainer extends Component {
 
   submitQuery = e => {
     e.preventDefault()
-
-    // this.setState(initialState, () => console.log('init: ', this.state))
 
     // change state props based on courseProp
     const courseProp = this.state.courseProp
