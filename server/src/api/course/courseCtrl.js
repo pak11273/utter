@@ -47,17 +47,36 @@ exports.get = async (req, res, next) => {
       )
     }
 
-    console.log('QUERY: ', query)
+    // console.log('QUERY: ', query)
 
     // initial query
     console.log('initial query')
 
     if (!req.query.next || req.query.next === 'done') {
-      var result = await Course.find(query)
-        .select('courseName courseDescription courseRef')
-        .populate('courseAuthor')
-        .sort({_id: -1})
-        .limit(limit)
+      // var result = await Course.find(query)
+      //   .select('courseName courseDescription courseRef')
+      //   .populate('courseAuthor')
+      //   .sort({_id: -1})
+      //   .limit(limit)
+
+      var prePopResult = await Course.aggregate([
+        {$match: query},
+        {
+          $project: {
+            courseName: 1,
+            courseDescription: 1,
+            courseRef: 1,
+            courseAuthor: 1,
+            subscribers: {$size: '$subscribers'}
+          }
+        },
+        {$sort: {_id: -1}},
+        {$limit: limit}
+      ])
+
+      var result = await Course.populate(prePopResult, {
+        path: 'courseAuthor'
+      })
 
       var totalRecords = await Course.find(query).countDocuments()
 
@@ -74,11 +93,36 @@ exports.get = async (req, res, next) => {
       let next
 
       // if one of the keys in the query array has value then do a search on that value
-      query._id = {$lt: req.query.next}
-      result = await Course.find(query)
-        .sort({_id: -1})
-        .populate('courseAuthor')
-        .limit(limit)
+      // query._id = {$lt: req.query.next}
+      // result = await Course.find(query)
+      //   .sort({_id: -1})
+      //   .populate('courseAuthor')
+      //   .limit(limit)
+
+      // type cast id
+      var next = mongoose.Types.ObjectId(req.query.next)
+      // add to query object
+      query._id = {$lt: next}
+
+      console.log('query: ', query)
+      var prePopResult = await Course.aggregate([
+        {$match: query},
+        {$sort: {_id: -1}},
+        {$limit: limit},
+        {
+          $project: {
+            courseName: 1,
+            courseDescription: 1,
+            courseRef: 1,
+            courseAuthor: 1,
+            subscribers: {$size: '$subscribers'}
+          }
+        }
+      ])
+
+      var result = await Course.populate(prePopResult, {
+        path: 'courseAuthor'
+      })
 
       var lastResultId = ''
 
