@@ -47,18 +47,9 @@ exports.get = async (req, res, next) => {
       )
     }
 
-    // console.log('QUERY: ', query)
-
     // initial query
-    console.log('initial query')
 
     if (!req.query.next || req.query.next === 'done') {
-      // var result = await Course.find(query)
-      //   .select('courseName courseDescription courseRef')
-      //   .populate('courseAuthor')
-      //   .sort({_id: -1})
-      //   .limit(limit)
-
       var prePopResult = await Course.aggregate([
         {$match: query},
         {
@@ -92,14 +83,7 @@ exports.get = async (req, res, next) => {
       console.log('remaining queries')
       let next
 
-      // if one of the keys in the query array has value then do a search on that value
-      // query._id = {$lt: req.query.next}
-      // result = await Course.find(query)
-      //   .sort({_id: -1})
-      //   .populate('courseAuthor')
-      //   .limit(limit)
-
-      // type cast id
+      // type cast id, $lt is not the same in aggregate vs query
       var next = mongoose.Types.ObjectId(req.query.next)
       // add to query object
       query._id = {$lt: next}
@@ -234,7 +218,7 @@ exports.faker = (req, res, next) => {
       'spanish'
     ])
     course.nativeLang = faker.random.arrayElement([
-      'korean',
+      'english',
       'french',
       'spanish'
     ])
