@@ -3,8 +3,40 @@ import {all, call, put, take, takeLatest} from 'redux-saga/effects'
 import axios from 'axios'
 import {fetchData} from '../../../utils/apiMgr'
 
-// actions
+// types
 import * as types from '../types'
+
+// CREATE
+function* createTeachingCourse(course) {
+  console.log('course: ', course)
+  try {
+    const data = yield call(() => {
+      return axios({
+        method: 'post',
+        url: '/api/courses',
+        data: {
+          course
+        }
+      })
+        .then(res => {
+          return res
+        })
+        .catch(err => {
+          throw err.response.data.error
+        })
+    })
+    console.log('data: ', data)
+    yield put({
+      type: types.COURSE_ASYNC.SUCCESS,
+      payload: data
+    })
+  } catch (error) {
+    yield put({
+      type: types.COURSE_ASYNC.ERROR,
+      payload: error
+    })
+  }
+}
 
 export function* fetchTeachingCourse(state) {
   const {courseAuthorId, courseId, courseName} = state
@@ -98,6 +130,7 @@ export function* updateTeachingCourse(state) {
 
 function* watchCourse() {
   yield all([
+    takeLatest(types.COURSE_ASYNC.CREATE, createTeachingCourse),
     takeLatest(types.COURSE_ASYNC.REQUEST, fetchTeachingCourse),
     takeLatest(types.COURSE_ASYNC.UPDATE, updateTeachingCourse)
   ])

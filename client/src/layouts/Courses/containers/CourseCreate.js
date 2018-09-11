@@ -3,7 +3,9 @@ import {NavLink, withRouter} from 'react-router-dom'
 import {bindActionCreators} from 'redux'
 import {push} from 'react-router-redux'
 import {connect} from 'react-redux'
+import cloneDeep from 'lodash/cloneDeep'
 import styled from 'styled-components'
+import update from 'immutability-helper'
 import {validateInput} from '../../../utils/validations/courseCreate.js'
 import {addFlashMessage} from '../../../app/actions/flashMessages.js'
 import validator from 'validator'
@@ -35,11 +37,7 @@ import orm from '../../../app/schema.js'
 
 // actions
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
-import {
-  fetchCourseName,
-  resetCourseCreateForm,
-  loadCurrentTeachingCourse
-} from '../actions.js'
+import {fetchCourseName, loadCurrentTeachingCourse} from '../actions.js'
 
 import course from '../../../api/course/actions/courseActions.js'
 
@@ -144,7 +142,12 @@ class CreateCourse extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
-    this.props.actions.resetCourseCreateForm()
+
+    const newState = update(this.state, {
+      courseAuthorId: {$set: this.props.user.id}
+    })
+
+    this.setState(newState)
   }
 
   componentWillUnmount() {
@@ -325,7 +328,7 @@ class CreateCourse extends Component {
 const mapStateToProps = state => {
   const session = orm.session(state.entitiesReducer)
   const {User} = session
-  const user = User
+  const user = User.first().ref
 
   return {
     user,
@@ -339,7 +342,6 @@ const mapDispatchToProps = dispatch => {
       {
         addFlashMessage,
         createCourse: course.create,
-        resetCourseCreateForm,
         fetchCourseName,
         toggleFooter,
         push,

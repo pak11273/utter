@@ -271,12 +271,16 @@ class CoursesContainer extends Component {
             style={{cursor: 'pointer'}}
           />
           <Card.Content>
-            <Card.Header>{item.courseName}</Card.Header>
+            <Card.Header style={{wordBreak: 'break-word'}}>
+              {item.courseName}
+            </Card.Header>
             <Card.Meta>
               <Icon name="pencil" />
               <a style={{padding: '0 20px 0 0'}}>{author}</a>
             </Card.Meta>
-            <div className="description">{item.courseDescription}</div>
+            <div className="description" style={{wordBreak: 'break-word'}}>
+              {item.courseDescription}
+            </div>
             {/* TODO
             <div
               style={{

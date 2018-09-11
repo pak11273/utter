@@ -145,10 +145,6 @@ const requestCourseNameError = error => {
   return {type: 'REQUESTED_COURSE_NAME_FAIL', error}
 }
 
-const resetCourseCreateForm = () => {
-  return {type: 'RESET_COURSE_CREATE_FORM'}
-}
-
 const loadCurrentTeachingCourse = course => {
   return {type: 'LOAD_CURRENT_TEACHING_COURSE', course}
 }
@@ -176,6 +172,5 @@ export {
   fetchCourseName,
   requestCourseNameError,
   requestCourseNameSuccess,
-  resetCourseCreateForm,
   loadCurrentTeachingCourse
 }

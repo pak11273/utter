@@ -51,34 +51,6 @@ function* changeCoursePg(action) {
   }
 }
 
-// CREATE
-function* watchCreateCourse() {
-  yield takeLatest('CREATE_COURSE', createCourse)
-}
-
-function* createCourse(action) {
-  try {
-    const data = yield call(() => {
-      return axios({
-        method: 'post',
-        url: '/api/courses',
-        data: {
-          course: action.course
-        }
-      })
-        .then(res => {
-          return res
-        })
-        .catch(err => {
-          throw err.response.data.error
-        })
-    })
-    yield put(createCourseSuccess(data))
-  } catch (error) {
-    yield put(createCourseFail(error))
-  }
-}
-
 // READ
 // moved to api/course sagas
 // function* watchFetchCourse() {
@@ -276,7 +248,6 @@ function* getCourseNameAsync(action) {
 }
 
 export default [
-  watchCreateCourse,
   // watchFetchCourse,
   watchDeleteCourse,
   watchDeleteLevel,

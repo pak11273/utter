@@ -163,10 +163,10 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.post = (req, res, next) => {
-  console.log('req: ', req.body)
-  // let courseAuthorCasted = mongoose.Types.ObjectId(req.body.courseAuthor)
-  // req.body.course.courseAuthor = courseAuthorCasted
   let newCourse = req.body.course
+  newCourse.courseAuthor = {
+    _id: req.body.course.courseAuthorId
+  }
   Course.create(newCourse).then(
     course => {
       res.json(course)
