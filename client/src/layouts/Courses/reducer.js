@@ -12,9 +12,9 @@ import {
   FETCH_TEACHING_LIST,
   GET_TEACHING_LIST_FAIL,
   GET_TEACHING_LIST_SUCCESS,
-  READ_COURSE,
-  READ_COURSE_SUCCESS,
-  READ_COURSE_FAIL,
+  FETCH_COURSE,
+  FETCH_COURSE_SUCCESS,
+  FETCH_COURSE_FAIL,
   COURSE_NAME_ASYNC_SUCCESS,
   REQUESTED_COURSE_NAME,
   REQUESTED_COURSE_NAME_FAILED,
@@ -172,7 +172,7 @@ export default (state = initialState, action) => {
         ...state.teachingCourseList,
         teachingCourseList: action.data
       }
-    case 'READ_COURSE_SUCCESS':
+    case 'FETCH_COURSE_SUCCESS':
       // TODO: normalize data
       // const term = new schema.Entity('terms')
 
@@ -204,7 +204,7 @@ export default (state = initialState, action) => {
           ...action.course
         }
       }
-    case 'READ_COURSE_FAIL':
+    case 'FETCH_COURSE_FAIL':
       return {
         ...state,
         create: {

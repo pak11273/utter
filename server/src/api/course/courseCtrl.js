@@ -131,15 +131,10 @@ exports.get = async (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
-  //populate doesn't return a promise, so call exec()
-  // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
-  // Course.find().populate('subscribers').exec().then(
-  console.log('creatorId: ', req.params.courseAuthorId)
-  console.log('courseId: ', req.params.courseId)
   if (req.params.courseId) {
     Course.findOne({
-      courseId: req.params.courseId,
-      courseAuthorId: req.params.courseAuthorId
+      _id: req.params.courseId,
+      courseAuthor: req.params.courseAuthorId
     }).then(
       course => {
         res.json({course})
@@ -168,6 +163,9 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.post = (req, res, next) => {
+  console.log('req: ', req.body)
+  // let courseAuthorCasted = mongoose.Types.ObjectId(req.body.courseAuthor)
+  // req.body.course.courseAuthor = courseAuthorCasted
   let newCourse = req.body.course
   Course.create(newCourse).then(
     course => {

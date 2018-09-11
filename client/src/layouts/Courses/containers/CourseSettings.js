@@ -242,8 +242,6 @@ const mapStateToProps = state => {
 
   let course = Course.first().ref
 
-  // Now that we have an array of all pilot objects, return it as a prop
-  // return {users}
   return {course}
 }
 
@@ -253,4 +251,7 @@ const actions = {
   updateSettings: updateSettings.update
 }
 
-export default connect(mapStateToProps, actions)(CourseSettings)
+export default connect(
+  mapStateToProps,
+  actions
+)(CourseSettings)

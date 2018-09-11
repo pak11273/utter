@@ -3,20 +3,32 @@ import {NavLink, Link, Route, withRouter} from 'react-router-dom'
 import {push} from 'react-router-redux'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import cloneDeep from 'lodash/cloneDeep'
+import update from 'immutability-helper'
+import Waypoint from 'react-waypoint'
 import Select from 'react-select'
 import orm from '../../../app/schema.js'
 import {isEmpty} from 'lodash/isEmpty'
 import styled, {ThemeProvider} from 'styled-components'
-import {Card, Container, Grid as SGrid, Icon, Image} from 'semantic-ui-react'
-import {Pagination, Staticbar} from '../../../containers'
+import {
+  Card,
+  Container,
+  Grid as SemGrid,
+  Button,
+  Icon,
+  Image,
+  Item,
+  Segment
+} from 'semantic-ui-react'
+import {Staticbar} from '../../../containers'
 import {Box, Flex, Grid, Img, Subtitle, Title, Text} from '../../../components'
 import IoPeople from 'react-icons/lib/io/android-people'
 import '../../../assets/css/pagination.css'
 
 // actions
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
+import courses from '../../../api/courses/actions/coursesActions.js'
 import course from '../../../api/course/actions/courseActions.js'
-// import {getTeachingList, readCourse} from '../actions.js'
 
 const StyledGrid = styled(Grid)`
   grid-template-areas:
@@ -29,71 +41,82 @@ const StyledGrid = styled(Grid)`
     grid-template-areas: 'sidebar content';
   }
 `
-const teachingCard = styled(Grid)`
-  background: blue;
-  max-width: 300px;
-`
 const StyledNavLink = styled(NavLink)`
   padding: 0 0 20px 0;
   &:hover {
     color: green;
   }
 `
+const initialState = {
+  search: '',
+  courseAuthor: 'brad',
+  courseInput: '',
+  courseName: '',
+  courseProp: 'title',
+  couresRef: '',
+  teachingLang: '',
+  nativeLang: '',
+  items: '',
+  limit: 3,
+  next: ''
+}
 
 class Created extends Component {
   constructor(props) {
-    super(props) // an example array of 150 items to be paged
-    // var exampleItems = [...Array(20).keys()].map(i => ({
-    //   id: i + 1,
-    //   name: 'Item ' + (i + 1)
-    // }))
-    this.state = {
-      courseAuthorId: '',
-      courseId: '',
-      courseName: '',
-      page: 1,
-      total: 10,
-      exampleItems: [],
-      pageOfItems: []
-    }
-    this.onChangePage = this.onChangePage.bind(this)
-    this.list = props.courseReducer.teachingCourseList
-    this.pushUrl = this.pushUrl.bind(this)
+    super(props)
+
+    this.state = cloneDeep(initialState)
   }
 
-  pushUrl(item) {
-    let url = `/my-courses/${item.courseId}/${item.courseName}/edit`
-    // this.props.actions.readCourse(item)
-    this.props.actions.push(url)
-  }
+  componentDidMount() {
+    this.props.actions.toggleFooter(false)
+    const newState = update(this.state, {
+      courseAuthor: {$set: this.props.user.username}
+    })
 
-  componentWillMount() {
-    // this.props.actions.getTeachingList()
-  }
-  componentWillUnmount() {
-    this.props.actions.toggleFooter(true)
-  }
-
-  onChangePage(pageOfItems) {
-    // update state with new page of items
-    this.setState({pageOfItems: pageOfItems})
+    this.setState(newState, () => {
+      this.props.actions.resetCourses()
+      this.props.actions.courses(this.state)
+    })
   }
 
   onClick(e, item) {
     e.preventDefault()
-    const courseAuthorId = this.props.user.id
-    const courseId = item.courseId
-    const courseName = item.courseName
-    this.setState(
-      {
-        courseAuthorId,
-        courseId,
-        courseName
-      },
-      function() {
-        this.props.actions.fetchTeachingCourse(this.state)
-      }
-    )
+  }
+
+  nextCourses = ({previousPos, currentPosition, event}) => {
+    const newNext = this.props.coursesMeta.next
+    // add next to local state
+    const newState = update(this.state, {
+      next: {$set: newNext}
+    })
+    this.setState(newState, () => {
+      // api more courses
+      this.props.actions.courses(this.state)
+    })
+  }
+
+  handleClick = (e, data) => {
+    e.preventDefault()
+
+    const newState = update(this.state, {
+      courseAuthorId: {$set: this.props.user.id},
+      courseId: {$set: data.item.id},
+      courseName: {$set: data.item.courseName}
+    })
+
+    this.setState(newState, () => {
+      this.props.actions.fetchTeachingCourse(this.state)
+    })
+  }
+
+  handleWaypoint = () => {
+    if (
+      !this.props.coursesMeta.loading &&
+      this.props.coursesMeta.next !== 'done'
+    ) {
+      return <Waypoint onEnter={this.nextCourses} />
+    }
   }
 
   render() {
@@ -101,38 +124,74 @@ class Created extends Component {
     //   var courses = this.props.courseReducer.teachingCourseList.result.docs
     // }
     const LangCard = this.props.courses.map(item => {
+      var author = ''
+      item.courseAuthor.username ? (author = item.courseAuthor.username) : null
       return (
         <Card key={item.id}>
-          <div className="image">
-            <Image
-              src={item.image}
-              onClick={e => this.onClick(e, item)}
-              style={{cursor: 'pointer'}}
-            />
-          </div>
+          <Image
+            src={item.image}
+            onClick={this.handleClick}
+            style={{cursor: 'pointer'}}
+          />
           <Card.Content>
-            <Card.Header
-              onClick={e => this.onClick(e, item)}
-              style={{cursor: 'pointer', hover: 'underline'}}>
-              {item.courseName}
+            <Card.Header>
+              <Button onClick={this.handleClick} item={item}>
+                {item.courseName}
+              </Button>
             </Card.Header>
             <Card.Meta>
-              <span className="date">Joined in 2013</span>
+              <Icon name="pencil" />
+              <a style={{padding: '0 20px 0 0'}}>{author}</a>
             </Card.Meta>
             <div className="description">{item.courseDescription}</div>
+            {/* TODO
+            <div
+              style={{
+                color: 'white',
+                background: 'red',
+                padding: '4px',
+                textAlign: 'center'
+              }}>
+              Subscribed
+            </div>
+            */}
           </Card.Content>
           <Card.Content extra>
-            <a style={{padding: '0 20px 0 0'}}>
-              <Icon name="user" />
-              22 Subscribers
-            </a>
-            <span style={{color: 'white', background: 'red', padding: '4px'}}>
-              Subscribed
-            </span>
+            <Icon name="user" />
+            <span style={{padding: '0 20px 0 0'}}>{item.subscribers}</span>
+            <p>
+              <Icon name="book" />
+              <span style={{padding: '0 20px 0 0'}}>{item.courseRef}</span>
+            </p>
           </Card.Content>
         </Card>
       )
     })
+    if (this.props.coursesMeta.next !== 'done') {
+      var scrollMsg = (
+        <SemGrid centered style={{margin: '0 0 40px 0'}}>
+          <Segment compact loading={this.props.coursesMeta.loading}>
+            Scroll down for more
+          </Segment>
+        </SemGrid>
+      )
+    } else {
+      var scrollMsg = <div />
+    }
+
+    var renderGrid
+
+    renderGrid = (
+      <div>
+        <SemGrid style={{padding: '40px'}}>
+          <Card.Group stackable itemsPerRow={3}>
+            {LangCard}
+          </Card.Group>
+        </SemGrid>
+        {this.handleWaypoint()}
+        {scrollMsg}
+      </div>
+    )
     return (
       <StyledGrid>
         <Staticbar>
@@ -145,11 +204,10 @@ class Created extends Component {
           </Flex>
         </Staticbar>
         <Grid gridarea="content" gridtemplaterows="100px auto">
-          <Title>Edit a Course</Title>
-          <Container>
-            <Card.Group itemsPerRow={3}>{LangCard}</Card.Group>
-            <Pagination defaultActivePage={1} totalPages={10} />
-          </Container>
+          <Item align="center">
+            <Title>Edit a Course</Title>
+          </Item>
+          {renderGrid}
         </Grid>
       </StyledGrid>
     )
@@ -166,7 +224,8 @@ const mapStateToProps = state => {
   return {
     user,
     courses,
-    courseReducer: state.courseReducer
+    courseReducer: state.courseReducer,
+    coursesMeta: state.coursesReducer
   }
 }
 
@@ -174,10 +233,10 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        // getTeachingList,
+        courses: courses.request,
         fetchTeachingCourse: course.request,
         push,
-        // readCourse,
+        resetCourses: courses.reset,
         toggleFooter
       },
       dispatch

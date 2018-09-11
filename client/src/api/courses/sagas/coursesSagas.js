@@ -7,22 +7,16 @@ import * as types from '../types'
 
 import {fetchData} from '../../../utils/apiMgr'
 
-export function* resetCourses() {
-  yield put({
-    type: types.COURSES_ASYNC.RESET
-  })
-}
-
 export function* fetchCourses(state) {
   try {
-    const url = 'api/courses'
+    const url = '/api/courses'
     const method = 'get'
     const data = null
     const cb = null
     const params = state
 
     /**
-     * @param {string} url ex.'/teaching-course/:courseAuthorId/:courseId/:courseName'
+     * @param {string} url ex.'/my-courses/:courseAuthorId/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
@@ -49,10 +43,6 @@ export function* fetchCourses(state) {
     }
   } finally {
   }
-}
-
-function* watchResetCourses() {
-  yield all([takeLatest(types.COURSES_ASYNC.RESET, resetCourses)])
 }
 
 function* watchCourses() {

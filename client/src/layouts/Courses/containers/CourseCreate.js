@@ -31,14 +31,17 @@ import {
 // images
 import transLoader from '../../../assets/images/trans_loader.gif'
 
+import orm from '../../../app/schema.js'
+
 // actions
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 import {
-  createCourse,
   fetchCourseName,
   resetCourseCreateForm,
   loadCurrentTeachingCourse
 } from '../actions.js'
+
+import course from '../../../api/course/actions/courseActions.js'
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -118,23 +121,25 @@ const StyledGrid = styled(Grid)`
       'tags tags';
   }
 `
+
+const initialState = {
+  charCount: 0,
+  courseId: cuid(),
+  courseAuthorId: '',
+  courseDescription: '',
+  courseName: '',
+  levels: [{level: 1, cuid: cuid()}],
+  displayName: '',
+  errors: {},
+  loading: false,
+  tags: [],
+  teachingLang: '',
+  usingLang: ''
+}
 class CreateCourse extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      charCount: 0,
-      courseId: cuid(),
-      // courseAuthorId: this.props.userReducer.user._id,
-      courseDescription: '',
-      courseName: '',
-      levels: [{level: 1, cuid: cuid()}],
-      displayName: '',
-      errors: {},
-      loading: false,
-      tags: [],
-      teachingLang: '',
-      usingLang: ''
-    }
+    this.state = cloneDeep(initialState)
   }
 
   componentDidMount() {
@@ -176,14 +181,14 @@ class CreateCourse extends Component {
         loading: false
       })
       // push state to redux
-      this.props.actions.loadCurrentTeachingCourse(this.state)
-      this.props.actions.addFlashMessage({
-        type: 'success',
-        text: 'You have successfully created a Course!'
-      })
-      this.props.actions.push(
-        `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
-      )
+      // this.props.actions.loadCurrentTeachingCourse(this.state)
+      // this.props.actions.addFlashMessage({
+      //   type: 'success',
+      //   text: 'You have successfully created a Course!'
+      // })
+      // this.props.actions.push(
+      //   `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
+      // )
     }
   }
 
@@ -318,8 +323,12 @@ class CreateCourse extends Component {
 }
 
 const mapStateToProps = state => {
+  const session = orm.session(state.entitiesReducer)
+  const {User} = session
+  const user = User
+
   return {
-    userReducer: state.userReducer,
+    user,
     courseReducer: state.courseReducer
   }
 }
@@ -329,7 +338,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         addFlashMessage,
-        createCourse,
+        createCourse: course.create,
         resetCourseCreateForm,
         fetchCourseName,
         toggleFooter,

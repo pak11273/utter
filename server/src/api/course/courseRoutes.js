@@ -16,13 +16,13 @@ router.route('/unique').post(controller.unique)
 
 // get current teaching course
 router
-  .route('/teaching-course/:courseAuthorId/:courseId/:courseName')
+  .route('/my-courses/:courseAuthorId/:courseId/:courseName')
   .get(controller.getOne)
   .put(controller.update)
 
 // delete course level
 router
-  .route('/teaching-course/:courseAuthorId/:courseId/:courseName/:levelId')
+  .route('/my-courses/:courseAuthorId/:courseId/:courseName/:levelId')
   .delete(controller.deleteLevel)
 
 router.route('/faker').get(controller.faker)

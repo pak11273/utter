@@ -34,7 +34,7 @@ import {
   addWord,
   deleteLevel,
   chooseCourseLanguage,
-  readCourse,
+  fetchCourse,
   updateCourse
 } from '../actions'
 
@@ -237,7 +237,7 @@ const mapDispatchToProps = dispatch => {
         addWord,
         deleteLevel,
         toggleFooter,
-        readCourse,
+        fetchCourse,
         updateCourse
       },
       dispatch
@@ -246,5 +246,8 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(CourseEdit)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CourseEdit)
 )

@@ -36,7 +36,7 @@ export function* login(state) {
     const params = null
 
     /**
-     * @param {string} url ex.'/teaching-course/:courseAuthorId/:courseId/:courseName'
+     * @param {string} url ex.'/my-courses/:courseAuthorId/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 

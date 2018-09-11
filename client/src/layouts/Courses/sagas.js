@@ -4,16 +4,12 @@ import axios from 'axios'
 import {
   changeCoursePgFail,
   changeCoursePgSuccess,
-  createCourseFail,
-  createCourseSuccess,
   deleteCourseFail,
   deleteCourseSuccess,
   deleteLevelFail,
   deleteLevelSuccess,
-  getTeachingListFail,
-  getTeachingListSuccess,
-  readCourseFail,
-  readCourseSuccess,
+  fetchCourseFail,
+  fetchCourseSuccess,
   requestCourse,
   requestCourseName,
   requestCourseNameSuccess,
@@ -21,52 +17,6 @@ import {
   updateCourseFail,
   updateCourseSuccess
 } from './actions.js'
-
-// Get teaching list
-function* watchGetTeachingList() {
-  yield takeLatest('GET_TEACHING_LIST', getTeachingList)
-}
-
-function* getTeachingList(action) {
-  const getAuthId = state => state.userReducer.user._id
-  const authId = yield select(getAuthId)
-  const getCoursePg = state => state.courseReducer.coursePg
-  const coursePg = yield select(getCoursePg)
-  const url = `/api/courses/my-courses/${authId}/?pg=${coursePg}`
-  const htmlReadyUrl = encodeURI(url)
-  try {
-    if (!authId) {
-      throw new Error('No such user exists')
-    } else {
-      const data = yield call(() => {
-        return axios({
-          method: 'get',
-          url: htmlReadyUrl,
-          data: {
-            course: action.course
-          }
-        })
-          .then(res => {
-            return res
-          })
-          .catch(err => {
-            throw err.response.data.error
-          })
-      })
-      if (_.isEmpty(data.data.result.docs)) {
-        yield put(changeCoursePgSuccess(1))
-      }
-      yield put(getTeachingListSuccess(data))
-    }
-  } catch (error) {
-    yield put(getTeachingListFail(error))
-  }
-}
-
-// Courses Teaching Pagination
-function* watchChangePg() {
-  yield takeLatest('CHANGE_COURSE_PG', changeCoursePg)
-}
 
 function* changeCoursePg(action) {
   const getAuthId = state => state.userReducer.user._id
@@ -130,42 +80,43 @@ function* createCourse(action) {
 }
 
 // READ
-function* watchReadCourse() {
-  yield takeLatest('READ_COURSE', readCourse)
-}
+// moved to api/course sagas
+// function* watchFetchCourse() {
+//   yield takeLatest('FETCH_COURSE', fetchCourse)
+// }
 
-function* readCourse(action) {
-  const courseId = action.course.courseId
-  const courseName = action.course.courseName
-  const getAuthId = state => state.userReducer.user._id
-  const authId = yield select(getAuthId)
-  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
-  const htmlReadyUrl = encodeURI(url)
-  try {
-    if (!authId) {
-      throw new Error('No author with this id')
-    } else {
-      const data = yield call(() => {
-        return axios({
-          method: 'get',
-          url: htmlReadyUrl,
-          data: {
-            course: action.course
-          }
-        })
-          .then(res => {
-            return res
-          })
-          .catch(err => {
-            throw err
-          })
-      })
-      yield put(readCourseSuccess(data.data))
-    }
-  } catch (error) {
-    yield put(readCourseFail(error))
-  }
-}
+// function* fetchCourse(action) {
+//   const courseId = action.course.courseId
+//   const courseName = action.course.courseName
+//   const getAuthId = state => state.userReducer.user._id
+//   const authId = yield select(getAuthId)
+//   const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
+//   const htmlReadyUrl = encodeURI(url)
+//   try {
+//     if (!authId) {
+//       throw new Error('No author with this id')
+//     } else {
+//       const data = yield call(() => {
+//         return axios({
+//           method: 'get',
+//           url: htmlReadyUrl,
+//           data: {
+//             course: action.course
+//           }
+//         })
+//           .then(res => {
+//             return res
+//           })
+//           .catch(err => {
+//             throw err
+//           })
+//       })
+//       yield put(fetchCourseSuccess(data.data))
+//     }
+//   } catch (error) {
+//     yield put(fetchCourseFail(error))
+//   }
+// }
 
 // UPDATE
 function* watchUpdateCourse() {
@@ -177,7 +128,7 @@ function* updateCourse(action) {
   const courseName = action.course.courseName
   const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
-  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
+  const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     if (!authId) {
@@ -216,7 +167,7 @@ function* deleteCourse(action) {
   const courseName = action.course.courseName
   const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
-  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}`
+  const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     if (!authId) {
@@ -254,7 +205,7 @@ function* deleteLevel(action) {
   const courseName = action.course.courseName
   const getAuthId = state => state.userReducer.user._id
   const authId = yield select(getAuthId)
-  const url = `/api/courses/teaching-course/${authId}/${courseId}/${courseName}/${levelId}`
+  const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}/${levelId}`
   const htmlReadyUrl = encodeURI(url)
   const course = action.course
   try {
@@ -274,7 +225,7 @@ function* deleteLevel(action) {
           })
       })
       yield put(deleteLevelSuccess(data))
-      yield put({type: 'READ_COURSE', course: course})
+      yield put({type: 'FETCH_COURSE', course: course})
     }
   } catch (err) {
     yield put(deleteLevelFail(err))
@@ -325,12 +276,10 @@ function* getCourseNameAsync(action) {
 }
 
 export default [
-  watchChangePg,
   watchCreateCourse,
+  // watchFetchCourse,
   watchDeleteCourse,
   watchDeleteLevel,
   watchGetCourseName,
-  watchGetTeachingList,
-  watchReadCourse,
   watchUpdateCourse
 ]

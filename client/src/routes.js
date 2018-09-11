@@ -111,9 +111,14 @@ export const routes = [
     path: '/courses'
   },
   {
+    component: requireAuth(CoursesCreate),
+    exact: true,
+    path: '/courses/create'
+  },
+  {
     component: requireAuth(CoursesCreated),
     exact: true,
-    path: '/courses/:id'
+    path: '/courses/created'
   },
   {
     component: Login,

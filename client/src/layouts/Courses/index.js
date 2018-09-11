@@ -356,8 +356,15 @@ class CoursesContainer extends Component {
                 ]}
               />
             </Box>
+            <Box margin="40px 0 0 0">
+              <StyledNavLink to="/courses/created">
+                Courses I Teach
+              </StyledNavLink>
+            </Box>
             <Box>
-              <StyledNavLink to="/courses/123">My Courses</StyledNavLink>
+              <StyledNavLink to="/courses/subscriptions">
+                My Subscriptions
+              </StyledNavLink>
             </Box>
           </Flex>
         </Staticbar>

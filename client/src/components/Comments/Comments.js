@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import {CreateComment, Comment} from './'
-import Input from '../../components/Inputs/Input.js'
 import Box from '../../components/Boxes/Box.js'
 import Button from '../../components/Buttons/Button.js'
 import superagent from 'superagent'
@@ -35,18 +34,21 @@ class Comments extends Component {
   }
 
   addComment = comment => {
-    superagent.post('/api/comments').send(comment).end((err, res) => {
-      if (err) {
-        console.log(err)
-      } else {
-        const updatedList = Object.assign([], this.state.list)
-        updatedList.push(res.body)
-        this.setState({
-          list: updatedList
-        })
-      }
-    })
-  };
+    superagent
+      .post('/api/comments')
+      .send(comment)
+      .end((err, res) => {
+        if (err) {
+          console.log(err)
+        } else {
+          const updatedList = Object.assign([], this.state.list)
+          updatedList.push(res.body)
+          this.setState({
+            list: updatedList
+          })
+        }
+      })
+  }
 
   updateName = e => {
     e.preventDefault()
@@ -55,7 +57,7 @@ class Comments extends Component {
     this.setState({
       comment: updatedName
     })
-  };
+  }
 
   render() {
     const commentList = this.state.list.map((comment, i) => {
@@ -68,9 +70,7 @@ class Comments extends Component {
     return (
       <Box>
         <Box overflow="scroll" height="500px">
-          <ol>
-            {commentList}
-          </ol>
+          <ol>{commentList}</ol>
         </Box>
         <CreateComment addComment={this.addComment} />
       </Box>

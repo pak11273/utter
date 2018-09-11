@@ -7,7 +7,7 @@ import {fetchData} from '../../utils/apiMgr.js'
 //     const params = null
 //     const cb = null
 //     return (dispatch, getState) => {
-//       // example url: '/teaching-course/:courseAuthorId/:courseId/:courseName')
+//       // example url: '/my-courses/:courseAuthorId/:courseId/:courseName')
 //       return fetchData(url, data, params, cb).then(res => {
 //         const token = res.data.token
 //         localStorage.setItem('jwtToken', token)
