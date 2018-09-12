@@ -9,6 +9,7 @@ import {
   Dropdown,
   Form,
   Grid,
+  Input,
   Image,
   Segment,
   TextArea
@@ -184,6 +185,7 @@ class CourseSettings extends Component {
                 <Form.Field
                   label="Course Name"
                   name="courseName"
+                  control={Input}
                   placeholder="Name"
                 />
               </FormEditWrapper>
