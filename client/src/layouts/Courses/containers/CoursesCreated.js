@@ -76,7 +76,7 @@ class Created extends Component {
 
     this.setState(newState, () => {
       this.props.actions.resetCourses()
-      this.props.actions.courses(this.state)
+      this.props.actions.fetchCourses(this.state)
     })
   }
 
@@ -92,7 +92,7 @@ class Created extends Component {
     })
     this.setState(newState, () => {
       // api more courses
-      this.props.actions.courses(this.state)
+      this.props.actions.fetchCourses(this.state)
     })
   }
 
@@ -235,7 +235,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        courses: courses.request,
+        fetchCourses: courses.request,
         fetchTeachingCourse: course.request,
         push,
         resetCourses: courses.reset,

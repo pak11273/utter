@@ -66,7 +66,7 @@ class TermDetails extends Component {
             width={6}
             label="audio"
             placeholder=".mp3"
-            control="Input"
+            control={Input}
             readOnly
           />
           <Button>Upload</Button>
@@ -102,4 +102,7 @@ const actions = {
   updateEntity
 }
 
-export default connect(mapStateToProps, actions)(TermDetails)
+export default connect(
+  mapStateToProps,
+  actions
+)(TermDetails)

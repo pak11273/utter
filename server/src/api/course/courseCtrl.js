@@ -6,9 +6,8 @@ import isEmpty from 'lodash/isEmpty'
 import Course from './courseModel.js'
 
 exports.get = async (req, res, next) => {
+  console.log('get off me')
   const limit = parseInt(req.query.limit, 10)
-
-  console.log('query: ', req.query)
 
   // query builder
   var query = {}
@@ -88,7 +87,6 @@ exports.get = async (req, res, next) => {
       // add to query object
       query._id = {$lt: next}
 
-      console.log('query: ', query)
       var prePopResult = await Course.aggregate([
         {$match: query},
         {$sort: {_id: -1}},
@@ -131,6 +129,7 @@ exports.get = async (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
+  console.log('req.body: ', req.body)
   if (req.params.courseId) {
     Course.findOne({
       _id: req.params.courseId,
@@ -383,8 +382,9 @@ exports.getTeachingCourses = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-  console.log('update')
-  let update = req.body.course
+  let update = req.body
+
+  console.log('update', req.body)
 
   Course.findOneAndUpdate(
     {courseId: update.courseId},

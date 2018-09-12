@@ -34,9 +34,10 @@ import {
   addWord,
   deleteLevel,
   chooseCourseLanguage,
-  fetchCourse,
-  updateCourse
+  fetchCourse
 } from '../actions'
+
+import actions from '../../../api/course/actions/courseActions.js'
 
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
 
@@ -120,7 +121,7 @@ class CourseEdit extends Component {
     e.preventDefault()
     if (this.isValid()) {
       let updatedCourse = this.props.courseReducer.currentTeachingCourse
-      this.props.actions.updateCourse(updatedCourse)
+      this.props.actions.updateTeachingCourse(updatedCourse)
 
       // clear errors
       this.setState({
@@ -206,11 +207,6 @@ class CourseEdit extends Component {
         <div>
           <Title padding="20px">Your Course Details</Title>
           <div className="App">
-            <div className="App-header">
-              <Header inverted as="h1">
-                Project Mini-Mek
-              </Header>
-            </div>
             <Container>
               <TabBarContainer tabs={tabs} size="massive" />
             </Container>
@@ -238,7 +234,7 @@ const mapDispatchToProps = dispatch => {
         deleteLevel,
         toggleFooter,
         fetchCourse,
-        updateCourse
+        updateTeachingCourse: actions.update
       },
       dispatch
     )

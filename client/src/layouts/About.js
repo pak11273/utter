@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import styled, {ThemeProvider} from 'styled-components'
+import {Helmet} from 'react-helmet'
 import {Masthead, Navbar} from '../containers'
 import {Box, MastheadTitle, MastheadSubtitle, Wrapper} from '../components'
 
@@ -14,6 +15,20 @@ class About extends Component {
   render() {
     return (
       <Wrapper>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="We aim to make the world a better place with communication."
+          />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utter | About</title>
+          <link rel="canonical" href="https://utter.zone/about" />
+        </Helmet>
         <Masthead height="100%" background="#f3f3f3">
           <Box maxwidth="1024px">
             <MastheadTitle>About Us</MastheadTitle>
@@ -43,4 +58,7 @@ const actions = {
   toggleFooter
 }
 
-export default connect(null, actions)(About)
+export default connect(
+  null,
+  actions
+)(About)

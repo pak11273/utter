@@ -3,13 +3,13 @@ const CLOUDINARY_UPLOAD_URL = 'http://res.cloudinary.com/z28ks5gg/upload'
 import axios from 'axios'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import {Helmet} from 'react-helmet'
 import {
   Button,
   Dropdown,
   Form,
   Grid,
   Image,
-  Input,
   Segment,
   TextArea
 } from 'semantic-ui-react'
@@ -131,6 +131,17 @@ class CourseSettings extends Component {
     ) : null
     return (
       <Form size="large" onSubmit={this.handleSubmit}>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="description" content="Affordable language learning" />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utter | Settings</title>
+          <link rel="canonical" href="https://utter.zone/settings" />
+        </Helmet>
         <ModalMgr />
         <Segment>
           <Grid>
@@ -173,7 +184,6 @@ class CourseSettings extends Component {
                 <Form.Field
                   label="Course Name"
                   name="courseName"
-                  control={Input}
                   placeholder="Name"
                 />
               </FormEditWrapper>

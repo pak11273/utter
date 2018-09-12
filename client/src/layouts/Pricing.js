@@ -2,11 +2,23 @@ import React, {Component} from 'react'
 import styled, {ThemeProvider} from 'styled-components'
 import {Button, Container, Grid, Header, Menu, Segment} from 'semantic-ui-react'
 import {Masthead, Navbar} from '../containers'
+import {Helmet} from 'react-helmet'
 import {Box, Column, Subtitle, Title, Wrapper} from '../components'
 
 function Pricing(props) {
   return (
     <Container style={{padding: '80px'}}>
+      <Helmet>
+        <meta charset="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="description" content="Affordable language learning" />
+        <meta name="author" content="Isaac Pak" />
+        <title>Utter | Pricing</title>
+        <link rel="canonical" href="https://utter.zone/courses" />
+      </Helmet>
       <Header as="h2" align="center" color="red">
         Obtain a priceless skill for the price of a Starbucks coffee.
       </Header>

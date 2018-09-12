@@ -233,7 +233,7 @@ class Home extends Component {
                 </Header>
                 <p style={{fontSize: '1.33em'}}>
                   <Image avatar src={`${ceoImg}`} />
-                  <b>Isaac Pak</b> CEO of Utter.com
+                  <b>Isaac Pak</b> CEO of Utterzone.com
                 </p>
               </Grid.Column>
             </Grid.Row>
@@ -286,4 +286,7 @@ const actions = {
   toggleFooter
 }
 
-export default connect(null, actions)(Home)
+export default connect(
+  null,
+  actions
+)(Home)

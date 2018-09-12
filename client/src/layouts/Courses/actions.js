@@ -16,9 +16,6 @@ import {
   FETCH_COURSE_FAIL,
   FETCH_COURSE_SUCCESS,
   RESET_COURSE_CREATE_FORM,
-  UPDATE_COURSE,
-  UPDATE_COURSE_SUCCESS,
-  UPDATE_COURSE_FAIL,
   DELETE_COURSE_FAIL,
   DELETE_COURSE_SUCCESS,
 
@@ -74,19 +71,6 @@ const fetchCourseSuccess = data => {
 
 const fetchCourseFail = error => {
   return {type: 'FETCH_COURSE_FAIL', error}
-}
-
-// COURSE UPDATE
-const updateCourse = course => {
-  return {type: 'UPDATE_COURSE', course}
-}
-
-const updateCourseSuccess = data => {
-  return {type: 'UPDATE_COURSE_SUCCESS', data: data.data}
-}
-
-const updateCourseFail = error => {
-  return {type: 'UPDATE_COURSE_FAIL', error}
 }
 
 // COURSE DELETE
@@ -165,9 +149,6 @@ export {
   fetchCourse,
   fetchCourseSuccess,
   fetchCourseFail,
-  updateCourse,
-  updateCourseSuccess,
-  updateCourseFail,
   chooseCourseLanguage,
   fetchCourseName,
   requestCourseNameError,

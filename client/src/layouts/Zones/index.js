@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import superagent from 'superagent'
+import {Helmet} from 'react-helmet'
 import _ from 'lodash'
 
 import {
@@ -72,6 +72,17 @@ class Zones extends Component {
     }
     return (
       <Section gridtemplatecolumns="25% 35% 40%">
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="description" content="Affordable language learning" />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utter | Zones</title>
+          <link rel="canonical" href="https://utter.zone/courses" />
+        </Helmet>
         <Column>
           <RemoteSideBar />
         </Column>

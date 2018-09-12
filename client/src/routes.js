@@ -150,7 +150,7 @@ export const routes = [
   {
     component: requireAuth(CourseEdit),
     exact: true,
-    path: '/my-courses/:id/:name/edit'
+    path: '/course/:id/:name/edit'
   },
   {
     component: Pricing,

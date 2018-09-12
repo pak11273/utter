@@ -13,9 +13,7 @@ import {
   requestCourse,
   requestCourseName,
   requestCourseNameSuccess,
-  requestCourseNameError,
-  updateCourseFail,
-  updateCourseSuccess
+  requestCourseNameError
 } from './actions.js'
 
 function* changeCoursePg(action) {
@@ -89,44 +87,6 @@ function* changeCoursePg(action) {
 //     yield put(fetchCourseFail(error))
 //   }
 // }
-
-// UPDATE
-function* watchUpdateCourse() {
-  yield takeLatest('UPDATE_COURSE', updateCourse)
-}
-
-function* updateCourse(action) {
-  const courseId = action.course.courseId
-  const courseName = action.course.courseName
-  const getAuthId = state => state.userReducer.user._id
-  const authId = yield select(getAuthId)
-  const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
-  const htmlReadyUrl = encodeURI(url)
-  try {
-    if (!authId) {
-      throw new Error('You are not the creator of this course.')
-    } else {
-      const data = yield call(() => {
-        return axios({
-          method: 'put',
-          url: htmlReadyUrl,
-          data: {
-            course: action.course
-          }
-        })
-          .then(res => {
-            return res
-          })
-          .catch(err => {
-            throw err.response.data.error
-          })
-      })
-      yield put(updateCourseSuccess(data))
-    }
-  } catch (error) {
-    yield put(updateCourseFail(error))
-  }
-}
 
 // DELETE
 function* watchDeleteCourse() {
@@ -251,6 +211,5 @@ export default [
   // watchFetchCourse,
   watchDeleteCourse,
   watchDeleteLevel,
-  watchGetCourseName,
-  watchUpdateCourse
+  watchGetCourseName
 ]

@@ -6,6 +6,7 @@ import Select from 'react-select'
 import isEmpty from 'lodash/isEmpty'
 import cloneDeep from 'lodash/cloneDeep'
 import Waypoint from 'react-waypoint'
+import {Helmet} from 'react-helmet'
 import update from 'immutability-helper'
 import {
   Card,
@@ -332,6 +333,20 @@ class CoursesContainer extends Component {
 
     return (
       <StyledGrid>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
+          />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utter | Courses</title>
+          <link rel="canonical" href="https://utter.zone/courses" />
+        </Helmet>
         <Staticbar>
           <Flex gridarea="sidebar">
             <Subtitle>I speak:</Subtitle>

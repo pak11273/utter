@@ -16,7 +16,7 @@ router.route('/unique').post(controller.unique)
 
 // get current teaching course
 router
-  .route('/my-courses/:courseAuthorId/:courseId/:courseName')
+  .route('/:authId/:courseAuthorId/:courseId/:courseName')
   .get(controller.getOne)
   .put(controller.update)
 
