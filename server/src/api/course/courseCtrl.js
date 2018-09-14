@@ -57,6 +57,7 @@ exports.get = async (req, res, next) => {
             courseDescription: 1,
             courseRef: 1,
             courseAuthor: 1,
+            courseImage: 1,
             subscribers: {$size: '$subscribers'}
           }
         },
@@ -97,6 +98,7 @@ exports.get = async (req, res, next) => {
             courseDescription: 1,
             courseRef: 1,
             courseAuthor: 1,
+            courseImage: 1,
             subscribers: {$size: '$subscribers'}
           }
         }
@@ -129,14 +131,13 @@ exports.get = async (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
-  console.log('req.body: ', req.body)
   if (req.params.courseId) {
     Course.findOne({
       _id: req.params.courseId,
       courseAuthor: req.params.courseAuthorId
     }).then(
-      course => {
-        res.json({course})
+      data => {
+        res.json({data})
       },
       err => {
         next(err)
@@ -162,6 +163,7 @@ exports.params = (req, res, next, id) => {
 }
 
 exports.post = (req, res, next) => {
+  console.log('body: ', req.body.course)
   let newCourse = req.body.course
   newCourse.courseAuthor = {
     _id: req.body.course.courseAuthorId
@@ -252,7 +254,7 @@ exports.faker = (req, res, next) => {
     course.price = faker.commerce.price()
     course.courseDescription =
       'Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.'
-    course.image = faker.image.image()
+    course.courseImage = faker.image.image()
     course.levels = [
       {
         course: course._id,
@@ -386,17 +388,13 @@ exports.update = (req, res, next) => {
 
   console.log('update', req.body)
 
-  Course.findOneAndUpdate(
-    {courseId: update.courseId},
-    update,
-    (err, course) => {
-      if (err) {
-        next(err)
-      } else {
-        res.json(course)
-      }
+  Course.findOneAndUpdate({_id: update.courseId}, update, (err, data) => {
+    if (err) {
+      next(err)
+    } else {
+      res.json({data})
     }
-  )
+  })
 }
 
 // TODO: use this to delete whole courses.  levelId is actually the courseId

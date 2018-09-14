@@ -121,7 +121,9 @@ class CourseEdit extends Component {
     e.preventDefault()
     if (this.isValid()) {
       let updatedCourse = this.props.courseReducer.currentTeachingCourse
-      this.props.actions.updateTeachingCourse(updatedCourse)
+      // this.props.actions.updateTeachingCourse(updatedCourse)
+      console.log('state: ', this.state)
+      this.props.actions.updateTeachingCourse(this.state)
 
       // clear errors
       this.setState({

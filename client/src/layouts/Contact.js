@@ -37,7 +37,7 @@ class Contact extends Component {
             content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
           />
           <meta name="author" content="Isaac Pak" />
-          <title>Utter | Contacts</title>
+          <title>Utterzone | Contacts</title>
           <link rel="canonical" href="https://utter.zone/contact" />
         </Helmet>
         <Masthead background="#f3f3f3">
@@ -75,4 +75,7 @@ const actions = {
   toggleFooter
 }
 
-export default connect(null, actions)(Contact)
+export default connect(
+  null,
+  actions
+)(Contact)

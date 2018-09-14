@@ -46,6 +46,10 @@ mongoose.model('Level', LevelSchema)
 
 const CourseSchema = mongoose.Schema(
   {
+    cdn: {
+      type: Schema.Types.Mixed,
+      default: {}
+    },
     courseId: {
       type: String,
       default: ''
@@ -99,9 +103,10 @@ const CourseSchema = mongoose.Schema(
       type: String,
       default: ''
     },
-    image: {
+    courseImage: {
       type: String,
-      default: 'default.png'
+      default:
+        'https://res.cloudinary.com/dgvw5b6pf/image/upload/v1536857535/course-thumbnails/fa-image_kzo6kn.png'
     }
   },
   {timestamps: true}

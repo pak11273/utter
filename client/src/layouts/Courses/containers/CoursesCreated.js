@@ -129,7 +129,7 @@ class Created extends Component {
       return (
         <Card key={item.id}>
           <Image
-            src={item.image}
+            src={item.courseImage}
             onClick={this.handleClick}
             style={{cursor: 'pointer'}}
           />
@@ -222,7 +222,7 @@ const mapStateToProps = state => {
   const {User} = session
   const courses = Courses.all().toRefArray()
   const users = User.all().toRefArray()
-  const user = users[0]
+  const user = users[0] || ''
   return {
     user,
     courses,

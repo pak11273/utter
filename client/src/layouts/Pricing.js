@@ -16,7 +16,7 @@ function Pricing(props) {
         />
         <meta name="description" content="Affordable language learning" />
         <meta name="author" content="Isaac Pak" />
-        <title>Utter | Pricing</title>
+        <title>Utterzone | Pricing</title>
         <link rel="canonical" href="https://utter.zone/courses" />
       </Helmet>
       <Header as="h2" align="center" color="red">

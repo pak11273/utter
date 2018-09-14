@@ -37,7 +37,7 @@ import orm from '../../../app/schema.js'
 
 // actions
 import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
-import {fetchCourseName, loadCurrentTeachingCourse} from '../actions.js'
+import {fetchCourseName} from '../actions.js'
 
 import course from '../../../api/course/actions/courseActions.js'
 
@@ -121,6 +121,7 @@ const StyledGrid = styled(Grid)`
 `
 
 const initialState = {
+  cdn: {},
   charCount: 0,
   courseId: cuid(),
   courseAuthorId: '',
@@ -142,6 +143,20 @@ class CreateCourse extends Component {
 
   componentDidMount() {
     this.props.actions.toggleFooter(false)
+
+    // clear state
+    this.setState({
+      cdn: {hello: 'wtf'},
+      courseId: '',
+      courseAuthorId: '',
+      courseName: '',
+      charCount: 0,
+      courseDescription: '',
+      displayName: '',
+      errors: {}, // clear errors every time we submit form
+      currentTeachingCourse: {},
+      loading: false
+    })
 
     const newState = update(this.state, {
       courseAuthorId: {$set: this.props.user.id}
@@ -170,27 +185,15 @@ class CreateCourse extends Component {
   onSubmit = e => {
     e.preventDefault()
     if (this.isValid()) {
-      this.props.actions.createCourse(this.state)
-      // clear state
-      this.setState({
-        courseId: '',
-        courseAuthorId: '',
-        courseName: '',
-        charCount: 0,
-        courseDescription: '',
-        displayName: '',
-        errors: {}, // clear errors every time we submit form
-        currentTeachingCourse: {},
-        loading: false
-      })
+      this.props.actions.createTeachingCourse(this.state)
       // push state to redux
-      // this.props.actions.loadCurrentTeachingCourse(this.state)
-      // this.props.actions.addFlashMessage({
-      //   type: 'success',
-      //   text: 'You have successfully created a Course!'
-      // })
+      //TODO this.props.actions.fetchTeachingCourse(this.state)
+      this.props.actions.addFlashMessage({
+        type: 'success',
+        text: 'You have successfully created a Course!'
+      })
       // this.props.actions.push(
-      //   `/my-courses/${this.state.courseId}/${this.state.courseName}/edit`
+      //   `/course/${this.state.courseId}/${this.state.courseName}/edit`
       // )
     }
   }
@@ -341,11 +344,11 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(
       {
         addFlashMessage,
-        createCourse: course.create,
+        createTeachingCourse: course.create,
         fetchCourseName,
         toggleFooter,
-        push,
-        loadCurrentTeachingCourse
+        push
+        // TODO fetchTeachingCourse: course.request
       },
       dispatch
     )

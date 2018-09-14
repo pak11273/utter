@@ -80,7 +80,7 @@ class Zones extends Component {
           />
           <meta name="description" content="Affordable language learning" />
           <meta name="author" content="Isaac Pak" />
-          <title>Utter | Zones</title>
+          <title>Utterzone | Zones</title>
           <link rel="canonical" href="https://utter.zone/courses" />
         </Helmet>
         <Column>

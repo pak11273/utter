@@ -52,7 +52,7 @@ class ForgotPassword extends Component {
           />
           <meta name="description" content="Reset your password." />
           <meta name="author" content="Isaac Pak" />
-          <title>Utter | Contacts</title>
+          <title>Utterzone | Contacts</title>
           <link rel="canonical" href="https://utter.zone/contact" />
         </Helmet>
         <Masthead bg="green">
@@ -89,4 +89,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ForgotPassword)
+export default connect(
+  null,
+  mapDispatchToProps
+)(ForgotPassword)

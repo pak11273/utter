@@ -8,7 +8,6 @@ import * as types from '../types'
 
 // CREATE
 function* createTeachingCourse(course) {
-  console.log('course: ', course)
   try {
     const data = yield call(() => {
       return axios({
@@ -25,11 +24,14 @@ function* createTeachingCourse(course) {
           throw err.response.data.error
         })
     })
-    console.log('data: ', data)
+
     yield put({
       type: types.COURSE_ASYNC.SUCCESS,
       payload: data
     })
+
+    data.data.courseAuthorId = data.data.courseAuthor
+    yield call(fetchTeachingCourse, data.data)
   } catch (error) {
     yield put({
       type: types.COURSE_ASYNC.ERROR,
@@ -52,7 +54,7 @@ export function* fetchTeachingCourse(state) {
     const params = null
 
     /**
-     * @param {string} url ex.'/my-courses/:courseAuthorId/:courseId/:courseName'
+     * @param {string} url ex.'/api/courses/:authId/:courseAuthorId/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
@@ -85,9 +87,8 @@ export function* fetchTeachingCourse(state) {
 }
 
 export function* updateTeachingCourse(state) {
-  console.log('úpdate here mofo', state)
   const {courseAuthor, courseId, courseName} = state
-  const getAuthId = state => state.userReducer.user._id
+  const getAuthId = state => state.entitiesReducer.User.items[0]
   const authId = yield select(getAuthId)
   const url = `/api/courses/${authId}/${courseAuthor}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
@@ -109,7 +110,7 @@ export function* updateTeachingCourse(state) {
         payload: res.data
       })
 
-      yield put(push(`/my-courses/${courseId}/${courseName}/edit`))
+      yield put(push(`/course/${courseId}/${courseName}/edit`))
     } else {
       throw res
     }

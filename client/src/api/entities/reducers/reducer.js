@@ -85,7 +85,7 @@ export function loadCourse(state, payload) {
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
   const {Course} = session
-  let course = payload.payload.course
+  let course = payload.payload.data
   // add id by converting _id for each record
   course.courseId = course._id
   Course.parse(course)
@@ -93,13 +93,13 @@ export function loadCourse(state, payload) {
   const {Levels} = session
   // reset Levels
   Levels.delete()
-  let levels = payload.payload.course.levels
+  let levels = payload.payload.data.levels
   levels.forEach(level => Levels.parse(level))
 
   const {Terms} = session
   // reset Terms
   Terms.delete()
-  let terms = payload.payload.course.levels
+  let terms = payload.payload.data.levels
   levels.forEach(level => {
     level['terms'].forEach(term => {
       Terms.parse(term)

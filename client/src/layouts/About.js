@@ -26,7 +26,7 @@ class About extends Component {
             content="We aim to make the world a better place with communication."
           />
           <meta name="author" content="Isaac Pak" />
-          <title>Utter | About</title>
+          <title>Utterzone | About</title>
           <link rel="canonical" href="https://utter.zone/about" />
         </Helmet>
         <Masthead height="100%" background="#f3f3f3">

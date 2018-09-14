@@ -4,6 +4,9 @@ import axios from 'axios'
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Helmet} from 'react-helmet'
+import update from 'immutability-helper'
+import isEmpty from 'lodash/isEmpty'
+import cloneDeep from 'lodash/cloneDeep'
 import {
   Button,
   Dropdown,
@@ -36,15 +39,24 @@ const TEACHING_LANG = [
   {value: 'Korean', text: 'Korean'}
 ]
 
+const initialState = {
+  uploadedFile: {},
+  uploadFileCloudinaryUrl: ''
+}
+
 class CourseSettings extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      uploadedFile: {},
-      uploadedFileCloudinaryUrl: this.props.course.image,
-      uploadFileCloudinaryUrl: ''
-    }
+    this.state = cloneDeep(initialState)
+  }
+
+  componentDidMount() {
+    const newState = update(this.state, {
+      secure_url: {$set: this.props.course.image}
+    })
+
+    this.setState(newState)
   }
 
   handleSubmit = e => {
@@ -77,7 +89,34 @@ class CourseSettings extends Component {
     this.handleImageUpload(files)
   }
 
+  handleImageDelete() {
+    const timestamp = (Date.now() / 1000) | 0
+    console.log('signature: ', this.props.course.cdn.signature)
+    console.log('timestamp: ', timestamp)
+    axios({
+      method: 'post',
+      url: 'https://api.cloudinary.com/v1_1/q2vo0abd/image/destroy/',
+      data: {
+        api_key: '225688292439754',
+        file: this.props.course.cdn.file,
+        public_id: this.props.course.cdn.public_id,
+        resource_type: 'image',
+        signature: this.props.course.cdn.signature,
+        timestamp
+        // upload_preset: 'z28ks5gg',
+        // folder: 'course-thumbnails',
+      }
+    })
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        throw err.response.data.error
+      })
+  }
+
   handleImageUpload(files) {
+    // this.handleImageDelete() // TODO
     // Push all the axios request promise into a single array
     const uploaders = files.map(file => {
       // Initial FormData
@@ -93,34 +132,29 @@ class CourseSettings extends Component {
       return axios
         .post(
           'https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/',
-          formData,
-          {
-            headers: {
-              'X-Requested-With': 'XMLHttpRequest'
-            }
-          }
+          formData
         )
         .then(res => {
           const data = res.data
 
-          // if (res.body.secure_url !== '') {
-          if (data.secure_url !== '') {
-            this.setState({
-              // uploadedFileCloudinaryUrl: res.body.secure_url
-              uploadedFileCloudinaryUrl: data.secure_url
-            })
-          }
-
-          const fileURL = data.secure_url // You should store this URL for future references in your app
-          return fileURL
+          return data
+        })
+        .catch(err => {
+          console.log('upload error: ', err)
         })
     })
 
     // Once all the files are uploaded
     axios.all(uploaders).then(values => {
+      console.log('values: ', values)
       const id = this.props.course.id
-      const newValues = {image: values[0]}
-      this.props.updateEntity('Course', id, newValues)
+      const newCdn = {cdn: values[0]}
+      const courseImage = {courseImage: values[0].secure_url}
+      this.props.updateEntity('Course', id, newCdn)
+      this.props.updateEntity('Course', id, courseImage)
+
+      // update Course on server
+      this.props.updateSettings(this.props.course)
     })
   }
 
@@ -140,7 +174,7 @@ class CourseSettings extends Component {
           />
           <meta name="description" content="Affordable language learning" />
           <meta name="author" content="Isaac Pak" />
-          <title>Utter | Settings</title>
+          <title>Utterzone | Settings</title>
           <link rel="canonical" href="https://utter.zone/settings" />
         </Helmet>
         <ModalMgr />
@@ -149,12 +183,12 @@ class CourseSettings extends Component {
             <Grid.Column width={8}>
               <Segment>
                 <div>
-                  {this.state.uploadedFileCloudinaryUrl === '' ? null : (
+                  {this.state.secure_url === '' ? null : (
                     <Form.Field
-                      label="Course Thumbnail"
+                      label="Course Thumbnail Preview"
                       name="image"
                       control={Image}
-                      src={this.state.uploadedFileCloudinaryUrl}
+                      src={this.props.course.courseImage}
                       size="small"
                     />
                   )}

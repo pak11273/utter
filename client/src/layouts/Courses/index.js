@@ -267,7 +267,7 @@ class CoursesContainer extends Component {
       return (
         <Card key={item.id}>
           <Image
-            src={item.image}
+            src={item.courseImage}
             onClick={this.handleImageClick}
             style={{cursor: 'pointer'}}
           />
@@ -344,7 +344,7 @@ class CoursesContainer extends Component {
             content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
           />
           <meta name="author" content="Isaac Pak" />
-          <title>Utter | Courses</title>
+          <title>Utterzone | Courses</title>
           <link rel="canonical" href="https://utter.zone/courses" />
         </Helmet>
         <Staticbar>
