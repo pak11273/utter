@@ -13,6 +13,10 @@ export default createReducer(initialState, {
     ...state,
     loading: true
   }),
+  [COURSE_ASYNC.DELETE]: state => ({
+    ...state,
+    loading: true
+  }),
   [COURSE_ASYNC.UPDATE]: state => ({
     ...state,
     loading: true

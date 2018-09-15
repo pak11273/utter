@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
-import ModalContainer from './Modal.js'
+import testModal from './testModal.js'
+import courseModal from './courseModal.js'
 
 const modalComponentLookupTable = {
-  ModalContainer
+  courseModal,
+  testModal
 }
 
 const mapStateToProps = state => ({currentModals: state.modalReducer})

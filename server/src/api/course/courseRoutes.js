@@ -18,6 +18,7 @@ router.route('/unique').post(controller.unique)
 router
   .route('/:authId/:courseAuthorId/:courseId/:courseName')
   .get(controller.getOne)
+  .delete(controller.deleteCourse)
   .put(controller.update)
 
 // delete course level

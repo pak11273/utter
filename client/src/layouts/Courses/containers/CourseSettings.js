@@ -14,29 +14,35 @@ import {
   Grid,
   Input,
   Image,
+  Label,
   Segment,
   TextArea
 } from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
+import Select from 'react-select'
+import languageData from '../data/languageData'
 import FormEditWrapper from '../../../components/FormEditWrapper'
 import {getEntitiesSession} from '../../../api/entities/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
 import ModalMgr from '../../../containers/Modals/ModalMgr.js'
 import orm from '../../../app/schema.js'
+import '../styles.css'
 
 // actions
 import {openModal} from '../../../containers/Modals/actions.js'
 import updateSettings from '../../../api/course/actions/courseActions.js'
 
 const USING_LANG = [
-  {value: 'English', text: 'English'},
-  {value: 'Korean', text: 'Korean'}
+  {value: 'english', text: 'English'},
+  {value: 'korean', text: 'Korean'},
+  {value: 'french', text: 'French'}
 ]
 
 const TEACHING_LANG = [
-  {value: 'English', text: 'English'},
-  {value: 'Korean', text: 'Korean'}
+  {value: 'english', text: 'English'},
+  {value: 'korean', text: 'Korean'},
+  {value: 'french', text: 'French'}
 ]
 
 const initialState = {
@@ -70,15 +76,21 @@ class CourseSettings extends Component {
     this.props.updateEntity('Course', id, newValues)
   }
 
-  dropdownChange = (e, result) => {
-    const {name, value} = result
-    const newValues = {[name]: value}
+  usingDropdownChange = value => {
+    const newValues = {usingLang: value}
     const {id} = this.props.course
     this.props.updateEntity('Course', id, newValues)
   }
 
-  openModalClicked = () => {
-    this.props.openModal('ModalContainer', {counter: 1})
+  teachingDropdownChange = value => {
+    const newValues = {teachingLang: value}
+    const {id} = this.props.course
+    this.props.updateEntity('Course', id, newValues)
+  }
+
+  openModalClicked = e => {
+    e.preventDefault()
+    this.props.openModal('courseModal', null)
   }
 
   onImageDrop = files => {
@@ -91,8 +103,6 @@ class CourseSettings extends Component {
 
   handleImageDelete() {
     const timestamp = (Date.now() / 1000) | 0
-    console.log('signature: ', this.props.course.cdn.signature)
-    console.log('timestamp: ', timestamp)
     axios({
       method: 'post',
       url: 'https://api.cloudinary.com/v1_1/q2vo0abd/image/destroy/',
@@ -146,7 +156,6 @@ class CourseSettings extends Component {
 
     // Once all the files are uploaded
     axios.all(uploaders).then(values => {
-      console.log('values: ', values)
       const id = this.props.course.id
       const newCdn = {cdn: values[0]}
       const courseImage = {courseImage: values[0].secure_url}
@@ -160,10 +169,9 @@ class CourseSettings extends Component {
 
   render() {
     let course = this.props.course
+    const options = languageData
     const {courseDescription, courseName} = course
-    const reminder = this.state.uploadedFile.name ? (
-      <p style={{color: 'red'}}>Click save for permanent changes</p>
-    ) : null
+
     return (
       <Form size="large" onSubmit={this.handleSubmit}>
         <Helmet>
@@ -194,7 +202,6 @@ class CourseSettings extends Component {
                   )}
                 </div>
                 <p>{this.state.uploadedFile.name}</p>
-                <div>{reminder}</div>
                 <Dropzone
                   style={{
                     padding: '3px',
@@ -237,26 +244,74 @@ class CourseSettings extends Component {
             </Grid.Column>
             <Grid.Column width={8}>
               <Segment>
-                <Form.Field
-                  label="Using Language"
+                <Label>Using Language</Label>
+                <Select
+                  id="usingLang"
+                  ref={ref => {
+                    this.select = ref
+                  }}
+                  onBlurResetsInput={false}
+                  onSelectResetsInput={false}
+                  options={options}
+                  simpleValue
+                  clearable={this.state.clearable}
+                  wrapperStyle={{
+                    margin: '20px 0 0 0',
+                    width: '100%'
+                  }}
+                  style={{
+                    width: '100%'
+                  }}
+                  menuContainerStyle={{
+                    width: '100%'
+                  }}
+                  menuStyle={{
+                    width: '100%'
+                  }}
                   name="usingLang"
-                  control={Dropdown}
-                  selection
-                  options={USING_LANG}
+                  disabled={this.state.disabled}
                   value={course.usingLang}
-                  onChange={this.dropdownChange}
+                  onChange={this.usingDropdownChange}
+                  rtl={this.state.rtl}
+                  searchable={this.state.searchable}
                 />
-                <Form.Field
-                  label="Teaching Language"
+                <Label>Teaching Language</Label>
+                <Select
+                  id="teachingLang"
+                  ref={ref => {
+                    this.select = ref
+                  }}
+                  onBlurResetsInput={false}
+                  onSelectResetsInput={false}
+                  options={options}
+                  simpleValue
+                  clearable={this.state.clearable}
+                  wrapperStyle={{
+                    margin: '20px 0 0 0',
+                    width: '100%'
+                  }}
+                  style={{
+                    width: '100%'
+                  }}
+                  menuContainerStyle={{
+                    width: '100%'
+                  }}
+                  menuStyle={{
+                    width: '100%'
+                  }}
                   name="teachingLang"
-                  control={Dropdown}
-                  selection
-                  options={TEACHING_LANG}
+                  disabled={this.state.disabled}
                   value={course.teachingLang}
-                  onChange={this.dropdownChange}
+                  onChange={this.teachingDropdownChange}
+                  rtl={this.state.rtl}
+                  searchable={this.state.searchable}
                 />
               </Segment>
-              <Button style={{background: '#F6D155'}}>Save</Button>
+              <Button
+                style={{background: '#F6D155'}}
+                loading={this.props.courseMeta.loading}>
+                Save
+              </Button>
               <Button color="red" onClick={this.openModalClicked}>
                 Delete Course
               </Button>
@@ -288,7 +343,10 @@ const mapStateToProps = state => {
 
   let course = Course.first().ref
 
-  return {course}
+  return {
+    course,
+    courseMeta: state.courseReducer.courseReducer
+  }
 }
 
 const actions = {

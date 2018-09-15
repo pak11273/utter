@@ -34,7 +34,7 @@ class Contact extends Component {
           />
           <meta
             name="description"
-            content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
+            content="Make direct contact with our team through our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
           />
           <meta name="author" content="Isaac Pak" />
           <title>Utterzone | Contacts</title>
@@ -44,10 +44,10 @@ class Contact extends Component {
           <Box maxwidth="1024px">
             <MastheadTitle>Contact Us</MastheadTitle>
             <MastheadSubtitle>
-              Make direct contact with our team throught our contact information
-              form. We will get respond in a timely manner. If you are a
-              business or educational institution, this would be a good place to
-              shoot a short inquiry. Hello World
+              Make direct contact with our team through our contact information
+              form. We will do our best to respond in a timely manner. If you
+              are a business or educational institution, this would be a good
+              place to shoot a short inquiry.
             </MastheadSubtitle>
           </Box>
         </Masthead>

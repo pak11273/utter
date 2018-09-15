@@ -62,3 +62,8 @@ input:-webkit-autofill {
 .rt-td {
   display: flex;
 }
+
+#usingLang,
+#teachingLang {
+  border: none;
+}

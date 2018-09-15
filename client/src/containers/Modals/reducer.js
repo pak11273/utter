@@ -1,4 +1,4 @@
-import {MODAL_CLOSE, MODAL_OPEN} from './types.js'
+import {MODAL_CLOSE, MODAL_OPEN, MODAL_RESET} from './types.js'
 
 import {createReducer} from '../../utils/reduxUtils.js'
 
@@ -18,7 +18,12 @@ export function closeModal(state, payload) {
   return newState
 }
 
+export function resetModal(state, payload) {
+  return (state = initialState)
+}
+
 export default createReducer(initialState, {
   [MODAL_OPEN]: openModal,
-  [MODAL_CLOSE]: closeModal
+  [MODAL_CLOSE]: closeModal,
+  [MODAL_RESET]: resetModal
 })

@@ -86,6 +86,7 @@ export function loadCourse(state, payload) {
   // Get a reference to the correct version of the Users class for this Session
   const {Course} = session
   let course = payload.payload.data
+  // let course = payload.payload
   // add id by converting _id for each record
   course.courseId = course._id
   Course.parse(course)

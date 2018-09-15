@@ -4,8 +4,6 @@ import axios from 'axios'
 import {
   changeCoursePgFail,
   changeCoursePgSuccess,
-  deleteCourseFail,
-  deleteCourseSuccess,
   deleteLevelFail,
   deleteLevelSuccess,
   fetchCourseFail,
@@ -51,78 +49,9 @@ function* changeCoursePg(action) {
 
 // READ
 // moved to api/course sagas
-// function* watchFetchCourse() {
-//   yield takeLatest('FETCH_COURSE', fetchCourse)
-// }
-
-// function* fetchCourse(action) {
-//   const courseId = action.course.courseId
-//   const courseName = action.course.courseName
-//   const getAuthId = state => state.userReducer.user._id
-//   const authId = yield select(getAuthId)
-//   const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
-//   const htmlReadyUrl = encodeURI(url)
-//   try {
-//     if (!authId) {
-//       throw new Error('No author with this id')
-//     } else {
-//       const data = yield call(() => {
-//         return axios({
-//           method: 'get',
-//           url: htmlReadyUrl,
-//           data: {
-//             course: action.course
-//           }
-//         })
-//           .then(res => {
-//             return res
-//           })
-//           .catch(err => {
-//             throw err
-//           })
-//       })
-//       yield put(fetchCourseSuccess(data.data))
-//     }
-//   } catch (error) {
-//     yield put(fetchCourseFail(error))
-//   }
-// }
 
 // DELETE
-function* watchDeleteCourse() {
-  yield takeLatest('DELETE_COURSE', deleteCourse)
-}
-
-function* deleteCourse(action) {
-  // TODO: delete course
-  const courseId = action.course.courseId
-  const courseName = action.course.courseName
-  const getAuthId = state => state.userReducer.user._id
-  const authId = yield select(getAuthId)
-  const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
-  const htmlReadyUrl = encodeURI(url)
-  try {
-    if (!authId) {
-      throw new Error('You are not the creator of this course.')
-    } else {
-      const data = call(() => {
-        return axios({
-          method: 'delete',
-          url: htmlReadyUrl
-        })
-          .then(res => {
-            return res
-          })
-          .catch(err => {
-            throw err.response.data.error
-          })
-      })
-      yield put(deleteCourseSuccess(data))
-    }
-  } catch (error) {
-    yield put(deleteCourseFail(error))
-  }
-}
+// moved to api/course sagas
 
 // CREATE LEVEL
 
@@ -209,7 +138,6 @@ function* getCourseNameAsync(action) {
 
 export default [
   // watchFetchCourse,
-  watchDeleteCourse,
   watchDeleteLevel,
   watchGetCourseName
 ]

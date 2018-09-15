@@ -186,15 +186,11 @@ class CreateCourse extends Component {
     e.preventDefault()
     if (this.isValid()) {
       this.props.actions.createTeachingCourse(this.state)
-      // push state to redux
-      //TODO this.props.actions.fetchTeachingCourse(this.state)
+
       this.props.actions.addFlashMessage({
         type: 'success',
         text: 'You have successfully created a Course!'
       })
-      // this.props.actions.push(
-      //   `/course/${this.state.courseId}/${this.state.courseName}/edit`
-      // )
     }
   }
 

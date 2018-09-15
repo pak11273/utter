@@ -1,4 +1,4 @@
-import {MODAL_CLOSE, MODAL_OPEN} from './types.js'
+import {MODAL_CLOSE, MODAL_OPEN, MODAL_RESET} from './types.js'
 
 export function openModal(modalType, modalProps) {
   return {
@@ -10,5 +10,11 @@ export function openModal(modalType, modalProps) {
 export function closeModal() {
   return {
     type: MODAL_CLOSE
+  }
+}
+
+export function resetModal() {
+  return {
+    type: MODAL_RESET
   }
 }

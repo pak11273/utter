@@ -397,10 +397,9 @@ exports.update = (req, res, next) => {
   })
 }
 
-// TODO: use this to delete whole courses.  levelId is actually the courseId
 exports.deleteCourse = (req, res, next) => {
-  console.log('reg: ', req.params.levelId)
-  let id = req.params.levelId
+  console.log('reg: ', req.params)
+  let id = req.params.courseId
   Course.findByIdAndRemove(id, (err, deleted) => {
     if (err) {
       next(err)
