@@ -10,9 +10,18 @@ const TermSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Level'
   },
-  word: String,
-  translation: String,
-  audio: String
+  word: {
+    type: String,
+    default: 'Change me'
+  },
+  translation: {
+    type: String,
+    default: 'Change me'
+  },
+  audio: {
+    type: String,
+    default: 'audio.mp3'
+  }
 })
 
 TermSchema.virtual('id').get(function() {
@@ -29,7 +38,10 @@ const LevelSchema = new Schema({
     ref: 'Course'
   },
   level: Number,
-  title: String,
+  name: {
+    type: String,
+    default: 'Change me'
+  },
   terms: [TermSchema],
   grammar: String
 })

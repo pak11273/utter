@@ -11,7 +11,7 @@ const LevelsListRow = ({
   selected,
   deleteEntity
 }) => {
-  const {id = null, title = '', level = ''} = entry
+  const {id = null, name = '', level = ''} = entry
 
   const onDeleteClicked = e => {
     e.stopPropagation()
@@ -24,7 +24,7 @@ const LevelsListRow = ({
   return (
     <Table.Row onClick={onRowClicked} active={selected}>
       <Table.Cell>{level}</Table.Cell>
-      <Table.Cell>{title}</Table.Cell>
+      <Table.Cell>{name}</Table.Cell>
       <Table.Cell>
         <Button
           compact
@@ -41,6 +41,7 @@ const LevelsListRow = ({
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // TODO: optimize this with react select
   const session = orm.session(state.entitiesReducer)
 
   const {Levels} = session
@@ -61,4 +62,7 @@ const actions = {
   deleteEntity
 }
 
-export default connect(mapStateToProps, actions)(LevelsListRow)
+export default connect(
+  mapStateToProps,
+  actions
+)(LevelsListRow)

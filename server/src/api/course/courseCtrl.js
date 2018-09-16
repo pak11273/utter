@@ -259,7 +259,7 @@ exports.faker = (req, res, next) => {
       {
         course: course._id,
         level: 1,
-        title: 'Change Me',
+        name: 'Change Me',
         terms: [
           {
             level: id1,
@@ -276,7 +276,7 @@ exports.faker = (req, res, next) => {
       {
         course: course._id,
         level: 2,
-        title: 'Change Me',
+        name: 'Change Me',
         terms: [
           {
             level: id2,
@@ -293,7 +293,7 @@ exports.faker = (req, res, next) => {
       {
         course: course._id,
         level: 4,
-        title: 'Change Me',
+        name: 'Change Me',
         terms: [
           {
             level: id3,
@@ -310,7 +310,7 @@ exports.faker = (req, res, next) => {
       {
         course: course._id,
         level: 10,
-        title: 'Change Me',
+        name: 'Change Me',
         terms: [
           {
             level: id4,

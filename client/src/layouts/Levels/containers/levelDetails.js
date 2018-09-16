@@ -25,16 +25,17 @@ class LevelDetails extends Component {
 
   render() {
     const {entry = {}, levelIsSelected = false} = this.props
-    const {title = '', level = '', id = ''} = entry
+    const {name = '', level = '', terms = {}} = entry
+    const termsCount = Object.keys(terms).length
     return (
       <Form size="large">
         <FormEditWrapper
           singleValue={true}
-          value={{title}}
+          value={{name}}
           onChange={this.inputChange}>
           <Form.Field
             label="Name"
-            name="title"
+            name="name"
             width={16}
             control={Input}
             placeholder="Title"
@@ -52,15 +53,16 @@ class LevelDetails extends Component {
             placeholder="level"
           />
         </FormEditWrapper>
-        <Form.Field
-          label="Level ID"
-          name="id"
-          width={16}
-          control={Input}
-          placeholder="id"
-          value={id}
-          readOnly
-        />
+        <FormEditWrapper singleValue={true} value={{termsCount}}>
+          <Form.Field
+            label="Terms"
+            name="terms"
+            width={16}
+            control={Input}
+            placeholder="terms"
+            readOnly
+          />
+        </FormEditWrapper>
         <Button style={{background: '#F6D155'}}>Save</Button>
       </Form>
     )
@@ -79,7 +81,7 @@ const mapStateToProps = state => {
   if (Levels.hasId(currentLevel)) {
     entry = Levels.withId(currentLevel).ref
   } else {
-    entry = {title: '', level: '', id: ''}
+    entry = {name: '', level: '', id: ''}
   }
 
   const levelIsSelected = Boolean(currentLevel)
@@ -91,4 +93,7 @@ const actions = {
   updateEntity
 }
 
-export default connect(mapStateToProps, actions)(LevelDetails)
+export default connect(
+  mapStateToProps,
+  actions
+)(LevelDetails)

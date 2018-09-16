@@ -128,6 +128,7 @@ const initialState = {
   courseDescription: '',
   courseName: '',
   levels: [{level: 1, cuid: cuid()}],
+  terms: [{word: 'Change me', translation: 'Change me', audio: 'audio.mp3'}],
   displayName: '',
   errors: {},
   loading: false,
@@ -145,18 +146,7 @@ class CreateCourse extends Component {
     this.props.actions.toggleFooter(false)
 
     // clear state
-    this.setState({
-      cdn: {hello: 'wtf'},
-      courseId: '',
-      courseAuthorId: '',
-      courseName: '',
-      charCount: 0,
-      courseDescription: '',
-      displayName: '',
-      errors: {}, // clear errors every time we submit form
-      currentTeachingCourse: {},
-      loading: false
-    })
+    this.setState(initialState)
 
     const newState = update(this.state, {
       courseAuthorId: {$set: this.props.user.id}
@@ -177,9 +167,6 @@ class CreateCourse extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-    // this.props.actions.setReducer({
-    //   [e.target.name]: e.target.value
-    // })
   }
 
   onSubmit = e => {
@@ -344,7 +331,6 @@ const mapDispatchToProps = dispatch => {
         fetchCourseName,
         toggleFooter,
         push
-        // TODO fetchTeachingCourse: course.request
       },
       dispatch
     )

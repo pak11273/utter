@@ -38,6 +38,7 @@ const mapStateToProps = state => {
 
   const {Levels} = session
   // Extract a list of IDs for each Level entry
+  // TODO optimize this with react-select.  Also, map is expensive here.
   const levels = Levels.all()
     .toModelArray()
     .map(levelModel => {
@@ -58,4 +59,7 @@ const actions = {
   selectLevel
 }
 
-export default connect(mapStateToProps, actions)(levelsList)
+export default connect(
+  mapStateToProps,
+  actions
+)(levelsList)

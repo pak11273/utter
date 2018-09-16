@@ -33,18 +33,6 @@ import '../styles.css'
 import {openModal} from '../../../containers/Modals/actions.js'
 import updateSettings from '../../../api/course/actions/courseActions.js'
 
-const USING_LANG = [
-  {value: 'english', text: 'English'},
-  {value: 'korean', text: 'Korean'},
-  {value: 'french', text: 'French'}
-]
-
-const TEACHING_LANG = [
-  {value: 'english', text: 'English'},
-  {value: 'korean', text: 'Korean'},
-  {value: 'french', text: 'French'}
-]
-
 const initialState = {
   uploadedFile: {},
   uploadFileCloudinaryUrl: ''
@@ -139,11 +127,11 @@ class CourseSettings extends Component {
       formData.append('timestamp', (Date.now() / 1000) | 0)
 
       // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-      return axios
-        .post(
-          'https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/',
-          formData
-        )
+      return axios({
+        method: 'POST',
+        url: 'https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/',
+        data: formData
+      })
         .then(res => {
           const data = res.data
 
