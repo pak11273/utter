@@ -64,6 +64,7 @@ input:-webkit-autofill {
 }
 
 #usingLang,
-#teachingLang {
+#teachingLang,
+#courseRef {
   border: none;
 }

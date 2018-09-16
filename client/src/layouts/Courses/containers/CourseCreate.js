@@ -14,6 +14,8 @@ import Teaching from './Teaching.js'
 import Using from './Using.js'
 import '../styles.css'
 
+import CourseRef from '../components/CourseRef.js'
+
 import {
   Box,
   Button,
@@ -111,11 +113,13 @@ const StyledGrid = styled(Grid)`
   grid-template-areas:
     'teaching teaching'
     'using using'
+    'ref ref'
     'tags tags';
 
   @media (min-width: 1080px) {
     grid-template-areas:
       'teaching using'
+      'ref ref'
       'tags tags';
   }
 `
@@ -132,6 +136,7 @@ const initialState = {
   displayName: '',
   errors: {},
   loading: false,
+  courseRef: '',
   tags: [],
   teachingLang: '',
   usingLang: ''
@@ -179,6 +184,12 @@ class CreateCourse extends Component {
         text: 'You have successfully created a Course!'
       })
     }
+  }
+
+  addRef = value => {
+    this.setState({
+      courseRef: value
+    })
   }
 
   addTags = value => {
@@ -296,6 +307,11 @@ class CreateCourse extends Component {
             <StyledFlex gridarea="using" margin1080="40px 0 0 0">
               <Label>Using</Label>
               <Using addUsingLang={this.addUsingLang} />
+            </StyledFlex>
+            <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
+              <Label>Course Reference</Label>
+              <p>ie. Book, Classroom, Online Course</p>
+              <CourseRef addRef={this.addRef} />
             </StyledFlex>
             <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
               <Label>Tags</Label>

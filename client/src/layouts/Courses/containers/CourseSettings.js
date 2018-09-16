@@ -34,8 +34,13 @@ import {openModal} from '../../../containers/Modals/actions.js'
 import updateSettings from '../../../api/course/actions/courseActions.js'
 
 const initialState = {
+  courseRef: '',
   uploadedFile: {},
-  uploadFileCloudinaryUrl: ''
+  uploadFileCloudinaryUrl: '',
+  multi: true,
+  multiValue: [],
+  options: [],
+  value: undefined
 }
 
 class CourseSettings extends Component {
@@ -47,6 +52,7 @@ class CourseSettings extends Component {
 
   componentDidMount() {
     const newState = update(this.state, {
+      multiValue: {$set: this.props.course.courseRef},
       secure_url: {$set: this.props.course.image}
     })
 
@@ -155,11 +161,33 @@ class CourseSettings extends Component {
     })
   }
 
+  addRef = value => {
+    this.setState(
+      {
+        courseRef: value
+      },
+      () => {
+        const newValues = {courseRef: value}
+        const {id} = this.props.course
+        this.props.updateEntity('Course', id, newValues)
+      }
+    )
+  }
+
+  updateValue = newValue => {
+    const {multi} = this.state
+    if (multi) {
+      this.setState({multiValue: newValue})
+    } else {
+      this.setState({newValue})
+    }
+    this.addRef(newValue)
+  }
+
   render() {
     let course = this.props.course
-    const options = languageData
     const {courseDescription, courseName} = course
-
+    const {multi, multiValue, options, value} = this.state
     return (
       <Form size="large" onSubmit={this.handleSubmit}>
         <Helmet>
@@ -232,6 +260,27 @@ class CourseSettings extends Component {
             </Grid.Column>
             <Grid.Column width={8}>
               <Segment>
+                <Label>Course Reference</Label>
+                <Select.Creatable
+                  id="courseRef"
+                  wrapperStyle={{
+                    margin: '20px 0 0 0',
+                    width: '100%'
+                  }}
+                  style={{
+                    width: '100%'
+                  }}
+                  menuContainerStyle={{
+                    width: '100%'
+                  }}
+                  menuStyle={{
+                    width: '100%'
+                  }}
+                  multi={multi}
+                  options={options}
+                  onChange={this.updateValue}
+                  value={multi ? multiValue : value}
+                />
                 <Label>Using Language</Label>
                 <Select
                   id="usingLang"
@@ -240,7 +289,7 @@ class CourseSettings extends Component {
                   }}
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={options}
+                  options={languageData}
                   simpleValue
                   clearable={this.state.clearable}
                   wrapperStyle={{
@@ -271,7 +320,7 @@ class CourseSettings extends Component {
                   }}
                   onBlurResetsInput={false}
                   onSelectResetsInput={false}
-                  options={options}
+                  options={languageData}
                   simpleValue
                   clearable={this.state.clearable}
                   wrapperStyle={{
@@ -312,22 +361,9 @@ class CourseSettings extends Component {
 }
 
 const mapStateToProps = state => {
-  // Create a Redux-ORM Session from our "entities" slice, which
-  // contains the "tables" for each model type
   const session = getEntitiesSession(state)
 
-  // Retrieve the model class that we need.  Each Session
-  // specifically "binds" model classes to itself, so that
-  // updates to model instances are applied to that session.
-  // These "bound classes" are available as fields in the sesssion.
   const {Course} = session
-
-  // Query the session for all Course instances.
-  // The QuerySet that is returned from all() can be used to
-  // retrieve instances of the Course class, or retrieve the
-  // plain JS objects that are actually in the store.
-  // The toRefArray() method will give us an array of the
-  // plain JS objects for each item in the QuerySet.
 
   let course = Course.first().ref
 

@@ -264,6 +264,11 @@ class CoursesContainer extends Component {
     const LangCard = this.props.courses.map(item => {
       var author = ''
       item.courseAuthor.username ? (author = item.courseAuthor.username) : null
+      let keys = []
+      item.courseRef.map(item => {
+        keys.push(item.value)
+      })
+      const courseRef = keys.toString()
       return (
         <Card key={item.id}>
           <Image
@@ -299,7 +304,7 @@ class CoursesContainer extends Component {
             <span style={{padding: '0 20px 0 0'}}>{item.subscribers}</span>
             <p>
               <Icon name="book" />
-              <span style={{padding: '0 20px 0 0'}}>{item.courseRef}</span>
+              <span style={{padding: '0 20px 0 0'}}>{courseRef}</span>
             </p>
           </Card.Content>
         </Card>
