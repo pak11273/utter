@@ -1,5 +1,6 @@
 import {createAsyncTypes} from '../utils/reduxUtils.js'
 
+export const LOADER_ASYNC = createAsyncTypes('LOADER_ASYNC')
 export const FLASH_ASYNC = createAsyncTypes('FLASH_ASYNC')
 export const DATA_LOADED = createAsyncTypes('DATA_LOADED')
 

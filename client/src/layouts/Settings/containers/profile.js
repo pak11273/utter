@@ -3,41 +3,25 @@ import {connect} from 'react-redux'
 import {Form, Dropdown, Segment} from 'semantic-ui-react'
 import orm from '../../../app/schema.js'
 
-const NATIVE_LANG = [
-  {value: 'English', text: 'English'},
-  {value: 'Korean', text: 'Korean'}
-]
-
 // import {selectUserInfo} from '../../../../api/user/selectors.js'
 
-class AccountInfo extends Component {
+class Profile extends Component {
   constructor(props) {
     super(props)
   }
 
   render() {
-    // const {unitInfo} = this.props
-    // const {name, affiliation} = unitInfo
-
     let user = this.props.user
     return (
       <Segment attached="bottom">
         <Form size="large">
-          <Form.Field name="name" width={6}>
-            <label>Username</label>
-            <input placeholder="Name" defaultValue={user.username} disabled />
+          <Form.Field name="avatar" width={6}>
+            <label>Avatar</label>
+            <input placeholder="Avatar" defaultValue={user.username} disabled />
           </Form.Field>
-          <Form.Field name="email" width={6}>
-            <label>Email</label>
-            <input placeholder="Email" defaultValue={user.email} />
-          </Form.Field>
-          <Form.Field name="native-language" width={6}>
-            <label>Native Language</label>
-            <Dropdown
-              selection
-              options={NATIVE_LANG}
-              defaultValue={user.nativeLang}
-            />
+          <Form.Field name="followers" width={6}>
+            <label>Followers</label>
+            <input placeholder="Followers" defaultValue={1} readOnly />
           </Form.Field>
         </Form>
       </Segment>
@@ -70,4 +54,4 @@ const mapStateToProps = state => {
   return {user}
 }
 
-export default connect(mapStateToProps)(AccountInfo)
+export default connect(mapStateToProps)(Profile)

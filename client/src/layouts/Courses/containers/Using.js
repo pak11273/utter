@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import languageData from '../data/languageData.js'
+import languageData from '../../../data/languageData.js'
 import {Box} from '../../../components'
 import '../styles.css'
 
@@ -21,7 +21,7 @@ class Using extends Component {
 
   clearValue = e => {
     this.select.setInputValue('')
-  };
+  }
 
   switchCountry = e => {
     constnewCountry = e.target.value
@@ -29,14 +29,14 @@ class Using extends Component {
       country: newCountry,
       selectValue: null
     })
-  };
+  }
 
   updateValue = newValue => {
     this.setState({
       selectValue: newValue
     })
     this.props.addUsingLang(newValue)
-  };
+  }
 
   render() {
     const options = languageData

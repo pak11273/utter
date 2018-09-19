@@ -8,7 +8,7 @@ import LevelsListRow from './levelsListRow.js'
 
 import {getEntitiesSession} from '../../../api/entities/selectors'
 
-import {selectLevel} from '../../../api/levels/actions.js'
+import {selectLevel} from '../../../api/levels/levelsActions.js'
 import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 
 class levelsList extends Component {

@@ -1,7 +1,7 @@
 import {decodeToken, getFreshUser} from '../auth/auth.js'
 const checkUser = [decodeToken(), getFreshUser()]
 
-module.exports = (controller, router) => {
+export default (controller, router) => {
   // router.param('id', controller.params)
 
   router

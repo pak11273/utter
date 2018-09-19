@@ -4,6 +4,7 @@ import cuid from 'cuid'
 import isEmpty from 'lodash/isEmpty'
 
 import Course from './courseModel.js'
+const ObjectId = require('mongoose').Types.ObjectId
 
 exports.get = async (req, res, next) => {
   console.log('get off me')
@@ -384,17 +385,31 @@ exports.getTeachingCourses = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-  let update = req.body
+  const update = req.body
 
-  console.log('update', req.body)
-
-  Course.findOneAndUpdate({_id: update.courseId}, update, (err, data) => {
-    if (err) {
-      next(err)
-    } else {
-      res.json({data})
-    }
-  })
+  // update a level's name
+  if (update.type === 'LEVEL_ASYNC_UPDATE') {
+    Course.findOneAndUpdate(
+      {'levels._id': ObjectId(update.id)},
+      {$set: {name: update.name}},
+      (err, data) => {
+        if (err) {
+          next(err)
+        } else {
+          res.json({data})
+        }
+      }
+    )
+  } else {
+    // update a course
+    Course.findOneAndUpdate({_id: update.courseId}, update, (err, data) => {
+      if (err) {
+        next(err)
+      } else {
+        res.json({data})
+      }
+    })
+  }
 }
 
 exports.deleteCourse = (req, res, next) => {

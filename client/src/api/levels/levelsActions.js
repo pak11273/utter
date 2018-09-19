@@ -1,4 +1,17 @@
 import cuid from 'cuid'
+import {LEVEL_ASYNC} from './types.js'
+
+import {createAction} from '../../utils/reduxUtils.js'
+
+export default {
+  // create: state => createAction(LEVEL_ASYNC.CREATE, state),
+  // request: state => createAction(LEVEL_ASYNC.REQUEST, state),
+  update: state => createAction(LEVEL_ASYNC.UPDATE, state),
+  // delete: state => createAction(LEVEL_ASYNC.DELETE, state),
+  success: course => createAction(LEVEL_ASYNC.SUCCESS, course),
+  error: error => createAction(LEVEL_ASYNC.ERROR, error),
+  reset: () => createAction(LEVEL_ASYNC.RESET)
+}
 
 // TODO: implement editing feature
 // import {

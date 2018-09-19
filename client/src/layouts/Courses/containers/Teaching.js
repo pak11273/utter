@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import Select from 'react-select'
-import languageData from '../data/languageData'
+import languageData from '../../../data/languageData.js'
 import {Box} from '../../../components'
 import '../styles.css'
 
@@ -20,14 +20,14 @@ class Teaching extends Component {
 
   clearValue = e => {
     this.select.setInputValue('')
-  };
+  }
 
   updateValue = newValue => {
     this.setState({
       selectValue: newValue
     })
     this.props.addTeachingLang(newValue)
-  };
+  }
 
   render() {
     const options = languageData

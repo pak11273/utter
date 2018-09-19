@@ -8,6 +8,9 @@ import {selectCurrentLevel} from '../../../api/levels/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'
 import {getValueFromEvent} from '../../../utils/clientUtils.js'
 
+// actions
+import updateLevels from '../../../api/levels/levelsActions.js'
+
 class LevelDetails extends Component {
   inputChange = e => {
     const newValues = getValueFromEvent(e)
@@ -23,12 +26,17 @@ class LevelDetails extends Component {
     this.props.updateEntity('Levels', id, newValues)
   }
 
+  handleSubmit = e => {
+    e.preventDefault()
+    this.props.updateLevels(this.props.entry)
+  }
+
   render() {
     const {entry = {}, levelIsSelected = false} = this.props
     const {name = '', level = '', terms = {}} = entry
     const termsCount = Object.keys(terms).length
     return (
-      <Form size="large">
+      <Form size="large" onSubmit={this.handleSubmit}>
         <FormEditWrapper
           singleValue={true}
           value={{name}}
@@ -38,7 +46,7 @@ class LevelDetails extends Component {
             name="name"
             width={16}
             control={Input}
-            placeholder="Title"
+            placeholder="Name"
           />
         </FormEditWrapper>
         <FormEditWrapper
@@ -76,7 +84,7 @@ const mapStateToProps = state => {
 
   const session = getEntitiesSession(state)
 
-  const {Levels} = session
+  const {Course, Levels} = session
 
   if (Levels.hasId(currentLevel)) {
     entry = Levels.withId(currentLevel).ref
@@ -85,12 +93,13 @@ const mapStateToProps = state => {
   }
 
   const levelIsSelected = Boolean(currentLevel)
-
-  return {entry, levelIsSelected}
+  let course = Course.first().ref
+  return {course, entry, levelIsSelected}
 }
 
 const actions = {
-  updateEntity
+  updateEntity,
+  updateLevels: updateLevels.update
 }
 
 export default connect(

@@ -1,6 +1,8 @@
 import {createAsyncTypes} from '../../utils/reduxUtils.js'
 
+export const ACCOUNT_ASYNC = createAsyncTypes('ACCOUNT_ASYNC')
 export const LOGIN_ASYNC = createAsyncTypes('LOGIN_ASYNC')
+export const LOADER_ASYNC = createAsyncTypes('LOADER_ASYNC')
 export const SIGNUP_ASYNC = createAsyncTypes('SIGNUP_ASYNC')
 export const LOGOUT = 'utter/user/LOGOUT'
 export const DEAUTHORIZE = 'utter/user/DEAUTHORIZE'

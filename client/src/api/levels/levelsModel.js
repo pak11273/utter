@@ -3,7 +3,7 @@ import {fk, many, attr, Model} from 'redux-orm'
 class Levels extends Model {
   static get fields() {
     return {
-      course: fk('Courses')
+      course: fk('Courses', 'levels')
     }
   }
 

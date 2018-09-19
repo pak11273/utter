@@ -44,27 +44,12 @@ exports.getOne = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-  function customizer(objValue, srcValue) {
-    if (_.isArray(objValue)) {
-      return objValue.concat(srcValue)
-    }
-  }
-  let user = req.user
   let update = req.body
-  // let courses = {courses: _.uniqBy(user.courses, 'name')}
-  // console.log('removed? : ', courses)
-  // console.log('breq: ', update)
-  // _.merge(user, courses)
-  // console.log('duped: ', user)
-  _.mergeWith(user, update, customizer)
-  // console.log('mergewith : ', user)
-
-  // user.markModified('utteredList')
-  user.save((err, saved) => {
+  User.findOneAndUpdate({_id: req.body._id}, update, (err, data) => {
     if (err) {
       next(err)
     } else {
-      res.json(saved.toJSON())
+      res.json(data)
     }
   })
 }

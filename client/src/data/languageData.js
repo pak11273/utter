@@ -299,7 +299,7 @@ export default [
     className: 'languageOption'
   },
   {
-    value: 'japanese',
+    value: 'japaneseLanguages',
     label: 'Japanese',
     className: 'languageSubHeader',
     disabled: true
@@ -522,7 +522,7 @@ export default [
     disabled: true
   },
   {
-    value: 'arabic',
+    value: 'arabicLanguages',
     label: 'Arabic',
     className: 'languageSubHeader',
     disabled: true

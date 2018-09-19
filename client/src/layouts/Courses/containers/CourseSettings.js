@@ -20,7 +20,7 @@ import {
 } from 'semantic-ui-react'
 import Dropzone from 'react-dropzone'
 import Select from 'react-select'
-import languageData from '../data/languageData'
+import languageData from '../../../data/languageData.js'
 import FormEditWrapper from '../../../components/FormEditWrapper'
 import {getEntitiesSession} from '../../../api/entities/selectors.js'
 import {updateEntity} from '../../../api/entities/actions.js'

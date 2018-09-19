@@ -1,5 +1,3 @@
-import jwt from 'jsonwebtoken'
-import axios from 'axios'
 import {COURSE_ASYNC} from '../types.js'
 
 import {createAction} from '../../../utils/reduxUtils.js'
