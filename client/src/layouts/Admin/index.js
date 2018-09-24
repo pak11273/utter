@@ -5,7 +5,7 @@ import {Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import Vocabulary from './Vocabulary'
 import {Box, Button, Grid, Spacer, Text} from '../../components'
-import FaCaretDown from 'react-icons/fa/caret-down'
+import {FaCaretDown} from 'react-icons/fa'
 import './styles.css'
 import Aws from './Aws'
 import Phrases from './Phrases'
@@ -193,4 +193,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Admin)

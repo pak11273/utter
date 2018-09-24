@@ -5,7 +5,7 @@ import User from '../api/user/userModel.js'
 // ACL config
 var acl = new node_acl(new node_acl.mongodbBackend(mongoose.connection.db))
 
-module.exports = {
+export default {
   init: function() {
     acl.allow(roles)
     acl.addRoleParents('admin', 'registeredUser')

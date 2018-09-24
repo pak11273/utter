@@ -1,0 +1,1 @@
+{"id":"assets/images/two-guys.jpg","dependencies":[{"name":"/var/www/html/utter/package.json","includedInParent":true,"mtime":1537713411456},{"name":"/var/www/html/utter/.babelrc","includedInParent":true,"mtime":1537642482682}],"generated":{"js":"module.exports = \"/0719b016297779becd3e194400dd34c9.jpg\";"},"hash":"34e4b31f0235dd7f15b4b94ee3de3b1a","cacheData":{"env":{}}}

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer'
-import pwd from '../../dist/config/pwd.js'
+import pwd from '../config/pwd.js'
 
-exports.transporter = nodemailer.createTransport({
+export const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: pwd.gmail_username,

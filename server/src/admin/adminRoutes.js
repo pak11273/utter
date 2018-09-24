@@ -6,4 +6,4 @@ router.route('/uploadFile').post(controller.uploadFile)
 
 router.route('/language').post(controller.newLanguage)
 
-module.exports = router
+export default router

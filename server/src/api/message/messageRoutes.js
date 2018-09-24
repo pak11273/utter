@@ -5,4 +5,4 @@ const router = express.Router()
 
 createRoutes(controller, router)
 
-module.exports = router
+export default router

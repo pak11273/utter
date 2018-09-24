@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   jwt: 'gumball',
   facebook: {
     clientID: '218390765395433',

@@ -5,13 +5,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --content-base public/dist --host 0.0.0.0 --inline  --env.dev --mode development",
+    "parcel": "parcel client/src/App.js --hmr-hostname 0.0.0.0 --out-dir client/dist",
+    "frontend": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack-frontend.config.babel.js  --content-base public/dist --host 0.0.0.0 --inline  --env.dev --mode development",
     "//": "babel server/src --out-dir server/dist --no-babelrc --presets=es2015,react,es2016,stage-2,stage-0 ",
-    "buildserver": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
-    "prebuild": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
-    "build": "webpack -p --env.production --mode production",
-    "bserver": "nodemon server/dist/index.js",
-    "watch": "watch 'npm run buildserver' server/src",
+    "production": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
+    "backend": "webpack --config ./webpack-backend.config.babel.js --colors --progress --env.server --mode development",
     "test": "NODE_ENV=test jest",
     "test-update": "npm run test -- -u",
     "test-cover": "npm run test -- --coverage"
@@ -76,7 +74,7 @@
     "react-ga": "^2.5.3",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.3.6",
-    "react-icons": "^2.2.7",
+    "react-icons": "3.1.0",
     "react-portal": "^4.1.5",
     "react-redux": "^5.0.5",
     "react-redux-loading-bar": "^4.0.5",
@@ -107,6 +105,7 @@
     "socket.io-p2p": "^2.2.0",
     "socket.io-p2p-server": "^1.2.0",
     "socket.io-stream": "^0.9.1",
+    "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "^0.19.0",
     "styled-components": "^2.1.0",
     "superagent": "^3.8.2",
@@ -115,7 +114,7 @@
     "validator": "^8.0.0",
     "webpack-hot-middleware": "^2.18.2",
     "webpack-isomorphic-tools": "^3.0.2",
-    "webpack-node-externals": "^1.6.0"
+    "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",
@@ -136,6 +135,7 @@
     "faker": "^4.1.0",
     "img-loader": "^2.0.0",
     "nodemon": "^1.14.12",
+    "parcel-bundler": "^1.9.7",
     "progress-bar-webpack-plugin": "^1.10.0",
     "react-test-renderer": "^15.6.1",
     "redux-logger": "^3.0.6",

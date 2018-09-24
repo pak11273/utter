@@ -1,6 +1,6 @@
 import acl from '../acl'
 
-exports.roleCheck = (req, res, next) => {
+export const roleCheck = (req, res, next) => {
   console.log('res: ', req.body)
   next()
   // var userId = req.user ? req.user._id : null
@@ -51,7 +51,7 @@ exports.roleCheck = (req, res, next) => {
   // })
 }
 
-exports.isAllowed = function(req, res, next) {
+export const isAllowed = function(req, res, next) {
   var roles = req.user ? req.user.roles : ['guest']
   // If a course is being processed and the current user created it then allow any manipulation
   if (

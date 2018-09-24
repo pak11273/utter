@@ -1,6 +1,6 @@
-import config from '../dist/config/index.js'
+import config from './config/index.js'
 import server from './server.js'
-import logger from '../dist/util/logger'
+import logger from './util/logger'
 import socketServer from './socketServer'
 
 const env = process.env.NODE_ENV || 'empty'
@@ -12,3 +12,13 @@ server.listen(config.port, function() {
 })
 
 socketServer(server)
+
+let currentApp = server
+
+// if (module.hot) {
+//   module.hot.accept(['./server'], () => {
+//     server.removeListener('request', currentApp)
+//     server.on('request', app)
+//     currentApp = app
+//   })
+// }

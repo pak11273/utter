@@ -1,0 +1,1 @@
+{"id":"assets/images/logo.svg","dependencies":[{"name":"/var/www/html/utter/package.json","includedInParent":true,"mtime":1537713411456},{"name":"/var/www/html/utter/.babelrc","includedInParent":true,"mtime":1537642482682}],"generated":{"js":"module.exports = \"/b3f553c592f9b02826e85c48754f0c15.svg\";"},"hash":"9d380f9f6cc631143ea83057a66d8d58","cacheData":{"env":{}}}

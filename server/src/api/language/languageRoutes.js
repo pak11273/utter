@@ -5,4 +5,4 @@ import createRoutes from '../../util/createRoutes.js'
 
 createRoutes(controller, router)
 
-module.exports = router
+export default router

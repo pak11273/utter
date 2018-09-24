@@ -22,4 +22,4 @@ router.use('/rooms', roomRoutes)
 router.use('/users', userRoutes)
 // router.use('/zones', zoneRoutes)
 
-module.exports = router
+export default router

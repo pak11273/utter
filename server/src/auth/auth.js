@@ -5,7 +5,7 @@ import User from '../api/user/userModel'
 
 const checkToken = expressJwt({secret: config.secrets.jwt})
 
-exports.decodeToken = () => {
+export const decodeToken = () => {
   return (req, res, next) => {
     // make optional to place token on query string
     // if it is, place in header
@@ -19,7 +19,7 @@ exports.decodeToken = () => {
   }
 }
 
-exports.getFreshUser = () => {
+export const getFreshUser = () => {
   return (req, res, next) => {
     User.findById(req.user._id).then(
       user => {
@@ -39,7 +39,7 @@ exports.getFreshUser = () => {
   }
 }
 
-exports.verifyUser = () => {
+export const verifyUser = () => {
   return (req, res, next) => {
     let {identifier, password} = req.body
     // checks input for email or username
@@ -77,7 +77,7 @@ exports.verifyUser = () => {
 }
 
 // another way to authenticate tokens and grab the user
-exports.authenticate = (req, res, next) => {
+export const authenticate = (req, res, next) => {
   const authorizationHeader = req.headers['authorization']
   let token
   if (authorizationHeader) {
@@ -113,6 +113,6 @@ exports.authenticate = (req, res, next) => {
 }
 
 // util method to sign tokens on signup
-exports.signToken = id => {
+export const signToken = id => {
   return jwt.sign({_id: id}, config.secrets.jwt, {expiresIn: config.expireTime})
 }
