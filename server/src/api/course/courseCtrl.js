@@ -8,7 +8,7 @@ const ObjectId = require('mongoose').Types.ObjectId
 
 export default {
   get: async (req, res, next) => {
-    console.log('get off me')
+    console.log('eat off me')
     const limit = parseInt(req.query.limit, 10)
 
     // query builder
