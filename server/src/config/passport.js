@@ -1,11 +1,10 @@
-import auth from '../auth/auth'
+import {signToken} from '../auth/auth'
 import mongoose from 'mongoose'
 import passport from 'passport'
 import secret from './secrets.js'
 
 const LocalStrategy = require('passport-local').Strategy
 const User = mongoose.model('User')
-const signToken = auth.signToken
 
 passport.serializeUser((user, done) => {
   done(null, user.id)

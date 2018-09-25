@@ -22,4 +22,4 @@ const ZoneSchema = mongoose.Schema(
   {timestamps: true}
 )
 
-module.exports = mongoose.model('Zone', ZoneSchema)
+export default mongoose.model('Zone', ZoneSchema)

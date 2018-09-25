@@ -30,4 +30,4 @@ router.route('/faker').get(controller.faker)
 
 // .put(controller.update)
 
-module.exports = router
+export default router

@@ -16,4 +16,4 @@ router
   .put(controller.update)
   .delete(controller.delete)
 
-module.exports = router
+export default router

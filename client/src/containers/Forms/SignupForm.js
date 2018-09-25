@@ -16,8 +16,8 @@ import {
   Subtitle,
   Title
 } from '../../components'
-import FaFacebook from 'react-icons/fa/facebook'
-import FaGoogle from 'react-icons/fa/google'
+import {FaFacebook} from 'react-icons/fa'
+import {FaGoogle} from 'react-icons/fa'
 
 // actions
 import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
@@ -257,4 +257,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignupForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SignupForm)

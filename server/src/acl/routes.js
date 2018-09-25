@@ -4,7 +4,9 @@ const router = express.Router()
 import createRoutes from '../util/createRoutes.js'
 // import controller from './ctrl.js'
 
-const acl = require('../acl/index.js').getAcl()
+import aclObject from '../acl'
+const acl = aclObject.getAcl()
+// const acl = require('../acl/index.js').getAcl()
 
 // createRoutes(controller, router)
 
@@ -57,4 +59,4 @@ function get_user_id(request, response) {
   return 'bob'
 }
 
-module.exports = router
+export default router

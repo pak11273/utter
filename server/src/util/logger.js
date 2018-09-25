@@ -23,7 +23,7 @@ let consoleLog = config.logging ? console.log.bind(console) : noop
 //   }
 // };
 
-// module.exports = Logger;
+// export default Logger;
 
 const logger = {
   log() {
@@ -58,4 +58,4 @@ const logger = {
   }
 }
 
-module.exports = logger
+export default logger

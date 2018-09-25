@@ -96,4 +96,4 @@ AdminSchema.methods = {
 
 AdminSchema.plugin(uniqueValidator, {message: 'is already taken.'})
 
-module.exports = mongoose.model('Admin', AdminSchema)
+export default mongoose.model('Admin', AdminSchema)

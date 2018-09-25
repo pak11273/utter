@@ -5,10 +5,11 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import bluebird from 'bluebird'
-import config from '../../dist/config/index.js'
+import config from '../config/index.js'
 import passport from 'passport'
 import node_acl from 'acl'
 import roles from '../acl/roles.js'
+import acl from '../acl/index.js'
 const MongoStore = require('connect-mongo')(session)
 
 // webpack hmr imports - not necessary for production TODO:remove for production
@@ -18,7 +19,7 @@ const MongoStore = require('connect-mongo')(session)
 // import webpackConfig from '../../../webpack.config.js'
 // const compiler = webpack(webpackConfig)
 
-module.exports = app => {
+export default app => {
   app.use(cors())
   app.use(morgan('dev'))
   app.use(cookieParser())
@@ -49,7 +50,7 @@ module.exports = app => {
   mongoose.connect(config.db.url)
 
   mongoose.connection.on('connected', function(test) {
-    require('../acl/index.js').init()
+    // acl.init()
   })
 }
 

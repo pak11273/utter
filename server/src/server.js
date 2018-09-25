@@ -1,20 +1,24 @@
 // utility and config imports
 import path from 'path'
-import logger from '../dist/util/logger'
-import error from '../dist/middleware/error'
-import config from '../dist/config/index.js'
-import pwd from '../dist/config/pwd.js'
+import logger from './util/logger'
+import error from './middleware/error'
+import config from './config/index.js'
+import pwd from './config/pwd.js'
 import mongoose from 'mongoose'
 import nodemailer from 'nodemailer'
 import _ from 'lodash'
 import express from 'express'
 import err from './middleware/error.js'
-import http from 'http'
+
+import aclRoutes from './acl/routes.js'
+import api from './api'
+import auth from './auth/routes.js'
+import admin from './admin/adminRoutes.js'
+import mailRouter from './mail/routes.js'
 const app = express()
-const server = http.createServer(app)
 
 // third party middleware
-import middleware from '../dist/middleware/appMiddleware'
+import middleware from './middleware/appMiddleware'
 middleware(app)
 
 // express middleware
@@ -23,12 +27,6 @@ app.use('/cdn', express.static('cdn'))
 
 // Routers
 mongoose.connection.on('connected', function() {
-  const aclRoutes = require('../dist/acl/routes.js')
-  const api = require('../dist/api')
-  const auth = require('../dist/auth/routes.js')
-  const admin = require('../dist/admin/adminRoutes.js')
-  const mailRouter = require('../dist/mail/routes.js')
-
   // mounts
   // app.use('/acl', aclRoutes) // moved inside of the mongoose function in Routers section
   app.use('/acl', aclRoutes)
@@ -61,4 +59,4 @@ app.get('*.css', function(req, res, next) {
 // error handling middleware
 app.use(err)
 
-module.exports = server
+export default app

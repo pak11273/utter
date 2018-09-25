@@ -2,7 +2,7 @@
 // Do the following in production:
 // pm2 start ecosystem.config.js --env production
 
-module.exports = {
+export default {
   apps: [
     {
       name: 'utterzone',

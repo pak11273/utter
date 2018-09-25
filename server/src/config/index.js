@@ -2,7 +2,7 @@ import _ from 'lodash'
 import pwd from './pwd.js'
 
 // default config object
-// module.exports = {
+// export default {
 const config = {
   dev: 'development',
   test: 'testing',
@@ -29,7 +29,10 @@ const config = {
 }
 
 // if env not set, set it to default
-process.env.NODE_ENV = process.env.node_env || config.dev
+console.log('ENV: ', process.env.NODE_ENV)
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = config.dev
+}
 
 // set config env to node_env
 config.env = process.env.NODE_ENV
@@ -37,11 +40,11 @@ config.env = process.env.NODE_ENV
 var envConfig
 
 try {
-  envConfig = require('./' + config.env)
+  envConfig = require('./' + config.env).default
   envConfig = envConfig || {}
 } catch (e) {
   envConfig = {}
 }
 
 // merge the two objects and export it so our app can use it
-module.exports = _.merge(config, envConfig || {})
+export default _.merge(config, envConfig || {})

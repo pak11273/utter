@@ -1,6 +1,6 @@
 import express from 'express'
 import _ from 'lodash'
-import pwd from '../../dist/config/pwd.js'
+import pwd from '../config/pwd.js'
 import nodemailer from 'nodemailer'
 import path from 'path'
 const mailRouter = express.Router()
@@ -20,19 +20,19 @@ mailRouter.post('/', function(req, res) {
     subject: req.body.subject,
     text:
       'phone: ' +
-        ' ' +
-        req.body.country +
-        ' ' +
-        req.body.number +
-        '\n\n' +
-        'email: ' +
-        req.body.email +
-        '\n\n' +
-        'subjedct: ' +
-        req.body.subject +
-        '\n\n' +
-        'message: ' +
-        req.body.letter
+      ' ' +
+      req.body.country +
+      ' ' +
+      req.body.number +
+      '\n\n' +
+      'email: ' +
+      req.body.email +
+      '\n\n' +
+      'subjedct: ' +
+      req.body.subject +
+      '\n\n' +
+      'message: ' +
+      req.body.letter
   }
 
   transporter.sendMail(mailOptions, function(error, info) {
@@ -55,4 +55,4 @@ mailRouter.post('/', function(req, res) {
   transporter.use('compile', hbs(handlebarsOptions))
 })
 
-module.exports = mailRouter
+export default mailRouter

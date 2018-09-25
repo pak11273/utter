@@ -24,7 +24,7 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.get = function (req, res, next) {
+export const get = function (req, res, next) {
   var limit = parseInt(req.query.limit, 10);
 
   // try {
@@ -72,7 +72,7 @@ exports.get = function (req, res, next) {
   // }
 };
 
-exports.getOne = function (req, res, next) {
+export constgetOne = function (req, res, next) {
   //populate doesn't return a promise, so call exec()
   // TODO: fix so you can use populate.  can't use populate yet because of "schema hasn't been registered for model user error"
   // Course.find().populate('subscribers').exec().then(
@@ -90,7 +90,7 @@ exports.getOne = function (req, res, next) {
   }
 };
 
-exports.params = function (req, res, next, id) {
+export constparams = function (req, res, next, id) {
   _courseModel2.default.findById(id).then(function (course) {
     if (!course) {
       next(new Error('No course with that id'));
@@ -103,7 +103,7 @@ exports.params = function (req, res, next, id) {
   });
 };
 
-exports.post = function (req, res, next) {
+export constpost = function (req, res, next) {
   var newCourse = req.body.course;
   _courseModel2.default.create(newCourse).then(function (course) {
     res.json(course);
@@ -112,7 +112,7 @@ exports.post = function (req, res, next) {
   });
 };
 
-exports.unique = function (req, res, next) {
+export constunique = function (req, res, next) {
   _courseModel2.default.find({ courseName: req.body.course }).then(function (course) {
     if (!req.body.course) {
       res.status(400).json({ error: 'This field is required.' });
@@ -127,7 +127,7 @@ exports.unique = function (req, res, next) {
   });
 };
 
-exports.faker = function (req, res, next) {
+export constfaker = function (req, res, next) {
   for (var i = 0; i < 3; ++i) {
     var course = new _courseModel2.default();
 
@@ -205,7 +205,7 @@ exports.faker = function (req, res, next) {
   res.json(course);
 };
 
-exports.putOne = function (req, res, next) {
+export constputOne = function (req, res, next) {
   console.log('hellodog');
   // if (req.params.courseId) {
   //   Course.findOne({courseId: req.params.courseId}).then(
@@ -219,7 +219,7 @@ exports.putOne = function (req, res, next) {
   // }
 };
 
-exports.getTeachingCourses = function (req, res, next) {
+export constgetTeachingCourses = function (req, res, next) {
   var pg = req.query.pg || 1;
   var limit = 1000;
   var offset = (pg - 1) * limit;
@@ -249,7 +249,7 @@ exports.getTeachingCourses = function (req, res, next) {
   // };
 };
 
-exports.update = function (req, res, next) {
+export constupdate = function (req, res, next) {
   console.log('update');
   var update = req.body.course;
 
@@ -263,7 +263,7 @@ exports.update = function (req, res, next) {
 };
 
 // TODO: use this to delete whole courses.  levelId is actually the courseId
-exports.deleteCourse = function (req, res, next) {
+export constdeleteCourse = function (req, res, next) {
   console.log('reg: ', req.params.levelId);
   var id = req.params.levelId;
   _courseModel2.default.findByIdAndRemove(id, function (err, deleted) {
@@ -275,7 +275,7 @@ exports.deleteCourse = function (req, res, next) {
   });
 };
 
-exports.deleteLevel = function (req, res, next) {
+export constdeleteLevel = function (req, res, next) {
   _courseModel2.default.findOne({ courseId: req.params.courseId }, function (err, course) {
     if (err) {
       console.log('err: ', err);

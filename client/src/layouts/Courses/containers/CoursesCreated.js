@@ -22,7 +22,7 @@ import {
 } from 'semantic-ui-react'
 import {Staticbar} from '../../../containers'
 import {Box, Flex, Grid, Img, Subtitle, Title, Text} from '../../../components'
-import IoPeople from 'react-icons/lib/io/android-people'
+import {IoPeople} from 'react-icons/io'
 import '../../../assets/css/pagination.css'
 
 // actions

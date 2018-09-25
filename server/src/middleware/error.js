@@ -1,3 +1,3 @@
-module.exports = (err, req, res, next) => {
+export default (err, req, res, next) => {
   res.status(400).json(err)
 }

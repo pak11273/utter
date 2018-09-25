@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
 import styled from 'styled-components'
 import {Box, Button, Grid, Spacer, Text} from '../components'
 import {Sidebar} from '../containers'
-import FaCaretDown from 'react-icons/fa/caret-down'
+import {FaCaretDown} from 'react-icons/fa'
 
 import KoreanLevel1 from '../layouts/Korean/Level1/'
 import KoreanLevel2 from '../layouts/Korean/Level2/'

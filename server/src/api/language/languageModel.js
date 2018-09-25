@@ -1,37 +1,38 @@
 import mongoose, {Schema} from 'mongoose'
 
-const LanguageSchema = mongoose.Schema({
-  name: {
-    type: String,
-    default: ''
-  },
-  fans: [
-    {
-      username: {type: String, default: ''},
-      email: {type: String, default: ''}
+const LanguageSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      default: ''
+    },
+    fans: [
+      {
+        username: {type: String, default: ''},
+        email: {type: String, default: ''}
+      }
+    ],
+    subscribers: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
+    levels: {
+      type: Number,
+      vocabulary: Array,
+      grammar: String
+    },
+    country: {
+      type: String,
+      default: ''
+    },
+    image: {
+      type: String,
+      default: 'default.png'
     }
-  ],
-  subscribers: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ],
-  levels: {
-    type: Number,
-    vocabulary: Array,
-    grammar: String
   },
-  country: {
-    type: String,
-    default: ''
-  },
-  image: {
-    type: String,
-    default: 'default.png'
-  }
-},
   {timestamps: true}
 )
 
-module.exports = mongoose.model('Language', LanguageSchema)
+export default mongoose.model('Language', LanguageSchema)

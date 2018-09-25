@@ -12,6 +12,8 @@
 --color
 
 --ignore-file=is:tags
+--ignore-dir=client/dist
+--ignore-dir=server/dist
 --ignore-dir=log
 --ignore-dir=doc
 --ignore-dir=tmp
