@@ -24,7 +24,7 @@
     }
    },
   "plugins": [  
-    "transform-class-properties"
+    "transform-class-properties", "@babel/plugin-transform-async-to-generator"
   ]
 }
 

@@ -70,7 +70,8 @@ export default {
           path: 'courseAuthor'
         })
 
-        var totalRecords = Course.find(query).countDocuments()
+        var totalRecords = await Course.find(query).countDocuments()
+        console.log('rec: ', totalRecords)
 
         if (totalRecords <= limit) {
           var next = 'done'
