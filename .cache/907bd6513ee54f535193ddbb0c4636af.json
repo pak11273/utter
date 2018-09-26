@@ -1,0 +1,1 @@
+{"id":"assets/images/sprites.png","dependencies":[{"name":"/var/www/html/utter/package.json","includedInParent":true,"mtime":1537713411456},{"name":"/var/www/html/utter/.babelrc","includedInParent":true,"mtime":1537642482682}],"generated":{"js":"module.exports = \"/35f387edeec8443db7ee77dddf5f59ba.png\";"},"hash":"3976fc1187fa7c3b0ff89cf744ec5fda","cacheData":{"env":{}}}

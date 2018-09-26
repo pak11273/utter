@@ -5,7 +5,11 @@ import auth from '../../auth/auth'
 const signToken = auth.signToken
 
 export default {
+<<<<<<< HEAD
   findByParams: (req, res, next, id) => {
+=======
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     Comment.findById(id).then(
       comment => {
         if (!comment) {
@@ -37,7 +41,11 @@ export default {
     res.json({comment: comment})
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     let comment = req.comment
     let update = req.body
 
@@ -51,7 +59,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     Comment.create(req.body).then(
       comment => {
         res.json(comment)

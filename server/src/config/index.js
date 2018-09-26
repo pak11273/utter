@@ -29,9 +29,14 @@ const config = {
 }
 
 // if env not set, set it to default
+<<<<<<< HEAD
 console.log('ENV: ', process.env.NODE_ENV)
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.dev
+=======
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = process.env.NODE_ENV || config.dev
+>>>>>>> origin/master
 }
 
 // set config env to node_env

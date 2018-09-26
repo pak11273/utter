@@ -1,10 +1,17 @@
 import Message from './messageModel.js'
 import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
+<<<<<<< HEAD
 import {signToken} from '../../auth/auth'
 
 export default {
   findByParams: (req, res, next, id) => {
+=======
+import {signToken} from '../../auth/auth.js'
+
+export default {
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     Message.findById(id).then(
       message => {
         if (!message) {
@@ -36,7 +43,11 @@ export default {
     res.json({message: message})
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     let message = req.message
     let update = req.body
 
@@ -50,7 +61,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     Message.create(req.body).then(
       message => {
         res.json(message)
@@ -61,7 +76,11 @@ export default {
     )
   },
 
+<<<<<<< HEAD
   remove: (req, res, next) => {
+=======
+  delete: (req, res, next) => {
+>>>>>>> origin/master
     req.message.remove((err, removed) => {
       if (err) {
         next(err)

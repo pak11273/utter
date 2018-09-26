@@ -3,7 +3,11 @@ import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 
 export default {
+<<<<<<< HEAD
   findByParams: (req, res, next, id) => {
+=======
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     Phrase.findById(id).then(
       phrase => {
         if (!phrase) {
@@ -37,7 +41,11 @@ export default {
     res.json({phrase: phrase})
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     function customizer(objValue, srcValue) {
       if (_.isArray(objValue)) {
         return (objValue = srcValue)
@@ -55,7 +63,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     Phrase.create(req.body).then(
       phrase => {
         res.json(phrase)
@@ -66,7 +78,11 @@ export default {
     )
   },
 
+<<<<<<< HEAD
   remove: (req, res, next) => {
+=======
+  delete: (req, res, next) => {
+>>>>>>> origin/master
     req.phrase.remove((err, removed) => {
       if (err) {
         next(err)

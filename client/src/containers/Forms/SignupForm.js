@@ -16,8 +16,12 @@ import {
   Subtitle,
   Title
 } from '../../components'
+<<<<<<< HEAD
 import {FaFacebook} from 'react-icons/fa'
 import {FaGoogle} from 'react-icons/fa'
+=======
+import {FaFacebook, FaGoogle} from 'react-icons/fa'
+>>>>>>> origin/master
 
 // actions
 import {toggleFooter} from '../../app/actions/toggleFooterAction.js'

@@ -2,7 +2,11 @@ import Channel from './channelModel.js'
 import _ from 'lodash'
 
 export default {
+<<<<<<< HEAD
   findByParams: (req, res, next, id) => {
+=======
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     Channel.findById(id).then(
       channel => {
         if (!channel) {
@@ -18,7 +22,11 @@ export default {
     )
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     Channel.create(req.body).then(
       channel => {
         res.json(channel)
@@ -45,7 +53,11 @@ export default {
     )
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     let channel = req.channel
     let update = req.body
     _.merge(channel, update)
@@ -58,7 +70,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   remove: (req, res, next) => {
+=======
+  delete: (req, res, next) => {
+>>>>>>> origin/master
     req.channel.remove((err, removed) => {
       if (err) {
         next(err)

@@ -3,7 +3,11 @@ import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 
 export default {
+<<<<<<< HEAD
   findByParams: (req, res, next, id) => {
+=======
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     Dictionary.findById(id).then(
       word => {
         if (!word) {
@@ -38,7 +42,11 @@ export default {
     res.json({word: word})
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     let word = req.word
     let update = req.body.word
 
@@ -52,7 +60,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     Dictionary.create(req.body).then(
       word => {
         res.json(word)
@@ -63,7 +75,11 @@ export default {
     )
   },
 
+<<<<<<< HEAD
   remove: (req, res, next) => {
+=======
+  delete: (req, res, next) => {
+>>>>>>> origin/master
     req.word.remove((err, removed) => {
       if (err) {
         next(err)

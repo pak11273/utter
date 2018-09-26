@@ -1,10 +1,17 @@
 import User from './userModel.js'
 import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
+<<<<<<< HEAD
 import {signToken} from '../../auth/auth'
 
 export default {
   findByParams: (req, res, next, id) => {
+=======
+import {signToken} from '../../auth/auth.js'
+
+export default {
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     User.findById(id).then(
       user => {
         if (!user) {
@@ -43,7 +50,11 @@ export default {
     res.json(user)
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     let update = req.body
     User.findOneAndUpdate({_id: req.body._id}, update, (err, data) => {
       if (err) {
@@ -54,7 +65,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     console.log('users: ', req.user)
     let newUser = new User(req.body)
 
@@ -68,7 +83,11 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   remove: (req, res, next) => {
+=======
+  delete: (req, res, next) => {
+>>>>>>> origin/master
     req.user.remove((err, removed) => {
       if (err) {
         next(err)

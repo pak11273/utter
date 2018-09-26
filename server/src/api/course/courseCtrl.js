@@ -8,6 +8,10 @@ const ObjectId = mongoose.Types.ObjectId
 
 export default {
   get: async (req, res, next) => {
+<<<<<<< HEAD
+=======
+    console.log('eat off me')
+>>>>>>> origin/master
     const limit = parseInt(req.query.limit, 10)
 
     // query builder
@@ -77,12 +81,22 @@ export default {
         } else {
           var next = result[result.length - 1]._id
         }
+<<<<<<< HEAD
         res.json({result, next})
       } else {
         // remaining queries
         console.log('remaining queries')
         let next
 
+=======
+
+        res.json({result, next})
+      } else {
+        // remaining queries
+        console.log('remaining queries')
+        let next
+
+>>>>>>> origin/master
         // type cast id, $lt is not the same in aggregate vs query
         var next = mongoose.Types.ObjectId(req.query.next)
         // add to query object
@@ -124,9 +138,15 @@ export default {
         }
       }
     } catch (error) {
+<<<<<<< HEAD
       console.log('err: ', error)
       next = 'done'
       // res.json({result, next, err: error})
+=======
+      // console.log('err: ', error)
+      next = 'done'
+      res.json({result, next, err: error})
+>>>>>>> origin/master
     }
   },
 
@@ -146,7 +166,11 @@ export default {
     }
   },
 
+<<<<<<< HEAD
   findByParams: (req, res, next, id) => {
+=======
+  params: (req, res, next, id) => {
+>>>>>>> origin/master
     Course.findById(id).then(
       course => {
         if (!course) {
@@ -162,7 +186,11 @@ export default {
     )
   },
 
+<<<<<<< HEAD
   createOne: (req, res, next) => {
+=======
+  post: (req, res, next) => {
+>>>>>>> origin/master
     console.log('body: ', req.body.course)
     let newCourse = req.body.course
     newCourse.courseAuthor = {
@@ -201,10 +229,17 @@ export default {
       var course = new Course()
 
       // random object ids for terms.level
+<<<<<<< HEAD
       var id1 = mongoose.Types.ObjectId()
       var id2 = mongoose.Types.ObjectId()
       var id3 = mongoose.Types.ObjectId()
       var id4 = mongoose.Types.ObjectId()
+=======
+      var id1 = require('mongoose').Types.ObjectId()
+      var id2 = require('mongoose').Types.ObjectId()
+      var id3 = require('mongoose').Types.ObjectId()
+      var id4 = require('mongoose').Types.ObjectId()
+>>>>>>> origin/master
       course.category = faker.commerce.department()
       course.courseRef = faker.random.arrayElement([
         'TTMIK',
@@ -383,7 +418,11 @@ export default {
     // };
   },
 
+<<<<<<< HEAD
   updateOne: (req, res, next) => {
+=======
+  update: (req, res, next) => {
+>>>>>>> origin/master
     const update = req.body
 
     // update a level's name
@@ -411,7 +450,11 @@ export default {
     }
   },
 
+<<<<<<< HEAD
   remove: (req, res, next) => {
+=======
+  deleteCourse: (req, res, next) => {
+>>>>>>> origin/master
     console.log('reg: ', req.params)
     let id = req.params.courseId
     Course.findByIdAndRemove(id, (err, deleted) => {
@@ -423,6 +466,7 @@ export default {
     })
   },
 
+<<<<<<< HEAD
   deleteCourse: (req, res, next) => {
     console.log('reg: ', req.params)
     let id = req.params.courseId
@@ -435,6 +479,8 @@ export default {
     })
   },
 
+=======
+>>>>>>> origin/master
   deleteLevel: (req, res, next) => {
     Course.findOne(
       {courseId: req.params.courseId},

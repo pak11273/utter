@@ -18,12 +18,16 @@ import Select from 'react-select'
 import {PhoneNumberFormat, PhoneNumberUtil} from 'google-libphonenumber'
 import CallingCodes from '../../../assets/js/CallingCodes.js'
 import './select.css'
+<<<<<<< HEAD
 import {FaQuestion} from 'react-icons/fa'
 import {FaEmail} from 'react-icons/fa'
 import {FaReply} from 'react-icons/fa'
 import {FaPhone} from 'react-icons/fa'
 import {FaUser} from 'react-icons/fa'
 
+=======
+import {FaQuestion, FaEmail, FaReply, FaPhone, FaUser} from 'react-icons/fa'
+>>>>>>> origin/master
 const Role = styled.div`
   color: ${props => props.color};
   font-size: ${props => props.fontsize};
