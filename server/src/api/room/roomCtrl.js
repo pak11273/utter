@@ -1,17 +1,10 @@
 import Room from './roomModel.js'
 import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
-<<<<<<< HEAD
 import {signToken} from '../../auth/auth'
 
 export default {
   findByParams: (req, res, next, id) => {
-=======
-import {signToken} from '../../auth/auth.js'
-
-export default {
-  params: (req, res, next, id) => {
->>>>>>> origin/master
     Room.findById(id).then(
       room => {
         if (!room) {
@@ -27,11 +20,7 @@ export default {
     )
   },
 
-<<<<<<< HEAD
   createOne: (req, res, next) => {
-=======
-  post: (req, res, next) => {
->>>>>>> origin/master
     Room.create(req.body).then(
       room => {
         res.json(room)
@@ -58,11 +47,7 @@ export default {
     )
   },
 
-<<<<<<< HEAD
   updateOne: (req, res, next) => {
-=======
-  update: (req, res, next) => {
->>>>>>> origin/master
     let room = req.room
     let update = req.body
     _.merge(room, update)
@@ -75,11 +60,7 @@ export default {
     })
   },
 
-<<<<<<< HEAD
   remove: (req, res, next) => {
-=======
-  delete: (req, res, next) => {
->>>>>>> origin/master
     req.room.remove((err, removed) => {
       if (err) {
         next(err)

@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import http from 'http'
 import config from './config/index.js'
 import app from './server.js'
-=======
-import config from './config/index.js'
-import server from './server.js'
->>>>>>> origin/master
 import logger from './util/logger'
 import socketServer from './socketServer'
 
@@ -21,11 +16,6 @@ server.listen(config.port, function() {
 
 socketServer(server)
 
-<<<<<<< HEAD
-=======
-let currentApp = server
-
->>>>>>> origin/master
 if (module.hot) {
   module.hot.accept(['./server'], () => {
     server.removeListener('request', currentApp)

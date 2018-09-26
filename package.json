@@ -5,7 +5,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-<<<<<<< HEAD
     "fserver": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack-frontend.config.babel.js --content-base public/dist --host 0.0.0.0 --inline  --env.dev --mode development",
     "//": "babel server/src --out-dir server/dist --no-babelrc --presets=es2015,react,es2016,stage-2,stage-0 ",
     "buildserver": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
@@ -13,14 +12,6 @@
     "build": "webpack -p --env.production --mode production",
     "bserver": "nodemon server/src/index.js  --exec babel-node --presets=es2015,stage-2,stage-0",
     "btrash": "webpack --config webpack-backend.config.babel.js --colors --progress --mode development",
-=======
-    "parcel": "parcel client/src/App.js --hmr-hostname 0.0.0.0 --out-dir client/dist",
-    "frontend": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config ./webpack-frontend.config.babel.js  --content-base public/dist --host 0.0.0.0 --inline  --env.dev --mode development",
-    "//": "babel server/src --out-dir server/dist --no-babelrc --presets=es2015,react,es2016,stage-2,stage-0 ",
-    "bproduction": "babel server/src --out-dir server/dist --presets=es2015,react,es2016,stage-2,stage-0 ",
-    "fproduction": "webpack --config ./webpack-frontend.config.babel.js --env.prod -p --mode production",
-    "backend": "webpack --config ./webpack-backend.config.babel.js --colors --progress --env.server --mode development",
->>>>>>> origin/master
     "test": "NODE_ENV=test jest",
     "test-update": "npm run test -- -u",
     "test-cover": "npm run test -- --coverage"

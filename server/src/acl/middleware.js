@@ -1,17 +1,10 @@
 import acl from '../acl'
 
-<<<<<<< HEAD
 export default {
   roleCheck: (req, res, next) => {
     console.log('res: ', req.body)
     next()
     // var userId = req.user ? req.user._id : null
-=======
-export const roleCheck = (req, res, next) => {
-  console.log('res: ', req.body)
-  next()
-  // var userId = req.user ? req.user._id : null
->>>>>>> origin/master
 
     // var userId = req.user._id || 'public'
 
@@ -59,7 +52,6 @@ export const roleCheck = (req, res, next) => {
     // })
   },
 
-<<<<<<< HEAD
   isAllowed: function(req, res, next) {
     var roles = req.user ? req.user.roles : ['guest']
     // If a course is being processed and the current user created it then allow any manipulation
@@ -72,20 +64,6 @@ export const roleCheck = (req, res, next) => {
     ) {
       return next()
     }
-=======
-export const isAllowed = function(req, res, next) {
-  var roles = req.user ? req.user.roles : ['guest']
-  // If a course is being processed and the current user created it then allow any manipulation
-  if (
-    true
-    // req.course &&
-    // req.user &&
-    // req.course.user &&
-    // req.course.user.id === req.user.id
-  ) {
-    return next()
-  }
->>>>>>> origin/master
 
     // Check for user roles
     console.log('acl: ', acl)

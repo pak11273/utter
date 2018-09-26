@@ -9,13 +9,7 @@ import config from '../config/index.js'
 import passport from 'passport'
 import acl from '../acl'
 import roles from '../acl/roles.js'
-<<<<<<< HEAD
-import acl from '../acl/index.js'
 const MongoStore = require('connect-mongo')(session)
-=======
-import connectMongo from 'connect-mongo'
-const MongoStore = connectMongo(session)
->>>>>>> origin/master
 
 // webpack hmr imports - not necessary for production TODO:remove for production
 // import webpack from 'webpack'
@@ -52,9 +46,9 @@ export default app => {
   // )
   // app.use(webpackHotMiddleware(compiler))
 
-  console.log('mongo: ', config.default.db.url)
+  console.log('mongo: ', config.db.url)
   mongoose.connect(
-    config.default.db.url,
+    config.db.url,
     {useNewUrlParser: true}
   )
 

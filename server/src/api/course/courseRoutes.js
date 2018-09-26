@@ -2,14 +2,14 @@ import express from 'express'
 const router = express.Router()
 import controller from './courseCtrl.js'
 import createRoutes from '../../util/createRoutes.js'
-import {roleCheck} from '../../acl/middleware.js'
+import acl from '../../acl/middleware.js'
 
 createRoutes(controller, router)
 
 // get teaching courses
 router
   .route('/my-courses/:courseAuthorId')
-  .get(roleCheck, controller.getTeachingCourses)
+  .get(acl.roleCheck, controller.getTeachingCourses)
 
 // custom routes
 router.route('/unique').post(controller.unique)

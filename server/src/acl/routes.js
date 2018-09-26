@@ -4,16 +4,9 @@ const router = express.Router()
 import createRoutes from '../util/createRoutes.js'
 // import controller from './ctrl.js'
 
-<<<<<<< HEAD
 import aclObject from '../acl'
 const acl = aclObject.getAcl()
 // const acl = require('../acl/index.js').getAcl()
-=======
-import aclSingleton from '../acl'
-// TRASH const acl = require('../acl/index.js').getAcl()
-const acl = aclSingleton.getAcl()
->>>>>>> origin/master
-
 // createRoutes(controller, router)
 
 // Simple overview of granted permissions

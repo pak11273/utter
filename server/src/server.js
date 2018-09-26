@@ -3,31 +3,17 @@ import path from 'path'
 import logger from './util/logger'
 import error from './middleware/error'
 import config from './config/index.js'
-<<<<<<< HEAD
 import pwd from './config/pwd.js'
-=======
-// import pwd from './config/pwd.js'
->>>>>>> origin/master
 import mongoose from 'mongoose'
 import nodemailer from 'nodemailer'
 import _ from 'lodash'
 import express from 'express'
 import err from './middleware/error.js'
-<<<<<<< HEAD
-
-=======
-import http from 'http'
-// mounts
->>>>>>> origin/master
 import aclRoutes from './acl/routes.js'
 import api from './api'
 import auth from './auth/routes.js'
 import admin from './admin/adminRoutes.js'
 import mailRouter from './mail/routes.js'
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/master
 const app = express()
 
 // third party middleware
@@ -40,10 +26,7 @@ app.use('/cdn', express.static('cdn'))
 
 // Routers
 mongoose.connection.on('connected', function() {
-<<<<<<< HEAD
   // mounts
-=======
->>>>>>> origin/master
   // app.use('/acl', aclRoutes) // moved inside of the mongoose function in Routers section
   app.use('/acl', aclRoutes)
   app.use('/api', api)
@@ -75,8 +58,4 @@ app.get('*.css', function(req, res, next) {
 // error handling middleware
 app.use(err)
 
-<<<<<<< HEAD
 export default app
-=======
-export default server
->>>>>>> origin/master

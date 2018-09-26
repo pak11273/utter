@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import {signToken} from '../auth/auth'
-=======
-import {signToken} from '../auth/auth.js'
->>>>>>> origin/master
 import mongoose from 'mongoose'
 import passport from 'passport'
 import secret from './secrets.js'
