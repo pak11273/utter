@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import {signToken} from '../../auth/auth'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Message.findById(id).then(
       message => {
         if (!message) {
@@ -36,7 +36,7 @@ export default {
     res.json({message: message})
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     let message = req.message
     let update = req.body
 
@@ -50,7 +50,7 @@ export default {
     })
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     Message.create(req.body).then(
       message => {
         res.json(message)

@@ -103,7 +103,7 @@ export constparams = function (req, res, next, id) {
   });
 };
 
-export constpost = function (req, res, next) {
+export const post = function (req, res, next) {
   var newCourse = req.body.course;
   _courseModel2.default.create(newCourse).then(function (course) {
     res.json(course);

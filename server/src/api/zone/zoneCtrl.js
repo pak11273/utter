@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import {signToken} from '../../auth/auth'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Zone.findById(id).then(
       zone => {
         if (!zone) {
@@ -36,7 +36,7 @@ export default {
     res.json({zone: zone})
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     let zone = req.zone
     let update = req.body
 
@@ -51,7 +51,7 @@ export default {
     })
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     if (typeof req.body['zipCodes'] === 'String') {
       let jk
     }

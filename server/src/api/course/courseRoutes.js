@@ -19,7 +19,7 @@ router
   .route('/:authId/:courseAuthorId/:courseId/:courseName')
   .get(controller.getOne)
   .delete(controller.deleteCourse)
-  .put(controller.update)
+  .put(controller.updateOne)
 
 // delete course level
 router

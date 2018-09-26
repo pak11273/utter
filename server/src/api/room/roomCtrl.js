@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import {signToken} from '../../auth/auth'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Room.findById(id).then(
       room => {
         if (!room) {
@@ -20,7 +20,7 @@ export default {
     )
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     Room.create(req.body).then(
       room => {
         res.json(room)
@@ -47,7 +47,7 @@ export default {
     )
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     let room = req.room
     let update = req.body
     _.merge(room, update)
@@ -60,7 +60,7 @@ export default {
     })
   },
 
-  delete: (req, res, next) => {
+  remove: (req, res, next) => {
     req.room.remove((err, removed) => {
       if (err) {
         next(err)

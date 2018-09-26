@@ -2,7 +2,7 @@ import Language from './languageModel.js'
 import _ from 'lodash'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Language.findById(id).then(
       language => {
         if (!language) {
@@ -18,7 +18,7 @@ export default {
     )
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     let newLanguage = req.body
 
     Language.create(newLanguage).then(
@@ -50,7 +50,7 @@ export default {
     res.json(language)
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     let language = req.language
     let update = req.body
 
@@ -65,7 +65,7 @@ export default {
     })
   },
 
-  delete: (req, res, next) => {
+  remove: (req, res, next) => {
     req.language.remove((err, removed) => {
       if (err) {
         next(err)

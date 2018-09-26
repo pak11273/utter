@@ -4,7 +4,7 @@ import isEmpty from 'lodash/isEmpty'
 import {signToken} from '../../auth/auth'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     User.findById(id).then(
       user => {
         if (!user) {
@@ -43,7 +43,7 @@ export default {
     res.json(user)
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     let update = req.body
     User.findOneAndUpdate({_id: req.body._id}, update, (err, data) => {
       if (err) {
@@ -54,7 +54,7 @@ export default {
     })
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     console.log('users: ', req.user)
     let newUser = new User(req.body)
 
@@ -68,7 +68,7 @@ export default {
     })
   },
 
-  delete: (req, res, next) => {
+  remove: (req, res, next) => {
     req.user.remove((err, removed) => {
       if (err) {
         next(err)

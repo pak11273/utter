@@ -3,7 +3,7 @@ import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Dictionary.findById(id).then(
       word => {
         if (!word) {
@@ -38,7 +38,7 @@ export default {
     res.json({word: word})
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     let word = req.word
     let update = req.body.word
 
@@ -52,7 +52,7 @@ export default {
     })
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     Dictionary.create(req.body).then(
       word => {
         res.json(word)

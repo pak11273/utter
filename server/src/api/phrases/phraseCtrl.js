@@ -3,7 +3,7 @@ import _ from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 
 export default {
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Phrase.findById(id).then(
       phrase => {
         if (!phrase) {
@@ -37,7 +37,7 @@ export default {
     res.json({phrase: phrase})
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     function customizer(objValue, srcValue) {
       if (_.isArray(objValue)) {
         return (objValue = srcValue)
@@ -55,7 +55,7 @@ export default {
     })
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     Phrase.create(req.body).then(
       phrase => {
         res.json(phrase)

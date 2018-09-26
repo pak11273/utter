@@ -146,7 +146,7 @@ export default {
     }
   },
 
-  params: (req, res, next, id) => {
+  findByParams: (req, res, next, id) => {
     Course.findById(id).then(
       course => {
         if (!course) {
@@ -162,7 +162,7 @@ export default {
     )
   },
 
-  post: (req, res, next) => {
+  createOne: (req, res, next) => {
     console.log('body: ', req.body.course)
     let newCourse = req.body.course
     newCourse.courseAuthor = {
@@ -383,7 +383,7 @@ export default {
     // };
   },
 
-  update: (req, res, next) => {
+  updateOne: (req, res, next) => {
     const update = req.body
 
     // update a level's name
@@ -409,6 +409,18 @@ export default {
         }
       })
     }
+  },
+
+  remove: (req, res, next) => {
+    console.log('reg: ', req.params)
+    let id = req.params.courseId
+    Course.findByIdAndRemove(id, (err, deleted) => {
+      if (err) {
+        next(err)
+      } else {
+        res.json(deleted)
+      }
+    })
   },
 
   deleteCourse: (req, res, next) => {

@@ -12,6 +12,7 @@
 --color
 
 --ignore-file=is:tags
+--ignore-file=is:yarn.lock
 --ignore-dir=client/dist
 --ignore-dir=server/dist
 --ignore-dir=log
