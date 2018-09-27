@@ -8,12 +8,4 @@ const checkUser = [decodeToken(), getFreshUser()]
 
 createRoutes(controller, router)
 
-router.param('id', controller.findByParams)
-
-router
-  .route('/:id')
-  .get(controller.getOne)
-  .put(controller.updateOne)
-  .delete(controller.remove)
-
 export default router
