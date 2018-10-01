@@ -70,6 +70,13 @@ module.exports = env => {
           use: ['cache-loader', 'babel-loader']
         },
         {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'raw-loader'
+          }
+        },
+        {
           test: /\.css$/,
           // exclude: /node_modules/,
           use: ['cache-loader', 'style-loader', 'css-loader']
