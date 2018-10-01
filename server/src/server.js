@@ -1,4 +1,6 @@
 // utility and config imports
+import dot from 'dotenv'
+dot.config()
 import path from 'path'
 import logger from './util/logger'
 import error from './middleware/error'
@@ -16,6 +18,7 @@ import admin from './admin/adminRoutes.js'
 import mailRouter from './mail/routes.js'
 const app = express()
 
+console.log('jwt: ', process.env.JWT)
 // third party middleware
 import middleware from './middleware/appMiddleware'
 middleware(app)
