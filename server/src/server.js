@@ -15,7 +15,6 @@ import admin from './admin/adminRoutes.js'
 import mailRouter from './mail/routes.js'
 const app = express()
 
-console.log('jwt: ', process.env.JWT)
 // third party middleware
 import middleware from './middleware/appMiddleware'
 middleware(app)
