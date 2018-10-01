@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+import config from '../config/index.js'
 import User from '../api/user/userModel.js'
 
 export default (req, res, next) => {
@@ -9,7 +10,7 @@ export default (req, res, next) => {
   }
 
   if (token) {
-    jwt.verify(token, process.env.JWT, (err, decoded) => {
+    jwt.verify(token, config.secrets.JWT, (err, decoded) => {
       if (err) {
         res.status(401).json({
           error: 'failed to authenticate'

@@ -1,3 +1,5 @@
+import dot from 'dotenv'
+dot.config()
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import config from '../config/index.js'
