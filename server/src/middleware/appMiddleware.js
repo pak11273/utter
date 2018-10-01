@@ -27,7 +27,7 @@ export default app => {
   mongoose.Promise = bluebird
   app.use(
     session({
-      secret: 'addyourownsecretkey',
+      secret: process.env.EXPRESS_SESSION_SECRET,
       resave: true,
       saveUninitialized: false,
       store: new MongoStore({mongooseConnection: mongoose.connection})

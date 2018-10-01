@@ -5,7 +5,6 @@ import {verifyUser} from './auth'
 import cors from 'cors'
 
 const router = express.Router()
-const secrets = config.secrets
 
 // cors preflight
 router.all('*', cors())
