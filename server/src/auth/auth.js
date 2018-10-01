@@ -1,5 +1,3 @@
-import dot from 'dotenv'
-dot.config()
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import config from '../config/index.js'
@@ -115,5 +113,5 @@ export const authenticate = (req, res, next) => {
 
 // util method to sign tokens on signup
 export const signToken = id => {
-  return jwt.sign({_id: id}, config.secrets.JWT, {expiresIn: config.expireTime})
+  return jwt.sign({_id: id}, process.env.JWT, {expiresIn: config.expireTime})
 }
