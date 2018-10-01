@@ -262,11 +262,9 @@ class CoursesContainer extends Component {
 
   render() {
     const LangCard = this.props.courses.map(item => {
-      console.log('item: ', item)
       var author = ''
       item.courseAuthor.username ? (author = item.courseAuthor.username) : null
       let keys = []
-      console.log('courseref: ', item.courseRef)
       item.courseRef.map(item => {
         keys.push(item.value)
       })

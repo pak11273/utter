@@ -1,9 +1,10 @@
+import dot from 'dotenv'
+dot.config()
 import jwt from 'jsonwebtoken'
 import expressJwt from 'express-jwt'
 import config from '../config/index.js'
 import User from '../api/user/userModel'
-
-const checkToken = expressJwt({secret: config.secrets.jwt})
+const checkToken = expressJwt({secret: process.env.JWT})
 
 export const decodeToken = () => {
   return (req, res, next) => {
@@ -85,7 +86,7 @@ export const authenticate = (req, res, next) => {
   }
   console.log('token: ', token)
   if (token) {
-    jwt.verify(token, config.secrets.jwt, (err, decoded) => {
+    jwt.verify(token, process.env.JWT, (err, decoded) => {
       if (err) {
         res.status(401).json({
           error: 'failed to authenticate'
@@ -114,5 +115,5 @@ export const authenticate = (req, res, next) => {
 
 // util method to sign tokens on signup
 export const signToken = id => {
-  return jwt.sign({_id: id}, config.secrets.jwt, {expiresIn: config.expireTime})
+  return jwt.sign({_id: id}, process.env.JWT, {expiresIn: config.expireTime})
 }

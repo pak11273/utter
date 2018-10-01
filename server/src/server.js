@@ -1,6 +1,3 @@
-// utility and config imports
-import dot from 'dotenv'
-dot.config()
 import path from 'path'
 import logger from './util/logger'
 import error from './middleware/error'
