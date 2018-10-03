@@ -9,6 +9,12 @@ const UserSchema = new mongoose.Schema(
     siteAdmin: {
       type: Boolean
     },
+    contacts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
     username: {
       type: String,
       lowercase: true,

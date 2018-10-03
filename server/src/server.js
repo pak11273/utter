@@ -13,6 +13,8 @@ import api from './api'
 import auth from './auth/routes.js'
 import admin from './admin/adminRoutes.js'
 import mailRouter from './mail/routes.js'
+import {graphiqlExpress} from 'apollo-server-express'
+import {graphQLRouter} from './graphQLRouter.js'
 const app = express()
 
 // third party middleware
@@ -27,11 +29,13 @@ app.use('/cdn', express.static('cdn'))
 mongoose.connection.on('connected', function() {
   // mounts
   // app.use('/acl', aclRoutes) // moved inside of the mongoose function in Routers section
+  app.use('/graphql', graphQLRouter)
   app.use('/acl', aclRoutes)
   app.use('/api', api)
   app.use('/admin', admin)
   app.use('/auth', auth)
   app.use('/mail', mailRouter)
+  app.use('/docs', graphiqlExpress({endpointURL: './graphql'}))
 })
 
 // used for gzipping bundle.js

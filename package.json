@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "acl": "^0.4.11",
+    "apollo-server-express": "^1.1.6",
     "async": "^2.6.1",
     "aws-sdk": "^2.77.0",
     "axios": "^0.16.2",
@@ -49,6 +50,8 @@
     "formidable": "^1.1.1",
     "global": "^4.3.2",
     "google-libphonenumber": "^3.0.8",
+    "graphql": "^14.0.2",
+    "graphql-tools": "^2.4.0",
     "hard-source-webpack-plugin": "^0.5.18",
     "history": "^4.7.2",
     "html-webpack-plugin": "^3.2.0",

@@ -68,7 +68,8 @@ const CourseSchema = mongoose.Schema(
     },
     courseName: {
       type: String,
-      default: ''
+      default: '',
+      required: [true, "can't be blank"]
     },
     courseAuthor: {
       type: Schema.Types.ObjectId,
@@ -88,6 +89,10 @@ const CourseSchema = mongoose.Schema(
         default: {}
       }
     ],
+    favorite: {
+      type: Boolean,
+      default: false
+    },
     teachingLang: {
       type: String,
       default: ''

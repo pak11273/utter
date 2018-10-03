@@ -39,6 +39,13 @@ module.exports = env => {
           use: {
             loader: 'raw-loader'
           }
+        },
+        {
+          test: /\.(graphql|gql)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'raw-loader'
+          }
         }
       ]
     },
