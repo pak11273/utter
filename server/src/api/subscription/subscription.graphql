@@ -1,0 +1,29 @@
+type Subscription {
+  id: ID!
+  title: String!
+  courses: [Course]!
+  favorite: Boolean!
+}
+
+input UpdatedSubscription {
+  id: ID!
+  title: String
+  courses: [ID!]
+  favorite: Boolean
+}
+
+input NewSubscription {
+  title: String
+  courses: [ID!]
+  favorite: Boolean
+}
+
+extend type Query {
+  allSubscriptions: [Subscription]!
+  Subscription(id: ID!): Subscription!
+}
+
+extend type Mutation {
+  updateSubscription(input: UpdatedSubscription!): Subscription!
+  newSubscription(input: NewSubscription!): Subscription!
+}

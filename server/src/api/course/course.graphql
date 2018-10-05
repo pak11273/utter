@@ -3,29 +3,29 @@ type Course {
   courseName: String!
 }
 
-#input UpdatedCourse {
-#  id: ID!
-#  courseId: String
-#  courseName: String
-#  description: String
-#  courseMode: String
-#  favorite: Boolean
-#}
-#
-#input NewCourse {
-#  courseId: String
-#  courseName: String!
-#  description: String
-#  courseMode: String
-#  favorite: Boolean
-#}
+input UpdatedCourse {
+  id: ID!
+  courseId: String
+  courseName: String
+  description: String
+  courseMode: String
+  favorite: Boolean
+}
+
+input NewCourse {
+  courseId: String
+  courseName: String!
+  description: String
+  courseMode: String
+  favorite: Boolean
+}
 
 extend type Query {
-  allCourses: [Course]!
+  getCourses: [Course]!
   Course(id: ID!): Course!
 }
 
-#extend type Mutation {
-#  updateCourse(input: UpdatedCourse!): Course!
-#  newCourse(input: NewCourse!): Course!
-#}
+extend type Mutation {
+  updateCourse(input: UpdatedCourse!): Course!
+  newCourse(input: NewCourse!): Course!
+}

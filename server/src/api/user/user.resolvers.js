@@ -2,7 +2,7 @@ import {User} from './userModel.js'
 
 /*
 /* signature: (rootValue, args, context, info)
- */
+*/
 
 const getMe = (_, __, {user}) => {
   return {
@@ -20,7 +20,7 @@ const updateMe = (_, {input}, {user}) => {
 
 export const userResolvers = {
   Query: {
-    getMe
+    hello: (_, {name}) => `Hello ${name || 'World'}`
   },
 
   User: {
@@ -32,6 +32,12 @@ export const userResolvers = {
   },
 
   Mutation: {
+    createUser(_, args, ctx, info) {
+      const username = args.input.username
+      return {
+        username
+      }
+    },
     updateMe
   }
 }

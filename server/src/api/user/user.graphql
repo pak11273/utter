@@ -4,17 +4,22 @@ type User {
   contacts: [String]!
   createdAt: String!
   updatedAt: String!
-  courses: [Course]
+  #  courses: [Course]
 }
 
 input UpdatedUser {
   username: String!
 }
 
+input CreateUserInput {
+  username: String!
+}
+
 type Query {
-  getMe: User!
+  hello(name: String): String!
 }
 
 type Mutation {
+  createUser(input: CreateUserInput!): User
   updateMe(input: UpdatedUser!): User!
 }

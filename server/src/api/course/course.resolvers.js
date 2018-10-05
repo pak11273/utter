@@ -1,4 +1,4 @@
-import {Course} from './courseModel'
+import Course from './courseModel'
 
 const getCourse = async (_, {id}, {user}) => {
   const course = await Course.findById(id).exec()
@@ -11,24 +11,24 @@ const getCourse = async (_, {id}, {user}) => {
 
 const updateCourse = (_, {input}) => {
   const {id, ...update} = input
-  return Course.findByIdAndUpdate(id, update, {new: tue}).exec()
+  return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
 const newCourse = (_, {input}) => {
   return Course.create(input)
 }
 
-const allCourses = () => {
+const getCourses = () => {
   return Course.find({}).exec()
 }
 
 export const courseResolvers = {
   Query: {
-    allCourses,
+    getCourses,
     Course: getCourse
+  },
+  Mutation: {
+    updateCourse,
+    newCourse
   }
-  // Mutation: {
-  //   updateCourse,
-  //   newCourse
-  // }
 }
