@@ -19,6 +19,9 @@ import {
 import {FaFacebook} from "react-icons/fa"
 import {FaGoogle} from "react-icons/fa"
 
+import {Mutation} from "react-apollo"
+import gql from "graphql-tag"
+
 // queries
 import createUserMutation from "./formQueries.js"
 
@@ -51,6 +54,16 @@ const Rightside = styled.div``
 const Error = styled.div`
   padding-top: 5px;
   color: red;
+`
+
+const CREATE_USER = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      username
+      email
+      password
+    }
+  }
 `
 
 class SignupForm extends Component {
@@ -95,7 +108,11 @@ class SignupForm extends Component {
         isLoading: true
       })
 
-      this.props.actions.signup(this.state)
+      // TODO: create mutation here
+      // createUser({variables: {type: input.value}})
+      console.log("funct: ", createUser)
+      // input.value = ""
+      // this.props.actions.signup(this.state)
     }
   }
 
@@ -120,20 +137,54 @@ class SignupForm extends Component {
         passwordConfirmation: ""
       }
     }
+    /*
+    *
+    * The Mutation component requires a function as a child. 
+    * The first argument is a mutate function.
+    * The second argument to the render prop function is an object with your mutation result on the data property, as well as booleans for loading and if the mutate function was called, in addition to error. If you’d like to ignore the result of the mutation, pass ignoreResults as a prop to the mutation component.
+    * 
+    * */
+    let inputUsername, inputEmail, inputPassword
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Leftside>
-          <Img
-            alt=""
-            src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
-          />
-          <Title>Join our Community</Title>
-          <Subtitle>
-            Become part of a growing community of avid learners like yourself
-          </Subtitle>
-        </Leftside>
-        <Rightside>
-          {/* TODO: implement social media oauth
+      <Mutation mutation={CREATE_USER}>
+        {(createUser, {data}) => (
+          <Form
+            onSubmit={e => {
+              e.preventDefault()
+
+              if (this.isValid()) {
+                // clear all form errors
+                this.setState({
+                  errors: {}, // clears local errors every time we submit form
+                  isLoading: true
+                })
+
+                // TODO: create mutation here
+                createUser({
+                  variables: {
+                    input: {
+                      username: inputUsername.props.value,
+                      password: inputPassword.props.value,
+                      email: inputEmail.props.value
+                    }
+                  }
+                })
+                // TODO: reset values to default
+              }
+            }}>
+            <Leftside>
+              <Img
+                alt=""
+                src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
+              />
+              <Title>Join our Community</Title>
+              <Subtitle>
+                Become part of a growing community of avid learners like
+                yourself
+              </Subtitle>
+            </Leftside>
+            <Rightside>
+              {/* TODO: implement social media oauth
           <Title fontsize="1.5rem">Sign Up with social media</Title>
           <Box flexdirection="row" alignitems="baseline">
             <Box>
@@ -163,78 +214,91 @@ class SignupForm extends Component {
             </Box>
           </Box>
             */}
-          <Title fontsize="1.5rem">With your email</Title>
-          <Label>Username</Label>
-          <InputLine
-            onChange={this.onChange}
-            value={this.state.username}
-            type="text"
-            name="username"
-          />
-          {errors.username &&
-            Object.keys(errors.username).map((key, i) => {
-              if (key === "message") {
-                var value = key
-              }
-              return <Error key={i}>{errors.username[value]}</Error>
-            })}
-          <Label>Email</Label>
-          <InputLine
-            onChange={this.onChange}
-            value={this.state.email}
-            type="text"
-            name="email"
-          />
-          {errors.email &&
-            Object.keys(errors.email).map((key, i) => {
-              if (key === "message") {
-                var value = key
-              }
-              return <Error key={i}>{errors.email[value]}</Error>
-            })}
-          <Label>Password</Label>
-          <InputLine
-            autoComplete="new-password"
-            onChange={this.onChange}
-            value={this.state.password}
-            type="password"
-            name="password"
-          />
-          {errors.password &&
-            Object.keys(errors.password).map((key, i) => {
-              if (key === "message") {
-                var value = key
-              }
-              return <Error key={i}>{errors.password[value]}</Error>
-            })}
-          <Label>Password Confirmation</Label>
-          <InputLine
-            autoComplete="new-password"
-            onChange={this.onChange}
-            value={this.state.passwordConfirmation}
-            type="password"
-            name="passwordConfirmation"
-          />
-          {errors.passwordConfirmation &&
-            Object.keys(errors.passwordConfirmation).map((key, i) => {
-              if (key === "message") {
-                var value = key
-              }
-              return <Error key={i}>{errors.passwordConfirmation[value]}</Error>
-            })}
-          <Label>Timezone</Label>
-          <Timezones
-            onChange={this.onChange}
-            value={this.state.timezone}
-            name="timezone"
-          />
-          <ThemeProvider theme={main}>
-            <Button color="black" fontsize="1.5rem" padding=".2rem 1rem">
-              Join
-            </Button>
-          </ThemeProvider>
-        </Rightside>
-      </Form>
+              <Title fontsize="1.5rem">With your email</Title>
+              <Label>Username</Label>
+              <InputLine
+                onChange={this.onChange}
+                value={this.state.username}
+                type="text"
+                name="username"
+                ref={node => {
+                  inputUsername = node
+                }}
+              />
+              {errors.username &&
+                Object.keys(errors.username).map((key, i) => {
+                  if (key === "message") {
+                    var value = key
+                  }
+                  return <Error key={i}>{errors.username[value]}</Error>
+                })}
+              <Label>Email</Label>
+              <InputLine
+                onChange={this.onChange}
+                value={this.state.email}
+                type="text"
+                name="email"
+                ref={node => {
+                  inputEmail = node
+                }}
+              />
+              {errors.email &&
+                Object.keys(errors.email).map((key, i) => {
+                  if (key === "message") {
+                    var value = key
+                  }
+                  return <Error key={i}>{errors.email[value]}</Error>
+                })}
+              <Label>Password</Label>
+              <InputLine
+                autoComplete="new-password"
+                onChange={this.onChange}
+                value={this.state.password}
+                type="password"
+                name="password"
+                ref={node => {
+                  inputPassword = node
+                }}
+              />
+              {errors.password &&
+                Object.keys(errors.password).map((key, i) => {
+                  if (key === "message") {
+                    var value = key
+                  }
+                  return <Error key={i}>{errors.password[value]}</Error>
+                })}
+              <Label>Password Confirmation</Label>
+              <InputLine
+                autoComplete="new-password"
+                onChange={this.onChange}
+                value={this.state.passwordConfirmation}
+                type="password"
+                name="passwordConfirmation"
+              />
+              {errors.passwordConfirmation &&
+                Object.keys(errors.passwordConfirmation).map((key, i) => {
+                  if (key === "message") {
+                    var value = key
+                  }
+                  return (
+                    <Error key={i}>{errors.passwordConfirmation[value]}</Error>
+                  )
+                })}
+              <Label>Timezone</Label>
+              <Timezones
+                onChange={this.onChange}
+                value={this.state.timezone}
+                name="timezone"
+              />
+              <ThemeProvider theme={main}>
+                <Button color="black" fontsize="1.5rem" padding=".2rem 1rem">
+                  Join
+                </Button>
+              </ThemeProvider>
+            </Rightside>
+          </Form>
+        )}
+      </Mutation>
     )
   }
 }

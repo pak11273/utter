@@ -2,6 +2,7 @@ type User {
   id: ID!
   age: Int!
   email: String!
+  password: String!
   contacts: [String]!
   username: String!
   createdAt: String!

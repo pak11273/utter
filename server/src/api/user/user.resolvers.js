@@ -38,9 +38,7 @@ const updateMe = (_, {input}, {user}) => {
 
 export const userResolvers = {
   Query: {
-    hello: (_, {name}, ctx) => {
-      ;`Hello ${name || "Satan"}`
-    }
+    hello: (_, {name}, ctx) => `Hello ${name || "Satan"}`
   },
 
   User: {
