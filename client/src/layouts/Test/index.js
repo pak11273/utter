@@ -1,21 +1,39 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {NavLink, Route} from 'react-router-dom'
-import Blah from './Blah.js'
+import React, {Component} from "react"
+import {Query} from "react-apollo"
+import gql from "graphql-tag"
+import Blah from "./Blah.js"
+
+const ExchangeRates = () => (
+  <Query
+    query={gql`
+      {
+        hello
+      }
+    `}>
+    {({loading, error, data}) => {
+      if (loading) return <p>Loading...</p>
+      if (error) return <p>Error :(</p>
+
+      return (
+        <div>
+          <p>{data.hello}</p>
+        </div>
+      )
+    }}
+  </Query>
+)
 
 class Test extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
   }
   render() {
-    const {match} = this.props
     return (
       <div>
+        <ExchangeRates />
         <h1>test</h1>
         <h1>Create</h1>
-        <NavLink to="/test/create">to thing</NavLink>
         <div>routes</div>
-        <Route exact path={match.url + '/create'} component={Blah} />
       </div>
     )
   }

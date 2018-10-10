@@ -12,7 +12,8 @@ input UpdatedCourse {
   favorite: Boolean
 }
 
-input NewCourse {
+input CreateCourseInput {
+  id: ID!
   courseId: String
   courseName: String!
   description: String
@@ -27,5 +28,5 @@ extend type Query {
 
 extend type Mutation {
   updateCourse(input: UpdatedCourse!): Course!
-  newCourse(input: NewCourse!): Course!
+  newCourse(input: CreateCourseInput!): Course!
 }

@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import isEmpty from 'lodash/isEmpty'
-import styled, {ThemeProvider} from 'styled-components'
-import {main, base, anotherOne} from '../../themes/config'
-import Timezones from '../../components/Selects/Timezones/Timezones.js'
-import {connect} from 'react-redux'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import isEmpty from "lodash/isEmpty"
+import styled, {ThemeProvider} from "styled-components"
+import {main, base, anotherOne} from "../../themes/config"
+import Timezones from "../../components/Selects/Timezones/Timezones.js"
+import {connect} from "react-redux"
 import {
   Box,
   Button,
@@ -15,14 +15,17 @@ import {
   Text,
   Subtitle,
   Title
-} from '../../components'
-import {FaFacebook} from 'react-icons/fa'
-import {FaGoogle} from 'react-icons/fa'
+} from "../../components"
+import {FaFacebook} from "react-icons/fa"
+import {FaGoogle} from "react-icons/fa"
+
+// queries
+import createUserMutation from "./formQueries.js"
 
 // actions
-import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
-import signup from '../../api/user/actions/signupActions.js'
-import {validateInput} from '../../utils/validations/user.js'
+import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import signup from "../../api/user/actions/signupActions.js"
+import {validateInput} from "../../utils/validations/user.js"
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -54,14 +57,14 @@ class SignupForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      facebook: '',
-      google: '',
-      username: '',
-      email: '',
+      facebook: "",
+      google: "",
+      username: "",
+      email: "",
       isLoading: null,
-      password: '',
-      passwordConfirmation: '',
-      timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico',
+      password: "",
+      passwordConfirmation: "",
+      timezone: "Puerto Rico (Atlantic) America/Puerto_Rico",
       errors: {}
     }
   }
@@ -111,10 +114,10 @@ class SignupForm extends Component {
     var {errors} = this.state
     if (isEmpty(errors)) {
       errors = {
-        username: '',
-        email: '',
-        password: '',
-        passwordConfirmation: ''
+        username: "",
+        email: "",
+        password: "",
+        passwordConfirmation: ""
       }
     }
     return (
@@ -170,7 +173,7 @@ class SignupForm extends Component {
           />
           {errors.username &&
             Object.keys(errors.username).map((key, i) => {
-              if (key === 'message') {
+              if (key === "message") {
                 var value = key
               }
               return <Error key={i}>{errors.username[value]}</Error>
@@ -184,7 +187,7 @@ class SignupForm extends Component {
           />
           {errors.email &&
             Object.keys(errors.email).map((key, i) => {
-              if (key === 'message') {
+              if (key === "message") {
                 var value = key
               }
               return <Error key={i}>{errors.email[value]}</Error>
@@ -199,7 +202,7 @@ class SignupForm extends Component {
           />
           {errors.password &&
             Object.keys(errors.password).map((key, i) => {
-              if (key === 'message') {
+              if (key === "message") {
                 var value = key
               }
               return <Error key={i}>{errors.password[value]}</Error>
@@ -214,7 +217,7 @@ class SignupForm extends Component {
           />
           {errors.passwordConfirmation &&
             Object.keys(errors.passwordConfirmation).map((key, i) => {
-              if (key === 'message') {
+              if (key === "message") {
                 var value = key
               }
               return <Error key={i}>{errors.passwordConfirmation[value]}</Error>

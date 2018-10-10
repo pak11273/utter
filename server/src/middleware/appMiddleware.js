@@ -1,15 +1,13 @@
-import cookieParser from 'cookie-parser'
-import session from 'express-session'
-import morgan from 'morgan'
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import mongoose from 'mongoose'
-import bluebird from 'bluebird'
-import config from '../config/index.js'
-import passport from 'passport'
-import acl from '../acl'
-import roles from '../acl/roles.js'
-const MongoStore = require('connect-mongo')(session)
+import cookieParser from "cookie-parser"
+import session from "express-session"
+import morgan from "morgan"
+import bodyParser from "body-parser"
+import cors from "cors"
+import mongoose from "mongoose"
+import bluebird from "bluebird"
+import config from "../config/index.js"
+import passport from "passport"
+const MongoStore = require("connect-mongo")(session)
 
 // webpack hmr imports - not necessary for production TODO:remove for production
 // import webpack from 'webpack'
@@ -20,7 +18,7 @@ const MongoStore = require('connect-mongo')(session)
 
 export default app => {
   app.use(cors())
-  app.use(morgan('dev'))
+  app.use(morgan("dev"))
   app.use(cookieParser())
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
@@ -46,14 +44,14 @@ export default app => {
   // )
   // app.use(webpackHotMiddleware(compiler))
 
-  console.log('mongo: ', config.db.url)
+  console.log("mongo: ", config.db.url)
   mongoose.connect(
     config.db.url,
     {useNewUrlParser: true}
   )
 
-  mongoose.connection.on('connected', function(test) {
-    // acl.init()
+  mongoose.connection.on("connected", function(test) {
+    // acl.init() deprecated
   })
 }
 

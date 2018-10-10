@@ -39,28 +39,28 @@ import {
   French1,
   French2,
   Redux
-} from './layouts'
+} from "./layouts"
 
-import language from './data/language.json'
+import language from "./data/language.json"
 
 export const routes = [
   {
     component: About,
     exact: true,
-    path: '/About'
+    path: "/About"
   },
   {
     component: Home,
     exact: true,
-    path: '/'
+    path: "/"
   },
   {
     component: Home,
     exact: true,
-    path: '/home'
+    path: "/home"
   },
   {
-    path: '/admin',
+    path: "/admin",
     component: requireAdmin(Admin),
     loadData: () => getSomeData()
   },
@@ -73,7 +73,7 @@ export const routes = [
   {
     component: requireAuth(Dashboard),
     exact: true,
-    path: '/Dashboard'
+    path: "/Dashboard"
   },
   // {
   //   path: '/getting-started',
@@ -81,7 +81,7 @@ export const routes = [
   //   loadData: () => getSomeData()
   // },
   {
-    path: '/contact',
+    path: "/contact",
     component: Contact
   },
   // {
@@ -108,22 +108,22 @@ export const routes = [
   {
     component: Courses,
     exact: true,
-    path: '/courses'
+    path: "/courses"
   },
   {
     component: requireAuth(CoursesCreate),
     exact: true,
-    path: '/courses/create'
+    path: "/courses/create"
   },
   {
     component: requireAuth(CoursesCreated),
     exact: true,
-    path: '/courses/created'
+    path: "/courses/created"
   },
   {
     component: Login,
     exact: true,
-    path: '/login'
+    path: "/login"
   },
   // {
   //   component: MyCourses,
@@ -150,12 +150,12 @@ export const routes = [
   {
     component: requireAuth(CourseEdit),
     exact: true,
-    path: '/course/:id/:name/edit'
+    path: "/course/:id/:name/edit"
   },
   {
     component: Pricing,
     exact: true,
-    path: '/pricing'
+    path: "/pricing"
   },
   // {
   //   path: '/redux',
@@ -168,17 +168,17 @@ export const routes = [
   //   loadData: () => getSomeData()
   // },
   {
-    path: '/Settings',
+    path: "/Settings",
     component: requireAuth(Settings),
     loadData: () => getSomeData()
   },
   {
-    path: '/shoppingcart',
+    path: "/shoppingcart",
     component: requireAuth(ShoppingCart),
     loadData: () => getSomeData()
   },
   {
-    path: '/signup',
+    path: "/signup",
     component: Signup,
     loadData: () => getSomeData()
   },
@@ -189,9 +189,9 @@ export const routes = [
   // },
   {
     exact: true,
-    path: '/Zones',
+    path: "/Zones",
     component: requireAuth(Zones)
-  }
+  },
   // {
   //   path: '/korean/1',
   //   component: Korean1,
@@ -257,12 +257,12 @@ export const routes = [
   //   component: French2,
   //   loadData: () => getSomeData()
   // },
-  // {
-  //   // exact: true,
-  //   path: '/test',
-  //   component: Test,
-  //   loadData: () => getSomeData()
-  // },
+  {
+    // exact: true,
+    path: "/test",
+    component: Test,
+    loadData: () => getSomeData()
+  }
   // {
   //   component: NotFound,
   //   loadData: () => getSomeData()
