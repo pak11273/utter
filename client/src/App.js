@@ -26,7 +26,11 @@ import {PersistGate} from "redux-persist/integration/react"
 import "semantic-ui-css/semantic.css"
 
 const client = new ApolloClient({
-  uri: "http://192.168.68.8:3001/graphql"
+  uri: "http://192.168.68.8:3001/graphql",
+  clientStata: {
+    defaults: {},
+    resolvers: {}
+  }
 })
 
 const StyledGrid = styled(Grid)`

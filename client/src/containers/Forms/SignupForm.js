@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {PureComponent} from "react"
 import {bindActionCreators} from "redux"
 import isEmpty from "lodash/isEmpty"
 import styled, {ThemeProvider} from "styled-components"
@@ -19,7 +19,7 @@ import {
 import {FaFacebook} from "react-icons/fa"
 import {FaGoogle} from "react-icons/fa"
 
-import {Mutation} from "react-apollo"
+import {graphql, compose, Mutation} from "react-apollo"
 import gql from "graphql-tag"
 
 // queries
@@ -66,7 +66,13 @@ const CREATE_USER = gql`
   }
 `
 
-class SignupForm extends Component {
+const HELLO = gql`
+  {
+    hello
+  }
+`
+
+class SignupForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -83,7 +89,7 @@ class SignupForm extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.toggleFooter(false)
+    // this.props.actions.toggleFooter(false)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -145,6 +151,7 @@ class SignupForm extends Component {
     * 
     * */
     let inputUsername, inputEmail, inputPassword
+    console.log("props: ", this.props)
     return (
       <Mutation mutation={CREATE_USER}>
         {(createUser, {data}) => (
@@ -169,8 +176,11 @@ class SignupForm extends Component {
                     }
                   }
                 })
+                // TODO: data values to cache
                 // TODO: reset values to default
               }
+              console.log("props: ", this.props)
+              console.log("data: ", data)
             }}>
             <Leftside>
               <Img
@@ -324,7 +334,12 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(SignupForm)
+
+export default compose(
+  graphql(CREATE_USER, {name: "CREATE_USER"})
+  // graphql(HELLO, {name: "HELLO"})
 )(SignupForm)
