@@ -1,17 +1,18 @@
-import React, {Component} from 'react'
-import {NavLink, Link, withRouter} from 'react-router-dom'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import Select from 'react-select'
-import isEmpty from 'lodash/isEmpty'
-import cloneDeep from 'lodash/cloneDeep'
-import Waypoint from 'react-waypoint'
-import {Helmet} from 'react-helmet'
-import update from 'immutability-helper'
+import React, {Component} from "react"
+import {NavLink, Link, withRouter} from "react-router-dom"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import Select from "react-select"
+import isEmpty from "lodash/isEmpty"
+import cloneDeep from "lodash/cloneDeep"
+import Waypoint from "react-waypoint"
+import {Helmet} from "react-helmet"
+import update from "immutability-helper"
 import {
+  Button,
   Card,
   Dropdown,
-  Grid as SemGrid,
+  Grid,
   Icon,
   Image,
   Input,
@@ -19,67 +20,116 @@ import {
   Segment,
   Select as SemSelect,
   Text
-} from 'semantic-ui-react'
-import 'react-select/dist/react-select.css' // comment out exclude node_modules for css-loader
-import styled, {ThemeProvider} from 'styled-components'
-import './styles.css'
-import {
-  Box,
-  Button,
-  ButtonBrowse,
-  Flex,
-  Form,
-  Grid,
-  Label,
-  Subtitle,
-  Title
-} from '../../components'
+} from "semantic-ui-react"
+import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
+import styled, {ThemeProvider} from "styled-components"
+import "./styles.css"
 
-import {Masthead, Navbar, Staticbar} from '../../containers'
-import orm from '../../app/schema.js'
+import {Navbar} from "../../containers"
+import orm from "../../app/schema.js"
 
 // actions
-import course from '../../api/course/actions/courseActions.js'
-import courses from '../../api/courses/actions/coursesActions.js'
-import {chooseCourseLanguage} from './actions'
-import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
+import course from "../../api/course/actions/courseActions.js"
+import courses from "../../api/courses/actions/coursesActions.js"
+import {chooseCourseLanguage} from "./actions"
+import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+
+import {Query, graphql, compose} from "react-apollo"
+import gql from "graphql-tag"
+
+const getCourses = gql`
+  {
+    getCourses {
+      id
+      courseImage
+      courseName
+      courseDescription
+    }
+  }
+`
+const Courses = () => (
+  <Grid columns={3} centered>
+    <Grid.Row>
+      <Card.Group stackable itemsPerRow={3}>
+        <Query query={getCourses}>
+          {({loading, error, data}) => {
+            if (loading) return <Grid.Column>loading...</Grid.Column>
+            if (error)
+              return (
+                <Grid.Column>
+                  Data has not loaded yet. Please refresh your browser.
+                </Grid.Column>
+              )
+            return data.getCourses.map(course => {
+              return (
+                <Card key={course.id}>
+                  <Image
+                    src={`${course.courseImage}`}
+                    style={{cursor: "pointer"}}
+                  />
+                  <Card.Content>
+                    <Card.Header style={{wordBreak: "break-word"}}>
+                      {course.courseName}
+                    </Card.Header>
+                    <Card.Meta>
+                      <Icon name="pencil" />
+                      <a style={{padding: "0 20px 0 0"}}>
+                        {course.courseAuthor}
+                      </a>
+                    </Card.Meta>
+                    <div
+                      className="description"
+                      style={{wordBreak: "break-word"}}>
+                      {course.courseDescription}
+                    </div>
+                    {/* TODO
+            <div
+              style={{
+                color: 'white',
+                background: 'red',
+                padding: '4px',
+                textAlign: 'center'
+              }}>
+              Subscribed
+            </div>
+            */}
+                  </Card.Content>
+                  <Card.Content extra>
+                    <Icon name="user" />
+                    <span style={{padding: "0 20px 0 0"}}>subs</span>
+                    <p>
+                      <Icon name="book" />
+                      <span style={{padding: "0 20px 0 0"}}>course ref</span>
+                    </p>
+                  </Card.Content>
+                </Card>
+              )
+            })
+          }}
+        </Query>
+      </Card.Group>
+    </Grid.Row>
+  </Grid>
+)
 
 const options = [
-  {key: 'title', text: 'Title', value: 'title'},
-  {key: 'reference', text: 'Reference', value: 'reference'},
-  {key: 'author', text: 'Author', value: 'author'}
+  {key: "title", text: "Title", value: "title"},
+  {key: "reference", text: "Reference", value: "reference"},
+  {key: "author", text: "Author", value: "author"}
 ]
 
-const StyledGrid = styled(Grid)`
-  grid-template-areas:
-    'sidebar sidebar';
-    'content content';
-
-  @media (min-width: 640px) {
-    grid-template-columns: 200px 1fr;
-    grid-template-areas: 'sidebar content';
-  }
-`
-const StyledNavLink = styled(NavLink)`
-  padding: 20px;
-
-  &:hover {
-    color: #ff9800;
-  }
-`
-
 const initialState = {
-  search: '',
-  courseAuthor: '',
-  courseInput: '',
-  courseName: '',
-  courseProp: 'title',
-  couresRef: '',
-  teachingLang: '',
-  nativeLang: '',
-  items: '',
+  search: "",
+  courseAuthor: "",
+  courseInput: "",
+  courseName: "",
+  courseProp: "title",
+  couresRef: "",
+  teachingLang: "",
+  nativeLang: "",
+  items: "",
   limit: 3,
-  next: ''
+  next: ""
 }
 
 class CoursesContainer extends Component {
@@ -98,7 +148,7 @@ class CoursesContainer extends Component {
   handleSpeakingChange = nativeLang => {
     if (nativeLang === null) {
       const newState = update(this.state, {
-        nativeLang: {$set: ''}
+        nativeLang: {$set: ""}
       })
 
       this.setState(newState)
@@ -116,7 +166,7 @@ class CoursesContainer extends Component {
   handleTeachingChange = teachingLang => {
     if (teachingLang === null) {
       const newState = update(this.state, {
-        teachingLang: {$set: ''}
+        teachingLang: {$set: ""}
       })
 
       this.setState(newState)
@@ -166,20 +216,20 @@ class CoursesContainer extends Component {
     const courseProp = this.state.courseProp
     const courseInput = this.state.courseInput
     switch (courseProp) {
-      case 'title':
+      case "title":
         // set courseName
         let newName = update(this.state, {
           courseAuthor: {
-            $set: ''
+            $set: ""
           },
           courseName: {
             $set: courseInput
           },
           courseRef: {
-            $set: ''
+            $set: ""
           },
           next: {
-            $set: ''
+            $set: ""
           }
         })
 
@@ -190,20 +240,20 @@ class CoursesContainer extends Component {
 
         break
 
-      case 'reference':
+      case "reference":
         // set courseRef
         let newRef = update(this.state, {
           courseAuthor: {
-            $set: ''
+            $set: ""
           },
           courseName: {
-            $set: ''
+            $set: ""
           },
           courseRef: {
             $set: courseInput
           },
           next: {
-            $set: ''
+            $set: ""
           }
         })
 
@@ -213,7 +263,7 @@ class CoursesContainer extends Component {
         })
         break
 
-      case 'author':
+      case "author":
         // set courseAuthor
 
         let newAuthor = update(this.state, {
@@ -221,13 +271,13 @@ class CoursesContainer extends Component {
             $set: courseInput
           },
           courseName: {
-            $set: ''
+            $set: ""
           },
           courseRef: {
-            $set: ''
+            $set: ""
           },
           next: {
-            $set: ''
+            $set: ""
           }
         })
 
@@ -254,15 +304,16 @@ class CoursesContainer extends Component {
   handleWaypoint = () => {
     if (
       !this.props.coursesMeta.loading &&
-      this.props.coursesMeta.next !== 'done'
+      this.props.coursesMeta.next !== "done"
     ) {
       return <Waypoint onEnter={this.nextCourses} />
     }
   }
 
   render() {
+    console.log("props: ", this.props)
     const LangCard = this.props.courses.map(item => {
-      var author = ''
+      var author = ""
       item.courseAuthor.username ? (author = item.courseAuthor.username) : null
       let keys = []
       item.courseRef.map(item => {
@@ -274,17 +325,17 @@ class CoursesContainer extends Component {
           <Image
             src={item.courseImage}
             onClick={this.handleImageClick}
-            style={{cursor: 'pointer'}}
+            style={{cursor: "pointer"}}
           />
           <Card.Content>
-            <Card.Header style={{wordBreak: 'break-word'}}>
+            <Card.Header style={{wordBreak: "break-word"}}>
               {item.courseName}
             </Card.Header>
             <Card.Meta>
               <Icon name="pencil" />
-              <a style={{padding: '0 20px 0 0'}}>{author}</a>
+              <a style={{padding: "0 20px 0 0"}}>{author}</a>
             </Card.Meta>
-            <div className="description" style={{wordBreak: 'break-word'}}>
+            <div className="description" style={{wordBreak: "break-word"}}>
               {item.courseDescription}
             </div>
             {/* TODO
@@ -301,22 +352,22 @@ class CoursesContainer extends Component {
           </Card.Content>
           <Card.Content extra>
             <Icon name="user" />
-            <span style={{padding: '0 20px 0 0'}}>{item.subscribers}</span>
+            <span style={{padding: "0 20px 0 0"}}>{item.subscribers}</span>
             <p>
               <Icon name="book" />
-              <span style={{padding: '0 20px 0 0'}}>{courseRef}</span>
+              <span style={{padding: "0 20px 0 0"}}>{courseRef}</span>
             </p>
           </Card.Content>
         </Card>
       )
     })
-    if (this.props.coursesMeta.next !== 'done') {
+    if (this.props.coursesMeta.next !== "done") {
       var scrollMsg = (
-        <SemGrid centered style={{margin: '0 0 40px 0'}}>
+        <Grid centered style={{margin: "0 0 40px 0"}}>
           <Segment compact loading={this.props.coursesMeta.loading}>
             Scroll down for more
           </Segment>
-        </SemGrid>
+        </Grid>
       )
     } else {
       var scrollMsg = <div />
@@ -326,18 +377,18 @@ class CoursesContainer extends Component {
 
     renderGrid = (
       <div>
-        <SemGrid style={{padding: '40px'}}>
+        <Grid style={{padding: "40px"}}>
           <Card.Group stackable itemsPerRow={3}>
             {LangCard}
           </Card.Group>
-        </SemGrid>
+        </Grid>
         {this.handleWaypoint()}
         {scrollMsg}
       </div>
     )
 
     return (
-      <StyledGrid>
+      <Grid stackable>
         <Helmet>
           <meta charset="utf-8" />
           <meta
@@ -352,49 +403,43 @@ class CoursesContainer extends Component {
           <title>Utterzone | Courses</title>
           <link rel="canonical" href="https://utter.zone/courses" />
         </Helmet>
-        <Staticbar>
-          <Flex gridarea="sidebar">
-            <Subtitle>I speak:</Subtitle>
-            <Box>
-              <Select
-                name="form-field-name"
-                value={this.state.nativeLang}
-                onChange={this.handleSpeakingChange}
-                options={[
-                  {value: 'english', label: 'English'},
-                  {value: 'spanish', label: 'Spanish'},
-                  {value: 'french', label: 'French'}
-                ]}
-              />
-            </Box>
-            <Subtitle>I want to learn:</Subtitle>
-            <Box>
-              <Select
-                name="form-field-name"
-                value={this.state.teachingLang}
-                onChange={this.handleTeachingChange}
-                options={[
-                  {value: 'korean', label: 'Korean'},
-                  {value: 'english', label: 'English'},
-                  {value: 'spanish', label: 'Spanish'}
-                ]}
-              />
-            </Box>
-            <Box margin="40px 0 0 0">
-              <StyledNavLink to="/courses/created">
-                Courses I Teach
-              </StyledNavLink>
-            </Box>
-            <Box>
-              <StyledNavLink to="/courses/subscriptions">
-                My Subscriptions
-              </StyledNavLink>
-            </Box>
-          </Flex>
-        </Staticbar>
-        <Grid gridarea="content" gridtemplaterows="100px auto">
+        <Grid.Column width={4} style={{background: "LightGray"}}>
+          <div>I speak:</div>
+          <div>
+            <Select
+              name="form-field-name"
+              value={this.state.nativeLang}
+              onChange={this.handleSpeakingChange}
+              options={[
+                {value: "english", label: "English"},
+                {value: "spanish", label: "Spanish"},
+                {value: "french", label: "French"}
+              ]}
+            />
+          </div>
+          <div>I want to learn:</div>
+          <div>
+            <Select
+              name="form-field-name"
+              value={this.state.teachingLang}
+              onChange={this.handleTeachingChange}
+              options={[
+                {value: "korean", label: "Korean"},
+                {value: "english", label: "English"},
+                {value: "spanish", label: "Spanish"}
+              ]}
+            />
+          </div>
+          <div margin="40px 0 0 0">
+            <Link to="/courses/created">Courses I Teach</Link>
+          </div>
+          <div>
+            <Link to="/courses/subscriptions">My Subscriptions</Link>
+          </div>
+        </Grid.Column>
+        <Grid.Column width={12}>
           <Item align="center">
-            <Title>Subscribe to a Course</Title>
+            <div>Subscribe to a Course</div>
             <Input
               type="text"
               placeholder="Search..."
@@ -409,9 +454,10 @@ class CoursesContainer extends Component {
               <Button onClick={this.submitQuery}>Search</Button>
             </Input>
           </Item>
-          {renderGrid}
-        </Grid>
-      </StyledGrid>
+          {/*renderGrid*/}
+          <Courses />
+        </Grid.Column>
+      </Grid>
     )
   }
 }
@@ -444,5 +490,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(CoursesContainer)
+  )(compose(graphql(getCourses, {name: "getCourses"}))(CoursesContainer))
 )

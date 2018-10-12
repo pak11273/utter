@@ -3,6 +3,8 @@ const router = express.Router()
 import controller from "./courseCtrl.js"
 import createRoutes from "../../util/createRoutes.js"
 
+router.route("/faker").get(controller.faker)
+
 createRoutes(controller, router)
 
 // get teaching courses
@@ -22,8 +24,6 @@ router
 router
   .route("/my-courses/:courseAuthorId/:courseId/:courseName/:levelId")
   .delete(controller.deleteLevel)
-
-router.route("/faker").get(controller.faker)
 
 // .put(controller.update)
 

@@ -1,9 +1,9 @@
-import Course from './courseModel'
+import Course from "./courseModel"
 
 const getCourse = async (_, {id}, {user}) => {
   const course = await Course.findById(id).exec()
   if (!course) {
-    throw new Error('Cannot find course with id')
+    throw new Error("Cannot find course with id")
   }
 
   return course

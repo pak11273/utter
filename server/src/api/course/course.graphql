@@ -1,6 +1,13 @@
 type Course {
   id: ID!
   courseName: String!
+  courseAuthor: [User]
+  courseDescription: String!
+  courseImage: String
+  courseMode: String!
+  favorite: Boolean
+  teachingLang: String
+  usingLang: String
 }
 
 input UpdatedCourse {

@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
-import faker from 'faker'
-import cuid from 'cuid'
-import isEmpty from 'lodash/isEmpty'
+import mongoose from "mongoose"
+import faker from "faker"
+import cuid from "cuid"
+import isEmpty from "lodash/isEmpty"
 
-import Course from './courseModel.js'
+import Course from "./courseModel.js"
 const ObjectId = mongoose.Types.ObjectId
 
 export default {
@@ -14,10 +14,10 @@ export default {
     var query = {}
 
     if (req.query.courseName) {
-      query.courseName = new RegExp(`${req.query.courseName}`, 'i')
+      query.courseName = new RegExp(`${req.query.courseName}`, "i")
     }
     if (req.query.courseRef) {
-      query.courseRef = new RegExp(`${req.query.courseRef}`, 'i')
+      query.courseRef = new RegExp(`${req.query.courseRef}`, "i")
     }
     if (req.query.courseAuthor) {
       query.courseAuthor = req.query.courseAuthor
@@ -40,7 +40,7 @@ export default {
             }
             if (!isEmpty(docs)) {
               var courseAuthor = docs._id
-              console.log('course author: ', courseAuthor)
+              console.log("course author: ", courseAuthor)
               query.courseAuthor = courseAuthor
             }
           }
@@ -49,7 +49,7 @@ export default {
 
       // initial query
 
-      if (!req.query.next || req.query.next === 'done') {
+      if (!req.query.next || req.query.next === "done") {
         var prePopResult = await Course.aggregate([
           {$match: query},
           {
@@ -59,7 +59,7 @@ export default {
               courseRef: 1,
               courseAuthor: 1,
               courseImage: 1,
-              subscribers: {$size: '$subscribers'}
+              subscribers: {$size: "$subscribers"}
             }
           },
           {$sort: {_id: -1}},
@@ -67,21 +67,21 @@ export default {
         ])
 
         var result = await Course.populate(prePopResult, {
-          path: 'courseAuthor'
+          path: "courseAuthor"
         })
 
         var totalRecords = await Course.find(query).countDocuments()
-        console.log('rec: ', totalRecords)
+        console.log("rec: ", totalRecords)
 
         if (totalRecords <= limit) {
-          var next = 'done'
+          var next = "done"
         } else {
           var next = result[result.length - 1]._id
         }
         res.json({result, next})
       } else {
         // remaining queries
-        console.log('remaining queries')
+        console.log("remaining queries")
         let next
 
         // type cast id, $lt is not the same in aggregate vs query
@@ -100,33 +100,33 @@ export default {
               courseRef: 1,
               courseAuthor: 1,
               courseImage: 1,
-              subscribers: {$size: '$subscribers'}
+              subscribers: {$size: "$subscribers"}
             }
           }
         ])
 
         var result = await Course.populate(prePopResult, {
-          path: 'courseAuthor'
+          path: "courseAuthor"
         })
 
-        var lastResultId = ''
+        var lastResultId = ""
 
         if (!isEmpty(lastResultId)) {
           lastResultId = result[result.length - 1]._id.toString()
         }
 
         if (isEmpty(result)) {
-          next = 'done'
+          next = "done"
           res.json({result, next})
         } else {
           next = result[result.length - 1]._id
-          console.log('next: ', next)
+          console.log("next: ", next)
           res.json({result, next})
         }
       }
     } catch (error) {
-      console.log('err: ', error)
-      next = 'done'
+      console.log("err: ", error)
+      next = "done"
       // res.json({result, next, err: error})
     }
   },
@@ -151,7 +151,7 @@ export default {
     Course.findById(id).then(
       course => {
         if (!course) {
-          next(new Error('No course with that id'))
+          next(new Error("No course with that id"))
         } else {
           req.course = course
           next()
@@ -164,7 +164,7 @@ export default {
   },
 
   createOne: (req, res, next) => {
-    console.log('body: ', req.body.course)
+    console.log("body: ", req.body.course)
     let newCourse = req.body.course
     newCourse.courseAuthor = {
       _id: req.body.course.courseAuthorId
@@ -183,12 +183,12 @@ export default {
     Course.find({courseName: req.body.course}).then(
       course => {
         if (!req.body.course) {
-          res.status(400).json({error: 'This field is required.'})
+          res.status(400).json({error: "This field is required."})
         } else if (course.length > 0) {
           // next(new Error('This course name is already taken.'))
-          res.status(400).json({error: 'This course name is already taken.'})
+          res.status(400).json({error: "This course name is already taken."})
         } else {
-          res.json({msg: 'This course name is available'})
+          res.json({msg: "This course name is available"})
         }
       },
       err => {
@@ -201,6 +201,7 @@ export default {
     for (var i = 0; i < 3; ++i) {
       var course = new Course()
 
+      console.log("course: ", course)
       // random object ids for terms.level
       var id1 = mongoose.Types.ObjectId()
       var id2 = mongoose.Types.ObjectId()
@@ -208,120 +209,121 @@ export default {
       var id4 = mongoose.Types.ObjectId()
       course.category = faker.commerce.department()
       course.courseRef = faker.random.arrayElement([
-        'TTMIK',
-        'Topik Level 1',
-        'How to study Korean'
+        "TTMIK",
+        "Topik Level 1",
+        "How to study Korean"
       ])
       course.teachingLang = faker.random.arrayElement([
-        'korean',
-        'french',
-        'spanish'
+        "korean",
+        "french",
+        "spanish"
       ])
       course.nativeLang = faker.random.arrayElement([
-        'english',
-        'french',
-        'spanish'
+        "english",
+        "french",
+        "spanish"
       ])
-      course.subscribers = faker.random.arrayElement([
-        ['5b6b21e445912f4b8277bb06'],
-        ['5b6b21e445912f4b8277bb06', '5b9012f043aa4329f187f01a'],
-        [
-          '5b6b21e445912f4b8277bb06',
-          '5b93f9184d034f51d0e72287',
-          '5b9012f043aa4329f187f01a'
-        ],
-        ['5b9012f043aa4329f187f01a'],
-        ['5b9012f043aa4329f187f01a', '5b93f9184d034f51d0e72287'],
-        [
-          '5b9012f043aa4329f187f01a',
-          '5b6b21e445912f4b8277bb06',
-          '5b93f9184d034f51d0e72287'
-        ],
-        ['5b93f9184d034f51d0e72287'],
-        ['5b93f9184d034f51d0e72287', '5b6b21e445912f4b8277bb06'],
-        [
-          '5b93f9184d034f51d0e72287',
-          '5b9012f043aa4329f187f01a',
-          '5b93f9184d034f51d0e72287'
-        ]
-      ])
+      // TODO: change ids to ones in the db
+      // course.subscribers = faker.random.arrayElement([
+      //   ["5b6b21e445912f4b8277bb06"],
+      //   ["5b6b21e445912f4b8277bb06", "5b9012f043aa4329f187f01a"],
+      //   [
+      //     "5b6b21e445912f4b8277bb06",
+      //     "5b93f9184d034f51d0e72287",
+      //     "5b9012f043aa4329f187f01a"
+      //   ],
+      //   ["5b9012f043aa4329f187f01a"],
+      //   ["5b9012f043aa4329f187f01a", "5b93f9184d034f51d0e72287"],
+      //   [
+      //     "5b9012f043aa4329f187f01a",
+      //     "5b6b21e445912f4b8277bb06",
+      //     "5b93f9184d034f51d0e72287"
+      //   ],
+      //   ["5b93f9184d034f51d0e72287"],
+      //   ["5b93f9184d034f51d0e72287", "5b6b21e445912f4b8277bb06"],
+      //   [
+      //     "5b93f9184d034f51d0e72287",
+      //     "5b9012f043aa4329f187f01a",
+      //     "5b93f9184d034f51d0e72287"
+      //   ]
+      // ])
       course.courseId = cuid()
       course.courseAuthor = faker.random.arrayElement([
-        '5b9012f043aa4329f187f01a',
-        '5b93f90c4d034f51d0e72286',
-        '5b93f9184d034f51d0e72287'
+        "5b9012f043aa4329f187f01a",
+        "5b93f90c4d034f51d0e72286",
+        "5b93f9184d034f51d0e72287"
       ])
       course.courseName = faker.commerce.productName()
       course.price = faker.commerce.price()
       course.courseDescription =
-        'Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.'
+        "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild."
       course.courseImage = faker.image.image()
       course.levels = [
         {
           course: course._id,
           level: 1,
-          name: 'Change Me',
+          name: "Change Me",
           terms: [
             {
               level: id1,
-              word: 'hello',
-              translation: '안영'
+              word: "hello",
+              translation: "안영"
             },
             {
               level: id1,
-              word: 'world',
-              translation: '세상'
+              word: "world",
+              translation: "세상"
             }
           ]
         },
         {
           course: course._id,
           level: 2,
-          name: 'Change Me',
+          name: "Change Me",
           terms: [
             {
               level: id2,
-              word: 'bart',
-              translation: '안영'
+              word: "bart",
+              translation: "안영"
             },
             {
               level: id2,
-              word: 'sympson',
-              translation: '세상'
+              word: "sympson",
+              translation: "세상"
             }
           ]
         },
         {
           course: course._id,
           level: 4,
-          name: 'Change Me',
+          name: "Change Me",
           terms: [
             {
               level: id3,
-              word: 'cat',
-              translation: '안영'
+              word: "cat",
+              translation: "안영"
             },
             {
               level: id3,
-              word: 'dog',
-              translation: '세상'
+              word: "dog",
+              translation: "세상"
             }
           ]
         },
         {
           course: course._id,
           level: 10,
-          name: 'Change Me',
+          name: "Change Me",
           terms: [
             {
               level: id4,
-              word: 'merlin',
-              translation: '안영'
+              word: "merlin",
+              translation: "안영"
             },
             {
               level: id4,
-              word: 'samson',
-              translation: '세상'
+              word: "samson",
+              translation: "세상"
             }
           ]
         }
@@ -336,7 +338,7 @@ export default {
   },
 
   putOne: (req, res, next) => {
-    console.log('hellodog')
+    console.log("hellodog")
     // if (req.params.courseId) {
     //   Course.findOne({courseId: req.params.courseId}).then(
     //     course => {
@@ -366,7 +368,7 @@ export default {
       })
       .catch(error => {
         console.error({
-          message: 'Error occured while paginating Course data',
+          message: "Error occured while paginating Course data",
           arguments: arguments
         })
         throw error // TODO: test return instead of throw
@@ -388,9 +390,9 @@ export default {
     const update = req.body
 
     // update a level's name
-    if (update.type === 'LEVEL_ASYNC_UPDATE') {
+    if (update.type === "LEVEL_ASYNC_UPDATE") {
       Course.findOneAndUpdate(
-        {'levels._id': ObjectId(update.id)},
+        {"levels._id": ObjectId(update.id)},
         {$set: {name: update.name}},
         (err, data) => {
           if (err) {
@@ -413,7 +415,7 @@ export default {
   },
 
   remove: (req, res, next) => {
-    console.log('reg: ', req.params)
+    console.log("reg: ", req.params)
     let id = req.params.courseId
     Course.findByIdAndRemove(id, (err, deleted) => {
       if (err) {
@@ -425,7 +427,7 @@ export default {
   },
 
   deleteCourse: (req, res, next) => {
-    console.log('reg: ', req.params)
+    console.log("reg: ", req.params)
     let id = req.params.courseId
     Course.findByIdAndRemove(id, (err, deleted) => {
       if (err) {
@@ -441,7 +443,7 @@ export default {
       {courseId: req.params.courseId},
       (err, course) => {
         if (err) {
-          console.log('err: ', err)
+          console.log("err: ", err)
         }
         course.updateOne(
           {$pull: {levels: {_id: req.params.levelId}}},

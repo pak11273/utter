@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import styled from "styled-components"
+import {Grid} from "semantic-ui-react"
 
 const StaticSidebar = styled.div`
   background: ${props => props.background};
@@ -18,12 +19,12 @@ const StaticSidebar = styled.div`
   }
 `
 StaticSidebar.defaultProps = {
-  background: '#f3f3f3',
-  display: 'flex',
-  gridarea: 'sidebar',
-  height: 'auto',
-  padding: '100px 0 0 0',
-  minwidth: '200px'
+  background: "#f3f3f3",
+  display: "flex",
+  gridarea: "sidebar",
+  height: "auto",
+  padding: "100px 0 0 0",
+  minwidth: "200px"
 }
 
 export default StaticSidebar
