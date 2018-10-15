@@ -1,11 +1,16 @@
 import mongoose, {Schema} from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import bcrypt from "bcrypt"
+import {LanguageSchema} from "../language/languageModel.js"
 
-const UserSchema = new mongoose.Schema(
+export const UserSchema = new mongoose.Schema(
   {
     age: {
       type: Number
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"]
     },
     siteAdmin: {
       type: Boolean
@@ -34,9 +39,9 @@ const UserSchema = new mongoose.Schema(
       match: [/^[a-zA-Z0-9]+$/, "is invalid"],
       index: true
     },
-    nativeLang: {
-      type: String,
-      default: "English"
+    languages: {
+      type: [LanguageSchema], // you may include other schemas (here included as array of embedded documents)
+      default: ["English"]
     },
     bio: String,
     email: {
@@ -83,7 +88,12 @@ const UserSchema = new mongoose.Schema(
     userImage: {type: String, default: "default.png"},
     facebook: {type: String, default: ""},
     fbTokens: Array,
-    google: {type: String, default: ""}
+    google: {type: String, default: ""},
+    someMixed: {
+      type: mongoose.Schema.Types.Mixed,
+      description:
+        "Can be any mixed type, that will be treated as JSON GraphQL Scalar Type"
+    }
   },
   {timestamps: true}
 )

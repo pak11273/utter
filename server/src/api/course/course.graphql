@@ -1,20 +1,36 @@
+type Term {
+  id: ID
+  word: String
+  translation: String
+  audio: String
+}
+
+type Level {
+  id: ID
+  name: String
+  course: Course
+  terms: [Term]
+}
+
 type Course {
   id: ID!
   courseName: String!
-  courseAuthor: [User]
-  courseDescription: String!
+  courseAuthor: User
+  courseDescription: String
   courseImage: String
   courseMode: String!
+  levels: [Level]
   favorite: Boolean
   teachingLang: String
   usingLang: String
+  createdAt: Int
 }
 
 input UpdatedCourse {
   id: ID!
   courseId: String
   courseName: String
-  description: String
+  coursedescription: String
   courseMode: String
   favorite: Boolean
 }
@@ -29,11 +45,13 @@ input CreateCourseInput {
 }
 
 extend type Query {
-  getCourses: [Course]!
-  Course(id: ID!): Course!
+  getCourse(id: ID!): Course!
+  getCourses: [Course]
+  getCourseCount: Int
 }
 
 extend type Mutation {
+  createCourse(input: CreateCourseInput!): Course!
   updateCourse(input: UpdatedCourse!): Course!
-  newCourse(input: CreateCourseInput!): Course!
+  removeCourse(id: ID!): Boolean
 }

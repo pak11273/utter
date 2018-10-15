@@ -1,21 +1,25 @@
-import mongoose, {Schema} from 'mongoose'
+import mongoose, {Schema} from "mongoose"
 
 const LanguageSchema = mongoose.Schema(
   {
+    skill: {
+      type: String,
+      enum: ["beginner", "intermediate", "fluent", "native"]
+    },
     name: {
       type: String,
-      default: ''
+      default: ""
     },
     fans: [
       {
-        username: {type: String, default: ''},
-        email: {type: String, default: ''}
+        username: {type: String, default: ""},
+        email: {type: String, default: ""}
       }
     ],
     subscribers: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: "User"
       }
     ],
     levels: {
@@ -25,14 +29,14 @@ const LanguageSchema = mongoose.Schema(
     },
     country: {
       type: String,
-      default: ''
+      default: ""
     },
     image: {
       type: String,
-      default: 'default.png'
+      default: "default.png"
     }
   },
   {timestamps: true}
 )
 
-export default mongoose.model('Language', LanguageSchema)
+export default mongoose.model("Language", LanguageSchema)

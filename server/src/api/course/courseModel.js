@@ -1,60 +1,60 @@
-import mongoose, {Schema} from 'mongoose'
-import User from '../user/userModel.js'
+import mongoose, {Schema} from "mongoose"
+import {UserSchema} from "../user/userModel.js"
 
 const TermSchema = new Schema({
   course: {
     type: Schema.Types.ObjectId,
-    ref: 'Course'
+    ref: "Course"
   },
   level: {
     type: Schema.Types.ObjectId,
-    ref: 'Level'
+    ref: "Level"
   },
   word: {
     type: String,
-    default: 'Change me'
+    default: "Change me"
   },
   translation: {
     type: String,
-    default: 'Change me'
+    default: "Change me"
   },
   audio: {
     type: String,
-    default: 'audio.mp3'
+    default: "audio.mp3"
   }
 })
 
-TermSchema.virtual('id').get(function() {
+TermSchema.virtual("id").get(function() {
   return this._id.toHexString()
 })
 
-TermSchema.set('toJSON', {
+TermSchema.set("toJSON", {
   virtuals: true
 })
 
 const LevelSchema = new Schema({
   course: {
     type: Schema.Types.ObjectId,
-    ref: 'Course'
+    ref: "Course"
   },
   level: Number,
   name: {
     type: String,
-    default: 'Change me'
+    default: "Change me"
   },
   terms: [TermSchema],
   grammar: String
 })
 
-LevelSchema.virtual('id').get(function() {
+LevelSchema.virtual("id").get(function() {
   return this._id.toHexString()
 })
 
-LevelSchema.set('toJSON', {
+LevelSchema.set("toJSON", {
   virtuals: true
 })
 
-mongoose.model('Level', LevelSchema)
+mongoose.model("Level", LevelSchema)
 
 const CourseSchema = mongoose.Schema(
   {
@@ -64,20 +64,20 @@ const CourseSchema = mongoose.Schema(
     },
     courseId: {
       type: String,
-      default: ''
+      default: ""
     },
     courseName: {
       type: String,
-      default: '',
+      default: "",
       required: [true, "can't be blank"]
     },
     courseAuthor: {
       type: Schema.Types.ObjectId,
-      ref: 'User'
+      ref: "User"
     },
     courseMode: {
       type: String,
-      default: 'draft'
+      default: "draft"
     },
     coursePages: {
       type: Number,
@@ -95,20 +95,20 @@ const CourseSchema = mongoose.Schema(
     },
     teachingLang: {
       type: String,
-      default: ''
+      default: ""
     },
     usingLang: {
       type: String,
-      default: ''
+      default: ""
     },
     tags: {
       type: Array,
-      default: ''
+      default: ""
     },
     subscribers: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: "User"
       }
     ],
     levels: [LevelSchema],
@@ -120,18 +120,18 @@ const CourseSchema = mongoose.Schema(
     // ],
     courseDescription: {
       type: String,
-      default: ''
+      default: ""
     },
     courseImage: {
       type: String,
       default:
-        'https://res.cloudinary.com/dgvw5b6pf/image/upload/v1536857535/course-thumbnails/fa-image_kzo6kn.png'
+        "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1536857535/course-thumbnails/fa-image_kzo6kn.png"
     }
   },
   {timestamps: true}
 )
 
-CourseSchema.index({courseName: 'text', courseDescription: 'text'})
+CourseSchema.index({courseName: "text", courseDescription: "text"})
 
 CourseSchema.statics.findByUsername = function(username, callback) {
   var query = this.findOne()
@@ -140,12 +140,12 @@ CourseSchema.statics.findByUsername = function(username, callback) {
   return query
 }
 
-CourseSchema.virtual('id').get(function() {
+CourseSchema.virtual("id").get(function() {
   return this._id.toHexString()
 })
 
-CourseSchema.set('toJSON', {
+CourseSchema.set("toJSON", {
   virtuals: true
 })
 
-export default mongoose.model('Course', CourseSchema)
+export default mongoose.model("Course", CourseSchema)

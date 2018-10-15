@@ -1,13 +1,16 @@
 type User {
   id: ID!
-  age: Int!
   email: String!
   password: String!
-  contacts: [String]!
+  contacts: [String]
   username: String!
-  createdAt: String!
-  updatedAt: String!
-  #  courses: [Course]
+  createdAt: String
+  updatedAt: String
+}
+
+type AuthPayload {
+  token: String
+  user: User
 }
 
 input UpdatedUserInput {
@@ -28,11 +31,25 @@ input CreateUserInput {
   password: String!
 }
 
+input LoginInput {
+  identifier: String!
+  password: String!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
 type Query {
-  hello(name: String): String!
+  getUserById(id: ID!): User!
+  getUserByUsername(input: String!): User
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): User
+  login(input: LoginInput!): AuthPayload
+  signup(input: SignupInput!): AuthPayload
   updateMe(input: UpdatedUserInput!): User!
 }

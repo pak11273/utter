@@ -1,10 +1,15 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {NavLink} from 'react-router-dom'
-import styled, {ThemeProvider} from 'styled-components'
-import {main, base} from '../../../themes/config'
-import {validateInput} from '../../../utils/validations/login.js'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {NavLink} from "react-router-dom"
+import styled, {ThemeProvider} from "styled-components"
+import {Mutation} from "react-apollo"
+import gql from "graphql-tag"
+
+import {main, base} from "../../../themes/config"
+import {validateInput} from "../../../utils/validations/login.js"
+import {AUTH_TOKEN} from "./constants"
+
 import {
   Box,
   Button,
@@ -12,14 +17,21 @@ import {
   InputLine,
   Label,
   Subtitle
-} from '../../../components'
+} from "../../../components"
 
 // password reset
 // https://www.codementor.io/olatundegaruba/password-reset-using-jwt-ag2pmlck0
 
 // actions
-import actions from '../../../api/user/actions/loginActions.js'
+import actions from "../../../api/user/actions/loginActions.js"
 
+// const LOGIN_MUTATION = gql`
+//   mutation LoginMutation($email: String!, $password: String!) {
+//     login(email: $email, password: $password) {
+//       token
+//     }
+//   }
+// `
 const Form = styled.form`
   box-sizing: border-box;
   display: flex;
@@ -43,20 +55,30 @@ const Error = styled.div`
   color: red;
 `
 Error.defaultProps = {
-  padding: '45px 0 45px 0'
+  padding: "45px 0 45px 0"
 }
 
 class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      identifier: '',
-      password: '',
-      url: '',
+      identifier: "",
+      password: "",
+      url: "",
       loading: false,
       cb: null,
       errors: {}
     }
+  }
+
+  _confirm = async data => {
+    const {token} = data.login
+    this._saveUserData(token)
+    this.props.history.push(`/`)
+  }
+
+  _saveUserData = token => {
+    localStorage.setItem(AUTH_TOKEN, token)
   }
 
   componentDidMount() {
@@ -77,6 +99,7 @@ class LoginForm extends Component {
         errors: {} // clears local errors every time we submit form
       })
 
+      this._confirm()
       this.props.actions.login(this.state)
       this.setState({
         errors: this.props.userReducer.login.errors
@@ -99,11 +122,12 @@ class LoginForm extends Component {
     const identifierErrors = this.state.errors.identifier
     const emailErrors = this.state.errors.email
     const passwordErrors = this.state.errors.password
+    const {email, password, username} = this.state
     return (
       <Form onSubmit={this.onSubmit}>
         <Center>
           <Subtitle display="inline" fontsize="1rem">
-            Don't have an account. Sign up{' '}
+            Don't have an account. Sign up{" "}
             <NavLink to="/signup">
               <Subtitle
                 color="#ffc107"
@@ -124,7 +148,7 @@ class LoginForm extends Component {
           />
           {this.state.errors.identifier &&
             Object.keys(identifierErrors).map((key, i) => {
-              if (key === 'message') {
+              if (key === "message") {
                 var value = key
               }
               return (
@@ -136,7 +160,7 @@ class LoginForm extends Component {
           <div>
             {this.props.userReducer.login.errors.message && (
               <Error>
-                &mdash; {this.props.userReducer.login.errors.message} &mdash;{' '}
+                &mdash; {this.props.userReducer.login.errors.message} &mdash;{" "}
               </Error>
             )}
           </div>
@@ -150,7 +174,7 @@ class LoginForm extends Component {
           />
           {this.state.errors.password &&
             Object.keys(passwordErrors).map((key, i) => {
-              if (key === 'message') {
+              if (key === "message") {
                 var value = key
               }
               return (
@@ -161,6 +185,12 @@ class LoginForm extends Component {
             })}
 
           <Box justifycontent="row">
+            {/*<Mutation
+              mutation={LOGIN_MUTATION}
+              variables={{email, password, name}}
+              onCompleted={data => this._confirm(data)}>
+              {mutation => <div onClick={mutation}>login</div>}
+            </Mutation>*/}
             <ThemeProvider theme={main}>
               <Button
                 color="black"
@@ -205,4 +235,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginForm)

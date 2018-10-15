@@ -1,34 +1,69 @@
 import User from "./userModel.js"
-import {signToken} from "../../auth/auth"
+import jwt from "jsonwebtoken"
+import {authenticate, signToken, decodeToken} from "../../auth/auth"
 
 /*
 /* signature: (rootValue, args, context, info)
 */
-const createUser = (_, args, ctx, info) => {
-  const username = args.input.username
-  const email = args.input.email
-  const password = args.input.password
-  console.log("args: ", args.input)
-  let newUser = new User(args.input)
+const signup = async (_, args, ctx, info) => {
+  const {username, email, password} = args.input
 
-  newUser.save(function(err, user) {
+  let user = new User(args.input)
+
+  user.save(function(err, user) {
     if (err) {
       return err
     }
 
-    let token = signToken(newUser._id)
-    // res.json({token: token})
+    let token = signToken(user._id)
   })
-  return newUser
+  return {
+    user,
+    token
+  }
 }
 
-const getMe = (_, __, {user}) => {
-  return {
-    id: 2342342,
-    username: "hello",
-    createdAt: "yeas",
-    updatedAt: "sure"
+const login = async (parent, args, context, info) => {
+  // decipher identifier
+  const {identifier, password} = args.input
+
+  let username, email
+  let criteria =
+    identifier.indexOf("@") === -1
+      ? {username: identifier}
+      : {email: identifier}
+  if (!identifier || !password) {
+    throw new Error("username/email or password cannot be blank")
   }
+  // check if passwords match
+  User.findOne(criteria).then(user => {
+    if (!user) {
+      throw new Error("Invalid username or email")
+    }
+    // use authenticate() on user.doc, pass in the posted password, hash it and check
+    if (!user.authenticate(password)) {
+      throw new Error("Invalid Password")
+    }
+
+    // assign valid user info
+    const token = signToken(user._id)
+
+    return {
+      token,
+      user
+    }
+  })
+}
+
+const getUserById = async (_, args, ctx, info) => {
+  let result = await User.findOne({id: args.input})
+  return result
+}
+
+const getUserByUsername = async (_, args, ctx, info) => {
+  // const getUserByUsername = (_, __, {user}) => {
+  let result = await User.findOne({username: args.input})
+  return result
 }
 
 const updateMe = (_, {input}, {user}) => {
@@ -38,7 +73,8 @@ const updateMe = (_, {input}, {user}) => {
 
 export const userResolvers = {
   Query: {
-    hello: (_, {name}, ctx) => `Hello ${name || "Satan"}`
+    getUserById,
+    getUserByUsername
   },
 
   User: {
@@ -50,7 +86,8 @@ export const userResolvers = {
   },
 
   Mutation: {
-    createUser,
+    signup,
+    login,
     updateMe
   }
 }

@@ -11,8 +11,10 @@ import update from "immutability-helper"
 import {
   Button,
   Card,
+  Container,
   Dropdown,
   Grid,
+  Header,
   Icon,
   Image,
   Input,
@@ -21,6 +23,7 @@ import {
   Select as SemSelect,
   Text
 } from "semantic-ui-react"
+import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 import styled, {ThemeProvider} from "styled-components"
 import "./styles.css"
@@ -44,25 +47,36 @@ const getCourses = gql`
       courseImage
       courseName
       courseDescription
+      courseAuthor {
+        username
+      }
     }
   }
 `
+
 const Courses = () => (
-  <Grid columns={3} centered>
-    <Grid.Row>
-      <Card.Group stackable itemsPerRow={3}>
+  <Grid
+    columns={3}
+    centered
+    padded="vertically"
+    mobile={8}
+    tablet={8}
+    computer={4}>
+    <Grid.Row style={{padding: "40px"}}>
+      <Card.Group doubling stackable itemsPerRow={3}>
         <Query query={getCourses}>
           {({loading, error, data}) => {
             if (loading) return <Grid.Column>loading...</Grid.Column>
             if (error)
               return (
                 <Grid.Column>
-                  Data has not loaded yet. Please refresh your browser.
+                  The server is restarting due to maintenance. Please refresh
+                  your browser in a few minutes.
                 </Grid.Column>
               )
             return data.getCourses.map(course => {
               return (
-                <Card key={course.id}>
+                <Card key={course.id} fluid={false}>
                   <Image
                     src={`${course.courseImage}`}
                     style={{cursor: "pointer"}}
@@ -71,12 +85,6 @@ const Courses = () => (
                     <Card.Header style={{wordBreak: "break-word"}}>
                       {course.courseName}
                     </Card.Header>
-                    <Card.Meta>
-                      <Icon name="pencil" />
-                      <a style={{padding: "0 20px 0 0"}}>
-                        {course.courseAuthor}
-                      </a>
-                    </Card.Meta>
                     <div
                       className="description"
                       style={{wordBreak: "break-word"}}>
@@ -95,12 +103,20 @@ const Courses = () => (
             */}
                   </Card.Content>
                   <Card.Content extra>
-                    <Icon name="user" />
-                    <span style={{padding: "0 20px 0 0"}}>subs</span>
-                    <p>
+                    <div>
+                      <Icon name="pencil" />
+                      <a style={{padding: "0 20px 0 0"}}>
+                        {course.courseAuthor.username}
+                      </a>
+                    </div>
+                    <div>
+                      <Icon name="user" />
+                      <span style={{padding: "0 20px 0 0"}}>subs</span>
+                    </div>
+                    <div>
                       <Icon name="book" />
                       <span style={{padding: "0 20px 0 0"}}>course ref</span>
-                    </p>
+                    </div>
                   </Card.Content>
                 </Card>
               )
@@ -311,56 +327,6 @@ class CoursesContainer extends Component {
   }
 
   render() {
-    console.log("props: ", this.props)
-    const LangCard = this.props.courses.map(item => {
-      var author = ""
-      item.courseAuthor.username ? (author = item.courseAuthor.username) : null
-      let keys = []
-      item.courseRef.map(item => {
-        keys.push(item.value)
-      })
-      const courseRef = keys.toString()
-      return (
-        <Card key={item.id}>
-          <Image
-            src={item.courseImage}
-            onClick={this.handleImageClick}
-            style={{cursor: "pointer"}}
-          />
-          <Card.Content>
-            <Card.Header style={{wordBreak: "break-word"}}>
-              {item.courseName}
-            </Card.Header>
-            <Card.Meta>
-              <Icon name="pencil" />
-              <a style={{padding: "0 20px 0 0"}}>{author}</a>
-            </Card.Meta>
-            <div className="description" style={{wordBreak: "break-word"}}>
-              {item.courseDescription}
-            </div>
-            {/* TODO
-            <div
-              style={{
-                color: 'white',
-                background: 'red',
-                padding: '4px',
-                textAlign: 'center'
-              }}>
-              Subscribed
-            </div>
-            */}
-          </Card.Content>
-          <Card.Content extra>
-            <Icon name="user" />
-            <span style={{padding: "0 20px 0 0"}}>{item.subscribers}</span>
-            <p>
-              <Icon name="book" />
-              <span style={{padding: "0 20px 0 0"}}>{courseRef}</span>
-            </p>
-          </Card.Content>
-        </Card>
-      )
-    })
     if (this.props.coursesMeta.next !== "done") {
       var scrollMsg = (
         <Grid centered style={{margin: "0 0 40px 0"}}>
@@ -372,20 +338,6 @@ class CoursesContainer extends Component {
     } else {
       var scrollMsg = <div />
     }
-
-    var renderGrid
-
-    renderGrid = (
-      <div>
-        <Grid style={{padding: "40px"}}>
-          <Card.Group stackable itemsPerRow={3}>
-            {LangCard}
-          </Card.Group>
-        </Grid>
-        {this.handleWaypoint()}
-        {scrollMsg}
-      </div>
-    )
 
     return (
       <Grid stackable>
@@ -404,57 +356,65 @@ class CoursesContainer extends Component {
           <link rel="canonical" href="https://utter.zone/courses" />
         </Helmet>
         <Grid.Column width={4} style={{background: "LightGray"}}>
-          <div>I speak:</div>
-          <div>
-            <Select
-              name="form-field-name"
-              value={this.state.nativeLang}
-              onChange={this.handleSpeakingChange}
-              options={[
-                {value: "english", label: "English"},
-                {value: "spanish", label: "Spanish"},
-                {value: "french", label: "French"}
-              ]}
-            />
-          </div>
-          <div>I want to learn:</div>
-          <div>
-            <Select
-              name="form-field-name"
-              value={this.state.teachingLang}
-              onChange={this.handleTeachingChange}
-              options={[
-                {value: "korean", label: "Korean"},
-                {value: "english", label: "English"},
-                {value: "spanish", label: "Spanish"}
-              ]}
-            />
-          </div>
-          <div margin="40px 0 0 0">
-            <Link to="/courses/created">Courses I Teach</Link>
-          </div>
-          <div>
-            <Link to="/courses/subscriptions">My Subscriptions</Link>
-          </div>
+          <Grid columns={1} centered padded="vertically">
+            <Grid.Column textAlign="center">
+              <Spacer margin="50px 0 0 0" />
+              <Item align="center">
+                <Header as="h2">I speak:</Header>
+                <Select
+                  name="form-field-name"
+                  value={this.state.nativeLang}
+                  onChange={this.handleSpeakingChange}
+                  options={[
+                    {value: "english", label: "English"},
+                    {value: "spanish", label: "Spanish"},
+                    {value: "french", label: "French"}
+                  ]}
+                />
+                <Header as="h2">I want to learn:</Header>
+                <Select
+                  name="form-field-name"
+                  value={this.state.teachingLang}
+                  onChange={this.handleTeachingChange}
+                  options={[
+                    {value: "korean", label: "Korean"},
+                    {value: "english", label: "English"},
+                    {value: "spanish", label: "Spanish"}
+                  ]}
+                />
+                <div margin="40px 0 0 0">
+                  <Link to="/courses/created">Courses I Teach</Link>
+                </div>
+                <div>
+                  <Link to="/courses/subscriptions">My Subscriptions</Link>
+                </div>
+              </Item>
+            </Grid.Column>
+          </Grid>
         </Grid.Column>
         <Grid.Column width={12}>
-          <Item align="center">
-            <div>Subscribe to a Course</div>
-            <Input
-              type="text"
-              placeholder="Search..."
-              onChange={this.handleInputChg}
-              action>
-              <input />
-              <SemSelect
-                onChange={this.handleCourseFilterChg}
-                options={options}
-                defaultValue="title"
-              />
-              <Button onClick={this.submitQuery}>Search</Button>
-            </Input>
-          </Item>
-          {/*renderGrid*/}
+          <Grid columns={1} centered padded="vertically">
+            <Grid.Column textAlign="center">
+              <Header as="h1">Subscribe to a Course</Header>
+            </Grid.Column>
+            <Grid.Column>
+              <Item align="center">
+                <Input
+                  type="text"
+                  placeholder="Search..."
+                  onChange={this.handleInputChg}
+                  action>
+                  <input />
+                  <SemSelect
+                    onChange={this.handleCourseFilterChg}
+                    options={options}
+                    defaultValue="title"
+                  />
+                  <Button onClick={this.submitQuery}>Search</Button>
+                </Input>
+              </Item>
+            </Grid.Column>
+          </Grid>
           <Courses />
         </Grid.Column>
       </Grid>

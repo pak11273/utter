@@ -251,7 +251,7 @@ export default {
       course.courseAuthor = faker.random.arrayElement([
         "5b9012f043aa4329f187f01a",
         "5b93f90c4d034f51d0e72286",
-        "5b93f9184d034f51d0e72287"
+        "5baf12a86b73051f6295172b"
       ])
       course.courseName = faker.commerce.productName()
       course.price = faker.commerce.price()

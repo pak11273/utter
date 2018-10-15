@@ -1,5 +1,7 @@
 import Course from "./courseModel"
 
+var nextID
+
 const getCourse = async (_, {id}, {user}) => {
   const course = await Course.findById(id).exec()
   if (!course) {
@@ -14,21 +16,30 @@ const updateCourse = (_, {input}) => {
   return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const newCourse = (_, {input}) => {
+const createCourse = (_, {input}) => {
   return Course.create(input)
 }
 
-const getCourses = () => {
-  return Course.find({}).exec()
+const getCourses = async () => {
+  let result = await Course.find({}).exec()
+  nextID = result[result.length - 1]._id
+  return result
 }
 
 export const courseResolvers = {
   Query: {
     getCourses,
-    Course: getCourse
+    getCourse
   },
   Mutation: {
     updateCourse,
-    newCourse
+    createCourse
+  },
+  Course: {
+    async courseAuthor(course) {
+      const populated = await course.populate("courseAuthor").execPopulate()
+
+      return populated.courseAuthor
+    }
   }
 }
