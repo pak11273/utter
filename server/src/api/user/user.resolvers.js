@@ -25,7 +25,7 @@ const signup = async (_, args, ctx, info) => {
 
 const login = async (parent, args, context, info) => {
   // decipher identifier
-  const {identifier, password} = args.input
+  const {identifier, password} = args
 
   let username, email
   let criteria =
@@ -36,23 +36,22 @@ const login = async (parent, args, context, info) => {
     throw new Error("username/email or password cannot be blank")
   }
   // check if passwords match
-  User.findOne(criteria).then(user => {
-    if (!user) {
-      throw new Error("Invalid username or email")
-    }
-    // use authenticate() on user.doc, pass in the posted password, hash it and check
-    if (!user.authenticate(password)) {
-      throw new Error("Invalid Password")
-    }
+  let user = await User.findOne(criteria).exec()
+  if (!user) {
+    throw new Error("Invalid username or email")
+  }
+  // use authenticate() on user.doc, pass in the posted password, hash it and check
+  if (!user.authenticate(password)) {
+    throw new Error("Invalid Password")
+  }
 
-    // assign valid user info
-    const token = signToken(user._id)
+  // assign valid user info
+  const token = signToken(user._id)
 
-    return {
-      token,
-      user
-    }
-  })
+  return {
+    token,
+    user
+  }
 }
 
 const getUserById = async (_, args, ctx, info) => {

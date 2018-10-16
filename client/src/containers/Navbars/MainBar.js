@@ -1,19 +1,21 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {NavLink, Link} from 'react-router-dom'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import './styles.css'
+import React, {Component} from "react"
+import {withRouter} from "react-router"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {NavLink, Link} from "react-router-dom"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import {AUTH_TOKEN} from "../../layouts/Login/containers/constants.js"
+import "./styles.css"
 
-import {Login} from '../../containers'
-import {Box, Hamburger, Logo, Section} from '../../components'
+import {Login} from "../../containers"
+import {Box, Hamburger, Logo, Section} from "../../components"
 
 // images
-import Graphic from '../../assets/images/logo.svg'
+import Graphic from "../../assets/images/logo.svg"
 
 // actions
-import actions from '../../api/user/actions/loginActions.js'
+import actions from "../../api/user/actions/loginActions.js"
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -27,7 +29,7 @@ const NavSection = styled(Section)`
   background: ${props => props.background};
   box-sizing: border-box;
   display: grid;
-  grid-template-areas: 'logo navigation portal';
+  grid-template-areas: "logo navigation portal";
   grid-template-columns: 1fr 2fr 1fr;
   height: 50px;
   position: fixed;
@@ -40,7 +42,7 @@ const NavSection = styled(Section)`
 `
 
 NavSection.defaultProps = {
-  background: '#F6D155'
+  background: "#F6D155"
 }
 
 const SectionLeft = styled.section`
@@ -133,20 +135,22 @@ class MainNavbar extends Component {
 
   handleHamburger = () => {
     this.setState({showMenu: !this.state.showMenu})
-    var navSection = document.getElementById('NavSection')
-    var spacer = document.getElementById('spacer')
+    var navSection = document.getElementById("NavSection")
+    var spacer = document.getElementById("spacer")
     if (!this.state.showMenu) {
-      navSection.style.height = '250px'
-      spacer.style.margin = '250px 0 0 0'
+      navSection.style.height = "250px"
+      spacer.style.margin = "250px 0 0 0"
     } else {
-      navSection.style.height = '50px'
-      spacer.style.margin = '50px 0 0 0'
+      navSection.style.height = "50px"
+      spacer.style.margin = "50px 0 0 0"
     }
   }
 
   logout(e) {
     e.preventDefault()
-    this.props.actions.logout()
+    localStorage.removeItem(AUTH_TOKEN)
+    this.props.history.push("/login")
+    // this.props.actions.logout()
   }
 
   render(props) {
@@ -161,7 +165,7 @@ class MainNavbar extends Component {
     } = this.props
 
     // handle login section
-    const {isAuthenticated} = this.props.userReducer.login
+    const isAuthenticated = localStorage.getItem(AUTH_TOKEN)
 
     const userLinks = (
       <Menu>
@@ -169,7 +173,7 @@ class MainNavbar extends Component {
           <li>
             <StyledNavLink
               activeStyle={{
-                color: 'red'
+                color: "red"
               }}
               to="#"
               onClick={this.logout.bind(this)}>
@@ -179,7 +183,7 @@ class MainNavbar extends Component {
           <li>
             <StyledNavLink
               activeStyle={{
-                color: 'red'
+                color: "red"
               }}
               to="/settings">
               Settings
@@ -214,9 +218,9 @@ class MainNavbar extends Component {
                       <StyledNavLink
                         exact
                         activeStyle={{
-                          color: 'red'
+                          color: "red"
                         }}
-                        to={'/' + item}>
+                        to={"/" + item}>
                         {item}
                       </StyledNavLink>
                     </li>
@@ -246,9 +250,9 @@ class MainNavbar extends Component {
                         <StyledNavLink
                           exact
                           activeStyle={{
-                            color: 'red'
+                            color: "red"
                           }}
-                          to={'/' + item}>
+                          to={"/" + item}>
                           {item}
                         </StyledNavLink>
                       </li>
@@ -277,8 +281,8 @@ MainNavbar.propTypes = {
 }
 
 MainNavbar.defaultProps = {
-  largeMenuClassName: '',
-  smallMenuClassName: ''
+  largeMenuClassName: "",
+  smallMenuClassName: ""
 }
 
 const mapStateToProps = state => {
@@ -298,6 +302,11 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, null, {
-  pure: false
-})(MainNavbar) // {pure:false} needed for NavLink: activeStyle
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  null,
+  {
+    pure: false
+  }
+)(withRouter(MainNavbar)) // {pure:false} needed for NavLink: activeStyle

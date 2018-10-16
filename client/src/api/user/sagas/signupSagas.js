@@ -1,38 +1,39 @@
-import {browserHistory} from 'react-router'
-import {push} from 'react-router-redux'
-import {all, call, put, take, takeLatest} from 'redux-saga/effects'
-import {showLoading, hideLoading} from 'react-redux-loading-bar'
-import axios from 'axios'
-import jwt from 'jsonwebtoken'
-import {actions} from '../actions/signupActions.js'
-import {request as login} from '../actions/loginActions.js'
+import {browserHistory} from "react-router"
+import {push} from "react-router-redux"
+import {all, call, put, take, takeLatest} from "redux-saga/effects"
+import {showLoading, hideLoading} from "react-redux-loading-bar"
+import axios from "axios"
+import jwt from "jsonwebtoken"
+import {actions} from "../actions/signupActions.js"
+import {request as login} from "../actions/loginActions.js"
+import {AUTH_TOKEN} from "../../../layouts/Login/containers/constants.js"
 
 // actions
-import * as types from '../types'
-import {ADD_FLASH_MESSAGE} from '../../../app/types.js'
+import * as types from "../types"
+import {ADD_FLASH_MESSAGE} from "../../../app/types.js"
 
-import {fetchData} from '../../../utils/apiMgr'
+import {fetchData} from "../../../utils/apiMgr"
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
 
 export function* authorize(token) {
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    localStorage.setItem('jwtToken', token)
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+    localStorage.setItem(AUTH_TOKEN, token)
   } else {
-    delete axios.defaults.headers.common['Authorization']
+    delete axios.defaults.headers.common["Authorization"]
   }
 }
 
 export function* deAuthorize() {
-  localStorage.setItem('jwtToken', null)
-  delete axios.defaults.headers.common['Authorization']
+  localStorage.setItem("jwtToken", null)
+  delete axios.defaults.headers.common["Authorization"]
 }
 
 export function* signup(state) {
   try {
     const {username, email, password} = state
-    const url = 'api/users'
-    const method = 'post'
+    const url = "api/users"
+    const method = "post"
     const data = {username, email, password}
     const cb = null
     const params = null
@@ -65,7 +66,7 @@ export function* signup(state) {
       //TODO implement
       yield put({
         type: ADD_FLASH_MESSAGE,
-        text: 'You signed up successfully. Welcome aboard.'
+        text: "You signed up successfully. Welcome aboard."
       })
     } else {
       throw res
@@ -74,7 +75,7 @@ export function* signup(state) {
     if (!error.response) {
       yield put({
         type: types.SIGNUP_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
       yield put({

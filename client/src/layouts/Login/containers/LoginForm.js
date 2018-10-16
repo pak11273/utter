@@ -2,8 +2,9 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {NavLink} from "react-router-dom"
+import {withRouter} from "react-router"
 import styled, {ThemeProvider} from "styled-components"
-import {Mutation} from "react-apollo"
+import {Mutation, graphql} from "react-apollo"
 import gql from "graphql-tag"
 
 import {main, base} from "../../../themes/config"
@@ -25,13 +26,13 @@ import {
 // actions
 import actions from "../../../api/user/actions/loginActions.js"
 
-// const LOGIN_MUTATION = gql`
-//   mutation LoginMutation($email: String!, $password: String!) {
-//     login(email: $email, password: $password) {
-//       token
-//     }
-//   }
-// `
+const LOGIN_MUTATION = gql`
+  mutation LoginMutation($identifier: String!, $password: String!) {
+    login(identifier: $identifier, password: $password) {
+      token
+    }
+  }
+`
 const Form = styled.form`
   box-sizing: border-box;
   display: flex;
@@ -74,7 +75,7 @@ class LoginForm extends Component {
   _confirm = async data => {
     const {token} = data.login
     this._saveUserData(token)
-    this.props.history.push(`/`)
+    this.props.history.push(`/dashboard`)
   }
 
   _saveUserData = token => {
@@ -100,10 +101,6 @@ class LoginForm extends Component {
       })
 
       this._confirm()
-      this.props.actions.login(this.state)
-      this.setState({
-        errors: this.props.userReducer.login.errors
-      })
     }
   }
 
@@ -122,7 +119,7 @@ class LoginForm extends Component {
     const identifierErrors = this.state.errors.identifier
     const emailErrors = this.state.errors.email
     const passwordErrors = this.state.errors.password
-    const {email, password, username} = this.state
+    const {identifier, password} = this.state
     return (
       <Form onSubmit={this.onSubmit}>
         <Center>
@@ -185,21 +182,23 @@ class LoginForm extends Component {
             })}
 
           <Box justifycontent="row">
-            {/*<Mutation
-              mutation={LOGIN_MUTATION}
-              variables={{email, password, name}}
-              onCompleted={data => this._confirm(data)}>
-              {mutation => <div onClick={mutation}>login</div>}
-            </Mutation>*/}
             <ThemeProvider theme={main}>
-              <Button
-                color="black"
-                fontsize="1.5rem"
-                margin="20px auto"
-                padding=".2rem 1rem"
-                width="110px">
-                Log in
-              </Button>
+              <Mutation
+                mutation={LOGIN_MUTATION}
+                variables={{identifier, password}}
+                onCompleted={data => this._confirm(data)}>
+                {mutation => (
+                  <Button
+                    color="black"
+                    fontsize="1.5rem"
+                    margin="20px auto"
+                    padding=".2rem 1rem"
+                    width="110px"
+                    onClick={mutation}>
+                    Log in
+                  </Button>
+                )}
+              </Mutation>
             </ThemeProvider>
             <NavLink to="/forgot-password">
               <Subtitle
@@ -238,4 +237,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginForm)
+)(withRouter(LoginForm))

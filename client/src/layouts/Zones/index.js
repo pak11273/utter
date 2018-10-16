@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import styled from 'styled-components'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Helmet} from 'react-helmet'
-import _ from 'lodash'
+import React, {Component} from "react"
+import {Link} from "react-router-dom"
+import styled from "styled-components"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {Helmet} from "react-helmet"
+import _ from "lodash"
 
 import {
   Challenge,
@@ -14,16 +14,16 @@ import {
   RemoteSideBar,
   Rooms,
   Speaker
-} from '../../containers'
+} from "../../containers"
 
-import {Ad, Box, Column, Section, Text, TextArea} from '../../components'
+import {Ad, Box, Column, Section, Text, TextArea} from "../../components"
 
 // ad rotator
-import {ad} from '../../services/index.js'
+import {ad} from "../../services/index.js"
 
 // actions
-import {loadUserProfile} from './actions.js'
-import {setAuthor} from '../../containers/ChatPanel/actions.js'
+import {loadUserProfile} from "./actions.js"
+import {setAuthor} from "../../containers/ChatPanel/actions.js"
 
 class Zones extends Component {
   constructor() {
@@ -49,11 +49,11 @@ class Zones extends Component {
     // const lang = this.props.roomReducer.language
     if (
       this.props.channelReducer.channelId === null ||
-      this.props.socketReducer.status === 'got a list of rooms' ||
-      this.props.socketReducer.joined_room === 'Lobby'
+      this.props.socketReducer.status === "got a list of rooms" ||
+      this.props.socketReducer.joined_room === "Lobby"
     ) {
       var intro = <Ad />
-    } else if (this.props.roomReducer.creator !== '') {
+    } else if (this.props.roomReducer.creator !== "") {
       var live = (
         <Box>
           <Pictures />
@@ -89,9 +89,9 @@ class Zones extends Component {
         <Column>
           <Box flexdirection="row" justifycontent="center">
             <Text color="black" fontsize="2rem">
-              {this.props.socketReducer.status === 'connected to a namespace' ||
-              this.props.socketReducer.status === 'got a list of rooms' ||
-              this.props.socketReducer.joined_room === 'Lobby' ? null : (
+              {this.props.socketReducer.status === "connected to a namespace" ||
+              this.props.socketReducer.status === "got a list of rooms" ||
+              this.props.socketReducer.joined_room === "Lobby" ? null : (
                 <Challenge />
               )}
             </Text>

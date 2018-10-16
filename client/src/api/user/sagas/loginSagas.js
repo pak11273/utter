@@ -1,36 +1,36 @@
-import {browserHistory} from 'react-router'
-import {push} from 'react-router-redux'
-import {all, call, put, take, takeLatest} from 'redux-saga/effects'
-import {showLoading, hideLoading} from 'react-redux-loading-bar'
-import axios from 'axios'
-import jwt from 'jsonwebtoken'
-import {actions} from '../actions/loginActions.js'
+import {browserHistory} from "react-router"
+import {push} from "react-router-redux"
+import {all, call, put, take, takeLatest} from "redux-saga/effects"
+import {showLoading, hideLoading} from "react-redux-loading-bar"
+import axios from "axios"
+import jwt from "jsonwebtoken"
+import {actions} from "../actions/loginActions.js"
 
 // actions
-import * as types from '../types'
+import * as types from "../types"
 
-import {fetchData} from '../../../utils/apiMgr'
+import {fetchData} from "../../../utils/apiMgr"
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
 
 export function* authorize(token) {
   if (token) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-    localStorage.setItem('jwtToken', token)
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
+    localStorage.setItem("AUTH_TOKEN", token)
   } else {
-    delete axios.defaults.headers.common['Authorization']
+    delete axios.defaults.headers.common["Authorization"]
   }
 }
 
 export function* deAuthorize() {
-  localStorage.setItem('jwtToken', null)
-  delete axios.defaults.headers.common['Authorization']
+  localStorage.setItem("AUTH_TOKEN", null)
+  delete axios.defaults.headers.common["Authorization"]
 }
 
 export function* login(state) {
   try {
     const {identifier, password} = state
-    const url = 'auth/signin'
-    const method = 'post'
+    const url = "auth/signin"
+    const method = "post"
     const data = {identifier, password}
     const cb = null
     const params = null
@@ -58,7 +58,7 @@ export function* login(state) {
       const token = res.data.token
 
       yield call(authorize, token)
-      yield put(push('/dashboard'))
+      yield put(push("/dashboard"))
 
       //TODO this may not belong
       const user = jwt.decode(token)
@@ -69,7 +69,7 @@ export function* login(state) {
     if (!error.response) {
       yield put({
         type: types.LOGIN_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
       const err = error.response.data.errors.form
@@ -83,10 +83,10 @@ export function* login(state) {
 }
 
 export function* logout() {
-  localStorage.removeItem('jwtToken')
-  localStorage.setItem('jwtToken', null)
+  localStorage.removeItem("AUTH_TOKEN")
+  localStorage.setItem("AUTH_TOKEN", null)
   yield put({type: types.DEAUTHORIZE})
-  yield put(push('/login'))
+  yield put(push("/login"))
   // dispatch(setCurrentUser({}))
 }
 
