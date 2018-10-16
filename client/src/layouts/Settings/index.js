@@ -1,21 +1,21 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import styled from 'styled-components'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import styled from "styled-components"
 // TODO import {validateInput} from '../../utils/validations/courseUpdate.js'
 
-import {Flex, Title} from '../../components'
-import {TabBarContainer} from '../../containers'
+import {Flex, Title} from "../../components"
+import {TabBarContainer} from "../../containers"
 
-import {Container} from 'semantic-ui-react'
+import {Container} from "semantic-ui-react"
 
-import Account from './containers/account/account.js'
-import Profile from './containers/profile.js'
-import Notifications from './containers/notifications.js'
-import 'semantic-ui-css/semantic.css'
+import Account from "./containers/account/account.js"
+import Profile from "./containers/profile.js"
+import Notifications from "./containers/notifications.js"
+import "semantic-ui-css/semantic.css"
 
 // actions
-import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
+import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 
 class Settings extends Component {
   constructor() {
@@ -33,9 +33,9 @@ class Settings extends Component {
 
   render() {
     const tabs = [
-      {name: 'account', label: 'Account', component: Account},
-      {name: 'profile', label: 'Profile', component: Profile},
-      {name: 'notifications', label: 'Notifications', component: Notifications}
+      {name: "account", label: "Account", component: Account},
+      {name: "profile", label: "Profile", component: Profile},
+      {name: "notifications", label: "Notifications", component: Notifications}
     ]
 
     return (

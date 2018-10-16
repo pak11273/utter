@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import cloneDeep from 'lodash/cloneDeep'
-import Select from 'react-select'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import cloneDeep from "lodash/cloneDeep"
+import Select from "react-select"
 import {
   Button,
   Dropdown,
@@ -10,12 +10,12 @@ import {
   Header,
   Label,
   Segment
-} from 'semantic-ui-react'
+} from "semantic-ui-react"
 
-import orm from '../../../../app/schema.js'
-import {updateEntity} from '../../../../api/entities/actions.js'
-import updateAccount from '../../../../api/user/actions/accountActions.js'
-import languageData from '../../../../data/languageData.js'
+import orm from "../../../../app/schema.js"
+import {updateEntity} from "../../../../api/entities/actions.js"
+import updateAccount from "../../../../api/user/actions/accountActions.js"
+import languageData from "../../../../data/languageData.js"
 
 const initialState = {
   multi: true,
@@ -34,7 +34,7 @@ class AccountInfo extends Component {
   nativeDropdownChange = value => {
     const newValues = {nativeLang: value}
     const {id} = this.props.user
-    this.props.updateEntity('User', id, newValues)
+    this.props.updateEntity("User", id, newValues)
   }
 
   handleSubmit = e => {
@@ -53,7 +53,7 @@ class AccountInfo extends Component {
                 <label>Username</label>
                 <input
                   placeholder="Name"
-                  defaultValue={user.username}
+                  defaultValue="todo changeme"
                   disabled
                 />
               </Form.Field>
@@ -70,21 +70,21 @@ class AccountInfo extends Component {
                   simpleValue
                   clearable={this.state.clearable}
                   wrapperStyle={{
-                    margin: '20px 0 0 0',
-                    width: '100%'
+                    margin: "20px 0 0 0",
+                    width: "100%"
                   }}
                   style={{
-                    width: '100%'
+                    width: "100%"
                   }}
                   menuContainerStyle={{
-                    width: '100%'
+                    width: "100%"
                   }}
                   menuStyle={{
-                    width: '100%'
+                    width: "100%"
                   }}
                   name="usingLang"
                   disabled={this.state.disabled}
-                  value={user.nativeLang}
+                  value="native lang changeme"
                   onChange={this.nativeDropdownChange}
                   rtl={this.state.rtl}
                   searchable={this.state.searchable}
@@ -94,7 +94,7 @@ class AccountInfo extends Component {
                 <label>Email</label>
                 <input
                   placeholder="example@gmail.com"
-                  defaultValue={user.email}
+                  defaultValue="todo: email change"
                 />
               </Form.Field>
               <Header size="small">Change Password</Header>
@@ -109,7 +109,7 @@ class AccountInfo extends Component {
                 </Form.Field>
               </Segment>
               <Button
-                style={{background: '#F6D155'}}
+                style={{background: "#F6D155"}}
                 loading={this.props.loader}>
                 Save
               </Button>

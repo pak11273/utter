@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Form, Dropdown, Segment} from 'semantic-ui-react'
-import orm from '../../../app/schema.js'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {Form, Dropdown, Segment} from "semantic-ui-react"
+import orm from "../../../app/schema.js"
 
 // import {selectUserInfo} from '../../../../api/user/selectors.js'
 
@@ -17,7 +17,11 @@ class Profile extends Component {
         <Form size="large">
           <Form.Field name="avatar" width={6}>
             <label>Avatar</label>
-            <input placeholder="Avatar" defaultValue={user.username} disabled />
+            <input
+              placeholder="Avatar"
+              defaultValue="username changem"
+              disabled
+            />
           </Form.Field>
           <Form.Field name="followers" width={6}>
             <label>Followers</label>
