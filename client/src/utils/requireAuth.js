@@ -26,6 +26,12 @@ export default ComposedComponent => {
     }
   }
 
+  const mapStateToProps = state => {
+    return {
+      isAuthenticated: state.userReducer.login.isAuthenticated
+    }
+  }
+
   const mapDispatchToProps = dispatch => {
     return {
       actions: bindActionCreators(

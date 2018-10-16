@@ -73,9 +73,20 @@ class LoginForm extends Component {
   }
 
   _confirm = async data => {
-    const {token} = data.login
-    this._saveUserData(token)
-    this.props.history.push(`/dashboard`)
+    if (data) {
+      const {token} = data.login
+      this._saveUserData(token)
+      this.props.history.push(`/dashboard`)
+    }
+  }
+
+  _loadError = async error => {
+    const refinedErrorMsg = error.message.replace("GraphQL error:", "")
+    this.setState({
+      errors: {
+        message: refinedErrorMsg
+      }
+    })
   }
 
   _saveUserData = token => {
@@ -155,10 +166,8 @@ class LoginForm extends Component {
               )
             })}
           <div>
-            {this.props.userReducer.login.errors.message && (
-              <Error>
-                &mdash; {this.props.userReducer.login.errors.message} &mdash;{" "}
-              </Error>
+            {this.state.errors.message && (
+              <Error>&mdash; {this.state.errors.message} &mdash; </Error>
             )}
           </div>
           <Label>Password</Label>
@@ -186,7 +195,8 @@ class LoginForm extends Component {
               <Mutation
                 mutation={LOGIN_MUTATION}
                 variables={{identifier, password}}
-                onCompleted={data => this._confirm(data)}>
+                onCompleted={data => this._confirm(data)}
+                onError={error => this._loadError(error)}>
                 {mutation => (
                   <Button
                     color="black"
@@ -216,12 +226,6 @@ class LoginForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    userReducer: state.userReducer
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
@@ -235,6 +239,6 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withRouter(LoginForm))
