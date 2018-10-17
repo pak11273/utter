@@ -9,8 +9,12 @@ import {AppContainer} from "react-hot-loader"
 import {ConnectedRouter as Router} from "react-router-redux"
 import LoadingBar from "react-redux-loading-bar"
 import ReactGA from "react-ga"
+
 import ApolloClient from "apollo-boost"
 import {ApolloProvider} from "react-apollo"
+import {InMemoryCache} from "apollo-cache-inmemory"
+import {HttpLink} from "apollo-link-http"
+import {setContext} from "apollo-link-context"
 import gql from "graphql-tag"
 
 import "./assets/css/global-styles.js"
@@ -25,8 +29,20 @@ import history from "./history.js"
 import {PersistGate} from "redux-persist/integration/react"
 import "semantic-ui-css/semantic.css"
 
+const authLink = setContext((_, {headers}) => {
+  const token = localStorage.getItem("AUTH_TOKE")
+  return {
+    headers: {
+      ...header,
+      authorization: token ? `Bearer ${token}` : ""
+    }
+  }
+})
+
 const client = new ApolloClient({
   uri: "http://192.168.68.8:3001/graphql",
+  cache: new InMemoryCache(),
+  link: authLink.concat(HttpLink),
   clientState: {
     defaults: {},
     resolvers: {}
