@@ -7,7 +7,9 @@ const ExchangeRates = () => (
   <Query
     query={gql`
       {
-        hello
+        getUserByUsername(input: "brad") {
+          id
+        }
       }
     `}>
     {({loading, error, data}) => {
@@ -16,7 +18,7 @@ const ExchangeRates = () => (
 
       return (
         <div>
-          <p>{data.hello}</p>
+          <p>{data.id}</p>
         </div>
       )
     }}

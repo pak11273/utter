@@ -60,6 +60,7 @@ const getUserById = async (_, args, ctx, info) => {
 }
 
 const getUserByUsername = async (_, args, ctx, info) => {
+  console.log("userID: ", ctx)
   // const getUserByUsername = (_, __, {user}) => {
   let result = await User.findOne({username: args.input})
   return result

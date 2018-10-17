@@ -13,7 +13,6 @@ class Login extends Component {
   }
 
   render(props) {
-    // ref: https://github.com/sotojuan/saga-login-flow
     const loggedIn = localStorage.getItem("AUTH_TOKEN")
     if (loggedIn) {
       var redirect = <Redirect to={"/"} />

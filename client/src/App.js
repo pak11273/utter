@@ -10,12 +10,17 @@ import {ConnectedRouter as Router} from "react-router-redux"
 import LoadingBar from "react-redux-loading-bar"
 import ReactGA from "react-ga"
 
-import ApolloClient from "apollo-boost"
-import {ApolloProvider} from "react-apollo"
+import {ApolloClient} from "apollo-client"
 import {InMemoryCache} from "apollo-cache-inmemory"
 import {HttpLink} from "apollo-link-http"
-import {setContext} from "apollo-link-context"
+import {onError} from "apollo-link-error"
+import {withClientState} from "apollo-link-state"
+import {ApolloLink, Observable} from "apollo-link"
 import gql from "graphql-tag"
+
+import {ApolloProvider} from "react-apollo"
+import {setContext} from "apollo-link-context"
+import {createHttpLink} from "apollo-link-http"
 
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
@@ -28,26 +33,6 @@ import FlashMessagesList from "./components/FlashMessages/FlashMessagesList"
 import history from "./history.js"
 import {PersistGate} from "redux-persist/integration/react"
 import "semantic-ui-css/semantic.css"
-
-const authLink = setContext((_, {headers}) => {
-  const token = localStorage.getItem("AUTH_TOKE")
-  return {
-    headers: {
-      ...header,
-      authorization: token ? `Bearer ${token}` : ""
-    }
-  }
-})
-
-const client = new ApolloClient({
-  uri: "http://192.168.68.8:3001/graphql",
-  cache: new InMemoryCache(),
-  link: authLink.concat(HttpLink),
-  clientState: {
-    defaults: {},
-    resolvers: {}
-  }
-})
 
 const StyledGrid = styled(Grid)`
   display: grid;
@@ -104,11 +89,93 @@ function logPageView() {
   ReactGA.pageview(window.location.pathname + window.location.search)
 }
 
+let GRAPHQL_URL
+process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+  ? (GRAPHQL_URL = "https://utterzone.com:3001/graphql")
+  : (GRAPHQL_URL = "http://192.168.68.8:3001/graphql")
+
+const cache = new InMemoryCache({
+  cacheRedirects: {
+    Query: {
+      // example query
+      movie: (_, {id}, {getCacheKey}) => getCacheKey({__typename: "Movie", id})
+    }
+  }
+})
+
+const request = async operation => {
+  const token = await localStorage.getItem("AUTH_TOKEN")
+  operation.setContext({
+    headers: {
+      authorization: token
+    }
+  })
+}
+
+const requestLink = new ApolloLink(
+  (operation, forward) =>
+    new Observable(observer => {
+      let handle
+      Promise.resolve(operation)
+        .then(oper => request(oper))
+        .then(() => {
+          handle = forward(operation).subscribe({
+            next: observer.next.bind(observer),
+            error: observer.error.bind(observer),
+            complete: observer.complete.bind(observer)
+          })
+        })
+        .catch(observer.error.bind(observer))
+
+      return () => {
+        if (handle) handle.unsubscribe()
+      }
+    })
+)
+
+const logoutUser = () => {
+  localStorage.removeItem("AUTH_TOKEN")
+}
+
+const client = new ApolloClient({
+  link: ApolloLink.from([
+    onError(({graphQLErrors, networkError}) => {
+      if (graphQLErrors) {
+        console.log("graphql errors: ", graphQLErrors)
+      }
+      if (networkError) {
+        logoutUser()
+      }
+    }),
+    requestLink,
+    withClientState({
+      defaults: {
+        isConnected: true
+      },
+      resolvers: {
+        Mutation: {
+          updateNetworkStatus: (_, {isConnected}, {cache}) => {
+            cache.writeData({data: {isConnected}})
+            return null
+          }
+        }
+      },
+      cache
+    }),
+    new HttpLink({
+      uri: GRAPHQL_URL,
+      credentials: "include"
+    })
+  ]),
+  cache
+})
+
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   constructor(props) {
     super(props)
   }
+
   render(props) {
     const toggleFooter = store.getState().toggleFooterReducer.toggle
     return (

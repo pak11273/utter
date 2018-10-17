@@ -17,7 +17,8 @@ const MongoStore = require("connect-mongo")(session)
 // const compiler = webpack(webpackConfig)
 
 export default app => {
-  app.use(cors())
+  // TODO: for production origin may need to be https://utterzone.com:8080
+  app.use(cors({credentials: true, origin: "http://localhost:8080"}))
   app.use(morgan("dev"))
   app.use(cookieParser())
   app.use(bodyParser.urlencoded({extended: true}))
