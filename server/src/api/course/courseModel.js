@@ -1,5 +1,6 @@
 import mongoose, {Schema} from "mongoose"
 import {UserSchema} from "../user/userModel.js"
+import User from "../user/userModel.js"
 
 const TermSchema = new Schema({
   course: {

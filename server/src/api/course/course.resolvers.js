@@ -1,4 +1,5 @@
 import Course from "./courseModel"
+import isEmpty from "lodash/isEmpty"
 
 var nextID
 const escapeRegex = text => {
@@ -24,8 +25,30 @@ const createCourse = (_, {input}) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  const regex = new RegExp(escapeRegex(args.title), "gi")
-  let result = await Course.find({courseName: regex}).exec()
+  // build query object
+  const query = {}
+  var courseName, courseRef, courseAuthor
+
+  args.title
+    ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
+    : null
+
+  args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
+
+  if (args.author) {
+    var courseAuthor = await Course.findByUsername(args.author, (err, docs) => {
+      if (err) {
+        // console.log doesn't work here
+      }
+      if (!isEmpty(docs)) {
+        var courseAuthor = docs._id
+        query.courseAuthor = courseAuthor
+      }
+    })
+  }
+  // end query object
+
+  let result = await Course.find(query).exec()
   // nextID = result[result.length - 1]._id
   return result
 }

@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {NavLink, Link, withRouter} from "react-router-dom"
+import {Link, withRouter} from "react-router-dom"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import Select from "react-select"
@@ -25,24 +25,22 @@ import {
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-import styled, {ThemeProvider} from "styled-components"
+import styled from "styled-components"
 import "./styles.css"
 
-import {Navbar} from "../../containers"
 import orm from "../../app/schema.js"
 
 // actions
 import course from "../../api/course/actions/courseActions.js"
 import courses from "../../api/courses/actions/coursesActions.js"
-import {chooseCourseLanguage} from "./actions"
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 
 import {Query, graphql, compose} from "react-apollo"
 import gql from "graphql-tag"
 
 const getCourses = gql`
-  query getCourses($title: String!) {
-    getCourses(title: $title) {
+  query getCourses($title: String!, $ref: String!, $author: String!) {
+    getCourses(title: $title, ref: $ref, author: $author) {
       id
       courseImage
       courseName
@@ -55,7 +53,7 @@ const getCourses = gql`
 `
 
 const Courses = props => {
-  const {title} = props
+  const {title, courseRef, author} = props
   return (
     <Grid
       columns={3}
@@ -66,7 +64,7 @@ const Courses = props => {
       computer={4}>
       <Grid.Row style={{padding: "40px"}}>
         <Card.Group doubling stackable itemsPerRow={3}>
-          <Query query={getCourses} variables={{title}}>
+          <Query query={getCourses} variables={{title, ref: courseRef, author}}>
             {({loading, error, data}) => {
               if (loading) return <Grid.Column>loading...</Grid.Column>
               if (error)
@@ -142,16 +140,14 @@ const initialState = {
   courseAuthor: "",
   courseInput: "",
   courseName: "",
-  courseProp: "title",
-  couresRef: "",
+  selectionBox: "title",
+  courseRef: "",
   teachingLang: "",
   nativeLang: "",
   items: "",
   limit: 3,
   next: ""
 }
-
-const title = {title: "Sleek"}
 
 class CoursesContainer extends Component {
   constructor(props) {
@@ -163,7 +159,7 @@ class CoursesContainer extends Component {
   componentDidMount() {
     this.props.actions.toggleFooter(false)
     this.props.actions.resetCourses()
-    this.props.actions.courses(this.state)
+    // this.props.actions.courses(this.state)
   }
 
   handleSpeakingChange = nativeLang => {
@@ -216,7 +212,7 @@ class CoursesContainer extends Component {
 
   handleCourseFilterChg = (e, data) => {
     const newState = update(this.state, {
-      courseProp: {$set: data.value}
+      selectionBox: {$set: data.value}
     })
     this.setState(newState)
   }
@@ -233,10 +229,10 @@ class CoursesContainer extends Component {
   submitQuery = e => {
     e.preventDefault()
 
-    // change state props based on courseProp
-    const courseProp = this.state.courseProp
+    // change state props based on selectionBox
+    const selectionBox = this.state.selectionBox
     const courseInput = this.state.courseInput
-    switch (courseProp) {
+    switch (selectionBox) {
       case "title":
         // set courseName
         let newName = update(this.state, {
@@ -255,8 +251,8 @@ class CoursesContainer extends Component {
         })
 
         this.setState(newName, () => {
-          this.props.actions.resetCourses()
-          this.props.actions.courses(this.state)
+          // this.props.actions.resetCourses()
+          // this.props.actions.courses(this.state)
         })
 
         break
@@ -279,8 +275,8 @@ class CoursesContainer extends Component {
         })
 
         this.setState(newRef, () => {
-          this.props.actions.resetCourses()
-          this.props.actions.courses(this.state)
+          // this.props.actions.resetCourses()
+          // this.props.actions.courses(this.state)
         })
         break
 
@@ -303,8 +299,8 @@ class CoursesContainer extends Component {
         })
 
         this.setState(newAuthor, () => {
-          this.props.actions.resetCourses()
-          this.props.actions.courses(this.state)
+          // this.props.actions.resetCourses()
+          // this.props.actions.courses(this.state)
         })
         break
     }
@@ -420,7 +416,11 @@ class CoursesContainer extends Component {
               </Item>
             </Grid.Column>
           </Grid>
-          <Courses title={this.state.courseName} />
+          <Courses
+            title={this.state.courseName}
+            author={this.state.courseAuthor}
+            courseRef={this.state.courseRef}
+          />
         </Grid.Column>
       </Grid>
     )
