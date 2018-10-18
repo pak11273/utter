@@ -22,8 +22,8 @@ export default {
     if (req.query.courseAuthor) {
       query.courseAuthor = req.query.courseAuthor
     }
-    if (req.query.nativeLang) {
-      query.nativeLang = req.query.nativeLang
+    if (req.query.usingLang) {
+      query.usingLang = req.query.usingLang
     }
     if (req.query.teachingLang) {
       query.teachingLang = req.query.teachingLang
@@ -218,7 +218,7 @@ export default {
         "french",
         "spanish"
       ])
-      course.nativeLang = faker.random.arrayElement([
+      course.usingLang = faker.random.arrayElement([
         "english",
         "french",
         "spanish"

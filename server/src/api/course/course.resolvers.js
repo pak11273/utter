@@ -26,6 +26,7 @@ const createCourse = (_, {input}) => {
 
 const getCourses = async (_, args, ctx, info) => {
   // build query object
+  console.log("args: ", args)
   const query = {}
   var courseName, courseRef, courseAuthor
 
@@ -46,6 +47,14 @@ const getCourses = async (_, args, ctx, info) => {
       }
     })
   }
+
+  args.usingLang
+    ? (query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi"))
+    : null
+
+  args.teachingLang
+    ? (query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi"))
+    : null
   // end query object
 
   let result = await Course.find(query).exec()

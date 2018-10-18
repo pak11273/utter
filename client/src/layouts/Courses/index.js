@@ -39,8 +39,20 @@ import {Query, graphql, compose} from "react-apollo"
 import gql from "graphql-tag"
 
 const getCourses = gql`
-  query getCourses($title: String!, $ref: String!, $author: String!) {
-    getCourses(title: $title, ref: $ref, author: $author) {
+  query getCourses(
+    $title: String!
+    $ref: String!
+    $author: String!
+    $usingLang: String!
+    $teachingLang: String!
+  ) {
+    getCourses(
+      title: $title
+      ref: $ref
+      author: $author
+      usingLang: $usingLang
+      teachingLang: $teachingLang
+    ) {
       id
       courseImage
       courseName
@@ -53,7 +65,7 @@ const getCourses = gql`
 `
 
 const Courses = props => {
-  const {title, courseRef, author} = props
+  const {title, courseRef, author, usingLang, teachingLang} = props
   return (
     <Grid
       columns={3}
@@ -64,7 +76,15 @@ const Courses = props => {
       computer={4}>
       <Grid.Row style={{padding: "40px"}}>
         <Card.Group doubling stackable itemsPerRow={3}>
-          <Query query={getCourses} variables={{title, ref: courseRef, author}}>
+          <Query
+            query={getCourses}
+            variables={{
+              title,
+              ref: courseRef,
+              author,
+              usingLang,
+              teachingLang
+            }}>
             {({loading, error, data}) => {
               if (loading) return <Grid.Column>loading...</Grid.Column>
               if (error)
@@ -143,7 +163,7 @@ const initialState = {
   selectionBox: "title",
   courseRef: "",
   teachingLang: "",
-  nativeLang: "",
+  usingLang: "",
   items: "",
   limit: 3,
   next: ""
@@ -159,24 +179,21 @@ class CoursesContainer extends Component {
   componentDidMount() {
     this.props.actions.toggleFooter(false)
     this.props.actions.resetCourses()
-    // this.props.actions.courses(this.state)
   }
 
-  handleSpeakingChange = nativeLang => {
-    if (nativeLang === null) {
+  handleSpeakingChange = usingLang => {
+    if (usingLang === null) {
       const newState = update(this.state, {
-        nativeLang: {$set: ""}
+        usingLang: {$set: ""}
       })
 
       this.setState(newState)
     } else {
       const newState = update(this.state, {
-        nativeLang: {$set: nativeLang.value}
+        usingLang: {$set: usingLang.value}
       })
 
       this.setState(newState)
-      // Make api call
-      // TODO this.props.actions.courses(this.state)
     }
   }
 
@@ -191,10 +208,7 @@ class CoursesContainer extends Component {
       const newState = update(this.state, {
         teachingLang: {$set: teachingLang.value}
       })
-
       this.setState(newState)
-      // Make api call
-      //TODO   this.props.actions.courses(this.state)
     }
   }
 
@@ -250,10 +264,7 @@ class CoursesContainer extends Component {
           }
         })
 
-        this.setState(newName, () => {
-          // this.props.actions.resetCourses()
-          // this.props.actions.courses(this.state)
-        })
+        this.setState(newName)
 
         break
 
@@ -274,10 +285,8 @@ class CoursesContainer extends Component {
           }
         })
 
-        this.setState(newRef, () => {
-          // this.props.actions.resetCourses()
-          // this.props.actions.courses(this.state)
-        })
+        this.setState(newRef)
+
         break
 
       case "author":
@@ -298,10 +307,8 @@ class CoursesContainer extends Component {
           }
         })
 
-        this.setState(newAuthor, () => {
-          // this.props.actions.resetCourses()
-          // this.props.actions.courses(this.state)
-        })
+        this.setState(newAuthor)
+
         break
     }
   }
@@ -364,7 +371,7 @@ class CoursesContainer extends Component {
                 <Header as="h2">I speak:</Header>
                 <Select
                   name="form-field-name"
-                  value={this.state.nativeLang}
+                  value={this.state.usingLang}
                   onChange={this.handleSpeakingChange}
                   options={[
                     {value: "english", label: "English"},
@@ -420,6 +427,8 @@ class CoursesContainer extends Component {
             title={this.state.courseName}
             author={this.state.courseAuthor}
             courseRef={this.state.courseRef}
+            usingLang={this.state.usingLang}
+            teachingLang={this.state.teachingLang}
           />
         </Grid.Column>
       </Grid>
