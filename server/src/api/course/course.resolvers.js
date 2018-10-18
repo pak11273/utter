@@ -26,7 +26,6 @@ const createCourse = (_, {input}) => {
 
 const getCourses = async (_, args, ctx, info) => {
   // build query object
-  console.log("args: ", args)
   const query = {}
   var courseName, courseRef, courseAuthor
 

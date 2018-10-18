@@ -1,7 +1,5 @@
 import React, {Component} from "react"
 import {Link, withRouter} from "react-router-dom"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
 import Select from "react-select"
 import isEmpty from "lodash/isEmpty"
 import cloneDeep from "lodash/cloneDeep"
@@ -12,7 +10,6 @@ import {
   Button,
   Card,
   Container,
-  Dropdown,
   Grid,
   Header,
   Icon,
@@ -20,22 +17,14 @@ import {
   Input,
   Item,
   Segment,
-  Select as SemSelect,
-  Text
+  Select as SemSelect
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 import styled from "styled-components"
 import "./styles.css"
 
-import orm from "../../app/schema.js"
-
-// actions
-import course from "../../api/course/actions/courseActions.js"
-import courses from "../../api/courses/actions/coursesActions.js"
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
-
-import {Query, graphql, compose} from "react-apollo"
+import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
 const getCourses = gql`
@@ -176,11 +165,6 @@ class CoursesContainer extends Component {
     this.state = cloneDeep(initialState)
   }
 
-  componentDidMount() {
-    this.props.actions.toggleFooter(false)
-    this.props.actions.resetCourses()
-  }
-
   handleSpeakingChange = usingLang => {
     if (usingLang === null) {
       const newState = update(this.state, {
@@ -220,8 +204,7 @@ class CoursesContainer extends Component {
 
   handleImageClick = e => {
     e.preventDefault()
-    // go to edit page and load redux with course
-    // TODO this.props.actions.course(this.state)
+    // TODO
   }
 
   handleCourseFilterChg = (e, data) => {
@@ -314,31 +297,27 @@ class CoursesContainer extends Component {
   }
 
   nextCourses = ({previousPos, currentPosition, event}) => {
-    const newNext = this.props.coursesMeta.next
+    const newNext = this.props.next
     // add next to local state
     const newState = update(this.state, {
       next: {$set: newNext}
     })
     this.setState(newState, () => {
       // api more courses
-      this.props.actions.courses(this.state)
     })
   }
 
   handleWaypoint = () => {
-    if (
-      !this.props.coursesMeta.loading &&
-      this.props.coursesMeta.next !== "done"
-    ) {
+    if (!this.props.loading && this.props.next !== "done") {
       return <Waypoint onEnter={this.nextCourses} />
     }
   }
 
   render() {
-    if (this.props.coursesMeta.next !== "done") {
+    if (this.props.next !== "done") {
       var scrollMsg = (
         <Grid centered style={{margin: "0 0 40px 0"}}>
-          <Segment compact loading={this.props.coursesMeta.loading}>
+          <Segment compact loading={this.props.loading}>
             Scroll down for more
           </Segment>
         </Grid>
@@ -387,7 +366,8 @@ class CoursesContainer extends Component {
                   options={[
                     {value: "korean", label: "Korean"},
                     {value: "english", label: "English"},
-                    {value: "spanish", label: "Spanish"}
+                    {value: "spanish", label: "Spanish"},
+                    {value: "french", label: "French"}
                   ]}
                 />
                 <div margin="40px 0 0 0">
@@ -436,34 +416,4 @@ class CoursesContainer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
-  const {Courses} = session
-  const courses = Courses.all().toRefArray()
-  return {
-    courses,
-    coursesMeta: state.coursesReducer
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(
-      {
-        course: course.request,
-        courses: courses.request,
-        resetCourses: courses.reset,
-        toggleFooter
-      },
-      dispatch
-    )
-  }
-}
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-    // )(compose(graphql(getCourses, {name: "getCourses"}))(CoursesContainer))
-  )(CoursesContainer)
-)
+export default withRouter(CoursesContainer)
