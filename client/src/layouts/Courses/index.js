@@ -41,8 +41,8 @@ import {Query, graphql, compose} from "react-apollo"
 import gql from "graphql-tag"
 
 const getCourses = gql`
-  {
-    getCourses {
+  query getCourses($title: String!) {
+    getCourses(title: $title) {
       id
       courseImage
       courseName
@@ -54,43 +54,45 @@ const getCourses = gql`
   }
 `
 
-const Courses = () => (
-  <Grid
-    columns={3}
-    centered
-    padded="vertically"
-    mobile={8}
-    tablet={8}
-    computer={4}>
-    <Grid.Row style={{padding: "40px"}}>
-      <Card.Group doubling stackable itemsPerRow={3}>
-        <Query query={getCourses}>
-          {({loading, error, data}) => {
-            if (loading) return <Grid.Column>loading...</Grid.Column>
-            if (error)
-              return (
-                <Grid.Column>
-                  The server is restarting due to maintenance. Please refresh
-                  your browser in a few minutes.
-                </Grid.Column>
-              )
-            return data.getCourses.map(course => {
-              return (
-                <Card key={course.id} fluid={false}>
-                  <Image
-                    src={`${course.courseImage}`}
-                    style={{cursor: "pointer"}}
-                  />
-                  <Card.Content>
-                    <Card.Header style={{wordBreak: "break-word"}}>
-                      {course.courseName}
-                    </Card.Header>
-                    <div
-                      className="description"
-                      style={{wordBreak: "break-word"}}>
-                      {course.courseDescription}
-                    </div>
-                    {/* TODO
+const Courses = props => {
+  const {title} = props
+  return (
+    <Grid
+      columns={3}
+      centered
+      padded="vertically"
+      mobile={8}
+      tablet={8}
+      computer={4}>
+      <Grid.Row style={{padding: "40px"}}>
+        <Card.Group doubling stackable itemsPerRow={3}>
+          <Query query={getCourses} variables={{title}}>
+            {({loading, error, data}) => {
+              if (loading) return <Grid.Column>loading...</Grid.Column>
+              if (error)
+                return (
+                  <Grid.Column>
+                    The server is restarting due to maintenance. Please refresh
+                    your browser in a few minutes.
+                  </Grid.Column>
+                )
+              return data.getCourses.map(course => {
+                return (
+                  <Card key={course.id} fluid={false}>
+                    <Image
+                      src={`${course.courseImage}`}
+                      style={{cursor: "pointer"}}
+                    />
+                    <Card.Content>
+                      <Card.Header style={{wordBreak: "break-word"}}>
+                        {course.courseName}
+                      </Card.Header>
+                      <div
+                        className="description"
+                        style={{wordBreak: "break-word"}}>
+                        {course.courseDescription}
+                      </div>
+                      {/* TODO
             <div
               style={{
                 color: 'white',
@@ -101,32 +103,33 @@ const Courses = () => (
               Subscribed
             </div>
             */}
-                  </Card.Content>
-                  <Card.Content extra>
-                    <div>
-                      <Icon name="pencil" />
-                      <a style={{padding: "0 20px 0 0"}}>
-                        {course.courseAuthor.username}
-                      </a>
-                    </div>
-                    <div>
-                      <Icon name="user" />
-                      <span style={{padding: "0 20px 0 0"}}>subs</span>
-                    </div>
-                    <div>
-                      <Icon name="book" />
-                      <span style={{padding: "0 20px 0 0"}}>course ref</span>
-                    </div>
-                  </Card.Content>
-                </Card>
-              )
-            })
-          }}
-        </Query>
-      </Card.Group>
-    </Grid.Row>
-  </Grid>
-)
+                    </Card.Content>
+                    <Card.Content extra>
+                      <div>
+                        <Icon name="pencil" />
+                        <a style={{padding: "0 20px 0 0"}}>
+                          {course.courseAuthor.username}
+                        </a>
+                      </div>
+                      <div>
+                        <Icon name="user" />
+                        <span style={{padding: "0 20px 0 0"}}>subs</span>
+                      </div>
+                      <div>
+                        <Icon name="book" />
+                        <span style={{padding: "0 20px 0 0"}}>course ref</span>
+                      </div>
+                    </Card.Content>
+                  </Card>
+                )
+              })
+            }}
+          </Query>
+        </Card.Group>
+      </Grid.Row>
+    </Grid>
+  )
+}
 
 const options = [
   {key: "title", text: "Title", value: "title"},
@@ -147,6 +150,8 @@ const initialState = {
   limit: 3,
   next: ""
 }
+
+const title = {title: "Sleek"}
 
 class CoursesContainer extends Component {
   constructor(props) {
@@ -415,7 +420,7 @@ class CoursesContainer extends Component {
               </Item>
             </Grid.Column>
           </Grid>
-          <Courses />
+          <Courses title={this.state.courseName} />
         </Grid.Column>
       </Grid>
     )
@@ -450,5 +455,6 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(compose(graphql(getCourses, {name: "getCourses"}))(CoursesContainer))
+    // )(compose(graphql(getCourses, {name: "getCourses"}))(CoursesContainer))
+  )(CoursesContainer)
 )

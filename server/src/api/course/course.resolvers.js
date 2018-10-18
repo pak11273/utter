@@ -1,6 +1,9 @@
 import Course from "./courseModel"
 
 var nextID
+const escapeRegex = text => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+}
 
 const getCourse = async (_, {id}, {user}) => {
   const course = await Course.findById(id).exec()
@@ -20,9 +23,10 @@ const createCourse = (_, {input}) => {
   return Course.create(input)
 }
 
-const getCourses = async () => {
-  let result = await Course.find({}).exec()
-  nextID = result[result.length - 1]._id
+const getCourses = async (_, args, ctx, info) => {
+  const regex = new RegExp(escapeRegex(args.title), "gi")
+  let result = await Course.find({courseName: regex}).exec()
+  // nextID = result[result.length - 1]._id
   return result
 }
 

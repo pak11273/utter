@@ -46,7 +46,7 @@ input CreateCourseInput {
 
 extend type Query {
   getCourse(id: ID!): Course!
-  getCourses: [Course]
+  getCourses(title: String!): [Course]
   getCourseCount: Int
 }
 
