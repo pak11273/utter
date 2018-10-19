@@ -86,11 +86,10 @@ function logPageView() {
   ReactGA.pageview(window.location.pathname + window.location.search)
 }
 
-// let GRAPHQL_URL
-// process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-//   ? (GRAPHQL_URL = "http://utterzone.com:3001/graphql")
-//   : (GRAPHQL_URL = "http://192.168.68.8:3001/graphql")
-const GRAPHQL_URL = "http://localhost:3001/graphql"
+let GRAPHQL_URL
+process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+  ? (GRAPHQL_URL = "http://utterzone.com:3001/graphql")
+  : (GRAPHQL_URL = "http://192.168.68.8:3001/graphql")
 
 const cache = new InMemoryCache({
   cacheRedirects: {
