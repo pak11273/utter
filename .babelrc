@@ -24,7 +24,10 @@
     }
    },
   "plugins": [  
-    "transform-class-properties"
+    "transform-class-properties",
+    ["import-graphql"],
+    ["transform-runtime", { "polyfill": false, "regenerator": true }],
+    "styled-components", "transform-object-rest-spread", "transform-class-properties", "react-hot-loader/babel"
   ]
 }
 
