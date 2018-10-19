@@ -14,6 +14,10 @@ const userTypeDefs = fs.readFileSync(userSchema, "utf8")
 const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
 const subscriptionTypeDefs = fs.readFileSync(subscriptionSchema, "utf8")
 
+// import userTypeDefs from "./api/user/user.graphql"
+// import courseTypeDefs from "./api/course/course.graphql"
+// import subscriptionTypeDefs from "./api/subscription/subscription.graphql"
+
 // resolver imports
 import {userResolvers} from "./api/user/user.resolvers.js"
 import {courseResolvers} from "./api/course/course.resolvers.js"

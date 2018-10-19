@@ -1,6 +1,6 @@
 import mongoose, {Schema} from "mongoose"
 
-const LanguageSchema = mongoose.Schema(
+export const LanguageSchema = mongoose.Schema(
   {
     skill: {
       type: String,

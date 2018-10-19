@@ -40,8 +40,7 @@ export const UserSchema = new mongoose.Schema(
       index: true
     },
     languages: {
-      type: [LanguageSchema], // you may include other schemas (here included as array of embedded documents)
-      default: ["English"]
+      type: [LanguageSchema] // you may include other schemas (here included as array of embedded documents)
     },
     bio: String,
     email: {
