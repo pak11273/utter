@@ -47,6 +47,7 @@ input CreateCourseInput {
 extend type Query {
   getCourse(id: ID!): Course!
   getCourses(
+    cursor: String
     title: String!
     ref: String!
     author: String!

@@ -18,7 +18,7 @@ const subscriptionTypeDefs = fs.readFileSync(subscriptionSchema, "utf8")
 import {userResolvers} from "./api/user/user.resolvers.js"
 import {courseResolvers} from "./api/course/course.resolvers.js"
 import {subscriptionResolvers} from "./api/subscription/subscription.resolvers.js"
-import merge from "lodash.merge"
+import _ from "lodash"
 import {graphqlExpress} from "apollo-server-express"
 
 // baseSchema minimum requirement is a property query: Query
@@ -30,7 +30,7 @@ const baseSchema = `
 `
 const schema = makeExecutableSchema({
   typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, subscriptionTypeDefs],
-  resolvers: merge({}, userResolvers, courseResolvers, subscriptionResolvers)
+  resolvers: _.merge({}, userResolvers, courseResolvers, subscriptionResolvers)
 })
 
 /* 

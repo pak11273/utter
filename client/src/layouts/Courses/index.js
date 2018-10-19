@@ -28,7 +28,7 @@ import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
 const getCourses = gql`
-  query getCourses(
+  query Courses(
     $title: String!
     $ref: String!
     $author: String!
@@ -83,6 +83,7 @@ const Courses = props => {
                     your browser in a few minutes.
                   </Grid.Column>
                 )
+              console.log("data: ", data)
               return data.getCourses.map(course => {
                 return (
                   <Card key={course.id} fluid={false}>
