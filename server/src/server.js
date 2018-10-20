@@ -52,15 +52,15 @@ app.get("*.css", function(req, res, next) {
 
 // This is used to refresh browser for SPA
 // https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
-app.get("/*", function(req, res) {
-  res.sendFile(path.join(__dirname, "../../client/dist/index.html"), function(
-    err
-  ) {
-    if (err) {
-      res.status(500).send(err)
-    }
-  })
-})
+// app.get("/*", function(req, res) {
+//   res.sendFile(path.join(__dirname, "../../client/dist/index.html"), function(
+//     err
+//   ) {
+//     if (err) {
+//       res.status(500).send(err)
+//     }
+//   })
+// })
 
 // seed the db with dummy data TODO: change the seeding before using this
 // if (config.seed) {

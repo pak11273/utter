@@ -44,6 +44,11 @@ input CreateCourseInput {
   favorite: Boolean
 }
 
+type PaginatedCourses {
+  courses: [Course]
+  cursor: String!
+}
+
 extend type Query {
   getCourse(id: ID!): Course!
   getCourses(
@@ -53,7 +58,8 @@ extend type Query {
     author: String!
     usingLang: String!
     teachingLang: String!
-  ): [Course]
+  ): PaginatedCourses
+  getMoreCourses(cursor: String!): [Course]
   getCourseCount: Int
 }
 

@@ -1,7 +1,6 @@
 import Course from "./courseModel"
 import isEmpty from "lodash/isEmpty"
 
-var nextID
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
@@ -27,6 +26,8 @@ const createCourse = (_, {input}) => {
 const getCourses = async (_, args, ctx, info) => {
   // build query object
   const query = {}
+  const limit = 10
+  const cursor = "asimpletest"
   var courseName, courseRef, courseAuthor
 
   args.title
@@ -57,8 +58,12 @@ const getCourses = async (_, args, ctx, info) => {
   // end query object
 
   let result = await Course.find(query).exec()
-  // nextID = result[result.length - 1]._id
-  return result
+
+  // let cursor = result[result.length - 1]._id
+  // merge cursor into the result
+  // return result
+  console.log("res: ", result)
+  return {courses: result, cursor: "this is dumb"}
 }
 
 export const courseResolvers = {

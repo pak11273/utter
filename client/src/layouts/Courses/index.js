@@ -42,12 +42,32 @@ const getCourses = gql`
       usingLang: $usingLang
       teachingLang: $teachingLang
     ) {
-      id
-      courseImage
-      courseName
-      courseDescription
-      courseAuthor {
-        username
+      cursor
+      courses {
+        id
+        courseImage
+        courseName
+        courseDescription
+        courseAuthor {
+          username
+        }
+      }
+    }
+  }
+`
+
+const MoreCoursesQuery = gql`
+  query MoreCourses($cursor: String) {
+    getMoreCourses(cursor: $cursor) {
+      cursor
+      courses {
+        id
+        courseImage
+        courseName
+        courseDescription
+        courseAuthor {
+          username
+        }
       }
     }
   }
@@ -84,7 +104,7 @@ const Courses = props => {
                   </Grid.Column>
                 )
               console.log("data: ", data)
-              return data.getCourses.map(course => {
+              return data.getCourses.courses.map(course => {
                 return (
                   <Card key={course.id} fluid={false}>
                     <Image
