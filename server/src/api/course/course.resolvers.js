@@ -26,7 +26,6 @@ const createCourse = (_, {input}) => {
 const getCourses = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  const limit = 10
   const cursor = "asimpletest"
   var courseName, courseRef, courseAuthor
 
@@ -57,12 +56,13 @@ const getCourses = async (_, args, ctx, info) => {
     : null
   // end query object
 
-  let result = await Course.find(query).exec()
+  let result = await Course.find(query)
+    .limit(8)
+    .exec()
 
   // let cursor = result[result.length - 1]._id
   // merge cursor into the result
   // return result
-  console.log("res: ", result)
   return {courses: result, cursor: "this is dumb"}
 }
 
