@@ -13,7 +13,7 @@ type Level {
 }
 
 type Course {
-  id: ID!
+  id: ID
   courseName: String!
   courseAuthor: User
   courseDescription: String
@@ -59,7 +59,7 @@ extend type Query {
     usingLang: String!
     teachingLang: String!
   ): PaginatedCourses
-  getMoreCourses(cursor: String!): [Course]
+  getMoreCourses(cursor: String): PaginatedCourses
   getCourseCount: Int
 }
 

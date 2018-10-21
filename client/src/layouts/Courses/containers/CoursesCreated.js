@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
-import {NavLink, Link, Route, withRouter} from 'react-router-dom'
-import {push} from 'react-router-redux'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import cloneDeep from 'lodash/cloneDeep'
-import update from 'immutability-helper'
-import Waypoint from 'react-waypoint'
-import Select from 'react-select'
-import orm from '../../../app/schema.js'
-import {isEmpty} from 'lodash/isEmpty'
-import styled, {ThemeProvider} from 'styled-components'
+import React, {Component} from "react"
+import {NavLink, Link, Route, withRouter} from "react-router-dom"
+import {push} from "react-router-redux"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import cloneDeep from "lodash/cloneDeep"
+import update from "immutability-helper"
+import Waypoint from "react-waypoint"
+import Select from "react-select"
+import orm from "../../../app/schema.js"
+import {isEmpty} from "lodash/isEmpty"
+import styled, {ThemeProvider} from "styled-components"
 import {
   Card,
   Container,
@@ -19,16 +19,16 @@ import {
   Image,
   Item,
   Segment
-} from 'semantic-ui-react'
-import {Staticbar} from '../../../containers'
-import {Box, Flex, Grid, Img, Subtitle, Title, Text} from '../../../components'
-import {IoPeople} from 'react-icons/io'
-import '../../../assets/css/pagination.css'
+} from "semantic-ui-react"
+import {Staticbar} from "../../../containers"
+import {Box, Flex, Grid, Img, Subtitle, Title, Text} from "../../../components"
+import {IoPeople} from "react-icons/io"
+import "../../../assets/css/pagination.css"
 
 // actions
-import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
-import courses from '../../../api/courses/actions/coursesActions.js'
-import course from '../../../api/course/actions/courseActions.js'
+import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
+import courses from "../../../api/courses/actions/coursesActions.js"
+import course from "../../../api/course/actions/courseActions.js"
 
 const StyledGrid = styled(Grid)`
   grid-template-areas:
@@ -48,17 +48,17 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 const initialState = {
-  search: '',
-  courseAuthor: 'brad',
-  courseInput: '',
-  courseName: '',
-  courseProp: 'title',
-  couresRef: '',
-  teachingLang: '',
-  nativeLang: '',
-  items: '',
+  search: "",
+  courseAuthor: "brad",
+  courseInput: "",
+  courseName: "",
+  courseProp: "title",
+  couresRef: "",
+  teachingLang: "",
+  nativeLang: "",
+  items: "",
   limit: 3,
-  next: ''
+  next: ""
 }
 
 class Created extends Component {
@@ -113,7 +113,7 @@ class Created extends Component {
   handleWaypoint = () => {
     if (
       !this.props.coursesMeta.loading &&
-      this.props.coursesMeta.next !== 'done'
+      this.props.coursesMeta.next !== "done"
     ) {
       return <Waypoint onEnter={this.nextCourses} />
     }
@@ -124,7 +124,7 @@ class Created extends Component {
     //   var courses = this.props.courseReducer.teachingCourseList.result.docs
     // }
     const LangCard = this.props.courses.map(item => {
-      var author = ''
+      var author = ""
       item.courseAuthor.username ? (author = item.courseAuthor.username) : null
       let keys = []
       item.courseRef.map(item => {
@@ -136,19 +136,19 @@ class Created extends Component {
           <Image
             src={item.courseImage}
             onClick={this.handleClick}
-            style={{cursor: 'pointer'}}
+            style={{cursor: "pointer"}}
           />
           <Card.Content>
-            <Card.Header style={{wordBreak: 'break-word'}}>
+            <Card.Header style={{wordBreak: "break-word"}}>
               <Button onClick={this.handleClick} item={item}>
                 {item.courseName}
               </Button>
             </Card.Header>
             <Card.Meta>
               <Icon name="pencil" />
-              <a style={{padding: '0 20px 0 0'}}>{author}</a>
+              <a style={{padding: "0 20px 0 0"}}>{author}</a>
             </Card.Meta>
-            <div className="description" style={{wordBreak: 'break-word'}}>
+            <div className="description" style={{wordBreak: "break-word"}}>
               {item.courseDescription}
             </div>
             {/* TODO
@@ -165,18 +165,18 @@ class Created extends Component {
           </Card.Content>
           <Card.Content extra>
             <Icon name="user" />
-            <span style={{padding: '0 20px 0 0'}}>{item.subscribers}</span>
+            <span style={{padding: "0 20px 0 0"}}>{item.subscribers}</span>
             <p>
               <Icon name="book" />
-              <span style={{padding: '0 20px 0 0'}}>{courseRef}</span>
+              <span style={{padding: "0 20px 0 0"}}>{courseRef}</span>
             </p>
           </Card.Content>
         </Card>
       )
     })
-    if (this.props.coursesMeta.next !== 'done') {
+    if (this.props.coursesMeta.next !== "done") {
       var scrollMsg = (
-        <SemGrid centered style={{margin: '0 0 40px 0'}}>
+        <SemGrid centered style={{margin: "0 0 40px 0"}}>
           <Segment compact loading={this.props.coursesMeta.loading}>
             Scroll down for more
           </Segment>
@@ -190,7 +190,7 @@ class Created extends Component {
 
     renderGrid = (
       <div>
-        <SemGrid style={{padding: '40px'}}>
+        <SemGrid style={{padding: "40px"}}>
           <Card.Group stackable itemsPerRow={3}>
             {LangCard}
           </Card.Group>
@@ -227,7 +227,7 @@ const mapStateToProps = state => {
   const {User} = session
   const courses = Courses.all().toRefArray()
   const users = User.all().toRefArray()
-  const user = users[0] || ''
+  const user = users[0] || ""
   return {
     user,
     courses,

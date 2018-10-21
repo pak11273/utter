@@ -29,6 +29,7 @@ import gql from "graphql-tag"
 
 const getCourses = gql`
   query Courses(
+    $cursor: String
     $title: String!
     $ref: String!
     $author: String!
@@ -36,6 +37,7 @@ const getCourses = gql`
     $teachingLang: String!
   ) {
     getCourses(
+      cursor: $cursor
       title: $title
       ref: $ref
       author: $author
@@ -73,28 +75,38 @@ const MoreCoursesQuery = gql`
   }
 `
 
-const Courses = props => {
-  const {title, courseRef, author, usingLang, teachingLang} = props
-  return (
-    <Grid
-      columns={3}
-      centered
-      padded="vertically"
-      mobile={8}
-      tablet={8}
-      computer={4}>
-      <Grid.Row style={{padding: "40px"}}>
-        <Card.Group doubling stackable itemsPerRow={3}>
+const initialCoursesState = {
+  cursor: ""
+}
+
+class Courses extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = cloneDeep(initialCoursesState)
+  }
+  render() {
+    const {title, courseRef, author, usingLang, teachingLang} = this.props
+    return (
+      <Grid
+        columns={3}
+        centered
+        padded="vertically"
+        mobile={8}
+        tablet={8}
+        computer={4}>
+        <Grid.Row style={{padding: "40px"}}>
           <Query
             query={getCourses}
             variables={{
+              cursor: "",
               title,
               ref: courseRef,
               author,
               usingLang,
               teachingLang
             }}>
-            {({loading, error, data}) => {
+            {({loading, error, data, fetchMore}) => {
               if (loading) return <Grid.Column>loading...</Grid.Column>
               if (error)
                 return (
@@ -104,59 +116,95 @@ const Courses = props => {
                   </Grid.Column>
                 )
               console.log("data: ", data)
-              return data.getCourses.courses.map(course => {
-                return (
-                  <Card key={course.id} fluid={false}>
-                    <Image
-                      src={`${course.courseImage}`}
-                      style={{cursor: "pointer"}}
-                    />
-                    <Card.Content>
-                      <Card.Header style={{wordBreak: "break-word"}}>
-                        {course.courseName}
-                      </Card.Header>
-                      <div
-                        className="description"
-                        style={{wordBreak: "break-word"}}>
-                        {course.courseDescription}
-                      </div>
-                      {/* TODO
-            <div
-              style={{
-                color: 'white',
-                background: 'red',
-                padding: '4px',
-                textAlign: 'center'
-              }}>
-              Subscribed
-            </div>
-            */}
-                    </Card.Content>
-                    <Card.Content extra>
-                      <div>
-                        <Icon name="pencil" />
-                        <a style={{padding: "0 20px 0 0"}}>
-                          {course.courseAuthor.username}
-                        </a>
-                      </div>
-                      <div>
-                        <Icon name="user" />
-                        <span style={{padding: "0 20px 0 0"}}>subs</span>
-                      </div>
-                      <div>
-                        <Icon name="book" />
-                        <span style={{padding: "0 20px 0 0"}}>course ref</span>
-                      </div>
-                    </Card.Content>
-                  </Card>
-                )
-              })
+
+              return (
+                <div>
+                  <Card.Group doubling stackable itemsPerRow={3}>
+                    {data.getCourses.courses.map(course => (
+                      <Card key={course.id} fluid={false}>
+                        <Image
+                          src={`${course.courseImage}`}
+                          style={{cursor: "pointer"}}
+                        />
+                        <Card.Content>
+                          <Card.Header style={{wordBreak: "break-word"}}>
+                            {course.courseName}
+                          </Card.Header>
+                          <div
+                            className="description"
+                            style={{wordBreak: "break-word"}}>
+                            {course.courseDescription}
+                          </div>
+                        </Card.Content>
+                        <Card.Content extra>
+                          <div>
+                            <Icon name="pencil" />
+                            <a style={{padding: "0 20px 0 0"}}>
+                              {course.courseAuthor.username}
+                            </a>
+                          </div>
+                          <div>
+                            <Icon name="user" />
+                            <span style={{padding: "0 20px 0 0"}}>subs</span>
+                          </div>
+                          <div>
+                            <Icon name="book" />
+                            <span style={{padding: "0 20px 0 0"}}>
+                              course ref
+                            </span>
+                          </div>
+                        </Card.Content>
+                      </Card>
+                    ))}
+                  </Card.Group>
+                  <Waypoint
+                    onEnter={() => {
+                      fetchMore({
+                        // note this is a different query than the one used in the
+                        // Query component
+                        // query: MoreCoursesQuery,
+                        variables: {
+                          cursor: data.getCourses.cursor
+                        },
+                        updateQuery: (previousResult, {fetchMoreResult}) => {
+                          if (!fetchMoreResult) {
+                            return previousResult
+                          }
+                          const previousEntry =
+                            previousResult.getCourses.courses
+                          const newCourses = fetchMoreResult.getCourses.courses
+
+                          if (isEmpty(newCourses)) {
+                            var newCursor = data.getCourses.cursor
+                          } else {
+                            var newCursor = newCourses[newCourses.length - 1].id
+                          }
+
+                          if (!fetchMoreResult) return previousEntry
+                          return {
+                            // By returning `cursor` here, we update the `fetchMore` function
+                            // to the new cursor.
+                            // cursor: newCursor,
+                            getCourses: {
+                              cursor: newCursor,
+                              courses: [...previousEntry, ...newCourses],
+                              __typename: "Course",
+                              ...previousEntry
+                            }
+                          }
+                        }
+                      })
+                    }}>
+                    <div>load more</div>
+                  </Waypoint>
+                </div>
+              )
             }}
           </Query>
-        </Card.Group>
-      </Grid.Row>
-    </Grid>
-  )
+        </Grid.Row>
+      </Grid>
+    )
+  }
 }
 
 const options = [
@@ -165,7 +213,7 @@ const options = [
   {key: "author", text: "Author", value: "author"}
 ]
 
-const initialState = {
+const initialCoursesContainerState = {
   search: "",
   courseAuthor: "",
   courseInput: "",
@@ -183,7 +231,7 @@ class CoursesContainer extends Component {
   constructor(props) {
     super(props)
 
-    this.state = cloneDeep(initialState)
+    this.state = cloneDeep(initialCoursesContainerState)
   }
 
   handleSpeakingChange = usingLang => {
