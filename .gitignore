@@ -1,6 +1,7 @@
 # template ref: https://github.com/github/gitignore
 
 # Custom
+todo
 development
 cdn/
 gotchas

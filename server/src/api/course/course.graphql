@@ -46,7 +46,7 @@ input CreateCourseInput {
 
 type PaginatedCourses {
   courses: [Course]
-  cursor: String!
+  cursor: String
 }
 
 extend type Query {
@@ -59,7 +59,6 @@ extend type Query {
     usingLang: String!
     teachingLang: String!
   ): PaginatedCourses
-  getMoreCourses(cursor: String): PaginatedCourses
   getCourseCount: Int
 }
 

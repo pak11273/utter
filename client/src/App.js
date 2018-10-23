@@ -9,6 +9,8 @@ import {ConnectedRouter as Router} from "react-router-redux"
 import LoadingBar from "react-redux-loading-bar"
 import ReactGA from "react-ga"
 
+import UNSTATED from "unstated-debug"
+import {Provider as UnstatedProvider} from "unstated"
 import {ApolloProvider} from "react-apollo"
 import {ApolloClient} from "apollo-client"
 import {InMemoryCache} from "apollo-cache-inmemory"
@@ -169,6 +171,10 @@ const client = new ApolloClient({
   cache
 })
 
+// UNSTATED config
+UNSTATED.logStateChanges = true
+UNSTATED.isCollapsed = true
+
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   constructor(props) {
@@ -181,46 +187,54 @@ class App extends Component {
       <ApolloProvider client={client}>
         <AppContainer>
           <ThemeProvider theme={main}>
-            <Provider store={store}>
-              <PersistGate loading={null} persistor={persistor}>
-                <Router history={history}>
-                  <StyledGrid style={{minHeight: "100vh"}}>
-                    <MainNavbar
-                      gridarea="navBar"
-                      list={["about", "contact", "courses", "pricing", "zones"]}
-                      changeMenuOn="640px"
-                      largeMenuClassName="large-menu"
-                      smallMenuClassName="small-menu"
-                    />
-                    <Section gridarea="flash">
-                      <NavbarSpacer margin="50px 0 0 0" id="spacer" />
-                      <FlashMessagesList />
-                      {/* TODO: fix
+            <UnstatedProvider>
+              <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                  <Router history={history}>
+                    <StyledGrid style={{minHeight: "100vh"}}>
+                      <MainNavbar
+                        gridarea="navBar"
+                        list={[
+                          "about",
+                          "contact",
+                          "courses",
+                          "pricing",
+                          "zones"
+                        ]}
+                        changeMenuOn="640px"
+                        largeMenuClassName="large-menu"
+                        smallMenuClassName="small-menu"
+                      />
+                      <Section gridarea="flash">
+                        <NavbarSpacer margin="50px 0 0 0" id="spacer" />
+                        <FlashMessagesList />
+                        {/* TODO: fix
                     <LoadingBar
                       style={{backgroundColor: '#8b1a87', height: '5px'}}
                     />
                    */}
-                    </Section>
-                    <Section gridarea="content">
-                      <Switch>
-                        {routes.map((route, i) => (
-                          <route.component
-                            key={i}
-                            path={route.path}
-                            {...route}
-                            render={props => (
-                              // pass the sub-routes down to keep nesting
-                              <route.component subroutes={route.routes} />
-                            )}
-                          />
-                        ))}
-                      </Switch>
-                    </Section>
-                    <Footer gridarea="footer" />
-                  </StyledGrid>
-                </Router>
-              </PersistGate>
-            </Provider>
+                      </Section>
+                      <Section gridarea="content">
+                        <Switch>
+                          {routes.map((route, i) => (
+                            <route.component
+                              key={i}
+                              path={route.path}
+                              {...route}
+                              render={props => (
+                                // pass the sub-routes down to keep nesting
+                                <route.component subroutes={route.routes} />
+                              )}
+                            />
+                          ))}
+                        </Switch>
+                      </Section>
+                      <Footer gridarea="footer" />
+                    </StyledGrid>
+                  </Router>
+                </PersistGate>
+              </Provider>
+            </UnstatedProvider>
           </ThemeProvider>
         </AppContainer>
       </ApolloProvider>

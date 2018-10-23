@@ -7,7 +7,7 @@ import Waypoint from "react-waypoint"
 import {Helmet} from "react-helmet"
 import update from "immutability-helper"
 import {
-  Button,
+  Button as SemButton,
   Card,
   Container,
   Grid,
@@ -76,7 +76,7 @@ const MoreCoursesQuery = gql`
 `
 
 const initialCoursesState = {
-  cursor: ""
+  cursor: "initial"
 }
 
 class Courses extends Component {
@@ -85,6 +85,14 @@ class Courses extends Component {
 
     this.state = cloneDeep(initialCoursesState)
   }
+
+  componentWillReceiveProps(nextProps) {
+    const newState = update(this.state, {
+      cursor: {$set: ""}
+    })
+    this.setState(newState)
+  }
+
   render() {
     const {title, courseRef, author, usingLang, teachingLang} = this.props
     return (
@@ -115,8 +123,76 @@ class Courses extends Component {
                     your browser in a few minutes.
                   </Grid.Column>
                 )
-              console.log("data: ", data)
+              if (this.state.cursor !== "done") {
+                var waypoint = (
+                  <Waypoint
+                    key={data.getCourses.cursor}
+                    onEnter={() => {
+                      // set cursor state to first response
+                      const newState = update(this.state, {
+                        cursor: {$set: data.getCourses.cursor}
+                      })
 
+                      this.setState(newState)
+
+                      fetchMore({
+                        // note this is a different query than the one used in the
+                        variables: {
+                          cursor: this.state.cursor
+                        },
+                        updateQuery: (previousResult, {fetchMoreResult}) => {
+                          if (!fetchMoreResult) {
+                          }
+                          const previousEntry =
+                            previousResult.getCourses.courses
+                          const newCourses = fetchMoreResult.getCourses.courses
+
+                          // display waypoint if a cursor exists
+                          const newState = update(this.state, {
+                            cursor: {$set: fetchMoreResult.getCourses.cursor}
+                          })
+
+                          this.setState(newState)
+
+                          if (isEmpty(newCourses)) {
+                            // hide waypoint
+                            const newState = update(this.state, {
+                              cursor: {$set: fetchMoreResult.getCourses.cursor}
+                            })
+
+                            this.setState(newState)
+
+                            return previousResult
+                          } else {
+                            var newCursor = newCourses[newCourses.length - 1].id
+                          }
+
+                          if (!fetchMoreResult) return previousEntry
+
+                          return {
+                            // By returning `cursor` here, we update the `fetchMore` function
+                            // to the new cursor.
+                            getCourses: {
+                              cursor: newCursor,
+                              courses: [...previousEntry, ...newCourses],
+                              __typename: "PaginatedCourses"
+                            }
+                          }
+                        }
+                      })
+                    }}>
+                    <button
+                      loading={loading.toString()}
+                      style={{
+                        margin: "50px",
+                        border: "none",
+                        background: "none"
+                      }}>
+                      Scroll down for more
+                    </button>
+                  </Waypoint>
+                )
+              }
               return (
                 <div>
                   <Card.Group doubling stackable itemsPerRow={3}>
@@ -157,46 +233,7 @@ class Courses extends Component {
                       </Card>
                     ))}
                   </Card.Group>
-                  <Waypoint
-                    onEnter={() => {
-                      fetchMore({
-                        // note this is a different query than the one used in the
-                        // Query component
-                        // query: MoreCoursesQuery,
-                        variables: {
-                          cursor: data.getCourses.cursor
-                        },
-                        updateQuery: (previousResult, {fetchMoreResult}) => {
-                          if (!fetchMoreResult) {
-                            return previousResult
-                          }
-                          const previousEntry =
-                            previousResult.getCourses.courses
-                          const newCourses = fetchMoreResult.getCourses.courses
-
-                          if (isEmpty(newCourses)) {
-                            var newCursor = data.getCourses.cursor
-                          } else {
-                            var newCursor = newCourses[newCourses.length - 1].id
-                          }
-
-                          if (!fetchMoreResult) return previousEntry
-                          return {
-                            // By returning `cursor` here, we update the `fetchMore` function
-                            // to the new cursor.
-                            // cursor: newCursor,
-                            getCourses: {
-                              cursor: newCursor,
-                              courses: [...previousEntry, ...newCourses],
-                              __typename: "Course",
-                              ...previousEntry
-                            }
-                          }
-                        }
-                      })
-                    }}>
-                    <div>load more</div>
-                  </Waypoint>
+                  {waypoint}
                 </div>
               )
             }}
@@ -223,8 +260,8 @@ const initialCoursesContainerState = {
   teachingLang: "",
   usingLang: "",
   items: "",
-  limit: 3,
-  next: ""
+  next: "",
+  resetCursor: ""
 }
 
 class CoursesContainer extends Component {
@@ -292,8 +329,8 @@ class CoursesContainer extends Component {
     this.setState(newState)
   }
 
-  submitQuery = e => {
-    e.preventDefault()
+  handleSubmit = e => {
+    // e.preventDefault()
 
     // change state props based on selectionBox
     const selectionBox = this.state.selectionBox
@@ -362,23 +399,6 @@ class CoursesContainer extends Component {
         this.setState(newAuthor)
 
         break
-    }
-  }
-
-  nextCourses = ({previousPos, currentPosition, event}) => {
-    const newNext = this.props.next
-    // add next to local state
-    const newState = update(this.state, {
-      next: {$set: newNext}
-    })
-    this.setState(newState, () => {
-      // api more courses
-    })
-  }
-
-  handleWaypoint = () => {
-    if (!this.props.loading && this.props.next !== "done") {
-      return <Waypoint onEnter={this.nextCourses} />
     }
   }
 
@@ -467,7 +487,7 @@ class CoursesContainer extends Component {
                     options={options}
                     defaultValue="title"
                   />
-                  <Button onClick={this.submitQuery}>Search</Button>
+                  <SemButton onClick={this.handleSubmit}>Search</SemButton>
                 </Input>
               </Item>
             </Grid.Column>
