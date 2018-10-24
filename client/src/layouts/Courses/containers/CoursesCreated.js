@@ -1,253 +1,353 @@
 import React, {Component} from "react"
-import {NavLink, Link, Route, withRouter} from "react-router-dom"
 import {push} from "react-router-redux"
-import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import cloneDeep from "lodash/cloneDeep"
-import update from "immutability-helper"
-import Waypoint from "react-waypoint"
+import {Link, withRouter} from "react-router-dom"
 import Select from "react-select"
-import orm from "../../../app/schema.js"
-import {isEmpty} from "lodash/isEmpty"
-import styled, {ThemeProvider} from "styled-components"
+import isEmpty from "lodash/isEmpty"
+import cloneDeep from "lodash/cloneDeep"
+import Waypoint from "react-waypoint"
+import {Helmet} from "react-helmet"
+import update from "immutability-helper"
 import {
+  Button as SemButton,
   Card,
   Container,
-  Grid as SemGrid,
-  Button,
+  Grid,
+  Header,
   Icon,
   Image,
+  Input,
   Item,
-  Segment
+  Segment,
+  Select as SemSelect
 } from "semantic-ui-react"
-import {Staticbar} from "../../../containers"
-import {Box, Flex, Grid, Img, Subtitle, Title, Text} from "../../../components"
-import {IoPeople} from "react-icons/io"
-import "../../../assets/css/pagination.css"
+import {Spacer} from "../../../components"
+import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
+import styled from "styled-components"
+import "../styles.css"
 
 // actions
 import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
-import courses from "../../../api/courses/actions/coursesActions.js"
-import course from "../../../api/course/actions/courseActions.js"
 
-const StyledGrid = styled(Grid)`
-  grid-template-areas:
-    'sidebar sidebar';
-    'content content';
-  height: 700px;
+import {Query} from "react-apollo"
+import gql from "graphql-tag"
 
-  @media (min-width: 640px) {
-    grid-template-columns: 200px 1fr;
-    grid-template-areas: 'sidebar content';
+const getCourses = gql`
+  query Courses(
+    $cursor: String
+    $title: String!
+    $ref: String!
+    $author: String!
+    $usingLang: String!
+    $teachingLang: String!
+  ) {
+    getCourses(
+      cursor: $cursor
+      title: $title
+      ref: $ref
+      author: $author
+      usingLang: $usingLang
+      teachingLang: $teachingLang
+    ) {
+      cursor
+      courses {
+        id
+        courseImage
+        courseName
+        courseDescription
+        courseAuthor {
+          username
+        }
+      }
+    }
   }
 `
-const StyledNavLink = styled(NavLink)`
-  padding: 0 0 20px 0;
-  &:hover {
-    color: green;
-  }
-`
-const initialState = {
-  search: "",
-  courseAuthor: "brad",
-  courseInput: "",
-  courseName: "",
-  courseProp: "title",
-  couresRef: "",
-  teachingLang: "",
-  nativeLang: "",
-  items: "",
-  limit: 3,
-  next: ""
+
+const initialCoursesState = {
+  cursor: "initial"
 }
 
-class Created extends Component {
+class Courses extends Component {
   constructor(props) {
     super(props)
 
-    this.state = cloneDeep(initialState)
+    this.state = cloneDeep(initialCoursesState)
   }
 
-  componentDidMount() {
-    this.props.actions.toggleFooter(false)
+  componentWillReceiveProps(nextProps) {
     const newState = update(this.state, {
-      courseAuthor: {$set: this.props.user.username}
+      cursor: {$set: ""}
     })
-
-    this.setState(newState, () => {
-      this.props.actions.resetCourses()
-      this.props.actions.fetchCourses(this.state)
-    })
-  }
-
-  onClick(e, item) {
-    e.preventDefault()
-  }
-
-  nextCourses = ({previousPos, currentPosition, event}) => {
-    const newNext = this.props.coursesMeta.next
-    // add next to local state
-    const newState = update(this.state, {
-      next: {$set: newNext}
-    })
-    this.setState(newState, () => {
-      // api more courses
-      this.props.actions.fetchCourses(this.state)
-    })
-  }
-
-  handleClick = (e, data) => {
-    e.preventDefault()
-
-    const newState = update(this.state, {
-      courseAuthorId: {$set: this.props.user.id},
-      courseId: {$set: data.item.id},
-      courseName: {$set: data.item.courseName}
-    })
-
-    this.setState(newState, () => {
-      this.props.actions.fetchTeachingCourse(this.state)
-    })
-  }
-
-  handleWaypoint = () => {
-    if (
-      !this.props.coursesMeta.loading &&
-      this.props.coursesMeta.next !== "done"
-    ) {
-      return <Waypoint onEnter={this.nextCourses} />
-    }
+    this.setState(newState)
   }
 
   render() {
-    // if (this.props.courseReducer.teachingCourseList.result.docs) {
-    //   var courses = this.props.courseReducer.teachingCourseList.result.docs
-    // }
-    const LangCard = this.props.courses.map(item => {
-      var author = ""
-      item.courseAuthor.username ? (author = item.courseAuthor.username) : null
-      let keys = []
-      item.courseRef.map(item => {
-        keys.push(item.value)
-      })
-      const courseRef = keys.toString()
-      return (
-        <Card key={item.id}>
-          <Image
-            src={item.courseImage}
-            onClick={this.handleClick}
-            style={{cursor: "pointer"}}
-          />
-          <Card.Content>
-            <Card.Header style={{wordBreak: "break-word"}}>
-              <Button onClick={this.handleClick} item={item}>
-                {item.courseName}
-              </Button>
-            </Card.Header>
-            <Card.Meta>
-              <Icon name="pencil" />
-              <a style={{padding: "0 20px 0 0"}}>{author}</a>
-            </Card.Meta>
-            <div className="description" style={{wordBreak: "break-word"}}>
-              {item.courseDescription}
-            </div>
-            {/* TODO
-            <div
-              style={{
-                color: 'white',
-                background: 'red',
-                padding: '4px',
-                textAlign: 'center'
-              }}>
-              Subscribed
-            </div>
-            */}
-          </Card.Content>
-          <Card.Content extra>
-            <Icon name="user" />
-            <span style={{padding: "0 20px 0 0"}}>{item.subscribers}</span>
-            <p>
-              <Icon name="book" />
-              <span style={{padding: "0 20px 0 0"}}>{courseRef}</span>
-            </p>
-          </Card.Content>
-        </Card>
-      )
-    })
-    if (this.props.coursesMeta.next !== "done") {
+    const {title, courseRef, author, usingLang, teachingLang} = this.props
+    return (
+      <Grid
+        columns={3}
+        centered
+        padded="vertically"
+        mobile={8}
+        tablet={8}
+        computer={4}>
+        <Grid.Row style={{padding: "40px"}}>
+          <Query
+            query={getCourses}
+            variables={{
+              cursor: "",
+              title,
+              ref: courseRef,
+              author,
+              usingLang,
+              teachingLang
+            }}>
+            {({loading, error, data, fetchMore}) => {
+              if (loading) return <Grid.Column>loading...</Grid.Column>
+              if (error)
+                return (
+                  <Grid.Column>
+                    The server is restarting due to maintenance. Please refresh
+                    your browser in a few minutes.
+                  </Grid.Column>
+                )
+              if (this.state.cursor !== "done") {
+                var waypoint = (
+                  <Waypoint
+                    key={data.getCourses.cursor}
+                    onEnter={() => {
+                      // set cursor state to first response
+                      const newState = update(this.state, {
+                        cursor: {$set: data.getCourses.cursor}
+                      })
+
+                      this.setState(newState)
+
+                      fetchMore({
+                        // note this is a different query than the one used in the
+                        variables: {
+                          cursor: this.state.cursor
+                        },
+                        updateQuery: (previousResult, {fetchMoreResult}) => {
+                          if (!fetchMoreResult) {
+                          }
+                          const previousEntry =
+                            previousResult.getCourses.courses
+                          const newCourses = fetchMoreResult.getCourses.courses
+
+                          // display waypoint if a cursor exists
+                          const newState = update(this.state, {
+                            cursor: {$set: fetchMoreResult.getCourses.cursor}
+                          })
+
+                          this.setState(newState)
+
+                          if (isEmpty(newCourses)) {
+                            // hide waypoint
+                            const newState = update(this.state, {
+                              cursor: {$set: fetchMoreResult.getCourses.cursor}
+                            })
+
+                            this.setState(newState)
+
+                            return previousResult
+                          } else {
+                            var newCursor = newCourses[newCourses.length - 1].id
+                          }
+
+                          if (!fetchMoreResult) return previousEntry
+
+                          return {
+                            // By returning `cursor` here, we update the `fetchMore` function
+                            // to the new cursor.
+                            getCourses: {
+                              cursor: newCursor,
+                              courses: [...previousEntry, ...newCourses],
+                              __typename: "PaginatedCourses"
+                            }
+                          }
+                        }
+                      })
+                    }}>
+                    <button
+                      loading={loading.toString()}
+                      style={{
+                        margin: "50px",
+                        border: "none",
+                        background: "none"
+                      }}>
+                      Scroll down for more
+                    </button>
+                  </Waypoint>
+                )
+              }
+              return (
+                // TODO use push here to go to details page?
+                // const LangCard = this.props.courses.map(item => {
+                //   var author = ""
+                //   item.courseAuthor.username ? (author = item.courseAuthor.username) : null
+                //   let keys = []
+                //   item.courseRef.map(item => {
+                //     keys.push(item.value)
+                //   })
+                //   const courseRef = keys.toString()
+                //   return (
+                //     <Card key={item.id}>
+                <div>
+                  <Card.Group doubling stackable itemsPerRow={3}>
+                    {data.getCourses.courses.map(course => (
+                      <Card key={course.id} fluid={false}>
+                        <Image
+                          src={`${course.courseImage}`}
+                          style={{cursor: "pointer"}}
+                        />
+                        <Card.Content>
+                          <Card.Header style={{wordBreak: "break-word"}}>
+                            {course.courseName}
+                          </Card.Header>
+                          <div
+                            className="description"
+                            style={{wordBreak: "break-word"}}>
+                            {course.courseDescription}
+                          </div>
+                        </Card.Content>
+                        <Card.Content extra>
+                          <div>
+                            <Icon name="pencil" />
+                            <a style={{padding: "0 20px 0 0"}}>
+                              {course.courseAuthor.username}
+                            </a>
+                          </div>
+                          <div>
+                            <Icon name="user" />
+                            <span style={{padding: "0 20px 0 0"}}>subs</span>
+                          </div>
+                          <div>
+                            <Icon name="book" />
+                            <span style={{padding: "0 20px 0 0"}}>
+                              course ref
+                            </span>
+                          </div>
+                        </Card.Content>
+                      </Card>
+                    ))}
+                  </Card.Group>
+                  {waypoint}
+                </div>
+              )
+            }}
+          </Query>
+        </Grid.Row>
+      </Grid>
+    )
+  }
+}
+
+const options = [
+  {key: "title", text: "Title", value: "title"},
+  {key: "reference", text: "Reference", value: "reference"},
+  {key: "author", text: "Author", value: "author"}
+]
+
+const initialCoursesContainerState = {
+  search: "",
+  courseAuthor: "",
+  courseInput: "",
+  courseName: "",
+  selectionBox: "title",
+  courseRef: "",
+  teachingLang: "",
+  usingLang: "",
+  items: "",
+  next: "",
+  resetCursor: ""
+}
+
+class CoursesCreatedContainer extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = cloneDeep(initialCoursesContainerState)
+  }
+
+  componentDidMount() {
+    this.props.toggleFooter(false)
+  }
+
+  handleImageClick = e => {
+    e.preventDefault()
+    // TODO
+  }
+
+  render() {
+    if (this.props.next !== "done") {
       var scrollMsg = (
-        <SemGrid centered style={{margin: "0 0 40px 0"}}>
-          <Segment compact loading={this.props.coursesMeta.loading}>
+        <Grid centered style={{margin: "0 0 40px 0"}}>
+          <Segment compact loading={this.props.loading}>
             Scroll down for more
           </Segment>
-        </SemGrid>
+        </Grid>
       )
     } else {
       var scrollMsg = <div />
     }
 
-    var renderGrid
-
-    renderGrid = (
-      <div>
-        <SemGrid style={{padding: "40px"}}>
-          <Card.Group stackable itemsPerRow={3}>
-            {LangCard}
-          </Card.Group>
-        </SemGrid>
-        {this.handleWaypoint()}
-        {scrollMsg}
-      </div>
-    )
     return (
-      <StyledGrid>
-        <Staticbar>
-          <Flex gridarea="sidebar">
-            <Box>
-              <StyledNavLink to="/courses/create">
-                Create a Course
-              </StyledNavLink>
-            </Box>
-          </Flex>
-        </Staticbar>
-        <Grid gridarea="content" gridtemplaterows="100px auto">
-          <Item align="center">
-            <Title>Edit a Course</Title>
-          </Item>
-          {renderGrid}
-        </Grid>
-      </StyledGrid>
+      <Grid stackable>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
+          />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utterzone | Courses</title>
+          <link rel="canonical" href="https://utter.zone/courses" />
+        </Helmet>
+        <Grid.Column width={4} style={{background: "LightGray"}}>
+          <Grid columns={1} centered padded="vertically">
+            <Grid.Column textAlign="center">
+              <Spacer margin="50px 0 0 0" />
+              <Item align="center">
+                <Link to="/courses/create" style={{fontSize: "20px"}}>
+                  Create a Course
+                </Link>
+              </Item>
+            </Grid.Column>
+          </Grid>
+        </Grid.Column>
+        <Grid.Column width={12}>
+          <Grid columns={1} centered padded="vertically">
+            <Grid.Column textAlign="center">
+              <Header as="h1">Edit a Course</Header>
+            </Grid.Column>
+          </Grid>
+          <Courses
+            title={this.state.courseName}
+            author={this.state.courseAuthor}
+            courseRef={this.state.courseRef}
+            usingLang={this.state.usingLang}
+            teachingLang={this.state.teachingLang}
+          />
+        </Grid.Column>
+      </Grid>
     )
   }
 }
 
 const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
-  const {Courses} = session
-  const {User} = session
-  const courses = Courses.all().toRefArray()
-  const users = User.all().toRefArray()
-  const user = users[0] || ""
   return {
-    user,
-    courses,
-    courseReducer: state.courseReducer,
-    coursesMeta: state.coursesReducer
+    user: state.userReducer
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(
-      {
-        fetchCourses: courses.request,
-        fetchTeachingCourse: course.request,
-        push,
-        resetCourses: courses.reset,
-        toggleFooter
-      },
-      dispatch
-    )
+    toggleFooter
   }
 }
 
@@ -255,5 +355,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Created)
+  )(CoursesCreatedContainer)
 )

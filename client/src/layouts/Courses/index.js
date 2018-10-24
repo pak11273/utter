@@ -57,24 +57,6 @@ const getCourses = gql`
     }
   }
 `
-
-const MoreCoursesQuery = gql`
-  query MoreCourses($cursor: String) {
-    getMoreCourses(cursor: $cursor) {
-      cursor
-      courses {
-        id
-        courseImage
-        courseName
-        courseDescription
-        courseAuthor {
-          username
-        }
-      }
-    }
-  }
-`
-
 const initialCoursesState = {
   cursor: "initial"
 }
