@@ -30,7 +30,7 @@ import {
   ADD_CUID_TO_WORDS,
   DELETE_WORD_FAIL,
   DELETE_WORD_SUCCESS
-} from './types.js'
+} from "./types.js"
 
 const addWord = () => {
   // TODO: pending
@@ -38,21 +38,21 @@ const addWord = () => {
 
 const changeCoursePg = coursePg => {
   return {
-    type: 'CHANGE_COURSE_PG',
+    type: "CHANGE_COURSE_PG",
     coursePg
   }
 }
 
 const changeCoursePgFail = error => {
   return {
-    type: 'CHANGE_COURSE_PG_FAIL',
+    type: "CHANGE_COURSE_PG_FAIL",
     error
   }
 }
 
 const changeCoursePgSuccess = coursePg => {
   return {
-    type: 'CHANGE_COURSE_PG_SUCCESS',
+    type: "CHANGE_COURSE_PG_SUCCESS",
     coursePg
   }
 }
@@ -62,50 +62,50 @@ const changeCoursePgSuccess = coursePg => {
 
 // COURSE READ
 const fetchCourse = course => {
-  return {type: 'FETCH_COURSE', course}
+  return {type: "FETCH_COURSE", course}
 }
 
 const fetchCourseSuccess = data => {
-  return {type: 'FETCH_COURSE_SUCCESS', course: data}
+  return {type: "FETCH_COURSE_SUCCESS", course: data}
 }
 
 const fetchCourseFail = error => {
-  return {type: 'FETCH_COURSE_FAIL', error}
+  return {type: "FETCH_COURSE_FAIL", error}
 }
 
 // COURSE DELETE
 const deleteCourse = course => {
-  return {type: 'DELETE_COURSE', course}
+  return {type: "DELETE_COURSE", course}
 }
 
 const deleteCourseSuccess = data => {
-  return {type: 'DELETE_COURSE_SUCCESS', data: data.data}
+  return {type: "DELETE_COURSE_SUCCESS", data: data.data}
 }
 
 const deleteCourseFail = error => {
-  return {type: 'DELETE_COURSE_FAIL', error}
+  return {type: "DELETE_COURSE_FAIL", error}
 }
 
 // LEVEL CREATE
 const addCuidToLevels = cuid => {
-  return {type: 'ADD_CUID_TO_LEVELS', cuid}
+  return {type: "ADD_CUID_TO_LEVELS", cuid}
 }
 
 const addLevel = level => {
-  return {type: 'ADD_LEVEL', level}
+  return {type: "ADD_LEVEL", level}
 }
 
 // LEVEL DELETE
 const deleteLevel = (course, levelId) => {
-  return {type: 'DELETE_LEVEL', course, levelId}
+  return {type: "DELETE_LEVEL", course, levelId}
 }
 
 const deleteLevelSuccess = data => {
-  return {type: 'DELETE_LEVEL_SUCCESS', data: data.data}
+  return {type: "DELETE_LEVEL_SUCCESS", data: data.data}
 }
 
 const deleteLevelFail = error => {
-  return {type: 'DELETE_LEVEL_FAIL', error}
+  return {type: "DELETE_LEVEL_FAIL", error}
 }
 
 const chooseCourseLanguage = courseLanguage => {
@@ -118,19 +118,19 @@ const chooseCourseLanguage = courseLanguage => {
 }
 
 const fetchCourseName = course => {
-  return {type: 'FETCHED_COURSE_NAME', course}
+  return {type: "FETCHED_COURSE_NAME", course}
 }
 
 const requestCourseNameSuccess = data => {
-  return {type: 'REQUESTED_COURSE_NAME_SUCCEEDED', data: data.msg}
+  return {type: "REQUESTED_COURSE_NAME_SUCCEEDED", data: data.msg}
 }
 
 const requestCourseNameError = error => {
-  return {type: 'REQUESTED_COURSE_NAME_FAIL', error}
+  return {type: "REQUESTED_COURSE_NAME_FAIL", error}
 }
 
 const loadCurrentTeachingCourse = course => {
-  return {type: 'LOAD_CURRENT_TEACHING_COURSE', course}
+  return {type: "LOAD_CURRENT_TEACHING_COURSE", course}
 }
 
 export {

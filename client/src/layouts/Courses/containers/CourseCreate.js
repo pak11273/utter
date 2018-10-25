@@ -1,47 +1,55 @@
-import React, {Component} from 'react'
-import {NavLink, withRouter} from 'react-router-dom'
-import {bindActionCreators} from 'redux'
-import {push} from 'react-router-redux'
-import {connect} from 'react-redux'
-import cloneDeep from 'lodash/cloneDeep'
-import styled from 'styled-components'
-import update from 'immutability-helper'
-import {validateInput} from '../../../utils/validations/courseCreate.js'
-import {addFlashMessage} from '../../../app/actions/flashMessages.js'
-import validator from 'validator'
-import cuid from 'cuid'
-import Teaching from './Teaching.js'
-import Using from './Using.js'
-import '../styles.css'
+import React, {Component} from "react"
+import {NavLink, withRouter} from "react-router-dom"
+import {bindActionCreators} from "redux"
+import {push} from "react-router-redux"
+import {connect} from "react-redux"
+import cloneDeep from "lodash/cloneDeep"
+import styled from "styled-components"
+import update from "immutability-helper"
+import {Formik, Form, Field, ErrorMessage} from "formik"
+import * as yup from "yup"
 
-import CourseRef from '../components/CourseRef.js'
+import {
+  duplicateEmail,
+  emailNotLongEnough,
+  invalidEmail
+} from "../errorMessages"
+
+import {registerPasswordValidation} from "../yupSchemas"
+import {validateInput} from "../../../utils/validations/courseCreate.js"
+import {addFlashMessage} from "../../../app/actions/flashMessages.js"
+import validator from "validator"
+import cuid from "cuid"
+import Teaching from "./Teaching.js"
+import Using from "./Using.js"
+import "../styles.css"
+
+import CourseRef from "../components/CourseRef.js"
 
 import {
   Box,
   Button,
   Flex,
-  Form,
-  Grid,
   Input,
   Label,
   Searching,
   Span,
   Tags,
   Text,
-  TextArea,
-  Title
-} from '../../../components'
+  TextArea
+} from "../../../components"
 
+import {Layout} from "antd/lib"
+const {Content, Footer} = Layout
+import {Grid, Header} from "semantic-ui-react"
 // images
-import transLoader from '../../../assets/images/trans_loader.gif'
-
-import orm from '../../../app/schema.js'
+import transLoader from "../../../assets/images/trans_loader.gif"
 
 // actions
-import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
-import {fetchCourseName} from '../actions.js'
+import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
+import {fetchCourseName} from "../actions.js"
 
-import course from '../../../api/course/actions/courseActions.js'
+import course from "../../../api/course/actions/courseActions.js"
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -91,7 +99,7 @@ const StyledFlex = styled(Flex)`
   }
 `
 StyledFlex.defaultProps = {
-  margin: '80px 0 0 0'
+  margin: "80px 0 0 0"
 }
 
 const StyledSpan = styled(Span)`
@@ -108,39 +116,33 @@ const Error = styled.div`
   padding-top: ${props => props.paddingtop};
   text-align: center;
 `
-const StyledGrid = styled(Grid)`
-  grid-template-columns: 1fr 1fr;
-  grid-template-areas:
-    'teaching teaching'
-    'using using'
-    'ref ref'
-    'tags tags';
-
-  @media (min-width: 1080px) {
-    grid-template-areas:
-      'teaching using'
-      'ref ref'
-      'tags tags';
-  }
-`
-
 const initialState = {
   cdn: {},
   charCount: 0,
   courseId: cuid(),
-  courseAuthorId: '',
-  courseDescription: '',
-  courseName: '',
+  courseAuthorId: "",
+  courseDescription: "",
+  courseName: "",
   levels: [{level: 1, cuid: cuid()}],
-  terms: [{word: 'Change me', translation: 'Change me', audio: 'audio.mp3'}],
-  displayName: '',
+  terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
+  displayName: "",
   errors: {},
   loading: false,
-  courseRef: '',
+  courseRef: "",
   tags: [],
-  teachingLang: '',
-  usingLang: ''
+  teachingLang: "",
+  usingLang: ""
 }
+
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .min(3, emailNotLongEnough)
+    .max(255)
+    .email(invalidEmail),
+  password: registerPasswordValidation
+})
+
 class CreateCourse extends Component {
   constructor(props) {
     super(props)
@@ -152,12 +154,6 @@ class CreateCourse extends Component {
 
     // clear state
     this.setState(initialState)
-
-    const newState = update(this.state, {
-      courseAuthorId: {$set: this.props.user.id}
-    })
-
-    this.setState(newState)
   }
 
   componentWillUnmount() {
@@ -180,8 +176,8 @@ class CreateCourse extends Component {
       this.props.actions.createTeachingCourse(this.state)
 
       this.props.actions.addFlashMessage({
-        type: 'success',
-        text: 'You have successfully created a Course!'
+        type: "success",
+        text: "You have successfully created a Course!"
       })
     }
   }
@@ -226,114 +222,100 @@ class CreateCourse extends Component {
     const courseNameFetchError = this.props.courseReducer.errorMsg
     const courseNameErrors = this.state.errors.courseName
     const courseDescriptionErrors = this.state.errors.courseDescription
+    console.log("props: ", this.props)
     return (
-      <Grid height="1400px">
-        <StyledForm onSubmit={this.onSubmit}>
-          <Title>Create a Course</Title>
-          <Box margin="40px 0 0 0" position="relative">
-            <Label>
-              Course Name
-              <StyledSpan display640="inline-block">
-                {' '}
-                (10-100 chars.)
-              </StyledSpan>
-            </Label>
-            <DisplayCount>{this.state.courseName.length}</DisplayCount>
-            <Input
-              autoFocus
-              className={
-                courseNameErrors || courseNameFetchError ? 'courseError' : null
-              }
-              name="courseName"
-              onChange={this.onChange}
-              onBlur={this.onBlur}
-              label="Course Name"
-              minwidth="200px"
-              placeholder="Give a unique name to your course."
-              type="text"
-              value={this.state.courseName}
-              width="80%"
-            />
-            {this.state.errors.courseName &&
-              Object.keys(courseNameErrors).map((key, i) => {
-                return <Error key={i}>{courseNameErrors['message']}</Error>
-              })}
-            {this.props.courseReducer.loading ? (
-              <Searching />
-            ) : this.props.courseReducer.error ? (
-              <p style={{color: 'red'}}>{this.props.courseReducer.errorMsg}</p>
-            ) : (
-              <p style={{color: 'green'}}>
-                {this.props.courseReducer.courseNameMsg}
-              </p>
-            )}
-          </Box>
-          <Box margin="40px 0 0 0" position="relative">
-            <Label>
-              Course Description
-              <StyledSpan display640="inline-block">
-                {' '}
-                (100-350 chars.)
-              </StyledSpan>
-            </Label>
-            <DisplayCount>{this.state.courseDescription.length}</DisplayCount>
-            <TextArea
-              className={courseDescriptionErrors ? 'courseError' : null}
-              name="courseDescription"
-              onChange={this.onChange}
-              label="Course Description"
-              placeholder="Give a brief description about your course."
-              height="200px"
-              minwidth="200px"
-              value={this.state.courseDescription}
-              width="80%"
-            />
-            {this.state.errors.courseDescription &&
-              Object.keys(courseDescriptionErrors).map((key, i) => {
-                return (
-                  <Error key={i}>{courseDescriptionErrors['message']}</Error>
-                )
-              })}
-          </Box>
-          <StyledGrid>
-            <Flex
-              gridarea="teaching"
-              margin="40px 0 0 0"
-              overflow="initial"
-              position="relative">
-              <Label>Teaching</Label>
-              <Teaching addTeachingLang={this.addTeachingLang} />
-            </Flex>
-            <StyledFlex gridarea="using" margin1080="40px 0 0 0">
-              <Label>Using</Label>
-              <Using addUsingLang={this.addUsingLang} />
-            </StyledFlex>
-            <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-              <Label>Course Reference</Label>
-              <p>ie. Book, Classroom, Online Course</p>
-              <CourseRef addRef={this.addRef} />
-            </StyledFlex>
-            <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
-              <Label>Tags</Label>
-              <Tags addTags={this.addTags} />
-            </StyledFlex>
-          </StyledGrid>
-          <Box flexdirection="row">
-            <StyledButton type="submit">Create Course</StyledButton>
-          </Box>
-        </StyledForm>
-      </Grid>
+      <Layout>
+        <Content>hi</Content>
+        <Grid columns={1}>
+          <Grid.Column textAlign="center">
+            <Header as="h1">Create a Course</Header>
+            <Formik
+              validationSchema={validationSchema}
+              initialValues={{email: "", password: ""}}
+              validate={values => {
+                let errors = {}
+                if (!values.email) {
+                  errors.email = "Required"
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address"
+                }
+                return errors
+              }}
+              onSubmit={(values, {setSubmitting}) => {
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2))
+                  setSubmitting(false)
+                }, 400)
+              }}>
+              {({isSubmitting}) => (
+                <Form>
+                  <Box margin="40px 0 0 0" position="relative">
+                    <Header>
+                      Course Name
+                      <StyledSpan display640="inline-block">
+                        {" "}
+                        (10-100 chars.)
+                      </StyledSpan>
+                    </Header>
+                    <DisplayCount>{this.state.courseName.length}</DisplayCount>
+                    <Input
+                      autoFocus
+                      className={
+                        courseNameErrors || courseNameFetchError
+                          ? "courseError"
+                          : null
+                      }
+                      name="courseName"
+                      onChange={this.onChange}
+                      onBlur={this.onBlur}
+                      label="Course Name"
+                      minwidth="200px"
+                      placeholder="Give a unique name to your course."
+                      type="text"
+                      value={this.state.courseName}
+                      width="80%"
+                    />
+                    {this.state.errors.courseName &&
+                      Object.keys(courseNameErrors).map((key, i) => {
+                        return (
+                          <Error key={i}>{courseNameErrors["message"]}</Error>
+                        )
+                      })}
+                    {this.props.courseReducer.loading ? (
+                      <Searching />
+                    ) : this.props.courseReducer.error ? (
+                      <p style={{color: "red"}}>
+                        {this.props.courseReducer.errorMsg}
+                      </p>
+                    ) : (
+                      <p style={{color: "green"}}>
+                        {this.props.courseReducer.courseNameMsg}
+                      </p>
+                    )}
+                  </Box>
+                  <Field type="email" name="email" />
+                  <ErrorMessage name="email" component="div" />
+                  <Field type="password" name="password" />
+                  <ErrorMessage name="password" component="div" />
+                  <Box flexdirection="row">
+                    <StyledButton type="submit" disabled={isSubmitting}>
+                      Create Course
+                    </StyledButton>
+                  </Box>
+                </Form>
+              )}
+            </Formik>
+          </Grid.Column>
+        </Grid>
+      </Layout>
     )
   }
 }
 
 const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
-  const {User} = session
-  const user = User.first().ref
-
   return {
-    user,
     courseReducer: state.courseReducer
   }
 }
@@ -359,3 +341,106 @@ export default withRouter(
     mapDispatchToProps
   )(CreateCourse)
 )
+
+{
+  /*
+      <Grid columns={1}>
+        <Grid.Column textAlign="center">
+          <StyledForm onSubmit={this.onSubmit}>
+            <Header as="h1">Create a Course</Header>
+            <Box margin="40px 0 0 0" position="relative">
+              <Header>
+                Course Name
+                <StyledSpan display640="inline-block">
+                  {" "}
+                  (10-100 chars.)
+                </StyledSpan>
+              </Header>
+              <DisplayCount>{this.state.courseName.length}</DisplayCount>
+              <Input
+                autoFocus
+                className={
+                  courseNameErrors || courseNameFetchError
+                    ? "courseError"
+                    : null
+                }
+                name="courseName"
+                onChange={this.onChange}
+                onBlur={this.onBlur}
+                label="Course Name"
+                minwidth="200px"
+                placeholder="Give a unique name to your course."
+                type="text"
+                value={this.state.courseName}
+                width="80%"
+              />
+              {this.state.errors.courseName &&
+                Object.keys(courseNameErrors).map((key, i) => {
+                  return <Error key={i}>{courseNameErrors["message"]}</Error>
+                })}
+              {this.props.courseReducer.loading ? (
+                <Searching />
+              ) : this.props.courseReducer.error ? (
+                <p style={{color: "red"}}>
+                  {this.props.courseReducer.errorMsg}
+                </p>
+              ) : (
+                <p style={{color: "green"}}>
+                  {this.props.courseReducer.courseNameMsg}
+                </p>
+              )}
+            </Box>
+            <Box margin="40px 0 0 0" position="relative">
+              <Label>
+                Course Description
+                <StyledSpan display640="inline-block">
+                  {" "}
+                  (100-350 chars.)
+                </StyledSpan>
+              </Label>
+              <DisplayCount>{this.state.courseDescription.length}</DisplayCount>
+              <TextArea
+                className={courseDescriptionErrors ? "courseError" : null}
+                name="courseDescription"
+                onChange={this.onChange}
+                label="Course Description"
+                placeholder="Give a brief description about your course."
+                height="200px"
+                minwidth="200px"
+                value={this.state.courseDescription}
+                width="80%"
+              />
+              {this.state.errors.courseDescription &&
+                Object.keys(courseDescriptionErrors).map((key, i) => {
+                  return (
+                    <Error key={i}>{courseDescriptionErrors["message"]}</Error>
+                  )
+                })}
+            </Box>
+            <Grid>
+              <Flex
+                gridarea="teaching"
+                margin="40px 0 0 0"
+                overflow="initial"
+                position="relative">
+                <Label>Teaching</Label>
+                <Teaching addTeachingLang={this.addTeachingLang} />
+              </Flex>
+              <StyledFlex gridarea="using" margin1080="40px 0 0 0">
+                <Label>Using</Label>
+                <Using addUsingLang={this.addUsingLang} />
+              </StyledFlex>
+              <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
+                <Label>Course Reference</Label>
+                <p>ie. Book, Classroom, Online Course</p>
+                <CourseRef addRef={this.addRef} />
+              </StyledFlex>
+              <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+                <Label>Tags</Label>
+                <Tags addTags={this.addTags} />
+              </StyledFlex>
+            </Grid>
+          </StyledForm>
+        </Grid.Column>
+      </Grid> */
+}
