@@ -1,0 +1,41 @@
+import {importSchema} from "graphql-import"
+import {makeExecutableSchema} from "graphql-tools"
+import {ApolloServer} from "apollo-server-express"
+import path from "path"
+import merge from "lodash/merge"
+import Redis from "ioredis"
+export const redis = new Redis()
+
+// schema imports
+const userTypeDefs = importSchema(
+  path.join(__dirname, "./api/user/user.graphql")
+)
+
+// resolver imports
+import {userResolvers} from "./api/user/user-resolvers.js"
+
+// baseSchema minimum requirement is a property query: Query
+const baseSchema = `
+  schema {
+    query: Query,
+    mutation: Mutation
+  }
+`
+const schema = makeExecutableSchema({
+  typeDefs: [baseSchema, userTypeDefs],
+  resolvers: merge({}, userResolvers)
+})
+
+/*
+ * graphqlExpress will send the req object to all of our resolvers through the context object!
+ */
+
+export default new ApolloServer({
+  schema,
+  context: ({req, res}) => ({
+    redis,
+    url: req.protocol + "://" + req.get("host"),
+    req,
+    user: req.user
+  })
+})

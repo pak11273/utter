@@ -1,69 +1,43 @@
 import React, {Component} from "react"
-import {NavLink, withRouter} from "react-router-dom"
+import {withRouter} from "react-router-dom"
 import {bindActionCreators} from "redux"
 import {push} from "react-router-redux"
 import {connect} from "react-redux"
 import cloneDeep from "lodash/cloneDeep"
 import styled from "styled-components"
-import update from "immutability-helper"
-import {Formik, Form, Field, ErrorMessage} from "formik"
-import * as yup from "yup"
-
-import {
-  duplicateEmail,
-  emailNotLongEnough,
-  invalidEmail
-} from "../errorMessages"
-
-import {registerPasswordValidation} from "../yupSchemas"
-import {validateInput} from "../../../utils/validations/courseCreate.js"
-import {addFlashMessage} from "../../../app/actions/flashMessages.js"
-import validator from "validator"
+import {Form} from "formik"
 import cuid from "cuid"
-import Teaching from "./Teaching.js"
-import Using from "./Using.js"
+import {Grid, Header} from "semantic-ui-react"
+import PropTypes from "prop-types"
+
+import {validateInput} from "../../../utils/validations/courseCreate"
+import {addFlashMessage} from "../../../app/actions/flashMessages"
+import Teaching from "./Teaching"
+import Using from "./Using"
 import "../styles.css"
 
-import CourseRef from "../components/CourseRef.js"
+import CourseRef from "../components/CourseRef"
 
 import {
   Box,
-  Button,
   Flex,
   Input,
   Label,
   Searching,
   Span,
   Tags,
-  Text,
   TextArea
 } from "../../../components"
 
-import {Layout} from "antd/lib"
-const {Content, Footer} = Layout
-import {Grid, Header} from "semantic-ui-react"
 // images
-import transLoader from "../../../assets/images/trans_loader.gif"
+/* import transLoader from "../../../assets/images/trans_loader.gif" */
 
 // actions
-import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
-import {fetchCourseName} from "../actions.js"
+import {toggleFooter} from "../../../app/actions/toggleFooterAction"
+import {fetchCourseName} from "../actions"
 
-import course from "../../../api/course/actions/courseActions.js"
+import course from "../../../api/course/actions/courseActions"
 
-const StyledButton = styled(Button)`
-  border-radius: 50px;
-  color: #02598b;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 80px 0 0 0;
-  outline: none;
-  padding: 7px 36px;
-  &:hover: {
-    background: black;
-    color: red;
-  }
-`
 const DisplayCount = styled.div`
   font-size: 0.8rem;
   position: absolute;
@@ -134,15 +108,6 @@ const initialState = {
   usingLang: ""
 }
 
-const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .min(3, emailNotLongEnough)
-    .max(255)
-    .email(invalidEmail),
-  password: registerPasswordValidation
-})
-
 class CreateCourse extends Component {
   constructor(props) {
     super(props)
@@ -172,10 +137,11 @@ class CreateCourse extends Component {
 
   onSubmit = e => {
     e.preventDefault()
+    const {actions} = this.props
     if (this.isValid()) {
-      this.props.actions.createTeachingCourse(this.state)
+      actions.createTeachingCourse(this.state)
 
-      this.props.actions.addFlashMessage({
+      actions.addFlashMessage({
         type: "success",
         text: "You have successfully created a Course!"
       })
@@ -224,126 +190,6 @@ class CreateCourse extends Component {
     const courseDescriptionErrors = this.state.errors.courseDescription
     console.log("props: ", this.props)
     return (
-      <Layout>
-        <Content>hi</Content>
-        <Grid columns={1}>
-          <Grid.Column textAlign="center">
-            <Header as="h1">Create a Course</Header>
-            <Formik
-              validationSchema={validationSchema}
-              initialValues={{email: "", password: ""}}
-              validate={values => {
-                let errors = {}
-                if (!values.email) {
-                  errors.email = "Required"
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                ) {
-                  errors.email = "Invalid email address"
-                }
-                return errors
-              }}
-              onSubmit={(values, {setSubmitting}) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2))
-                  setSubmitting(false)
-                }, 400)
-              }}>
-              {({isSubmitting}) => (
-                <Form>
-                  <Box margin="40px 0 0 0" position="relative">
-                    <Header>
-                      Course Name
-                      <StyledSpan display640="inline-block">
-                        {" "}
-                        (10-100 chars.)
-                      </StyledSpan>
-                    </Header>
-                    <DisplayCount>{this.state.courseName.length}</DisplayCount>
-                    <Input
-                      autoFocus
-                      className={
-                        courseNameErrors || courseNameFetchError
-                          ? "courseError"
-                          : null
-                      }
-                      name="courseName"
-                      onChange={this.onChange}
-                      onBlur={this.onBlur}
-                      label="Course Name"
-                      minwidth="200px"
-                      placeholder="Give a unique name to your course."
-                      type="text"
-                      value={this.state.courseName}
-                      width="80%"
-                    />
-                    {this.state.errors.courseName &&
-                      Object.keys(courseNameErrors).map((key, i) => {
-                        return (
-                          <Error key={i}>{courseNameErrors["message"]}</Error>
-                        )
-                      })}
-                    {this.props.courseReducer.loading ? (
-                      <Searching />
-                    ) : this.props.courseReducer.error ? (
-                      <p style={{color: "red"}}>
-                        {this.props.courseReducer.errorMsg}
-                      </p>
-                    ) : (
-                      <p style={{color: "green"}}>
-                        {this.props.courseReducer.courseNameMsg}
-                      </p>
-                    )}
-                  </Box>
-                  <Field type="email" name="email" />
-                  <ErrorMessage name="email" component="div" />
-                  <Field type="password" name="password" />
-                  <ErrorMessage name="password" component="div" />
-                  <Box flexdirection="row">
-                    <StyledButton type="submit" disabled={isSubmitting}>
-                      Create Course
-                    </StyledButton>
-                  </Box>
-                </Form>
-              )}
-            </Formik>
-          </Grid.Column>
-        </Grid>
-      </Layout>
-    )
-  }
-}
-
-const mapStateToProps = state => {
-  return {
-    courseReducer: state.courseReducer
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(
-      {
-        addFlashMessage,
-        createTeachingCourse: course.create,
-        fetchCourseName,
-        toggleFooter,
-        push
-      },
-      dispatch
-    )
-  }
-}
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CreateCourse)
-)
-
-{
-  /*
       <Grid columns={1}>
         <Grid.Column textAlign="center">
           <StyledForm onSubmit={this.onSubmit}>
@@ -442,5 +288,35 @@ export default withRouter(
             </Grid>
           </StyledForm>
         </Grid.Column>
-      </Grid> */
+      </Grid>
+    )
+  }
 }
+
+const mapStateToProps = state => ({
+  courseReducer: state.courseReducer
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(
+    {
+      addFlashMessage,
+      createTeachingCourse: course.create,
+      fetchCourseName,
+      toggleFooter,
+      push
+    },
+    dispatch
+  )
+})
+
+CreateCourse.propTypes = {
+  actions: PropTypes.func
+}
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CreateCourse)
+)

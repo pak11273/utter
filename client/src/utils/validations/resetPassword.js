@@ -1,8 +1,8 @@
-import Validator from 'validator'
-import isEmpty from 'lodash/isEmpty'
+import Validator from "validator"
+import isEmpty from "lodash/isEmpty"
 
 export const validateInput = state => {
-  let errors = {}
+  const errors = {}
 
   if (Validator.isEmpty(state.password)) {
     errors.password = {message: "can't be blank"}
@@ -13,7 +13,7 @@ export const validateInput = state => {
   }
 
   if (!Validator.equals(state.password, state.passwordConfirmation)) {
-    errors.passwordConfirmation = {message: 'Passwords must match'}
+    errors.passwordConfirmation = {message: "Passwords must match"}
   }
 
   return {errors, isValid: isEmpty(errors)}

@@ -1,8 +1,8 @@
-import Validator from 'validator'
-import isEmpty from 'lodash/isEmpty'
+import Validator from "validator"
+import isEmpty from "lodash/isEmpty"
 
 export const validateInput = state => {
-  let errors = {}
+  const errors = {}
 
   if (Validator.isEmpty(state.identifier)) {
     errors.identifier = {message: "can't be blank"}

@@ -1,0 +1,13 @@
+# Always sort the files
+#--sort−files
+
+# Always color, even if piping to a another program
+--color
+
+--ignore-file=is:tags
+--ignore-dir=log
+--ignore-dir=doc
+--ignore-dir=tmp
+--ignore-dir=tags
+--ignore-dir=node_modules/
+--ignore-dir=.cache-loader/

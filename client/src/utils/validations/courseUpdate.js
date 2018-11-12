@@ -1,21 +1,19 @@
-import Validator from 'validator'
-import isEmpty from 'lodash/isEmpty'
-import isNil from 'lodash/isNil'
-import isNaN from 'lodash/isNaN'
-import {store} from '../../store.js'
+import isEmpty from "lodash/isEmpty"
+import isNil from "lodash/isNil"
+import isNaN from "lodash/isNaN"
 
 export const validateInput = state => {
-  let errors = {}
+  const errors = {}
   state.levels.map(item => {
-    if (isNil(item.level) || item.level === '') {
+    if (isNil(item.level) || item.level === "") {
       errors.level = {
         cuid: item._id,
-        message: 'Level numbers are required.'
+        message: "Level numbers are required."
       }
     } else if (isNaN(item.level) || item.level <= 0) {
       errors.level = {
         cuid: item._id,
-        message: 'Levels must be numbers and greater than 0'
+        message: "Levels must be numbers and greater than 0"
       }
     }
   })
