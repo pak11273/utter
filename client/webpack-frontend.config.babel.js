@@ -1,7 +1,6 @@
 const path = require("path")
 const CompressionPlugin = require("compression-webpack-plugin")
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin
+/* const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin */
 // puts our index.html in the output folder and adds a <script> tag including bundle.js
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 // informs webpack to bundle in production
@@ -27,6 +26,7 @@ module.exports = env => {
     },
     devtool: env.prod ? "source-map" : "eval",
     devServer: {
+      stats: "minimal",
       disableHostCheck: true,
       historyApiFallback: true, // redirects all browser requests to publicPath, then react router takes over.  prevents browser from grabbing assets from the server while using webdevserver.
       proxy: [
@@ -135,12 +135,12 @@ module.exports = env => {
       }
     },
     plugins: removeEmpty([
-      ifNotProd(
-        new BundleAnalyzerPlugin({
-          analyzerMode: "server",
-          analyzerHost: "0.0.0.0"
-        })
-      ),
+      /* ifNotProd( */
+      /*   new BundleAnalyzerPlugin({ */
+      /*     analyzerMode: "server", */
+      /*     analyzerHost: "0.0.0.0" */
+      /*   }) */
+      /* ), */
       new ProgressBarPlugin(),
       ifProd(
         new webpack.DefinePlugin({

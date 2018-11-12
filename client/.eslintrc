@@ -2,8 +2,9 @@
 	"rules": {
 		"array-callback-return": 0,
 		"no-underscore-dangle": 0,
+		"import/extensions":0,
 		"import/prefer-default-export": 0,
-		"react/require-default-props": 0
+		"react/require-default-props": 0,
 		"strict": 0
 },
 	"extends": [
