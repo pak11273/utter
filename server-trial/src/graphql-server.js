@@ -1,10 +1,9 @@
+import {ApolloServer} from "apollo-server-express"
 import {importSchema} from "graphql-import"
 import {makeExecutableSchema} from "graphql-tools"
-import {ApolloServer} from "apollo-server-express"
-import path from "path"
 import merge from "lodash/merge"
-import Redis from "ioredis"
-export const redis = new Redis()
+import path from "path"
+import { redis } from './redis';
 
 // schema imports
 const userTypeDefs = importSchema(

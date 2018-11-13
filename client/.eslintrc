@@ -1,11 +1,22 @@
 {
 	"rules": {
 		"array-callback-return": 0,
+		"block-scoped-var":0,
+		"consistent-return": 0,
+		"no-console": 0,
 		"no-underscore-dangle": 0,
+		"no-var": 0,
 		"import/extensions":0,
+		"import/order":0,
 		"import/prefer-default-export": 0,
+		"no-shadow": 0,
+		"one-var": 0,
+		"react/jsx-filename-extension": 0,
+		"react/no-array-index-key": 0,
 		"react/require-default-props": 0,
-		"strict": 0
+		"react/prop-types": 0,
+		"strict": 0,
+		"vars-on-top": 0
 },
 	"extends": [
 		"airbnb",

@@ -4,44 +4,43 @@ import {
   About,
   Zones,
   Contact,
-  ForgotPassword,
-  GettingStarted,
+  /* ForgotPassword, */
+  /* GettingStarted, */
   Test,
   Login,
   Settings,
   ShoppingCart,
-  Signup,
-  Sponsorship,
+  SignupCtrl,
+  /* Sponsorship, */
   Courses,
-  Course,
   CourseEdit,
-  CourseDetails,
-  MyCourses,
+  /* CourseDetails, */
+  /* MyCourses, */
   CoursesCreate,
   CoursesCreated,
-  NotFound,
+  /* NotFound, */
   requireAuth,
   requireAdmin,
   Dashboard,
-  Korean1,
-  Korean2,
-  Korean3,
-  Korean4,
-  Korean5,
-  Korean6,
-  Korean7,
-  Korean8,
-  Pricing,
-  ResetPassword,
-  Spanish1,
-  Spanish2,
-  Spanish3,
-  French1,
-  French2,
-  Redux
+  /* Korean1, */
+  /* Korean2, */
+  /* Korean3, */
+  /* Korean4, */
+  /* Korean5, */
+  /* Korean6, */
+  /* Korean7, */
+  /* Korean8, */
+  Pricing
+  /* ResetPassword, */
+  /* Spanish1, */
+  /* Spanish2, */
+  /* Spanish3, */
+  /* French1, */
+  /* French2, */
+  /* Redux */
 } from "./layouts"
 
-import language from "./data/language.json"
+/* import language from "./data/language.json" */
 
 export const routes = [
   {
@@ -61,8 +60,7 @@ export const routes = [
   },
   {
     path: "/admin",
-    component: requireAdmin(Admin),
-    loadData: () => getSomeData()
+    component: requireAdmin(Admin)
   },
   // {
   //   exact: true,
@@ -147,18 +145,15 @@ export const routes = [
   // },
   {
     path: "/Settings",
-    component: requireAuth(Settings),
-    loadData: () => getSomeData()
+    component: requireAuth(Settings)
   },
   {
     path: "/shoppingcart",
-    component: requireAuth(ShoppingCart),
-    loadData: () => getSomeData()
+    component: requireAuth(ShoppingCart)
   },
   {
     path: "/signup",
-    component: Signup,
-    loadData: () => getSomeData()
+    component: SignupCtrl
   },
   // {
   //   path: '/Sponsorship',
@@ -238,8 +233,7 @@ export const routes = [
   {
     // exact: true,
     path: "/test",
-    component: Test,
-    loadData: () => getSomeData()
+    component: Test
   }
   // {
   //   component: NotFound,

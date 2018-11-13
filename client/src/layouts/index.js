@@ -6,13 +6,12 @@ import Contact from "./Contact.js"
 import ForgotPassword from "./ForgotPassword.js"
 import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
-import Zones from "../layouts/Zones/index.js"
+import Zones from "./Zones/index.js"
 import Login from "./Login"
 import Settings from "./Settings"
 import ShoppingCart from "./ShoppingCart/components"
-import Signup from "./Signup/Signup.js"
+import SignupCtrl from "./Signup/SignupCtrl.js"
 import Sponsorship from "./Sponsorship.js"
-import Course from "./Courses/index.js"
 import CourseEdit from "./Courses/containers/CourseEdit.js"
 import MyCourses from "./Courses/MyCourses.js"
 import CoursesCreate from "./Courses/containers/CourseCreate.js"
@@ -33,7 +32,7 @@ import Korean8 from "./Korean/Level8"
 import Pricing from "./Pricing.js"
 import ResetPassword from "./ResetPassword.js"
 import Spanish1 from "./Spanish/level1"
-import Spanish2 from "./Spanish/level2"
+import Spanish2 from "./Spanish/level2/index.js"
 import Spanish3 from "./Spanish/Level3"
 import Redux from "./Redux.js"
 
@@ -43,7 +42,6 @@ export {
   Home,
   About,
   Contact,
-  Course,
   CourseEdit,
   Courses,
   ForgotPassword,
@@ -74,6 +72,6 @@ export {
   Spanish2,
   Spanish3,
   Redux,
-  Signup,
+  SignupCtrl,
   Sponsorship
 }

@@ -1,76 +1,18 @@
 import React, {PureComponent} from "react"
+import {withFormik} from "formik"
 import {bindActionCreators} from "redux"
-import isEmpty from "lodash/isEmpty"
-import styled, {ThemeProvider} from "styled-components"
-import {main, base, anotherOne} from "../../themes/config"
-import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import {connect} from "react-redux"
-import {
-  Box,
-  Button,
-  Img,
-  Input,
-  InputLine,
-  Label,
-  Text,
-  Subtitle,
-  Title
-} from "../../components"
-import {FaFacebook} from "react-icons/fa"
-import {FaGoogle} from "react-icons/fa"
-
-import {graphql, compose, Mutation} from "react-apollo"
-import gql from "graphql-tag"
-
-// queries
-import createUserMutation from "./formQueries.js"
+import isEmpty from "lodash/isEmpty"
+import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
+import {ThemeProvider} from "styled-components"
+import {main} from "../../themes/config"
+import Timezones from "../../components/Selects/Timezones/Timezones.js"
+import {Spacer} from "../../components"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import signup from "../../api/user/actions/signupActions.js"
 import {validateInput} from "../../utils/validations/user.js"
-
-const Form = styled.form`
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-
-  @media (min-width: 640px) {
-    flex-direction: row;
-    width: 960px;
-  }
-`
-
-const Leftside = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-`
-
-const Rightside = styled.div``
-const Error = styled.div`
-  padding-top: 5px;
-  color: red;
-`
-
-const CREATE_USER = gql`
-  mutation CreateUser($input: CreateUserInput!) {
-    createUser(input: $input) {
-      username
-      email
-      password
-    }
-  }
-`
-
-const HELLO = gql`
-  {
-    hello
-  }
-`
 
 class SignupForm extends PureComponent {
   constructor(props) {
@@ -98,30 +40,6 @@ class SignupForm extends PureComponent {
     })
   }
 
-  onChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  onSubmit = e => {
-    e.preventDefault()
-
-    if (this.isValid()) {
-      // clear all form errors
-      this.setState({
-        errors: {}, // clears local errors every time we submit form
-        isLoading: true
-      })
-
-      // TODO: create mutation here
-      // createUser({variables: {type: input.value}})
-      console.log("funct: ", createUser)
-      // input.value = ""
-      // this.props.actions.signup(this.state)
-    }
-  }
-
   isValid() {
     const {errors, isValid} = validateInput(this.state)
 
@@ -143,203 +61,136 @@ class SignupForm extends PureComponent {
         passwordConfirmation: ""
       }
     }
-    /*
-    *
-    * The Mutation component requires a function as a child. 
-    * The first argument is a mutate function.
-    * The second argument to the render prop function is an object with your mutation result on the data property, as well as booleans for loading and if the mutate function was called, in addition to error. If you’d like to ignore the result of the mutation, pass ignoreResults as a prop to the mutation component.
-    * 
-    * */
-    let inputUsername, inputEmail, inputPassword
-    console.log("props: ", this.props)
+    const {values, handleChange, handleBlur, handleSubmit} = this.props
     return (
-      <Mutation mutation={CREATE_USER}>
-        {(createUser, {data}) => (
-          <Form
-            onSubmit={e => {
-              e.preventDefault()
-
-              if (this.isValid()) {
-                // clear all form errors
-                this.setState({
-                  errors: {}, // clears local errors every time we submit form
-                  isLoading: true
-                })
-
-                // TODO: create mutation here
-                createUser({
-                  variables: {
-                    input: {
-                      username: inputUsername.props.value,
-                      password: inputPassword.props.value,
-                      email: inputEmail.props.value
-                    }
-                  }
-                })
-                // TODO: data values to cache
-                // TODO: reset values to default
-              }
-              console.log("props: ", this.props)
-              console.log("data: ", data)
-            }}>
-            <Leftside>
-              <Img
-                alt=""
-                src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
-              />
-              <Title>Join our Community</Title>
-              <Subtitle>
-                Become part of a growing community of avid learners like
-                yourself
-              </Subtitle>
-            </Leftside>
-            <Rightside>
-              {/* TODO: implement social media oauth
-          <Title fontsize="1.5rem">Sign Up with social media</Title>
-          <Box flexdirection="row" alignitems="baseline">
-            <Box>
-              <a href="/auth/facebook">
-                <Label>Facebook</Label>
-                <FaFacebook
-                  style={{
-                    fontsize: '1.3rem',
-                    verticalalign: 'top',
-                    color: 'blue'
-                  }}
-                />{' '}
-              </a>
-            </Box>
-            <Text>or</Text>
-            <Box>
-              <a href="/auth/google">
-                <Label>Google</Label>
-                <FaGoogle
-                  style={{
-                    fontsize: '1.3rem',
-                    verticalalign: 'top',
-                    color: 'blue'
-                  }}
-                />{' '}
-              </a>
-            </Box>
-          </Box>
-            */}
-              <Title fontsize="1.5rem">With your email</Title>
-              <Label>Username</Label>
-              <InputLine
-                onChange={this.onChange}
-                value={this.state.username}
-                type="text"
-                name="username"
-                ref={node => {
-                  inputUsername = node
-                }}
-              />
-              {errors.username &&
-                Object.keys(errors.username).map((key, i) => {
-                  if (key === "message") {
-                    var value = key
-                  }
-                  return <Error key={i}>{errors.username[value]}</Error>
-                })}
-              <Label>Email</Label>
-              <InputLine
-                onChange={this.onChange}
-                value={this.state.email}
-                type="text"
-                name="email"
-                ref={node => {
-                  inputEmail = node
-                }}
-              />
-              {errors.email &&
-                Object.keys(errors.email).map((key, i) => {
-                  if (key === "message") {
-                    var value = key
-                  }
-                  return <Error key={i}>{errors.email[value]}</Error>
-                })}
-              <Label>Password</Label>
-              <InputLine
-                autoComplete="new-password"
-                onChange={this.onChange}
-                value={this.state.password}
-                type="password"
-                name="password"
-                ref={node => {
-                  inputPassword = node
-                }}
-              />
-              {errors.password &&
-                Object.keys(errors.password).map((key, i) => {
-                  if (key === "message") {
-                    var value = key
-                  }
-                  return <Error key={i}>{errors.password[value]}</Error>
-                })}
-              <Label>Password Confirmation</Label>
-              <InputLine
-                autoComplete="new-password"
-                onChange={this.onChange}
-                value={this.state.passwordConfirmation}
-                type="password"
-                name="passwordConfirmation"
-              />
-              {errors.passwordConfirmation &&
-                Object.keys(errors.passwordConfirmation).map((key, i) => {
-                  if (key === "message") {
-                    var value = key
-                  }
-                  return (
-                    <Error key={i}>{errors.passwordConfirmation[value]}</Error>
-                  )
-                })}
-              <Label>Timezone</Label>
-              <Timezones
-                onChange={this.onChange}
-                value={this.state.timezone}
-                name="timezone"
-              />
+      <Grid columns={4} centered padded stackable>
+        <Grid.Column textAlign="center" width={8}>
+          <Spacer margin="70px" />
+          <Image
+            centered
+            alt=""
+            src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
+          />
+          <Header as="h2">Join our Community</Header>
+          <Header as="h3">
+            Become part of a growing community of avid learners like yourself
+          </Header>
+          <Spacer margin="100px" />
+        </Grid.Column>
+        <Grid.Column width={1} />
+        <Grid.Column width={6}>
+          <Container>
+            <Form onSubmit={handleSubmit}>
+              <Spacer margin="50px" />
+              <Header as="h1">Registration</Header>
+              <Form.Field>
+                <Form.Input
+                  fluid
+                  label="Username"
+                  placeholder="Username"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.username}
+                  type="text"
+                  name="username"
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  fluid
+                  label="Email"
+                  placeholder="Email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
+                  type="text"
+                  name="email"
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  fluid
+                  label="Password"
+                  placeholder="Password"
+                  autoComplete="new-password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
+                  type="password"
+                  name="password"
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  fluid
+                  label="Password Confirmation"
+                  placeholder="Password Confirmation"
+                  autoComplete="new-password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.passwordConfirmation}
+                  type="password"
+                  name="passwordConfirmation"
+                />
+                <Header as="h4">Timezone</Header>
+                <Timezones
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.timezone}
+                  name="timezone"
+                />
+              </Form.Field>
+              <Form.Field style={{textAlign: "right"}}>
+                <Form.Checkbox label="I agree to the Terms and Conditions" />
+              </Form.Field>
               <ThemeProvider theme={main}>
-                <Button color="black" fontsize="1.5rem" padding=".2rem 1rem">
+                <Button
+                  color="yellow"
+                  floated="right"
+                  fontSize="1.5rem"
+                  padding=".2rem 1rem"
+                  type="submit">
                   Join
                 </Button>
               </ThemeProvider>
-            </Rightside>
-          </Form>
-        )}
-      </Mutation>
+            </Form>
+          </Container>
+        </Grid.Column>
+        <Grid.Column width={1} />
+      </Grid>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    signupReducer: state.userReducer.signup
-  }
-}
+const mapStateToProps = state => ({
+  signupReducer: state.userReducer.signup
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(
-      {
-        toggleFooter,
-        signup: signup.request,
-        push: location => {
-          dispatch(push(location))
-        }
-      },
-      dispatch
-    )
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(
+    {
+      toggleFooter,
+      signup: signup.request
+    },
+    dispatch
+  )
+})
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(SignupForm)
-
-export default compose(
-  graphql(CREATE_USER, {name: "CREATE_USER"})
-  // graphql(HELLO, {name: "HELLO"})
-)(SignupForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  withFormik({
+    mapPropsToValues: () => ({
+      username: "",
+      email: "",
+      password: ""
+    }),
+    handleSubmit: async (values, {props, setErrors}) => {
+      const errors = await props.submit(values)
+      if (errors) {
+        setErrors(errors)
+      }
+    }
+  })(SignupForm)
+)

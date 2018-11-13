@@ -1,7 +1,6 @@
 import {browserHistory} from "react-router"
 import {push} from "react-router-redux"
 import {all, call, put, take, takeLatest} from "redux-saga/effects"
-import {showLoading, hideLoading} from "react-redux-loading-bar"
 import axios from "axios"
 import jwt from "jsonwebtoken"
 import {actions} from "../actions/loginActions.js"
