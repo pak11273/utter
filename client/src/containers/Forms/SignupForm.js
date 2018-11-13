@@ -8,6 +8,7 @@ import {ThemeProvider} from "styled-components"
 import {main} from "../../themes/config"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import {Spacer} from "../../components"
+import Terms from "../../documents/terms-and-conditions.js"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
@@ -65,7 +66,7 @@ class SignupForm extends PureComponent {
     return (
       <Grid columns={4} centered padded stackable>
         <Grid.Column textAlign="center" width={8}>
-          <Spacer margin="70px" />
+          <Spacer margin="65px" />
           <Image
             centered
             alt=""
@@ -80,8 +81,8 @@ class SignupForm extends PureComponent {
         <Grid.Column width={1} />
         <Grid.Column width={6}>
           <Container>
-            <Form onSubmit={handleSubmit}>
-              <Spacer margin="50px" />
+            <Form onSubmit={handleSubmit} style={{position: "relative"}}>
+              <Spacer margin="70px" />
               <Header as="h1">Registration</Header>
               <Form.Field>
                 <Form.Input
@@ -132,23 +133,30 @@ class SignupForm extends PureComponent {
                   type="password"
                   name="passwordConfirmation"
                 />
-                <Header as="h4">Timezone</Header>
+                <Header as="h4" style={{margin: "0 0 5px 0"}}>
+                  Timezone
+                </Header>
                 <Timezones
+                  label="Timezone"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.timezone}
+                  type="text"
                   name="timezone"
                 />
               </Form.Field>
-              <Form.Field style={{textAlign: "right"}}>
-                <Form.Checkbox label="I agree to the Terms and Conditions" />
-              </Form.Field>
+              <Form.Group style={{position: "absolute", right: "10px"}}>
+                <Form.Checkbox label="I agree to the" />
+                <span>
+                  <Terms />
+                </span>
+              </Form.Group>
               <ThemeProvider theme={main}>
                 <Button
                   color="yellow"
                   floated="right"
                   fontSize="1.5rem"
-                  padding=".2rem 1rem"
+                  style={{margin: "30px 0 0 0"}}
                   type="submit">
                   Join
                 </Button>
@@ -184,7 +192,9 @@ export default connect(
     mapPropsToValues: () => ({
       username: "",
       email: "",
-      password: ""
+      password: "",
+      passwordConfirmation: "",
+      timezone: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const errors = await props.submit(values)
