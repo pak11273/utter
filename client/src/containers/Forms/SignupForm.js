@@ -1,68 +1,93 @@
 import React, {PureComponent} from "react"
+import {ThemeProvider} from "styled-components"
 import {withFormik} from "formik"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import isEmpty from "lodash/isEmpty"
-import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
-import {ThemeProvider} from "styled-components"
+/* import isEmpty from "lodash/isEmpty" */
+import {
+  Grid,
+  Button,
+  Form,
+  Header,
+  Image,
+  Container,
+  Message
+} from "semantic-ui-react"
 import {main} from "../../themes/config"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import {Spacer} from "../../components"
 import Terms from "../../documents/terms-and-conditions.js"
+import * as yup from "yup"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import signup from "../../api/user/actions/signupActions.js"
-import {validateInput} from "../../utils/validations/user.js"
+import "./forms.css"
+/* import {validateInput} from "../../utils/validations/user.js" */
+
+const invalidEmail = "email must be a valid email"
+const emailNotLongEnough = "email must be at least 3 characters"
+const passwordNotLongEnough = "password must be at least 8 characters"
+
+const PasswordValidation = yup
+  .string()
+  .min(8, passwordNotLongEnough)
+  .max(255)
+
+const signupSchema = yup.object().shape({
+  username: yup
+    .string()
+    .min(3)
+    .max(255),
+  email: yup
+    .string()
+    .min(3, emailNotLongEnough)
+    .max(255)
+    .email(invalidEmail),
+  password: PasswordValidation
+})
 
 class SignupForm extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      facebook: "",
-      google: "",
-      username: "",
-      email: "",
-      isLoading: null,
-      password: "",
-      passwordConfirmation: "",
-      timezone: "Puerto Rico (Atlantic) America/Puerto_Rico",
-      errors: {}
-    }
-  }
-
   componentDidMount() {
     // this.props.actions.toggleFooter(false)
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      errors: nextProps.signupReducer.errors.message
-    })
-  }
+  /* componentWillReceiveProps(nextProps) { */
+  /*   this.setState({ */
+  /* errors: nextProps.signupReducer.errors.message */
+  /* }) */
+  /* } */
 
-  isValid() {
-    const {errors, isValid} = validateInput(this.state)
+  /* isValid() { */
+  /*   const {errors, isValid} = validateInput(this.state) */
 
-    if (!isValid) {
-      this.setState({
-        errors
-      })
-    }
-    return isValid
-  }
+  /*   if (!isValid) { */
+  /*     this.setState({ */
+  /*       errors */
+  /*     }) */
+  /*   } */
+  /*   return isValid */
+  /* } */
 
   render() {
-    var {errors} = this.state
-    if (isEmpty(errors)) {
-      errors = {
-        username: "",
-        email: "",
-        password: "",
-        passwordConfirmation: ""
-      }
-    }
-    const {values, handleChange, handleBlur, handleSubmit} = this.props
+    /* var {error} = this.state */
+    /* if (isEmpty(error)) { */
+    /*   error = { */
+    /*     username: "", */
+    /*     email: "", */
+    /*     password: "", */
+    /*     passwordConfirmation: "" */
+    /*   } */
+    /* } */
+    const {
+      values,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      touched,
+      errors
+    } = this.props
+    console.log("errors: ", errors)
     return (
       <Grid columns={4} centered padded stackable>
         <Grid.Column textAlign="center" width={8}>
@@ -81,7 +106,7 @@ class SignupForm extends PureComponent {
         <Grid.Column width={1} />
         <Grid.Column width={6}>
           <Container>
-            <Form onSubmit={handleSubmit} style={{position: "relative"}}>
+            <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
               <Header as="h1">Registration</Header>
               <Form.Field>
@@ -98,6 +123,7 @@ class SignupForm extends PureComponent {
               </Form.Field>
               <Form.Field>
                 <Form.Input
+                  error={errors.email}
                   fluid
                   label="Email"
                   placeholder="Email"
@@ -107,6 +133,14 @@ class SignupForm extends PureComponent {
                   type="text"
                   name="email"
                 />
+                {errors.email &&
+                  touched.email && (
+                    <Message
+                      className="error-msg"
+                      error
+                      content={errors.email}
+                    />
+                  )}
               </Form.Field>
               <Form.Field>
                 <Form.Input
@@ -189,6 +223,9 @@ export default connect(
   mapDispatchToProps
 )(
   withFormik({
+    validationSchema: signupSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
     mapPropsToValues: () => ({
       username: "",
       email: "",
