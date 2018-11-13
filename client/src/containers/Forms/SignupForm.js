@@ -13,11 +13,12 @@ import {
   Container,
   Message
 } from "semantic-ui-react"
+import * as yup from "yup"
+import cloneDeep from "lodash/cloneDeep"
 import {main} from "../../themes/config"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import {Spacer} from "../../components"
 import Terms from "../../documents/terms-and-conditions.js"
-import * as yup from "yup"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
@@ -44,41 +45,38 @@ const signupSchema = yup.object().shape({
     .min(3, emailNotLongEnough)
     .max(255)
     .email(invalidEmail),
-  password: PasswordValidation
+  password: PasswordValidation,
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords do not match")
+    .required("Password confirm is required")
 })
 
+const initialState = {
+  agreementChecked: true
+}
+
 class SignupForm extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = cloneDeep(initialState)
+  }
+
   componentDidMount() {
     // this.props.actions.toggleFooter(false)
   }
 
-  /* componentWillReceiveProps(nextProps) { */
-  /*   this.setState({ */
-  /* errors: nextProps.signupReducer.errors.message */
-  /* }) */
-  /* } */
-
-  /* isValid() { */
-  /*   const {errors, isValid} = validateInput(this.state) */
-
-  /*   if (!isValid) { */
-  /*     this.setState({ */
-  /*       errors */
-  /*     }) */
-  /*   } */
-  /*   return isValid */
-  /* } */
+  handleChange = e => {
+    e.preventDefault()
+    const {agreementChecked} = this.state
+    if (this.setState) {
+      this.setState({
+        agreementChecked: !agreementChecked
+      })
+    }
+  }
 
   render() {
-    /* var {error} = this.state */
-    /* if (isEmpty(error)) { */
-    /*   error = { */
-    /*     username: "", */
-    /*     email: "", */
-    /*     password: "", */
-    /*     passwordConfirmation: "" */
-    /*   } */
-    /* } */
     const {
       values,
       handleChange,
@@ -87,7 +85,7 @@ class SignupForm extends PureComponent {
       touched,
       errors
     } = this.props
-    console.log("errors: ", errors)
+    const {agreementChecked} = this.state
     return (
       <Grid columns={4} centered padded stackable>
         <Grid.Column textAlign="center" width={8}>
@@ -120,6 +118,14 @@ class SignupForm extends PureComponent {
                   type="text"
                   name="username"
                 />
+                {errors.username &&
+                  touched.username && (
+                    <Message
+                      className="error-msg"
+                      error
+                      content={errors.username}
+                    />
+                  )}
               </Form.Field>
               <Form.Field>
                 <Form.Input
@@ -154,6 +160,14 @@ class SignupForm extends PureComponent {
                   type="password"
                   name="password"
                 />
+                {errors.password &&
+                  touched.password && (
+                    <Message
+                      className="error-msg"
+                      error
+                      content={errors.password}
+                    />
+                  )}
               </Form.Field>
               <Form.Field>
                 <Form.Input
@@ -167,6 +181,14 @@ class SignupForm extends PureComponent {
                   type="password"
                   name="passwordConfirmation"
                 />
+                {errors.passwordConfirmation &&
+                  touched.passwordConfirmation && (
+                    <Message
+                      className="error-msg"
+                      error
+                      content={errors.passwordConfirmation}
+                    />
+                  )}
                 <Header as="h4" style={{margin: "0 0 5px 0"}}>
                   Timezone
                 </Header>
@@ -178,15 +200,27 @@ class SignupForm extends PureComponent {
                   type="text"
                   name="timezone"
                 />
+                {errors.timezone &&
+                  touched.timezone && (
+                    <Message
+                      className="error-msg"
+                      error
+                      content={errors.timezone}
+                    />
+                  )}
               </Form.Field>
               <Form.Group style={{position: "absolute", right: "10px"}}>
-                <Form.Checkbox label="I agree to the" />
+                <Form.Checkbox
+                  label="I agree to the"
+                  onChange={this.handleChange}
+                />
                 <span>
                   <Terms />
                 </span>
               </Form.Group>
               <ThemeProvider theme={main}>
                 <Button
+                  disabled={agreementChecked}
                   color="yellow"
                   floated="right"
                   fontSize="1.5rem"
