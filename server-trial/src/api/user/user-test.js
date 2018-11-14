@@ -2,13 +2,9 @@ import Redis from "ioredis"
 import {request} from "graphql-request"
 import chalk from "chalk"
 import mongoose from "mongoose"
+import {emailNotLongEnough, passwordNotLongEnough} from "utterzone-common"
 import {createEmailConfirmLink} from "../../utils/create-confirm-email-link"
-import {
-  duplicateEmail,
-  emailNotLongEnough,
-  invalidLogin,
-  passwordNotLongEnough
-} from "../shared/error-messages.js"
+import {duplicateEmail, invalidLogin} from "../shared/error-messages.js"
 import User from "./user-model.js"
 import config from "../../config"
 

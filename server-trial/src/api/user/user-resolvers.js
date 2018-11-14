@@ -3,13 +3,10 @@ import chalk from "chalk"
 import isEmpty from "lodash/isEmpty"
 import jwt from "jsonwebtoken"
 import * as yup from "yup"
-import {PasswordValidation} from "../shared/yup-schemas"
 import {authenticate, signToken, decodeToken} from "../../auth/auth"
 import {
   confirmEmail,
   duplicateEmail,
-  emailNotLongEnough,
-  passwordNotLongEnough,
   passwordLocked,
   userNotFound
 } from "../shared/error-messages.js"
@@ -19,27 +16,11 @@ import {forgotPasswordPrefix} from "../../constants"
 import {formatYupError} from "../../utils/format-yup-error.js"
 import {sendConfirmEmail, sendForgotPasswordEmail} from "../../mail/mail"
 import User from "./user-model.js"
-
-const signupSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(3)
-    .max(255),
-  email: yup
-    .string()
-    .min(3, emailNotLongEnough)
-    .max(255)
-    .email(),
-  password: PasswordValidation
-})
+import {signupSchema, PasswordValidation} from "utterzone-common"
 
 const newPasswordSchema = yup.object().shape({
   newPassword: PasswordValidation
 })
-
-/*
-/* signature: (rootValue, args, context, info)
-*/
 
 const forgotPasswordChange = async (_, {newPassword, key}, {redis, url}) => {
   const redisKey = `${forgotPasswordPrefix} ${key}`

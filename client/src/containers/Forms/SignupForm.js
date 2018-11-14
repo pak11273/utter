@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react"
 import {ThemeProvider} from "styled-components"
-import {withFormik} from "formik"
+import {withFormik, Field} from "formik"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 /* import isEmpty from "lodash/isEmpty" */
@@ -18,43 +18,13 @@ import cloneDeep from "lodash/cloneDeep"
 import {signupSchema} from "utterzone-common"
 import {main} from "../../themes/config"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
-import {Spacer} from "../../components"
+import {FormikField, Spacer} from "../../components"
 import Terms from "../../documents/terms-and-conditions.js"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import signup from "../../api/user/actions/signupActions.js"
 import "./forms.css"
-/* import {validateInput} from "../../utils/validations/user.js" */
-
-/* const invalidEmail = "email must be a valid email" */
-/* const emailNotLongEnough = "email must be at least 3 characters" */
-/* const passwordNotLongEnough = "password must be at least 8 characters" */
-
-/* const PasswordValidation = yup */
-/*   .string() */
-/*   .min(8, passwordNotLongEnough) */
-/*   .max(255) */
-/*   .required("Password is required") */
-
-/* const signupSchema = yup.object().shape({ */
-/*   username: yup */
-/*     .string() */
-/*     .min(3) */
-/*     .max(255) */
-/*     .required("Username is required"), */
-/*   email: yup */
-/*     .string() */
-/*     .min(3, emailNotLongEnough) */
-/*     .max(255) */
-/*     .email(invalidEmail) */
-/*     .required("Email is required"), */
-/*   password: PasswordValidation, */
-/*   passwordConfirmation: yup */
-/*     .string() */
-/*     .oneOf([yup.ref("password"), null], "Passwords do not match") */
-/*     .required("Password confirmation is required") */
-/* }) */
 
 const initialState = {
   agreementChecked: true
@@ -111,91 +81,27 @@ class SignupForm extends PureComponent {
             <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
               <Header as="h1">Registration</Header>
+              <Field
+                name="username"
+                placeholder="username"
+                component={FormikField}
+              />
+              <Field name="email" placeholder="email" component={FormikField} />
+              <Field
+                name="password"
+                placeholder="password"
+                autoComplete="new-password"
+                type="password"
+                component={FormikField}
+              />
+              <Field
+                name="passwordConfirmation"
+                placeholder="password confirmation"
+                autoComplete="new-password"
+                type="password"
+                component={FormikField}
+              />
               <Form.Field>
-                <Form.Input
-                  error={errors.username}
-                  fluid
-                  label="Username"
-                  placeholder="Username"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.username}
-                  type="text"
-                  name="username"
-                />
-                {errors.username &&
-                  touched.username && (
-                    <Message
-                      className="error-msg"
-                      error
-                      content={errors.username}
-                    />
-                  )}
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  error={errors.email}
-                  fluid
-                  label="Email"
-                  placeholder="Email"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.email}
-                  type="text"
-                  name="email"
-                />
-                {errors.email &&
-                  touched.email && (
-                    <Message
-                      className="error-msg"
-                      error
-                      content={errors.email}
-                    />
-                  )}
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  error={errors.password}
-                  fluid
-                  label="Password"
-                  placeholder="Password"
-                  autoComplete="new-password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  type="password"
-                  name="password"
-                />
-                {errors.password &&
-                  touched.password && (
-                    <Message
-                      className="error-msg"
-                      error
-                      content={errors.password}
-                    />
-                  )}
-              </Form.Field>
-              <Form.Field>
-                <Form.Input
-                  error={errors.passwordConfirmation}
-                  fluid
-                  label="Password Confirmation"
-                  placeholder="Password Confirmation"
-                  autoComplete="new-password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.passwordConfirmation}
-                  type="password"
-                  name="passwordConfirmation"
-                />
-                {errors.passwordConfirmation &&
-                  touched.passwordConfirmation && (
-                    <Message
-                      className="error-msg"
-                      error
-                      content={errors.passwordConfirmation}
-                    />
-                  )}
                 <Header as="h4" style={{margin: "0 0 5px 0"}}>
                   Timezone
                 </Header>
@@ -266,7 +172,7 @@ export default connect(
   withFormik({
     validationSchema: signupSchema,
     validateOnChange: false,
-    validateOnBlur: true,
+    validateOnBlur: false,
     mapPropsToValues: () => ({
       username: "",
       email: "",
