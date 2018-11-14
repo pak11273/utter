@@ -2,14 +2,15 @@
  "name": "utterzone",
  "version": "1.0.0",
  "private": true,
+ "workspaces": [
+  "client",
+  "server-trial",
+  "common"
+ ],
  "main": "index.js",
  "description": "",
  "repository": "git@bitbucket.org:pak11273/utter.git",
  "author": "pak11273 <pak11273@gmail.com>",
  "app": "59d790428284bb0012db7222",
- "workspaces": [
-  "client",
-  "server"
- ],
  "license": "PROPRIETARY"
 }

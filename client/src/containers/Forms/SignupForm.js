@@ -13,8 +13,9 @@ import {
   Container,
   Message
 } from "semantic-ui-react"
-import * as yup from "yup"
 import cloneDeep from "lodash/cloneDeep"
+/* import * as yup from "yup" */
+import {signupSchema} from "utterzone-common"
 import {main} from "../../themes/config"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import {Spacer} from "../../components"
@@ -26,34 +27,34 @@ import signup from "../../api/user/actions/signupActions.js"
 import "./forms.css"
 /* import {validateInput} from "../../utils/validations/user.js" */
 
-const invalidEmail = "email must be a valid email"
-const emailNotLongEnough = "email must be at least 3 characters"
-const passwordNotLongEnough = "password must be at least 8 characters"
+/* const invalidEmail = "email must be a valid email" */
+/* const emailNotLongEnough = "email must be at least 3 characters" */
+/* const passwordNotLongEnough = "password must be at least 8 characters" */
 
-const PasswordValidation = yup
-  .string()
-  .min(8, passwordNotLongEnough)
-  .max(255)
-  .required("Password is required")
+/* const PasswordValidation = yup */
+/*   .string() */
+/*   .min(8, passwordNotLongEnough) */
+/*   .max(255) */
+/*   .required("Password is required") */
 
-const signupSchema = yup.object().shape({
-  username: yup
-    .string()
-    .min(3)
-    .max(255)
-    .required("Username is required"),
-  email: yup
-    .string()
-    .min(3, emailNotLongEnough)
-    .max(255)
-    .email(invalidEmail)
-    .required("Email is required"),
-  password: PasswordValidation,
-  passwordConfirmation: yup
-    .string()
-    .oneOf([yup.ref("password"), null], "Passwords do not match")
-    .required("Password confirmation is required")
-})
+/* const signupSchema = yup.object().shape({ */
+/*   username: yup */
+/*     .string() */
+/*     .min(3) */
+/*     .max(255) */
+/*     .required("Username is required"), */
+/*   email: yup */
+/*     .string() */
+/*     .min(3, emailNotLongEnough) */
+/*     .max(255) */
+/*     .email(invalidEmail) */
+/*     .required("Email is required"), */
+/*   password: PasswordValidation, */
+/*   passwordConfirmation: yup */
+/*     .string() */
+/*     .oneOf([yup.ref("password"), null], "Passwords do not match") */
+/*     .required("Password confirmation is required") */
+/* }) */
 
 const initialState = {
   agreementChecked: true

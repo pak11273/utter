@@ -4,8 +4,6 @@ import styled, {ThemeProvider} from "styled-components"
 import {Helmet} from "react-helmet"
 import {Navbar} from "../containers"
 import {Box, MastheadTitle, MastheadSubtitle, Wrapper} from "../components"
-import {Subscribe} from "unstated"
-import {CounterContainer} from "../contexts"
 
 import {Container, Grid, Header, Image} from "semantic-ui-react"
 
@@ -96,15 +94,13 @@ class About extends Component {
               src="https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
             />
           </Image.Group>
-          <Subscribe to={[CounterContainer]}>
-            {counter => (
-              <div>
-                <button onClick={() => counter.decrement()}>-</button>
-                <h1>{counter.state.count}</h1>
-                <button onClick={() => counter.increment()}>+</button>
-              </div>
-            )}
-          </Subscribe>
+          {counter => (
+            <div>
+              <button onClick={() => counter.decrement()}>-</button>
+              <h1>{counter.state.count}</h1>
+              <button onClick={() => counter.increment()}>+</button>
+            </div>
+          )}
         </Grid>
       </Grid>
     )

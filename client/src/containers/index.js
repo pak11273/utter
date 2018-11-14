@@ -4,7 +4,6 @@ import Challenge from "./Challenge"
 import Channels from "./Channels"
 import ContextMenu from "./ContextMenus"
 import Container from "./Container"
-import FormikInput from "./Forms/Formik/FormikInput.js"
 import Footer from "./Footers/Footer"
 import KnowledgeBase from "./KnowledgeBase"
 import Login from "./Logins"
@@ -29,7 +28,6 @@ export {
   ChatPanel,
   Container,
   ContextMenu,
-  FormikInput,
   Footer,
   KnowledgeBase,
   Login,
