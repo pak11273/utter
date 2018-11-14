@@ -1,25 +1,26 @@
-import Chat from '../containers/Chat'
-import ChatPanel from '../containers/ChatPanel'
-import Challenge from '../containers/Challenge'
-import Channels from '../containers/Channels'
-import ContextMenu from '../containers/ContextMenus'
-import Container from '../containers/Container'
-import Footer from '../containers/Footers/Footer'
-import KnowledgeBase from '../containers/KnowledgeBase'
-import Login from '../containers/Logins'
-import Masthead from '../containers/Mastheads/Masthead.js'
-import MainNavbar from '../containers/Navbars/MainBar.js'
-import testModal from '../containers/Modals/testModal.js'
-import Pagination from '../containers/Pagination'
-import Pictures from '../containers/Pictures'
-import Profile from '../containers/Profile'
-import RemoteSideBar from '../containers/RemoteSideBar'
-import Rooms from '../containers/Rooms'
-import Sidebar from './Sidebar'
-import Staticbar from './Sidebar/Staticbar.js'
-import Speaker from './Speaker'
-import TabBarContainer from './Tabs'
-import Uttered from '../containers/Uttered'
+import Chat from "./Chat"
+import ChatPanel from "./ChatPanel"
+import Challenge from "./Challenge"
+import Channels from "./Channels"
+import ContextMenu from "./ContextMenus"
+import Container from "./Container"
+import FormikInput from "./Forms/Formik/FormikInput.js"
+import Footer from "./Footers/Footer"
+import KnowledgeBase from "./KnowledgeBase"
+import Login from "./Logins"
+import Masthead from "./Mastheads/Masthead.js"
+import MainNavbar from "./Navbars/MainBar.js"
+import testModal from "./Modals/testModal.js"
+import Pagination from "./Pagination"
+import Pictures from "./Pictures"
+import Profile from "./Profile"
+import RemoteSideBar from "./RemoteSideBar"
+import Rooms from "./Rooms"
+import Sidebar from "./Sidebar"
+import Staticbar from "./Sidebar/Staticbar.js"
+import Speaker from "./Speaker"
+import TabBarContainer from "./Tabs"
+import Uttered from "./Uttered"
 
 export {
   Challenge,
@@ -28,6 +29,7 @@ export {
   ChatPanel,
   Container,
   ContextMenu,
+  FormikInput,
   Footer,
   KnowledgeBase,
   Login,

@@ -34,22 +34,25 @@ const PasswordValidation = yup
   .string()
   .min(8, passwordNotLongEnough)
   .max(255)
+  .required("Password is required")
 
 const signupSchema = yup.object().shape({
   username: yup
     .string()
     .min(3)
-    .max(255),
+    .max(255)
+    .required("Username is required"),
   email: yup
     .string()
     .min(3, emailNotLongEnough)
     .max(255)
-    .email(invalidEmail),
+    .email(invalidEmail)
+    .required("Email is required"),
   password: PasswordValidation,
   passwordConfirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords do not match")
-    .required("Password confirm is required")
+    .required("Password confirmation is required")
 })
 
 const initialState = {
@@ -109,6 +112,7 @@ class SignupForm extends PureComponent {
               <Header as="h1">Registration</Header>
               <Form.Field>
                 <Form.Input
+                  error={errors.username}
                   fluid
                   label="Username"
                   placeholder="Username"
@@ -150,6 +154,7 @@ class SignupForm extends PureComponent {
               </Form.Field>
               <Form.Field>
                 <Form.Input
+                  error={errors.password}
                   fluid
                   label="Password"
                   placeholder="Password"
@@ -171,6 +176,7 @@ class SignupForm extends PureComponent {
               </Form.Field>
               <Form.Field>
                 <Form.Input
+                  error={errors.passwordConfirmation}
                   fluid
                   label="Password Confirmation"
                   placeholder="Password Confirmation"
@@ -259,7 +265,7 @@ export default connect(
   withFormik({
     validationSchema: signupSchema,
     validateOnChange: false,
-    validateOnBlur: false,
+    validateOnBlur: true,
     mapPropsToValues: () => ({
       username: "",
       email: "",

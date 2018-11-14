@@ -125,7 +125,7 @@ class CreateCourse extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  onBlur = e => {
+  onBlur = () => {
     this.props.actions.fetchCourseName(this.state.courseName)
   }
 
@@ -185,10 +185,14 @@ class CreateCourse extends Component {
   }
 
   render() {
-    const courseNameFetchError = this.props.courseReducer.errorMsg
-    const courseNameErrors = this.state.errors.courseName
-    const courseDescriptionErrors = this.state.errors.courseDescription
-    console.log("props: ", this.props)
+    const {actions, courseReducer} = this.props
+    const {
+      courseName,
+      courseNameErrors,
+      courseDescription,
+      courseDescriptionErrors,
+      errors
+    } = this.state
     return (
       <Grid columns={1}>
         <Grid.Column textAlign="center">
@@ -202,11 +206,11 @@ class CreateCourse extends Component {
                   (10-100 chars.)
                 </StyledSpan>
               </Header>
-              <DisplayCount>{this.state.courseName.length}</DisplayCount>
+              <DisplayCount>{courseName.length}</DisplayCount>
               <Input
                 autoFocus
                 className={
-                  courseNameErrors || courseNameFetchError
+                  courseNameErrors || courseReducer.errorMsg
                     ? "courseError"
                     : null
                 }
@@ -217,23 +221,19 @@ class CreateCourse extends Component {
                 minwidth="200px"
                 placeholder="Give a unique name to your course."
                 type="text"
-                value={this.state.courseName}
+                value={courseName}
                 width="80%"
               />
-              {this.state.errors.courseName &&
-                Object.keys(courseNameErrors).map((key, i) => {
-                  return <Error key={i}>{courseNameErrors["message"]}</Error>
-                })}
-              {this.props.courseReducer.loading ? (
+              {errors.courseName &&
+                Object.keys(courseNameErrors).map((key, i) => (
+                  <Error key={i}>{courseNameErrors.message}</Error>
+                ))}
+              {courseReducer.loading ? (
                 <Searching />
-              ) : this.props.courseReducer.error ? (
-                <p style={{color: "red"}}>
-                  {this.props.courseReducer.errorMsg}
-                </p>
+              ) : courseReducer.error ? (
+                <p style={{color: "red"}}>{courseReducer.errorMsg}</p>
               ) : (
-                <p style={{color: "green"}}>
-                  {this.props.courseReducer.courseNameMsg}
-                </p>
+                <p style={{color: "green"}}>{courseReducer.courseNameMsg}</p>
               )}
             </Box>
             <Box margin="40px 0 0 0" position="relative">
@@ -244,7 +244,7 @@ class CreateCourse extends Component {
                   (100-350 chars.)
                 </StyledSpan>
               </Label>
-              <DisplayCount>{this.state.courseDescription.length}</DisplayCount>
+              <DisplayCount>{courseDescription.length}</DisplayCount>
               <TextArea
                 className={courseDescriptionErrors ? "courseError" : null}
                 name="courseDescription"
@@ -253,15 +253,13 @@ class CreateCourse extends Component {
                 placeholder="Give a brief description about your course."
                 height="200px"
                 minwidth="200px"
-                value={this.state.courseDescription}
+                value={courseDescription}
                 width="80%"
               />
-              {this.state.errors.courseDescription &&
-                Object.keys(courseDescriptionErrors).map((key, i) => {
-                  return (
-                    <Error key={i}>{courseDescriptionErrors["message"]}</Error>
-                  )
-                })}
+              {errors.courseDescription &&
+                Object.keys(courseDescriptionErrors).map((key, i) => (
+                  <Error key={i}>{courseDescriptionErrors.message}</Error>
+                ))}
             </Box>
             <Grid>
               <Flex
