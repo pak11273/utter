@@ -1,12 +1,10 @@
 import dot from "dotenv"
 dot.config()
 import merge from "lodash/merge"
+import chalk from "chalk"
 
 // if env not set, set it to default
 const env = process.env.NODE_ENV || "development"
-
-// default config object
-// export default {
 
 const baseConfig = {
   appName: process.env.APP_NAME,

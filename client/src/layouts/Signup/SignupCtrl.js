@@ -1,14 +1,19 @@
+/* eslint react/no-unescaped-entities: 0 */
+/* eslint react/prefer-stateless-function: 0 */
+
 import React, {PureComponent} from "react"
+import {SignupConnector} from "utterzone-connector"
 
 import SignupView from "./SignupView.js"
 
 export default class SignupCtrl extends PureComponent {
-  trashSubmit = async values => {
-    console.log("values: ", values)
-    return null
-  }
-
   render() {
-    return <SignupView submit={this.trashSubmit} />
+    return (
+      <React.Fragment>
+        <SignupConnector>
+          {({submit}) => <SignupView submit={submit} />}
+        </SignupConnector>
+      </React.Fragment>
+    )
   }
 }

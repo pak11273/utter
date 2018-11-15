@@ -6,10 +6,7 @@ import User from "../api/user/user-model.js"
 
 const options = {
   viewEngine: "handlebars",
-  viewPath: path.join(
-    __dirname,
-    "../../../server-boilerplate/src/views/layouts"
-  ),
+  viewPath: path.join(__dirname, "../../src/views/layouts"),
   extName: ".handlebars"
 }
 

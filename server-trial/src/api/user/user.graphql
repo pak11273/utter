@@ -37,6 +37,7 @@ input CreateUserInput {
 input SignupInput {
   email: String!
   password: String!
+	passwordConfirmation: String!
   username: String!
 }
 

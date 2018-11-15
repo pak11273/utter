@@ -49,7 +49,7 @@ module.exports = env => {
             "/tigers",
             "/mail"
           ],
-          target: "http://192.168.68.8:3001",
+          target: "http://192.168.68.8:3010",
           ws: true
         }
       ]

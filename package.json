@@ -5,7 +5,8 @@
  "workspaces": [
   "client",
   "server-trial",
-  "common"
+  "common",
+	"connector"
  ],
  "main": "index.js",
  "description": "",

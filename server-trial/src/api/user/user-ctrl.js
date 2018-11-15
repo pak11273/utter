@@ -1,6 +1,6 @@
 import chalk from "chalk"
 import {forgotPasswordPrefix} from "../../constants"
-import {redis} from "../../graphql-server"
+import {redis} from "../../redis.js"
 import User from "./user-model.js"
 import config from "../../config"
 
