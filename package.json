@@ -2,12 +2,18 @@
  "name": "utterzone",
  "version": "1.0.0",
  "private": true,
- "workspaces": [
-  "client",
-  "server-trial",
-  "common",
-	"connector"
- ],
+ "workspaces": {
+	 "packages": [
+	 	 "client",
+	 	 "backend",
+	 	 "common",
+	 	 "connector"
+	 ],
+	 "nohoist": [
+		 "**/rimraf",
+		 "**/rimraf/**"
+	 ]
+ },
  "main": "index.js",
  "description": "",
  "repository": "git@bitbucket.org:pak11273/utter.git",

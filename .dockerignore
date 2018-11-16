@@ -1,0 +1,9 @@
+*
+
+!./package.json
+!./backend/package.json
+!./common/package.json
+!./backend/dist
+!./common/dist
+!./backend/.env
+

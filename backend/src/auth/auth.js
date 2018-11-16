@@ -82,7 +82,6 @@ export const authenticate = (req, res, next) => {
   if (authorizationHeader) {
     token = authorizationHeader.split(" ")[1]
   }
-  console.log("token: ", token)
   if (token) {
     jwt.verify(token, config.env.JWT, (err, decoded) => {
       if (err) {

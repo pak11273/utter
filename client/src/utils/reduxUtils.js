@@ -1,14 +1,11 @@
-///////////////////
-// ActionHelpers //
-///////////////////
 const asyncTypes = {
-  REQUEST: 'REQUEST',
-  CREATE: 'CREATE',
-  UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR',
-  RESET: 'RESET'
+  REQUEST: "REQUEST",
+  CREATE: "CREATE",
+  UPDATE: "UPDATE",
+  DELETE: "DELETE",
+  SUCCESS: "SUCCESS",
+  ERROR: "ERROR",
+  RESET: "RESET"
 }
 
 export const createAsyncTypes = typeString =>

@@ -11,6 +11,7 @@
 		"import/order":0,
 		"import/prefer-default-export": 0,
 		"jsx-a11y/anchor-is-valid": 0,
+		"no-prototype-builtins":0,
 		"no-shadow": 0,
 		"one-var": 0,
 		"react/destructuring-assignment": 0,

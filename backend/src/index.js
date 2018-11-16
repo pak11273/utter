@@ -1,6 +1,6 @@
+import app from "./server.js"
 import http from "http"
 import config from "./config/index.js"
-import app from "./server.js"
 import chalk from "chalk"
 import graphqlServer from "./graphql-server.js"
 import mongoose from "mongoose"
