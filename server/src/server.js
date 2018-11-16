@@ -8,7 +8,7 @@ import express from "express"
 import middleware from "./middleware"
 import exphbs from "express-handlebars"
 import RateLimit from "express-rate-limit"
-import RedisStore from "rate-limit-redis"
+/* import RedisStore from "rate-limit-redis" */
 
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
@@ -34,18 +34,18 @@ middleware(app)
 
 // rate limiter
 
-const limiter = new RateLimit({
-  store: new RedisStore({
-    // see Configuration
-    client: redis
-  }),
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  delayMs: 0 // disable delaying - full speed until the max limit is reached
-})
+/* const limiter = new RateLimit({ */
+/*   store: new RedisStore({ */
+/*     // see Configuration */
+/*     client: redis */
+/*   }), */
+/*   windowMs: 15 * 60 * 1000, // 15 minutes */
+/*   max: 100, // limit each IP to 100 requests per windowMs */
+/*   delayMs: 0 // disable delaying - full speed until the max limit is reached */
+/* }) */
 
 //  apply to all requests
-app.use(limiter)
+/* app.use(limiter) */
 
 // Routers
 mongoose.connection.on("connected", function() {

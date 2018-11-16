@@ -3,21 +3,27 @@
  "version": "1.0.0",
  "private": true,
  "workspaces": {
-	 "packages": [
-	 	 "client",
-	 	 "server",
-	 	 "common",
-	 	 "connector"
-	 ],
-	 "nohoist": [
-		 "**/rimraf",
-		 "**/rimraf/**"
-	 ]
+  "packages": [
+   "client",
+   "server",
+   "common",
+   "connector"
+  ],
+  "nohoist": [
+   "**/rimraf",
+   "**/rimraf/**"
+  ]
+ },
+ "scripts": {
+  "build": "rimraf ./server/dist && babel -e graphql,ql,js ./server/src --out-dir ./server/dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 && rimraf ./common/dist && babel -e graphql,ql,js ./common/src --out-dir ./common/dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 && rimraf ./connector/dist && babel -e graphql,ql,js ./connector/src --out-dir ./connector/dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0"
  },
  "main": "index.js",
  "description": "",
  "repository": "git@bitbucket.org:pak11273/utter.git",
  "author": "pak11273 <pak11273@gmail.com>",
  "app": "59d790428284bb0012db7222",
- "license": "PROPRIETARY"
+ "license": "PROPRIETARY",
+ "dependencies": {
+  "rimraf": "^2.6.2"
+ }
 }

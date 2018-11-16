@@ -5,17 +5,17 @@ RUN apt-get update && apt-get install -y vim
 WORKDIR /utterzone-server
 
 COPY ./package.json .
-COPY ./backend/package.json ./backend/
+COPY ./server/package.json ./server/
 COPY ./common/package.json ./common/
 
 RUN npm i -g yarn 
 RUN yarn install --production
 
-COPY ./backend/dist ./backend/dist
+COPY ./server/dist ./server/dist
 COPY ./common/dist ./common/dist
-COPY ./backend/.env	./backend/.env
+COPY ./server/.env	./server/.env
 
-WORKDIR ./backend
+WORKDIR ./server
 
 ENV NODE_ENV production
 

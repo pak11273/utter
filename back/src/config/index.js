@@ -1,9 +1,9 @@
-import dot from 'dotenv'
+import dot from "dotenv"
 dot.config()
-import merge from 'lodash/merge'
+import merge from "lodash/merge"
 
 // if env not set, set it to default
-const env = process.env.NODE_ENV || 'development'
+const env = process.env.NODE_ENV || "development"
 
 // default config object
 // export default {
@@ -15,7 +15,7 @@ const baseConfig = {
     CDN_IMAGE_UPLOAD: process.env.CDN_IMAGE_UPLOAD,
     CDN_VIDEO_UPLOAD: process.env.CDN_VIDEO_UPLOAD,
     CDN_URL: process.env.CDN_URL,
-    DB_HOST: process.env.DB_HOST,
+    DB_HOST: process.env.MONGO_URL,
     DB_USER: process.env.DB_USER,
     DB_PASS: process.env.DB_PASS,
     FACEBOOK_CALLBACK_URL: process.env.FACEBOOK_CALLBACK_URL,
@@ -28,7 +28,7 @@ const baseConfig = {
   },
   expireTime: 24 * 60 * 10, // 10 days expiration
   db: {
-    url: 'mongodb://localhost:27017/utter-dev'
+    url: "mongodb://localhost:27017/utter-dev"
   }
 }
 
@@ -38,24 +38,24 @@ baseConfig.env = process.env.NODE_ENV
 let envConfig
 
 switch (env) {
-  case 'development':
-  case 'dev':
-    envConfig = require('./development.js').default
+  case "development":
+  case "dev":
+    envConfig = require("./development.js").default
     break
-  case 'testing':
-  case 'test':
-    envConfig = require('./testing.js').default
+  case "testing":
+  case "test":
+    envConfig = require("./testing.js").default
     break
-  case 'production':
-  case 'prod':
-    envConfig = require('./production.js').default
+  case "production":
+  case "prod":
+    envConfig = require("./production.js").default
     break
-  case 'staging':
-  case 'stage':
-    envConfig = require('./staging.js').default
+  case "staging":
+  case "stage":
+    envConfig = require("./staging.js").default
     break
   default:
-    envConfig = require('./development.js').default
+    envConfig = require("./development.js").default
 }
 
 // merge the two objects and export it so our app can use it

@@ -1,9 +1,9 @@
 *
 
 !./package.json
-!./backend/package.json
+!./server/package.json
 !./common/package.json
-!./backend/dist
+!./server/dist
 !./common/dist
-!./backend/.env
+!./server/.env
 

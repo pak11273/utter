@@ -1,4 +1,4 @@
-import Redis from "ioredis"
+/* import Redis from "ioredis" */
 import {request} from "graphql-request"
 import chalk from "chalk"
 import mongoose from "mongoose"
@@ -14,7 +14,7 @@ afterAll(() => {
 })
 
 let userId = ""
-const redis = new Redis()
+/* const redis = new Redis() */
 
 beforeAll(() => {
   jest.setTimeout(40000)
@@ -143,7 +143,7 @@ try {
   })
   describe("Forgot Password", () => {
     it("ensures it works", async () => {
-      const url = await createEmailConfirmLink("", userId, redis)
+      const url = await createEmailConfirmLink("", userId /*redis*/)
       const segments = url.split("/")
       const key = segments[segments.length - 1]
       const response = await request(

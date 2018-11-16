@@ -10,7 +10,7 @@
     "yup": "^0.26.6"
   },
   "scripts": {
-    "babel": "rimraf ./dist && babel src --out-dir dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 "
+    "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 "
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

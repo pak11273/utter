@@ -1,4 +1,4 @@
-import Redis from "ioredis"
+/* import Redis from "ioredis" */
 import axios from "axios"
 import adapter from "axios/lib/adapters/http"
 import {createEmailConfirmLink} from "./create-confirmation-email-link.js"
@@ -6,7 +6,7 @@ import User from "../api/user/user-model.js"
 import config from "../config"
 
 let userId = ""
-const redis = new Redis()
+/* const redis = new Redis() */
 
 beforeAll(() => {
   jest.setTimeout(40000)
@@ -29,7 +29,7 @@ beforeAll(() => {
 describe("Utils Tests", () => {
   it("Ensure confirms user and clears key in redis", async () => {
     try {
-      const url = await createEmailConfirmLink(config.host, userId, redis)
+      const url = await createEmailConfirmLink(config.host, userId /* redis */)
       const response = await axios.get(url, {adapter})
       expect(response).toHaveProperty("data")
       User.findById(userId, (err, user) => {

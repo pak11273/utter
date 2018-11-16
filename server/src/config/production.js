@@ -7,7 +7,7 @@ export default {
     CDN_IMAGE_UPLOAD: process.env.CDN_IMAGE_UPLOAD,
     CDN_VIDEO_UPLOAD: process.env.CDN_VIDEO_UPLOAD,
     CDN_URL: process.env.CDN_URL,
-    DB_HOST: process.env.DB_HOST,
+    DB_HOST: process.env.MONGO_URL,
     DB_USER: process.env.DB_USER,
     DB_PASS: process.env.DB_PASS,
     FACEBOOK_CALLBACK_URL: process.env.FACEBOOK_CALLBACK_URL,

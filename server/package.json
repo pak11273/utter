@@ -5,7 +5,7 @@
   "repository": "git@github.com:pak11273/server-boilerplate.git",
   "author": "pak11273 <pak11273@gmail.com>",
   "scripts": {
-    "babel": "rimraf ./dist && babel src --out-dir dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 ",
+    "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 ",
     "bserver": "nodemon -e graphql,ql,js --watch src src/index.js  --exec babel-node --presets=es2015,stage-2,stage-0",
     "tserver": "NODE_ENV=test nodemon -e graphql,ql,js --watch src src/index.js  --exec babel-node --presets=es2015,stage-2,stage-0",
     "console-test": "NODE_ENV=test jest --forceExit --detectOpenHandles --maxWorkers=10",
