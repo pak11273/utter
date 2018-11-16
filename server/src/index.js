@@ -1,25 +1,43 @@
-import http from 'http'
-import config from './config/index.js'
-import app from './server.js'
-import logger from './util/logger'
-import socketServer from './socketServer'
+import app from "./server.js"
+import http from "http"
+import config from "./config/index.js"
+import chalk from "chalk"
+import graphqlServer from "./graphql-server.js"
+import mongoose from "mongoose"
 
 const server = http.createServer(app)
 let currentApp = app
 
-const env = process.env.NODE_ENV || 'empty'
-console.log('The current ENV: ', env)
-
-server.listen(config.port, function() {
-  logger.log('listening on port ' + config.port)
+mongoose.set("useFindAndModify", false) // removes deprecation warning
+// Routers
+mongoose.connection.on("connected", function() {
+  // mounts
 })
 
-socketServer(server)
+const env = process.env.NODE_ENV || "empty"
+console.log(
+  chalk.yellow.bgBlue.bold("The current ENV:") +
+    " " +
+    chalk.greenBright.bold(env)
+)
 
-if (module.hot) {
-  module.hot.accept(['./server'], () => {
-    server.removeListener('request', currentApp)
-    server.on('request', app)
-    currentApp = app
-  })
-}
+app.get("/", (req, res, next) => {
+  res.send("Hello World")
+})
+
+graphqlServer.applyMiddleware({
+  app
+})
+
+server.listen(config.port, function() {
+  console.log(
+    chalk.white.bgMagenta.bold("listening on port ") +
+      " " +
+      chalk.greenBright.bold(config.port)
+  )
+  console.log(
+    chalk.white.bgGreen.bold("GraphQL Path ") +
+      " " +
+      chalk.greenBright.bold(graphqlServer.graphqlPath)
+  )
+})

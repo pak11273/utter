@@ -1,73 +1,63 @@
-import path from "path"
-import logger from "./util/logger"
-import error from "./middleware/error"
-import config from "./config/index.js"
-import pwd from "./config/pwd.js"
 import mongoose from "mongoose"
-import nodemailer from "nodemailer"
-import _ from "lodash"
+import chalk from "chalk"
+import path from "path"
+import {redis} from "./graphql-server"
+import apiRouter from "./api"
+import config from "./config"
 import express from "express"
-import err from "./middleware/error.js"
-import api from "./api"
-import auth from "./auth/routes.js"
-import admin from "./admin/adminRoutes.js"
-import mailRouter from "./mail/routes.js"
-import {graphiqlExpress} from "apollo-server-express"
-import {graphQLRouter} from "./graphQLRouter.js"
-const app = express()
+import middleware from "./middleware"
+import exphbs from "express-handlebars"
+import RateLimit from "express-rate-limit"
+import RedisStore from "rate-limit-redis"
 
-// third party middleware
-import middleware from "./middleware/appMiddleware"
+// This code shows all console.log locations
+// https://remysharp.com/2014/05/23/where-is-that-console-log
+// if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
+if (!["production", "prod"].includes(process.env.NODE_ENV)) {
+  ;["log", "warn"].forEach(function(method) {
+    var old = console[method]
+    console[method] = function() {
+      var stack = new Error().stack.split(/\n/)
+      // Chrome includes a single "Error" line, FF doesn't.
+      if (stack[0].indexOf("Error") === 0) {
+        // stack = stack.slice(1)
+        stack = stack.slice(1)
+      }
+      var args = [].slice.apply(arguments).concat([stack[1].trim()])
+      return old.apply(console, args)
+    }
+  })
+}
+
+const app = express()
 middleware(app)
 
-// express middleware
-app.use(express.static(path.join(__dirname, "client/dist"))) //path is relative to this directory
-app.use("/cdn", express.static("cdn"))
+// rate limiter
+
+const limiter = new RateLimit({
+  store: new RedisStore({
+    // see Configuration
+    client: redis
+  }),
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  delayMs: 0 // disable delaying - full speed until the max limit is reached
+})
+
+//  apply to all requests
+app.use(limiter)
 
 // Routers
 mongoose.connection.on("connected", function() {
-  // mounts
-  app.use("/graphql", graphQLRouter)
-  app.use("/api", api)
-  app.use("/admin", admin)
-  app.use("/auth", auth)
-  app.use("/mail", mailRouter)
-  app.use("/docs", graphiqlExpress({endpointURL: "./graphql"}))
+  app.use("/api", apiRouter)
 })
 
-// used for gzipping bundle.js
-app.get("*.js", function(req, res, next) {
-  req.url = req.url + ".gz"
-  res.set("Content-Encoding", "gzip")
-  res.set("Content-Type", "text/javascript")
-  next()
+// handlebars setup
+const hbs = exphbs.create({
+  // config
 })
-
-app.get("*.css", function(req, res, next) {
-  req.url = req.url + ".gz"
-  res.set("Content-Encoding", "gzip")
-  res.set("Content-Type", "text/css")
-  next()
-})
-
-// This is used to refresh browser for SPA
-// https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
-// app.get("/*", function(req, res) {
-//   res.sendFile(path.join(__dirname, "../../client/dist/index.html"), function(
-//     err
-//   ) {
-//     if (err) {
-//       res.status(500).send(err)
-//     }
-//   })
-// })
-
-// seed the db with dummy data TODO: change the seeding before using this
-// if (config.seed) {
-//   require('./util/seed')
-// }
-
-// error handling middleware
-app.use(err)
+app.engine("handlebars", hbs.engine)
+app.set("view engine", "handlebars")
+app.set("views", path.resolve(__dirname, "../src/views/layouts"))
 
 export default app

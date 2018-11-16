@@ -1,9 +1,5 @@
-# import Error from "../shared/shared.graphql"
-# trash
-
-
 type User {
-	id: ID!
+  id: ID!
   email: String!
   password: String!
   contacts: [String]
@@ -14,7 +10,7 @@ type User {
 
 type AuthPayload {
   token: String
-  error: [Error]
+  user: User
 }
 
 input UpdatedUserInput {
@@ -22,6 +18,7 @@ input UpdatedUserInput {
   email: String
   firstName: String
   lastName: String
+  nativeLang: String
   contacts: [String]
   isDeleted: Boolean
   roles: [String]
@@ -37,21 +34,17 @@ input CreateUserInput {
 input SignupInput {
   email: String!
   password: String!
-	passwordConfirmation: String!
   username: String!
 }
 
 type Query {
   getUserById(id: ID!): User!
   getUserByUsername(input: String!): User
-  hello(name: String): String!
 }
 
 type Mutation {
   createUser(input: CreateUserInput!): User
-	forgotPasswordChange(newPassword: String!, key: String!): [Error!]
   login(identifier: String!, password: String!): AuthPayload
-	forgotPassword(email: String!): [Error] 
   signup(input: SignupInput!): AuthPayload
   updateMe(input: UpdatedUserInput!): User!
 }
