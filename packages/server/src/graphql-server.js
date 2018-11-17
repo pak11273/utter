@@ -3,7 +3,7 @@ import {importSchema} from "graphql-import"
 import {makeExecutableSchema} from "graphql-tools"
 import merge from "lodash/merge"
 import path from "path"
-import { redis } from './redis';
+import {redis} from "./redis"
 
 // schema imports
 const userTypeDefs = importSchema(
@@ -30,6 +30,8 @@ const schema = makeExecutableSchema({
  */
 
 export default new ApolloServer({
+  introspection: true,
+  playground: true,
   schema,
   context: ({req, res}) => ({
     redis,

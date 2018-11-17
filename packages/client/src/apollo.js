@@ -5,7 +5,7 @@ import {onError} from "apollo-link-error"
 import {withClientState} from "apollo-link-state"
 import {HttpLink} from "apollo-link-http"
 
-const GRAPHQL_URL = "/graphql"
+/* const GRAPHQL_URL = "/graphql" */
 
 const logoutUser = () => {
   localStorage.removeItem("AUTH_TOKEN")
@@ -66,7 +66,7 @@ export default new ApolloClient({
       }
     }),
     new HttpLink({
-      uri: GRAPHQL_URL,
+      uri: process.env.REACT_APP_SERVER_URL,
       credentials: "include"
     })
   ]),

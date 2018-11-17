@@ -8,7 +8,6 @@ gotchas
 .notes
 notes
 *.swp
-dist
 .DS_Store
 .env
 tags
