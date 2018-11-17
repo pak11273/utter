@@ -1,4 +1,6 @@
 #! /bin/bash
+
+# login in first to docker with command: docker login
 yarn babel
 docker build -t pak11273/utterzone-server:latest .
 docker push pak11273/utterzone-server:latest

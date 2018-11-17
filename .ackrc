@@ -14,8 +14,8 @@
 --ignore-file=is:tags
 --ignore-file=is:yarn.lock
 --ignore-dir=.cache/
---ignore-dir=client/dist
---ignore-dir=server/dist
+--ignore-dir=packages/client/dist
+--ignore-dir=packages/server/dist
 --ignore-dir=log
 --ignore-dir=doc
 --ignore-dir=tmp
