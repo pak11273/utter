@@ -8,9 +8,13 @@ import gql from "graphql-tag"
 export class C extends PureComponent {
   submit = async values => {
     console.log("values: ", values)
-    const response = await this.props.mutate({
-      variables: values
-    })
+    try {
+      const response = await this.props.mutate({
+        variables: values
+      })
+    } catch (err) {
+      console.log("err: ", err)
+    }
     console.log("response: ", response)
     return null
   }
@@ -25,6 +29,7 @@ const signupMutation = gql`
     $email: String!
     $password: String!
     $passwordConfirmation: String!
+    $timezone: String
   ) {
     signup(
       input: {
@@ -32,6 +37,7 @@ const signupMutation = gql`
         email: $email
         password: $password
         passwordConfirmation: $passwordConfirmation
+        timezone: $timezone
       }
     ) {
       token

@@ -4,7 +4,6 @@ import {connect} from "react-redux"
 import signup from "../../api/user/actions/signupActions.js"
 import SignupForm from "../../containers/Forms/SignupForm.js"
 import {addFlashMessage} from "../../app/actions/flashMessages.js"
-/* import {Wrapper} from "../../components" */
 
 function Signup({submit, history, signupRequest, addFlashMessage}) {
   return (

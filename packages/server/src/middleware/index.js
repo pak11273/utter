@@ -9,7 +9,15 @@ import passport from "passport"
 import config from "../config"
 
 export default app => {
-  app.use(cors({credentials: true, origin: "http://localhost:8080"}))
+  app.use(
+    cors({
+      credentials: true,
+      origin:
+        process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+          ? process.env.CLIENT_HOST
+          : "http://localhost:8080"
+    })
+  )
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
