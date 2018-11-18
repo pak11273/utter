@@ -1,3 +1,5 @@
+import dot from "dotenv"
+dot.config()
 import {ApolloClient} from "apollo-client"
 import {ApolloLink, Observable} from "apollo-link"
 import {InMemoryCache} from "apollo-cache-inmemory"
