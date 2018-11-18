@@ -8,7 +8,7 @@ git cm -m 'server deployed'
 git push
 
 #! /usr/bin/expect -f
-expect "Enter passphrase for key '/home/vagrant/.ssh/id_rsa"
+expect "Enter passphrase for key '/home/vagrant/.ssh/id_rsa'"
 send "redeemer\r"
 
 docker build -t pak11273/utterzone-server:latest .
