@@ -3,11 +3,11 @@
 #! /bin/bash
 yarn babel
 
-#! /usr/bin/expect -f
 git add .
 git cm -m 'server deployed'
 git push
 
+#! /usr/bin/expect -f
 expect "Enter passphrase for key '/home/vagrant/.ssh/id_rsa"
 send "redeemer\r"
 
