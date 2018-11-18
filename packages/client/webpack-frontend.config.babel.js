@@ -7,16 +7,11 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const webpack = require("webpack")
 const ProgressBarPlugin = require("progress-bar-webpack-plugin")
 const nodeExternals = require("webpack-node-externals")
-const dotenv = require("dotenv")
+const Dotenv = require("dotenv-webpack")
 
 module.exports = env => {
   const {getIfUtils, removeEmpty} = require("webpack-config-utils")
   const {ifProd, ifNotProd} = getIfUtils(env)
-  const envParsed = dotenv.config().parsed
-  const envKeys = Object.keys(envParsed).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(env[next])
-    return prev
-  }, {})
   return {
     context: path.resolve(__dirname, "src"),
     entry: {
@@ -147,10 +142,10 @@ module.exports = env => {
       /*     analyzerHost: "0.0.0.0" */
       /*   }) */
       /* ), */
+      new Dotenv(),
       new ProgressBarPlugin(),
       ifProd(
         new webpack.DefinePlugin({
-          envKeys,
           // <-- key to reducing React's size
           "process.env": {
             NODE_ENV: JSON.stringify("production")
