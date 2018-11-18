@@ -1,5 +1,3 @@
-import dot from "dotenv"
-dot.config()
 import {ApolloClient} from "apollo-client"
 import {ApolloLink, Observable} from "apollo-link"
 import {InMemoryCache} from "apollo-cache-inmemory"
@@ -7,6 +5,7 @@ import {onError} from "apollo-link-error"
 import {withClientState} from "apollo-link-state"
 import {HttpLink} from "apollo-link-http"
 
+console.log("react_server_url: ", process.env)
 const logoutUser = () => {
   localStorage.removeItem("AUTH_TOKEN")
 }
