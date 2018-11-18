@@ -5,8 +5,6 @@ import {onError} from "apollo-link-error"
 import {withClientState} from "apollo-link-state"
 import {HttpLink} from "apollo-link-http"
 
-console.log("env: ", process.env.NODE_ENV)
-console.log("react_server_url: ", process.env.REACT_APP_SERVER_URL)
 const logoutUser = () => {
   localStorage.removeItem("AUTH_TOKEN")
 }

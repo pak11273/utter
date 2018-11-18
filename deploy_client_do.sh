@@ -1,4 +1,8 @@
 #! /bin/bash
 
-yarn babel
+yarn postinstall
+
+git add .
+git cm -m 'deploying client'
+git push
 

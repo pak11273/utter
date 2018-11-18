@@ -11,7 +11,8 @@
   ]
  },
  "scripts": {
-	 "babel": "lerna run babel"
+	 "babel": "lerna run babel",
+	 "postinstall": "cd packages/client && yarn prod"
  },
  "main": "index.js",
  "description": "",
