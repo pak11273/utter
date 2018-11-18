@@ -7,6 +7,7 @@ cdn/
 gotchas
 .notes
 notes
+.sh
 *.swp
 .DS_Store
 .env
