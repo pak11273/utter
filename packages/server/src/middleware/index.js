@@ -14,7 +14,7 @@ export default app => {
       credentials: true,
       origin:
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-          ? process.env.CLIENT_HOST
+          ? process.env.REACT_APP_CLIENT_URL
           : "http://localhost:8080"
     })
   )
