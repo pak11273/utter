@@ -169,6 +169,7 @@ module.exports = env => {
       new webpack.optimize.AggressiveMergingPlugin() //Merge chunks
     ]),
     node: {
+      fs: "empty",
       net: "empty",
       dns: "empty"
     }

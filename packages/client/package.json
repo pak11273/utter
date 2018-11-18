@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prod": "webpack --config ./webpack-frontend.config.babel.js --env.prod -p --mode production",
+    "prod": "rimraf ./dist && webpack --config ./webpack-frontend.config.babel.js --env.prod -p --mode production",
     "fserver": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack-frontend.config.babel.js --content-base dist --host 0.0.0.0 --inline  --env.dev --mode development "
   },
   "keywords": [],
@@ -102,6 +102,7 @@
     "redux-socketio": "^1.1.9",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
+    "rimraf": "^2.6.2",
     "safe-buffer": "^5.0.1",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.81.3",
