@@ -39,7 +39,7 @@ var env = process.env.NODE_ENV || "empty";
 console.log(_chalk2.default.yellow.bgBlue.bold("The current ENV:") + " " + _chalk2.default.greenBright.bold(env));
 
 _server2.default.get("/", function (req, res, next) {
-  res.send("Hello World");
+  res.send("Hello Buckwheat");
 });
 
 _graphqlServer2.default.applyMiddleware({
