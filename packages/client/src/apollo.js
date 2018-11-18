@@ -67,8 +67,8 @@ export default new ApolloClient({
       uri:
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
           ? process.env.REACT_APP_SERVER_URL
-          : "/graphql",
-      credentials: "include"
+          : "/graphql"
+      /* credentials: "include" */
     })
   ]),
   cache: new InMemoryCache()
