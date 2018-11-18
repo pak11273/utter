@@ -2,17 +2,17 @@
  "version": "1.0.0",
  "private": true,
  "workspaces": {
-	 "packages": [
-		 "packages/*"
-	 ],
+  "packages": [
+   "packages/*"
+  ],
   "nohoist": [
    "**/rimraf",
    "**/rimraf/**"
   ]
  },
  "scripts": {
-	 "babel": "lerna run babel",
-	 "postinstall": "cd packages/client && yarn prod"
+  "babel": "lerna run babel",
+  "postinstall": "cd packages/client && yarn prod"
  },
  "main": "index.js",
  "description": "",

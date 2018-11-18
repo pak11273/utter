@@ -1,11 +1,13 @@
-#! /bin/bash
-
 # login in first to docker with command: docker login
+
+#! /bin/bash
 yarn babel
 
+#! /usr/bin/expect -f
 git add .
 git cm -m 'server deployed'
 git push
+expect "Enter passphrase for key '/home/vagrant/.ssh/id_rsa':"
 
 docker build -t pak11273/utterzone-server:latest .
 docker push pak11273/utterzone-server:latest
