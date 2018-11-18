@@ -1,6 +1,6 @@
 #! /bin/bash
 
-yarn postinstall
+yarn client 
 
 git add .
 git cm -m 'deploying client'

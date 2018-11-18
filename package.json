@@ -12,7 +12,7 @@
  },
  "scripts": {
   "babel": "lerna run babel",
-  "postinstall": "cd packages/client && yarn prod"
+  "client": "cd packages/client && yarn prod"
  },
  "main": "index.js",
  "description": "",
