@@ -4,12 +4,17 @@ import path from "path"
 import async from "async"
 import User from "../api/user/user-model.js"
 
+var envPath =
+  process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+    ? "/home/dokku/server/dist/views/layouts"
+    : path.join(__dirname, "../../src/views/layouts")
+
 const options = {
   viewEngine: "handlebars",
-  viewPath: path.join(__dirname, "../../src/views/layouts"),
+  viewPath: envPath,
   extName: ".handlebars"
 }
-console.log("viewpath: ", path.join(__dirname, "../../src/views/layouts"))
+console.log("viewpath: ", envPath)
 
 export const transporter = nodemailer.createTransport({
   service: "gmail",
