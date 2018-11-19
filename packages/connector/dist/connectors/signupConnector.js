@@ -77,8 +77,7 @@ var C = exports.C = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = C.__proto__ || Object.getPrototypeOf(C)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var _response;
-
+        var response;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -91,7 +90,7 @@ var C = exports.C = function (_PureComponent) {
                 });
 
               case 4:
-                _response = _context.sent;
+                response = _context.sent;
                 _context.next = 10;
                 break;
 
@@ -102,10 +101,9 @@ var C = exports.C = function (_PureComponent) {
                 console.log("err: ", _context.t0);
 
               case 10:
-                console.log("response: ", response);
                 return _context.abrupt("return", null);
 
-              case 12:
+              case 11:
               case "end":
                 return _context.stop();
             }

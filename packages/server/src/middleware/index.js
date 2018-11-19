@@ -8,15 +8,14 @@ import passport from "passport"
 
 import config from "../config"
 
-/* process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" */
-/*   ? process.env.REACT_APP_CLIENT_URL */
-//   : "http://localhost:8080" */
-/* }) */
 export default app => {
   app.use(
     cors({
       credentials: true,
-      origin: "http://www.utterzone.com"
+      origin:
+        process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+          ? process.env.REACT_APP_CLIENT_URL
+          : "http://localhost:8080"
     })
   )
   app.use(morgan("dev"))

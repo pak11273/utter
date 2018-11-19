@@ -22,7 +22,7 @@ console.log(
 )
 
 app.get("/", (req, res, next) => {
-  res.send("Hello Buckwheat")
+  res.send("Hello World")
 })
 
 graphqlServer.applyMiddleware({

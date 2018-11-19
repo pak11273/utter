@@ -15,7 +15,6 @@ export class C extends PureComponent {
     } catch (err) {
       console.log("err: ", err)
     }
-    console.log("response: ", response)
     return null
   }
 

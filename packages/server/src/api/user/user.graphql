@@ -39,6 +39,7 @@ input SignupInput {
   password: String!
 	passwordConfirmation: String!
   username: String!
+	timezone: String
 }
 
 type Query {
