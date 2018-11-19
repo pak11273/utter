@@ -9,6 +9,7 @@ const options = {
   viewPath: path.join(__dirname, "../../src/views/layouts"),
   extName: ".handlebars"
 }
+console.log("viewpath: ", path.join(__dirname, "../../src/views/layouts"))
 
 export const transporter = nodemailer.createTransport({
   service: "gmail",

@@ -32,6 +32,7 @@ var options = {
   viewPath: _path2.default.join(__dirname, "../../src/views/layouts"),
   extName: ".handlebars"
 };
+console.log("viewpath: ", _path2.default.join(__dirname, "../../src/views/layouts"));
 
 var transporter = exports.transporter = _nodemailer2.default.createTransport({
   service: "gmail",

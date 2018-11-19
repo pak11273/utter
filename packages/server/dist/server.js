@@ -95,5 +95,6 @@ var hbs = _expressHandlebars2.default.create({
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 app.set("views", _path2.default.resolve(__dirname, "../src/views/layouts"));
+console.log("dir: ", _path2.default.resolve(__dirname, "../src/views/layouts"));
 
 exports.default = app;
