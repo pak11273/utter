@@ -59,6 +59,5 @@ const hbs = exphbs.create({
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 app.set("views", path.resolve(__dirname, "../src/views/layouts"))
-console.log("dir: ", path.resolve(__dirname, "../src/views/layouts"))
 
 export default app

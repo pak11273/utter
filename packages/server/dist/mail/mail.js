@@ -27,14 +27,11 @@ var _userModel2 = _interopRequireDefault(_userModel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var envPath = process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? "/home/dokku/server/dist/views/layouts" : _path2.default.join(__dirname, "../../src/views/layouts");
-
 var options = {
   viewEngine: "handlebars",
-  viewPath: envPath,
+  viewPath: _path2.default.join(__dirname, "../../src/views/layouts"),
   extName: ".handlebars"
 };
-console.log("viewpath: ", envPath);
 
 var transporter = exports.transporter = _nodemailer2.default.createTransport({
   service: "gmail",
