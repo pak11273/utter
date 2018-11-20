@@ -34,7 +34,10 @@ var options = {
 };
 
 var transporter = exports.transporter = _nodemailer2.default.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: process.env.GMAIL_USERNAME,
     pass: process.env.GMAIL_PASSWORD
