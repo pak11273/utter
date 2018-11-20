@@ -16,6 +16,7 @@
 --ignore-dir=.cache/
 --ignore-dir=packages/client/dist
 --ignore-dir=packages/server/dist
+--ignore-dir=packages/coverage
 --ignore-dir=log
 --ignore-dir=doc
 --ignore-dir=tmp

@@ -7,7 +7,7 @@ import mongoose from "mongoose"
 import passport from "passport"
 
 import config from "../config"
-
+console.log("app name:", process.env.APP_NAME)
 export default app => {
   app.use(
     cors({

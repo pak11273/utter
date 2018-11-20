@@ -36,6 +36,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 require("dotenv").config();
 
+console.log("app name:", process.env.APP_NAME);
+
 exports.default = function (app) {
   app.use((0, _cors2.default)({
     credentials: true,
