@@ -69,7 +69,7 @@ class SignupForm extends PureComponent {
             alt=""
             src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
           />
-          <Header as="h2">SirLoin our Community</Header>
+          <Header as="h2">Join our Community</Header>
           <Header as="h3">
             Become part of a growing community of avid learners like yourself
           </Header>
