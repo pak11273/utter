@@ -68,7 +68,7 @@ export default new ApolloClient({
       uri:
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
           ? process.env.REACT_APP_SERVER_URL
-		: "/graphql",
+          : "/graphql",
       credentials: "include"
     })
   ]),
