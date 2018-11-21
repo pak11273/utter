@@ -4,33 +4,23 @@ import {withFormik, Field} from "formik"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 /* import isEmpty from "lodash/isEmpty" */
-import {
-  Grid,
-  Button,
-  Form,
-  Header,
-  Image,
-  Container,
-  Message
-} from "semantic-ui-react"
+import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import cloneDeep from "lodash/cloneDeep"
 /* import * as yup from "yup" */
-import {signupSchema} from "@utterzone/common"
+import {loginSchema} from "@utterzone/common"
 import {main} from "../../themes/config"
-import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import {FormikField, Spacer} from "../../components"
-import Terms from "../../documents/terms-and-conditions.js"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
-import signup from "../../api/user/actions/signupActions.js"
+import login from "../../api/user/actions/loginActions.js"
 import "./forms.css"
 
 const initialState = {
   agreementChecked: true
 }
 
-class SignupForm extends PureComponent {
+class LoginForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = cloneDeep(initialState)
@@ -51,14 +41,7 @@ class SignupForm extends PureComponent {
   }
 
   render() {
-    const {
-      values,
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      touched,
-      errors
-    } = this.props
+    const {handleSubmit} = this.props
     const {agreementChecked} = this.state
     return (
       <Grid columns={4} centered padded stackable>
@@ -67,7 +50,7 @@ class SignupForm extends PureComponent {
           <Image
             centered
             alt=""
-            src="https://images.unsplash.com/photo-1535448996690-4277028bb0e5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8d40de7a271cae51700d439968382ffd&auto=format&fit=crop&w=1050&q=80"
+            src="http://www.exposureguide.com/images/concert/concert-photography-4e.jpg"
           />
           <Header as="h2">Join our Community</Header>
           <Header as="h3">
@@ -80,13 +63,12 @@ class SignupForm extends PureComponent {
           <Container>
             <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
-              <Header as="h1">Registration</Header>
+              <Header as="h1">Login</Header>
               <Field
-                name="username"
-                placeholder="username"
+                name="identity"
+                placeholder="identity"
                 component={FormikField}
               />
-              <Field name="email" placeholder="email" component={FormikField} />
               <Field
                 name="password"
                 placeholder="password"
@@ -101,35 +83,8 @@ class SignupForm extends PureComponent {
                 type="password"
                 component={FormikField}
               />
-              <Form.Field>
-                <Header as="h4" style={{margin: "0 0 5px 0"}}>
-                  timezone
-                </Header>
-                <Timezones
-                  label="Timezone"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.timezone}
-                  type="text"
-                  name="timezone"
-                />
-                {errors.timezone &&
-                  touched.timezone && (
-                    <Message
-                      className="error-msg"
-                      error
-                      content={errors.timezone}
-                    />
-                  )}
-              </Form.Field>
               <Form.Group style={{position: "absolute", right: "10px"}}>
-                <Form.Checkbox
-                  label="I agree to the"
-                  onChange={this.handleChange}
-                />
-                <span>
-                  <Terms />
-                </span>
+                <a href="#"> Forgot Password? </a>
               </Form.Group>
               <ThemeProvider theme={main}>
                 <Button
@@ -139,7 +94,7 @@ class SignupForm extends PureComponent {
                   fontSize="1.5rem"
                   style={{margin: "30px 0 0 0"}}
                   type="submit">
-                  Join
+                  Submit
                 </Button>
               </ThemeProvider>
             </Form>
@@ -152,14 +107,14 @@ class SignupForm extends PureComponent {
 }
 
 const mapStateToProps = state => ({
-  signupReducer: state.userReducer.signup
+  loginReducer: state.userReducer.login
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
       toggleFooter,
-      signup: signup.request
+      login: login.request
     },
     dispatch
   )
@@ -170,11 +125,11 @@ export default connect(
   mapDispatchToProps
 )(
   withFormik({
-    validationSchema: signupSchema,
+    validationSchema: loginSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      username: "",
+      identity: "",
       email: "",
       password: "",
       passwordConfirmation: "",
@@ -186,5 +141,5 @@ export default connect(
         setErrors(errors)
       }
     }
-  })(SignupForm)
+  })(LoginForm)
 )

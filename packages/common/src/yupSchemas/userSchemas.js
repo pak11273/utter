@@ -10,6 +10,19 @@ export const PasswordValidation = yup
   .max(255)
   .required("Password is required")
 
+export const loginSchema = yup.object().shape({
+  identity: yup
+    .string()
+    .min(3)
+    .max(255)
+    .required("Username or Email is required"),
+  password: PasswordValidation,
+  passwordConfirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords do not match")
+    .required("Password confirmation is required")
+})
+
 export const signupSchema = yup.object().shape({
   username: yup
     .string()
