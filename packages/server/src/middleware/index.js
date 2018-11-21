@@ -10,7 +10,6 @@ import config from "../config"
 export default app => {
   app.use(
     cors({
-      credentials: true,
       origin:
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
           ? process.env.REACT_APP_CLIENT_URL
