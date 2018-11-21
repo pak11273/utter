@@ -6,6 +6,7 @@ import config from "../../config"
 
 export const confirmationEmail = async (req, res) => {
   const {id} = req.params
+  console.log(`we in confirm' + ${id}`)
   try {
     const key = await redis.get(id)
     if (key === null) {
@@ -23,6 +24,7 @@ export const confirmationEmail = async (req, res) => {
               `There was an internal process error.  Please email support about this issue.`
             )
         } else {
+          console.log("redis works, but redirect is not working")
           redis.del(id)
           res.status(301).redirect(config.appURL)
         }
