@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.signupSchema = exports.PasswordValidation = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = undefined;
+exports.signupSchema = exports.loginSchema = exports.PasswordValidation = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = undefined;
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -29,6 +29,12 @@ var passwordNotLongEnough = exports.passwordNotLongEnough = "password must be at
 
 var PasswordValidation = exports.PasswordValidation = yup.string().min(8, passwordNotLongEnough).max(255).required("Password is required");
 
+var loginSchema = exports.loginSchema = yup.object().shape({
+  identity: yup.string().min(3).max(255).required("Username or Email is required"),
+  password: PasswordValidation,
+  passwordConfirmation: yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
+});
+
 var signupSchema = exports.signupSchema = yup.object().shape({
   username: yup.string().min(3).max(255).required("Username is required"),
   email: yup.string().min(3, emailNotLongEnough).max(255).email(invalidEmail).required("Email is required"),
@@ -50,6 +56,7 @@ var signupSchema = exports.signupSchema = yup.object().shape({
   reactHotLoader.register(emailNotLongEnough, "emailNotLongEnough", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(passwordNotLongEnough, "passwordNotLongEnough", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(PasswordValidation, "PasswordValidation", "src/yupSchemas/userSchemas.js");
+  reactHotLoader.register(loginSchema, "loginSchema", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(signupSchema, "signupSchema", "src/yupSchemas/userSchemas.js");
   leaveModule(module);
 })();
@@ -70,6 +77,7 @@ var signupSchema = exports.signupSchema = yup.object().shape({
   reactHotLoader.register(emailNotLongEnough, "emailNotLongEnough", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(passwordNotLongEnough, "passwordNotLongEnough", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(PasswordValidation, "PasswordValidation", "src/yupSchemas/userSchemas.js");
+  reactHotLoader.register(loginSchema, "loginSchema", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(signupSchema, "signupSchema", "src/yupSchemas/userSchemas.js");
   leaveModule(module);
 })();
