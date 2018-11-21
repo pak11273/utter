@@ -39,13 +39,11 @@ var confirmationEmail = exports.confirmationEmail = function () {
         switch (_context.prev = _context.next) {
           case 0:
             id = req.params.id;
-
-            console.log("we in confirm' + " + id);
-            _context.prev = 2;
-            _context.next = 5;
+            _context.prev = 1;
+            _context.next = 4;
             return _redis.redis.get(id);
 
-          case 5:
+          case 4:
             key = _context.sent;
 
             if (key === null) {
@@ -55,27 +53,26 @@ var confirmationEmail = exports.confirmationEmail = function () {
                 if (err) {
                   res.status(500).send("There was an internal process error.  Please email support about this issue.");
                 } else {
-                  console.log("redis works, but redirect is not working");
                   _redis.redis.del(id);
                   res.status(301).redirect(_config2.default.appURL);
                 }
               });
             }
-            _context.next = 12;
+            _context.next = 11;
             break;
 
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](2);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](1);
 
             console.log(_chalk2.default.bgWhite.black.bold("Error: ", _context.t0));
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[2, 9]]);
+    }, _callee, undefined, [[1, 8]]);
   }));
 
   return function confirmationEmail(_x, _x2) {
