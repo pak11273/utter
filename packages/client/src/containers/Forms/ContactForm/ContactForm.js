@@ -1,28 +1,12 @@
-import React, {Component} from 'react'
-import {
-  Box,
-  Column,
-  Grid,
-  InputLine,
-  Label,
-  Row,
-  Section,
-  Title,
-  Subtitle,
-  Wrapper
-} from '../../../components'
-import Button from '../../../components/Buttons/Button.js'
-import styled, {ThemeProvider} from 'styled-components'
-import {main, base, anotherOne} from '../../../themes/config'
-import Select from 'react-select'
-import {PhoneNumberFormat, PhoneNumberUtil} from 'google-libphonenumber'
-import CallingCodes from '../../../assets/js/CallingCodes.js'
-import './select.css'
-import {FaQuestion} from 'react-icons/fa'
-import {FaEmail} from 'react-icons/fa'
-import {FaReply} from 'react-icons/fa'
-import {FaPhone} from 'react-icons/fa'
-import {FaUser} from 'react-icons/fa'
+import React, {Component} from "react"
+import {Box, InputLine, Label, Section} from "../../../components"
+import Button from "../../../components/Buttons/Button.js"
+import styled, {ThemeProvider} from "styled-components"
+import {main, base} from "../../../themes/config"
+import Select from "react-select"
+import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
+import CallingCodes from "../../../assets/js/CallingCodes.js"
+import "./select.css"
 
 const Role = styled.div`
   color: ${props => props.color};
@@ -34,22 +18,18 @@ const Role = styled.div`
 `
 
 Role.defaultProps = {
-  color: 'blue',
-  fontsize: '2rem',
-  fontweight: '600',
-  padding: '0 0 20px 0',
-  textalign: 'left',
-  textshadow: '0 0 0 0'
+  color: "blue",
+  fontsize: "2rem",
+  fontweight: "600",
+  padding: "0 0 20px 0",
+  textalign: "left",
+  textshadow: "0 0 0 0"
 }
 
 const Phone = styled.div`
   align-items: baseline;
   display: flex;
   width: 100%;
-`
-const Message = styled.div`
-  font-weight: bold;
-  color: brown;
 `
 const Form = styled.form`
   align-items: center;
@@ -69,9 +49,9 @@ const Form = styled.form`
   }
 `
 Form.defaultProps = {
-  flexdirection: 'column',
-  position: 'relative',
-  width: '100%'
+  flexdirection: "column",
+  position: "relative",
+  width: "100%"
 }
 
 const Rightside = styled.div`
@@ -88,9 +68,9 @@ const Rightside = styled.div`
   }
 `
 Rightside.defaultProps = {
-  padding: '0 0 5rem 0',
-  position: 'relative',
-  width: '50%'
+  padding: "0 0 5rem 0",
+  position: "relative",
+  width: "50%"
 }
 
 const MsgBox = styled.textarea`
@@ -99,8 +79,8 @@ const MsgBox = styled.textarea`
   width: ${props => props.width};
 `
 MsgBox.defaultProps = {
-  height: '300px',
-  width: '100%'
+  height: "300px",
+  width: "100%"
 }
 
 const Closing = styled.div`
@@ -120,32 +100,30 @@ const Signature = styled.div`
 `
 Signature.defaultProps = {
   color: props => props.theme.color,
-  fontsize: '1rem'
+  fontsize: "1rem"
 }
 
 class ContactForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      name: '',
-      email: '',
-      number: '',
-      country: '',
-      subject: '',
-      letter: '',
-      message: '',
-      timezone: 'Puerto Rico (Atlantic) America/Puerto_Rico'
+      name: "",
+      email: "",
+      number: "",
+      country: "",
+      subject: "",
+      letter: "",
+      message: "",
+      timezone: "Puerto Rico (Atlantic) America/Puerto_Rico"
     }
   }
 
-  onChange = e => {
-    const name = e.target.name
-    const value = e.target.value
+  onChange = ({target}) => {
     this.setState({
-      [name]: value
+      [target.name]: target.value
     })
-    if (e.target.name === 'number') {
-      this.validatePhoneNumber('+' + this.state.country + ' ' + e.target.value)
+    if (target.name === "number") {
+      this.validatePhoneNumber("+" + this.state.country + " " + target.value)
     }
   }
 
@@ -153,7 +131,7 @@ class ContactForm extends Component {
     this.setState({
       country: cntrObj.value
     })
-    this.validatePhoneNumber('+' + cntrObj.value + ' ' + this.state.number)
+    this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.number)
   }
 
   onSubmit = e => {
@@ -161,7 +139,7 @@ class ContactForm extends Component {
     this.props.contactmail(this.state)
   }
 
-  getValidNumber(phoneNumber) {
+  getValidNumber = phoneNumber => {
     const phoneUtil = PhoneNumberUtil.getInstance()
     const parsedNumber = phoneUtil.parse(phoneNumber)
     return phoneUtil.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL)
@@ -180,35 +158,30 @@ class ContactForm extends Component {
     }
     if (valid) {
       this.setState({
-        message:
-          'Phone number ' + this.getValidNumber(phoneNumber) + ' is valid',
-        color: 'green'
+        message: `Phone number ${this.getValidNumber(phoneNumber)} is valid`,
+        color: "green"
       })
     } else {
       this.setState({
-        message: 'Phone number ' + phoneNumber + ' is not valid',
-        color: 'red'
+        message: `Phone number ${phoneNumber} is not valid`,
+        color: "red"
       })
     }
   }
 
-  render(props) {
+  render() {
     return (
       <ThemeProvider theme={base}>
         <Form onSubmit={this.onSubmit}>
-          <Section margin="100px 0 0 0" padding="20px" maxwidth="1024px">
-            <Role
-              color="#273e63"
-              fontsize="2.5rem"
-              padding="0"
-              textalign="left">
+          <Section margin="80px 0 0 0" padding="100px" maxwidth="1024px">
+            <Role color="#273e63" fontsize="1rem" padding="0" textalign="left">
               Request Information
             </Role>
             <Box
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="130px">
+              <Label textalign="left" fontsize="1rem" width="130px">
                 Name
               </Label>
               <InputLine
@@ -223,8 +196,8 @@ class ContactForm extends Component {
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="130px">
-                Email{' '}
+              <Label textalign="left" fontsize="1rem" width="130px">
+                Email{" "}
               </Label>
               <InputLine
                 textalign="left"
@@ -235,13 +208,13 @@ class ContactForm extends Component {
               />
             </Box>
             <Phone>
-              <Label textalign="left" fontsize="1.5rem" width="130px">
+              <Label textalign="left" fontsize="1rem" width="130px">
                 Phone
               </Label>
               <Select
                 clearable={false}
                 name="country"
-                autosize={true}
+                autosize
                 placeholder="country name"
                 value={this.state.country}
                 onChange={this.onSelect2}
@@ -266,7 +239,7 @@ class ContactForm extends Component {
                 className="message"
                 style={{
                   color: this.state.color,
-                  margin: '0 0 0 50px'
+                  margin: "0 0 0 50px"
                 }}>
                 {this.state.message}
               </div>
@@ -275,8 +248,8 @@ class ContactForm extends Component {
               alignitems="baseline"
               flexdirection="row"
               justifycontent="flex-start">
-              <Label textalign="left" fontsize="1.5rem" width="140px">
-                Subject{' '}
+              <Label textalign="left" fontsize="1rem" width="140px">
+                Subject{" "}
               </Label>
               <InputLine
                 textalign="left"
@@ -288,7 +261,7 @@ class ContactForm extends Component {
             </Box>
             <Box alignitems="flex-start" padding="50px" margin="0 0 100px 0">
               <Box margin="40px 0 0 0">
-                <Label margin="0 0 20px 0" textalign="left" fontsize="1.5rem">
+                <Label margin="0 0 20px 0" textalign="left" fontsize="1rem">
                   Message
                 </Label>
               </Box>
@@ -303,7 +276,7 @@ class ContactForm extends Component {
                 <Button
                   alignself="flex-end"
                   bottom="-60px"
-                  fontsize="1.5rem"
+                  fontsize="1rem"
                   right="-6px"
                   color="black"
                   margin="80px 0 0 0"
@@ -312,82 +285,6 @@ class ContactForm extends Component {
                 </Button>
               </ThemeProvider>
             </Box>
-            {/* missing section below */}
-            {/* <Section>
-              <Title
-                color="#273e63"
-                fontsize="2.5rem"
-                margin="70px 0 0 20px"
-                textalign="left">
-                If the form above isn't working for some reason please use the
-                information below for
-                inquiries.{' '}
-              </Title>
-              <Grid gridtemplatecolumns="1fr 1fr 1fr" margin="100px 0 0 0">
-                <Title
-                  color="#333"
-                  padding="0 0 10px 0"
-                  textalign="left"
-                  fontsize="1.3rem">
-                  <FaUser
-                    style={{
-                      fontsize: '1.3rem',
-                      verticalalign: 'top',
-                      color: 'blue'
-                    }}
-                  />{' '}
-                  {this.props.managingDirector}
-                </Title>
-                <Title
-                  color="#333"
-                  padding="0 0 10px 0"
-                  textalign="left"
-                  fontsize="1.3rem">
-                  <FaPhone
-                    style={{
-                      fontsize: '1.3rem',
-                      verticalalign: 'top',
-                      color: 'blue'
-                    }}
-                  />{' '}
-                  {this.props.managingDirectorPhone}
-                </Title>
-                <Title
-                  color="#333"
-                  padding="0 0 10px 0"
-                  textalign="left"
-                  fontsize="1.3rem">
-                  <FaEmail style={{verticalAlign: 'top', color: 'blue'}} />{' '}
-                  <a
-                    href={`mailto:${this.props.managingDirectorEmail}`}
-                    style={{color: '#227fab'}}>
-                    {this.props.managingDirectorEmail}
-                  </a>
-                </Title>
-                <Subtitle fontsize="1.5rem" textalign="left">
-                  {this.props.mailingTitle}
-                </Subtitle>
-                <Subtitle fontsize="1.5rem" textalign="left">
-                  {this.props.address}
-                </Subtitle>
-                <Subtitle fontsize="1.5rem" textalign="left">
-                  {this.props.state}
-                </Subtitle>
-                <Title
-                  color="#333"
-                  padding="50px 0 10px 0"
-                  textalign="left"
-                  fontsize="1.3rem">
-                  <FaReply style={{verticalAlign: 'top', color: 'blue'}} />{' '}
-                  {this.props.emailTitle}
-                </Title>
-                <a
-                  href={`mailto:${this.props.email}`}
-                  style={{color: '#227fab'}}>
-                  {this.props.email}
-                </a>
-              </Grid>
-            </Section>*/}
           </Section>
         </Form>
       </ThemeProvider>

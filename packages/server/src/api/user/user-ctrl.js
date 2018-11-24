@@ -6,8 +6,10 @@ import config from "../../config"
 
 export const confirmationEmail = async (req, res) => {
   const {id} = req.params
+  console.log("id: ", id)
   try {
     const key = await redis.get(id)
+    console.log("key: ", key)
     if (key === null) {
       res
         .status(401)
