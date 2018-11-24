@@ -1,0 +1,58 @@
+# import Error from "../shared/shared.graphql"
+# trash
+
+
+type User {
+	id: ID!
+  email: String!
+  password: String!
+  contacts: [String]
+  username: String!
+  createdAt: String
+  updatedAt: String
+}
+
+type AuthPayload {
+  token: String
+  error: [Error]
+}
+
+input UpdatedUserInput {
+  age: Int
+  email: String
+  firstName: String
+  lastName: String
+  contacts: [String]
+  isDeleted: Boolean
+  roles: [String]
+  username: String
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+  password: String!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+	passwordConfirmation: String!
+  username: String!
+	timezone: String
+}
+
+type Query {
+  getUserById(id: ID!): User!
+  getUserByUsername(input: String!): User
+  hello(name: String): String!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User
+	forgotPasswordChange(newPassword: String!, key: String!): [Error!]
+  login(identifier: String!, password: String!): AuthPayload
+	forgotPassword(email: String!): [Error] 
+  signup(input: SignupInput!): AuthPayload
+  updateMe(input: UpdatedUserInput!): User!
+}
