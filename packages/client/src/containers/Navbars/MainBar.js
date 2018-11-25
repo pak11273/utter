@@ -15,7 +15,7 @@ import {Box, Hamburger, Logo, Section} from "../../components"
 import Graphic from "../../assets/images/logo.svg"
 
 // actions
-import actions from "../../api/user/actions/loginActions.js"
+import actions from "../../api/user/actions/login-actions"
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};

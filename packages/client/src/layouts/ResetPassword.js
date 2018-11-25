@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {Link} from 'react-router-dom'
-import styled, {ThemeProvider} from 'styled-components'
-import {Masthead, Navbar} from '../containers'
-import {validateInput} from '../utils/validations/resetPassword.js'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {Link} from "react-router-dom"
+import styled, {ThemeProvider} from "styled-components"
+import {Masthead, Navbar} from "../containers"
+import {validateInput} from "../utils/validations/resetPassword.js"
 import {
   Box,
   Button,
@@ -12,14 +12,14 @@ import {
   Subtitle,
   Title,
   Wrapper
-} from '../components'
-import {Helmet} from 'react-helmet'
-import {connect} from 'react-redux'
-import {addFlashMessage} from '../app/actions/flashMessages.js'
-import {resetpassword} from '../api/user/actions/loginActions.js'
+} from "../components"
+import {Helmet} from "react-helmet"
+import {connect} from "react-redux"
+import {addFlashMessage} from "../app/actions/flashMessages.js"
+import {resetpassword} from "../api/user/actions/login-actions"
 
 // actions
-import login from '../api/user/actions/loginActions.js'
+import login from "../api/user/actions/login-actions.js"
 
 const Form = styled.form`
   box-sizing: border-box;
@@ -42,10 +42,10 @@ class ResetPassword extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      identifier: '',
-      password: '',
-      passwordConfirmation: '',
-      token: '',
+      identifier: "",
+      password: "",
+      passwordConfirmation: "",
+      token: "",
       errors: {}
     }
   }
@@ -54,8 +54,8 @@ class ResetPassword extends Component {
     // get reset password token
     const promise = new Promise((resolve, reject) => {
       const query = new URLSearchParams(this.props.location.search)
-      const token = query.get('token')
-      const user = query.get('user')
+      const token = query.get("token")
+      const user = query.get("user")
       const creds = {user, token}
       resolve(creds)
     })
@@ -66,7 +66,7 @@ class ResetPassword extends Component {
         })
       })
       .catch(err => {
-        console.log('Error: ', err)
+        console.log("Error: ", err)
       })
   }
 
@@ -88,11 +88,11 @@ class ResetPassword extends Component {
         .resetpassword(this.state)
         .then(res => {
           this.props.actions.addFlashMessage({
-            type: 'success',
+            type: "success",
             // text: "You have successfully reset your password."
             text: res.data.message
           })
-          this.props.history.push('/')
+          this.props.history.push("/")
         })
         .then(() => {
           const {identifier, password} = this.state
@@ -100,14 +100,14 @@ class ResetPassword extends Component {
             identifier,
             password
           }
-          console.log('loginState: ', loginState)
+          console.log("loginState: ", loginState)
           this.props.actions.login(loginState)
         })
         .catch(error => {
-          console.log('errors: ', error)
+          console.log("errors: ", error)
           // this.setState({errors: error.response.data.message})
           this.props.actions.addFlashMessage({
-            type: 'fail',
+            type: "fail",
             text: error.response.data.message
           })
         })
@@ -165,7 +165,7 @@ class ResetPassword extends Component {
                 />
                 {this.state.errors.password &&
                   Object.keys(passwordErrors).map((key, i) => {
-                    if (key === 'message') {
+                    if (key === "message") {
                       var value = key
                     }
                     return <Error key={i}>{passwordErrors[value]}</Error>
@@ -184,7 +184,7 @@ class ResetPassword extends Component {
                 />
                 {this.state.errors.passwordConfirmation &&
                   Object.keys(passwordConfirmationErrors).map((key, i) => {
-                    if (key === 'message') {
+                    if (key === "message") {
                       var value = key
                     }
                     return (

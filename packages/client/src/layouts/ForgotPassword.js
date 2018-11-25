@@ -7,7 +7,7 @@ import {Box, Button, Input, Subtitle, Title, Wrapper} from '../components'
 import {Helmet} from 'react-helmet'
 import {connect} from 'react-redux'
 import {addFlashMessage} from '../app/actions/flashMessages.js'
-import {forgotpassword} from '../api/user/actions/loginActions.js'
+import {forgotpassword} from '../api/user/actions/login-actions'
 
 class ForgotPassword extends Component {
   constructor(props) {

@@ -4,7 +4,7 @@ import {all, call, put, take, takeLatest} from "redux-saga/effects"
 import axios from "axios"
 import jwt from "jsonwebtoken"
 import {actions} from "../actions/signupActions.js"
-import {request as login} from "../actions/loginActions.js"
+import {request as login} from "../actions/login-actions.js"
 import {AUTH_TOKEN} from "../../../layouts/Login/containers/constants.js"
 
 // actions

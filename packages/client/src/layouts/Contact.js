@@ -8,7 +8,7 @@ import {Grid, Header} from "semantic-ui-react"
 import {contactmail} from "../app/actions/contactmailActions"
 import {toggleFooter} from "../app/actions/toggleFooterAction.js"
 
-import ContactForm from "../containers/Forms/ContactForm/ContactForm.js"
+import ContactForm from "../containers/Forms/ContactForm/contact-form"
 
 class Contact extends Component {
   componentDidMount() {

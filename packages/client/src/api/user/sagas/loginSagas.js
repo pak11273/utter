@@ -3,7 +3,7 @@ import {push} from "react-router-redux"
 import {all, call, put, take, takeLatest} from "redux-saga/effects"
 import axios from "axios"
 import jwt from "jsonwebtoken"
-import {actions} from "../actions/loginActions.js"
+import {actions} from "../actions/login-actions"
 
 // actions
 import * as types from "../types"

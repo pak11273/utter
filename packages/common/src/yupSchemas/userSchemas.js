@@ -11,7 +11,7 @@ export const PasswordValidation = yup
   .required("Password is required")
 
 export const loginSchema = yup.object().shape({
-  identity: yup
+  "username or email": yup
     .string()
     .min(3)
     .max(255)

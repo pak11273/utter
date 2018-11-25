@@ -1,1 +1,2 @@
-export * from './connectors/signupConnector.js'
+export * from "./connectors/signup-connector.js"
+export * from "./connectors/login-connector.js"
