@@ -18,6 +18,7 @@
  },
  "scripts": {
   "babel": "lerna run babel",
+	"shared": "cd packages/common && yarn babel && cd ../../packages/connector && yarn babel",
   "client": "cd packages/client && yarn prod"
  },
  "main": "index.js",
