@@ -6,7 +6,6 @@ import SignupForm from "../../containers/Forms/signup-form.js"
 import {addFlashMessage} from "../../app/actions/flashMessages.js"
 
 function Signup({submit, history, signupRequest, addFlashMessage}) {
-  console.log("submit: ", submit)
   return (
     <SignupForm
       signupRequest={signupRequest}

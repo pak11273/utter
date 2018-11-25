@@ -11,6 +11,7 @@ export class C extends PureComponent {
       const response = await this.props.mutate({
         variables: values
       })
+      console.log("response: ", response)
     } catch (err) {
       console.log("err: ", err)
     }

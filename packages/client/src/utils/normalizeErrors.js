@@ -3,4 +3,6 @@ export const normalizeErrors = errors => {
   errors.forEach(err => {
     errorMap[err.path] = err.message
   })
+
+	return errorMap
 }
