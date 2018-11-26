@@ -180,7 +180,6 @@ export default connect(
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
-      console.log("result: ", result)
 
       if (has(result, "path")) {
         setErrors(result)

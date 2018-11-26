@@ -13,7 +13,13 @@ export default app => {
       credentials: true,
       origin:
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-          ? process.env.REACT_APP_CLIENT_URL
+          ? [
+              process.env.REACT_APP_CLIENT_URL,
+              "http://www.utterzone.com",
+              "https://www.utterzone.com",
+              "http://utterzone.com",
+              "utterzone.com"
+            ]
           : "http://localhost:8080"
     })
   )
