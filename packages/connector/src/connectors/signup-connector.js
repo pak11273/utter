@@ -20,9 +20,13 @@ export class C extends PureComponent {
         variables: values
       })
 
-      if (token) {
+      console.log("token: ", token)
+      console.log("error: ", error)
+      if (token !== null) {
         return token
-      } else if (error) {
+      }
+
+      if (error) {
         return normalizeErrors(error)
       }
     } catch (err) {

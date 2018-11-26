@@ -96,7 +96,11 @@ var C = exports.C = function (_PureComponent) {
                 error = _ref3.data.signup.error;
                 token = _ref3.data.signup.token;
 
-                if (!token) {
+
+                console.log("token: ", token);
+                console.log("error: ", error);
+
+                if (!(token !== null)) {
                   _context.next = 10;
                   break;
                 }

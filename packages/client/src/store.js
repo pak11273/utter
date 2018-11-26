@@ -31,7 +31,6 @@ const store = createStore(
   persistedReducer,
   /* preloadedState, */ composeEnhancers(
     applyMiddleware(
-      // createLogger({collapsed: true}),
       thunk,
       middleware,
       /* ioMiddleware(Socket), */

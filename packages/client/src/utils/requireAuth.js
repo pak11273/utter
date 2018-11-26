@@ -1,43 +1,33 @@
 import React, {Component} from "react"
 import {addFlashMessage} from "../app/actions/flashMessages.js"
 import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
-import {push} from "react-router-redux"
+import history from "../history"
 
-export default ComposedComponent => {
-  class Authenticate extends Component {
-    componentDidMount() {
+const requireAuth = WrappedComponent => {
+  class Wrap extends Component {
+    componentDidMount() {}
+
+    render() {
       const isAuthenticated = localStorage.getItem("AUTH_TOKEN")
       if (!isAuthenticated) {
         this.props.addFlashMessage({
           type: "error",
           text: "You need to login to access this page"
         })
-        this.props.push("/login")
+        history.push("/login")
       }
-    }
-
-    render() {
-      return <ComposedComponent {...this.props} />
+      return <WrappedComponent {...this.props} />
     }
   }
 
-  const mapStateToProps = state => ({
-    isAuthenticated: state.userReducer.login.isAuthenticated
-  })
-
-  const mapDispatchToProps = dispatch => {
-    bindActionCreators(
-      {
-        addFlashMessage,
-        push
-      },
-      dispatch
-    )
+  const actions = {
+    addFlashMessage
   }
 
   return connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Authenticate)
+    null,
+    actions
+  )(Wrap)
 }
+
+export default requireAuth
