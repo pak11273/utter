@@ -1,9 +1,5 @@
-import React, {PureComponent} from "react"
-import {ThemeProvider} from "styled-components"
-import {withFormik, Field} from "formik"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-/* import isEmpty from "lodash/isEmpty" */
+import "./forms.css"
+import history from "../../history.js"
 import {
   Grid,
   Button,
@@ -13,18 +9,20 @@ import {
   Container,
   Message
 } from "semantic-ui-react"
-import cloneDeep from "lodash/cloneDeep"
-/* import * as yup from "yup" */
+import {ThemeProvider} from "styled-components"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 import {signupSchema} from "@utterzone/common"
-import {main} from "../../themes/config"
-import Timezones from "../../components/Selects/Timezones/Timezones.js"
+import {withFormik, Field} from "formik"
+import React, {PureComponent} from "react"
+import cloneDeep from "lodash/cloneDeep"
+import has from "lodash/has"
 import {FormikField, Spacer} from "../../components"
-import Terms from "../../documents/terms-and-conditions.js"
-
-// actions
+import {main} from "../../themes/config"
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import Terms from "../../documents/terms-and-conditions.js"
+import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import signup from "../../api/user/actions/signupActions.js"
-import "./forms.css"
 
 const initialState = {
   agreementChecked: true
@@ -181,9 +179,14 @@ export default connect(
       timezone: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      const errors = await props.submit(values)
-      if (errors) {
-        setErrors(errors)
+      const result = await props.submit(values)
+      console.log("result: ", result)
+
+      if (has(result, "path")) {
+        setErrors(result)
+      } else {
+        localStorage.setItem("AUTH_TOKEN", result)
+        history.push("/")
       }
     }
   })(SignupForm)

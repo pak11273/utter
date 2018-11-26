@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.LoginConnector = exports.C = undefined;
+exports.LoginConnector = exports.D = undefined;
 
 var _taggedTemplateLiteral2 = require("babel-runtime/helpers/taggedTemplateLiteral");
 
@@ -60,63 +60,62 @@ var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
-var C = exports.C = function (_PureComponent) {
-  (0, _inherits3.default)(C, _PureComponent);
+var D = exports.D = function (_PureComponent) {
+  (0, _inherits3.default)(D, _PureComponent);
 
-  function C() {
+  function D() {
     var _ref,
         _this2 = this;
 
     var _temp, _this, _ret;
 
-    (0, _classCallCheck3.default)(this, C);
+    (0, _classCallCheck3.default)(this, D);
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = C.__proto__ || Object.getPrototypeOf(C)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = D.__proto__ || Object.getPrototypeOf(D)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
         var response;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("values: ", values);
-                _context.prev = 1;
-                _context.next = 4;
+                _context.prev = 0;
+                _context.next = 3;
                 return _this.props.mutate({
                   variables: values
                 });
 
-              case 4:
+              case 3:
                 response = _context.sent;
-                _context.next = 10;
+                _context.next = 9;
                 break;
 
-              case 7:
-                _context.prev = 7;
-                _context.t0 = _context["catch"](1);
+              case 6:
+                _context.prev = 6;
+                _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 10:
+              case 9:
                 if (!login) {
-                  _context.next = 12;
+                  _context.next = 11;
                   break;
                 }
 
                 return _context.abrupt("return", normalizeErrors(login));
 
-              case 12:
+              case 11:
                 return _context.abrupt("return", null);
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[1, 7]]);
+        }, _callee, _this2, [[0, 6]]);
       }));
 
       return function (_x) {
@@ -125,18 +124,18 @@ var C = exports.C = function (_PureComponent) {
     }(), _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
-  (0, _createClass3.default)(C, [{
+  (0, _createClass3.default)(D, [{
     key: "render",
     value: function render() {
       return this.props.children({ submit: this.submit });
     }
   }]);
-  return C;
+  return D;
 }(_react.PureComponent);
 
 var loginMutation = (0, _graphqlTag2.default)(_templateObject);
 
-var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMutation)(C);
+var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMutation)(D);
 ;
 
 (function () {
@@ -148,7 +147,7 @@ var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMut
     return;
   }
 
-  reactHotLoader.register(C, "C", "src/connectors/login-connector.js");
+  reactHotLoader.register(D, "D", "src/connectors/login-connector.js");
   reactHotLoader.register(LoginConnector, "LoginConnector", "src/connectors/login-connector.js");
   reactHotLoader.register(loginMutation, "loginMutation", "src/connectors/login-connector.js");
   leaveModule(module);
@@ -166,7 +165,7 @@ var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMut
     return;
   }
 
-  reactHotLoader.register(C, "C", "src/connectors/login-connector.js");
+  reactHotLoader.register(D, "D", "src/connectors/login-connector.js");
   reactHotLoader.register(LoginConnector, "LoginConnector", "src/connectors/login-connector.js");
   reactHotLoader.register(loginMutation, "loginMutation", "src/connectors/login-connector.js");
   leaveModule(module);

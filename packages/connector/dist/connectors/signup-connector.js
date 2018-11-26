@@ -47,15 +47,17 @@ var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation(\n    
   enterModule && enterModule(module);
 })();
 
+var _reactApollo = require("react-apollo");
+
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactApollo = require("react-apollo");
-
 var _graphqlTag = require("graphql-tag");
 
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
+
+var _normalizeErrors = require("../utils/normalizeErrors");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -77,7 +79,8 @@ var C = exports.C = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = C.__proto__ || Object.getPrototypeOf(C)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var response;
+        var _ref3, error, token;
+
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -89,27 +92,44 @@ var C = exports.C = function (_PureComponent) {
                 });
 
               case 3:
-                response = _context.sent;
+                _ref3 = _context.sent;
+                error = _ref3.data.signup.error;
+                token = _ref3.data.signup.token;
 
-                console.log("response: ", response);
-                _context.next = 10;
+                if (!token) {
+                  _context.next = 10;
+                  break;
+                }
+
+                return _context.abrupt("return", token);
+
+              case 10:
+                if (!error) {
+                  _context.next = 12;
+                  break;
+                }
+
+                return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
+
+              case 12:
+                _context.next = 17;
                 break;
 
-              case 7:
-                _context.prev = 7;
+              case 14:
+                _context.prev = 14;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 10:
+              case 17:
                 return _context.abrupt("return", null);
 
-              case 11:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 7]]);
+        }, _callee, _this2, [[0, 14]]);
       }));
 
       return function (_x) {

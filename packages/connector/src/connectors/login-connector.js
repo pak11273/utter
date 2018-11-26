@@ -5,9 +5,8 @@ import {graphql} from "react-apollo"
 import gql from "graphql-tag"
 
 /* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
-export class C extends PureComponent {
+export class D extends PureComponent {
   submit = async values => {
-    console.log("values: ", values)
     try {
       const response = await this.props.mutate({
         variables: values
@@ -48,4 +47,4 @@ const loginMutation = gql`
   }
 `
 
-export const LoginConnector = graphql(loginMutation)(C)
+export const LoginConnector = graphql(loginMutation)(D)

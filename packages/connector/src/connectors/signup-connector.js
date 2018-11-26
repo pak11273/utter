@@ -1,17 +1,30 @@
 /* eslint no-unused-vars: 0 */
 
-import React, {PureComponent} from "react"
 import {graphql} from "react-apollo"
+import React, {PureComponent} from "react"
 import gql from "graphql-tag"
+import {normalizeErrors} from "../utils/normalizeErrors"
 
 /* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
 export class C extends PureComponent {
   submit = async values => {
     try {
-      const response = await this.props.mutate({
+      const {
+        data: {
+          signup: {error}
+        },
+        data: {
+          signup: {token}
+        }
+      } = await this.props.mutate({
         variables: values
       })
-      console.log("response: ", response)
+
+      if (token) {
+        return token
+      } else if (error) {
+        return normalizeErrors(error)
+      }
     } catch (err) {
       console.log("err: ", err)
     }

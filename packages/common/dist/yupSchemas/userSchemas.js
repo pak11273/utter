@@ -29,8 +29,10 @@ var passwordNotLongEnough = exports.passwordNotLongEnough = "password must be at
 
 var PasswordValidation = exports.PasswordValidation = yup.string().min(8, passwordNotLongEnough).max(255).required("Password is required");
 
+var invalidLogin = "invalid login";
+
 var loginSchema = exports.loginSchema = yup.object().shape({
-  "username or email": yup.string().min(3).max(255).required("Username or Email is required"),
+  "username or email": yup.string().min(3, invalidLogin).max(255, invalidLogin).required("Username or Email is required"),
   password: PasswordValidation,
   passwordConfirmation: yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
 });
@@ -58,6 +60,7 @@ var signupSchema = exports.signupSchema = yup.object().shape({
   reactHotLoader.register(PasswordValidation, "PasswordValidation", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(loginSchema, "loginSchema", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(signupSchema, "signupSchema", "src/yupSchemas/userSchemas.js");
+  reactHotLoader.register(invalidLogin, "invalidLogin", "src/yupSchemas/userSchemas.js");
   leaveModule(module);
 })();
 
@@ -79,6 +82,7 @@ var signupSchema = exports.signupSchema = yup.object().shape({
   reactHotLoader.register(PasswordValidation, "PasswordValidation", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(loginSchema, "loginSchema", "src/yupSchemas/userSchemas.js");
   reactHotLoader.register(signupSchema, "signupSchema", "src/yupSchemas/userSchemas.js");
+  reactHotLoader.register(invalidLogin, "invalidLogin", "src/yupSchemas/userSchemas.js");
   leaveModule(module);
 })();
 

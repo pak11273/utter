@@ -10,11 +10,13 @@ export const PasswordValidation = yup
   .max(255)
   .required("Password is required")
 
+const invalidLogin = "invalid login"
+
 export const loginSchema = yup.object().shape({
   "username or email": yup
     .string()
-    .min(3)
-    .max(255)
+    .min(3, invalidLogin)
+    .max(255, invalidLogin)
     .required("Username or Email is required"),
   password: PasswordValidation,
   passwordConfirmation: yup
