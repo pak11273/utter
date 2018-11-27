@@ -46,8 +46,8 @@ class LoginForm extends PureComponent {
               <Spacer margin="70px" />
               <Header as="h1">Login</Header>
               <Field
-                name="username or email"
-                placeholder="username"
+                name="identity"
+                placeholder="username or email"
                 component={FormikField}
               />
               <Field
@@ -58,7 +58,7 @@ class LoginForm extends PureComponent {
                 component={FormikField}
               />
               <Field
-                name="password confirmation"
+                name="passwordConfirmation"
                 placeholder="password confirmation"
                 autoComplete="new-password"
                 type="password"
@@ -109,9 +109,9 @@ export default connect(
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      "username or email": "",
+      identity: "",
       password: "",
-      "password confirmation": ""
+      passwordConfirmation: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const errors = await props.submit(values)

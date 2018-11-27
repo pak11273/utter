@@ -3,9 +3,9 @@
 import {graphql} from "react-apollo"
 import React, {PureComponent} from "react"
 import gql from "graphql-tag"
-import {normalizeErrors} from "../utils/normalizeErrors"
+/* import {normalizeErrors} from "../utils/normalizeErrors" */
 
-/* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
+/* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class C extends PureComponent {
   submit = async values => {
     try {
@@ -17,7 +17,13 @@ export class C extends PureComponent {
           signup: {token}
         }
       } = await this.props.mutate({
-        variables: values
+        variables: {
+          username: values.username,
+          email: values.email,
+          password: values.password,
+          passwordConfirmation: values["password confirmation"],
+          timezone: values.timezone
+        }
       })
 
       console.log("token: ", token)
@@ -27,7 +33,8 @@ export class C extends PureComponent {
       }
 
       if (error) {
-        return normalizeErrors(error)
+        return error
+        /* return normalizeErrors(error) */
       }
     } catch (err) {
       console.log("err: ", err)

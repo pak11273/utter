@@ -57,11 +57,11 @@ var _graphqlTag = require("graphql-tag");
 
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
-var _normalizeErrors = require("../utils/normalizeErrors");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
+/* import {normalizeErrors} from "../utils/normalizeErrors" */
+
+/* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 var C = exports.C = function (_PureComponent) {
   (0, _inherits3.default)(C, _PureComponent);
 
@@ -88,7 +88,13 @@ var C = exports.C = function (_PureComponent) {
                 _context.prev = 0;
                 _context.next = 3;
                 return _this.props.mutate({
-                  variables: values
+                  variables: {
+                    username: values.username,
+                    email: values.email,
+                    password: values.password,
+                    passwordConfirmation: values["password confirmation"],
+                    timezone: values.timezone
+                  }
                 });
 
               case 3:
@@ -113,7 +119,7 @@ var C = exports.C = function (_PureComponent) {
                   break;
                 }
 
-                return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
+                return _context.abrupt("return", error);
 
               case 12:
                 _context.next = 17;

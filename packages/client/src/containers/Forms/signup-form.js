@@ -16,7 +16,7 @@ import {signupSchema} from "@utterzone/common"
 import {withFormik, Field} from "formik"
 import React, {PureComponent} from "react"
 import cloneDeep from "lodash/cloneDeep"
-import has from "lodash/has"
+import isEmpty from "lodash/isEmpty"
 import {FormikField, Spacer} from "../../components"
 import {main} from "../../themes/config"
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
@@ -93,7 +93,7 @@ class SignupForm extends PureComponent {
                 component={FormikField}
               />
               <Field
-                name="passwordConfirmation"
+                name="password confirmation"
                 placeholder="password confirmation"
                 autoComplete="new-password"
                 type="password"
@@ -175,17 +175,32 @@ export default connect(
       username: "",
       email: "",
       password: "",
-      passwordConfirmation: "",
+      "password confirmation": "",
       timezone: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
+      let hasErrors
+      if (typeof result !== "string") {
+        hasErrors = result.filter(obj => obj.path)
+      }
 
-      if (has(result, "path")) {
-        setErrors(result)
-      } else {
+      // if signup info is legit
+      if (isEmpty(hasErrors)) {
         localStorage.setItem("AUTH_TOKEN", result)
         history.push("/")
+        props.addFlashMessage({
+          type: "success",
+          text: "Welcome to Utterzone.  Have Fun!"
+        })
+      } else {
+        // if singup info is not legit
+        console.log("hasERRor: ", hasErrors[0])
+        setErrors(hasErrors[0])
+        props.addFlashMessage({
+          type: "error",
+          text: "You fucked up dude"
+        })
       }
     }
   })(SignupForm)

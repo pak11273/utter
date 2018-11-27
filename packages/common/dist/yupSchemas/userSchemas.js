@@ -34,14 +34,14 @@ var invalidLogin = "invalid login";
 var loginSchema = exports.loginSchema = yup.object().shape({
   "username or email": yup.string().min(3, invalidLogin).max(255, invalidLogin).required("Username or Email is required"),
   password: PasswordValidation,
-  passwordConfirmation: yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
+  "password confirmation": yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
 });
 
 var signupSchema = exports.signupSchema = yup.object().shape({
   username: yup.string().min(3).max(255).required("Username is required"),
   email: yup.string().min(3, emailNotLongEnough).max(255).email(invalidEmail).required("Email is required"),
   password: PasswordValidation,
-  passwordConfirmation: yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
+  "password confirmation": yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
 });
 ;
 
