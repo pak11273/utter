@@ -217,13 +217,14 @@ var signup = function () {
 
 var login = function () {
   var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(parent, args, context, info) {
-    var identifier, password, token, arrayOfErrors, username, email, criteria, user;
+    var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
+
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             // decipher identifier
-            identifier = args.identifier, password = args.password;
+            _args$input2 = args.input, identifier = _args$input2.identifier, password = _args$input2.password;
             token = "";
             arrayOfErrors = [];
             username = void 0, email = void 0;
@@ -235,15 +236,16 @@ var login = function () {
                 message: "username/email or password cannot be blank"
               });
             }
+            console.log("criteria: ", criteria);
             // check if passwords match
-            _context3.next = 8;
+            _context3.next = 9;
             return _userModel2.default.findOne(criteria).exec();
 
-          case 8:
+          case 9:
             user = _context3.sent;
 
             if (user) {
-              _context3.next = 13;
+              _context3.next = 14;
               break;
             }
 
@@ -251,65 +253,58 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context3.next = 29;
+            _context3.next = 26;
             break;
 
-          case 13:
+          case 14:
             if (user.authenticate(password)) {
-              _context3.next = 17;
+              _context3.next = 18;
               break;
             }
 
             // use authenticate() on user.doc, pass in the posted password, hash it and check
             arrayOfErrors.push({ path: "password", message: "Invalid Password" });
-            _context3.next = 29;
+            _context3.next = 26;
             break;
 
-          case 17:
-            if (user.confirmed) {
-              _context3.next = 21;
-              break;
-            }
-
-            arrayOfErrors.push({
-              path: "identifier",
-              message: _errorMessages.confirmEmail
-            });
-            _context3.next = 29;
-            break;
-
-          case 21:
+          case 18:
             if (!user.forgotPasswordLocked) {
-              _context3.next = 25;
+              _context3.next = 22;
               break;
             }
 
+            /* else if (!user.confirmed) { */
+            /*   arrayOfErrors.push({ */
+            /*     path: "identifier", */
+            /*     message: confirmEmail */
+            /*   }) */
+            /* } */
             arrayOfErrors.push({
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context3.next = 29;
+            _context3.next = 26;
             break;
 
-          case 25:
+          case 22:
             if (!user) {
-              _context3.next = 29;
+              _context3.next = 26;
               break;
             }
 
-            _context3.next = 28;
+            _context3.next = 25;
             return (0, _auth.signToken)(user._id);
 
-          case 28:
+          case 25:
             token = _context3.sent;
 
-          case 29:
+          case 26:
             return _context3.abrupt("return", {
               token: token,
               error: arrayOfErrors
             });
 
-          case 30:
+          case 27:
           case "end":
             return _context3.stop();
         }

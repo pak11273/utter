@@ -34,6 +34,11 @@ input CreateUserInput {
   password: String!
 }
 
+input LoginInput {
+  identifier: String!
+  password: String!
+}
+
 input SignupInput {
   email: String!
   password: String!
@@ -51,7 +56,7 @@ type Query {
 type Mutation {
   createUser(input: CreateUserInput!): User
 	forgotPasswordChange(newPassword: String!, key: String!): [Error!]
-  login(identifier: String!, password: String!): AuthPayload
+  login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): [Error] 
   signup(input: SignupInput!): AuthPayload
   updateMe(input: UpdatedUserInput!): User!
