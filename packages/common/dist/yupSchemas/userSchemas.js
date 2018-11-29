@@ -33,8 +33,7 @@ var invalidLogin = "invalid login";
 
 var loginSchema = exports.loginSchema = yup.object().shape({
   "username or email": yup.string().min(3, invalidLogin).max(255, invalidLogin).required("Username or Email is required"),
-  password: PasswordValidation,
-  "password confirmation": yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
+  password: PasswordValidation
 });
 
 var signupSchema = exports.signupSchema = yup.object().shape({

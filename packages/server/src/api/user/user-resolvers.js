@@ -96,7 +96,7 @@ const signup = async (_, args, {redis, url}, info) => {
 
 const login = async (parent, args, context, info) => {
   // decipher identifier
-  const {identifier, password} = args
+  const {identifier, password} = args.input
   let token = ""
   let arrayOfErrors = []
 
@@ -111,6 +111,7 @@ const login = async (parent, args, context, info) => {
       message: "username/email or password cannot be blank"
     })
   }
+  console.log("criteria: ", criteria)
   // check if passwords match
   let user = await User.findOne(criteria).exec()
   if (!user) {
@@ -121,12 +122,13 @@ const login = async (parent, args, context, info) => {
   } else if (!user.authenticate(password)) {
     // use authenticate() on user.doc, pass in the posted password, hash it and check
     arrayOfErrors.push({path: "password", message: "Invalid Password"})
-  } else if (!user.confirmed) {
-    arrayOfErrors.push({
-      path: "identifier",
-      message: confirmEmail
-    })
   } else if (user.forgotPasswordLocked) {
+    /* else if (!user.confirmed) { */
+    /*   arrayOfErrors.push({ */
+    /*     path: "identifier", */
+    /*     message: confirmEmail */
+    /*   }) */
+    /* } */
     arrayOfErrors.push({
       path: "identifier",
       message: passwordLocked

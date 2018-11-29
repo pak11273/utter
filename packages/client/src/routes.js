@@ -7,7 +7,7 @@ import {
   /* ForgotPassword, */
   /* GettingStarted, */
   Test,
-  Login,
+  LoginCtrl,
   Settings,
   ShoppingCart,
   SignupCtrl,
@@ -119,7 +119,7 @@ export const routes = [
     path: "/courses/created"
   },
   {
-    component: Login,
+    component: LoginCtrl,
     exact: true,
     path: "/login"
   },

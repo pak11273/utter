@@ -1,43 +1,39 @@
 /* eslint no-unused-vars: 0 */
 
-import React, {PureComponent} from "react"
 import {graphql} from "react-apollo"
+import React, {PureComponent} from "react"
 import gql from "graphql-tag"
+import {normalizeErrors} from "../utils/normalizeErrors"
 
-/* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
+/* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class D extends PureComponent {
   submit = async values => {
     try {
       const response = await this.props.mutate({
-        variables: values
+        variables: {
+          identifier: values["username or email"],
+          password: values.password
+        }
       })
+      console.log("respaone: ", response)
+      const errors = response.data.login.error
+      if (errors) {
+        return normalizeErrors(errors)
+      }
+      return null
     } catch (err) {
       console.log("err: ", err)
     }
-
-    if (login) {
-      return normalizeErrors(login)
-    }
-    return null
   }
 
   render() {
     return this.props.children({submit: this.submit})
   }
 }
+
 const loginMutation = gql`
-  mutation(
-    $identity: String!
-    $password: String!
-    $passwordConfirmation: String!
-  ) {
-    login(
-      input: {
-        identity: $identity
-        password: $password
-        passwordConfirmation: $passwordConfirmation
-      }
-    ) {
+  mutation($identifier: String!, $password: String!) {
+    login(input: {identifier: $identifier, password: $password}) {
       token
       error {
         path

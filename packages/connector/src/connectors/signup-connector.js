@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: 0 */
 
-import {graphql} from "react-apollo"
 import React, {PureComponent} from "react"
+import {graphql} from "react-apollo"
 import gql from "graphql-tag"
 /* import {normalizeErrors} from "../utils/normalizeErrors" */
 
@@ -26,15 +26,13 @@ export class C extends PureComponent {
         }
       })
 
-      console.log("token: ", token)
-      console.log("error: ", error)
       if (token !== null) {
         return token
       }
 
       if (error) {
         return error
-        /* return normalizeErrors(error) */
+        return normalizeErrors(error)
       }
     } catch (err) {
       console.log("err: ", err)

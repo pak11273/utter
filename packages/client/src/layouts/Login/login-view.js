@@ -6,7 +6,7 @@ import login from "../../api/user/actions/login-actions.js"
 import LoginForm from "../../containers/Forms/login-form"
 import {addFlashMessage} from "../../app/actions/flashMessages.js"
 
-function Login({submit, history, loginRequest, addFlashMessage}) {
+function Login({submit, loginRequest, addFlashMessage}) {
   const loggedIn = localStorage.getItem("AUTH_TOKEN")
   if (loggedIn) {
     var redirect = <Redirect to="/" />
@@ -15,7 +15,6 @@ function Login({submit, history, loginRequest, addFlashMessage}) {
       <LoginForm
         loginRequest={loginRequest}
         addFlashMessage={addFlashMessage}
-        history={history}
         submit={submit}
       />
     )

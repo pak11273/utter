@@ -8,11 +8,11 @@ export const validateInput = state => {
     errors.password = {message: "can't be blank"}
   }
 
-  if (Validator.isEmpty(state.passwordConfirmation)) {
+  if (Validator.isEmpty(state["password confirmation"])) {
     errors.passwordConfirmation = {message: "can't be blank"}
   }
 
-  if (!Validator.equals(state.password, state.passwordConfirmation)) {
+  if (!Validator.equals(state.password, state["password confirmation"])) {
     errors.passwordConfirmation = {message: "Passwords must match"}
   }
 

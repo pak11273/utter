@@ -29,7 +29,7 @@ class LoginForm extends PureComponent {
           <Image
             centered
             alt=""
-            src="http://www.route-charlemagne.eu/images/content/Karl/karl_ideal_header.jpg"
+            src="https://i1.wp.com/dreamdiscoveritalia.com/wp-content/uploads/2015/04/charlemagne.png?w=880&ssl=1"
           />
           <Header as="h2">Explore a new world</Header>
           <Header as="h3">
@@ -46,20 +46,13 @@ class LoginForm extends PureComponent {
               <Spacer margin="70px" />
               <Header as="h1">Login</Header>
               <Field
-                name="identity"
+                name="username or email"
                 placeholder="username or email"
                 component={FormikField}
               />
               <Field
                 name="password"
                 placeholder="password"
-                autoComplete="new-password"
-                type="password"
-                component={FormikField}
-              />
-              <Field
-                name="passwordConfirmation"
-                placeholder="password confirmation"
                 autoComplete="new-password"
                 type="password"
                 component={FormikField}
@@ -109,13 +102,17 @@ export default connect(
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      identity: "",
-      password: "",
-      passwordConfirmation: ""
+      "username or email": "",
+      password: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const errors = await props.submit(values)
+      console.log("errors: ", errors)
+      // change errors.identifier to errors["username or email"]
       if (errors) {
+        if (errors.identifier) {
+          errors["username or email"] = errors.identifier
+        }
         setErrors(errors)
       }
     }

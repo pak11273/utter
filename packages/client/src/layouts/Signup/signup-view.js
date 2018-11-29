@@ -5,12 +5,11 @@ import signup from "../../api/user/actions/signupActions.js"
 import SignupForm from "../../containers/Forms/signup-form.js"
 import {addFlashMessage} from "../../app/actions/flashMessages.js"
 
-function Signup({submit, history, signupRequest, addFlashMessage}) {
+function Signup({submit, signupRequest, addFlashMessage}) {
   return (
     <SignupForm
       signupRequest={signupRequest}
       addFlashMessage={addFlashMessage}
-      history={history}
       submit={submit}
     />
   )

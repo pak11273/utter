@@ -20,11 +20,11 @@ export const validateInput = state => {
     errors.password = {message: "This field is required."}
   }
 
-  if (Validator.isEmpty(state.passwordConfirmation)) {
+  if (Validator.isEmpty(state["password confirmation"])) {
     errors.passwordConfirmation = {message: "This field is required."}
   }
 
-  if (!Validator.equals(state.password, state.passwordConfirmation)) {
+  if (!Validator.equals(state.password, state["password confirmation"])) {
     errors.passwordConfirmation = {message: "Passwords must match"}
   }
 

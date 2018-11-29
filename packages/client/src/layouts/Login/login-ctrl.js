@@ -4,9 +4,9 @@
 import React, {PureComponent} from "react"
 import {LoginConnector} from "@utterzone/connector"
 
-import LoginView from "./LoginView.js"
+import LoginView from "./login-view.js"
 
-export default class SignupCtrl extends PureComponent {
+export default class LoginCtrl extends PureComponent {
   render() {
     return (
       <React.Fragment>

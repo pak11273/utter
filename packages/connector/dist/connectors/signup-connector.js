@@ -47,11 +47,11 @@ var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation(\n    
   enterModule && enterModule(module);
 })();
 
-var _reactApollo = require("react-apollo");
-
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
+
+var _reactApollo = require("react-apollo");
 
 var _graphqlTag = require("graphql-tag");
 
@@ -102,44 +102,40 @@ var C = exports.C = function (_PureComponent) {
                 error = _ref3.data.signup.error;
                 token = _ref3.data.signup.token;
 
-
-                console.log("token: ", token);
-                console.log("error: ", error);
-
                 if (!(token !== null)) {
-                  _context.next = 10;
+                  _context.next = 8;
                   break;
                 }
 
                 return _context.abrupt("return", token);
 
-              case 10:
+              case 8:
                 if (!error) {
-                  _context.next = 12;
+                  _context.next = 11;
                   break;
                 }
 
                 return _context.abrupt("return", error);
 
-              case 12:
-                _context.next = 17;
+              case 11:
+                _context.next = 16;
                 break;
 
-              case 14:
-                _context.prev = 14;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 17:
+              case 16:
                 return _context.abrupt("return", null);
 
-              case 18:
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 14]]);
+        }, _callee, _this2, [[0, 13]]);
       }));
 
       return function (_x) {

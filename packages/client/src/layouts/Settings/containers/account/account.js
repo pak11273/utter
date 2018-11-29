@@ -103,7 +103,7 @@ class AccountInfo extends Component {
                   <label>New Password</label>
                   <input placeholder="Password" />
                 </Form.Field>
-                <Form.Field name="passwordConfirmation" width={6}>
+                <Form.Field name="password confirmation" width={6}>
                   <label>Confirm Password</label>
                   <input placeholder="password" />
                 </Form.Field>

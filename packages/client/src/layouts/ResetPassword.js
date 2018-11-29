@@ -44,7 +44,7 @@ class ResetPassword extends Component {
     this.state = {
       identifier: "",
       password: "",
-      passwordConfirmation: "",
+      "password confirmation": "",
       token: "",
       errors: {}
     }
@@ -178,7 +178,7 @@ class ResetPassword extends Component {
                 <Input
                   autoComplete="new-password"
                   type="password"
-                  name="passwordConfirmation"
+                  name="password confirmation"
                   onChange={this.onChange}
                   margin="0 20px 0 20px"
                 />

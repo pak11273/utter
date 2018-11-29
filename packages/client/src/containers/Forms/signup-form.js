@@ -180,6 +180,7 @@ export default connect(
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
+      console.log("result: ", result)
       let hasErrors
       if (typeof result !== "string") {
         hasErrors = result.filter(obj => obj.path)

@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation(\n    $identity: String!\n    $password: String!\n    $passwordConfirmation: String!\n  ) {\n    login(\n      input: {\n        identity: $identity\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n      }\n    ) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation(\n    $identity: String!\n    $password: String!\n    $passwordConfirmation: String!\n  ) {\n    login(\n      input: {\n        identity: $identity\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n      }\n    ) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -46,20 +46,22 @@ var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation(\n    
 
   enterModule && enterModule(module);
 })();
+
+var _reactApollo = require("react-apollo");
 
 var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactApollo = require("react-apollo");
-
 var _graphqlTag = require("graphql-tag");
 
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
+var _normalizeErrors = require("../utils/normalizeErrors");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* NOTE: This file cannot use React or React Native Commands ie. <div> <View> */
+/* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 var D = exports.D = function (_PureComponent) {
   (0, _inherits3.default)(D, _PureComponent);
 
@@ -77,7 +79,7 @@ var D = exports.D = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = D.__proto__ || Object.getPrototypeOf(D)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var response;
+        var response, errors;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -85,37 +87,40 @@ var D = exports.D = function (_PureComponent) {
                 _context.prev = 0;
                 _context.next = 3;
                 return _this.props.mutate({
-                  variables: values
+                  variables: {
+                    identifier: values["username or email"],
+                    password: values.password
+                  }
                 });
 
               case 3:
                 response = _context.sent;
-                _context.next = 9;
-                break;
 
-              case 6:
-                _context.prev = 6;
+                console.log("respaone: ", response);
+                errors = response.data.login.error;
+
+                if (!errors) {
+                  _context.next = 8;
+                  break;
+                }
+
+                return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(errors));
+
+              case 8:
+                return _context.abrupt("return", null);
+
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 9:
-                if (!login) {
-                  _context.next = 11;
-                  break;
-                }
-
-                return _context.abrupt("return", normalizeErrors(login));
-
-              case 11:
-                return _context.abrupt("return", null);
-
-              case 12:
+              case 14:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 6]]);
+        }, _callee, _this2, [[0, 11]]);
       }));
 
       return function (_x) {

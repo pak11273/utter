@@ -7,7 +7,7 @@ import ForgotPassword from "./ForgotPassword.js"
 import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
 import Zones from "./Zones/index.js"
-import Login from "./Login/login-view.js"
+import LoginCtrl from "./Login/login-ctrl.js"
 import Settings from "./Settings"
 import ShoppingCart from "./ShoppingCart/components"
 import SignupCtrl from "./Signup/signup-ctrl.js"
@@ -48,7 +48,7 @@ export {
   GettingStarted,
   Test,
   Zones,
-  Login,
+  LoginCtrl,
   MyCourses,
   CoursesCreate,
   CoursesCreated,
