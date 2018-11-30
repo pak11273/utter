@@ -129,38 +129,53 @@ var signup = function () {
     var redis = _ref5.redis,
         url = _ref5.url;
 
-    var token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, error, newUser, signedUser;
+    var token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser, signedUser;
 
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            args.input["password confirmation"] = args.input.passwordConfirmation;
             token = null;
             arrayOfErrors = [];
-            _context2.prev = 2;
-            _context2.next = 5;
+            _context2.prev = 3;
+            _context2.next = 6;
             return _common.signupSchema.validate(args.input, { abortEarly: false });
 
-          case 5:
-            _context2.next = 10;
+          case 6:
+            _context2.next = 11;
             break;
 
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](2);
+          case 8:
+            _context2.prev = 8;
+            _context2.t0 = _context2["catch"](3);
 
             if (_context2.t0) {
               arrayOfErrors = (0, _formatYupError.formatYupError)(_context2.t0);
             }
 
-          case 10:
+          case 11:
             _args$input = args.input, username = _args$input.username, email = _args$input.email, password = _args$input.password;
-            _context2.next = 13;
+            _context2.next = 14;
             return _userModel2.default.findOne({ email: email }).exec();
 
-          case 13:
+          case 14:
             foundDupeEmail = _context2.sent;
+            _context2.next = 17;
+            return _userModel2.default.findOne({ username: username }).exec();
 
+          case 17:
+            foundDupeUsername = _context2.sent;
+
+
+            if (foundDupeUsername !== null) {
+              error = {
+                path: "username",
+                message: _errorMessages.duplicateUsername
+              };
+
+              arrayOfErrors.push(error);
+            }
 
             if (foundDupeEmail !== null) {
               error = {
@@ -174,40 +189,40 @@ var signup = function () {
             // Valid with unique email
 
             if (!(foundDupeEmail === null && (0, _isEmpty2.default)(arrayOfErrors))) {
-              _context2.next = 28;
+              _context2.next = 33;
               break;
             }
 
             newUser = new _userModel2.default(args.input);
-            _context2.next = 19;
+            _context2.next = 24;
             return newUser.save();
 
-          case 19:
+          case 24:
             signedUser = _context2.sent;
 
             token = (0, _auth.signToken)(signedUser._id);
             _context2.t1 = _mail.sendConfirmEmail;
             _context2.t2 = newUser.email;
-            _context2.next = 25;
+            _context2.next = 30;
             return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, signedUser._id, redis);
 
-          case 25:
+          case 30:
             _context2.t3 = _context2.sent;
-            _context2.next = 28;
+            _context2.next = 33;
             return (0, _context2.t1)(_context2.t2, _context2.t3);
 
-          case 28:
+          case 33:
             return _context2.abrupt("return", {
               token: token,
               error: arrayOfErrors
             });
 
-          case 29:
+          case 34:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, undefined, [[2, 7]]);
+    }, _callee2, undefined, [[3, 8]]);
   }));
 
   return function signup(_x4, _x5, _x6, _x7) {
