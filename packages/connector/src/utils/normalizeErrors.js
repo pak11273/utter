@@ -4,5 +4,5 @@ export const normalizeErrors = errors => {
     errorMap[err.path] = err.message
   })
 
-	return errorMap
+  return errorMap
 }

@@ -59,7 +59,13 @@ var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
 var _normalizeErrors = require("../utils/normalizeErrors");
 
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* import history from "../index.js" */
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 var D = exports.D = function (_PureComponent) {
@@ -79,7 +85,7 @@ var D = exports.D = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = D.__proto__ || Object.getPrototypeOf(D)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var response, errors;
+        var response, errors, token;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -98,29 +104,34 @@ var D = exports.D = function (_PureComponent) {
 
                 console.log("respaone: ", response);
                 errors = response.data.login.error;
+                token = response.data.login.token;
 
-                if (!errors) {
-                  _context.next = 8;
+                if ((0, _isEmpty2.default)(errors)) {
+                  _context.next = 9;
                   break;
                 }
 
                 return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(errors));
 
-              case 8:
+              case 9:
+                if (token) {
+                  localStorage.setItem("AUTH_TOKEN", token);
+                  /* history.push("/") */
+                }
                 return _context.abrupt("return", null);
 
-              case 11:
-                _context.prev = 11;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 14:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 11]]);
+        }, _callee, _this2, [[0, 13]]);
       }));
 
       return function (_x) {

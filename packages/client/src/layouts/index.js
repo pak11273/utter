@@ -8,6 +8,7 @@ import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
 import Zones from "./Zones/index.js"
 import LoginCtrl from "./Login/login-ctrl.js"
+import noAuth from "../utils/noAuth.js"
 import Settings from "./Settings"
 import ShoppingCart from "./ShoppingCart/components"
 import SignupCtrl from "./Signup/signup-ctrl.js"
@@ -53,6 +54,7 @@ export {
   CoursesCreate,
   CoursesCreated,
   Settings,
+  noAuth,
   NotFound,
   requireAuth,
   requireAdmin,

@@ -1,6 +1,7 @@
 const invalidEmail = "email must be a valid email"
 const invalidLogin = "invalid username or email"
-const duplicateEmail = "already taken"
+const duplicateEmail = "email is already taken"
+const duplicateUsername = "username is already taken"
 const userNotFound = "could not find user with that email"
 const expiredKey = "key has expired"
 const confirmEmail =
@@ -10,6 +11,7 @@ const passwordLocked = "Account is locked."
 export {
   confirmEmail,
   duplicateEmail,
+  duplicateUsername,
   invalidEmail,
   invalidLogin,
   passwordLocked,

@@ -8,7 +8,7 @@ import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
 /* import ioMiddleware from "redux-socketio" // TODO: currently grabbing from npm globally(npm link redux-socketio), need to unlink once it's production ready and download the npm module */
 /* const Socket = new SocketIO() */
-import history from "./history.js"
+import history from "@utterzone/connector"
 import rootSaga from "./rootSaga.js"
 import rootReducer from "./rootReducer.js"
 

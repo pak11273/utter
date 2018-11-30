@@ -4,6 +4,8 @@ import {graphql} from "react-apollo"
 import React, {PureComponent} from "react"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalizeErrors"
+import isEmpty from "lodash/isEmpty"
+/* import history from "../index.js" */
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class D extends PureComponent {
@@ -17,8 +19,13 @@ export class D extends PureComponent {
       })
       console.log("respaone: ", response)
       const errors = response.data.login.error
-      if (errors) {
+      const token = response.data.login.token
+      if (!isEmpty(errors)) {
         return normalizeErrors(errors)
+      }
+      if (token) {
+        localStorage.setItem("AUTH_TOKEN", token)
+        /* history.push("/") */
       }
       return null
     } catch (err) {

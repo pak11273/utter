@@ -27,3 +27,15 @@ Object.keys(_loginConnector).forEach(function (key) {
     }
   });
 });
+
+var _history = require("./history");
+
+Object.keys(_history).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _history[key];
+    }
+  });
+});

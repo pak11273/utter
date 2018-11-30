@@ -1,5 +1,5 @@
 import "./forms.css"
-import history from "../../history.js"
+import {history} from "@utterzone/connector"
 import {
   Grid,
   Button,
@@ -16,7 +16,6 @@ import {signupSchema} from "@utterzone/common"
 import {withFormik, Field} from "formik"
 import React, {PureComponent} from "react"
 import cloneDeep from "lodash/cloneDeep"
-import isEmpty from "lodash/isEmpty"
 import {FormikField, Spacer} from "../../components"
 import {main} from "../../themes/config"
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
@@ -180,28 +179,18 @@ export default connect(
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
-      console.log("result: ", result)
-      let hasErrors
-      if (typeof result !== "string") {
-        hasErrors = result.filter(obj => obj.path)
-      }
 
       // if signup info is legit
-      if (isEmpty(hasErrors)) {
+      if (typeof result === "string") {
         localStorage.setItem("AUTH_TOKEN", result)
         history.push("/")
         props.addFlashMessage({
           type: "success",
-          text: "Welcome to Utterzone.  Have Fun!"
+          text: "Welcome to Utterzone"
         })
       } else {
         // if singup info is not legit
-        console.log("hasERRor: ", hasErrors[0])
-        setErrors(hasErrors[0])
-        props.addFlashMessage({
-          type: "error",
-          text: "You fucked up dude"
-        })
+        setErrors(result)
       }
     }
   })(SignupForm)

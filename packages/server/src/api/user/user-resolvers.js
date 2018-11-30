@@ -7,6 +7,7 @@ import {authenticate, signToken, decodeToken} from "../../auth/auth"
 import {
   confirmEmail,
   duplicateEmail,
+  duplicateUsername,
   passwordLocked,
   userNotFound
 } from "../shared/error-messages.js"
@@ -57,6 +58,7 @@ const forgotPasswordChange = async (_, {newPassword, key}, {redis, url}) => {
 }
 
 const signup = async (_, args, {redis, url}, info) => {
+  args.input["password confirmation"] = args.input.passwordConfirmation
   let token = null
   var arrayOfErrors = []
   try {
@@ -68,6 +70,15 @@ const signup = async (_, args, {redis, url}, info) => {
   }
   const {username, email, password} = args.input
   var foundDupeEmail = await User.findOne({email}).exec()
+  var foundDupeUsername = await User.findOne({username}).exec()
+
+  if (foundDupeUsername !== null) {
+    var error = {
+      path: "username",
+      message: duplicateUsername
+    }
+    arrayOfErrors.push(error)
+  }
 
   if (foundDupeEmail !== null) {
     var error = {

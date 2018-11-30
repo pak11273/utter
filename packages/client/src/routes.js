@@ -19,6 +19,7 @@ import {
   CoursesCreate,
   CoursesCreated,
   /* NotFound, */
+  noAuth,
   requireAuth,
   requireAdmin,
   Dashboard,
@@ -119,7 +120,7 @@ export const routes = [
     path: "/courses/created"
   },
   {
-    component: LoginCtrl,
+    component: noAuth(LoginCtrl),
     exact: true,
     path: "/login"
   },

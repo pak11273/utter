@@ -18,7 +18,7 @@ import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/Spacers/NavbarSpacer.js"
 import {store, persistor} from "./store.js"
 import FlashMessagesList from "./components/FlashMessages/FlashMessagesList"
-import history from "./history.js"
+import {history} from "@utterzone/connector"
 import {PersistGate} from "redux-persist/integration/react"
 import "semantic-ui-css/semantic.css"
 

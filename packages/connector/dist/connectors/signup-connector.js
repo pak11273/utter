@@ -57,9 +57,9 @@ var _graphqlTag = require("graphql-tag");
 
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _normalizeErrors = require("../utils/normalizeErrors");
 
-/* import {normalizeErrors} from "../utils/normalizeErrors" */
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 var C = exports.C = function (_PureComponent) {
@@ -111,31 +111,31 @@ var C = exports.C = function (_PureComponent) {
 
               case 8:
                 if (!error) {
-                  _context.next = 11;
+                  _context.next = 10;
                   break;
                 }
 
-                return _context.abrupt("return", error);
+                return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
 
-              case 11:
-                _context.next = 16;
+              case 10:
+                _context.next = 15;
                 break;
 
-              case 13:
-                _context.prev = 13;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 16:
+              case 15:
                 return _context.abrupt("return", null);
 
-              case 17:
+              case 16:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 13]]);
+        }, _callee, _this2, [[0, 12]]);
       }));
 
       return function (_x) {

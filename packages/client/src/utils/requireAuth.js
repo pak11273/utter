@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {addFlashMessage} from "../app/actions/flashMessages.js"
 import {connect} from "react-redux"
-import history from "../history"
+import {history} from "@utterzone/connector"
 
 const requireAuth = WrappedComponent => {
   class Wrap extends Component {

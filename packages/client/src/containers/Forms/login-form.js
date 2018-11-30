@@ -9,6 +9,7 @@ import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import {loginSchema} from "@utterzone/common"
 import {main} from "../../themes/config"
 import {FormikField, Spacer} from "../../components"
+import {history} from "@utterzone/connector"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
@@ -108,12 +109,14 @@ export default connect(
     handleSubmit: async (values, {props, setErrors}) => {
       const errors = await props.submit(values)
       console.log("errors: ", errors)
-      // change errors.identifier to errors["username or email"]
       if (errors) {
         if (errors.identifier) {
           errors["username or email"] = errors.identifier
         }
         setErrors(errors)
+      }
+      if (!errors) {
+        history.push("/")
       }
     }
   })(LoginForm)
