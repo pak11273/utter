@@ -6,6 +6,7 @@ import * as yup from "yup"
 import {authenticate, signToken, decodeToken} from "../../auth/auth"
 import {
   confirmEmail,
+  expiredKey,
   duplicateEmail,
   duplicateUsername,
   passwordLocked,
@@ -17,36 +18,41 @@ import {forgotPasswordPrefix} from "../../constants"
 import {formatYupError} from "../../utils/format-yup-error.js"
 import {sendConfirmEmail, sendForgotPasswordEmail} from "../../mail/mail"
 import User from "./user-model.js"
-import {signupSchema, PasswordValidation} from "@utterzone/common"
+import {
+  signupSchema,
+  PasswordValidation,
+  changePasswordSchema
+} from "@utterzone/common"
 
-const newPasswordSchema = yup.object().shape({
-  newPassword: PasswordValidation
-})
+const changePassword = async (_, args, {redis, url}) => {
+  const token = args.input.token
+  const redisKey = `${forgotPasswordPrefix}${token}`
+  const userId = await redis.get(redisKey)
 
-const forgotPasswordChange = async (_, {newPassword, key}, {redis, url}) => {
-  const redisKey = `${forgotPasswordPrefix} ${key}`
-
-  const userId = redis.get(redisKey)
   if (!userId) {
     return [
       {
-        path: "key",
+        path: "password",
         message: expiredKey
       }
     ]
   }
 
   try {
-    await newPasswordSchema.validate({newPassword}.input, {abortEarly: false})
+    args.input["password confirmation"] = args.input.passwordConfirmation
+    await changePasswordSchema.validate(args.input, {
+      abortEarly: false
+    })
   } catch (err) {
     if (err) {
-      arrayOfErrors = formatYupError(err)
+      console.log("err: ", err)
+      return formatYupError(err)
     }
   }
 
-  const hashedPassword = user.encryptPassword(newPassword)
-
-  const updatePromise = user.findByIdAndUpdate(userId, {
+  let user = await User.findById(userId).exec()
+  const hashedPassword = user.encryptPassword(args.input.password)
+  const updatePromise = User.findByIdAndUpdate(userId, {
     $set: {forgotPasswordLocked: false, password: hashedPassword}
   })
 
@@ -169,27 +175,15 @@ const getUserByUsername = async (_, args, ctx, info) => {
 
 const forgotPassword = async (_, {email}, {redis, url}) => {
   let user = await User.findOne({email})
-  if (!user) {
-    return [
-      {
-        path: "email",
-        message: userNotFound
-      }
-    ]
-  }
-  // TODO: add frontend url in production
+
   // TODO: may not implement this because anyone can lock someone's account
   /* await passwordLockedAccount(user._id, redis) */
-  await sendForgotPasswordEmail(
+  const link = await sendForgotPasswordEmail(
     user.email,
     await createForgotPasswordLink(url, user._id, redis)
   )
-  return [
-    {
-      path: "email",
-      message: "email sent"
-    }
-  ]
+
+  return true
 }
 
 const updateMe = (_, {input}, {user}) => {
@@ -213,7 +207,7 @@ export const userResolvers = {
   },
 
   Mutation: {
-    forgotPasswordChange,
+    changePassword,
     forgotPassword,
     signup,
     login,

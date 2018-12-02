@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -101,37 +101,35 @@ var D = exports.D = function (_PureComponent) {
 
               case 3:
                 response = _context.sent;
-
-                console.log("respaone: ", response);
                 errors = response.data.login.error;
                 token = response.data.login.token;
 
                 if ((0, _isEmpty2.default)(errors)) {
-                  _context.next = 9;
+                  _context.next = 8;
                   break;
                 }
 
                 return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(errors));
 
-              case 9:
+              case 8:
                 if (token) {
                   localStorage.setItem("AUTH_TOKEN", token);
                   /* history.push("/") */
                 }
                 return _context.abrupt("return", null);
 
-              case 13:
-                _context.prev = 13;
+              case 12:
+                _context.prev = 12;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 16:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 13]]);
+        }, _callee, _this2, [[0, 12]]);
       }));
 
       return function (_x) {

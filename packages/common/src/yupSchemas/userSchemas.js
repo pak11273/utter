@@ -1,4 +1,5 @@
 import * as yup from "yup"
+const invalidLogin = "invalid login"
 
 export const invalidEmail = "email must be a valid email"
 export const emailNotLongEnough = "email must be at least 3 characters"
@@ -10,7 +11,13 @@ export const PasswordValidation = yup
   .max(255)
   .required("Password is required")
 
-const invalidLogin = "invalid login"
+export const changePasswordSchema = yup.object().shape({
+  password: PasswordValidation,
+  "password confirmation": yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords do not match")
+    .required("Password confirmation is required")
+})
 
 export const loginSchema = yup.object().shape({
   "username or email": yup

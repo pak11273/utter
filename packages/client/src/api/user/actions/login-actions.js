@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken'
-import axios from 'axios'
+import jwt from "jsonwebtoken"
+import axios from "axios"
 import {
   // CHANGE_FORM,
   // SET_AUTH,
@@ -12,9 +12,9 @@ import {
   // REQUEST_ERROR,
   // CLEAR_ERROR
   SET_CURRENT_USER
-} from '../types.js'
+} from "../types.js"
 
-import {createAction} from '../../../utils/reduxUtils.js'
+import {createAction} from "../../../utils/reduxUtils.js"
 
 // import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
 // import {fetchData} from '../../utils/apiMgr'
@@ -141,16 +141,9 @@ import {createAction} from '../../../utils/reduxUtils.js'
 //   return {type: CLEAR_ERROR}
 // }
 
-// TODO API CALLS BELONG IN SAGAS
-export function forgotpassword(data) {
-  return dispatch => {
-    return axios.post('/mail/forgot-password', data)
-  }
-}
-
 export function resetpassword(data) {
   return dispatch => {
-    return axios.post('/mail/reset-password', data)
+    return axios.post("/mail/reset-password", data)
   }
 }
 

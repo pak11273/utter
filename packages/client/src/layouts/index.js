@@ -3,7 +3,8 @@ import French1 from "./French/Level1.js"
 import Home from "./Home"
 import About from "./About"
 import Contact from "./Contact.js"
-import ForgotPassword from "./ForgotPassword.js"
+import ChangePassword from "./ChangePassword/change-password-ctrl.js"
+import ForgotPassword from "./ForgotPassword/forgot-password-ctrl.js"
 import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
 import Zones from "./Zones/index.js"
@@ -45,6 +46,7 @@ export {
   Contact,
   CourseEdit,
   Courses,
+  ChangePassword,
   ForgotPassword,
   GettingStarted,
   Test,

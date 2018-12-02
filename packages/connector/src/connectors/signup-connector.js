@@ -45,7 +45,7 @@ export class C extends PureComponent {
 }
 
 const signupMutation = gql`
-  mutation(
+  mutation signupMutation(
     $username: String!
     $email: String!
     $password: String!

@@ -3,8 +3,9 @@ import {
   Home,
   About,
   Zones,
+  ChangePassword,
   Contact,
-  /* ForgotPassword, */
+  ForgotPassword,
   /* GettingStarted, */
   Test,
   LoginCtrl,
@@ -63,12 +64,16 @@ export const routes = [
     path: "/admin",
     component: requireAdmin(Admin)
   },
-  // {
-  //   exact: true,
-  //   path: '/forgot-password',
-  //   component: ForgotPassword,
-  //   loadData: () => getSomeData()
-  // },
+  {
+    exact: true,
+    path: "/change-password/:token",
+    component: ChangePassword
+  },
+  {
+    exact: true,
+    path: "/forgot-password",
+    component: ForgotPassword
+  },
   {
     component: requireAuth(Dashboard),
     exact: true,

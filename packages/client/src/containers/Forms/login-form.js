@@ -30,7 +30,7 @@ class LoginForm extends PureComponent {
           <Image
             centered
             alt=""
-            src="https://i1.wp.com/dreamdiscoveritalia.com/wp-content/uploads/2015/04/charlemagne.png?w=880&ssl=1"
+            src="https://www.thestyledivision.com/wp-content/uploads/2015/05/jasper-james-double-exposure.jpg"
           />
           <Header as="h2">Explore a new world</Header>
           <Header as="h3">
@@ -59,7 +59,7 @@ class LoginForm extends PureComponent {
                 component={FormikField}
               />
               <Form.Group style={{position: "absolute", right: "10px"}}>
-                <a href="#"> Forgot Password? </a>
+                <a href="/forgot-password"> Forgot Password? </a>
               </Form.Group>
               <ThemeProvider theme={main}>
                 <Button
@@ -108,7 +108,6 @@ export default connect(
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const errors = await props.submit(values)
-      console.log("errors: ", errors)
       if (errors) {
         if (errors.identifier) {
           errors["username or email"] = errors.identifier

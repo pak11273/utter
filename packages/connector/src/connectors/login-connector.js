@@ -17,7 +17,6 @@ export class D extends PureComponent {
           password: values.password
         }
       })
-      console.log("respaone: ", response)
       const errors = response.data.login.error
       const token = response.data.login.token
       if (!isEmpty(errors)) {
@@ -39,7 +38,7 @@ export class D extends PureComponent {
 }
 
 const loginMutation = gql`
-  mutation($identifier: String!, $password: String!) {
+  mutation loginMutation($identifier: String!, $password: String!) {
     login(input: {identifier: $identifier, password: $password}) {
       token
       error {
