@@ -31,7 +31,7 @@ var createForgotPasswordLink = exports.createForgotPasswordLink = function () {
             return redis.set("" + _constants.forgotPasswordPrefix + id, userId, "ex", 60 * 20);
 
           case 3:
-            return _context.abrupt("return", url + "/change-password/" + id);
+            return _context.abrupt("return", url + "/api/users/change-password/" + id);
 
           case 4:
           case "end":
