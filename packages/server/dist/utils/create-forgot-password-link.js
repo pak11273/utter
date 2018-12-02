@@ -31,9 +31,13 @@ var createForgotPasswordLink = exports.createForgotPasswordLink = function () {
             return redis.set("" + _constants.forgotPasswordPrefix + id, userId, "ex", 60 * 20);
 
           case 3:
+            // 20 mins
+            if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
+              url = process.env.REACT_APP_CLIENT_URL;
+            }
             return _context.abrupt("return", url + "/api/users/change-password/" + id);
 
-          case 4:
+          case 5:
           case "end":
             return _context.stop();
         }
