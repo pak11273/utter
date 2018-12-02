@@ -1,5 +1,6 @@
 import {
   Admin,
+  Announcement,
   Home,
   About,
   Zones,
@@ -49,6 +50,10 @@ export const routes = [
     component: About,
     exact: true,
     path: "/About"
+  },
+  {
+    component: Announcement,
+    path: "/a"
   },
   {
     component: Home,

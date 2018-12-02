@@ -2,7 +2,7 @@ import React from "react"
 import {Redirect} from "react-router-dom"
 import {connect} from "react-redux"
 
-import LoginForm from "../../containers/Forms/login-form"
+import LoginForm from "./login-form"
 import {addFlashMessage} from "../../app/actions/flashMessages.js"
 
 function Login({submit, addFlashMessage}) {

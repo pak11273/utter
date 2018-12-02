@@ -1,4 +1,5 @@
 import Admin from "./Admin"
+import Announcement from "./Announcement"
 import French1 from "./French/Level1.js"
 import Home from "./Home"
 import About from "./About"
@@ -40,6 +41,7 @@ import Redux from "./Redux.js"
 
 export {
   Admin,
+  Announcement,
   French1,
   Home,
   About,

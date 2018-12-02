@@ -5,6 +5,7 @@ import {connect} from "react-redux"
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import {main} from "../../themes/config"
 import {FormikField, Spacer} from "../../components"
+import {history} from "@utterzone/connector"
 
 // actions
 import "./forms.css"
@@ -61,12 +62,14 @@ export default connect(
       email: ""
     }),
     handleSubmit: async (values, {props}) => {
+      const onComplete = () => {
+        history.push("/a/reset-password", {
+          announcement: "Please check your email to reset your password."
+        })
+      }
       const errors = await props.submit(values)
       if (!errors) {
-        props.addFlashMessage({
-          type: "success",
-          text: "Please check your email for further instructions."
-        })
+        onComplete()
       }
     }
   })(ForgotPasswordForm)

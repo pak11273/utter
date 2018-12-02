@@ -1,5 +1,4 @@
 import "./forms.css"
-import {history} from "@utterzone/connector"
 import {
   Grid,
   Button,
@@ -22,6 +21,7 @@ import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import Terms from "../../documents/terms-and-conditions.js"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
 import signup from "../../api/user/actions/signupActions.js"
+import {history} from "@utterzone/connector"
 
 const initialState = {
   agreementChecked: true
@@ -179,11 +179,16 @@ export default connect(
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
+      const onComplete = () => {
+        history.push("/a/confirm-email", {
+          announcement: "Please check your email to confirm your account."
+        })
+      }
 
       // if signup info is legit
       if (typeof result === "string") {
         localStorage.setItem("AUTH_TOKEN", result)
-        history.push("/")
+        onComplete()
         props.addFlashMessage({
           type: "success",
           text: "Welcome to Utterzone"
