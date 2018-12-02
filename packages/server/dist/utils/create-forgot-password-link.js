@@ -35,7 +35,7 @@ var createForgotPasswordLink = exports.createForgotPasswordLink = function () {
             if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
               url = process.env.REACT_APP_CLIENT_URL;
             }
-            return _context.abrupt("return", url + "/api/users/change-password/" + id);
+            return _context.abrupt("return", url + "/change-password/" + id);
 
           case 5:
           case "end":
