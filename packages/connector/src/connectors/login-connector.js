@@ -24,7 +24,6 @@ export class D extends PureComponent {
       }
       if (token) {
         localStorage.setItem("AUTH_TOKEN", token)
-        /* history.push("/") */
       }
       return null
     } catch (err) {

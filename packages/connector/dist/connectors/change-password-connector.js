@@ -85,15 +85,13 @@ var N = exports.N = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = N.__proto__ || Object.getPrototypeOf(N)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var data;
+        var data, token;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
-
-                console.log("values; ", values);
-                _context.next = 4;
+                _context.next = 3;
                 return _this.props.mutate({
                   variables: {
                     password: values.password,
@@ -102,10 +100,13 @@ var N = exports.N = function (_PureComponent) {
                   }
                 });
 
-              case 4:
+              case 3:
                 data = _context.sent;
+                token = data.data.changePassword.token;
 
-                console.log("data: ", data);
+                if (token) {
+                  localStorage.setItem("AUTH_TOKEN", token);
+                }
                 return _context.abrupt("return", null);
 
               case 9:

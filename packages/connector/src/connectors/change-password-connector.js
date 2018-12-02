@@ -11,7 +11,6 @@ import isEmpty from "lodash/isEmpty"
 export class N extends PureComponent {
   submit = async values => {
     try {
-      console.log("values; ", values)
       const data = await this.props.mutate({
         variables: {
           password: values.password,
@@ -19,7 +18,10 @@ export class N extends PureComponent {
           token: values.token
         }
       })
-      console.log("data: ", data)
+      const token = data.data.changePassword.token
+      if (token) {
+        localStorage.setItem("AUTH_TOKEN", token)
+      }
       return null
     } catch (err) {
       console.log("err: ", err)

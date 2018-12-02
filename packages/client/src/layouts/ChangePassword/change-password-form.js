@@ -83,9 +83,7 @@ export default connect(
     handleSubmit: async (values, {props, setErrors}) => {
       values.token = props.token
       const onComplete = () => {
-        history.push("/a/reset-password", {
-          announcement: "Please login with your new password."
-        })
+        history.push("/")
       }
       const errors = await props.submit(values)
       if (errors) {

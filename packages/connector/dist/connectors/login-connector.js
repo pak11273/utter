@@ -114,7 +114,6 @@ var D = exports.D = function (_PureComponent) {
               case 8:
                 if (token) {
                   localStorage.setItem("AUTH_TOKEN", token);
-                  /* history.push("/") */
                 }
                 return _context.abrupt("return", null);
 
