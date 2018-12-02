@@ -53,81 +53,93 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var newPasswordSchema = yup.object().shape({
-  newPassword: _common.PasswordValidation
-}); /* eslint-enable no-unused-vars */
-
-
-var forgotPasswordChange = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, _ref3) {
-    var newPassword = _ref2.newPassword,
-        key = _ref2.key;
-    var redis = _ref3.redis,
-        url = _ref3.url;
-    var redisKey, userId, hashedPassword, updatePromise, deleteKeyPromise;
+var changePassword = function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, args, _ref2) {
+    var redis = _ref2.redis,
+        url = _ref2.url;
+    var token, redisKey, userId, user, hashedPassword, updatePromise, deleteKeyPromise;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            redisKey = _constants.forgotPasswordPrefix + " " + key;
-            userId = redis.get(redisKey);
+            token = args.input.token;
+            redisKey = "" + _constants.forgotPasswordPrefix + token;
+            _context.next = 4;
+            return redis.get(redisKey);
+
+          case 4:
+            userId = _context.sent;
 
             if (userId) {
-              _context.next = 4;
+              _context.next = 7;
               break;
             }
 
             return _context.abrupt("return", [{
-              path: "key",
-              message: expiredKey
+              path: "password",
+              message: _errorMessages.expiredKey
             }]);
 
-          case 4:
-            _context.prev = 4;
-            _context.next = 7;
-            return newPasswordSchema.validate({ newPassword: newPassword }.input, { abortEarly: false });
-
           case 7:
-            _context.next = 12;
+            _context.prev = 7;
+
+            args.input["password confirmation"] = args.input.passwordConfirmation;
+            _context.next = 11;
+            return _common.changePasswordSchema.validate(args.input, {
+              abortEarly: false
+            });
+
+          case 11:
+            _context.next = 18;
             break;
 
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](4);
+          case 13:
+            _context.prev = 13;
+            _context.t0 = _context["catch"](7);
 
-            if (_context.t0) {
-              arrayOfErrors = (0, _formatYupError.formatYupError)(_context.t0);
+            if (!_context.t0) {
+              _context.next = 18;
+              break;
             }
 
-          case 12:
-            hashedPassword = user.encryptPassword(newPassword);
-            updatePromise = user.findByIdAndUpdate(userId, {
+            console.log("err: ", _context.t0);
+            return _context.abrupt("return", (0, _formatYupError.formatYupError)(_context.t0));
+
+          case 18:
+            _context.next = 20;
+            return _userModel2.default.findById(userId).exec();
+
+          case 20:
+            user = _context.sent;
+            hashedPassword = user.encryptPassword(args.input.password);
+            updatePromise = _userModel2.default.findByIdAndUpdate(userId, {
               $set: { forgotPasswordLocked: false, password: hashedPassword }
             });
             deleteKeyPromise = redis.del(redisKey);
-            _context.next = 17;
+            _context.next = 26;
             return Promise.all([updatePromise, deleteKeyPromise]);
 
-          case 17:
+          case 26:
             return _context.abrupt("return", null);
 
-          case 18:
+          case 27:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[4, 9]]);
+    }, _callee, undefined, [[7, 13]]);
   }));
 
-  return function forgotPasswordChange(_x, _x2, _x3) {
+  return function changePassword(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); /* eslint-enable no-unused-vars */
+
 
 var signup = function () {
-  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, _ref5, info) {
-    var redis = _ref5.redis,
-        url = _ref5.url;
+  var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, _ref4, info) {
+    var redis = _ref4.redis,
+        url = _ref4.url;
 
     var token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser, signedUser;
 
@@ -226,12 +238,12 @@ var signup = function () {
   }));
 
   return function signup(_x4, _x5, _x6, _x7) {
-    return _ref4.apply(this, arguments);
+    return _ref3.apply(this, arguments);
   };
 }();
 
 var login = function () {
-  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(parent, args, context, info) {
+  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(parent, args, context, info) {
     var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
 
     return _regenerator2.default.wrap(function _callee3$(_context3) {
@@ -328,12 +340,12 @@ var login = function () {
   }));
 
   return function login(_x8, _x9, _x10, _x11) {
-    return _ref6.apply(this, arguments);
+    return _ref5.apply(this, arguments);
   };
 }();
 
 var getUserById = function () {
-  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
+  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
     var result;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
@@ -355,12 +367,12 @@ var getUserById = function () {
   }));
 
   return function getUserById(_x12, _x13, _x14, _x15) {
-    return _ref7.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 
 var getUserByUsername = function () {
-  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
+  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
     var result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
@@ -384,16 +396,16 @@ var getUserByUsername = function () {
   }));
 
   return function getUserByUsername(_x16, _x17, _x18, _x19) {
-    return _ref8.apply(this, arguments);
+    return _ref7.apply(this, arguments);
   };
 }();
 
 var forgotPassword = function () {
-  var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, _ref10, _ref11) {
-    var email = _ref10.email;
-    var redis = _ref11.redis,
-        url = _ref11.url;
-    var user;
+  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, _ref9, _ref10) {
+    var email = _ref9.email;
+    var redis = _ref10.redis,
+        url = _ref10.url;
+    var user, link;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -403,35 +415,21 @@ var forgotPassword = function () {
 
           case 2:
             user = _context6.sent;
-
-            if (user) {
-              _context6.next = 5;
-              break;
-            }
-
-            return _context6.abrupt("return", [{
-              path: "email",
-              message: _errorMessages.userNotFound
-            }]);
-
-          case 5:
             _context6.t0 = _mail.sendForgotPasswordEmail;
             _context6.t1 = user.email;
-            _context6.next = 9;
+            _context6.next = 7;
             return (0, _createForgotPasswordLink.createForgotPasswordLink)(url, user._id, redis);
 
-          case 9:
+          case 7:
             _context6.t2 = _context6.sent;
-            _context6.next = 12;
+            _context6.next = 10;
             return (0, _context6.t0)(_context6.t1, _context6.t2);
 
-          case 12:
-            return _context6.abrupt("return", [{
-              path: "email",
-              message: "email sent"
-            }]);
+          case 10:
+            link = _context6.sent;
+            return _context6.abrupt("return", true);
 
-          case 13:
+          case 12:
           case "end":
             return _context6.stop();
         }
@@ -440,13 +438,13 @@ var forgotPassword = function () {
   }));
 
   return function forgotPassword(_x20, _x21, _x22) {
-    return _ref9.apply(this, arguments);
+    return _ref8.apply(this, arguments);
   };
 }();
 
-var updateMe = function updateMe(_, _ref12, _ref13) {
-  var input = _ref12.input;
-  var user = _ref13.user;
+var updateMe = function updateMe(_, _ref11, _ref12) {
+  var input = _ref11.input;
+  var user = _ref12.user;
 
   merge(user, input);
   return user.save();
@@ -456,8 +454,8 @@ var userResolvers = exports.userResolvers = {
   Query: {
     getUserById: getUserById,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref14) {
-      var name = _ref14.name;
+    hello: function hello(_, _ref13) {
+      var name = _ref13.name;
       return "Hello " + (name || "World");
     }
   },
@@ -471,7 +469,7 @@ var userResolvers = exports.userResolvers = {
   },
 
   Mutation: {
-    forgotPasswordChange: forgotPasswordChange,
+    changePassword: changePassword,
     forgotPassword: forgotPassword,
     signup: signup,
     login: login,

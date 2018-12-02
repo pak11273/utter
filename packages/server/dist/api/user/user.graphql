@@ -17,6 +17,12 @@ type AuthPayload {
   error: [Error]
 }
 
+input ChangePasswordInput {
+	password: String!,
+	passwordConfirmation: String,
+	token: String!
+}
+
 input UpdatedUserInput {
   age: Int
   email: String
@@ -55,9 +61,9 @@ type Query {
 
 type Mutation {
   createUser(input: CreateUserInput!): User
-	forgotPasswordChange(newPassword: String!, key: String!): [Error!]
+	changePassword(input: ChangePasswordInput): [Error!]
   login(input: LoginInput): AuthPayload
-	forgotPassword(email: String!): [Error] 
+	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
   updateMe(input: UpdatedUserInput!): User!
 }
