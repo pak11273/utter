@@ -44,8 +44,11 @@ const changePasswordMutation = gql`
         token: $token
       }
     ) {
-      path
-      message
+      token
+      error {
+        path
+        message
+      }
     }
   }
 `

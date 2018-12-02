@@ -25,28 +25,39 @@ import {
 } from "@utterzone/common"
 
 const changePassword = async (_, args, {redis, url}) => {
-  const token = args.input.token
-  const redisKey = `${forgotPasswordPrefix}${token}`
+  console.log("args: ", args)
+  let token = null
+  var arrayOfErrors = []
+  const redisToken = args.input.token
+  const redisKey = `${forgotPasswordPrefix}${redisToken}`
   const userId = await redis.get(redisKey)
 
   if (!userId) {
-    return [
-      {
-        path: "password",
-        message: expiredKey
-      }
-    ]
+    console.log("no user")
+    arrayOfErrors.push({
+      path: "password",
+      message: expiredKey
+    })
+    return {
+      token: null,
+      error: arrayOfErrors
+    }
   }
 
   try {
+    console.log("args2: ", args)
     args.input["password confirmation"] = args.input.passwordConfirmation
     await changePasswordSchema.validate(args.input, {
       abortEarly: false
     })
   } catch (err) {
     if (err) {
-      console.log("err: ", err)
-      return formatYupError(err)
+      console.log("invalide")
+      arrayOfErrors = formatYupError(err)
+      return {
+        token: null,
+        error: arrayOfErrors
+      }
     }
   }
 
@@ -55,12 +66,17 @@ const changePassword = async (_, args, {redis, url}) => {
   const updatePromise = User.findByIdAndUpdate(userId, {
     $set: {forgotPasswordLocked: false, password: hashedPassword}
   })
+  token = signToken(user._id)
+  console.log("token", token)
 
   const deleteKeyPromise = redis.del(redisKey)
 
   await Promise.all([updatePromise, deleteKeyPromise])
 
-  return null
+  return {
+    token,
+    error: []
+  }
 }
 
 const signup = async (_, args, {redis, url}, info) => {

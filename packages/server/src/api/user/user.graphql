@@ -61,7 +61,7 @@ type Query {
 
 type Mutation {
   createUser(input: CreateUserInput!): User
-	changePassword(input: ChangePasswordInput): [Error!]
+	changePassword(input: ChangePasswordInput): AuthPayload 
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload

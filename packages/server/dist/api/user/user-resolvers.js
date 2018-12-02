@@ -57,77 +57,97 @@ var changePassword = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, args, _ref2) {
     var redis = _ref2.redis,
         url = _ref2.url;
-    var token, redisKey, userId, user, hashedPassword, updatePromise, deleteKeyPromise;
+    var token, arrayOfErrors, redisToken, redisKey, userId, user, hashedPassword, updatePromise, deleteKeyPromise;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            token = args.input.token;
-            redisKey = "" + _constants.forgotPasswordPrefix + token;
-            _context.next = 4;
+            console.log("args: ", args);
+            token = null;
+            arrayOfErrors = [];
+            redisToken = args.input.token;
+            redisKey = "" + _constants.forgotPasswordPrefix + redisToken;
+            _context.next = 7;
             return redis.get(redisKey);
 
-          case 4:
+          case 7:
             userId = _context.sent;
 
             if (userId) {
-              _context.next = 7;
+              _context.next = 12;
               break;
             }
 
-            return _context.abrupt("return", [{
+            console.log("no user");
+            arrayOfErrors.push({
               path: "password",
               message: _errorMessages.expiredKey
-            }]);
+            });
+            return _context.abrupt("return", {
+              token: null,
+              error: arrayOfErrors
+            });
 
-          case 7:
-            _context.prev = 7;
+          case 12:
+            _context.prev = 12;
 
+            console.log("args2: ", args);
             args.input["password confirmation"] = args.input.passwordConfirmation;
-            _context.next = 11;
+            _context.next = 17;
             return _common.changePasswordSchema.validate(args.input, {
               abortEarly: false
             });
 
-          case 11:
-            _context.next = 18;
+          case 17:
+            _context.next = 25;
             break;
 
-          case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](7);
+          case 19:
+            _context.prev = 19;
+            _context.t0 = _context["catch"](12);
 
             if (!_context.t0) {
-              _context.next = 18;
+              _context.next = 25;
               break;
             }
 
-            console.log("err: ", _context.t0);
-            return _context.abrupt("return", (0, _formatYupError.formatYupError)(_context.t0));
+            console.log("invalide");
+            arrayOfErrors = (0, _formatYupError.formatYupError)(_context.t0);
+            return _context.abrupt("return", {
+              token: null,
+              error: arrayOfErrors
+            });
 
-          case 18:
-            _context.next = 20;
+          case 25:
+            _context.next = 27;
             return _userModel2.default.findById(userId).exec();
 
-          case 20:
+          case 27:
             user = _context.sent;
             hashedPassword = user.encryptPassword(args.input.password);
             updatePromise = _userModel2.default.findByIdAndUpdate(userId, {
               $set: { forgotPasswordLocked: false, password: hashedPassword }
             });
+
+            token = (0, _auth.signToken)(user._id);
+            console.log("token", token);
+
             deleteKeyPromise = redis.del(redisKey);
-            _context.next = 26;
+            _context.next = 35;
             return Promise.all([updatePromise, deleteKeyPromise]);
 
-          case 26:
-            return _context.abrupt("return", null);
+          case 35:
+            return _context.abrupt("return", {
+              token: token,
+              error: []
+            });
 
-          case 27:
+          case 36:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[7, 13]]);
+    }, _callee, undefined, [[12, 19]]);
   }));
 
   return function changePassword(_x, _x2, _x3) {
