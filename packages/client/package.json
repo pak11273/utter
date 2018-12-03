@@ -71,6 +71,8 @@
     "lodash.get": "^4.4.2",
     "raw-loader": "^0.5.1",
     "react": "^16.4.2",
+    "react-addons-create-fragment": "15.4.*",
+    "react-addons-transition-group": "15.4.*",
     "react-apollo": "^2.2.4",
     "react-dom": "^16.2.0",
     "react-dropzone": "^4.2.13",

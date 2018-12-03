@@ -9,19 +9,18 @@ import update from "immutability-helper"
 import {
   Button as SemButton,
   Card,
-  Container,
   Grid,
   Header,
   Icon,
   Image,
   Input,
   Item,
+  Loader,
   Segment,
   Select as SemSelect
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-import styled from "styled-components"
 import "./styles.css"
 
 import {Query} from "react-apollo"
@@ -68,7 +67,7 @@ class Courses extends Component {
     this.state = cloneDeep(initialCoursesState)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     const newState = update(this.state, {
       cursor: {$set: ""}
     })
@@ -97,7 +96,14 @@ class Courses extends Component {
               teachingLang
             }}>
             {({loading, error, data, fetchMore}) => {
-              if (loading) return <Grid.Column>loading...</Grid.Column>
+              if (loading) {
+                console.log("data.network: ", data.networkstatus)
+                return (
+                  <Grid.Column>
+                    <Loader active>Loading</Loader>
+                  </Grid.Column>
+                )
+              }
               if (error)
                 return (
                   <Grid.Column>
@@ -124,6 +130,7 @@ class Courses extends Component {
                         },
                         updateQuery: (previousResult, {fetchMoreResult}) => {
                           if (!fetchMoreResult) {
+                            // TODO: pending
                           }
                           const previousEntry =
                             previousResult.getCourses.courses
@@ -145,9 +152,9 @@ class Courses extends Component {
                             this.setState(newState)
 
                             return previousResult
-                          } else {
-                            var newCursor = newCourses[newCourses.length - 1].id
                           }
+
+                          var newCursor = newCourses[newCourses.length - 1].id
 
                           if (!fetchMoreResult) return previousEntry
 
@@ -169,7 +176,8 @@ class Courses extends Component {
                         margin: "50px",
                         border: "none",
                         background: "none"
-                      }}>
+                      }}
+                      type="button">
                       Scroll down for more
                     </button>
                   </Waypoint>
@@ -198,7 +206,7 @@ class Courses extends Component {
                           <div>
                             <Icon name="pencil" />
                             <a style={{padding: "0 20px 0 0"}}>
-                              {course.courseAuthor.username}
+                              {course.courseAuthor}
                             </a>
                           </div>
                           <div>
@@ -311,16 +319,13 @@ class CoursesContainer extends Component {
     this.setState(newState)
   }
 
-  handleSubmit = e => {
-    // e.preventDefault()
-
+  handleSubmit = () => {
     // change state props based on selectionBox
-    const selectionBox = this.state.selectionBox
-    const courseInput = this.state.courseInput
+    const {courseInput, selectionBox} = this.state
     switch (selectionBox) {
-      case "title":
+      case "title": {
         // set courseName
-        let newName = update(this.state, {
+        const newName = update(this.state, {
           courseAuthor: {
             $set: ""
           },
@@ -338,10 +343,11 @@ class CoursesContainer extends Component {
         this.setState(newName)
 
         break
+      }
 
-      case "reference":
+      case "reference": {
         // set courseRef
-        let newRef = update(this.state, {
+        const newRef = update(this.state, {
           courseAuthor: {
             $set: ""
           },
@@ -359,11 +365,11 @@ class CoursesContainer extends Component {
         this.setState(newRef)
 
         break
+      }
 
-      case "author":
+      case "author": {
         // set courseAuthor
-
-        let newAuthor = update(this.state, {
+        const newAuthor = update(this.state, {
           courseAuthor: {
             $set: courseInput
           },
@@ -381,6 +387,9 @@ class CoursesContainer extends Component {
         this.setState(newAuthor)
 
         break
+      }
+      default:
+        break
     }
   }
 
@@ -394,7 +403,7 @@ class CoursesContainer extends Component {
         </Grid>
       )
     } else {
-      var scrollMsg = <div />
+      scrollMsg = <div />
     }
 
     return (
@@ -482,6 +491,7 @@ class CoursesContainer extends Component {
             teachingLang={this.state.teachingLang}
           />
         </Grid.Column>
+        {scrollMsg}
       </Grid>
     )
   }

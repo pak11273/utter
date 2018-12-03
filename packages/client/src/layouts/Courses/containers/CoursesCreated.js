@@ -74,7 +74,7 @@ class Courses extends Component {
     this.state = cloneDeep(initialCoursesState)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps() {
     const newState = update(this.state, {
       cursor: {$set: ""}
     })
@@ -215,7 +215,7 @@ class Courses extends Component {
                           <div>
                             <Icon name="pencil" />
                             <a style={{padding: "0 20px 0 0"}}>
-                              {course.courseAuthor.username}
+                              {course.courseAuthor}
                             </a>
                           </div>
                           <div>

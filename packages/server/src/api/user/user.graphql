@@ -1,6 +1,9 @@
 # import Error from "../shared/shared.graphql"
-# trash
 
+type Error {
+  path: String!
+  message: String!
+}
 
 type User {
 	id: ID!
