@@ -16,7 +16,7 @@ import {
   Input,
   Item,
   Loader,
-  Segment,
+  /* Segment, */
   Select as SemSelect
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
@@ -97,7 +97,6 @@ class Courses extends Component {
             }}>
             {({loading, error, data, fetchMore}) => {
               if (loading) {
-                console.log("data.network: ", data.networkstatus)
                 return (
                   <Grid.Column>
                     <Loader active>Loading</Loader>
@@ -169,18 +168,8 @@ class Courses extends Component {
                           }
                         }
                       })
-                    }}>
-                    <button
-                      loading={loading.toString()}
-                      style={{
-                        margin: "50px",
-                        border: "none",
-                        background: "none"
-                      }}
-                      type="button">
-                      Scroll down for more
-                    </button>
-                  </Waypoint>
+                    }}
+                  />
                 )
               }
               return (
@@ -394,17 +383,17 @@ class CoursesContainer extends Component {
   }
 
   render() {
-    if (this.props.next !== "done") {
-      var scrollMsg = (
-        <Grid centered style={{margin: "0 0 40px 0"}}>
-          <Segment compact loading={this.props.loading}>
-            Scroll down for more
-          </Segment>
-        </Grid>
-      )
-    } else {
-      scrollMsg = <div />
-    }
+    /* if (this.props.next !== "done") { */
+    /*   var scrollMsg = ( */
+    /*     <Grid centered style={{margin: "0 0 40px 0"}}> */
+    /*       <Segment compact loading={this.props.loading}> */
+    /*         Scroll down for more */
+    /*       </Segment> */
+    /*     </Grid> */
+    /*   ) */
+    /* } else { */
+    /*   scrollMsg = <div /> */
+    /* } */
 
     return (
       <Grid stackable>
@@ -491,7 +480,6 @@ class CoursesContainer extends Component {
             teachingLang={this.state.teachingLang}
           />
         </Grid.Column>
-        {scrollMsg}
       </Grid>
     )
   }

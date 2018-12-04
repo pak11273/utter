@@ -7,7 +7,7 @@ import cloneDeep from "lodash/cloneDeep"
 import styled from "styled-components"
 import {Form} from "formik"
 import cuid from "cuid"
-import {Grid, Header} from "semantic-ui-react"
+import {Button, Grid, Header} from "semantic-ui-react"
 import PropTypes from "prop-types"
 
 import {validateInput} from "../../../utils/validations/courseCreate"
@@ -57,7 +57,7 @@ const DisplayCount = styled.div`
   }
 `
 const StyledForm = styled(Form)`
-  height: 600px;
+  height: 1000px;
   margin: 0 auto;
   min-width: 250px;
   width: 70%;
@@ -185,7 +185,7 @@ class CreateCourse extends Component {
   }
 
   render() {
-    const {actions, courseReducer} = this.props
+    const {courseReducer} = this.props
     const {
       courseName,
       courseNameErrors,
@@ -282,6 +282,9 @@ class CreateCourse extends Component {
               <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
                 <Label>Tags</Label>
                 <Tags addTags={this.addTags} />
+              </StyledFlex>
+              <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+                <Button>Create Course</Button>
               </StyledFlex>
             </Grid>
           </StyledForm>

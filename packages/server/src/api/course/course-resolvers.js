@@ -20,7 +20,9 @@ const updateCourse = (_, {input}) => {
   return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const createCourse = (_, {input}) => {
+const createCourse = (_, args) => {
+  console.log("args: ", args)
+  const {input} = args
   return Course.create(input)
 }
 
