@@ -1,9 +1,8 @@
 /* eslint-enable no-unused-vars */
 import chalk from "chalk"
 import isEmpty from "lodash/isEmpty"
-import jwt from "jsonwebtoken"
 import * as yup from "yup"
-import {authenticate, signToken, decodeToken} from "../../auth/auth"
+import {authenticate, signToken} from "../../auth"
 import {
   confirmEmail,
   expiredKey,
@@ -127,8 +126,9 @@ const signup = async (_, args, {redis, url}, info) => {
   }
 }
 
-const login = async (parent, args, context, info) => {
+const login = async (parent, args, ctx, info) => {
   // decipher identifier
+  console.log("bitch: ", ctx.req.bitch)
   const {identifier, password} = args.input
   let token = ""
   let arrayOfErrors = []

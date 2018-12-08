@@ -1,3 +1,6 @@
+directive @isAuthenticated on QUERY | FIELD
+directive @hasScope(scope: [String]) on QUERY | FIELD
+
 type Term {
   id: ID
   word: String
@@ -58,12 +61,13 @@ extend type Query {
     author: String!
     usingLang: String!
     teachingLang: String!
-  ): PaginatedCourses
+  ): PaginatedCourses 
   getCourseCount: Int
 }
 
 extend type Mutation {
   createCourse(input: CreateCourseInput!): Course!
+	deleteCourse(id: String!): Boolean
   updateCourse(input: UpdatedCourse!): Course!
   removeCourse(id: ID!): Boolean
 }

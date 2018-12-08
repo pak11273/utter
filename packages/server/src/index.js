@@ -1,9 +1,10 @@
-import app from "./server.js"
-import http from "http"
-import config from "./config/index.js"
 import chalk from "chalk"
-import graphqlServer from "./graphql-server.js"
+import http from "http"
 import mongoose from "mongoose"
+import app from "./server.js"
+import config from "./config"
+import graphqlServer from "./graphql-server.js"
+import {decodeToken} from "./auth"
 
 const server = http.createServer(app)
 let currentApp = app
@@ -24,6 +25,9 @@ console.log(
 app.get("/", (req, res, next) => {
   res.send("Hello World")
 })
+
+// Auth Middleware
+app.use(decodeToken())
 
 graphqlServer.applyMiddleware({
   app

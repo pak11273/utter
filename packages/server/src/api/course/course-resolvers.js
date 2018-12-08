@@ -15,19 +15,35 @@ const getCourse = async (_, {id}, {user}) => {
   return course
 }
 
+const deleteCourse = async (_, {id}, ctx) => {
+  console.log("ctx: ", ctx)
+  console.log("id: ", id)
+  const course = await Course.findById(id).exec()
+  /* Course.findOneAndDelete({courseAuthor: user._id && id: id}) { */
+  /* } */
+
+  if (!course) {
+    throw new Error("No course found.")
+  }
+
+  if (course.courseAuthor === id) {
+    // TODO: delete course
+  }
+
+  return course
+}
+
 const updateCourse = (_, {input}) => {
   const {id, ...update} = input
   return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
 const createCourse = (_, args) => {
-  console.log("args: ", args)
   const {input} = args
   return Course.create(input)
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   // build query object
   const query = {}
   var courseName, courseRef, courseAuthor
@@ -87,6 +103,7 @@ export const courseResolvers = {
     getCourse
   },
   Mutation: {
+    deleteCourse,
     updateCourse,
     createCourse
   },

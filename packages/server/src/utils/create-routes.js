@@ -1,4 +1,4 @@
-import {decodeToken, getFreshUser} from '../auth/auth.js'
+import {decodeToken, getFreshUser} from '../auth'
 const checkUser = [decodeToken(), getFreshUser()]
 
 export default (controller, router) => {

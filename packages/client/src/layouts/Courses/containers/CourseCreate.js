@@ -1,41 +1,35 @@
-import React, {Component} from "react"
-import {withRouter} from "react-router-dom"
-import {bindActionCreators} from "redux"
-import {push} from "react-router-redux"
-import {connect} from "react-redux"
-import cloneDeep from "lodash/cloneDeep"
-import styled from "styled-components"
-import {Form} from "formik"
-import cuid from "cuid"
-import {Button, Grid, Header} from "semantic-ui-react"
-import PropTypes from "prop-types"
-
-import {validateInput} from "../../../utils/validations/courseCreate"
-import {addFlashMessage} from "../../../app/actions/flashMessages"
-import Teaching from "./Teaching"
-import Using from "./Using"
 import "../styles.css"
-
-import CourseRef from "../components/CourseRef"
-
+import {Button, Grid, Header} from "semantic-ui-react"
+import {Form} from "formik"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {push} from "react-router-redux"
+import {withRouter} from "react-router-dom"
+import React, {Component} from "react"
+import cloneDeep from "lodash/cloneDeep"
+import cuid from "cuid"
+import styled, {ThemeProvider} from "styled-components"
 import {
   Box,
   Flex,
   Input,
   Label,
+  MastheadTitle,
+  MastheadSubtitle,
   Searching,
   Span,
   Tags,
   TextArea
 } from "../../../components"
-
-// images
-/* import transLoader from "../../../assets/images/trans_loader.gif" */
-
-// actions
-import {toggleFooter} from "../../../app/actions/toggleFooterAction"
+import {addFlashMessage} from "../../../app/actions/flashMessages"
 import {fetchCourseName} from "../actions"
-
+import {main} from "../../../themes/config"
+import {toggleFooter} from "../../../app/actions/toggleFooterAction"
+import {validateInput} from "../../../utils/validations/courseCreate"
+import CourseRef from "../components/CourseRef"
+import {Masthead} from "../../../containers"
+import Teaching from "./Teaching"
+import Using from "./Using"
 import course from "../../../api/course/actions/courseActions"
 
 const DisplayCount = styled.div`
@@ -194,102 +188,116 @@ class CreateCourse extends Component {
       errors
     } = this.state
     return (
-      <Grid columns={1}>
-        <Grid.Column textAlign="center">
-          <StyledForm onSubmit={this.onSubmit}>
-            <Header as="h1">Create a Course</Header>
-            <Box margin="40px 0 0 0" position="relative">
-              <Header>
-                Course Name
-                <StyledSpan display640="inline-block">
-                  {" "}
-                  (10-100 chars.)
-                </StyledSpan>
-              </Header>
-              <DisplayCount>{courseName.length}</DisplayCount>
-              <Input
-                autoFocus
-                className={
-                  courseNameErrors || courseReducer.errorMsg
-                    ? "courseError"
-                    : null
-                }
-                name="courseName"
-                onChange={this.onChange}
-                onBlur={this.onBlur}
-                label="Course Name"
-                minwidth="200px"
-                placeholder="Give a unique name to your course."
-                type="text"
-                value={courseName}
-                width="80%"
-              />
-              {errors.courseName &&
-                Object.keys(courseNameErrors).map((key, i) => (
-                  <Error key={i}>{courseNameErrors.message}</Error>
-                ))}
-              {courseReducer.loading ? (
-                <Searching />
-              ) : courseReducer.error ? (
-                <p style={{color: "red"}}>{courseReducer.errorMsg}</p>
-              ) : (
-                <p style={{color: "green"}}>{courseReducer.courseNameMsg}</p>
-              )}
-            </Box>
-            <Box margin="40px 0 0 0" position="relative">
-              <Label>
-                Course Description
-                <StyledSpan display640="inline-block">
-                  {" "}
-                  (100-350 chars.)
-                </StyledSpan>
-              </Label>
-              <DisplayCount>{courseDescription.length}</DisplayCount>
-              <TextArea
-                className={courseDescriptionErrors ? "courseError" : null}
-                name="courseDescription"
-                onChange={this.onChange}
-                label="Course Description"
-                placeholder="Give a brief description about your course."
-                height="200px"
-                minwidth="200px"
-                value={courseDescription}
-                width="80%"
-              />
-              {errors.courseDescription &&
-                Object.keys(courseDescriptionErrors).map((key, i) => (
-                  <Error key={i}>{courseDescriptionErrors.message}</Error>
-                ))}
-            </Box>
-            <Grid>
-              <Flex
-                gridarea="teaching"
-                margin="40px 0 0 0"
-                overflow="initial"
-                position="relative">
-                <Label>Teaching</Label>
-                <Teaching addTeachingLang={this.addTeachingLang} />
-              </Flex>
-              <StyledFlex gridarea="using" margin1080="40px 0 0 0">
-                <Label>Using</Label>
-                <Using addUsingLang={this.addUsingLang} />
-              </StyledFlex>
-              <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-                <Label>Course Reference</Label>
-                <p>ie. Book, Classroom, Online Course</p>
-                <CourseRef addRef={this.addRef} />
-              </StyledFlex>
-              <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
-                <Label>Tags</Label>
-                <Tags addTags={this.addTags} />
-              </StyledFlex>
-              <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
-                <Button>Create Course</Button>
-              </StyledFlex>
-            </Grid>
-          </StyledForm>
-        </Grid.Column>
-      </Grid>
+      <ThemeProvider theme={main}>
+        <Grid>
+          <Grid.Row centered>
+            <Masthead background="#000 url(http://www.focusondrives.com/wp-content/uploads/Danfoss-application-software-development-2-1024x657.jpg) no-repeat left top">
+              <MastheadTitle color="#F6D155">Create a Course</MastheadTitle>
+              <MastheadSubtitle color="#F6D155">
+                Use material from current resources you are learning from or
+                formulate your own teaching strategy!
+              </MastheadSubtitle>
+            </Masthead>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column textAlign="center">
+              <StyledForm onSubmit={this.onSubmit}>
+                <Box margin="40px 0 0 0" position="relative">
+                  <Header>
+                    Course Name
+                    <StyledSpan display640="inline-block">
+                      {" "}
+                      (10-100 chars.)
+                    </StyledSpan>
+                  </Header>
+                  <DisplayCount>{courseName.length}</DisplayCount>
+                  <Input
+                    autoFocus
+                    className={
+                      courseNameErrors || courseReducer.errorMsg
+                        ? "courseError"
+                        : null
+                    }
+                    name="courseName"
+                    onChange={this.onChange}
+                    onBlur={this.onBlur}
+                    label="Course Name"
+                    minwidth="200px"
+                    placeholder="Give a unique name to your course."
+                    type="text"
+                    value={courseName}
+                    width="80%"
+                  />
+                  {errors.courseName &&
+                    Object.keys(courseNameErrors).map((key, i) => (
+                      <Error key={i}>{courseNameErrors.message}</Error>
+                    ))}
+                  {courseReducer.loading ? (
+                    <Searching />
+                  ) : courseReducer.error ? (
+                    <p style={{color: "red"}}>{courseReducer.errorMsg}</p>
+                  ) : (
+                    <p style={{color: "green"}}>
+                      {courseReducer.courseNameMsg}
+                    </p>
+                  )}
+                </Box>
+                <Box margin="40px 0 0 0" position="relative">
+                  <Label>
+                    Course Description
+                    <StyledSpan display640="inline-block">
+                      {" "}
+                      (100-350 chars.)
+                    </StyledSpan>
+                  </Label>
+                  <DisplayCount>{courseDescription.length}</DisplayCount>
+                  <TextArea
+                    className={courseDescriptionErrors ? "courseError" : null}
+                    name="courseDescription"
+                    onChange={this.onChange}
+                    label="Course Description"
+                    placeholder="Give a brief description about your course."
+                    height="200px"
+                    minwidth="200px"
+                    value={courseDescription}
+                    width="80%"
+                  />
+                  {errors.courseDescription &&
+                    Object.keys(courseDescriptionErrors).map((key, i) => (
+                      <Error key={i}>{courseDescriptionErrors.message}</Error>
+                    ))}
+                </Box>
+                <Grid>
+                  <Flex
+                    gridarea="teaching"
+                    margin="40px 0 0 0"
+                    overflow="initial"
+                    position="relative">
+                    <Label>Teaching</Label>
+                    <Teaching addTeachingLang={this.addTeachingLang} />
+                  </Flex>
+                  <StyledFlex gridarea="using" margin1080="40px 0 0 0">
+                    <Label>Using</Label>
+                    <Using addUsingLang={this.addUsingLang} />
+                  </StyledFlex>
+                  <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
+                    <Label>Course Reference</Label>
+                    <p>ie. Book, Classroom, Online Course</p>
+                    <CourseRef addRef={this.addRef} />
+                  </StyledFlex>
+                  <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+                    <Label>Tags</Label>
+                    <Tags addTags={this.addTags} />
+                  </StyledFlex>
+                  <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+                    <Button color="yellow">Create Course</Button>
+                  </StyledFlex>
+                </Grid>
+              </StyledForm>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </ThemeProvider>
     )
   }
 }
@@ -310,10 +318,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch
   )
 })
-
-CreateCourse.propTypes = {
-  actions: PropTypes.func
-}
 
 export default withRouter(
   connect(

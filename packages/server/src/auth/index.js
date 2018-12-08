@@ -4,17 +4,26 @@ import config from "../config"
 import User from "../api/user/user-model.js"
 const checkToken = expressJwt({secret: config.env.JWT})
 
+// expresss middleware (Deprecating auth in express, moving to graphql)
 export const decodeToken = () => {
   return (req, res, next) => {
     // make optional to place token on query string
     // if it is, place in header
     // use 'Bearer 2342342342' format so checkToken can see it
+
     if (req.query && req.query.hasOwnProperty("access_token")) {
       req.headers.authorization = "Bearer " + req.query.access_token
     }
 
+    if (req.headers.authorization !== "null") {
+      req.headers.authorization = "Bearer " + req.headers.authorization
+    }
+
     // call next if token is valid, send error if not, attaches decoded token to req.user
-    checkToken(req, res, next)
+    if (req.headers.authorization !== "null") {
+      return checkToken(req, res, next)
+    }
+    next()
   }
 }
 

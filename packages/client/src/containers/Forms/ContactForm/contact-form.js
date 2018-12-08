@@ -1,8 +1,7 @@
 import React, {Component} from "react"
 import {Box, InputLine, Label, Section} from "../../../components"
 import Button from "../../../components/Buttons/Button.js"
-import styled, {ThemeProvider} from "styled-components"
-import {main, base} from "../../../themes/config"
+import styled from "styled-components"
 import Select from "react-select"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
 import CallingCodes from "../../../assets/js/CallingCodes.js"
@@ -171,123 +170,119 @@ class ContactForm extends Component {
 
   render() {
     return (
-      <ThemeProvider theme={base}>
-        <Form onSubmit={this.onSubmit}>
-          <Section margin="80px 0 0 0" padding="100px" maxwidth="1024px">
-            <Role color="#273e63" fontsize="1rem" padding="0" textalign="left">
-              Request Information
-            </Role>
-            <Box
-              alignitems="baseline"
-              flexdirection="row"
-              justifycontent="flex-start">
-              <Label textalign="left" fontsize="1rem" width="130px">
-                Name
+      <Form onSubmit={this.onSubmit}>
+        <Section margin="80px 0 0 0" padding="100px" maxwidth="1024px">
+          <Role color="#273e63" fontsize="1rem" padding="0" textalign="left">
+            Request Information
+          </Role>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <Label textalign="left" fontsize="1rem" width="130px">
+              Name
+            </Label>
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.name}
+              type="text"
+              name="name"
+            />
+          </Box>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <Label textalign="left" fontsize="1rem" width="130px">
+              Email{" "}
+            </Label>
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.email}
+              type="text"
+              name="email"
+            />
+          </Box>
+          <Phone>
+            <Label textalign="left" fontsize="1rem" width="130px">
+              Phone
+            </Label>
+            <Select
+              clearable={false}
+              name="country"
+              autosize
+              placeholder="country name"
+              value={this.state.country}
+              onChange={this.onSelect2}
+              options={CallingCodes}
+              labelKey="country"
+              valueKey="value"
+              valueRenderer={country => country.value}
+            />
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.number}
+              type="text"
+              name="number"
+            />
+          </Phone>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <div
+              className="message"
+              style={{
+                color: this.state.color,
+                margin: "0 0 0 50px"
+              }}>
+              {this.state.message}
+            </div>
+          </Box>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <Label textalign="left" fontsize="1rem" width="140px">
+              Subject{" "}
+            </Label>
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.subject}
+              type="text"
+              name="subject"
+            />
+          </Box>
+          <Box alignitems="flex-start" padding="50px" margin="0 0 100px 0">
+            <Box margin="40px 0 0 0">
+              <Label margin="0 0 20px 0" textalign="left" fontsize="1rem">
+                Message
               </Label>
-              <InputLine
-                textalign="left"
-                onChange={this.onChange}
-                value={this.state.name}
-                type="text"
-                name="name"
-              />
             </Box>
-            <Box
-              alignitems="baseline"
-              flexdirection="row"
-              justifycontent="flex-start">
-              <Label textalign="left" fontsize="1rem" width="130px">
-                Email{" "}
-              </Label>
-              <InputLine
-                textalign="left"
-                onChange={this.onChange}
-                value={this.state.email}
-                type="text"
-                name="email"
-              />
-            </Box>
-            <Phone>
-              <Label textalign="left" fontsize="1rem" width="130px">
-                Phone
-              </Label>
-              <Select
-                clearable={false}
-                name="country"
-                autosize
-                placeholder="country name"
-                value={this.state.country}
-                onChange={this.onSelect2}
-                options={CallingCodes}
-                labelKey="country"
-                valueKey="value"
-                valueRenderer={country => country.value}
-              />
-              <InputLine
-                textalign="left"
-                onChange={this.onChange}
-                value={this.state.number}
-                type="text"
-                name="number"
-              />
-            </Phone>
-            <Box
-              alignitems="baseline"
-              flexdirection="row"
-              justifycontent="flex-start">
-              <div
-                className="message"
-                style={{
-                  color: this.state.color,
-                  margin: "0 0 0 50px"
-                }}>
-                {this.state.message}
-              </div>
-            </Box>
-            <Box
-              alignitems="baseline"
-              flexdirection="row"
-              justifycontent="flex-start">
-              <Label textalign="left" fontsize="1rem" width="140px">
-                Subject{" "}
-              </Label>
-              <InputLine
-                textalign="left"
-                onChange={this.onChange}
-                value={this.state.subject}
-                type="text"
-                name="subject"
-              />
-            </Box>
-            <Box alignitems="flex-start" padding="50px" margin="0 0 100px 0">
-              <Box margin="40px 0 0 0">
-                <Label margin="0 0 20px 0" textalign="left" fontsize="1rem">
-                  Message
-                </Label>
-              </Box>
-              <MsgBox
-                height="180px"
-                onChange={this.onChange}
-                value={this.state.letter}
-                type="text"
-                name="letter"
-              />
-              <ThemeProvider theme={main}>
-                <Button
-                  alignself="flex-end"
-                  bottom="-60px"
-                  fontsize="1rem"
-                  right="-6px"
-                  color="black"
-                  margin="80px 0 0 0"
-                  width="100px">
-                  Send
-                </Button>
-              </ThemeProvider>
-            </Box>
-          </Section>
-        </Form>
-      </ThemeProvider>
+            <MsgBox
+              height="180px"
+              onChange={this.onChange}
+              value={this.state.letter}
+              type="text"
+              name="letter"
+            />
+            <Button
+              alignself="flex-end"
+              bottom="-60px"
+              fontsize="1rem"
+              right="-6px"
+              color="black"
+              margin="80px 0 0 0"
+              width="100px">
+              Send
+            </Button>
+          </Box>
+        </Section>
+      </Form>
     )
   }
 }

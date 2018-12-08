@@ -7,6 +7,11 @@ import fs from "fs"
 import path from "path"
 import {redis} from "./redis"
 
+// directives
+import {isAuthenticatedDirective} from "./directives/isAuthenticated.js"
+import {DeprecatedDirective} from "./directives/deprecated.js"
+import {hasScopeDirective} from "./directives/hasScope.js"
+
 // schema imports
 const userSchema = path.join(__dirname, "./api/user/user.graphql")
 const courseSchema = path.join(__dirname, "./api/course/course.graphql")
@@ -28,6 +33,11 @@ const baseSchema = `
 `
 const schema = makeExecutableSchema({
   typeDefs: [baseSchema, userTypeDefs, courseTypeDefs],
+  schemaDirectives: {
+    auth: isAuthenticatedDirective,
+    hasScope: hasScopeDirective,
+    deprecated: DeprecatedDirective
+  },
   resolvers: merge({}, userResolvers, courseResolvers)
 })
 
