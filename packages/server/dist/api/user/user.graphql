@@ -1,10 +1,14 @@
 # import Error from "../shared/shared.graphql"
-# trash
+directive @test on OBJECT
 
+type Error {
+  path: String!
+  message: String!
+}
 
 type User {
 	id: ID!
-  email: String!
+  email: String! 
   password: String!
   contacts: [String]
   username: String!

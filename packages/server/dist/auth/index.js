@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.signToken = exports.authenticate = exports.verifyUser = exports.getFreshUser = exports.decodeToken = undefined;
+exports.signToken = exports.authenticate = exports.verifyUser = exports.getFreshUser = exports.hydrateUser = exports.decodeToken = exports.getUserFromJwt = undefined;
 
 var _jsonwebtoken = require("jsonwebtoken");
 
@@ -23,19 +23,40 @@ var _userModel2 = _interopRequireDefault(_userModel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var checkToken = (0, _expressJwt2.default)({ secret: _config2.default.env.JWT });
+var jwtDecode = require("jwt-decode");
+var getUserFromJwt = exports.getUserFromJwt = function getUserFromJwt(req, res, next) {
+  var authHeader = req.headers.authorization;
+  console.log("ahuthHeader: ", authHeader);
+  req.user = jwtDecode(authHeader);
+  next();
+};
 
+// expresss middleware (Deprecating auth in express, moving to graphql)
 var decodeToken = exports.decodeToken = function decodeToken() {
   return function (req, res, next) {
-    // make optional to place token on query string
-    // if it is, place in header
-    // use 'Bearer 2342342342' format so checkToken can see it
-    if (req.query && req.query.hasOwnProperty("access_token")) {
-      req.headers.authorization = "Bearer " + req.query.access_token;
+    if (req.headers.authorization) {
+      var token = req.headers.authorization;
     }
 
-    // call next if token is valid, send error if not, attaches decoded token to req.user
-    checkToken(req, res, next);
+    if (typeof token !== "undefined" && token !== "null") {
+      _jsonwebtoken2.default.verify(token, _config2.default.env.JWT, function (err, decoded) {
+        if (err) {
+          res.status(401).json({
+            error: "failed to authenticate"
+          });
+        } else {
+          req.user = {};
+          req.user.id = decoded._id;
+        }
+      });
+    }
+    next();
+  };
+};
+
+var hydrateUser = exports.hydrateUser = function hydrateUser(req, res, next) {
+  return function (req, res, next) {
+    next();
   };
 };
 
@@ -47,6 +68,7 @@ var getFreshUser = exports.getFreshUser = function getFreshUser() {
          */
         res.status(401).send("UnAuthorized");
       } else {
+        console.log("req: ", req.user);
         req.user = user;
         next();
       }

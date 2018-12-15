@@ -21,15 +21,11 @@ var _isEmpty = require("lodash/isEmpty");
 
 var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
-var _jsonwebtoken = require("jsonwebtoken");
-
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
-
 var _yup = require("yup");
 
 var yup = _interopRequireWildcard(_yup);
 
-var _auth = require("../../auth/auth");
+var _auth = require("../../auth");
 
 var _errorMessages = require("../shared/error-messages.js");
 
@@ -53,6 +49,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-enable no-unused-vars */
 var changePassword = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, args, _ref2) {
     var redis = _ref2.redis,
@@ -153,8 +150,7 @@ var changePassword = function () {
   return function changePassword(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
-}(); /* eslint-enable no-unused-vars */
-
+}();
 
 var signup = function () {
   var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, _ref4, info) {
@@ -263,7 +259,7 @@ var signup = function () {
 }();
 
 var login = function () {
-  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(parent, args, context, info) {
+  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(parent, args, ctx, info) {
     var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
 
     return _regenerator2.default.wrap(function _callee3$(_context3) {
@@ -283,16 +279,15 @@ var login = function () {
                 message: "username/email or password cannot be blank"
               });
             }
-            console.log("criteria: ", criteria);
             // check if passwords match
-            _context3.next = 9;
+            _context3.next = 8;
             return _userModel2.default.findOne(criteria).exec();
 
-          case 9:
+          case 8:
             user = _context3.sent;
 
             if (user) {
-              _context3.next = 14;
+              _context3.next = 13;
               break;
             }
 
@@ -300,23 +295,23 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context3.next = 26;
+            _context3.next = 25;
             break;
 
-          case 14:
+          case 13:
             if (user.authenticate(password)) {
-              _context3.next = 18;
+              _context3.next = 17;
               break;
             }
 
             // use authenticate() on user.doc, pass in the posted password, hash it and check
             arrayOfErrors.push({ path: "password", message: "Invalid Password" });
-            _context3.next = 26;
+            _context3.next = 25;
             break;
 
-          case 18:
+          case 17:
             if (!user.forgotPasswordLocked) {
-              _context3.next = 22;
+              _context3.next = 21;
               break;
             }
 
@@ -330,28 +325,28 @@ var login = function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context3.next = 26;
+            _context3.next = 25;
             break;
 
-          case 22:
+          case 21:
             if (!user) {
-              _context3.next = 26;
+              _context3.next = 25;
               break;
             }
 
-            _context3.next = 25;
+            _context3.next = 24;
             return (0, _auth.signToken)(user._id);
 
-          case 25:
+          case 24:
             token = _context3.sent;
 
-          case 26:
+          case 25:
             return _context3.abrupt("return", {
               token: token,
               error: arrayOfErrors
             });
 
-          case 27:
+          case 26:
           case "end":
             return _context3.stop();
         }

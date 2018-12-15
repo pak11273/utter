@@ -1,0 +1,10 @@
+directive @formattableDate(defaultFormat: String = "mmmm d, yyyy") on FIELD_DEFINITION
+directive @auth on FIELD_DEFINITION
+
+scalar Date
+
+extend type Query {
+	today: Date @formattableDate 
+	beef: String @auth 
+}
+
