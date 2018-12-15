@@ -1,5 +1,4 @@
-directive @isAuthenticated on QUERY | FIELD
-directive @hasScope(scope: [String]) on QUERY | FIELD
+directive @auth on FIELD_DEFINITION
 
 type Term {
   id: ID
@@ -61,7 +60,11 @@ extend type Query {
     author: String!
     usingLang: String!
     teachingLang: String!
-  ): PaginatedCourses 
+  ): PaginatedCourses  
+	getCreatedCourses(
+    cursor: String
+    author: String!
+	): PaginatedCourses @auth
   getCourseCount: Int
 }
 

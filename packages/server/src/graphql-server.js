@@ -1,26 +1,29 @@
 import {ApolloServer} from "apollo-server-express"
 import {importSchema} from "graphql-import"
-import mongoose from "mongoose"
 import {makeExecutableSchema} from "graphql-tools"
 import merge from "lodash/merge"
+import mongoose from "mongoose"
 import fs from "fs"
 import path from "path"
+import {DeprecatedDirective} from "./directives/deprecated/deprecated.js"
+import {FormattableDateDirective} from "./directives/formattableDate.js"
+import {isAuthenticatedDirective} from "./directives/auth/auth-directive"
 import {redis} from "./redis"
-
-// directives
-import {isAuthenticatedDirective} from "./directives/isAuthenticated.js"
-import {DeprecatedDirective} from "./directives/deprecated.js"
-import {hasScopeDirective} from "./directives/hasScope.js"
+import {restDirective} from "./directives/rest.js"
+/* import { userLoader } from './loaders/userLoader'; */
 
 // schema imports
 const userSchema = path.join(__dirname, "./api/user/user.graphql")
 const courseSchema = path.join(__dirname, "./api/course/course.graphql")
+const testSchema = path.join(__dirname, "./api/test/test.graphql")
 
 // type defs
+const testTypeDefs = fs.readFileSync(testSchema, "utf8")
 const userTypeDefs = fs.readFileSync(userSchema, "utf8")
 const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
 
 // resolver imports
+import {testResolvers} from "./api/test/test-resolvers.js"
 import {userResolvers} from "./api/user/user-resolvers.js"
 import {courseResolvers} from "./api/course/course-resolvers.js"
 
@@ -32,14 +35,18 @@ const baseSchema = `
   }
 `
 const schema = makeExecutableSchema({
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs],
   schemaDirectives: {
-    auth: isAuthenticatedDirective,
-    hasScope: hasScopeDirective,
-    deprecated: DeprecatedDirective
+    formattableDate: FormattableDateDirective,
+    deprecated: DeprecatedDirective,
+    auth: isAuthenticatedDirective
   },
-  resolvers: merge({}, userResolvers, courseResolvers)
+  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, testTypeDefs],
+  resolvers: merge({}, userResolvers, courseResolvers, testResolvers)
 })
+
+// reference: https://gist.github.com/donedgardo/ed2d36f6e650991543e5a55c77cddc0d
+// TODO: if apollo-server2 integrates with graphql-shield then check following line:
+/* const schemaWithMiddleware = applyMiddleware(schema, permissions) */
 
 const {ObjectId} = mongoose.Types
 ObjectId.prototype.valueOf = function() {
@@ -53,6 +60,7 @@ ObjectId.prototype.valueOf = function() {
 export default new ApolloServer({
   introspection: true,
   playground: true,
+  /* schema: schemaWithMiddleware, // see TODO */
   schema,
   context: ({req, res}) => ({
     redis,
@@ -62,5 +70,6 @@ export default new ApolloServer({
         : req.protocol + "://" + req.get("host"),
     req,
     user: req.user
+    /* userLoader: userLoader() */
   })
 })

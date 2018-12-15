@@ -16,6 +16,7 @@ import {
   /* Sponsorship, */
   Courses,
   CourseEdit,
+  CourseSettings,
   /* CourseDetails, */
   /* MyCourses, */
   CoursesCreate,
@@ -137,7 +138,12 @@ export const routes = [
   {
     component: requireAuth(CourseEdit),
     exact: true,
-    path: "/course/:id/:name/edit"
+    path: "/course/:id/edit"
+  },
+  {
+    component: requireAuth(CourseSettings),
+    exact: true,
+    path: "/course/:id"
   },
   {
     component: Pricing,

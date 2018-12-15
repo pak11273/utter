@@ -1,21 +1,21 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Link, Route} from 'react-router-dom'
-import styled from 'styled-components'
-import Vocabulary from './Vocabulary'
-import {Box, Button, Grid, Spacer, Text} from '../../components'
-import {FaCaretDown} from 'react-icons/fa'
-import './styles.css'
-import Aws from './Aws'
-import Phrases from './Phrases'
-import Challenges from './Challenges'
-import Api from './Api'
-import Team from './Team'
-import Etc from './Etc'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {Link, Route} from "react-router-dom"
+import styled from "styled-components"
+import Vocabulary from "./Vocabulary"
+import {Box, Button, Grid, Spacer, Text} from "../../components"
+import {FaCaretDown} from "react-icons/fa"
+import "./styles.css"
+import Aws from "./Aws"
+import Phrases from "./Phrases"
+import Challenges from "./Challenges"
+import Api from "./Api"
+import Team from "./Team"
+import Etc from "./Etc"
 
 // actions
-import {toggleFooter} from '../../app/actions/toggleFooterAction.js'
+import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 
 const Dropdown = styled(Button)`
   background: transparent;
@@ -85,27 +85,27 @@ const Main = () => (
 )
 
 class Admin extends Component {
-  DropFunc = e => {
-    let name = e.target.name
-    let x = document.getElementById(name)
-    if (x.className.indexOf('show') == -1) {
-      x.className += ' show'
-      x.previousElementSibling.className += ' w3-green'
-    } else {
-      x.className = x.className.replace(' show', '')
-      x.previousElementSibling.className = x.previousElementSibling.className.replace(
-        ' w3-green',
-        ''
-      )
-    }
-  }
-
   componentDidMount() {
     this.props.actions.toggleFooter(false)
   }
 
   componentWillUnmount() {
     this.props.actions.toggleFooter(true)
+  }
+
+  DropFunc = e => {
+    const {name} = e.target
+    const x = document.getElementById(name)
+    if (x.className.indexOf("show") === -1) {
+      x.className += " show"
+      x.previousElementSibling.className += " w3-green"
+    } else {
+      x.className = x.className.replace(" show", "")
+      x.previousElementSibling.className = x.previousElementSibling.className.replace(
+        " w3-green",
+        ""
+      )
+    }
   }
 
   render() {
@@ -124,7 +124,7 @@ class Admin extends Component {
             </Dropdown>
             <Box id="awsAcc" className="hide">
               <Link to="/admin/aws" className="dropButton">
-                AWS{' '}
+                AWS{" "}
               </Link>
             </Box>
             <Spacer margin="10px" />
@@ -134,13 +134,13 @@ class Admin extends Component {
             </Dropdown>
             <Box id="userAcc" className="hide">
               <Link to="/admin/api" className="dropButton">
-                API{' '}
+                API{" "}
               </Link>
               <Link to="/admin/team" className="dropButton">
                 Team
               </Link>
               <Link to="/admin/etc" className="dropButton">
-                Etc{' '}
+                Etc{" "}
               </Link>
             </Box>
             <Spacer margin="10px" />

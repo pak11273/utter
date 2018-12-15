@@ -5,5 +5,6 @@ const router = express()
 
 router.use("/users", userRouter)
 router.use("/courses", courseRouter)
+router.use("/test", () => "whatever dude")
 
 export default router

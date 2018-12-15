@@ -1,14 +1,14 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import styled from 'styled-components'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import styled from "styled-components"
 
-import {Img, Text} from '../../components'
+import {Img, Text} from "../../components"
 
 // ad rotator
-import {ad} from '../../services/index.js'
+import {ad} from "../../services/index.js"
 
-const StyledAd = styled.div`  
+const StyledAd = styled.div`
   align-items: ${props => props.alignitems};
   display: ${props => props.display};
   flex-direction: ${props => props.flexdirection};
@@ -17,11 +17,11 @@ const StyledAd = styled.div`
   padding: ${props => props.padding};
 `
 StyledAd.defaultProps = {
-  alignitems: 'center',
-  display: 'flex',
-  flexdirection: 'column',
-  fontsize: '100px',
-  padding: '40px'
+  alignitems: "center",
+  display: "flex",
+  flexdirection: "column",
+  fontsize: "100px",
+  padding: "40px"
 }
 
 function Ad(props) {
@@ -29,20 +29,18 @@ function Ad(props) {
   const today = ad.today()
   return (
     <StyledAd>
-      <Text
-        fontsize="1.4rem"
-        textalign="center"
-        padding="10px 10px 30px 10px">
-        {' '}{ad[lang]['title' + today]}
+      <Text fontsize="1.4rem" textalign="center" padding="10px 10px 30px 10px">
+        {" "}
+        {ad[lang]["title" + today]}
       </Text>
       <a
-        href={ad[lang]['lnk' + today]}
-        title={ad[lang]['alt' + today]}
+        href={ad[lang]["lnk" + today]}
+        title={ad[lang]["alt" + today]}
         rel="external"
         target="_blank">
         <Img
-          src={ad[lang]['gfx' + today]}
-          alt={ad[lang]['gfx' + today]}
+          src={ad[lang]["gfx" + today]}
+          alt={ad[lang]["gfx" + today]}
           width="400"
           height="300"
         />
@@ -64,4 +62,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Ad)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Ad)

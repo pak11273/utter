@@ -128,7 +128,6 @@ const signup = async (_, args, {redis, url}, info) => {
 
 const login = async (parent, args, ctx, info) => {
   // decipher identifier
-  console.log("bitch: ", ctx.req.bitch)
   const {identifier, password} = args.input
   let token = ""
   let arrayOfErrors = []
@@ -144,7 +143,6 @@ const login = async (parent, args, ctx, info) => {
       message: "username/email or password cannot be blank"
     })
   }
-  console.log("criteria: ", criteria)
   // check if passwords match
   let user = await User.findOne(criteria).exec()
   if (!user) {

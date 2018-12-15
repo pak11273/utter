@@ -1,28 +1,41 @@
 import jwt from "jsonwebtoken"
 import expressJwt from "express-jwt"
+const jwtDecode = require("jwt-decode")
 import config from "../config"
 import User from "../api/user/user-model.js"
-const checkToken = expressJwt({secret: config.env.JWT})
+
+export const getUserFromJwt = (req, res, next) => {
+  const authHeader = req.headers.authorization
+  console.log("ahuthHeader: ", authHeader)
+  req.user = jwtDecode(authHeader)
+  next()
+}
 
 // expresss middleware (Deprecating auth in express, moving to graphql)
 export const decodeToken = () => {
   return (req, res, next) => {
-    // make optional to place token on query string
-    // if it is, place in header
-    // use 'Bearer 2342342342' format so checkToken can see it
-
-    if (req.query && req.query.hasOwnProperty("access_token")) {
-      req.headers.authorization = "Bearer " + req.query.access_token
+    if (req.headers.authorization) {
+      var token = req.headers.authorization
     }
 
-    if (req.headers.authorization !== "null") {
-      req.headers.authorization = "Bearer " + req.headers.authorization
+    if (typeof token !== "undefined" && token !== "null") {
+      jwt.verify(token, config.env.JWT, (err, decoded) => {
+        if (err) {
+          res.status(401).json({
+            error: "failed to authenticate"
+          })
+        } else {
+          req.user = {}
+          req.user.id = decoded._id
+        }
+      })
     }
+    next()
+  }
+}
 
-    // call next if token is valid, send error if not, attaches decoded token to req.user
-    if (req.headers.authorization !== "null") {
-      return checkToken(req, res, next)
-    }
+export const hydrateUser = (req, res, next) => {
+  return (req, res, next) => {
     next()
   }
 }
@@ -36,6 +49,7 @@ export const getFreshUser = () => {
            */
           res.status(401).send("UnAuthorized")
         } else {
+          console.log("req: ", req.user)
           req.user = user
           next()
         }

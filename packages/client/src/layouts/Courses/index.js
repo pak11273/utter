@@ -103,13 +103,7 @@ class Courses extends Component {
                   </Grid.Column>
                 )
               }
-              if (error)
-                return (
-                  <Grid.Column>
-                    The server is restarting due to maintenance. Please refresh
-                    your browser in a few minutes.
-                  </Grid.Column>
-                )
+              if (error) return <Grid.Column>{error.message}</Grid.Column>
               if (this.state.cursor !== "done") {
                 var waypoint = (
                   <Waypoint
@@ -439,11 +433,8 @@ class CoursesContainer extends Component {
                     {value: "french", label: "French"}
                   ]}
                 />
-                <div margin="40px 0 0 0">
-                  <Link to="/courses/created">Courses I Teach</Link>
-                </div>
-                <div>
-                  <Link to="/courses/subscriptions">My Subscriptions</Link>
+                <div style={{margin: "40px 0 0 0"}}>
+                  <Link to="/courses/created">My Created Courses</Link>
                 </div>
               </Item>
             </Grid.Column>

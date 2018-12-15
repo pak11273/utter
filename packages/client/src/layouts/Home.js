@@ -158,7 +158,7 @@ class Home extends Component {
               </Grid.Column>
               <Grid.Column width={8}>
                 <Header as="h3" style={{fontSize: "2em", textAlign: "center"}}>
-                  The fear of embarrassment and looking stupid.
+                  The fear of embarrassment.
                 </Header>
                 <Line />
                 <p style={{fontSize: "1.33em", textAlign: "center"}}>

@@ -15,10 +15,11 @@ import Settings from "./Settings"
 import ShoppingCart from "./ShoppingCart/components"
 import SignupCtrl from "./Signup/signup-ctrl.js"
 import Sponsorship from "./Sponsorship.js"
-import CourseEdit from "./Courses/containers/CourseEdit.js"
+import CourseEdit from "./Courses/containers/course-edit.js"
 import MyCourses from "./Courses/MyCourses.js"
-import CoursesCreate from "./Courses/containers/CourseCreate.js"
-import CoursesCreated from "./Courses/containers/CoursesCreated.js"
+import CoursesCreate from "./Courses/containers/course-create.js"
+import CoursesCreated from "./Courses/containers/courses-created.js"
+import CourseSettings from "./Courses/containers/course-settings.js"
 import Courses from "./Courses/index.js"
 import NotFound from "../components/Misc/NotFound.js"
 import requireAuth from "../utils/requireAuth.js"
@@ -57,6 +58,7 @@ export {
   MyCourses,
   CoursesCreate,
   CoursesCreated,
+  CourseSettings,
   Settings,
   noAuth,
   NotFound,

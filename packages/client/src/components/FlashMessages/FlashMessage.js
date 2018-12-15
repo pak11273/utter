@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import styled from 'styled-components'
-import Text from '../../components/Text/Text.js'
-import Button from '../../components/Buttons/Button.js'
-import './styles.css'
+import React, {Component} from "react"
+import styled from "styled-components"
+import Text from "../Text/Text.js"
+import Button from "../Buttons/Button.js"
+import "./styles.css"
 
 const StyledMessage = styled.div`
   align-items: center;
@@ -10,18 +10,20 @@ const StyledMessage = styled.div`
   display: flex;
   justify-content: center;
   margin: ${props => props.margin};
+  z-index: 99;
 `
 class FlashMessage extends Component {
   componentDidMount() {
     switch (this.props.message.type) {
-      case 'success':
-      case 'error':
+      case "success":
+      case "error":
         // setTimeout(this.props.deleteFlashMessage(this.props.message.id), 10000)
         window.setTimeout(() => {
           this.props.deleteFlashMessage(this.props.message.id)
         }, 3000)
+        break
       default:
-        null
+        ;(() => null)()
     }
   }
 
@@ -30,7 +32,7 @@ class FlashMessage extends Component {
   }
 
   render() {
-    const {id, type, text} = this.props.message
+    const {text} = this.props.message
     return (
       <StyledMessage>
         <Text color="white" fontsize="2rem" padding="2rem">

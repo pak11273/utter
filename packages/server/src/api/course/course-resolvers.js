@@ -16,7 +16,6 @@ const getCourse = async (_, {id}, {user}) => {
 }
 
 const deleteCourse = async (_, {id}, ctx) => {
-  console.log("ctx: ", ctx)
   console.log("id: ", id)
   const course = await Course.findById(id).exec()
   /* Course.findOneAndDelete({courseAuthor: user._id && id: id}) { */
@@ -41,6 +40,12 @@ const updateCourse = (_, {input}) => {
 const createCourse = (_, args) => {
   const {input} = args
   return Course.create(input)
+}
+
+const getCreatedCourses = async (_, args, ctx, info) => {
+  console.log("ctx: ", ctx.req)
+  console.log("user: ", ctx.user)
+  return {courses: [], cursor: "hello"}
 }
 
 const getCourses = async (_, args, ctx, info) => {
@@ -92,13 +97,13 @@ const getCourses = async (_, args, ctx, info) => {
     return {courses: [], cursor: "done"}
   } else {
     cursor = result[result.length - 1]._id
-    console.log("cursor: ", cursor)
     return {courses: result, cursor}
   }
 }
 
 export const courseResolvers = {
   Query: {
+    getCreatedCourses,
     getCourses,
     getCourse
   },

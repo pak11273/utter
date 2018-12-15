@@ -4,7 +4,7 @@ import mongoose from "mongoose"
 import app from "./server.js"
 import config from "./config"
 import graphqlServer from "./graphql-server.js"
-import {decodeToken} from "./auth"
+import {decodeToken, hydrateUser} from "./auth"
 
 const server = http.createServer(app)
 let currentApp = app
@@ -27,7 +27,8 @@ app.get("/", (req, res, next) => {
 })
 
 // Auth Middleware
-app.use(decodeToken())
+// TODO may remove, auth moved to auth-directive
+/* app.use(decodeToken(), hydrateUser()) */
 
 graphqlServer.applyMiddleware({
   app

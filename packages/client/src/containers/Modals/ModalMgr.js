@@ -11,7 +11,7 @@ const modalComponentLookupTable = {
 
 const mapStateToProps = state => ({currentModals: state.modalReducer})
 
-export class ModalMgr extends Component {
+class ModalMgr extends Component {
   render() {
     const {currentModals} = this.props
     const renderedModals = currentModals.map((modalDescription, index) => {

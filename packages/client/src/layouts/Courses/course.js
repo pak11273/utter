@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {NavLink, Link, Route} from 'react-router-dom'
-import {connect} from 'react-redux'
-import styled, {ThemeProvider} from 'styled-components'
-import ReactTable from 'react-table'
+import React, {Component} from "react"
+import {NavLink, Link, Route} from "react-router-dom"
+import {connect} from "react-redux"
+import styled, {ThemeProvider} from "styled-components"
+import ReactTable from "react-table"
 import {
   Box,
   Button,
@@ -14,11 +14,11 @@ import {
   Input,
   Subtitle,
   Title
-} from '../../components'
-import {Masthead, Navbar, Staticbar} from '../../containers'
+} from "../../components"
+import {Masthead, Navbar, Staticbar} from "../../containers"
 
 // actions
-import {chooseCourseLanguage} from './actions'
+import {chooseCourseLanguage} from "./actions"
 
 class Courses extends Component {
   constructor() {
@@ -29,36 +29,36 @@ class Courses extends Component {
   render() {
     const courses = [
       {
-        Header: 'Level',
-        accessor: 'level', // String-based value accessors!
+        Header: "Level",
+        accessor: "level", // String-based value accessors!
         maxWidth: 80,
-        headerStyle: {fontSize: '1.5rem'}
+        headerStyle: {fontSize: "1.5rem"}
       },
       {
-        Header: 'Title',
-        accessor: 'title',
+        Header: "Title",
+        accessor: "title",
         Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
-        headerStyle: {fontSize: '1.5rem'}
+        headerStyle: {fontSize: "1.5rem"}
       }
     ]
     const terms = [
       {
-        Header: 'word',
-        accessor: 'word' // String-based value accessors!
+        Header: "word",
+        accessor: "word" // String-based value accessors!
       },
       {
-        Header: 'translation',
-        accessor: 'translation',
+        Header: "translation",
+        accessor: "translation",
         Cell: props => <span className="number">{props.value}</span> // Custom cell components!
       },
       {
-        id: 'someNumber', // Required because our accessor is not a string
-        Header: 'Friend Name',
+        id: "someNumber", // Required because our accessor is not a string
+        Header: "Friend Name",
         accessor: d => d.friend.name // Custom value accessors!
       },
       {
         Header: props => <span>Friend Age</span>, // Custom header components!
-        accessor: 'friend.age'
+        accessor: "friend.age"
       }
     ]
     return (
@@ -72,18 +72,18 @@ class Courses extends Component {
           SubComponent={row => {
             return (
               <div>
-                <div style={{padding: '20px'}}>Terms</div>
+                <div style={{padding: "20px"}}>Terms</div>
                 <ReactTable
-                  style={{padding: '20px'}}
+                  style={{padding: "20px"}}
                   data={data.terms}
                   className="-striped -highlight"
                   columns={terms}
                   defaultPageSize={10}
                   showPagination={false}
                 />
-                <div style={{padding: '20px'}}>Phrases</div>
+                <div style={{padding: "20px"}}>Phrases</div>
                 <ReactTable
-                  style={{padding: '20px'}}
+                  style={{padding: "20px"}}
                   data={data.terms}
                   className="-striped -highlight"
                   columns={terms}
@@ -108,36 +108,36 @@ class Create extends Component {
   render() {
     const levels = [
       {
-        Header: 'Level',
-        accessor: 'level', // String-based value accessors!
+        Header: "Level",
+        accessor: "level", // String-based value accessors!
         maxWidth: 80,
-        headerStyle: {fontSize: '1.5rem'}
+        headerStyle: {fontSize: "1.5rem"}
       },
       {
-        Header: 'Title',
-        accessor: 'title',
+        Header: "Title",
+        accessor: "title",
         Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
-        headerStyle: {fontSize: '1.5rem'}
+        headerStyle: {fontSize: "1.5rem"}
       }
     ]
     const terms = [
       {
-        Header: 'word',
-        accessor: 'word' // String-based value accessors!
+        Header: "word",
+        accessor: "word" // String-based value accessors!
       },
       {
-        Header: 'translation',
-        accessor: 'translation',
+        Header: "translation",
+        accessor: "translation",
         Cell: props => <span className="number">{props.value}</span> // Custom cell components!
       },
       {
-        id: 'someNumber', // Required because our accessor is not a string
-        Header: 'Friend Name',
+        id: "someNumber", // Required because our accessor is not a string
+        Header: "Friend Name",
         accessor: d => d.friend.name // Custom value accessors!
       },
       {
         Header: props => <span>Friend Age</span>, // Custom header components!
-        accessor: 'friend.age'
+        accessor: "friend.age"
       }
     ]
     return (
@@ -151,18 +151,18 @@ class Create extends Component {
           SubComponent={row => {
             return (
               <div>
-                <div style={{padding: '20px'}}>Terms</div>
+                <div style={{padding: "20px"}}>Terms</div>
                 <ReactTable
-                  style={{padding: '20px'}}
+                  style={{padding: "20px"}}
                   data={data.terms}
                   className="-striped -highlight"
                   columns={terms}
                   defaultPageSize={10}
                   showPagination={false}
                 />
-                <div style={{padding: '20px'}}>Phrases</div>
+                <div style={{padding: "20px"}}>Phrases</div>
                 <ReactTable
-                  style={{padding: '20px'}}
+                  style={{padding: "20px"}}
                   data={data.terms}
                   className="-striped -highlight"
                   columns={terms}
@@ -186,13 +186,13 @@ const StyledSubtitle = styled(Subtitle)`
 const StyledGrid = styled(Grid)`
   grid-template-columns: 20% 80%;
   grid-template-areas:
-    'sidebar sidebar'
-    'content content';
+    "sidebar sidebar"
+    "content content";
 
   min-height: 600px;
 
   @media (min-width: 640px) {
-    grid-template-areas: 'sidebar content';
+    grid-template-areas: "sidebar content";
   }
 `
 const StyledNavLink = styled(NavLink)`
@@ -211,36 +211,36 @@ class CreateCourseContainer extends Component {
   render() {
     const levels = [
       {
-        Header: 'Level',
-        accessor: 'level', // String-based value accessors!
+        Header: "Level",
+        accessor: "level", // String-based value accessors!
         maxWidth: 80,
-        headerStyle: {fontSize: '1.5rem'}
+        headerStyle: {fontSize: "1.5rem"}
       },
       {
-        Header: 'Title',
-        accessor: 'title',
+        Header: "Title",
+        accessor: "title",
         Cell: props => <span className="number">{props.value}</span>, // Custom cell components!
-        headerStyle: {fontSize: '1.5rem'}
+        headerStyle: {fontSize: "1.5rem"}
       }
     ]
     const terms = [
       {
-        Header: 'word',
-        accessor: 'word' // String-based value accessors!
+        Header: "word",
+        accessor: "word" // String-based value accessors!
       },
       {
-        Header: 'translation',
-        accessor: 'translation',
+        Header: "translation",
+        accessor: "translation",
         Cell: props => <span className="number">{props.value}</span> // Custom cell components!
       },
       {
-        id: 'someNumber', // Required because our accessor is not a string
-        Header: 'Friend Name',
+        id: "someNumber", // Required because our accessor is not a string
+        Header: "Friend Name",
         accessor: d => d.friend.name // Custom value accessors!
       },
       {
         Header: props => <span>Friend Age</span>, // Custom header components!
-        accessor: 'friend.age'
+        accessor: "friend.age"
       }
     ]
     return (
@@ -280,6 +280,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CreateCourseContainer
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CreateCourseContainer)

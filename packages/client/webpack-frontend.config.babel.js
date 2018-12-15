@@ -26,6 +26,12 @@ module.exports = env => {
       pathinfo: ifNotProd() // for dev, makes comments for files in browser devtools
     },
     devtool: env.prod ? "source-map" : "eval",
+    watchOptions: {
+      /*   aggregateTimeout: 30, */
+      /* watch: true, */
+      /* poll: 100, */
+      ignored: /node_modules/
+    },
     devServer: {
       stats: "minimal",
       disableHostCheck: true,
