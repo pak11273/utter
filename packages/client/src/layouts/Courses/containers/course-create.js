@@ -1,6 +1,7 @@
 import "../styles.css"
-import {Button, Grid, Header} from "semantic-ui-react"
-import {Form} from "formik"
+import {Grid} from "semantic-ui-react"
+/* import {Button, Grid, Header} from "semantic-ui-react" */
+/* import {Form} from "formik" */
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {push} from "react-router-redux"
@@ -9,64 +10,64 @@ import React, {Component} from "react"
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled, {ThemeProvider} from "styled-components"
-import {Mutation} from "react-apollo"
-import gql from "graphql-tag"
+/* import {Mutation} from "react-apollo" */
+/* import gql from "graphql-tag" */
 import {
-  Box,
-  Flex,
-  Input,
-  Label,
-  MastheadTitle,
-  MastheadSubtitle,
-  Searching,
-  Span,
-  Tags,
-  TextArea
+  /* Box, */
+  Flex
+  /* Input, */
+  /* Label, */
+  /* MastheadTitle, */
+  /* MastheadSubtitle, */
+  /* Searching, */
+  /* Span */
+  /* Tags, */
+  /* TextArea */
 } from "../../../components"
 import {addFlashMessage} from "../../../app/actions/flashMessages"
 import {fetchCourseName} from "../actions"
 import {main} from "../../../themes/config"
 import {toggleFooter} from "../../../app/actions/toggleFooterAction"
 import {validateInput} from "../../../utils/validations/courseCreate"
-import CourseRef from "../components/CourseRef"
-import {Masthead} from "../../../containers"
-import Teaching from "./Teaching"
-import Using from "./Using"
+/* import CourseRef from "../components/CourseRef" */
+/* import {Masthead} from "../../../containers" */
+/* import Teaching from "./Teaching" */
+/* import Using from "./Using" */
 import course from "../../../api/course/actions/courseActions"
 
-const createCourse = gql`
-  mutation createCourse($id: String, $courseId: String, $courseName: String) {
-    createCourse(id: $id, courseId: $courseId, courseName: $courseName) {
-      courseName
-      courseMode
-    }
-  }
-`
+/* const createCourse = gql` */
+/*   mutation createCourse($id: String, $courseId: String, $courseName: String) { */
+/*     createCourse(id: $id, courseId: $courseId, courseName: $courseName) { */
+/*       courseName */
+/*       courseMode */
+/*     } */
+/*   } */
+/* ` */
 
-const DisplayCount = styled.div`
-  font-size: 0.8rem;
-  position: absolute;
-  right: 2%;
-  top: 6px;
+/* const DisplayCount = styled.div` */
+/*   font-size: 0.8rem; */
+/*   position: absolute; */
+/*   right: 2%; */
+/*   top: 6px; */
 
-  @media (min-width: 330px) {
-    right: 10%;
-  }
+/*   @media (min-width: 330px) { */
+/*     right: 10%; */
+/*   } */
 
-  @media (min-width: 640px) {
-    right: 2%;
-  }
+/*   @media (min-width: 640px) { */
+/*     right: 2%; */
+/*   } */
 
-  @media (min-width: 740px) {
-    right: 10%;
-  }
-`
-const StyledForm = styled(Form)`
-  height: 1000px;
-  margin: 0 auto;
-  min-width: 250px;
-  width: 70%;
-`
+/*   @media (min-width: 740px) { */
+/*     right: 10%; */
+/*   } */
+/* ` */
+/* const StyledForm = styled(Form)` */
+/*   height: 1000px; */
+/*   margin: 0 auto; */
+/*   min-width: 250px; */
+/*   width: 70%; */
+/* ` */
 const StyledFlex = styled(Flex)`
   grid-area: ${props => props.gridarea};
   margin: ${props => props.margin};
@@ -81,20 +82,20 @@ StyledFlex.defaultProps = {
   margin: "80px 0 0 0"
 }
 
-const StyledSpan = styled(Span)`
-  display: none;
-  font-size: 0.6rem;
-  padding: 0 0 0 10px;
+/* const StyledSpan = styled(Span)` */
+/*   display: none; */
+/*   font-size: 0.6rem; */
+/*   padding: 0 0 0 10px; */
 
-  @media (min-width: 640px) {
-    display: ${props => props.display640};
-  }
-`
-const Error = styled.div`
-  color: red;
-  padding-top: ${props => props.paddingtop};
-  text-align: center;
-`
+/*   @media (min-width: 640px) { */
+/*     display: ${props => props.display640}; */
+/*   } */
+/* ` */
+/* const Error = styled.div` */
+/*   color: red; */
+/*   padding-top: ${props => props.paddingtop}; */
+/*   text-align: center; */
+/* ` */
 const initialState = {
   cdn: {},
   charCount: 0,
@@ -192,17 +193,18 @@ class CreateCourse extends Component {
   }
 
   render() {
-    const {courseReducer} = this.props
-    const {
-      courseName,
-      courseNameErrors,
-      courseDescription,
-      courseDescriptionErrors,
-      errors
-    } = this.state
+    /* const {courseReducer} = this.props */
+    /* const { */
+    /*   courseName, */
+    /*   courseNameErrors, */
+    /*   courseDescription, */
+    /*   courseDescriptionErrors, */
+    /*   errors */
+    /* } = this.state */
     return (
       <ThemeProvider theme={main}>
         <Grid>
+          {/* 
           <Grid.Row centered>
             <Masthead background="#000 url(http://www.focusondrives.com/wp-content/uploads/Danfoss-application-software-development-2-1024x657.jpg) no-repeat left top">
               <MastheadTitle color="#F6D155">Create a Course</MastheadTitle>
@@ -316,6 +318,7 @@ class CreateCourse extends Component {
               </StyledForm>
             </Grid.Column>
           </Grid.Row>
+*/}
         </Grid>
       </ThemeProvider>
     )

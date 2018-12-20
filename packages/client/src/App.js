@@ -1,5 +1,5 @@
 import React from "react"
-import {Switch} from "react-router-dom"
+import {Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
 import {Provider} from "react-redux"
 import styled, {ThemeProvider} from "styled-components"
@@ -21,6 +21,13 @@ import FlashMessagesList from "./components/FlashMessages/FlashMessagesList"
 import {history} from "@utterzone/connector"
 import {PersistGate} from "redux-persist/integration/react"
 import "semantic-ui-css/semantic.css"
+
+const SubRoutes = route => (
+  <Route
+    path={route.path}
+    render={props => <route.component {...props} routes={route.routes} />}
+  />
+)
 
 const StyledGrid = styled(Grid)`
   display: grid;
@@ -60,16 +67,8 @@ const App = () => (
                 </Section>
                 <Section gridarea="content">
                   <Switch>
-                    {routes.map((route, i) => (
-                      <route.component
-                        key={i}
-                        path={route.path}
-                        {...route}
-                        render={() => (
-                          // pass the sub-routes down to keep nesting
-                          <route.component subroutes={route.routes} />
-                        )}
-                      />
+                    {routes.map(route => (
+                      <SubRoutes key={route.path} {...route} />
                     ))}
                   </Switch>
                 </Section>

@@ -27,13 +27,6 @@ import userReducer from "./api/user/reducers"
 import utteredReducer from "./containers/Uttered/reducer.js"
 import vocabReducer from "./layouts/Admin/Vocabulary/reducer.js"
 import {routerReducer} from "react-router-redux"
-import {reducer as formReducer} from "redux-form"
-
-// react-admin
-import {adminReducer, defaultI18nProvider, i18nReducer} from "react-admin"
-
-const locale = "en"
-const i18nProvider = defaultI18nProvider
 
 const combinedReducers = combineReducers({
   challengeReducer,
@@ -52,6 +45,7 @@ const combinedReducers = combineReducers({
   pictureReducer,
   phraseReducer,
   roomReducer,
+  router: routerReducer,
   socketReducer,
   tabsReducer,
   termsReducer,
@@ -59,12 +53,7 @@ const combinedReducers = combineReducers({
   toolsReducer,
   vocabReducer,
   userReducer,
-  utteredReducer,
-  // react-admin
-  admin: adminReducer,
-  form: formReducer,
-  i18n: i18nReducer(locale, i18nProvider(locale)),
-  router: routerReducer
+  utteredReducer
 })
 
 const rootReducer = reduceReducers(combinedReducers, entitiesCrudReducer)

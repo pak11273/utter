@@ -21,6 +21,7 @@ import {
   /* MyCourses, */
   CoursesCreate,
   CoursesCreated,
+  CourseLevels,
   /* NotFound, */
   noAuth,
   requireAuth,
@@ -95,11 +96,6 @@ export const routes = [
     component: Contact
   },
   // {
-  //   path: '/course',
-  //   component: Course,
-  //   loadData: () => getSomeData()
-  // },
-  // {
   //   path: '/CourseDetails/:name',
   //   component: props => {
   //     const one = language.languages.filter(
@@ -138,12 +134,17 @@ export const routes = [
   {
     component: requireAuth(CourseEdit),
     exact: true,
-    path: "/course/:id/edit"
-  },
-  {
-    component: requireAuth(CourseSettings),
-    exact: true,
-    path: "/course/:id"
+    path: "/course/:id",
+    routes: [
+      {
+        path: "/course/course-settings",
+        component: CourseSettings
+      },
+      {
+        path: "/course/course-levels",
+        component: CourseLevels
+      }
+    ]
   },
   {
     component: Pricing,

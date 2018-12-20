@@ -1,11 +1,8 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import styled, {ThemeProvider} from "styled-components"
 import {Helmet} from "react-helmet"
-import {Navbar} from "../containers"
-import {Box, MastheadTitle, MastheadSubtitle, Wrapper} from "../components"
 
-import {Container, Grid, Header, Image} from "semantic-ui-react"
+import {Grid, Header, Image} from "semantic-ui-react"
 
 // actions
 import {toggleFooter} from "../app/actions/toggleFooterAction.js"
@@ -14,6 +11,7 @@ class About extends Component {
   componentDidMount() {
     this.props.toggleFooter(true)
   }
+
   render() {
     return (
       <Grid centered columns={2} style={{background: "black"}}>
@@ -58,11 +56,11 @@ class About extends Component {
               Our goal is to bring peace to the world by language. As the world
               has become more global, one of the major problems we have is
               misunderstandings due to cultural differences. Language happens to
-              be the biggest cultural gap between nations and it's our desire to
-              see that change. But learning a new language is a very difficult
-              and hard to become fluent in. We make every endeavor to not make
-              it any simpler, but to make it more available and more efficient
-              to learn.
+              be the biggest cultural gap between nations and it&apos;s our
+              desire to see that change. But learning a new language is a very
+              difficult and hard to become fluent in. We make every endeavor to
+              not make it any simpler, but to make it more available and more
+              efficient to learn.
             </Header>
           </div>
         </Grid.Column>
@@ -94,13 +92,6 @@ class About extends Component {
               src="https://images.pexels.com/photos/1065084/pexels-photo-1065084.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
             />
           </Image.Group>
-          {counter => (
-            <div>
-              <button onClick={() => counter.decrement()}>-</button>
-              <h1>{counter.state.count}</h1>
-              <button onClick={() => counter.increment()}>+</button>
-            </div>
-          )}
         </Grid>
       </Grid>
     )

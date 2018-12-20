@@ -24,7 +24,6 @@ import {
 } from "@utterzone/common"
 
 const changePassword = async (_, args, {redis, url}) => {
-  console.log("args: ", args)
   let token = null
   var arrayOfErrors = []
   const redisToken = args.input.token
@@ -51,7 +50,7 @@ const changePassword = async (_, args, {redis, url}) => {
     })
   } catch (err) {
     if (err) {
-      console.log("invalide")
+      console.log("invalid")
       arrayOfErrors = formatYupError(err)
       return {
         token: null,
@@ -165,6 +164,7 @@ const login = async (parent, args, ctx, info) => {
       message: passwordLocked
     })
   } else if (user) {
+    console.log("made it")
     // assign valid user info
     token = await signToken(user._id)
   }

@@ -16,6 +16,7 @@ import ShoppingCart from "./ShoppingCart/components"
 import SignupCtrl from "./Signup/signup-ctrl.js"
 import Sponsorship from "./Sponsorship.js"
 import CourseEdit from "./Courses/containers/course-edit.js"
+import CourseLevels from "./Courses/containers/course-levels.js"
 import MyCourses from "./Courses/MyCourses.js"
 import CoursesCreate from "./Courses/containers/course-create.js"
 import CoursesCreated from "./Courses/containers/courses-created.js"
@@ -48,6 +49,7 @@ export {
   About,
   Contact,
   CourseEdit,
+  CourseLevels,
   Courses,
   ChangePassword,
   ForgotPassword,

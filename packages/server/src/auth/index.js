@@ -6,7 +6,6 @@ import User from "../api/user/user-model.js"
 
 export const getUserFromJwt = (req, res, next) => {
   const authHeader = req.headers.authorization
-  console.log("ahuthHeader: ", authHeader)
   req.user = jwtDecode(authHeader)
   next()
 }
@@ -135,5 +134,5 @@ export const authenticate = (req, res, next) => {
 
 // util method to sign tokens on signup
 export const signToken = id => {
-  return jwt.sign({_id: id}, config.env.JWT, {expiresIn: config.expireTime})
+  return jwt.sign({_id: id}, config.env.JWT)
 }

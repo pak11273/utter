@@ -1,41 +1,61 @@
-import React from "react"
-/* import {Admin, Resource, ListGuesser, AUTH_LOGIN} from "react-admin" */
-import {Admin, Resource} from "react-admin"
+import React, {Component} from "react"
 import {history} from "@utterzone/connector"
-/* import jsonServerProvider from "ra-data-json-server" */
+import {Container, Grid, Header, Form} from "semantic-ui-react"
+import {Masthead} from "../../../containers"
 
-/* import englishMessages from "ra-language-english" */
+class CourseSettings extends Component {
+  state = {name: "", email: "", submittedName: "", submittedEmail: ""}
 
-/* const dataProvider = jsonServerProvider("http://jsonplaceholder.typicode.com") */
+  componentDidMount() {
+    // TODO if no courseId redirect back to courses-created
+    // TODO put courseId into redux :
+    console.log("this: ", this.props)
+    if (!this.props.location.state || !this.props.location.state.courseId) {
+      history.push("/courses/created")
+    } else {
+      console.log("we need this in redux")
+    }
+  }
 
-/* const authProvider = (type, params) => { */
-/*   if (type === AUTH_LOGIN) { */
-/*     const {username, password} = params */
-/*     const request = new Request("https://mydomain.com/authenticate", { */
-/*       method: "POST", */
-/*       body: JSON.stringify({username, password}), */
-/*       headers: new Headers({"Content-Type": "application/json"}) */
-/*     }) */
-/*     return fetch(request) */
-/*       .then(response => { */
-/*         if (response.status < 200 || response.status >= 300) { */
-/*           throw new Error(response.statusText) */
-/*         } */
-/*         return response.json() */
-/*       }) */
-/*       .then(({token}) => { */
-/*         localStorage.setItem("token", token) */
-/*       }) */
-/*   } */
-/*   return Promise.resolve() */
-/* } */
+  handleChange = (e, {name, value}) =>
+    this.setState({[name]: value}, console.log("state: ", this.state))
 
-class CourseSettings extends React.Component {
+  handleSubmit = () => {
+    const {name, email} = this.state
+
+    this.setState({submittedName: name, submittedEmail: email})
+  }
+
   render() {
+    /* const {name, email, submittedName, submittedEmail} = this.state */
+    const {name, email} = this.state
+    /* console.log(this.props.location.state.courseId) */
+
     return (
-      <Admin history={history}>
-        <Resource />
-      </Admin>
+      <Container>
+        <Masthead>
+          <Header as="h1">Course Settings</Header>
+        </Masthead>
+        <Grid centered padded="vertically">
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Input
+                placeholder="Name"
+                name="name"
+                value={name}
+                onChange={this.handleChange}
+              />
+              <Form.Input
+                placeholder="Email"
+                name="email"
+                value={email}
+                onChange={this.handleChange}
+              />
+              <Form.Button content="Submit" />
+            </Form.Group>
+          </Form>
+        </Grid>
+      </Container>
     )
   }
 }

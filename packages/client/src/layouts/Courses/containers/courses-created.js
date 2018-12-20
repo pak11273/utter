@@ -1,12 +1,6 @@
-import React, {Component} from "react"
-/* import {push} from "react-router-redux" */
-import {connect} from "react-redux"
-import {Link, withRouter} from "react-router-dom"
-import isEmpty from "lodash/isEmpty"
-import cloneDeep from "lodash/cloneDeep"
-import Waypoint from "react-waypoint"
-import {Helmet} from "react-helmet"
-import update from "immutability-helper"
+import "react-select/dist/react-select.css"
+import {history} from "@utterzone/connector"
+import "../styles.css"
 import {
   Button as SemButton,
   Card,
@@ -16,29 +10,28 @@ import {
   Image,
   Item
 } from "semantic-ui-react"
-import {Spacer} from "../../../components"
-import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-import "../styles.css"
-
-// actions
-import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
-
+import {Helmet} from "react-helmet"
+import isEmpty from "lodash/isEmpty"
+import Waypoint from "react-waypoint"
+import {Link, withRouter} from "react-router-dom"
 import {Query} from "react-apollo"
+import {connect} from "react-redux"
+import React, {Component} from "react"
+import cloneDeep from "lodash/cloneDeep"
 import gql from "graphql-tag"
+import update from "immutability-helper"
+import {Spacer} from "../../../components"
+import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
 
 const getCreatedCourses = gql`
   query getCreatedCourses($cursor: String, $author: String!) {
     getCreatedCourses(cursor: $cursor, author: $author) {
-      cursor
       courses {
         id
-        courseImage
         courseName
-        courseDescription
-        courseAuthor {
-          username
-        }
+        courseMode
       }
+      cursor
     }
   }
 `
@@ -62,6 +55,15 @@ class Courses extends Component {
     this.setState(newState)
   }
 
+  handleImageClick = data => {
+    // store courseId in redux
+    console.log("data: ", data)
+    history.push({
+      pathname: "/course/course-settings",
+      state: {courseId: data.id}
+    })
+  }
+
   render() {
     const {author} = this.props
     return (
@@ -81,14 +83,17 @@ class Courses extends Component {
             }}>
             {({loading, error, data, fetchMore}) => {
               if (loading) return <Grid.Column>loading...</Grid.Column>
-              if (error)
+              if (error) {
+                console.log("err: ", error)
                 return (
                   <Grid.Column>
                     The server is restarting due to maintenance. Please refresh
                     your browser in a few minutes.
                   </Grid.Column>
                 )
+              }
               if (this.state.cursor !== "done") {
+                console.log("not done")
                 var waypoint = (
                   <Waypoint
                     key={data.getCreatedCourses.cursor}
@@ -98,7 +103,9 @@ class Courses extends Component {
                         cursor: {$set: data.getCreatedCourses.cursor}
                       })
 
-                      this.setState(newState)
+                      this.setState(newState, () =>
+                        console.log("new state: ", newState)
+                      )
 
                       fetchMore({
                         // note this is a different query than the one used in the
@@ -184,6 +191,7 @@ class Courses extends Component {
                         <Image
                           src={`${course.courseImage}`}
                           style={{cursor: "pointer"}}
+                          onClick={() => this.handleImageClick(course)}
                         />
                         <Card.Content>
                           <Card.Header style={{wordBreak: "break-word"}}>
@@ -250,11 +258,6 @@ class CoursesCreatedContainer extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-  }
-
-  handleImageClick = e => {
-    e.preventDefault()
-    // TODO
   }
 
   render() {

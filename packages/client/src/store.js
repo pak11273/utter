@@ -11,13 +11,6 @@ import promise from "redux-promise-middleware"
 import history from "@utterzone/connector"
 import rootSaga from "./rootSaga.js"
 import rootReducer from "./rootReducer.js"
-/* React-admin requires that the redux state contains at least 4 reducers: admin, i18n, form, and router. */
-
-/* import {formMiddleware} from "react-admin" */
-// started here
-
-// react-admin
-/* const middleware = routerMiddleware(history) */
 
 // redux-persist
 const persistConfig = {
@@ -37,7 +30,6 @@ const store = createStore(
   /* preloadedState, */ composeEnhancers(
     applyMiddleware(
       sagaMiddleware,
-      /* formMiddleware, */
       thunk,
       routerMiddleware(history),
       /* ioMiddleware(Socket), */

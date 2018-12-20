@@ -27,7 +27,7 @@ import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
 const getCourses = gql`
-  query Courses(
+  query getCourses(
     $cursor: String
     $title: String!
     $ref: String!

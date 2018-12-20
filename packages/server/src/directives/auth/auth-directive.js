@@ -29,13 +29,34 @@ export class isAuthenticatedDirective extends SchemaDirectiveVisitor {
 
       const token = ctx.req.headers.authorization
 
-      try {
-        const decoded = jwt.verify(token, config.env.JWT)
-        ctx.user = decoded._id
-        return resolve(source, field.args, ctx)
-      } catch (err) {
-        throw new Error("You are not authorized for this resource.")
-      }
+      jwt.verify(token, config.env.JWT, (err, decoded) => {
+        if (err) {
+          console.log("err: ", err)
+          throw new Error("You are not authorized for this resource.")
+        } else {
+          ctx.user = decoded._id
+        }
+      })
+      return resolve(source, otherArgs, ctx)
+
+      /* try { */
+      /*   const decoded = jwt.verify( */
+      /*     token, */
+      /*     config.secrets.JWT, */
+      /*     async (err, decoded) => { */
+      /*       if (err) { */
+      /*         console.log("err: ", err) */
+      /*         return err */
+      /*       } else { */
+      /*         console.log("decoded: ", decoded) */
+      /*         ctx.user = await decoded._id */
+      /*       } */
+      /*     } */
+      /*   ) */
+      /*   return resolve(source, field.args, ctx) */
+      /* } catch (err) { */
+      /*   throw new Error("You are not authorized for this resource.") */
+      /* } */
     }
   }
 }
