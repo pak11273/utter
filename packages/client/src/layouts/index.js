@@ -18,7 +18,7 @@ import Sponsorship from "./Sponsorship.js"
 import CourseEdit from "./Courses/containers/course-edit.js"
 import CourseLevels from "./Courses/containers/course-levels.js"
 import MyCourses from "./Courses/MyCourses.js"
-import CoursesCreate from "./Courses/containers/course-create.js"
+import CourseCtrl from "./Courses/CourseCreate/course-create-ctrl.js"
 import CoursesCreated from "./Courses/containers/courses-created.js"
 import CourseSettings from "./Courses/containers/course-settings.js"
 import Courses from "./Courses/index.js"
@@ -58,7 +58,7 @@ export {
   Zones,
   LoginCtrl,
   MyCourses,
-  CoursesCreate,
+  CourseCtrl,
   CoursesCreated,
   CourseSettings,
   Settings,

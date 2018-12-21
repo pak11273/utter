@@ -1,21 +1,20 @@
 import "../styles.css"
-import {Button, Container, Grid, Header} from "semantic-ui-react"
-import {Form} from "formik"
+import {Button, Container, Form, Grid, Header} from "semantic-ui-react"
+import {withFormik} from "formik"
 import {Mutation} from "react-apollo"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {push} from "react-router-redux"
-import {withRouter} from "react-router-dom"
 import React, {Component} from "react"
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import gql from "graphql-tag"
 import styled, {ThemeProvider} from "styled-components"
+import {courseCreateSchema} from "@utterzone/common"
 import {
   Box,
   Flex,
   Input,
-  Label,
   MastheadTitle,
   MastheadSubtitle,
   Searching,
@@ -30,9 +29,8 @@ import {toggleFooter} from "../../../app/actions/toggleFooterAction"
 import {validateInput} from "../../../utils/validations/courseCreate"
 import CourseRef from "../components/CourseRef"
 import CourseTags from "../components/CourseTags"
-import Teaching from "./Teaching"
-import Using from "./Using"
-import course from "../../../api/course/actions/courseActions"
+import Teaching from "../containers/Teaching"
+import Using from "../containers/Using"
 
 const createCourse = gql`
   mutation createCourse($id: String, $courseId: String, $courseName: String) {
@@ -113,7 +111,7 @@ const initialState = {
   usingLang: ""
 }
 
-class CreateCourse extends Component {
+class CourseCreate extends Component {
   constructor(props) {
     super(props)
     this.state = cloneDeep(initialState)
@@ -138,21 +136,6 @@ class CreateCourse extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
-  }
-
-  onSubmit = e => {
-    console.log("wtf")
-    e.preventDefault()
-    const {actions} = this.props
-    if (this.isValid()) {
-      console.log("ITS VALID")
-      actions.createTeachingCourse(this.state)
-
-      actions.addFlashMessage({
-        type: "success",
-        text: "You have successfully created a Course!"
-      })
-    }
   }
 
   addRef = value => {
@@ -192,7 +175,7 @@ class CreateCourse extends Component {
   }
 
   render() {
-    const {courseReducer} = this.props
+    const {handleSubmit, courseReducer} = this.props
     const {
       courseName,
       courseNameErrors,
@@ -200,6 +183,7 @@ class CreateCourse extends Component {
       courseDescriptionErrors,
       errors
     } = this.state
+
     return (
       <ThemeProvider theme={main}>
         <Grid>
@@ -222,7 +206,7 @@ class CreateCourse extends Component {
                 </Mutation>
               </Grid.Column>
               <Grid.Column textAlign="center">
-                <StyledForm onSubmit={this.onSubmit}>
+                <StyledForm error onSubmit={handleSubmit}>
                   <Box margin="40px 0 0 0" position="relative">
                     <Header>
                       Course Name
@@ -264,13 +248,13 @@ class CreateCourse extends Component {
                     )}
                   </Box>
                   <Box margin="40px 0 0 0" position="relative">
-                    <Label>
+                    <Header>
                       Course Description
                       <StyledSpan display640="inline-block">
                         {" "}
-                        (100-350 chars.)
+                        (10-100 chars.)
                       </StyledSpan>
-                    </Label>
+                    </Header>
                     <DisplayCount>{courseDescription.length}</DisplayCount>
                     <TextArea
                       className={courseDescriptionErrors ? "courseError" : null}
@@ -294,24 +278,26 @@ class CreateCourse extends Component {
                       margin="40px 0 0 0"
                       overflow="initial"
                       position="relative">
-                      <Label>Teaching</Label>
+                      <Header>Teaching</Header>
                       <Teaching addTeachingLang={this.addTeachingLang} />
                     </Flex>
                     <StyledFlex gridarea="using" margin1080="40px 0 0 0">
-                      <Label>Using</Label>
+                      <Header>Using</Header>
                       <Using addUsingLang={this.addUsingLang} />
                     </StyledFlex>
                     <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-                      <Label>Course Reference</Label>
+                      <Header>Course Reference</Header>
                       <p>ie. Book, Classroom, Online Course</p>
                       <CourseRef addRef={this.addRef} />
                     </StyledFlex>
                     <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
-                      <Label>Tags</Label>
+                      <Header>Tags</Header>
                       <CourseTags addTags={this.addTags} />
                     </StyledFlex>
                     <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
-                      <Button color="yellow">Create Course</Button>
+                      <Button type="submit" color="yellow">
+                        Create Course
+                      </Button>
                     </StyledFlex>
                   </Grid>
                 </StyledForm>
@@ -332,7 +318,6 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
       addFlashMessage,
-      createTeachingCourse: course.create,
       fetchCourseName,
       toggleFooter,
       push
@@ -341,9 +326,40 @@ const mapDispatchToProps = dispatch => ({
   )
 })
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CreateCourse)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  withFormik({
+    validationSchema: courseCreateSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      courseId: "",
+      courseName: "",
+      description: "",
+      courseMode: "draft"
+    }),
+    handleSubmit: async (values, {props, setErrors}) => {
+      const result = await props.submit(values)
+      const onComplete = () => {
+        history.push("/", {
+          announcement: "You can start building your course."
+        })
+      }
+
+      // if signup info is legit
+      if (typeof result === "string") {
+        localStorage.setItem("AUTH_TOKEN", result)
+        onComplete()
+        props.addFlashMessage({
+          type: "success",
+          text: "Welcome to Utterzone"
+        })
+      } else {
+        // if singup info is not legit
+        setErrors(result)
+      }
+    }
+  })(CourseCreate)
 )

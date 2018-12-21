@@ -1,25 +1,25 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import Select from 'react-select'
-import languageData from '../../../data/languageData.js'
-import {Box} from '../../../components'
-import '../styles.css'
+import React, {Component} from "react"
+import PropTypes from "prop-types"
+import Select from "react-select"
+import languageData from "../../../data/languageData.js"
+import {Box} from "../../../components"
+import "../styles.css"
 
 class Teaching extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      displayName: 'TeachingField',
+      displayName: "TeachingField",
       disabled: false,
       searchable: props.searchable,
-      selectValue: '',
+      selectValue: "",
       clearable: true,
       rtl: false
     }
   }
 
-  clearValue = e => {
-    this.select.setInputValue('')
+  clearValue = () => {
+    this.select.setInputValue("")
   }
 
   updateValue = newValue => {
@@ -45,17 +45,17 @@ class Teaching extends Component {
           simpleValue
           clearable={this.state.clearable}
           wrapperStyle={{
-            margin: '20px 0 0 0',
-            width: '100%'
+            margin: "20px 0 0 0",
+            width: "100%"
           }}
           style={{
-            width: '100%'
+            width: "100%"
           }}
           menuContainerStyle={{
-            width: '100%'
+            width: "100%"
           }}
           menuStyle={{
-            width: '100%'
+            width: "100%"
           }}
           name="selected-language"
           disabled={this.state.disabled}
@@ -70,12 +70,10 @@ class Teaching extends Component {
 }
 
 Teaching.propTypes = {
-  label: PropTypes.string,
   searchable: PropTypes.bool
 }
 
 Teaching.defaultProps = {
-  label: 'Languages:',
   searchable: true
 }
 

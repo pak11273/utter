@@ -19,7 +19,7 @@ import {
   CourseSettings,
   /* CourseDetails, */
   /* MyCourses, */
-  CoursesCreate,
+  CourseCtrl,
   CoursesCreated,
   CourseLevels,
   /* NotFound, */
@@ -117,7 +117,7 @@ export const routes = [
     path: "/courses"
   },
   {
-    component: requireAuth(CoursesCreate),
+    component: requireAuth(CourseCtrl),
     exact: true,
     path: "/courses/create"
   },

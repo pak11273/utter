@@ -93,7 +93,6 @@ class Courses extends Component {
                 )
               }
               if (this.state.cursor !== "done") {
-                console.log("not done")
                 var waypoint = (
                   <Waypoint
                     key={data.getCreatedCourses.cursor}
@@ -103,9 +102,7 @@ class Courses extends Component {
                         cursor: {$set: data.getCreatedCourses.cursor}
                       })
 
-                      this.setState(newState, () =>
-                        console.log("new state: ", newState)
-                      )
+                      this.setState(newState)
 
                       fetchMore({
                         // note this is a different query than the one used in the

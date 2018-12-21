@@ -63,6 +63,11 @@ input:-webkit-autofill {
   display: flex;
 }
 
+/* Input Override, fix for inside border in select box */
+.ui.form input:not([type]) {
+	border: none
+} 
+
 #usingLang,
 #teachingLang,
 #courseRef {

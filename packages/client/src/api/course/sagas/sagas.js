@@ -1,49 +1,14 @@
-import {push} from 'react-router-redux'
-import {all, call, put, select, take, takeLatest} from 'redux-saga/effects'
-import axios from 'axios'
-import {fetchData} from '../../../utils/apiMgr'
-import {ADD_FLASH_MESSAGE} from '../../../app/types.js'
+import {push} from "react-router-redux"
+import {all, call, put, select, takeLatest} from "redux-saga/effects"
+import {fetchData} from "../../../utils/apiMgr"
+import {ADD_FLASH_MESSAGE} from "../../../app/types.js"
 
 // types
-import * as types from '../types'
-import {MODAL_RESET} from '../../../containers/Modals/types.js'
+import * as types from "../types"
+import {MODAL_RESET} from "../../../containers/Modals/types.js"
 
 // actions
 // import {resetModal} from '../../../containers/Modals/actions.js'
-
-// CREATE
-function* createTeachingCourse(course) {
-  try {
-    const data = yield call(() => {
-      return axios({
-        method: 'post',
-        url: '/api/courses',
-        data: {
-          course
-        }
-      })
-        .then(res => {
-          return res
-        })
-        .catch(err => {
-          throw err.response.data.error
-        })
-    })
-
-    yield put({
-      type: types.COURSE_ASYNC.SUCCESS,
-      payload: data
-    })
-
-    data.data.courseAuthorId = data.data.courseAuthor
-    yield call(fetchTeachingCourse, data.data)
-  } catch (error) {
-    yield put({
-      type: types.COURSE_ASYNC.ERROR,
-      payload: error
-    })
-  }
-}
 
 function* deleteTeachingCourse(state) {
   const {courseAuthor, courseId, courseName} = state
@@ -53,7 +18,7 @@ function* deleteTeachingCourse(state) {
   const htmlReadyUrl = encodeURI(url)
   try {
     const url = htmlReadyUrl
-    const method = 'delete'
+    const method = "delete"
     const data = {}
     const cb = null
     const params = null
@@ -79,10 +44,10 @@ function* deleteTeachingCourse(state) {
     if (!error.response) {
       yield put({
         type: types.COURSE_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
-      console.log('error: ', error.response.statusText)
+      console.log("error: ", error.response.statusText)
       const err = error.response.statusText
       yield put({
         type: types.COURSE_ASYNC.ERROR,
@@ -90,6 +55,7 @@ function* deleteTeachingCourse(state) {
       })
     }
   } finally {
+    // no op
   }
 }
 
@@ -102,7 +68,7 @@ export function* fetchTeachingCourse(state) {
 
   try {
     const url = htmlReadyUrl
-    const method = 'get'
+    const method = "get"
     const data = {}
     const cb = null
     const params = null
@@ -126,10 +92,10 @@ export function* fetchTeachingCourse(state) {
     if (!error.response) {
       yield put({
         type: types.COURSE_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
-      console.log('error: ', error.response.statusText)
+      console.log("error: ", error.response.statusText)
       const err = error.response.statusText
       yield put({
         type: types.COURSE_ASYNC.ERROR,
@@ -137,6 +103,7 @@ export function* fetchTeachingCourse(state) {
       })
     }
   } finally {
+    // no op
   }
 }
 
@@ -151,7 +118,7 @@ export function* updateTeachingCourse(state) {
   const htmlReadyUrl = encodeURI(url)
   try {
     const url = htmlReadyUrl
-    const method = 'put'
+    const method = "put"
     const data = state
     const cb = null
     const params = null
@@ -167,8 +134,8 @@ export function* updateTeachingCourse(state) {
       yield put({
         type: ADD_FLASH_MESSAGE,
         message: {
-          type: 'success',
-          text: 'Your course was updated successfully.'
+          type: "success",
+          text: "Your course was updated successfully."
         }
       })
 
@@ -183,10 +150,10 @@ export function* updateTeachingCourse(state) {
     if (!error.response) {
       yield put({
         type: types.COURSE_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
-      console.log('error: ', error.response.statusText)
+      console.log("error: ", error.response.statusText)
       const err = error.response.statusText
       yield put({
         type: types.COURSE_ASYNC.ERROR,
@@ -194,46 +161,12 @@ export function* updateTeachingCourse(state) {
       })
     }
   } finally {
-  }
-}
-
-//TODO delete when done transferring to the above function
-function* updateCourse(action) {
-  // const courseId = action.course.courseId
-  // const courseName = action.course.courseName
-  // const getAuthId = state => state.userReducer.user._id
-  // const authId = yield select(getAuthId)
-  // const url = `/api/courses/my-courses/${authId}/${courseId}/${courseName}`
-  // const htmlReadyUrl = encodeURI(url)
-  try {
-    if (!authId) {
-      throw new Error('You are not the creator of this course.')
-    } else {
-      const data = yield call(() => {
-        return axios({
-          method: 'put',
-          url: htmlReadyUrl,
-          data: {
-            course: action.course
-          }
-        })
-          .then(res => {
-            return res
-          })
-          .catch(err => {
-            throw err.response.data.error
-          })
-      })
-      yield put(updateCourseSuccess(data))
-    }
-  } catch (error) {
-    yield put(updateCourseFail(error))
+    // no op
   }
 }
 
 function* watchCourse() {
   yield all([
-    takeLatest(types.COURSE_ASYNC.CREATE, createTeachingCourse),
     takeLatest(types.COURSE_ASYNC.DELETE, deleteTeachingCourse),
     takeLatest(types.COURSE_ASYNC.REQUEST, fetchTeachingCourse),
     takeLatest(types.COURSE_ASYNC.UPDATE, updateTeachingCourse)
