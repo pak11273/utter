@@ -8,9 +8,6 @@
   font-size: 1rem;
 }
 
-.displayCount {
-}
-
 .languageOption {
   font-size: 1rem;
   margin-left: 20px;
@@ -67,6 +64,11 @@ input:-webkit-autofill {
 .ui.form input:not([type]) {
 	border: none
 } 
+
+/* hides default labels from formik fields */
+.ui.form .field > label {
+	display: none
+}
 
 #usingLang,
 #teachingLang,

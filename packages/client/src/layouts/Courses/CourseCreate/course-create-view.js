@@ -1,6 +1,6 @@
 import "../styles.css"
 import {Button, Container, Form, Grid, Header} from "semantic-ui-react"
-import {withFormik} from "formik"
+import {Field, withFormik} from "formik"
 import {Mutation} from "react-apollo"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
@@ -14,19 +14,19 @@ import {courseCreateSchema} from "@utterzone/common"
 import {
   Box,
   Flex,
-  Input,
+  FormikInput,
+  FormikTextArea,
+  /* Input, */
   MastheadTitle,
   MastheadSubtitle,
-  Searching,
-  Span,
-  TextArea
+  /* Searching, */
+  Span
 } from "../../../components"
 import {Masthead} from "../../../containers"
 import {addFlashMessage} from "../../../app/actions/flashMessages"
 import {fetchCourseName} from "../actions"
 import {main} from "../../../themes/config"
 import {toggleFooter} from "../../../app/actions/toggleFooterAction"
-import {validateInput} from "../../../utils/validations/courseCreate"
 import CourseRef from "../components/CourseRef"
 import CourseTags from "../components/CourseTags"
 import Teaching from "../containers/Teaching"
@@ -88,18 +88,11 @@ const StyledSpan = styled(Span)`
     display: ${props => props.display640};
   }
 `
-const Error = styled.div`
-  color: red;
-  padding-top: ${props => props.paddingtop};
-  text-align: center;
-`
 const initialState = {
   cdn: {},
   charCount: 0,
   courseId: cuid(),
   courseAuthorId: "",
-  courseDescription: "",
-  courseName: "",
   levels: [{level: 1, cuid: cuid()}],
   terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
   displayName: "",
@@ -162,27 +155,9 @@ class CourseCreate extends Component {
     })
   }
 
-  isValid() {
-    const {errors, isValid} = validateInput(this.state)
-
-    if (!isValid) {
-      this.setState({
-        errors
-      })
-    } else {
-      return isValid
-    }
-  }
-
   render() {
-    const {handleSubmit, courseReducer} = this.props
-    const {
-      courseName,
-      courseNameErrors,
-      courseDescription,
-      courseDescriptionErrors,
-      errors
-    } = this.state
+    const {handleSubmit} = this.props
+    const {courseName, courseDescription} = this.props.values
 
     return (
       <ThemeProvider theme={main}>
@@ -216,36 +191,12 @@ class CourseCreate extends Component {
                       </StyledSpan>
                     </Header>
                     <DisplayCount>{courseName.length}</DisplayCount>
-                    <Input
-                      autoFocus
-                      className={
-                        courseNameErrors || courseReducer.errorMsg
-                          ? "courseError"
-                          : null
-                      }
+                    <Field
                       name="courseName"
-                      onChange={this.onChange}
-                      onBlur={this.onBlur}
-                      label="Course Name"
-                      minwidth="200px"
-                      placeholder="Give a unique name to your course."
-                      type="text"
-                      value={courseName}
-                      width="80%"
+                      placeholder="Provide a unique name for your course."
+                      component={FormikInput}
+                      style={{width: "300px"}}
                     />
-                    {errors.courseName &&
-                      Object.keys(courseNameErrors).map((key, i) => (
-                        <Error key={i}>{courseNameErrors.message}</Error>
-                      ))}
-                    {courseReducer.loading ? (
-                      <Searching />
-                    ) : courseReducer.error ? (
-                      <p style={{color: "red"}}>{courseReducer.errorMsg}</p>
-                    ) : (
-                      <p style={{color: "green"}}>
-                        {courseReducer.courseNameMsg}
-                      </p>
-                    )}
                   </Box>
                   <Box margin="40px 0 0 0" position="relative">
                     <Header>
@@ -256,21 +207,12 @@ class CourseCreate extends Component {
                       </StyledSpan>
                     </Header>
                     <DisplayCount>{courseDescription.length}</DisplayCount>
-                    <TextArea
-                      className={courseDescriptionErrors ? "courseError" : null}
+                    <Field
                       name="courseDescription"
-                      onChange={this.onChange}
-                      label="Course Description"
-                      placeholder="Give a brief description about your course."
-                      height="200px"
-                      minwidth="200px"
-                      value={courseDescription}
-                      width="80%"
+                      placeholder="Provide a brief description of your course."
+                      component={FormikTextArea}
+                      style={{width: "500px"}}
                     />
-                    {errors.courseDescription &&
-                      Object.keys(courseDescriptionErrors).map((key, i) => (
-                        <Error key={i}>{courseDescriptionErrors.message}</Error>
-                      ))}
                   </Box>
                   <Grid>
                     <Flex
@@ -310,10 +252,6 @@ class CourseCreate extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  courseReducer: state.courseReducer
-})
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
@@ -327,7 +265,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(
   withFormik({
@@ -337,10 +275,11 @@ export default connect(
     mapPropsToValues: () => ({
       courseId: "",
       courseName: "",
-      description: "",
+      courseDescription: "",
       courseMode: "draft"
     }),
     handleSubmit: async (values, {props, setErrors}) => {
+      console.log("hello")
       const result = await props.submit(values)
       const onComplete = () => {
         history.push("/", {

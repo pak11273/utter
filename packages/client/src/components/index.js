@@ -14,7 +14,7 @@ import Dropdown from "./Dropdowns"
 import Flex from "./Flex"
 import FormEditWrapper from "./FormEditWrapper"
 import Form from "./Forms"
-import {FormikField} from "./Inputs/FormikField.js"
+import {FormikInput, FormikTextArea} from "./Inputs/FormikField.js"
 import Grid from "./Grids"
 import Hamburger from "./Buttons/Hamburger.js"
 import Img from "./Medias/Img"
@@ -69,7 +69,8 @@ export {
   Dropdown,
   Flex,
   Form,
-  FormikField,
+  FormikInput,
+  FormikTextArea,
   FormEditWrapper,
   Grid,
   Hamburger,
