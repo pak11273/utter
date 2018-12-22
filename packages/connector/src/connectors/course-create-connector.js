@@ -21,7 +21,7 @@ export class CC extends PureComponent {
           id: values.id,
           courseId: values.courseId,
           courseName: values.courseName,
-          description: values.description,
+          courseDescription: values.courseDescription,
           courseMode: values.courseMode,
           favorite: values.favorite
         }
@@ -47,10 +47,10 @@ export class CC extends PureComponent {
 
 const CourseCreateMutation = gql`
   mutation CourseCreateMutation(
-    $id: ID!
+    $id: ID
     $courseId: String
     $courseName: String!
-    $description: String
+    $courseDescription: String
     $courseMode: String
     $favorite: Boolean
   ) {
@@ -59,7 +59,7 @@ const CourseCreateMutation = gql`
         id: $id
         courseId: $courseId
         courseName: $courseName
-        description: $description
+        courseDescription: $courseDescription
         courseMode: $courseMode
         favorite: $favorite
       }

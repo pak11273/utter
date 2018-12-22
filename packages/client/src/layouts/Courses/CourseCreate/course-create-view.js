@@ -10,7 +10,7 @@ import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import gql from "graphql-tag"
 import styled, {ThemeProvider} from "styled-components"
-import {courseCreateSchema} from "@utterzone/common"
+/* import {courseCreateSchema} from "@utterzone/common" */
 import {
   Box,
   Flex,
@@ -269,7 +269,7 @@ export default connect(
   mapDispatchToProps
 )(
   withFormik({
-    validationSchema: courseCreateSchema,
+    /* validationSchema: courseCreateSchema, */
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
@@ -279,7 +279,7 @@ export default connect(
       courseMode: "draft"
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      console.log("hello")
+      console.log("values: ", values)
       const result = await props.submit(values)
       const onComplete = () => {
         history.push("/", {
@@ -287,17 +287,22 @@ export default connect(
         })
       }
 
-      // if signup info is legit
+      // if createa is legit
+      console.log("res: ", result)
       if (typeof result === "string") {
-        localStorage.setItem("AUTH_TOKEN", result)
         onComplete()
-        props.addFlashMessage({
+        props.actions.addFlashMessage({
           type: "success",
           text: "Welcome to Utterzone"
         })
       } else {
-        // if singup info is not legit
-        setErrors(result)
+        /* setErrors(result) */
+        // TODO test for auth
+        setErrors({test: "test"})
+        props.actions.addFlashMessage({
+          type: "error",
+          text: "Something went wrong. Could not create a course."
+        })
       }
     }
   })(CourseCreate)

@@ -37,7 +37,7 @@ const updateCourse = (_, {input}) => {
   return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const createCourse = (_, args) => {
+const courseCreate = (_, args) => {
   const {input} = args
   return Course.create(input)
 }
@@ -139,7 +139,7 @@ export const courseResolvers = {
   Mutation: {
     deleteCourse,
     updateCourse,
-    createCourse
+    courseCreate
   },
   Course: {
     async courseAuthor(course) {

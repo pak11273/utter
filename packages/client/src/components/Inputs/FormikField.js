@@ -12,7 +12,6 @@ export const FormikInput = ({
       {...field}
       {...props}
       error={!isEmpty(errors[field.name])}
-      fluid
       label={field.name}
     />
     {errors[field.name] &&
@@ -27,17 +26,16 @@ export const FormikTextArea = ({
   form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   ...props
 }) => (
-  <Form>
+  <Form.Field>
     <TextArea
       {...field}
       {...props}
-      error={!isEmpty(errors[field.name])}
-      fluid
+      error={!isEmpty(errors[field.name]) ? "false" : "true"}
       label={field.name}
     />
     {errors[field.name] &&
       touched[field.name] && (
         <Message className="error-msg" error content={errors[field.name]} />
       )}
-  </Form>
+  </Form.Field>
 )

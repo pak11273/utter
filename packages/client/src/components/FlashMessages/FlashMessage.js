@@ -14,6 +14,7 @@ const StyledMessage = styled.div`
 `
 class FlashMessage extends Component {
   componentDidMount() {
+    window.scrollTo(0, 0)
     switch (this.props.message.type) {
       case "success":
       case "error":

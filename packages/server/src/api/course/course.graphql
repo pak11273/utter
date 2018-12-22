@@ -69,7 +69,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  createCourse(input: CreateCourseInput!): Course!
+  courseCreate(input: CreateCourseInput!): Course!
 	deleteCourse(id: String!): Boolean
   updateCourse(input: UpdatedCourse!): Course!
   removeCourse(id: ID!): Boolean
