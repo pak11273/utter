@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation CourseCreateMutation(\n    $id: ID!\n    $courseId: String\n    $courseName: String!\n    $description: String\n    $courseMode: String\n    $favorite: Boolean\n  ) {\n    courseCreate(\n      input: {\n        id: $id\n        courseId: $courseId\n        courseName: $courseName\n        description: $description\n        courseMode: $courseMode\n        favorite: $favorite\n      }\n    ) {\n      course\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation CourseCreateMutation(\n    $id: ID!\n    $courseId: String\n    $courseName: String!\n    $description: String\n    $courseMode: String\n    $favorite: Boolean\n  ) {\n    courseCreate(\n      input: {\n        id: $id\n        courseId: $courseId\n        courseName: $courseName\n        description: $description\n        courseMode: $courseMode\n        favorite: $favorite\n      }\n    ) {\n      course\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseDescription: String\n    $courseMode: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n      }\n    ) {\n      courseName\n      courseMode\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseDescription: String\n    $courseMode: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n      }\n    ) {\n      courseName\n      courseMode\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -89,12 +89,9 @@ var CC = exports.CC = function (_PureComponent) {
                 _context.next = 3;
                 return _this.props.mutate({
                   variables: {
-                    id: values.id,
-                    courseId: values.courseId,
                     courseName: values.courseName,
-                    description: values.description,
-                    courseMode: values.courseMode,
-                    favorite: values.favorite
+                    courseDescription: values.courseDescription,
+                    courseMode: values.courseMode
                   }
                 });
 

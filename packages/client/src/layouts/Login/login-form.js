@@ -8,7 +8,7 @@ import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 /* import * as yup from "yup" */
 import {loginSchema} from "@utterzone/common"
 import {main} from "../../themes/config"
-import {FormikField, Spacer} from "../../components"
+import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
 // actions
@@ -46,17 +46,19 @@ class LoginForm extends PureComponent {
             <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
               <Header as="h1">Login</Header>
+              <Header>username</Header>
               <Field
                 name="username or email"
                 placeholder="username or email"
-                component={FormikField}
+                component={FormikInput}
               />
+              <Header>password</Header>
               <Field
                 name="password"
                 placeholder="password"
                 autoComplete="new-password"
                 type="password"
-                component={FormikField}
+                component={FormikInput}
               />
               <Form.Group style={{position: "absolute", right: "10px"}}>
                 <a href="/forgot-password"> Forgot Password? </a>

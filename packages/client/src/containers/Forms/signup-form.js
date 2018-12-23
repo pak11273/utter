@@ -15,7 +15,7 @@ import {signupSchema} from "@utterzone/common"
 import {withFormik, Field} from "formik"
 import React, {PureComponent} from "react"
 import cloneDeep from "lodash/cloneDeep"
-import {FormikField, Spacer} from "../../components"
+import {FormikInput, Spacer} from "../../components"
 import {main} from "../../themes/config"
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import Terms from "../../documents/terms-and-conditions.js"
@@ -78,30 +78,32 @@ class SignupForm extends PureComponent {
             <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
               <Header as="h1">Registration</Header>
+              <Header>username</Header>
               <Field
                 name="username"
                 placeholder="username"
-                component={FormikField}
+                component={FormikInput}
               />
-              <Field name="email" placeholder="email" component={FormikField} />
+              <Header>email</Header>
+              <Field name="email" placeholder="email" component={FormikInput} />
+              <Header>password</Header>
               <Field
                 name="password"
                 placeholder="password"
                 autoComplete="new-password"
                 type="password"
-                component={FormikField}
+                component={FormikInput}
               />
+              <Header>password confirmation</Header>
               <Field
                 name="password confirmation"
                 placeholder="password confirmation"
                 autoComplete="new-password"
                 type="password"
-                component={FormikField}
+                component={FormikInput}
               />
               <Form.Field>
-                <Header as="h4" style={{margin: "0 0 5px 0"}}>
-                  timezone
-                </Header>
+                <Header>timezone</Header>
                 <Timezones
                   label="Timezone"
                   onChange={handleChange}
@@ -181,7 +183,7 @@ export default connect(
       const result = await props.submit(values)
       const onComplete = () => {
         history.push("/a/confirm-email", {
-          announcement: "Please check your email to confirm your account."
+          announcement: "Please check your email to confirm your address."
         })
       }
 

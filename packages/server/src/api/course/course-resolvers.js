@@ -37,7 +37,7 @@ const updateCourse = (_, {input}) => {
   return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const courseCreate = (_, args) => {
+const courseCreate = async (_, args, ctx, info) => {
   const {input} = args
   return Course.create(input)
 }

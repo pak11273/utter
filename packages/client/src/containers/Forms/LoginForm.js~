@@ -9,7 +9,7 @@ import cloneDeep from "lodash/cloneDeep"
 /* import * as yup from "yup" */
 import {loginSchema} from "@utterzone/common"
 import {main} from "../../themes/config"
-import {FormikField, Spacer} from "../../components"
+import {FormikInput, Spacer} from "../../components"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
@@ -67,21 +67,21 @@ class LoginForm extends PureComponent {
               <Field
                 name="identity"
                 placeholder="identity"
-                component={FormikField}
+                component={FormikInput}
               />
               <Field
                 name="password"
                 placeholder="password"
                 autoComplete="new-password"
                 type="password"
-                component={FormikField}
+                component={FormikInput}
               />
               <Field
                 name="passwordConfirmation"
                 placeholder="password confirmation"
                 autoComplete="new-password"
                 type="password"
-                component={FormikField}
+                component={FormikInput}
               />
               <Form.Group style={{position: "absolute", right: "10px"}}>
                 <a href="#"> Forgot Password? </a>

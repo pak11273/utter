@@ -1,16 +1,14 @@
 import "../styles.css"
 import {Button, Container, Form, Grid, Header} from "semantic-ui-react"
 import {Field, withFormik} from "formik"
-import {Mutation} from "react-apollo"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {push} from "react-router-redux"
 import React, {Component} from "react"
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
-import gql from "graphql-tag"
 import styled, {ThemeProvider} from "styled-components"
-/* import {courseCreateSchema} from "@utterzone/common" */
+import {courseCreateSchema} from "@utterzone/common"
 import {
   Box,
   Flex,
@@ -31,15 +29,6 @@ import CourseRef from "../components/CourseRef"
 import CourseTags from "../components/CourseTags"
 import Teaching from "../containers/Teaching"
 import Using from "../containers/Using"
-
-const createCourse = gql`
-  mutation createCourse($id: String, $courseId: String, $courseName: String) {
-    createCourse(id: $id, courseId: $courseId, courseName: $courseName) {
-      courseName
-      courseMode
-    }
-  }
-`
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;
@@ -173,13 +162,6 @@ class CourseCreate extends Component {
           </Grid.Row>
           <Grid.Row centered>
             <Container>
-              <Grid.Column>
-                <Mutation mutation={createCourse}>
-                  {() => {
-                    return "hello"
-                  }}
-                </Mutation>
-              </Grid.Column>
               <Grid.Column textAlign="center">
                 <StyledForm error onSubmit={handleSubmit}>
                   <Box margin="40px 0 0 0" position="relative">
@@ -269,17 +251,15 @@ export default connect(
   mapDispatchToProps
 )(
   withFormik({
-    /* validationSchema: courseCreateSchema, */
+    validationSchema: courseCreateSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      courseId: "",
       courseName: "",
       courseDescription: "",
       courseMode: "draft"
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      console.log("values: ", values)
       const result = await props.submit(values)
       const onComplete = () => {
         history.push("/", {
@@ -287,7 +267,7 @@ export default connect(
         })
       }
 
-      // if createa is legit
+      // if create is legit
       console.log("res: ", result)
       if (typeof result === "string") {
         onComplete()

@@ -65,7 +65,7 @@ input:-webkit-autofill {
 	border: none
 } 
 
-/* hides default labels from formik fields */
+/* Hides default view of Field labels */
 .ui.form .field > label {
 	display: none
 }

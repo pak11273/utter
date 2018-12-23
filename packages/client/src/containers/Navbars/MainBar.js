@@ -2,13 +2,13 @@ import React, {Component} from "react"
 import {withRouter} from "react-router"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import {NavLink, Link} from "react-router-dom"
+import {NavLink} from "react-router-dom"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import {AUTH_TOKEN} from "../../layouts/Login/containers/constants.js"
 import "./styles.css"
 
-import {Login} from "../../containers"
+import {Login} from "../index.js"
 import {Box, Hamburger, Logo, Section} from "../../components"
 
 // images
@@ -150,18 +150,14 @@ class MainNavbar extends Component {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
     this.props.history.push("/login")
-    // this.props.actions.logout()
   }
 
-  render(props) {
+  render() {
     const {
       list,
-      menu,
       largeMenuClassName,
       smallMenuClassName,
-      changeMenuOn,
-      menuOpenButton,
-      menuCloseButton
+      changeMenuOn
     } = this.props
 
     // handle login section
@@ -176,7 +172,7 @@ class MainNavbar extends Component {
                 color: "red"
               }}
               to="#"
-              onClick={this.logout.bind(this)}>
+              onClick={this.logout}>
               Log Out
             </StyledNavLink>
           </li>
@@ -213,9 +209,14 @@ class MainNavbar extends Component {
             <Nav>
               <ul>
                 {list.map((item, i) => {
+                  let update = null
+                  if (item === "courses") {
+                    update = this.forceUpdate
+                  }
                   return (
                     <li key={i}>
                       <StyledNavLink
+                        onClick={update}
                         exact
                         activeStyle={{
                           color: "red"
@@ -233,21 +234,26 @@ class MainNavbar extends Component {
             {!this.state.showMenu ? (
               <div>
                 <Hamburger padding="9px 0 0 0" onClick={this.handleHamburger} />
-                {/* add custom ON button here*/}
+                {/* add custom ON button here */}
               </div>
             ) : (
               <div>
                 <Hamburger padding="9px 0 0 0" onClick={this.handleHamburger} />
-                {/* add custom OFF button here*/}
+                {/* add custom OFF button here */}
               </div>
             )}
             {this.state.showMenu ? (
               <Nav>
                 <ul>
                   {list.map((item, i) => {
+                  let update = null
+                  if (item === "courses") {
+                    update = this.forceUpdate
+                  }
                     return (
                       <li key={i}>
                         <StyledNavLink
+                        onClick={update}
                           exact
                           activeStyle={{
                             color: "red"

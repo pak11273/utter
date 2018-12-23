@@ -18,15 +18,11 @@ export class CC extends PureComponent {
         }
       } = await this.props.mutate({
         variables: {
-          id: values.id,
-          courseId: values.courseId,
           courseName: values.courseName,
           courseDescription: values.courseDescription,
-          courseMode: values.courseMode,
-          favorite: values.favorite
+          courseMode: values.courseMode
         }
       })
-
       if (course !== null) {
         return course
       }
@@ -46,29 +42,21 @@ export class CC extends PureComponent {
 }
 
 const CourseCreateMutation = gql`
-  mutation CourseCreateMutation(
-    $id: ID
-    $courseId: String
+  mutation courseCreate(
     $courseName: String!
     $courseDescription: String
     $courseMode: String
-    $favorite: Boolean
   ) {
     courseCreate(
       input: {
-        id: $id
-        courseId: $courseId
         courseName: $courseName
         courseDescription: $courseDescription
         courseMode: $courseMode
-        favorite: $favorite
       }
     ) {
-      course
-      error {
-        path
-        message
-      }
+      courseName
+      courseDescription
+      courseMode
     }
   }
 `

@@ -38,12 +38,10 @@ input UpdatedCourse {
 }
 
 input CreateCourseInput {
-  id: ID!
   courseId: String
   courseName: String!
-  description: String
+  courseDescription: String
   courseMode: String
-  favorite: Boolean
 }
 
 type PaginatedCourses {
