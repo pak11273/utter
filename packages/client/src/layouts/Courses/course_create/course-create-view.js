@@ -242,7 +242,6 @@ class CourseCreate extends Component {
 
   render() {
     const {handleSubmit} = this.props
-    console.log("view: ", this.props)
     const {courseName, courseDescription} = this.props.values
 
     return (
@@ -306,11 +305,15 @@ class CourseCreate extends Component {
                         addTeachingLang={this.addTeachingLang}
                         options={languageData}
                       />
-                      {/* <Teaching addTeachingLang={this.addTeachingLang} /> */}
                     </Flex>
                     <StyledFlex gridarea="using" margin1080="40px 0 0 0">
                       <Header>Using</Header>
-                      <Using addUsingLang={this.addUsingLang} />
+                      <Field
+                        name="usingLang"
+                        component={Using}
+                        addUsingLang={this.addUsingLang}
+                        options={languageData}
+                      />
                     </StyledFlex>
                     <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
                       <Header>Course Reference</Header>
@@ -361,7 +364,7 @@ class CourseCreate extends Component {
                       </Dropzone>
                       <p>{this.state.uploadedFile.name}</p>
                     </StyledFlex>
-                    <StyledFlex margin1080="40px 0 0 0">
+                    <StyledFlex margin1080="40px 0">
                       <Button type="submit" color="yellow">
                         Create Course
                       </Button>
@@ -401,7 +404,8 @@ export default connect(
       courseImage: "",
       courseDescription: "",
       courseMode: "draft",
-      teachingLang: ""
+      teachingLang: "",
+      usingLang: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)

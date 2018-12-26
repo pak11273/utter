@@ -1,8 +1,6 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 import Select from "react-select"
-/* import Select, {Option} from "react-select" */
-/* import languageData from "../../../data/languageData.js" */
 import {Box} from "../../../components"
 import "../styles.css"
 
@@ -32,7 +30,6 @@ class Teaching extends Component {
   }
 
   render() {
-    console.log("props", this.props)
     const {field, options} = this.props
     return (
       <Box width="250px">

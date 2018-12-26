@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n      }\n    ) {\n      id\n      courseName\n      courseAuthor {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n      }\n    ) {\n      id\n      courseName\n      courseAuthor {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      courseName\n      courseAuthor {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      courseName\n      courseAuthor {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -93,7 +93,8 @@ var CC = exports.CC = function (_PureComponent) {
                     courseDescription: values.courseDescription,
                     courseImage: values.courseImage,
                     courseMode: values.courseMode,
-                    teachingLang: values.teachingLang
+                    teachingLang: values.teachingLang,
+                    usingLang: values.usingLang
                   }
                 });
 

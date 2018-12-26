@@ -1,34 +1,24 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
-import Select from 'react-select'
-import languageData from '../../../data/languageData.js'
-import {Box} from '../../../components'
-import '../styles.css'
+import React, {Component} from "react"
+import PropTypes from "prop-types"
+import Select from "react-select"
+import {Box} from "../../../components"
+import "../styles.css"
 
 class Using extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      displayName: 'StatesField',
-      country: 'AU',
+      displayName: "UsingField",
       disabled: false,
       searchable: props.searchable,
-      selectValue: '',
+      selectValue: "",
       clearable: true,
       rtl: false
     }
   }
 
-  clearValue = e => {
-    this.select.setInputValue('')
-  }
-
-  switchCountry = e => {
-    constnewCountry = e.target.value
-    this.setState({
-      country: newCountry,
-      selectValue: null
-    })
+  clearValue = () => {
+    this.select.setInputValue("")
   }
 
   updateValue = newValue => {
@@ -36,37 +26,38 @@ class Using extends Component {
       selectValue: newValue
     })
     this.props.addUsingLang(newValue)
+    this.props.form.setFieldValue(this.props.field.name, newValue)
   }
 
   render() {
-    const options = languageData
+    const {field, options} = this.props
     return (
       <Box width="250px">
         <Select
-          id="state-select"
+          id="using-select"
           ref={ref => {
             this.select = ref
           }}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
-          options={options}
           required
           simpleValue
           clearable={this.state.clearable}
           wrapperStyle={{
-            margin: '20px 0 0 0',
-            width: '100%'
+            margin: "20px 0 0 0",
+            width: "100%"
           }}
           style={{
-            width: '100%'
+            width: "100%"
           }}
           menuContainerStyle={{
-            width: '100%'
+            width: "100%"
           }}
           menuStyle={{
-            width: '100%'
+            width: "100%"
           }}
-          name="selected-state"
+          name={field.name}
+          options={options}
           disabled={this.state.disabled}
           value={this.state.selectValue}
           onChange={this.updateValue}
@@ -79,12 +70,10 @@ class Using extends Component {
 }
 
 Using.propTypes = {
-  label: PropTypes.string,
   searchable: PropTypes.bool
 }
 
 Using.defaultProps = {
-  label: 'Language:',
   searchable: true
 }
 

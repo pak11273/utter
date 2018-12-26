@@ -15,7 +15,8 @@ export class CC extends PureComponent {
           courseDescription: values.courseDescription,
           courseImage: values.courseImage,
           courseMode: values.courseMode,
-          teachingLang: values.teachingLang
+          teachingLang: values.teachingLang,
+          usingLang: values.usingLang
         }
       })
 
@@ -43,6 +44,7 @@ const CourseCreateMutation = gql`
     $courseDescription: String
     $courseMode: String
     $teachingLang: String
+    $usingLang: String
   ) {
     courseCreate(
       input: {
@@ -51,6 +53,7 @@ const CourseCreateMutation = gql`
         courseDescription: $courseDescription
         courseMode: $courseMode
         teachingLang: $teachingLang
+        usingLang: $usingLang
       }
     ) {
       id

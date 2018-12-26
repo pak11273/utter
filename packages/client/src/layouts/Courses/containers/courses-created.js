@@ -69,58 +69,61 @@ class Courses extends Component {
   render() {
     const {author} = this.props
     return (
-      <Grid
-        columns={3}
-        centered
-        padded="vertically"
-        mobile={8}
-        tablet={8}
-        computer={4}>
-        <Grid.Row style={{padding: "40px"}}>
-          <Query
-            query={getCreatedCourses}
-            variables={{
-              cursor: "",
-              author
-            }}>
-            {({loading, error, data, fetchMore}) => {
-              if (loading) return <Grid.Column>loading...</Grid.Column>
-              if (error) {
-                console.log("err: ", error)
-                return (
-                  <Grid.Column>
-                    The server is restarting due to maintenance. Please refresh
-                    your browser in a few minutes.
-                  </Grid.Column>
-                )
-              }
-              if (this.state.cursor !== "done") {
-                var waypoint = (
-                  <Waypoint
-                    key={data.getCreatedCourses.cursor}
-                    onEnter={() => {
-                      // set cursor state to first response
-                      const newState = update(this.state, {
-                        cursor: {$set: data.getCreatedCourses.cursor}
-                      })
+      <Grid.Row style={{padding: "40px"}}>
+        <Query
+          query={getCreatedCourses}
+          variables={{
+            cursor: "",
+            author
+          }}>
+          {({loading, error, data, fetchMore}) => {
+            if (loading) return <Grid.Column>loading...</Grid.Column>
+            if (error) {
+              console.log("err: ", error)
+              return (
+                <Grid.Column>
+                  The server is restarting due to maintenance. Please refresh
+                  your browser in a few minutes.
+                </Grid.Column>
+              )
+            }
+            if (this.state.cursor !== "done") {
+              var waypoint = (
+                <Waypoint
+                  key={data.getCreatedCourses.cursor}
+                  onEnter={() => {
+                    // set cursor state to first response
+                    const newState = update(this.state, {
+                      cursor: {$set: data.getCreatedCourses.cursor}
+                    })
 
-                      this.setState(newState)
+                    this.setState(newState)
 
-                      fetchMore({
-                        // note this is a different query than the one used in the
-                        variables: {
-                          cursor: this.state.cursor
-                        },
-                        updateQuery: (previousResult, {fetchMoreResult}) => {
-                          if (!fetchMoreResult) {
-                            // do something here
+                    fetchMore({
+                      // note this is a different query than the one used in the
+                      variables: {
+                        cursor: this.state.cursor
+                      },
+                      updateQuery: (previousResult, {fetchMoreResult}) => {
+                        if (!fetchMoreResult) {
+                          // do something here
+                        }
+                        const previousEntry =
+                          previousResult.getCreatedCourses.courses
+                        const newCourses =
+                          fetchMoreResult.getCreatedCourses.courses
+
+                        // display waypoint if a cursor exists
+                        const newState = update(this.state, {
+                          cursor: {
+                            $set: fetchMoreResult.getCreatedCourses.cursor
                           }
-                          const previousEntry =
-                            previousResult.getCreatedCourses.courses
-                          const newCourses =
-                            fetchMoreResult.getCreatedCourses.courses
+                        })
 
-                          // display waypoint if a cursor exists
+                        this.setState(newState)
+
+                        if (isEmpty(newCourses)) {
+                          // hide waypoint
                           const newState = update(this.state, {
                             cursor: {
                               $set: fetchMoreResult.getCreatedCourses.cursor
@@ -129,107 +132,96 @@ class Courses extends Component {
 
                           this.setState(newState)
 
-                          if (isEmpty(newCourses)) {
-                            // hide waypoint
-                            const newState = update(this.state, {
-                              cursor: {
-                                $set: fetchMoreResult.getCreatedCourses.cursor
-                              }
-                            })
+                          return previousResult
+                        }
+                        var newCursor = newCourses[newCourses.length - 1].id
 
-                            this.setState(newState)
+                        if (!fetchMoreResult) return previousEntry
 
-                            return previousResult
-                          }
-                          var newCursor = newCourses[newCourses.length - 1].id
-
-                          if (!fetchMoreResult) return previousEntry
-
-                          return {
-                            // By returning `cursor` here, we update the `fetchMore` function
-                            // to the new cursor.
-                            getCreatedCourses: {
-                              cursor: newCursor,
-                              courses: [...previousEntry, ...newCourses],
-                              __typename: "PaginatedCourses"
-                            }
+                        return {
+                          // By returning `cursor` here, we update the `fetchMore` function
+                          // to the new cursor.
+                          getCreatedCourses: {
+                            cursor: newCursor,
+                            courses: [...previousEntry, ...newCourses],
+                            __typename: "PaginatedCourses"
                           }
                         }
-                      })
-                    }}>
-                    <div>
-                      <SemButton
-                        loading={loading}
-                        style={{
-                          margin: "50px",
-                          border: "none",
-                          background: "none"
-                        }}>
-                        Scroll down for more
-                      </SemButton>
-                    </div>
-                  </Waypoint>
-                )
-              }
-              return (
-                // TODO use push here to go to details page?
-                // const LangCard = this.props.courses.map(item => {
-                //   var author = ""
-                //   item.courseAuthor.username ? (author = item.courseAuthor.username) : null
-                //   let keys = []
-                //   item.courseRef.map(item => {
-                //     keys.push(item.value)
-                //   })
-                //   const courseRef = keys.toString()
-                //   return (
-                //     <Card key={item.id}>
-                <div>
-                  <Card.Group doubling stackable itemsPerRow={3}>
-                    {data.getCreatedCourses.courses.map(course => (
-                      <Card key={course.id} fluid={false}>
-                        <Image
-                          src={`${course.courseImage}`}
-                          style={{cursor: "pointer"}}
-                          onClick={() => this.handleImageClick(course)}
-                        />
-                        <Card.Content>
-                          <Card.Header style={{wordBreak: "break-word"}}>
-                            {course.courseName}
-                          </Card.Header>
-                          <div
-                            className="description"
-                            style={{wordBreak: "break-word"}}>
-                            {course.courseDescription}
-                          </div>
-                        </Card.Content>
-                        <Card.Content extra>
-                          <div>
-                            <Icon name="pencil" />
-                            <a style={{padding: "0 20px 0 0"}}>
-                              {course.courseAuthor.username}
-                            </a>
-                          </div>
-                          <div>
-                            <Icon name="user" />
-                            <span style={{padding: "0 20px 0 0"}}>subs</span>
-                          </div>
-                          <div>
-                            <Icon name="book" />
-                            <span style={{padding: "0 20px 0 0"}}>
-                              course ref
-                            </span>
-                          </div>
-                        </Card.Content>
-                      </Card>
-                    ))}
-                  </Card.Group>
-                  {waypoint}
-                </div>
+                      }
+                    })
+                  }}>
+                  <div>
+                    <SemButton
+                      loading={loading}
+                      style={{
+                        margin: "50px",
+                        border: "none",
+                        background: "none"
+                      }}>
+                      Scroll down for more
+                    </SemButton>
+                  </div>
+                </Waypoint>
               )
-            }}
-          </Query>
-        </Grid.Row>
-      </Grid>
+            }
+            return (
+              // TODO use push here to go to details page?
+              // const LangCard = this.props.courses.map(item => {
+              //   var author = ""
+              //   item.courseAuthor.username ? (author = item.courseAuthor.username) : null
+              //   let keys = []
+              //   item.courseRef.map(item => {
+              //     keys.push(item.value)
+              //   })
+              //   const courseRef = keys.toString()
+              //   return (
+              //     <Card key={item.id}>
+              <div>
+                <Card.Group doubling stackable itemsPerRow={3}>
+                  {data.getCreatedCourses.courses.map(course => (
+                    <Card key={course.id} fluid={false}>
+                      <Image
+                        src={`${course.courseImage}`}
+                        style={{cursor: "pointer"}}
+                        onClick={() => this.handleImageClick(course)}
+                      />
+                      <Card.Content>
+                        <Card.Header style={{wordBreak: "break-word"}}>
+                          {course.courseName}
+                        </Card.Header>
+                        <div
+                          className="description"
+                          style={{wordBreak: "break-word"}}>
+                          {course.courseDescription}
+                        </div>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <div>
+                          <Icon name="pencil" />
+                          <a style={{padding: "0 20px 0 0"}}>
+                            {course.courseAuthor.username}
+                          </a>
+                        </div>
+                        <div>
+                          <Icon name="user" />
+                          <span style={{padding: "0 20px 0 0"}}>subs</span>
+                        </div>
+                        <div>
+                          <Icon name="book" />
+                          <span style={{padding: "0 20px 0 0"}}>
+                            course ref
+                          </span>
+                        </div>
+                      </Card.Content>
+                    </Card>
+                  ))}
+                </Card.Group>
+                {waypoint}
+              </div>
+            )
+          }}
+        </Query>
+      </Grid.Row>
     )
   }
 }

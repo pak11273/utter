@@ -44,6 +44,7 @@ input CreateCourseInput {
   courseDescription: String
   courseMode: String
 	teachingLang: String
+  usingLang: String
 }
 
 type PaginatedCourses {
