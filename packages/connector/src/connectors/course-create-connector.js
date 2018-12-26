@@ -9,24 +9,19 @@ import {normalizeErrors} from "../utils/normalizeErrors"
 export class CC extends PureComponent {
   submit = async values => {
     try {
-      const {
-        data: {
-          courseCreate: {error}
-        },
-        data: {
-          courseCreate: {course}
-        }
-      } = await this.props.mutate({
+      const {data: courseCreate} = await this.props.mutate({
         variables: {
           courseName: values.courseName,
           courseDescription: values.courseDescription,
-          courseMode: values.courseMode
+          courseImage: values.courseImage,
+          courseMode: values.courseMode,
+          teachingLang: values.teachingLang
         }
       })
-      if (course !== null) {
-        return course
-      }
 
+      if (courseCreate) {
+        return courseCreate
+      }
       if (error) {
         return normalizeErrors(error)
       }
@@ -44,17 +39,25 @@ export class CC extends PureComponent {
 const CourseCreateMutation = gql`
   mutation courseCreate(
     $courseName: String!
+    $courseImage: String
     $courseDescription: String
     $courseMode: String
+    $teachingLang: String
   ) {
     courseCreate(
       input: {
         courseName: $courseName
+        courseImage: $courseImage
         courseDescription: $courseDescription
         courseMode: $courseMode
+        teachingLang: $teachingLang
       }
     ) {
+      id
       courseName
+      courseAuthor {
+        username
+      }
       courseDescription
       courseMode
     }

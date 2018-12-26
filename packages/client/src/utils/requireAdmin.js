@@ -1,30 +1,32 @@
-import React, {Component} from 'react'
-import {addFlashMessage} from '../app/actions/flashMessages.js'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {push} from 'react-router-redux'
+import React, {Component} from "react"
+import {addFlashMessage} from "../app/actions/flashMessages.js"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {history} from "@utterzone/connector"
+/* import {push} from "react-router-redux" */
 
 export default ComposedComponent => {
   class Authenticate extends Component {
-    constructor(props) {
-      super(props)
-    }
-
     componentDidMount() {
-      if (!this.props.isAuthenticated) {
+      console.log("this: ", this)
+      const isAuthenticated = localStorage.getItem("AUTH_TOKEN")
+      if (!isAuthenticated) {
         this.props.actions.addFlashMessage({
-          type: 'error',
-          text: 'You need to login to access this page'
+          type: "error",
+          text: "You need to login to access this page"
         })
-        this.props.actions.push('/login')
+        history.push("/login")
       }
-      if (!this.props.siteAdmin) {
-        this.props.actions.addFlashMessage({
-          type: 'error',
-          text: 'You need to be an admin to access this page'
-        })
-        this.props.actions.push('/dashboard')
-      }
+
+      // TODO: implement admin check
+      /* if (!admin) { */
+
+      this.props.actions.addFlashMessage({
+        type: "error",
+        text: "You need to be an admin to access this page"
+      })
+      history.push("/dashboard")
+      /* } */
     }
 
     render() {
@@ -34,8 +36,7 @@ export default ComposedComponent => {
 
   const mapStateToProps = state => {
     return {
-      siteAdmin: state.userReducer.login.siteAdmin,
-      isAuthenticated: state.userReducer.login.isAuthenticated
+      siteAdmin: state.userReducer.login.siteAdmin
     }
   }
 
@@ -43,13 +44,15 @@ export default ComposedComponent => {
     return {
       actions: bindActionCreators(
         {
-          addFlashMessage,
-          push
+          addFlashMessage
         },
         dispatch
       )
     }
   }
 
-  return connect(mapStateToProps, mapDispatchToProps)(Authenticate)
+  return connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Authenticate)
 }

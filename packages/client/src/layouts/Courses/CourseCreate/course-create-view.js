@@ -1,14 +1,19 @@
 import "../styles.css"
-import {Button, Container, Form, Grid, Header} from "semantic-ui-react"
+import {Button, Container, Form, Grid, Header, Image} from "semantic-ui-react"
 import {Field, withFormik} from "formik"
+import isEmpty from "lodash/isEmpty"
+import Dropzone from "react-dropzone"
 import {bindActionCreators} from "redux"
+import update from "immutability-helper"
 import {connect} from "react-redux"
-import {push} from "react-router-redux"
+import axios from "axios"
 import React, {Component} from "react"
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled, {ThemeProvider} from "styled-components"
 import {courseCreateSchema} from "@utterzone/common"
+import {history} from "@utterzone/connector"
+import languageData from "../../../data/languageData.js"
 import {
   Box,
   Flex,
@@ -81,7 +86,7 @@ const initialState = {
   cdn: {},
   charCount: 0,
   courseId: cuid(),
-  courseAuthorId: "",
+  courseImage: "",
   levels: [{level: 1, cuid: cuid()}],
   terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
   displayName: "",
@@ -89,8 +94,10 @@ const initialState = {
   loading: false,
   courseRef: "",
   tags: [],
+  secure_url: "",
   teachingLang: "",
-  usingLang: ""
+  usingLang: "",
+  uploadedFile: {}
 }
 
 class CourseCreate extends Component {
@@ -144,8 +151,98 @@ class CourseCreate extends Component {
     })
   }
 
+  onImageDrop = (files, rejected) => {
+    if (!isEmpty(rejected)) {
+      alert("Please decrease the image size to less than 500kb.")
+    }
+    console.log("files; ", files)
+
+    if (!isEmpty(files)) {
+      this.setState({
+        uploadedFile: files[0]
+      })
+
+      this.handleImageUpload(files)
+    }
+  }
+
+  handleImageUpload(files) {
+    // this.handleImageDelete() // TODO
+    // Push all the axios request promise into a single array
+    const uploaders = files.map(file => {
+      // Initial FormData
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("tags", `course-name`)
+      formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own
+      formData.append("folder", "course-thumbnails") // Folder to place image in
+      formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
+      formData.append("timestamp", Date.now() / 1000 || 0)
+
+      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+      return axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/",
+        data: formData
+      })
+        .then(res => {
+          const {data} = res
+          console.log("axios: ", this)
+          this.props.setFieldValue("courseImage", this.state.courseImage)
+
+          return data
+        })
+        .catch(err => {
+          console.log("upload error: ", err)
+        })
+    })
+
+    // Once all the files are uploaded
+    axios.all(uploaders).then(values => {
+      /* const {id} = this.props.course */
+      /* const newCdn = {cdn: values[0]} */
+      const courseImage = values[0].secure_url
+
+      const newState = update(this.state, {
+        courseImage: {$set: courseImage}
+      })
+
+      this.setState(newState)
+
+      /* this.setState({}) */
+
+      // TODO: update Course on server
+      /* this.props.updateSettings(this.props.course) */
+    })
+  }
+
+  handleImageDelete() {
+    const timestamp = Date.now() / 1000 || 0
+    axios({
+      method: "post",
+      url: "https://api.cloudinary.com/v1_1/q2vo0abd/image/destroy/",
+      data: {
+        api_key: "225688292439754",
+        file: this.props.course.cdn.file,
+        public_id: this.props.course.cdn.public_id,
+        resource_type: "image",
+        signature: this.props.course.cdn.signature,
+        timestamp
+        // upload_preset: 'z28ks5gg',
+        // folder: 'course-thumbnails',
+      }
+    })
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        throw err.response.data.error
+      })
+  }
+
   render() {
     const {handleSubmit} = this.props
+    console.log("view: ", this.props)
     const {courseName, courseDescription} = this.props.values
 
     return (
@@ -203,7 +300,13 @@ class CourseCreate extends Component {
                       overflow="initial"
                       position="relative">
                       <Header>Teaching</Header>
-                      <Teaching addTeachingLang={this.addTeachingLang} />
+                      <Field
+                        name="teachingLang"
+                        component={Teaching}
+                        addTeachingLang={this.addTeachingLang}
+                        options={languageData}
+                      />
+                      {/* <Teaching addTeachingLang={this.addTeachingLang} /> */}
                     </Flex>
                     <StyledFlex gridarea="using" margin1080="40px 0 0 0">
                       <Header>Using</Header>
@@ -219,6 +322,46 @@ class CourseCreate extends Component {
                       <CourseTags addTags={this.addTags} />
                     </StyledFlex>
                     <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+                      <Header>Course Thumbnail</Header>
+                      <p>
+                        Format: png or jpg, Dimensions: ~300pxx300px, Maximum
+                        size limit: 500kb
+                      </p>
+                      <div style={{margin: "50px"}}>
+                        {this.state.courseImage === "" ? (
+                          <p>Thumbnail Preview</p>
+                        ) : (
+                          <Form.Field
+                            label="Course Thumbnail Preview"
+                            name="image"
+                            control={Image}
+                            src={this.state.courseImage}
+                            size="small"
+                          />
+                        )}
+                      </div>
+                      <Dropzone
+                        style={{
+                          padding: "3px",
+                          position: "relative",
+                          width: "200px",
+                          height: "100px",
+                          borderWidth: "2px",
+                          borderColor: "rgb(102, 102, 102)",
+                          borderStyle: "dashed",
+                          borderRadius: "5px"
+                        }}
+                        maxSize={500000}
+                        multiple={false}
+                        accept="image/*"
+                        onDrop={this.onImageDrop}>
+                        <p>
+                          Drop an image or click to select a file to upload.
+                        </p>
+                      </Dropzone>
+                      <p>{this.state.uploadedFile.name}</p>
+                    </StyledFlex>
+                    <StyledFlex margin1080="40px 0 0 0">
                       <Button type="submit" color="yellow">
                         Create Course
                       </Button>
@@ -239,8 +382,7 @@ const mapDispatchToProps = dispatch => ({
     {
       addFlashMessage,
       fetchCourseName,
-      toggleFooter,
-      push
+      toggleFooter
     },
     dispatch
   )
@@ -256,29 +398,30 @@ export default connect(
     validateOnBlur: false,
     mapPropsToValues: () => ({
       courseName: "",
+      courseImage: "",
       courseDescription: "",
-      courseMode: "draft"
+      courseMode: "draft",
+      teachingLang: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
-      const onComplete = () => {
-        history.push("/", {
-          announcement: "You can start building your course."
+      const onComplete = result => {
+        // TODO: push courseId to redux
+        history.push({
+          pathname: "/course/course-settings",
+          state: {courseId: result.courseCreate.id}
         })
       }
 
       // if create is legit
-      console.log("res: ", result)
-      if (typeof result === "string") {
-        onComplete()
+      if (result) {
+        onComplete(result)
         props.actions.addFlashMessage({
           type: "success",
-          text: "Welcome to Utterzone"
+          text: "Start building your course."
         })
       } else {
-        /* setErrors(result) */
-        // TODO test for auth
-        setErrors({test: "test"})
+        setErrors(result.courseCreate.errors)
         props.actions.addFlashMessage({
           type: "error",
           text: "Something went wrong. Could not create a course."

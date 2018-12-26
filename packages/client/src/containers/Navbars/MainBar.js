@@ -146,7 +146,7 @@ class MainNavbar extends Component {
     }
   }
 
-  logout(e) {
+  logout = e => {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
     this.props.history.push("/login")
@@ -246,14 +246,14 @@ class MainNavbar extends Component {
               <Nav>
                 <ul>
                   {list.map((item, i) => {
-                  let update = null
-                  if (item === "courses") {
-                    update = this.forceUpdate
-                  }
+                    let update = null
+                    if (item === "courses") {
+                      update = this.forceUpdate
+                    }
                     return (
                       <li key={i}>
                         <StyledNavLink
-                        onClick={update}
+                          onClick={update}
                           exact
                           activeStyle={{
                             color: "red"

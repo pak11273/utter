@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseDescription: String\n    $courseMode: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n      }\n    ) {\n      courseName\n      courseMode\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseDescription: String\n    $courseMode: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n      }\n    ) {\n      courseName\n      courseMode\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n      }\n    ) {\n      id\n      courseName\n      courseAuthor {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n      }\n    ) {\n      id\n      courseName\n      courseAuthor {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -79,7 +79,7 @@ var CC = exports.CC = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = CC.__proto__ || Object.getPrototypeOf(CC)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var _ref3, error, course;
+        var _ref3, courseCreate;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -91,49 +91,50 @@ var CC = exports.CC = function (_PureComponent) {
                   variables: {
                     courseName: values.courseName,
                     courseDescription: values.courseDescription,
-                    courseMode: values.courseMode
+                    courseImage: values.courseImage,
+                    courseMode: values.courseMode,
+                    teachingLang: values.teachingLang
                   }
                 });
 
               case 3:
                 _ref3 = _context.sent;
-                error = _ref3.data.courseCreate.error;
-                course = _ref3.data.courseCreate.course;
+                courseCreate = _ref3.data;
 
-                if (!(course !== null)) {
-                  _context.next = 8;
+                if (!courseCreate) {
+                  _context.next = 7;
                   break;
                 }
 
-                return _context.abrupt("return", course);
+                return _context.abrupt("return", courseCreate);
 
-              case 8:
+              case 7:
                 if (!error) {
-                  _context.next = 10;
+                  _context.next = 9;
                   break;
                 }
 
                 return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
 
-              case 10:
-                _context.next = 15;
+              case 9:
+                _context.next = 14;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 15:
+              case 14:
                 return _context.abrupt("return", null);
 
-              case 16:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 12]]);
+        }, _callee, _this2, [[0, 11]]);
       }));
 
       return function (_x) {

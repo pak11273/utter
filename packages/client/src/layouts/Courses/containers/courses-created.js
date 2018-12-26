@@ -30,6 +30,9 @@ const getCreatedCourses = gql`
         id
         courseName
         courseMode
+        courseAuthor {
+          username
+        }
       }
       cursor
     }
@@ -57,7 +60,6 @@ class Courses extends Component {
 
   handleImageClick = data => {
     // store courseId in redux
-    console.log("data: ", data)
     history.push({
       pathname: "/course/course-settings",
       state: {courseId: data.id}
@@ -204,7 +206,7 @@ class Courses extends Component {
                           <div>
                             <Icon name="pencil" />
                             <a style={{padding: "0 20px 0 0"}}>
-                              {course.courseAuthor}
+                              {course.courseAuthor.username}
                             </a>
                           </div>
                           <div>

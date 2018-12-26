@@ -38,23 +38,28 @@ const updateCourse = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
+  console.log("args: ", args)
+  console.log("ctx: ", ctx.user)
+  //TODO can't have duplicate course names
   const {input} = args
-  return Course.create(input)
+  input.courseAuthor = ctx.user
+  const course = await Course.create(input)
+  course.id = course._id
+  console.log("course: ", typeof course)
+  return course
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   // build query object
   const query = {}
-  query.courseAuthor = args.author
+  query.courseAuthor = ctx.user
   // end query object
 
   /* // TODO: HOTFIX, using a fake courseAuthor, delete this after testing */
-  query.courseAuthor = "5b9012f043aa4329f187f01a"
+  /* query.courseAuthor = "5b9012f043aa4329f187f01a" */
   /* end */
 
   if (args.cursor) {
-    console.log("last cursor: ", args.cursor)
     // type cast id, $lt is not the same in aggregate vs query
     var cursorObj = mongoose.Types.ObjectId(args.cursor)
     // add to query object
@@ -67,17 +72,16 @@ const getCreatedCourses = async (_, args, ctx, info) => {
     .sort({_id: -1})
     .exec()
 
+
   if (isEmpty(result)) {
     return {courses: [], cursor: "done"}
   } else {
     cursor = result[result.length - 1]._id
-    console.log("cursor: ", cursor)
     return {courses: result, cursor}
   }
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   // build query object
   const query = {}
   var courseName, courseRef, courseAuthor

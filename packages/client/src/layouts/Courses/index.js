@@ -189,7 +189,7 @@ class Courses extends Component {
                           <div>
                             <Icon name="pencil" />
                             <a style={{padding: "0 20px 0 0"}}>
-                              {course.courseAuthor}
+                              {course.courseAuthor.username}
                             </a>
                           </div>
                           <div>

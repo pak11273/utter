@@ -1,7 +1,8 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 import Select from "react-select"
-import languageData from "../../../data/languageData.js"
+/* import Select, {Option} from "react-select" */
+/* import languageData from "../../../data/languageData.js" */
 import {Box} from "../../../components"
 import "../styles.css"
 
@@ -27,10 +28,12 @@ class Teaching extends Component {
       selectValue: newValue
     })
     this.props.addTeachingLang(newValue)
+    this.props.form.setFieldValue(this.props.field.name, newValue)
   }
 
   render() {
-    const options = languageData
+    console.log("props", this.props)
+    const {field, options} = this.props
     return (
       <Box width="250px">
         <Select
@@ -41,7 +44,6 @@ class Teaching extends Component {
           onBlurResetsInput={false}
           onSelectResetsInput={false}
           required
-          options={options}
           simpleValue
           clearable={this.state.clearable}
           wrapperStyle={{
@@ -57,9 +59,11 @@ class Teaching extends Component {
           menuStyle={{
             width: "100%"
           }}
-          name="selected-language"
+          name={field.name}
+          options={options}
           disabled={this.state.disabled}
           value={this.state.selectValue}
+          onBlur={field.onBlur}
           onChange={this.updateValue}
           rtl={this.state.rtl}
           searchable={this.state.searchable}

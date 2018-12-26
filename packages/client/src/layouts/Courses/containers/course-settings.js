@@ -9,7 +9,7 @@ class CourseSettings extends Component {
   componentDidMount() {
     // TODO if no courseId redirect back to courses-created
     // TODO put courseId into redux :
-    console.log("this: ", this.props)
+    console.log("props: ", this.props)
     if (!this.props.location.state || !this.props.location.state.courseId) {
       history.push("/courses/created")
     } else {
@@ -17,8 +17,7 @@ class CourseSettings extends Component {
     }
   }
 
-  handleChange = (e, {name, value}) =>
-    this.setState({[name]: value}, console.log("state: ", this.state))
+  handleChange = (e, {name, value}) => this.setState({[name]: value})
 
   handleSubmit = () => {
     const {name, email} = this.state

@@ -15,7 +15,7 @@ type Level {
 }
 
 type Course {
-  id: ID
+  id: ID!
   courseName: String!
   courseAuthor: User
   courseDescription: String
@@ -39,9 +39,11 @@ input UpdatedCourse {
 
 input CreateCourseInput {
   courseId: String
+	courseImage: String
   courseName: String!
   courseDescription: String
   courseMode: String
+	teachingLang: String
 }
 
 type PaginatedCourses {
@@ -67,7 +69,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  courseCreate(input: CreateCourseInput!): Course!
+  courseCreate(input: CreateCourseInput!): Course! @auth
 	deleteCourse(id: String!): Boolean
   updateCourse(input: UpdatedCourse!): Course!
   removeCourse(id: ID!): Boolean
