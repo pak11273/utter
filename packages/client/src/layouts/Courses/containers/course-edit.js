@@ -80,7 +80,9 @@ class CourseEdit extends Component {
                 <Header as="h2">Grammar</Header>
                 <Header as="h2">Phrases</Header>
                 <div style={{margin: "40px 0 0 0"}}>
-                  <Link to="/courses/created">My Created Courses</Link>
+                  <Link to="/courses/created" onClick={this.forceUpdate}>
+                    My Created Courses
+                  </Link>
                 </div>
               </Item>
             </Grid.Column>

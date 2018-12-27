@@ -91,6 +91,7 @@ const initialState = {
   terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
   displayName: "",
   errors: {},
+  disabled: false,
   loading: false,
   courseRef: "",
   tags: [],
@@ -155,7 +156,6 @@ class CourseCreate extends Component {
     if (!isEmpty(rejected)) {
       alert("Please decrease the image size to less than 500kb.")
     }
-    console.log("files; ", files)
 
     if (!isEmpty(files)) {
       this.setState({
@@ -179,6 +179,14 @@ class CourseCreate extends Component {
       formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
       formData.append("timestamp", Date.now() / 1000 || 0)
 
+      // set loading and disable submit
+      const newState = update(this.state, {
+        loading: {$set: true},
+        disable: {$set: true}
+      })
+
+      this.setState(newState)
+
       // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
       return axios({
         method: "POST",
@@ -187,8 +195,7 @@ class CourseCreate extends Component {
       })
         .then(res => {
           const {data} = res
-          console.log("axios: ", this)
-          this.props.setFieldValue("courseImage", this.state.courseImage)
+          this.props.setFieldValue("courseImage", data.secure_url)
 
           return data
         })
@@ -204,7 +211,9 @@ class CourseCreate extends Component {
       const courseImage = values[0].secure_url
 
       const newState = update(this.state, {
-        courseImage: {$set: courseImage}
+        courseImage: {$set: courseImage},
+        loading: {$set: false},
+        disable: {$set: false}
       })
 
       this.setState(newState)
@@ -365,7 +374,11 @@ class CourseCreate extends Component {
                       <p>{this.state.uploadedFile.name}</p>
                     </StyledFlex>
                     <StyledFlex margin1080="40px 0">
-                      <Button type="submit" color="yellow">
+                      <Button
+                        type="submit"
+                        color="yellow"
+                        loading={this.state.loading}
+                        disabled={this.state.disabled}>
                         Create Course
                       </Button>
                     </StyledFlex>
