@@ -8,7 +8,6 @@ import ChangePassword from "./ChangePassword/change-password-ctrl.js"
 import ForgotPassword from "./ForgotPassword/forgot-password-ctrl.js"
 import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
-import Zones from "./Zones/index.js"
 import LoginCtrl from "./Login/login-ctrl.js"
 import noAuth from "../utils/noAuth.js"
 import Settings from "./Settings"
@@ -16,9 +15,9 @@ import ShoppingCart from "./ShoppingCart/components"
 import SignupCtrl from "./Signup/signup-ctrl.js"
 import Sponsorship from "./Sponsorship.js"
 import CourseEdit from "./Courses/containers/course-edit.js"
-import CourseLevels from "./Courses/containers/course-levels.js"
+import Levels from "./Levels/containers/levels-controller.js"
 import MyCourses from "./Courses/MyCourses.js"
-import CourseCtrl from "./Courses/course_create/course-create-ctrl.js"
+import CourseCtrl from "./Courses/containers/course-controller.js"
 import CoursesCreated from "./Courses/containers/courses-created.js"
 import CourseSettings from "./Courses/containers/course-settings.js"
 import Courses from "./Courses/index.js"
@@ -40,6 +39,9 @@ import Spanish1 from "./Spanish/level1"
 import Spanish2 from "./Spanish/level2/index.js"
 import Spanish3 from "./Spanish/Level3"
 import Redux from "./Redux.js"
+import Zone from "./Zones/containers/zone.js"
+import Zones from "./Zones/index.js"
+import ZoneCtrl from "./Zones/containers/zone-controller.js"
 
 export {
   Admin,
@@ -49,13 +51,12 @@ export {
   About,
   Contact,
   CourseEdit,
-  CourseLevels,
+  Levels,
   Courses,
   ChangePassword,
   ForgotPassword,
   GettingStarted,
   Test,
-  Zones,
   LoginCtrl,
   MyCourses,
   CourseCtrl,
@@ -83,5 +84,8 @@ export {
   Spanish3,
   Redux,
   SignupCtrl,
-  Sponsorship
+  Sponsorship,
+  Zone,
+  Zones,
+  ZoneCtrl
 }

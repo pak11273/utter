@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react"
 import {CourseCreateConnector} from "@utterzone/connector"
 
-import CourseCreateView from "./course-create-view"
+import CourseCreateView from "./course-create.js"
 
 export default class SignupCtrl extends PureComponent {
   render() {

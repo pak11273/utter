@@ -77,142 +77,135 @@ class Courses extends Component {
   render() {
     const {title, courseRef, author, usingLang, teachingLang} = this.props
     return (
-      <Grid
-        columns={3}
-        centered
-        padded="vertically"
-        mobile={8}
-        tablet={8}
-        computer={4}>
-        <Grid.Row style={{padding: "40px"}}>
-          <Query
-            query={getCourses}
-            variables={{
-              cursor: "",
-              title,
-              ref: courseRef,
-              author,
-              usingLang,
-              teachingLang
-            }}>
-            {({loading, error, data, fetchMore}) => {
-              if (loading) {
-                return (
-                  <Grid.Column>
-                    <Loader active>Loading</Loader>
-                  </Grid.Column>
-                )
-              }
-              if (error) return <Grid.Column>{error.message}</Grid.Column>
-              if (this.state.cursor !== "done") {
-                var waypoint = (
-                  <Waypoint
-                    key={data.getCourses.cursor}
-                    onEnter={() => {
-                      // set cursor state to first response
-                      const newState = update(this.state, {
-                        cursor: {$set: data.getCourses.cursor}
-                      })
+      <Grid.Row style={{padding: "40px"}}>
+        <Query
+          query={getCourses}
+          variables={{
+            cursor: "",
+            title,
+            ref: courseRef,
+            author,
+            usingLang,
+            teachingLang
+          }}>
+          {({loading, error, data, fetchMore}) => {
+            if (loading) {
+              return (
+                <Grid.Column>
+                  <Loader active>Loading</Loader>
+                </Grid.Column>
+              )
+            }
+            if (error) return <Grid.Column>{error.message}</Grid.Column>
+            if (this.state.cursor !== "done") {
+              var waypoint = (
+                <Waypoint
+                  key={data.getCourses.cursor}
+                  onEnter={() => {
+                    // set cursor state to first response
+                    const newState = update(this.state, {
+                      cursor: {$set: data.getCourses.cursor}
+                    })
 
-                      this.setState(newState)
+                    this.setState(newState)
 
-                      fetchMore({
-                        // note this is a different query than the one used in the
-                        variables: {
-                          cursor: this.state.cursor
-                        },
-                        updateQuery: (previousResult, {fetchMoreResult}) => {
-                          if (!fetchMoreResult) {
-                            // TODO: pending
-                          }
-                          const previousEntry =
-                            previousResult.getCourses.courses
-                          const newCourses = fetchMoreResult.getCourses.courses
+                    fetchMore({
+                      // note this is a different query than the one used in the
+                      variables: {
+                        cursor: this.state.cursor
+                      },
+                      updateQuery: (previousResult, {fetchMoreResult}) => {
+                        if (!fetchMoreResult) {
+                          // TODO: pending
+                        }
+                        const previousEntry = previousResult.getCourses.courses
+                        const newCourses = fetchMoreResult.getCourses.courses
 
-                          // display waypoint if a cursor exists
+                        // display waypoint if a cursor exists
+                        const newState = update(this.state, {
+                          cursor: {$set: fetchMoreResult.getCourses.cursor}
+                        })
+
+                        this.setState(newState)
+
+                        if (isEmpty(newCourses)) {
+                          // hide waypoint
                           const newState = update(this.state, {
                             cursor: {$set: fetchMoreResult.getCourses.cursor}
                           })
 
                           this.setState(newState)
 
-                          if (isEmpty(newCourses)) {
-                            // hide waypoint
-                            const newState = update(this.state, {
-                              cursor: {$set: fetchMoreResult.getCourses.cursor}
-                            })
+                          return previousResult
+                        }
 
-                            this.setState(newState)
+                        var newCursor = newCourses[newCourses.length - 1].id
 
-                            return previousResult
-                          }
+                        if (!fetchMoreResult) return previousEntry
 
-                          var newCursor = newCourses[newCourses.length - 1].id
-
-                          if (!fetchMoreResult) return previousEntry
-
-                          return {
-                            // By returning `cursor` here, we update the `fetchMore` function
-                            // to the new cursor.
-                            getCourses: {
-                              cursor: newCursor,
-                              courses: [...previousEntry, ...newCourses],
-                              __typename: "PaginatedCourses"
-                            }
+                        return {
+                          // By returning `cursor` here, we update the `fetchMore` function
+                          // to the new cursor.
+                          getCourses: {
+                            cursor: newCursor,
+                            courses: [...previousEntry, ...newCourses],
+                            __typename: "PaginatedCourses"
                           }
                         }
-                      })
-                    }}
-                  />
-                )
-              }
-              return (
-                <div>
-                  <Card.Group doubling stackable itemsPerRow={3}>
-                    {data.getCourses.courses.map(course => (
-                      <Card key={course.id} fluid={false}>
-                        <Image
-                          src={`${course.courseImage}`}
-                          style={{cursor: "pointer"}}
-                        />
-                        <Card.Content>
-                          <Card.Header style={{wordBreak: "break-word"}}>
-                            {course.courseName}
-                          </Card.Header>
-                          <div
-                            className="description"
-                            style={{wordBreak: "break-word"}}>
-                            {course.courseDescription}
-                          </div>
-                        </Card.Content>
-                        <Card.Content extra>
-                          <div>
-                            <Icon name="pencil" />
-                            <a style={{padding: "0 20px 0 0"}}>
-                              {course.courseAuthor.username}
-                            </a>
-                          </div>
-                          <div>
-                            <Icon name="user" />
-                            <span style={{padding: "0 20px 0 0"}}>subs</span>
-                          </div>
-                          <div>
-                            <Icon name="book" />
-                            <span style={{padding: "0 20px 0 0"}}>
-                              course ref
-                            </span>
-                          </div>
-                        </Card.Content>
-                      </Card>
-                    ))}
-                  </Card.Group>
-                  {waypoint}
-                </div>
+                      }
+                    })
+                  }}
+                />
               )
-            }}
-          </Query>
-        </Grid.Row>
-      </Grid>
+            }
+            return (
+              <div>
+                <Card.Group doubling stackable itemsPerRow={4}>
+                  {data.getCourses.courses.map(course => (
+                    <Card key={course.id} fluid={false}>
+                      <Image
+                        src={`${course.courseImage}`}
+                        style={{cursor: "pointer"}}
+                      />
+                      <Card.Content>
+                        <Card.Header style={{wordBreak: "break-word"}}>
+                          {course.courseName}
+                        </Card.Header>
+                        <div
+                          className="description"
+                          style={{wordBreak: "break-word"}}>
+                          {course.courseDescription}
+                        </div>
+                      </Card.Content>
+                      <Card.Content extra>
+                        <div>
+                          <Icon name="user" />
+                          <span style={{padding: "0 20px 0 0"}}>
+                            1M subscribers
+                          </span>
+                        </div>
+                        <div>
+                          <Icon name="book" />
+                          <span style={{padding: "0 20px 0 0"}}>
+                            course ref
+                          </span>
+                        </div>
+                        <div>
+                          <Icon name="pencil" />
+                          <a style={{padding: "0 20px 0 0"}}>
+                            {course.courseAuthor.username}
+                          </a>
+                        </div>
+                      </Card.Content>
+                    </Card>
+                  ))}
+                </Card.Group>
+                {waypoint}
+              </div>
+            )
+          }}
+        </Query>
+      </Grid.Row>
     )
   }
 }
@@ -445,24 +438,24 @@ class CoursesContainer extends Component {
             <Grid.Column textAlign="center">
               <Header as="h1">Subscribe to a Course</Header>
             </Grid.Column>
-            <Grid.Column>
-              <Item align="center">
-                <Input
-                  type="text"
-                  placeholder="Search..."
-                  onChange={this.handleInputChg}
-                  action>
-                  <input />
-                  <SemSelect
-                    onChange={this.handleCourseFilterChg}
-                    options={options}
-                    defaultValue="title"
-                  />
-                  <SemButton onClick={this.handleSubmit}>Search</SemButton>
-                </Input>
-              </Item>
-            </Grid.Column>
           </Grid>
+          <Grid.Column>
+            <Item align="center">
+              <Input
+                type="text"
+                placeholder="Search..."
+                onChange={this.handleInputChg}
+                action>
+                <input />
+                <SemSelect
+                  onChange={this.handleCourseFilterChg}
+                  options={options}
+                  defaultValue="title"
+                />
+                <SemButton onClick={this.handleSubmit}>Search</SemButton>
+              </Input>
+            </Item>
+          </Grid.Column>
           <Courses
             title={this.state.courseName}
             author={this.state.courseAuthor}

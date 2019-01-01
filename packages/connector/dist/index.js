@@ -16,6 +16,18 @@ Object.keys(_signupConnector).forEach(function (key) {
   });
 });
 
+var _levelsConnector = require("./connectors/levels-connector.js");
+
+Object.keys(_levelsConnector).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _levelsConnector[key];
+    }
+  });
+});
+
 var _loginConnector = require("./connectors/login-connector.js");
 
 Object.keys(_loginConnector).forEach(function (key) {
@@ -60,6 +72,18 @@ Object.keys(_courseCreateConnector).forEach(function (key) {
     enumerable: true,
     get: function get() {
       return _courseCreateConnector[key];
+    }
+  });
+});
+
+var _zoneCreateConnector = require("./connectors/zone-create-connector.js");
+
+Object.keys(_zoneCreateConnector).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _zoneCreateConnector[key];
     }
   });
 });

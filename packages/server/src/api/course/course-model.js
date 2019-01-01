@@ -1,60 +1,7 @@
 import mongoose, {Schema} from "mongoose"
 import User, {UserSchema} from "../user/user-model.js"
-
-const TermSchema = new Schema({
-  course: {
-    type: Schema.Types.ObjectId,
-    ref: "Course"
-  },
-  level: {
-    type: Schema.Types.ObjectId,
-    ref: "Level"
-  },
-  word: {
-    type: String,
-    default: "Change me"
-  },
-  translation: {
-    type: String,
-    default: "Change me"
-  },
-  audio: {
-    type: String,
-    default: "audio.mp3"
-  }
-})
-
-TermSchema.virtual("id").get(function() {
-  return this._id.toHexString()
-})
-
-TermSchema.set("toJSON", {
-  virtuals: true
-})
-
-const LevelSchema = new Schema({
-  course: {
-    type: Schema.Types.ObjectId,
-    ref: "Course"
-  },
-  level: Number,
-  name: {
-    type: String,
-    default: "Change me"
-  },
-  terms: [TermSchema],
-  grammar: String
-})
-
-LevelSchema.virtual("id").get(function() {
-  return this._id.toHexString()
-})
-
-LevelSchema.set("toJSON", {
-  virtuals: true
-})
-
-mongoose.model("Level", LevelSchema)
+import {TermSchema} from "../term/term-model.js"
+import {LevelSchema} from "../level/level-model.js"
 
 const CourseSchema = mongoose.Schema(
   {

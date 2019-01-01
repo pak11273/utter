@@ -1,0 +1,50 @@
+directive @auth on FIELD_DEFINITION
+
+type Level {
+  id: ID!
+  title: String!
+  levelAuthor: User
+  createdAt: Int
+}
+
+input UpdatedLevel {
+  id: ID!
+  levelId: String
+  levelName: String
+  leveldescription: String
+  levelMode: String
+  favorite: Boolean
+}
+
+input CreateLevelInput {
+  levelId: String
+	levelImage: String
+  levelName: String!
+  levelDescription: String
+  levelMode: String
+	teachingLang: String
+  usingLang: String
+}
+
+type PaginatedLevels {
+  levels: [Level]
+  cursor: String
+}
+
+extend type Query {
+  getLevels(
+    courseId: String!
+  ): Level 
+	getCreatedLevels(
+    cursor: String
+    author: String!
+	): PaginatedLevels @auth
+  getLevelCount: Int
+}
+
+extend type Mutation {
+  levelCreate(input: CreateLevelInput!): Level! @auth
+	deleteLevel(id: String!): Boolean
+  updateLevel(input: UpdatedLevel!): Level!
+  removeLevel(id: ID!): Boolean
+}

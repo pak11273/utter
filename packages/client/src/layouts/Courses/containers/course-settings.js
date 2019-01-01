@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {history} from "@utterzone/connector"
+/* import {history} from "@utterzone/connector" */
 import {Container, Grid, Header, Form} from "semantic-ui-react"
 import {Masthead} from "../../../containers"
 
@@ -9,12 +9,12 @@ class CourseSettings extends Component {
   componentDidMount() {
     // TODO if no courseId redirect back to courses-created
     // TODO put courseId into redux :
-    console.log("props: ", this.props)
-    if (!this.props.location.state || !this.props.location.state.courseId) {
-      history.push("/courses/created")
-    } else {
-      console.log("we need this in redux")
-    }
+    /* console.log("props: ", this.props) */
+    /* if (!this.props.location.state || !this.props.location.state.courseId) { */
+    /*   history.push("/courses/created") */
+    /* } else { */
+    /*   console.log("we need this in redux") */
+    /* } */
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value})

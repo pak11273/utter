@@ -1,61 +1,67 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {Button, Box, List, ListItem, TextArea} from '../../components'
-import styled from 'styled-components'
-import cuid from 'cuid'
-import io from 'socket.io-client'
-import RecordRTC from 'recordrtc'
-import filename from '../../assets/images/play.svg'
+import React, {Component} from "react"
+/* import {Link} from "react-router-dom" */
+import {bindActionCreators} from "redux"
+import _ from "lodash"
+import {connect} from "react-redux"
+import {Button, Box, List, ListItem, TextArea} from "../../components"
+import styled from "styled-components"
+import cuid from "cuid"
+/* import io from "socket.io-client" */
+import RecordRTC from "recordrtc"
+/* import filename from "../../assets/images/play.svg" */
 
 // actions
-import {updateReviewList} from '../Pictures/actions.js'
-import {addAudio, addMsg, setCurrentMsg, updateMsg} from './actions.js'
+import {updateReviewList} from "../Pictures/actions.js"
+import {addAudio, addMsg, setCurrentMsg, updateMsg} from "./actions.js"
 import {
   deleteAudioBlob,
   loadAudioBlob,
   sendAudioBlob,
   sendMsg
-} from '../../services/socketio/actions.js'
+} from "../../services/socketio/actions.js"
 
 const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">
-    {author}: {audio ? <audio src={audio} controls /> : null} {msg}
+    {author}:{" "}
+    {audio ? (
+      <audio src={audio} controls>
+        <track kind="captions" />
+      </audio>
+    ) : null}{" "}
+    {msg}
   </ListItem>
 )
 
 function MsgList(props) {
   const {list, onMsgClick} = props
   return (
-    <Box
-      id="chatList"
-      alignitems="flex-start"
-      height="600px"
-      justifycontent="flex-start"
-      margin="0 0 20px 0"
-      overflowy="scroll">
-      <List className="Message" style={{textAlign: 'left', fontSize: '1rem'}}>
-        {list.map(item => (
-          <Msg
-            key={item.id}
-            author={item.author}
-            audio={item.dataUrl}
-            msg={item.msg}
-            onClick={() => onMsgClick(id)}
-          />
-        ))}
-      </List>
-    </Box>
+    <div style={{margin: "100px 0 0 0", width: "90%"}}>
+      <Box
+        id="chatList"
+        alignitems="flex-start"
+        height="600px"
+        justifycontent="flex-start"
+        margin="0 0 20px 0"
+        overflowy="scroll">
+        <p>hello</p>
+        <List className="Message" style={{textAlign: "left", fontSize: "1rem"}}>
+          {list.map(item => (
+            <Msg
+              key={item.id}
+              author={item.author}
+              audio={item.dataUrl}
+              msg={item.msg}
+              onClick={() => onMsgClick(item.id)}
+            />
+          ))}
+        </List>
+      </Box>
+    </div>
   )
 }
 
 class MsgBox extends Component {
-  constructor(props) {
-    super(props)
-  }
-
-  onChange(e) {
+  onChange = () => {
     // set the current message
   }
 
@@ -83,76 +89,76 @@ class ChatContainer extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {msg: ''}
+    this.state = {msg: ""}
   }
 
   componentDidMount() {
-    var fileCounter = 0
-    var props = this.props
+    /* var fileCounter = 0 */
+    var {props} = this
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      console.log('getUserMedia supported.')
+      console.log("getUserMedia supported.")
       navigator.mediaDevices
         .getUserMedia({audio: true})
         // Success callback
-        .then(function(stream) {
-          const recorder = RecordRTC(stream, {type: 'audio'})
-          var record = document.querySelector('.record')
-          var stop = document.querySelector('.stop')
-          var soundClips = document.querySelector('.sound-clips')
-          record.onclick = function() {
+        .then(stream => {
+          const recorder = RecordRTC(stream, {type: "audio"})
+          var record = document.querySelector(".record")
+          var stop = document.querySelector(".stop")
+          var soundClips = document.querySelector(".sound-clips")
+          record.onclick = () => {
             if (soundClips.childNodes.length === 1) {
               record.disabled = true
               alert(
-                'You can only record 1 audio clip at a time.  Delete your audio clip to record another.'
+                "You can only record 1 audio clip at a time.  Delete your audio clip to record another."
               )
             } else {
               recorder.startRecording()
-              console.log('recorder started')
-              record.style.background = 'red'
-              record.style.color = 'black'
+              console.log("recorder started")
+              record.style.background = "red"
+              record.style.color = "black"
             }
           }
 
-          stop.onclick = function() {
-            var audio = document.createElement('audio')
-            var clipContainer = document.createElement('Article')
-            var deleteButton = document.createElement('button')
+          stop.onclick = () => {
+            var audio = document.createElement("audio")
+            var clipContainer = document.createElement("Article")
+            var deleteButton = document.createElement("button")
 
-            recorder.stopRecording(function(audioURL) {
+            recorder.stopRecording(audioURL => {
               audio.src = audioURL
 
-              var recordedBlob = recorder.getBlob()
-              recorder.getDataURL(function(dataUrl) {
+              /* var recordedBlob = recorder.getBlob() */
+              recorder.getDataURL(dataUrl => {
                 var files = {
                   audio: {
                     author: props.userReducer.userProfile.username,
                     room: props.socketReducer.joined_room,
-                    name: 'file' + fileCounter++ + '.wav',
-                    type: 'audio/wav',
-                    dataUrl: dataUrl
+                    /* name: "file" + fileCounter++ + ".wav", */
+                    type: "audio/wav",
+                    dataUrl
                   }
                 }
                 // add blob to redux
                 props.actions.loadAudioBlob(files)
               })
             })
-            console.log('recorder stopped')
-            record.style.background = ''
-            record.style.color = ''
+            console.log("recorder stopped")
+            record.style.background = ""
+            record.style.color = ""
 
-            clipContainer.classList.add('clip')
+            clipContainer.classList.add("clip")
             clipContainer.setAttribute(
-              'style',
-              'display: flex; justify-content: center'
+              "style",
+              "display: flex; justify-content: center"
             )
-            audio.setAttribute('controls', '')
-            deleteButton.innerHTML = 'Delete'
+            audio.setAttribute("controls", "")
+            deleteButton.innerHTML = "Delete"
 
             clipContainer.appendChild(audio)
             clipContainer.appendChild(deleteButton)
             soundClips.appendChild(clipContainer)
 
-            deleteButton.onclick = function(e) {
+            deleteButton.onclick = e => {
               var evtTgt = e.target
               evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
               record.disabled = false
@@ -160,27 +166,26 @@ class ChatContainer extends Component {
           }
         })
         // Error callback
-        .catch(function(err) {
-          console.log('The following gUM error occured: ' + err)
+        .catch(err => {
+          console.log("The following gUM error occured: " + err)
         })
     } else {
-      console.log('getUserMedia not supported on your browser!')
+      console.log("getUserMedia not supported on your browser!")
     }
   }
 
   componentDidUpdate() {
-    var node = document.getElementById('chatList')
-    console.log('yep its here: ', this.shouldScrollBottom)
-    console.log('top: ', node.scrollTop)
-    console.log('offset: ', node.offsetHeight)
+    var node = document.getElementById("chatList")
+    console.log("yep its here: ", this.shouldScrollBottom)
+    console.log("top: ", node.scrollTop)
+    console.log("offset: ", node.offsetHeight)
     if (this.shouldScrollBottom) {
-      var node = document.getElementById('chatList')
       node.scrollTop = node.scrollHeight
     }
   }
 
   onKeyUp = e => {
-    const value = e.target.value
+    const {value} = e.target
     this.setState({msg: value})
 
     if (e.keyCode === 13 && value) {
@@ -193,7 +198,7 @@ class ChatContainer extends Component {
 
       this.props.actions.addMsg(body)
       this.props.actions.sendMsg(body)
-      e.target.value = ''
+      e.target.value = ""
     }
   }
 
@@ -222,9 +227,9 @@ class ChatContainer extends Component {
     }
 
     // clear input for messages
-    document.getElementById('inputMessageBox').value = ''
+    document.getElementById("inputMessageBox").value = ""
     // remove the soundclips
-    var soundClips = document.querySelector('.sound-clips')
+    var soundClips = document.querySelector(".sound-clips")
     if (soundClips.firstChild) {
       soundClips.removeChild(soundClips.firstChild)
     }
@@ -275,18 +280,8 @@ class ChatContainer extends Component {
     this.props.actions.deleteAudioBlob()
   }
 
-  UNSAFE_componentWillUpdate() {
-    // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
-    var node = document.getElementById('chatList')
-
-    if (node) {
-      this.shouldScrollBottom =
-        node.scrollTop + node.offsetHeight === node.scrollHeight
-    }
-  }
-
   filteredMessages = () => {
-    let list = this.props.chatReducer.msgList
+    const list = this.props.chatReducer.msgList
     // return list.filter(item => {
     //   if (item.message.room_id === this.props.roomReducer.selected) return true
     // })
@@ -295,28 +290,35 @@ class ChatContainer extends Component {
 
   updateReview = e => {
     e.preventDefault()
-    const wordList = this.props.pictureReducer.wordList
-    const reviewList = this.props.pictureReducer.reviewList
-    const originalList = this.props.pictureReducer.originalList
-    const query = this.props.pictureReducer.query
+    const {originalList, query} = this.props.pictureReducer
     const reviewObj = _.find(originalList, {word: query})
 
     if (!this.props.pictureReducer.reviewList) {
       this.props.actions.updateReviewList(reviewObj)
       console.log('reviewlist "', this.props.pictureReducer.reviewList)
     } else {
-      reviewList
+      // reviewList
       this.props.actions.updateReviewList(reviewObj)
     }
   }
 
-  updateScroll() {
-    var element = document.getElementById('chatList')
+  updateScroll = () => {
+    var element = document.getElementById("chatList")
     element.scrollTop = element.scrollHeight
   }
 
+  UNSAFE_componentWillUpdate() {
+    // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
+    var node = document.getElementById("chatList")
+
+    if (node) {
+      this.shouldScrollBottom =
+        node.scrollTop + node.offsetHeight === node.scrollHeight
+    }
+  }
+
   render() {
-    if (this.props.socketReducer.joined_room !== 'Lobby') {
+    if (this.props.socketReducer.joined_room !== "Lobby") {
       var recordBtn = (
         <Box flexdirection="row">
           <Button
@@ -335,49 +337,45 @@ class ChatContainer extends Component {
             margin="5px"
             padding="3px"
             width="100px">
-            stop{' '}
+            stop{" "}
           </Button>
         </Box>
       )
     }
-    if (!this.props.socketReducer.joined_room) {
-      return <div>'Join or create a room'</div>
-    } else {
-      return (
-        <Box>
-          <MsgList list={this.filteredMessages()} />
-          <Box style={{padding: '20px'}}>
-            {' '}
-            <Article className="sound-clips" />
-          </Box>
-          <MsgBox onKeyUp={this.onKeyUp} />
-          <Box alignitems="flex-start" flexdirection="row" width="200px">
-            {this.props.roomReducer.creator ? (
-              <Button
-                color="black"
-                fontsize="1.2rem"
-                margin="5px"
-                padding="3px"
-                onClick={this.updateReview}
-                width="50px">
-                review{' '}
-              </Button>
-            ) : null}
-            {recordBtn}
+    return (
+      <Box>
+        <MsgList list={this.filteredMessages()} />
+        <Box style={{padding: "20px"}}>
+          {" "}
+          <Article className="sound-clips" />
+        </Box>
+        <MsgBox onKeyUp={this.onKeyUp} />
+        <Box alignitems="flex-start" flexdirection="row" width="200px">
+          {this.props.roomReducer.creator ? (
             <Button
               color="black"
               fontsize="1.2rem"
               margin="5px"
               padding="3px"
-              onClick={this.onSend}
-              type="button"
+              onClick={this.updateReview}
               width="50px">
-              send
+              review{" "}
             </Button>
-          </Box>
+          ) : null}
+          {recordBtn}
+          <Button
+            color="black"
+            fontsize="1.2rem"
+            margin="5px"
+            padding="3px"
+            onClick={this.onSend}
+            type="button"
+            width="50px">
+            send
+          </Button>
         </Box>
-      )
-    }
+      </Box>
+    )
   }
 }
 
@@ -389,7 +387,6 @@ const mapStateToProps = state => {
     pictureReducer: state.pictureReducer,
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer,
-    userReducer: state.userReducer,
     userReducer: state.userReducer,
     utteredList: state.utteredReducer.utteredList
   }
@@ -414,4 +411,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChatContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChatContainer)

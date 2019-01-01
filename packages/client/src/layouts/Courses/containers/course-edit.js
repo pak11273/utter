@@ -20,8 +20,22 @@ import {Spacer} from "../../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 /* import "./styles.css" */
 
-/* import {Query} from "react-apollo" */
-/* import gql from "graphql-tag" */
+/* const getCourse = gql` */
+/*   query getCourse($courseId: String) { */
+/*     getCourse(courseId: $courseId) { */
+/*       course { */
+/*         id */
+/*         courseImage */
+/*         courseName */
+/*         courseMode */
+/*         courseAuthor { */
+/*           username */
+/*         } */
+/*       } */
+/*     } */
+/*   } */
+
+/* ` */
 
 const initialCoursesContainerState = {
   courseRef: ""
@@ -74,7 +88,7 @@ class CourseEdit extends Component {
                   <Link to="/course/course-settings">Settings</Link>
                 </Header>
                 <Header as="h2">
-                  <Link to="/course/course-levels">Levels</Link>
+                  <Link to="/course/levels">Levels</Link>
                 </Header>
                 <Header as="h2">Vocabulary</Header>
                 <Header as="h2">Grammar</Header>

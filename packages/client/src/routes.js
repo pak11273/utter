@@ -3,7 +3,6 @@ import {
   Announcement,
   Home,
   About,
-  Zones,
   ChangePassword,
   Contact,
   ForgotPassword,
@@ -21,7 +20,7 @@ import {
   /* MyCourses, */
   CourseCtrl,
   CoursesCreated,
-  CourseLevels,
+  Levels,
   /* NotFound, */
   noAuth,
   requireAuth,
@@ -35,7 +34,7 @@ import {
   /* Korean6, */
   /* Korean7, */
   /* Korean8, */
-  Pricing
+  Pricing,
   /* ResetPassword, */
   /* Spanish1, */
   /* Spanish2, */
@@ -43,6 +42,9 @@ import {
   /* French1, */
   /* French2, */
   /* Redux */
+  Zone,
+  Zones,
+  ZoneCtrl
 } from "./layouts"
 
 /* import language from "./data/language.json" */
@@ -141,8 +143,8 @@ export const routes = [
         component: CourseSettings
       },
       {
-        path: "/course/course-levels",
-        component: CourseLevels
+        path: "/course/levels",
+        component: Levels
       }
     ]
   },
@@ -180,8 +182,28 @@ export const routes = [
   // },
   {
     exact: true,
-    path: "/Zones",
+    path: "/zones",
     component: requireAuth(Zones)
+  },
+  {
+    component: requireAuth(Zone),
+    exact: true,
+    path: "/zone/:id",
+    routes: [
+      {
+        path: "/course/course-settings",
+        component: CourseSettings
+      },
+      {
+        path: "/course/levels",
+        component: Levels
+      }
+    ]
+  },
+  {
+    component: requireAuth(ZoneCtrl),
+    exact: true,
+    path: "/zone/create"
   },
   // {
   //   path: '/korean/1',

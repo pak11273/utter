@@ -6,8 +6,9 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
-const getCourse = async (_, {id}, {user}) => {
-  const course = await Course.findById(id).exec()
+const getCourse = async (_, {courseId}, {user}) => {
+  console.log("courseId: ", courseId)
+  const course = await Course.findById(courseId).exec()
   if (!course) {
     throw new Error("Cannot find course with id")
   }
@@ -15,7 +16,7 @@ const getCourse = async (_, {id}, {user}) => {
   return course
 }
 
-const deleteCourse = async (_, {id}, ctx) => {
+const courseDelete = async (_, {id}, ctx) => {
   console.log("id: ", id)
   const course = await Course.findById(id).exec()
   /* Course.findOneAndDelete({courseAuthor: user._id && id: id}) { */
@@ -32,7 +33,7 @@ const deleteCourse = async (_, {id}, ctx) => {
   return course
 }
 
-const updateCourse = (_, {input}) => {
+const courseUpdate = (_, {input}) => {
   const {id, ...update} = input
   return Course.findByIdAndUpdate(id, update, {new: true}).exec()
 }
@@ -47,6 +48,12 @@ const courseCreate = async (_, args, ctx, info) => {
   course.id = course._id
   console.log("course: ", typeof course)
   return course
+}
+
+const getCourseLevels = async (_, args, ctx, info) => {
+  // build query object
+  const query = {}
+  query.courseAuthor = ctx.user
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
@@ -71,7 +78,6 @@ const getCreatedCourses = async (_, args, ctx, info) => {
     .limit(3)
     .sort({_id: -1})
     .exec()
-
 
   if (isEmpty(result)) {
     return {courses: [], cursor: "done"}
@@ -138,11 +144,12 @@ export const courseResolvers = {
   Query: {
     getCreatedCourses,
     getCourses,
-    getCourse
+    getCourse,
+    getCourseLevels
   },
   Mutation: {
-    deleteCourse,
-    updateCourse,
+    courseDelete,
+    courseUpdate,
     courseCreate
   },
   Course: {

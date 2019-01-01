@@ -1,4 +1,5 @@
 const asyncTypes = {
+  FETCH: "FETCH",
   REQUEST: "REQUEST",
   CREATE: "CREATE",
   UPDATE: "UPDATE",

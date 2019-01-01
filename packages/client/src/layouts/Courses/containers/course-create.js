@@ -13,6 +13,7 @@ import cuid from "cuid"
 import styled, {ThemeProvider} from "styled-components"
 import {courseCreateSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
+import CryptoJS from "crypto-js"
 import languageData from "../../../data/languageData.js"
 import {
   Box,
@@ -27,13 +28,13 @@ import {
 } from "../../../components"
 import {Masthead} from "../../../containers"
 import {addFlashMessage} from "../../../app/actions/flashMessages"
-import {fetchCourseName} from "../actions"
+import {fetchCourseName} from "../actions.js"
 import {main} from "../../../themes/config"
 import {toggleFooter} from "../../../app/actions/toggleFooterAction"
 import CourseRef from "../components/CourseRef"
 import CourseTags from "../components/CourseTags"
-import Teaching from "../containers/Teaching"
-import Using from "../containers/Using"
+import Teaching from "./Teaching"
+import Using from "./Using"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;
@@ -87,18 +88,21 @@ const initialState = {
   charCount: 0,
   courseId: cuid(),
   courseImage: "",
-  levels: [{level: 1, cuid: cuid()}],
-  terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
+  courseRef: "",
+  disabled: false,
   displayName: "",
   errors: {},
-  disabled: false,
+  levels: [{level: 1, cuid: cuid()}],
   loading: false,
-  courseRef: "",
-  tags: [],
+  public_id: "",
   secure_url: "",
+  signature: "",
+  tags: [],
   teachingLang: "",
-  usingLang: "",
-  uploadedFile: {}
+  terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
+  uploadedFile: {},
+  url: "",
+  usingLang: ""
 }
 
 class CourseCreate extends Component {
@@ -158,16 +162,49 @@ class CourseCreate extends Component {
     }
 
     if (!isEmpty(files)) {
-      this.setState({
-        uploadedFile: files[0]
-      })
+      this.setState(
+        {
+          uploadedFile: files[0]
+        },
+        console.log("fiel: ", this.state.uploadedFile)
+      )
 
       this.handleImageUpload(files)
     }
   }
 
+  handleImageDelete = async state => {
+    const timestamp = await (Date.now() / 1000 || 0).toString()
+    const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
+    const hashString = `public_id=${
+      state.public_id
+    }&timestamp=${timestamp}${apiSecret}`
+    const signature = CryptoJS.SHA1(hashString).toString()
+    axios({
+      method: "post",
+      url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
+      data: {
+        api_key: "225688292439754",
+        public_id: state.public_id,
+        resource_type: "image",
+        signature,
+        timestamp
+      }
+    })
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        throw err.response.data.error
+      })
+  }
+
   handleImageUpload(files) {
-    // this.handleImageDelete() // TODO
+    // remove previous files from cdn
+    if (!isEmpty(this.state.uploadedFile)) {
+      console.log("file: ", this.state.uploadedFile)
+      this.handleImageDelete(this.state)
+    }
     // Push all the axios request promise into a single array
     const uploaders = files.map(file => {
       // Initial FormData
@@ -195,6 +232,16 @@ class CourseCreate extends Component {
       })
         .then(res => {
           const {data} = res
+
+          const newState = update(this.state, {
+            public_id: {$set: data.public_id},
+            secure_url: {$set: data.secure_url},
+            signature: {$set: data.signature},
+            url: {$set: data.url}
+          })
+
+          this.setState(newState)
+
           this.props.setFieldValue("courseImage", data.secure_url)
 
           return data
@@ -223,30 +270,6 @@ class CourseCreate extends Component {
       // TODO: update Course on server
       /* this.props.updateSettings(this.props.course) */
     })
-  }
-
-  handleImageDelete() {
-    const timestamp = Date.now() / 1000 || 0
-    axios({
-      method: "post",
-      url: "https://api.cloudinary.com/v1_1/q2vo0abd/image/destroy/",
-      data: {
-        api_key: "225688292439754",
-        file: this.props.course.cdn.file,
-        public_id: this.props.course.cdn.public_id,
-        resource_type: "image",
-        signature: this.props.course.cdn.signature,
-        timestamp
-        // upload_preset: 'z28ks5gg',
-        // folder: 'course-thumbnails',
-      }
-    })
-      .then(res => {
-        return res
-      })
-      .catch(err => {
-        throw err.response.data.error
-      })
   }
 
   render() {
@@ -302,6 +325,15 @@ class CourseCreate extends Component {
                     />
                   </Box>
                   <Grid>
+                    <StyledFlex gridarea="using" margin1080="40px 0 0 0">
+                      <Header>Using</Header>
+                      <Field
+                        name="usingLang"
+                        component={Using}
+                        addUsingLang={this.addUsingLang}
+                        options={languageData}
+                      />
+                    </StyledFlex>
                     <Flex
                       gridarea="teaching"
                       margin="40px 0 0 0"
@@ -315,15 +347,6 @@ class CourseCreate extends Component {
                         options={languageData}
                       />
                     </Flex>
-                    <StyledFlex gridarea="using" margin1080="40px 0 0 0">
-                      <Header>Using</Header>
-                      <Field
-                        name="usingLang"
-                        component={Using}
-                        addUsingLang={this.addUsingLang}
-                        options={languageData}
-                      />
-                    </StyledFlex>
                     <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
                       <Header>Course Reference</Header>
                       <p>ie. Book, Classroom, Online Course</p>
@@ -382,6 +405,11 @@ class CourseCreate extends Component {
                         Create Course
                       </Button>
                     </StyledFlex>
+                    <button
+                      type="button"
+                      onClick={() => this.handleImageDelete(this.state)}>
+                      delete
+                    </button>
                   </Grid>
                 </StyledForm>
               </Grid.Column>
@@ -414,7 +442,8 @@ export default connect(
     validateOnBlur: false,
     mapPropsToValues: () => ({
       courseName: "",
-      courseImage: "",
+      courseImage:
+        "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/course-thumbnails/fa-image_kzo6kn.jpg",
       courseDescription: "",
       courseMode: "draft",
       teachingLang: "",

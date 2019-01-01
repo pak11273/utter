@@ -1,157 +1,168 @@
-import {
-  FETCHED_COURSE_NAME,
-  REQUESTED_COURSE_NAME_SUCCEEDED,
-  REQUESTED_COURSE_NAME_FAIL,
-  CHANGE_COURSE_PG,
-  CHANGE_COURSE_PG_FAIL,
-  CHANGE_COURSE_PG_SUCCESS,
-  COURSE_LANGUAGE,
-  LOAD_CURRENT_TEACHING_COURSE,
+import {COURSE_ASYNC} from "./types.js"
+import {createAction} from "../../utils/reduxUtils.js"
 
-  // COURSE CRUD
-  CREATE_COURSE_REQUEST,
-  CREATE_COURSE_SUCCESS,
-  CREATE_COURSE_FAIL,
-  FETCH_COURSE,
-  FETCH_COURSE_FAIL,
-  FETCH_COURSE_SUCCESS,
-  RESET_COURSE_CREATE_FORM,
-  DELETE_COURSE_FAIL,
-  DELETE_COURSE_SUCCESS,
+/* import { */
+/*   FETCHED_COURSE_NAME, */
+/*   REQUESTED_COURSE_NAME_SUCCEEDED, */
+/*   REQUESTED_COURSE_NAME_FAIL, */
+/*   CHANGE_COURSE_PG, */
+/*   CHANGE_COURSE_PG_FAIL, */
+/*   CHANGE_COURSE_PG_SUCCESS, */
+/*   COURSE_LANGUAGE, */
+/*   LOAD_CURRENT_TEACHING_COURSE, */
 
-  // LEVEL CRUD
-  ADD_LEVEL,
-  ADD_CUID_TO_LEVELS,
-  DELETE_LEVEL_FAIL,
-  DELETE_LEVEL_SUCCESS,
+/*   // COURSE CRUD */
+/*   CREATE_COURSE_REQUEST, */
+/*   CREATE_COURSE_SUCCESS, */
+/*   CREATE_COURSE_FAIL, */
+/*   FETCH_COURSE, */
+/*   FETCH_COURSE_FAIL, */
+/*   FETCH_COURSE_SUCCESS, */
+/*   RESET_COURSE_CREATE_FORM, */
+/*   DELETE_COURSE_FAIL, */
+/*   DELETE_COURSE_SUCCESS, */
 
-  // WORD CRUD
-  ADD_WORD,
-  ADD_CUID_TO_WORDS,
-  DELETE_WORD_FAIL,
-  DELETE_WORD_SUCCESS
-} from "./types.js"
+/*   // LEVEL CRUD */
+/*   ADD_LEVEL, */
+/*   ADD_CUID_TO_LEVELS, */
+/*   DELETE_LEVEL_FAIL, */
+/*   DELETE_LEVEL_SUCCESS, */
 
-const addWord = () => {
-  // TODO: pending
-}
+/*   // WORD CRUD */
+/*   ADD_WORD, */
+/*   ADD_CUID_TO_WORDS, */
+/*   DELETE_WORD_FAIL, */
+/*   DELETE_WORD_SUCCESS */
+/* } from "./types.js" */
 
-const changeCoursePg = coursePg => {
-  return {
-    type: "CHANGE_COURSE_PG",
-    coursePg
-  }
-}
+/* const addWord = () => { */
+/*   // TODO: pending */
+/* } */
 
-const changeCoursePgFail = error => {
-  return {
-    type: "CHANGE_COURSE_PG_FAIL",
-    error
-  }
-}
+/* const changeCoursePg = coursePg => { */
+/*   return { */
+/*     type: "CHANGE_COURSE_PG", */
+/*     coursePg */
+/*   } */
+/* } */
 
-const changeCoursePgSuccess = coursePg => {
-  return {
-    type: "CHANGE_COURSE_PG_SUCCESS",
-    coursePg
-  }
-}
+/* const changeCoursePgFail = error => { */
+/*   return { */
+/*     type: "CHANGE_COURSE_PG_FAIL", */
+/*     error */
+/*   } */
+/* } */
 
-// COURSE CREATE
-// This action was moved to api/course/actions/courseActions.js
+/* const changeCoursePgSuccess = coursePg => { */
+/*   return { */
+/*     type: "CHANGE_COURSE_PG_SUCCESS", */
+/*     coursePg */
+/*   } */
+/* } */
 
-// COURSE READ
-const fetchCourse = course => {
-  return {type: "FETCH_COURSE", course}
-}
+/* // COURSE CREATE */
+/* // This action was moved to api/course/actions/courseActions.js */
 
-const fetchCourseSuccess = data => {
-  return {type: "FETCH_COURSE_SUCCESS", course: data}
-}
+/* // COURSE READ */
+/* const fetchCourse = course => { */
+/*   return {type: "FETCH_COURSE", course} */
+/* } */
 
-const fetchCourseFail = error => {
-  return {type: "FETCH_COURSE_FAIL", error}
-}
+/* const fetchCourseSuccess = data => { */
+/*   return {type: "FETCH_COURSE_SUCCESS", course: data} */
+/* } */
 
-// COURSE DELETE
-const deleteCourse = course => {
-  return {type: "DELETE_COURSE", course}
-}
+/* const fetchCourseFail = error => { */
+/*   return {type: "FETCH_COURSE_FAIL", error} */
+/* } */
 
-const deleteCourseSuccess = data => {
-  return {type: "DELETE_COURSE_SUCCESS", data: data.data}
-}
+/* // COURSE DELETE */
+/* const deleteCourse = course => { */
+/*   return {type: "DELETE_COURSE", course} */
+/* } */
 
-const deleteCourseFail = error => {
-  return {type: "DELETE_COURSE_FAIL", error}
-}
+/* const deleteCourseSuccess = data => { */
+/*   return {type: "DELETE_COURSE_SUCCESS", data: data.data} */
+/* } */
 
-// LEVEL CREATE
-const addCuidToLevels = cuid => {
-  return {type: "ADD_CUID_TO_LEVELS", cuid}
-}
+/* const deleteCourseFail = error => { */
+/*   return {type: "DELETE_COURSE_FAIL", error} */
+/* } */
 
-const addLevel = level => {
-  return {type: "ADD_LEVEL", level}
-}
+/* // LEVEL CREATE */
+/* const addCuidToLevels = cuid => { */
+/*   return {type: "ADD_CUID_TO_LEVELS", cuid} */
+/* } */
 
-// LEVEL DELETE
-const deleteLevel = (course, levelId) => {
-  return {type: "DELETE_LEVEL", course, levelId}
-}
+/* const addLevel = level => { */
+/*   return {type: "ADD_LEVEL", level} */
+/* } */
 
-const deleteLevelSuccess = data => {
-  return {type: "DELETE_LEVEL_SUCCESS", data: data.data}
-}
+/* // LEVEL DELETE */
+/* const deleteLevel = (course, levelId) => { */
+/*   return {type: "DELETE_LEVEL", course, levelId} */
+/* } */
 
-const deleteLevelFail = error => {
-  return {type: "DELETE_LEVEL_FAIL", error}
-}
+/* const deleteLevelSuccess = data => { */
+/*   return {type: "DELETE_LEVEL_SUCCESS", data: data.data} */
+/* } */
 
-const chooseCourseLanguage = courseLanguage => {
-  return {
-    type: COURSE_LANGUAGE,
-    payload: new Promise((resolve, reject) => {
-      resolve(courseLanguage)
-    })
-  }
-}
+/* const deleteLevelFail = error => { */
+/*   return {type: "DELETE_LEVEL_FAIL", error} */
+/* } */
+
+/* const chooseCourseLanguage = courseLanguage => { */
+/*   return { */
+/*     type: COURSE_LANGUAGE, */
+/*     payload: new Promise((resolve, reject) => { */
+/*       resolve(courseLanguage) */
+/*     }) */
+/*   } */
+/* } */
 
 const fetchCourseName = course => {
   return {type: "FETCHED_COURSE_NAME", course}
 }
 
-const requestCourseNameSuccess = data => {
-  return {type: "REQUESTED_COURSE_NAME_SUCCEEDED", data: data.msg}
-}
+/* const requestCourseNameSuccess = data => { */
+/*   return {type: "REQUESTED_COURSE_NAME_SUCCEEDED", data: data.msg} */
+/* } */
 
-const requestCourseNameError = error => {
-  return {type: "REQUESTED_COURSE_NAME_FAIL", error}
-}
+/* const requestCourseNameError = error => { */
+/*   return {type: "REQUESTED_COURSE_NAME_FAIL", error} */
+/* } */
 
-const loadCurrentTeachingCourse = course => {
-  return {type: "LOAD_CURRENT_TEACHING_COURSE", course}
-}
+/* const loadCurrentTeachingCourse = course => { */
+/*   return {type: "LOAD_CURRENT_TEACHING_COURSE", course} */
+/* } */
 
 export {
-  addWord,
-  addCuidToLevels,
-  addLevel,
-  changeCoursePg,
-  changeCoursePgFail,
-  changeCoursePgSuccess,
-  deleteCourse,
-  deleteCourseFail,
-  deleteCourseSuccess,
-  deleteLevel,
-  deleteLevelFail,
-  deleteLevelSuccess,
-  fetchCourse,
-  fetchCourseSuccess,
-  fetchCourseFail,
-  chooseCourseLanguage,
-  fetchCourseName,
-  requestCourseNameError,
-  requestCourseNameSuccess,
-  loadCurrentTeachingCourse
+  /*   addWord, */
+  /*   addCuidToLevels, */
+  /*   addLevel, */
+  /*   changeCoursePg, */
+  /*   changeCoursePgFail, */
+  /*   changeCoursePgSuccess, */
+  /*   deleteCourse, */
+  /*   deleteCourseFail, */
+  /*   deleteCourseSuccess, */
+  /*   deleteLevel, */
+  /*   deleteLevelFail, */
+  /*   deleteLevelSuccess, */
+  /*   fetchCourse, */
+  /*   fetchCourseSuccess, */
+  /*   fetchCourseFail, */
+  /*   chooseCourseLanguage, */
+  fetchCourseName
+  /*   requestCourseNameError, */
+  /*   requestCourseNameSuccess, */
+  /*   loadCurrentTeachingCourse */
+}
+
+export default {
+  update: state => createAction(COURSE_ASYNC.UPDATE, state),
+  delete: state => createAction(COURSE_ASYNC.DELETE, state),
+  success: course => createAction(COURSE_ASYNC.SUCCESS, course),
+  error: error => createAction(COURSE_ASYNC.ERROR, error),
+  reset: () => createAction(COURSE_ASYNC.RESET)
 }

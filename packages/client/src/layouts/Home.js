@@ -41,7 +41,9 @@ const HomepageHeading = () => (
     height="760px"
     padding="200px 20px 100px 20px">
     <Column maxwidth="960px">
-      <MastheadTitle color="white">Speak another language</MastheadTitle>
+      <MastheadTitle color="white" lineheight="4rem">
+        Speak another language
+      </MastheadTitle>
       <MastheadSubtitle color="white" fontsize="1.5rem">
         Not speaking your new language yet? We can help.
       </MastheadSubtitle>

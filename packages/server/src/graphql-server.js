@@ -13,19 +13,31 @@ import {restDirective} from "./directives/rest.js"
 /* import { userLoader } from './loaders/userLoader'; */
 
 // schema imports
-const userSchema = path.join(__dirname, "./api/user/user.graphql")
+const appSchema = path.join(__dirname, "./api/app/app.graphql")
 const courseSchema = path.join(__dirname, "./api/course/course.graphql")
+const levelSchema = path.join(__dirname, "./api/level/level.graphql")
+const termSchema = path.join(__dirname, "./api/term/term.graphql")
 const testSchema = path.join(__dirname, "./api/test/test.graphql")
+const userSchema = path.join(__dirname, "./api/user/user.graphql")
+const zoneSchema = path.join(__dirname, "./api/zone/zone.graphql")
 
 // type defs
+const appTypeDefs = fs.readFileSync(appSchema, "utf8")
+const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
+const levelTypeDefs = fs.readFileSync(levelSchema, "utf8")
+const termTypeDefs = fs.readFileSync(termSchema, "utf8")
 const testTypeDefs = fs.readFileSync(testSchema, "utf8")
 const userTypeDefs = fs.readFileSync(userSchema, "utf8")
-const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
+const zoneTypeDefs = fs.readFileSync(zoneSchema, "utf8")
 
 // resolver imports
+import {appResolvers} from "./api/app/app-resolvers.js"
+import {courseResolvers} from "./api/course/course-resolvers.js"
+import {levelResolvers} from "./api/level/level-resolvers.js"
+import {termResolvers} from "./api/term/term-resolvers.js"
 import {testResolvers} from "./api/test/test-resolvers.js"
 import {userResolvers} from "./api/user/user-resolvers.js"
-import {courseResolvers} from "./api/course/course-resolvers.js"
+import {zoneResolvers} from "./api/zone/zone-resolvers.js"
 
 // baseSchema minimum requirement is a property query: Query
 const baseSchema = `
@@ -40,8 +52,24 @@ const schema = makeExecutableSchema({
     deprecated: DeprecatedDirective,
     auth: isAuthenticatedDirective
   },
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, testTypeDefs],
-  resolvers: merge({}, userResolvers, courseResolvers, testResolvers)
+  typeDefs: [
+    baseSchema,
+    userTypeDefs,
+    courseTypeDefs,
+    levelTypeDefs,
+    termTypeDefs,
+    testTypeDefs,
+    zoneTypeDefs
+  ],
+  resolvers: merge(
+    {},
+    userResolvers,
+    courseResolvers,
+    levelResolvers,
+    termResolvers,
+    testResolvers,
+    zoneResolvers
+  )
 })
 
 // reference: https://gist.github.com/donedgardo/ed2d36f6e650991543e5a55c77cddc0d
