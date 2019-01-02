@@ -68,7 +68,7 @@ export default new ApolloClient({
     uri:
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
         ? /* ? process.env.REACT_APP_SERVER_URL */
-          "http://68.183.164.222/graphql"
+          "http://68.183.164.222:3010/graphql"
         : "/graphql",
     headers: {
       authorization: localStorage.getItem("AUTH_TOKEN") || null
