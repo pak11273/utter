@@ -87,7 +87,11 @@ ObjectId.prototype.valueOf = function() {
 
 export default new ApolloServer({
   introspection: true,
-  playground: true,
+  playground:
+    process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+      ? false
+      : true,
+
   /* schema: schemaWithMiddleware, // see TODO */
   schema,
   context: ({req, res}) => ({
