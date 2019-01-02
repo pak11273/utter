@@ -1,21 +1,7 @@
 directive @auth on FIELD_DEFINITION
 
-type Term {
-  id: ID
-  word: String
-  translation: String
-  audio: String
-}
-
-type Level {
-  id: ID
-  name: String
-  course: Course
-  terms: [Term]
-}
-
 type Course {
-  id: ID
+  id: ID!
   courseName: String!
   courseAuthor: User
   courseDescription: String
@@ -28,7 +14,7 @@ type Course {
   createdAt: Int
 }
 
-input UpdatedCourse {
+input CourseUpdated {
   id: ID!
   courseId: String
   courseName: String
@@ -37,13 +23,14 @@ input UpdatedCourse {
   favorite: Boolean
 }
 
-input CreateCourseInput {
-  id: ID!
+input CourseCreateInput {
   courseId: String
+	courseImage: String
   courseName: String!
-  description: String
+  courseDescription: String
   courseMode: String
-  favorite: Boolean
+	teachingLang: String
+  usingLang: String
 }
 
 type PaginatedCourses {
@@ -52,7 +39,8 @@ type PaginatedCourses {
 }
 
 extend type Query {
-  getCourse(id: ID!): Course!
+  getCourse(courseId: String!): Course!
+	getCourseLevels(courseId: String!): Course!
   getCourses(
     cursor: String
     title: String!
@@ -69,8 +57,8 @@ extend type Query {
 }
 
 extend type Mutation {
-  createCourse(input: CreateCourseInput!): Course!
-	deleteCourse(id: String!): Boolean
-  updateCourse(input: UpdatedCourse!): Course!
-  removeCourse(id: ID!): Boolean
+  courseCreate(input: CourseCreateInput!): Course! @auth
+	courseDelete(id: String!): Boolean
+  courseUpdate(input: CourseUpdated!): Course!
+  courseRemove(id: ID!): Boolean
 }

@@ -59,19 +59,18 @@ var changePassword = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("args: ", args);
             token = null;
             arrayOfErrors = [];
             redisToken = args.input.token;
             redisKey = "" + _constants.forgotPasswordPrefix + redisToken;
-            _context.next = 7;
+            _context.next = 6;
             return redis.get(redisKey);
 
-          case 7:
+          case 6:
             userId = _context.sent;
 
             if (userId) {
-              _context.next = 12;
+              _context.next = 11;
               break;
             }
 
@@ -85,41 +84,41 @@ var changePassword = function () {
               error: arrayOfErrors
             });
 
-          case 12:
-            _context.prev = 12;
+          case 11:
+            _context.prev = 11;
 
             console.log("args2: ", args);
             args.input["password confirmation"] = args.input.passwordConfirmation;
-            _context.next = 17;
+            _context.next = 16;
             return _common.changePasswordSchema.validate(args.input, {
               abortEarly: false
             });
 
-          case 17:
-            _context.next = 25;
+          case 16:
+            _context.next = 24;
             break;
 
-          case 19:
-            _context.prev = 19;
-            _context.t0 = _context["catch"](12);
+          case 18:
+            _context.prev = 18;
+            _context.t0 = _context["catch"](11);
 
             if (!_context.t0) {
-              _context.next = 25;
+              _context.next = 24;
               break;
             }
 
-            console.log("invalide");
+            console.log("invalid");
             arrayOfErrors = (0, _formatYupError.formatYupError)(_context.t0);
             return _context.abrupt("return", {
               token: null,
               error: arrayOfErrors
             });
 
-          case 25:
-            _context.next = 27;
+          case 24:
+            _context.next = 26;
             return _userModel2.default.findById(userId).exec();
 
-          case 27:
+          case 26:
             user = _context.sent;
             hashedPassword = user.encryptPassword(args.input.password);
             updatePromise = _userModel2.default.findByIdAndUpdate(userId, {
@@ -130,21 +129,21 @@ var changePassword = function () {
             console.log("token", token);
 
             deleteKeyPromise = redis.del(redisKey);
-            _context.next = 35;
+            _context.next = 34;
             return Promise.all([updatePromise, deleteKeyPromise]);
 
-          case 35:
+          case 34:
             return _context.abrupt("return", {
               token: token,
               error: []
             });
 
-          case 36:
+          case 35:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[12, 19]]);
+    }, _callee, undefined, [[11, 18]]);
   }));
 
   return function changePassword(_x, _x2, _x3) {
@@ -295,7 +294,7 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context3.next = 25;
+            _context3.next = 26;
             break;
 
           case 13:
@@ -306,7 +305,7 @@ var login = function () {
 
             // use authenticate() on user.doc, pass in the posted password, hash it and check
             arrayOfErrors.push({ path: "password", message: "Invalid Password" });
-            _context3.next = 25;
+            _context3.next = 26;
             break;
 
           case 17:
@@ -325,28 +324,30 @@ var login = function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context3.next = 25;
+            _context3.next = 26;
             break;
 
           case 21:
             if (!user) {
-              _context3.next = 25;
+              _context3.next = 26;
               break;
             }
 
-            _context3.next = 24;
+            console.log("made it");
+            // assign valid user info
+            _context3.next = 25;
             return (0, _auth.signToken)(user._id);
 
-          case 24:
+          case 25:
             token = _context3.sent;
 
-          case 25:
+          case 26:
             return _context3.abrupt("return", {
               token: token,
               error: arrayOfErrors
             });
 
-          case 26:
+          case 27:
           case "end":
             return _context3.stop();
         }

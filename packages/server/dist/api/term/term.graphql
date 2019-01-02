@@ -1,0 +1,56 @@
+directive @auth on FIELD_DEFINITION
+
+type Term {
+  id: ID
+  word: String
+  translation: String
+  audio: String
+}
+
+input UpdatedTerm {
+  id: ID!
+  termId: String
+  termName: String
+  termdescription: String
+  termMode: String
+  favorite: Boolean
+}
+
+input CreateTermInput {
+  termId: String
+	termImage: String
+  termName: String!
+  termDescription: String
+  termMode: String
+	teachingLang: String
+  usingLang: String
+}
+
+type PaginatedTerms {
+  terms: [Term]
+  cursor: String
+}
+
+extend type Query {
+  getTerm(id: ID!): Term!
+  getTerms(
+    cursor: String
+    title: String!
+    ref: String!
+    author: String!
+    usingLang: String!
+    teachingLang: String!
+  ): PaginatedTerms  
+	getCreatedTerms(
+    cursor: String
+    author: String!
+	): PaginatedTerms @auth
+  getTermCount: Int
+}
+
+extend type Mutation {
+  termCreate(input: CreateTermInput!): Term! @auth
+	deleteTerm(id: String!): Boolean
+  updateTerm(input: UpdatedTerm!): Term!
+  removeTerm(id: ID!): Boolean
+}

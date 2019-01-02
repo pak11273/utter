@@ -26,7 +26,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var jwtDecode = require("jwt-decode");
 var getUserFromJwt = exports.getUserFromJwt = function getUserFromJwt(req, res, next) {
   var authHeader = req.headers.authorization;
-  console.log("ahuthHeader: ", authHeader);
   req.user = jwtDecode(authHeader);
   next();
 };
@@ -146,5 +145,5 @@ var authenticate = exports.authenticate = function authenticate(req, res, next) 
 
 // util method to sign tokens on signup
 var signToken = exports.signToken = function signToken(id) {
-  return _jsonwebtoken2.default.sign({ _id: id }, _config2.default.env.JWT, { expiresIn: _config2.default.expireTime });
+  return _jsonwebtoken2.default.sign({ _id: id }, _config2.default.env.JWT);
 };

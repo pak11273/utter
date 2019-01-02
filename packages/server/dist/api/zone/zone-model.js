@@ -18,40 +18,28 @@ var _levelModel = require("../level/level-model.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CourseSchema = _mongoose2.default.Schema({
-  cdn: {
-    type: _mongoose.Schema.Types.Mixed,
-    default: {}
-  },
-  courseId: {
-    type: String,
-    default: ""
-  },
-  courseName: {
+var ZoneSchema = _mongoose2.default.Schema({
+  zoneName: {
     type: String,
     default: "",
     required: [true, "can't be blank"]
   },
-  courseAuthor: {
+  zoneAuthor: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "User"
   },
-  courseMode: {
+  zoneImage: {
     type: String,
-    default: "draft"
+    default: "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk"
   },
-  coursePages: {
+  zonePages: {
     type: Number,
     default: -1
   },
-  courseRef: [{
+  zoneRef: [{
     type: _mongoose.Schema.Types.Mixed,
     default: {}
   }],
-  favorite: {
-    type: Boolean,
-    default: false
-  },
   teachingLang: {
     type: String,
     default: ""
@@ -60,46 +48,27 @@ var CourseSchema = _mongoose2.default.Schema({
     type: String,
     default: ""
   },
-  tags: {
-    type: Array,
-    default: ""
-  },
-  subscribers: [{
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }],
-  levels: [_levelModel.LevelSchema],
-  // levels: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'Level'
-  //   }
-  // ],
-  courseDescription: {
+  zoneDescription: {
     type: String,
     default: ""
-  },
-  courseImage: {
-    type: String,
-    default: "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1536857535/course-thumbnails/fa-image_kzo6kn.png"
   }
 }, { timestamps: true });
 
-CourseSchema.index({ courseName: "text", courseDescription: "text" });
+ZoneSchema.index({ zoneName: "text", zoneDescription: "text" });
 
-CourseSchema.statics.findByUsername = function (username, callback) {
+ZoneSchema.statics.findByUsername = function (username, callback) {
   var query = this.findOne();
 
   _userModel2.default.findOne({ username: username }).exec(callback);
   return query;
 };
 
-CourseSchema.virtual("id").get(function () {
+ZoneSchema.virtual("id").get(function () {
   return this._id.toHexString();
 });
 
-CourseSchema.set("toJSON", {
+ZoneSchema.set("toJSON", {
   virtuals: true
 });
 
-exports.default = _mongoose2.default.model("Course", CourseSchema);
+exports.default = _mongoose2.default.model("Zone", ZoneSchema);

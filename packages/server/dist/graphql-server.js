@@ -36,25 +36,41 @@ var _redis = require("./redis");
 
 var _rest = require("./directives/rest.js");
 
+var _appResolvers = require("./api/app/app-resolvers.js");
+
+var _courseResolvers = require("./api/course/course-resolvers.js");
+
+var _levelResolvers = require("./api/level/level-resolvers.js");
+
+var _termResolvers = require("./api/term/term-resolvers.js");
+
 var _testResolvers = require("./api/test/test-resolvers.js");
 
 var _userResolvers = require("./api/user/user-resolvers.js");
 
-var _courseResolvers = require("./api/course/course-resolvers.js");
+var _zoneResolvers = require("./api/zone/zone-resolvers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* import { userLoader } from './loaders/userLoader'; */
 
 // schema imports
-var userSchema = _path2.default.join(__dirname, "./api/user/user.graphql");
+var appSchema = _path2.default.join(__dirname, "./api/app/app.graphql");
 var courseSchema = _path2.default.join(__dirname, "./api/course/course.graphql");
+var levelSchema = _path2.default.join(__dirname, "./api/level/level.graphql");
+var termSchema = _path2.default.join(__dirname, "./api/term/term.graphql");
 var testSchema = _path2.default.join(__dirname, "./api/test/test.graphql");
+var userSchema = _path2.default.join(__dirname, "./api/user/user.graphql");
+var zoneSchema = _path2.default.join(__dirname, "./api/zone/zone.graphql");
 
 // type defs
+var appTypeDefs = _fs2.default.readFileSync(appSchema, "utf8");
+var courseTypeDefs = _fs2.default.readFileSync(courseSchema, "utf8");
+var levelTypeDefs = _fs2.default.readFileSync(levelSchema, "utf8");
+var termTypeDefs = _fs2.default.readFileSync(termSchema, "utf8");
 var testTypeDefs = _fs2.default.readFileSync(testSchema, "utf8");
 var userTypeDefs = _fs2.default.readFileSync(userSchema, "utf8");
-var courseTypeDefs = _fs2.default.readFileSync(courseSchema, "utf8");
+var zoneTypeDefs = _fs2.default.readFileSync(zoneSchema, "utf8");
 
 // resolver imports
 
@@ -67,8 +83,8 @@ var schema = (0, _graphqlTools.makeExecutableSchema)({
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.isAuthenticatedDirective
   },
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, testTypeDefs],
-  resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _testResolvers.testResolvers)
+  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, termTypeDefs, testTypeDefs, zoneTypeDefs],
+  resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)
 });
 
 // reference: https://gist.github.com/donedgardo/ed2d36f6e650991543e5a55c77cddc0d

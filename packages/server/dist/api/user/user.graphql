@@ -7,9 +7,9 @@ type Error {
 }
 
 type User {
-	id: ID!
-  email: String! 
-  password: String!
+	id: ID
+  email: String 
+  password: String
   contacts: [String]
   username: String!
   createdAt: String

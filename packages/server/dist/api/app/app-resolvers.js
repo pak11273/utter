@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.courseResolvers = undefined;
+exports.appResolvers = undefined;
 
 var _typeof2 = require("babel-runtime/helpers/typeof");
 
@@ -29,9 +29,9 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _courseModel = require("./course-model");
+var _appModel = require("./app-model");
 
-var _courseModel2 = _interopRequireDefault(_courseModel);
+var _appModel2 = _interopRequireDefault(_appModel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,31 +39,31 @@ var escapeRegex = function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-var getCourse = function () {
+var getApp = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, _ref3) {
-    var courseId = _ref2.courseId;
+    var appId = _ref2.appId;
     var user = _ref3.user;
-    var course;
+    var app;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("courseId: ", courseId);
+            console.log("appId: ", appId);
             _context.next = 3;
-            return _courseModel2.default.findById(courseId).exec();
+            return _appModel2.default.findById(appId).exec();
 
           case 3:
-            course = _context.sent;
+            app = _context.sent;
 
-            if (course) {
+            if (app) {
               _context.next = 6;
               break;
             }
 
-            throw new Error("Cannot find course with id");
+            throw new Error("Cannot find app with id");
 
           case 6:
-            return _context.abrupt("return", course);
+            return _context.abrupt("return", app);
 
           case 7:
           case "end":
@@ -73,40 +73,40 @@ var getCourse = function () {
     }, _callee, undefined);
   }));
 
-  return function getCourse(_x, _x2, _x3) {
+  return function getApp(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
 
-var courseDelete = function () {
+var appDelete = function () {
   var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
     var id = _ref5.id;
-    var course;
+    var app;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             console.log("id: ", id);
             _context2.next = 3;
-            return _courseModel2.default.findById(id).exec();
+            return _appModel2.default.findById(id).exec();
 
           case 3:
-            course = _context2.sent;
+            app = _context2.sent;
 
-            if (course) {
+            if (app) {
               _context2.next = 6;
               break;
             }
 
-            throw new Error("No course found.");
+            throw new Error("No app found.");
 
           case 6:
 
-            if (course.courseAuthor === id) {
-              // TODO: delete course
+            if (app.appAuthor === id) {
+              // TODO: delete app
             }
 
-            return _context2.abrupt("return", course);
+            return _context2.abrupt("return", app);
 
           case 8:
           case "end":
@@ -116,41 +116,41 @@ var courseDelete = function () {
     }, _callee2, undefined);
   }));
 
-  return function courseDelete(_x4, _x5, _x6) {
+  return function appDelete(_x4, _x5, _x6) {
     return _ref4.apply(this, arguments);
   };
 }();
 
-var courseUpdate = function courseUpdate(_, _ref6) {
+var appUpdate = function appUpdate(_, _ref6) {
   var input = _ref6.input;
   var id = input.id,
       update = (0, _objectWithoutProperties3.default)(input, ["id"]);
 
-  return _courseModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
+  return _appModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
 };
 
-var courseCreate = function () {
+var appCreate = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var input, course;
+    var input, app;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             console.log("args: ", args);
             console.log("ctx: ", ctx.user);
-            //TODO can't have duplicate course names
+            //TODO can't have duplicate app names
             input = args.input;
 
-            input.courseAuthor = ctx.user;
+            input.appAuthor = ctx.user;
             _context3.next = 6;
-            return _courseModel2.default.create(input);
+            return _appModel2.default.create(input);
 
           case 6:
-            course = _context3.sent;
+            app = _context3.sent;
 
-            course.id = course._id;
-            console.log("course: ", typeof course === "undefined" ? "undefined" : (0, _typeof3.default)(course));
-            return _context3.abrupt("return", course);
+            app.id = app._id;
+            console.log("app: ", typeof app === "undefined" ? "undefined" : (0, _typeof3.default)(app));
+            return _context3.abrupt("return", app);
 
           case 10:
           case "end":
@@ -160,12 +160,12 @@ var courseCreate = function () {
     }, _callee3, undefined);
   }));
 
-  return function courseCreate(_x7, _x8, _x9, _x10) {
+  return function appCreate(_x7, _x8, _x9, _x10) {
     return _ref7.apply(this, arguments);
   };
 }();
 
-var getCourseLevels = function () {
+var getAppLevels = function () {
   var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
     var query;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
@@ -175,7 +175,7 @@ var getCourseLevels = function () {
             // build query object
             query = {};
 
-            query.courseAuthor = ctx.user;
+            query.appAuthor = ctx.user;
 
           case 2:
           case "end":
@@ -185,12 +185,12 @@ var getCourseLevels = function () {
     }, _callee4, undefined);
   }));
 
-  return function getCourseLevels(_x11, _x12, _x13, _x14) {
+  return function getAppLevels(_x11, _x12, _x13, _x14) {
     return _ref8.apply(this, arguments);
   };
 }();
 
-var getCreatedCourses = function () {
+var getCreatedApps = function () {
   var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
     var query, cursorObj, cursor, result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -200,11 +200,11 @@ var getCreatedCourses = function () {
             // build query object
             query = {};
 
-            query.courseAuthor = ctx.user;
+            query.appAuthor = ctx.user;
             // end query object
 
-            /* // TODO: HOTFIX, using a fake courseAuthor, delete this after testing */
-            /* query.courseAuthor = "5b9012f043aa4329f187f01a" */
+            /* // TODO: HOTFIX, using a fake appAuthor, delete this after testing */
+            /* query.appAuthor = "5b9012f043aa4329f187f01a" */
             /* end */
 
             if (args.cursor) {
@@ -218,7 +218,7 @@ var getCreatedCourses = function () {
             }
 
             _context5.next = 5;
-            return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
+            return _appModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
 
           case 5:
             result = _context5.sent;
@@ -228,11 +228,11 @@ var getCreatedCourses = function () {
               break;
             }
 
-            return _context5.abrupt("return", { courses: [], cursor: "done" });
+            return _context5.abrupt("return", { apps: [], cursor: "done" });
 
           case 10:
             cursor = result[result.length - 1]._id;
-            return _context5.abrupt("return", { courses: result, cursor: cursor });
+            return _context5.abrupt("return", { apps: result, cursor: cursor });
 
           case 12:
           case "end":
@@ -242,14 +242,14 @@ var getCreatedCourses = function () {
     }, _callee5, undefined);
   }));
 
-  return function getCreatedCourses(_x15, _x16, _x17, _x18) {
+  return function getCreatedApps(_x15, _x16, _x17, _x18) {
     return _ref9.apply(this, arguments);
   };
 }();
 
-var getCourses = function () {
+var getApps = function () {
   var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
-    var query, courseName, courseRef, courseAuthor, cursor, result;
+    var query, appName, appRef, appAuthor, cursor, result;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -258,9 +258,9 @@ var getCourses = function () {
             query = {};
 
 
-            args.title ? query.courseName = new RegExp(escapeRegex(args.title), "gi") : null;
+            args.title ? query.appName = new RegExp(escapeRegex(args.title), "gi") : null;
 
-            args.ref ? query.courseRef = new RegExp(escapeRegex(args.ref), "gi") : null;
+            args.ref ? query.appRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
             if (!args.author) {
               _context6.next = 7;
@@ -268,18 +268,18 @@ var getCourses = function () {
             }
 
             _context6.next = 6;
-            return _courseModel2.default.findByUsername(args.author, function (err, docs) {
+            return _appModel2.default.findByUsername(args.author, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
               }
               if (!(0, _isEmpty2.default)(docs)) {
-                var courseAuthor = docs._id;
-                query.courseAuthor = courseAuthor;
+                var appAuthor = docs._id;
+                query.appAuthor = appAuthor;
               }
             });
 
           case 6:
-            courseAuthor = _context6.sent;
+            appAuthor = _context6.sent;
 
           case 7:
 
@@ -297,7 +297,7 @@ var getCourses = function () {
             }
 
             _context6.next = 12;
-            return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
+            return _appModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
 
           case 12:
             result = _context6.sent;
@@ -308,11 +308,11 @@ var getCourses = function () {
             }
 
             console.log("done");
-            return _context6.abrupt("return", { courses: [], cursor: "done" });
+            return _context6.abrupt("return", { apps: [], cursor: "done" });
 
           case 18:
             cursor = result[result.length - 1]._id;
-            return _context6.abrupt("return", { courses: result, cursor: cursor });
+            return _context6.abrupt("return", { apps: result, cursor: cursor });
 
           case 20:
           case "end":
@@ -322,25 +322,25 @@ var getCourses = function () {
     }, _callee6, undefined);
   }));
 
-  return function getCourses(_x19, _x20, _x21, _x22) {
+  return function getApps(_x19, _x20, _x21, _x22) {
     return _ref10.apply(this, arguments);
   };
 }();
 
-var courseResolvers = exports.courseResolvers = {
+var appResolvers = exports.appResolvers = {
   Query: {
-    getCreatedCourses: getCreatedCourses,
-    getCourses: getCourses,
-    getCourse: getCourse,
-    getCourseLevels: getCourseLevels
+    getCreatedApps: getCreatedApps,
+    getApps: getApps,
+    getApp: getApp,
+    getAppLevels: getAppLevels
   },
   Mutation: {
-    courseDelete: courseDelete,
-    courseUpdate: courseUpdate,
-    courseCreate: courseCreate
+    appDelete: appDelete,
+    appUpdate: appUpdate,
+    appCreate: appCreate
   },
-  Course: {
-    courseAuthor: function courseAuthor(course) {
+  App: {
+    appAuthor: function appAuthor(app) {
       var _this = this;
 
       return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
@@ -350,11 +350,11 @@ var courseResolvers = exports.courseResolvers = {
             switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.next = 2;
-                return course.populate("courseAuthor").execPopulate();
+                return app.populate("appAuthor").execPopulate();
 
               case 2:
                 populated = _context7.sent;
-                return _context7.abrupt("return", populated.courseAuthor);
+                return _context7.abrupt("return", populated.appAuthor);
 
               case 4:
               case "end":

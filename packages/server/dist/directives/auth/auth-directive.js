@@ -82,7 +82,7 @@ var isAuthenticatedDirective = exports.isAuthenticatedDirective = function (_Sch
         var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(source, _ref2, ctx, info) {
           var format = _ref2.format,
               otherArgs = (0, _objectWithoutProperties3.default)(_ref2, ["format"]);
-          var token, decoded;
+          var token;
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -96,23 +96,24 @@ var isAuthenticatedDirective = exports.isAuthenticatedDirective = function (_Sch
 
                 case 2:
                   token = ctx.req.headers.authorization;
-                  _context.prev = 3;
-                  decoded = jwt.verify(token, _config2.default.env.JWT);
 
-                  ctx.user = decoded._id;
-                  return _context.abrupt("return", resolve(source, field.args, ctx));
 
-                case 9:
-                  _context.prev = 9;
-                  _context.t0 = _context["catch"](3);
-                  throw new Error("You are not authorized for this resource.");
+                  jwt.verify(token, _config2.default.env.JWT, function (err, decoded) {
+                    if (err) {
+                      console.log("err: ", err);
+                      throw new Error("You are not authorized for this resource.");
+                    } else {
+                      ctx.user = decoded._id;
+                    }
+                  });
+                  return _context.abrupt("return", resolve(source, otherArgs, ctx));
 
-                case 12:
+                case 5:
                 case "end":
                   return _context.stop();
               }
             }
-          }, _callee, this, [[3, 9]]);
+          }, _callee, this);
         }));
 
         return function (_x, _x2, _x3, _x4) {
