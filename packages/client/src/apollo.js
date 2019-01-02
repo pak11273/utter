@@ -4,7 +4,7 @@ import {ApolloClient} from "apollo-client"
 import {InMemoryCache} from "apollo-cache-inmemory"
 /* import {onError} from "apollo-link-error" */
 /* import {withClientState} from "apollo-link-state" */
-import {HttpLink} from "apollo-link-http"
+/* import {HttpLink} from "apollo-link-http" */
 
 /* const logoutUser = () => { */
 /*   localStorage.removeItem("AUTH_TOKEN") */
