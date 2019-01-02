@@ -103,7 +103,8 @@ ObjectId.prototype.valueOf = function () {
 
 exports.default = new _apolloServerExpress.ApolloServer({
   introspection: true,
-  playground: true,
+  playground: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? false : true,
+
   /* schema: schemaWithMiddleware, // see TODO */
   schema: schema,
   context: function context(_ref) {
