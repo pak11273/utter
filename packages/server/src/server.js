@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 import chalk from "chalk"
 import path from "path"
-import {redis} from "./graphql-server"
+/* import {redis} from "./graphql-server" */
 import apiRouter from "./api"
 import mailRouter from "./mail/mail-routes"
 import config from "./config"

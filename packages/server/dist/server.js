@@ -16,8 +16,6 @@ var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
 
-var _graphqlServer = require("./graphql-server");
-
 var _api = require("./api");
 
 var _api2 = _interopRequireDefault(_api);
@@ -68,6 +66,8 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
     };
   });
 }
+/* import {redis} from "./graphql-server" */
+
 
 var app = (0, _express2.default)();
 (0, _middleware2.default)(app);
