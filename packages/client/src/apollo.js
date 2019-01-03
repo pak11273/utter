@@ -4,7 +4,7 @@ import {ApolloClient} from "apollo-client"
 import {InMemoryCache} from "apollo-cache-inmemory"
 /* import {onError} from "apollo-link-error" */
 /* import {withClientState} from "apollo-link-state" */
-/* import {HttpLink} from "apollo-link-http" */
+import {HttpLink} from "apollo-link-http"
 
 /* const logoutUser = () => { */
 /*   localStorage.removeItem("AUTH_TOKEN") */
@@ -64,20 +64,20 @@ export default new ApolloClient({
   /*     } */
   /*   } */
   /* }), */
-  /* link: new HttpLink({ */
-  uri:
-    process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-      ? /* ? process.env.REACT_APP_SERVER_URL */
-        "http://68.183.164.222/graphql"
-      : "/graphql",
-  headers: {
-    authorization: localStorage.getItem("AUTH_TOKEN") || null
-  },
-  credentials:
-    process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-      ? "include"
-      : "same-origin",
-  /* }), */
+  link: new HttpLink({
+    uri:
+      process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+        ? /* ? process.env.REACT_APP_SERVER_URL */
+          "http://68.183.164.222/graphql"
+        : "/graphql",
+    headers: {
+      authorization: localStorage.getItem("AUTH_TOKEN") || null
+    },
+    credentials:
+      process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+        ? "include"
+        : "same-origin"
+  }),
   /* ]), */
   cache: new InMemoryCache()
 })
