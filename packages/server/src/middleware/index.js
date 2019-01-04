@@ -15,6 +15,7 @@ export default app => {
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
           ? [
               process.env.REACT_APP_CLIENT_URL,
+              /\.utterzone\.com$/,
               "http://www.utterzone.com",
               "https://www.utterzone.com",
               "https://utterzone.com",
