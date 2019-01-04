@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {Container} from '../../../containers'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import styled from 'styled-components'
-import axios from 'axios'
-import {Helmet} from 'react-helmet'
+import React, {Component} from "react"
+import {Container} from "../../../containers"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import styled from "styled-components"
+import axios from "axios"
+import {Helmet} from "react-helmet"
 
 import {
   Box,
@@ -19,9 +19,9 @@ import {
   Select,
   Text,
   Title
-} from '../../../components'
+} from "../../../components"
 
-import actionCreators from './actions.js'
+import actionCreators from "./actions.js"
 
 class Aws extends Component {
   constructor(props) {
@@ -31,14 +31,14 @@ class Aws extends Component {
 
   componentDidMount() {
     document
-      .getElementById('upload_widget_opener')
-      .addEventListener('click', function() {
+      .getElementById("upload_widget_opener")
+      .addEventListener("click", function() {
         cloudinary.openUploadWidget(
           {
-            cloud_name: 'dgvw5b6pf',
-            upload_preset: 'z28ks5gg',
-            api_key: '225688292439754',
-            cropping: 'server',
+            cloud_name: "dgvw5b6pf",
+            upload_preset: "z28ks5gg",
+            api_key: "225688292439754",
+            cropping: "server",
             upload_signature: this.generateSignature
           },
           function(error, result) {
@@ -49,35 +49,35 @@ class Aws extends Component {
   }
 
   onChange = e => {
-    if (e.target.value != '') {
-      var output = document.getElementById('output')
+    if (e.target.value != "") {
+      var output = document.getElementById("output")
 
       var data = new FormData()
-      data.append('upload', document.getElementById('upload_input').files[0])
+      data.append("upload", document.getElementById("upload_input").files[0])
       axios
-        .post('/admin/uploadFile', data)
+        .post("/admin/uploadFile", data)
         .then(function(res) {
-          var uploadBtn = document.getElementById('upload_btn')
-          var country = document.getElementById('country')
-          var club = document.getElementById('club')
-          output.className = 'good'
-          console.log('res: ', res)
+          var uploadBtn = document.getElementById("upload_btn")
+          var country = document.getElementById("country")
+          var club = document.getElementById("club")
+          output.className = "good"
+          console.log("res: ", res)
           output.innerHTML = res.data
-          club.value = ''
-          country.value = ''
-          uploadBtn.innerText = 'Upload File'
+          club.value = ""
+          country.value = ""
+          uploadBtn.innerText = "Upload File"
         })
         .catch(function(err) {
-          output.className = 'bad text-danger'
+          output.className = "bad text-danger"
           output.innerHTML = err.message
         })
     }
-  };
+  }
 
   upload = e => {
-    e.target.innerText = 'Uploading...'
-    document.getElementById('upload_input').click()
-  };
+    e.target.innerText = "Uploading..."
+    document.getElementById("upload_input").click()
+  }
 
   render() {
     return (
@@ -146,4 +146,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Aws)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Aws)
