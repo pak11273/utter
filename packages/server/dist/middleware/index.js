@@ -49,7 +49,7 @@ exports.default = function (app) {
     //              "utterzone.com"
     ] : "http://localhost:8080"
   }));
-  app.options("/graphql", (0, _cors2.default)());
+  app.options("/graphql");
   app.use((0, _morgan2.default)("dev"));
   app.use(_bodyParser2.default.urlencoded({ extended: true }));
   app.use(_bodyParser2.default.json());
