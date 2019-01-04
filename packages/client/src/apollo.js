@@ -71,8 +71,7 @@ export default new ApolloClient({
           "https://api.utterzone.com/graphql"
         : "/graphql",
     headers: {
-      authorization: localStorage.getItem("AUTH_TOKEN") || null,
-      "Access-Control-Allow-Origin": "*"
+      authorization: localStorage.getItem("AUTH_TOKEN") || null
     },
     credentials:
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"

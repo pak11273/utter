@@ -17,6 +17,7 @@ export default app => {
               process.env.REACT_APP_CLIENT_URL,
               "http://www.utterzone.com",
               "https://www.utterzone.com",
+              "https://utterzone.com",
               "http://utterzone.com",
               "utterzone.com"
             ]
