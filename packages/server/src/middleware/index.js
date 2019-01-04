@@ -25,6 +25,7 @@ export default app => {
       //          : "http://localhost:8080"
     })
   )
+  app.options("/graphql", cors())
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
