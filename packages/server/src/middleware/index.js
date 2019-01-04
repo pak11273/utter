@@ -10,7 +10,7 @@ import config from "../config"
 export default app => {
   app.use(
     cors({
-      credentials: true,
+      /* credentials: true, */
       origin:
         process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
           ? [

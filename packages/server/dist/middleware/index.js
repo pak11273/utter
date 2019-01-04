@@ -38,7 +38,7 @@ require("dotenv").config();
 
 exports.default = function (app) {
   app.use((0, _cors2.default)({
-    credentials: true,
+    /* credentials: true, */
     origin: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? [process.env.REACT_APP_CLIENT_URL, "http://www.utterzone.com", "https://www.utterzone.com", "http://utterzone.com", "utterzone.com"] : "http://localhost:8080"
   }));
   app.use((0, _morgan2.default)("dev"));
