@@ -68,7 +68,7 @@ export default new ApolloClient({
     uri:
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
         ? /* ? process.env.REACT_APP_SERVER_URL */
-          "https://68.183.164.222:3010/graphql"
+          "https://api.utterzone.com/graphql"
         : "/graphql",
     headers: {
       authorization: localStorage.getItem("AUTH_TOKEN") || null
