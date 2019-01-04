@@ -39,18 +39,15 @@ require("dotenv").config();
 exports.default = function (app) {
   app.use((0, _cors2.default)({
     credentials: true,
-    origin: false
-    //        process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-    //          ? [
+    origin: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? [
     //              process.env.REACT_APP_CLIENT_URL,
-    //              /\.utterzone\.com$/,
+    /\.utterzone\.com$/
     //              "http://www.utterzone.com",
     //              "https://www.utterzone.com",
     //              "https://utterzone.com",
     //              "http://utterzone.com",
     //              "utterzone.com"
-    //            ]
-    //          : "http://localhost:8080"
+    ] : "http://localhost:8080"
   }));
   app.options("/graphql", (0, _cors2.default)());
   app.use((0, _morgan2.default)("dev"));
