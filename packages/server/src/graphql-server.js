@@ -98,7 +98,7 @@ export default new ApolloServer({
     redis,
     url:
       process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-        ? "http://" + process.env.SERVER_URL + "3010"
+        ? "https://" + process.env.SERVER_URL
         : req.protocol + "://" + req.get("host"),
     req,
     user: req.user

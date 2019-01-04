@@ -112,7 +112,7 @@ exports.default = new _apolloServerExpress.ApolloServer({
         res = _ref.res;
     return {
       redis: _redis.redis,
-      url: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? "http://" + process.env.SERVER_URL + "3010" : req.protocol + "://" + req.get("host"),
+      url: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? "https://" + process.env.SERVER_URL : req.protocol + "://" + req.get("host"),
       req: req,
       user: req.user
       /* userLoader: userLoader() */
