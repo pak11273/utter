@@ -203,7 +203,7 @@ export const routes = [
   {
     component: requireAuth(ZoneCtrl),
     exact: true,
-    path: "/zone/create"
+    path: "/zones/create"
   },
   // {
   //   path: '/korean/1',

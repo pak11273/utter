@@ -26,9 +26,25 @@ var _graphqlServer2 = _interopRequireDefault(_graphqlServer);
 
 var _auth = require("./auth");
 
+var _socket = require("socket.io");
+
+var _socket2 = _interopRequireDefault(_socket);
+
+var _zoneChat = require("./socketio/zone-chat.js");
+
+var _zoneChat2 = _interopRequireDefault(_zoneChat);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var server = _http2.default.createServer(_server2.default);
+
+// socketio instance
+var socketio = (0, _socket2.default)(server);
+
+// require zone chat
+
+(0, _zoneChat2.default)(socketio);
+
 var currentApp = _server2.default;
 
 _mongoose2.default.set("useFindAndModify", false); // removes deprecation warning

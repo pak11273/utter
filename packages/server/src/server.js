@@ -31,6 +31,7 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 const app = express()
+
 middleware(app)
 
 // rate limiter
@@ -58,6 +59,7 @@ mongoose.connection.on("connected", function() {
 const hbs = exphbs.create({
   // config
 })
+
 app.engine("handlebars", hbs.engine)
 app.set("view engine", "handlebars")
 app.set("views", path.resolve(__dirname, "../src/views/layouts"))

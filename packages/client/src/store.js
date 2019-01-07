@@ -2,15 +2,16 @@ import {createStore, applyMiddleware, compose} from "redux"
 import {routerMiddleware} from "react-router-redux"
 import {persistStore, persistReducer} from "redux-persist"
 import storage from "redux-persist/lib/storage" // defaults to localStorage
-/* import SocketIO from "./services/socketio" */
+import SocketIO from "./services/socketio"
 import createSagaMiddleware from "redux-saga"
 import thunk from "redux-thunk"
 import promise from "redux-promise-middleware"
-/* import ioMiddleware from "redux-socketio" // TODO: currently grabbing from npm globally(npm link redux-socketio), need to unlink once it's production ready and download the npm module */
-/* const Socket = new SocketIO() */
+import ioMiddleware from "redux-socketio" // TODO: currently grabbing from npm globally(npm link redux-socketio), need to unlink once it's production ready and download the npm module
 import history from "@utterzone/connector"
 import rootSaga from "./rootSaga.js"
 import rootReducer from "./rootReducer.js"
+
+const Socket = new SocketIO()
 
 // redux-persist
 const persistConfig = {
@@ -32,7 +33,7 @@ const store = createStore(
       sagaMiddleware,
       thunk,
       routerMiddleware(history),
-      /* ioMiddleware(Socket), */
+      ioMiddleware(Socket),
       promise()
     )
   )

@@ -213,7 +213,7 @@ class Zones extends Component {
                           color="teal"
                           size="mini"
                           floated="right"
-                          onClick={()=>this.handleJoin(zone)}
+                          onClick={() => this.handleJoin(zone)}
                           style={{margin: "20px 0 10px 0"}}>
                           Join
                         </Button>
@@ -475,7 +475,7 @@ class ZonesContainer extends Component {
                   ]}
                 />
                 <div style={{margin: "40px 0 0 0"}}>
-                  <Link to="/zone/create">Host a Zone</Link>
+                  <Link to="/zones/create">Host a Zone</Link>
                 </div>
               </Item>
             </Grid.Column>

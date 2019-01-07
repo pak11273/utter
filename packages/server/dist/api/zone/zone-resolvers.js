@@ -136,23 +136,22 @@ var zoneCreate = function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            console.log("args: ", args);
-            console.log("ctx: ", ctx.user);
             //TODO can't have duplicate zone names
             input = args.input;
 
+            console.log("input:", input);
             input.zoneAuthor = ctx.user;
-            _context3.next = 6;
+            _context3.next = 5;
             return _zoneModel2.default.create(input);
 
-          case 6:
+          case 5:
             zone = _context3.sent;
 
             zone.id = zone._id;
             console.log("zone: ", typeof zone === "undefined" ? "undefined" : (0, _typeof3.default)(zone));
             return _context3.abrupt("return", zone);
 
-          case 10:
+          case 9:
           case "end":
             return _context3.stop();
         }

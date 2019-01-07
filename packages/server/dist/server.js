@@ -70,6 +70,7 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 
 
 var app = (0, _express2.default)();
+
 (0, _middleware2.default)(app);
 
 // rate limiter
@@ -97,6 +98,7 @@ _mongoose2.default.connection.on("connected", function () {
 var hbs = _expressHandlebars2.default.create({
   // config
 });
+
 app.engine("handlebars", hbs.engine);
 app.set("view engine", "handlebars");
 app.set("views", _path2.default.resolve(__dirname, "../src/views/layouts"));

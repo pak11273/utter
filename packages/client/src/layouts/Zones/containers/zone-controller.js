@@ -1,14 +1,14 @@
 import React, {PureComponent} from "react"
 import {ZoneCreateConnector} from "@utterzone/connector"
 
-import ZoneCreate from "./zone-create.js"
+import ZonesCreate from "./zones-create.js"
 
 export default class ZoneCtrl extends PureComponent {
   render() {
     return (
       <React.Fragment>
         <ZoneCreateConnector>
-          {({submit}) => <ZoneCreate submit={submit} />}
+          {({submit}) => <ZonesCreate submit={submit} />}
         </ZoneCreateConnector>
       </React.Fragment>
     )
