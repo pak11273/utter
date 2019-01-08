@@ -21,7 +21,7 @@ import {
 } from "../../services/socketio/actions.js"
 
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
-  console.log("TODO: ADD THE ENV VAR")
+  console.log("server soket url: ", process.env.SOCKETIO_SERVER_URL)
   var socket = socketio.connect(process.env.SOCKETIO_SERVER_URL)
 } else {
   socket = socketio.connect("http://192.168.68.8:3010")
