@@ -22,8 +22,9 @@ import {
 
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
   console.log("TODO: ADD THE ENV VAR")
+  var socket = socketio.connect(process.env.SOCKETIO_SERVER_URL)
 } else {
-  var socket = socketio.connect("http://192.168.68.8:3010")
+  socket = socketio.connect("http://192.168.68.8:3010")
 }
 
 socket.on("connect", () => console.log("we connected"))
@@ -331,6 +332,7 @@ class ChatContainer extends Component {
   }
 
   render() {
+    console.log("process: ", process.env.SOCKETIO_SERVER_URL)
     if (this.props.socketReducer.joined_room !== "Lobby") {
       var recordBtn = (
         <Box flexdirection="row">
