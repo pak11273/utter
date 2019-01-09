@@ -7,9 +7,7 @@ export default class SocketIOCtrl extends PureComponent {
   render() {
     return (
       <React.Fragment>
-        <SocketIOInitialConnector>
-          {({submit}) => <Zone submit={submit} />}
-        </SocketIOInitialConnector>
+        <SocketIOInitialConnector>{() => <Zone />}</SocketIOInitialConnector>
       </React.Fragment>
     )
   }

@@ -7,34 +7,26 @@ import {
   receiveRoomMeta
 } from "../../../../client/src/services/socketio/actions.js"
 
-class Socket {
+class SocketIO {
   constructor() {
     this.opts = {autoUpgrade: false, peerOpts: {numClients: 10}}
-  }
 
-  connect() {
-    if (
-      process.env.NODE_ENV === "production" ||
-      process.env.NODE_ENV === "prod"
-    ) {
-      this.socket = socketio.connect(process.env.SOCKETIO_SERVER_URL)
-    } else {
-      this.socket = socketio.connect("http://192.168.68.8:3010")
-    }
+    connect: new Promise((resolve, reject) => {
+      if (
+        process.env.NODE_ENV === "production" ||
+        process.env.NODE_ENV === "prod"
+      ) {
+        this.socket = socketio.connect(process.env.SOCKETIO_SERVER_URL)
+      } else {
+        this.socket = socketio.connect("http://192.168.68.8:3010")
+      }
 
-    /* return new Promise((resolve, reject) => { */
-    /*   /1* this.socket.on("connection", nsp => { *1/ */
-    /*   this.socket.on("connect", nsp => { */
-    /*     // return state of socket in redux */
-    /*     console.log("hello foo", nsp) */
-    /*     resolve(nsp) */
-    /*   }) */
-    /*   this.socket.on("connect_error", error => reject(error)) */
-    /* }) */
-
-    return this.socket.on("connect", async nsp => {
-      await nsp
-      console.log("hello foo", nsp)
+      this.socket.on("connect", nsp => {
+        // return state of socket in redux
+        console.log("hello foo", nsp)
+        resolve(nsp)
+      })
+      this.socket.on("connect_error", error => reject(error))
     })
 
     /* this.socket.on("connect_error", error => reject(error)) */
@@ -125,4 +117,4 @@ class Socket {
   // }
 }
 
-export default Socket
+export default SocketIO

@@ -20,7 +20,6 @@ import {
   sendMsg
 } from "../../services/socketio/actions.js"
 
-
 const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">
     {author}:{" "}
@@ -44,7 +43,6 @@ function MsgList(props) {
         justifycontent="flex-start"
         margin="0 0 20px 0"
         overflowy="scroll">
-        <p>hello</p>
         <List className="Message" style={{textAlign: "left", fontSize: "1rem"}}>
           {list.map(item => (
             <Msg
@@ -132,7 +130,8 @@ class ChatContainer extends Component {
               recorder.getDataURL(dataUrl => {
                 var files = {
                   audio: {
-                    author: props.userReducer.userProfile.username,
+                    /* author: props.userReducer.userProfile.username, */
+                    author: "chino",
                     room: props.socketReducer.joined_room,
                     /* name: "file" + fileCounter++ + ".wav", */
                     type: "audio/wav",
@@ -177,9 +176,6 @@ class ChatContainer extends Component {
 
   componentDidUpdate() {
     var node = document.getElementById("chatList")
-    console.log("yep its here: ", this.shouldScrollBottom)
-    console.log("top: ", node.scrollTop)
-    console.log("offset: ", node.offsetHeight)
     if (this.shouldScrollBottom) {
       node.scrollTop = node.scrollHeight
     }
@@ -193,7 +189,8 @@ class ChatContainer extends Component {
       const body = {
         id: cuid.generate(),
         msg: value,
-        author: this.props.userReducer.userProfile.username,
+        /* author: this.props.userReducer.userProfile.username, */
+        author: "chino",
         room: this.props.socketReducer.joined_room
       }
 
@@ -218,7 +215,8 @@ class ChatContainer extends Component {
     const body = {
       id: cuid(),
       msg: this.state.msg,
-      author: this.props.userReducer.userProfile.username,
+      /* author: this.props.userReducer.userProfile.username, */
+      author: "chino",
       room: this.props.socketReducer.joined_room
     }
     if (body.msg) {

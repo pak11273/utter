@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = require("babel-runtime/regenerator");
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
@@ -42,63 +34,36 @@ var _actions = require("../../../../client/src/services/socketio/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Socket = function () {
-  function Socket() {
-    (0, _classCallCheck3.default)(this, Socket);
+var SocketIO = function () {
+  function SocketIO() {
+    var _this = this;
+
+    (0, _classCallCheck3.default)(this, SocketIO);
 
     this.opts = { autoUpgrade: false, peerOpts: { numClients: 10 } };
-  }
 
-  (0, _createClass3.default)(Socket, [{
-    key: "connect",
-    value: function connect() {
-      var _this = this;
-
+    connect: new Promise(function (resolve, reject) {
       if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
-        this.socket = _socket2.default.connect(process.env.SOCKETIO_SERVER_URL);
+        _this.socket = _socket2.default.connect(process.env.SOCKETIO_SERVER_URL);
       } else {
-        this.socket = _socket2.default.connect("http://192.168.68.8:3010");
+        _this.socket = _socket2.default.connect("http://192.168.68.8:3010");
       }
 
-      /* return new Promise((resolve, reject) => { */
-      /*   /1* this.socket.on("connection", nsp => { *1/ */
-      /*   this.socket.on("connect", nsp => { */
-      /*     // return state of socket in redux */
-      /*     console.log("hello foo", nsp) */
-      /*     resolve(nsp) */
-      /*   }) */
-      /*   this.socket.on("connect_error", error => reject(error)) */
-      /* }) */
+      _this.socket.on("connect", function (nsp) {
+        // return state of socket in redux
+        console.log("hello foo", nsp);
+        resolve(nsp);
+      });
+      _this.socket.on("connect_error", function (error) {
+        return reject(error);
+      });
+    });
 
-      return this.socket.on("connect", function () {
-        var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(nsp) {
-          return _regenerator2.default.wrap(function _callee$(_context) {
-            while (1) {
-              switch (_context.prev = _context.next) {
-                case 0:
-                  _context.next = 2;
-                  return nsp;
+    /* this.socket.on("connect_error", error => reject(error)) */
+    /* }) */
+  }
 
-                case 2:
-                  console.log("hello foo", nsp);
-
-                case 3:
-                case "end":
-                  return _context.stop();
-              }
-            }
-          }, _callee, _this);
-        }));
-
-        return function (_x) {
-          return _ref.apply(this, arguments);
-        };
-      }());
-
-      /* this.socket.on("connect_error", error => reject(error)) */
-      /* }) */
-    }
-  }, {
+  (0, _createClass3.default)(SocketIO, [{
     key: "nspConnect",
     value: function nspConnect(namespace) {
       var _this2 = this;
@@ -197,10 +162,10 @@ var Socket = function () {
     // }
 
   }]);
-  return Socket;
+  return SocketIO;
 }();
 
-var _default = Socket;
+var _default = SocketIO;
 var _default2 = _default;
 exports.default = _default2;
 ;
@@ -214,7 +179,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(Socket, "Socket", "src/services/socketio/index.js");
+  reactHotLoader.register(SocketIO, "SocketIO", "src/services/socketio/index.js");
   reactHotLoader.register(_default, "default", "src/services/socketio/index.js");
   leaveModule(module);
 })();
@@ -231,7 +196,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(Socket, "Socket", "src/services/socketio/index.js");
+  reactHotLoader.register(SocketIO, "SocketIO", "src/services/socketio/index.js");
   reactHotLoader.register(_default2, "default", "src/services/socketio/index.js");
   leaveModule(module);
 })();
