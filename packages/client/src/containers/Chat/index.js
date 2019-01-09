@@ -6,7 +6,7 @@ import {connect} from "react-redux"
 import {Button, Box, List, ListItem, TextArea} from "../../components"
 import styled from "styled-components"
 import cuid from "cuid"
-import socketio from "socket.io-client"
+/* import socketio from "socket.io-client" */
 import RecordRTC from "recordrtc"
 /* import filename from "../../assets/images/play.svg" */
 
@@ -20,19 +20,6 @@ import {
   sendMsg
 } from "../../services/socketio/actions.js"
 
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
-  console.log("server soket url: ", process.env.SOCKETIO_SERVER_URL)
-  var socket = socketio.connect(process.env.SOCKETIO_SERVER_URL)
-} else {
-  socket = socketio.connect("http://192.168.68.8:3010")
-}
-
-socket.on("connect", () => console.log("we connected"))
-
-/* socket.on('news', function (data) { */
-/* console.log(data); */
-/* socket.emit('my other event', { my: 'data' }); */
-/* }); */
 
 const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">

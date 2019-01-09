@@ -39,7 +39,7 @@ import Spanish1 from "./Spanish/level1"
 import Spanish2 from "./Spanish/level2/index.js"
 import Spanish3 from "./Spanish/Level3"
 import Redux from "./Redux.js"
-import Zone from "./Zones/containers/zone.js"
+import SocketIOCtrl from "../services/socketio/socketio-controller.js"
 import Zones from "./Zones/index.js"
 import ZoneCtrl from "./Zones/containers/zone-controller.js"
 
@@ -85,7 +85,7 @@ export {
   Redux,
   SignupCtrl,
   Sponsorship,
-  Zone,
+  SocketIOCtrl,
   Zones,
   ZoneCtrl
 }

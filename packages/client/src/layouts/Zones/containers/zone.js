@@ -1,10 +1,9 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {
-  /* Switch, */
-  Route
-  /* Link, */
-} from "react-router-dom"
+import /* Switch, */
+/* Route */
+/* Link, */
+"react-router-dom"
 /* import Select from "react-select" */
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
@@ -68,13 +67,12 @@ class Zone extends Component {
   }
 
   render() {
-    const SubRoutes = route => (
-      <Route
-        path={route.path}
-        render={props => <route.component {...props} routes={route.routes} />}
-      />
-    )
-    const {routes} = this.props
+    /* const SubRoutes = route => ( */
+    /* <Route */
+    /*  path={route.path} */
+    /*  render={props => <route.component {...props} routes={route.routes} />} */
+    /* /> */
+    /* const {routes} = this.props */
     return (
       <Grid stackable>
         <Helmet>
@@ -91,11 +89,12 @@ class Zone extends Component {
           <title>Utterzone | Course Edit</title>
           <link rel="canonical" href="https://utter.zone/course/:id" />
         </Helmet>
-        <Grid.Column computer={10}>
+        {/*  <Grid.Column computer={10}>
           {routes.map(route => (
             <SubRoutes key={route.path} {...route} />
           ))}
         </Grid.Column>
+				*/}
         <Grid.Column computer={6} style={{background: "LightGray"}}>
           <Grid columns={1} padded="vertically">
             <Grid.Column>

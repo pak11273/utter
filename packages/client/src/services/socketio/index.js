@@ -1,4 +1,4 @@
-import io from "socket.io-client"
+import socketio from "socket.io-client"
 import {store} from "../../store.js"
 
 import {receiveAudioBlob, receiveMsg, receiveRoomMeta} from "./actions.js"
@@ -8,21 +8,38 @@ class Socket {
     this.opts = {autoUpgrade: false, peerOpts: {numClients: 10}}
   }
 
-  connect() {
-    this.socket = io()
-    return new Promise((resolve, reject) => {
-      this.socket.on("connection", nsp => {
-        // return state of socket in redux
-        console.log("hello foo")
-        resolve(nsp)
-      })
-      this.socket.on("connect_error", error => reject(error))
-    })
-  }
+  /* connect() { */
+  /*   if ( */
+  /*     process.env.NODE_ENV === "production" || */
+  /*     process.env.NODE_ENV === "prod" */
+  /*   ) { */
+  /*     this.socket = socketio.connect(process.env.SOCKETIO_SERVER_URL) */
+  /*   } else { */
+  /*     this.socket = socketio.connect("http://192.168.68.8:3010") */
+  /*   } */
+
+  /*   /1* return new Promise((resolve, reject) => { *1/ */
+  /*   /1*   /2* this.socket.on("connection", nsp => { *2/ *1/ */
+  /*   /1*   this.socket.on("connect", nsp => { *1/ */
+  /*   /1*     // return state of socket in redux *1/ */
+  /*   /1*     console.log("hello foo", nsp) *1/ */
+  /*   /1*     resolve(nsp) *1/ */
+  /*   /1*   }) *1/ */
+  /*   /1*   this.socket.on("connect_error", error => reject(error)) *1/ */
+  /*   /1* }) *1/ */
+
+  /*   return this.socket.on("connect", async nsp => { */
+  /*     await nsp */
+  /*     console.log("hello foo", nsp) */
+  /*   }) */
+
+  /*   /1* this.socket.on("connect_error", error => reject(error)) *1/ */
+  /*   /1* }) *1/ */
+  /* } */
 
   nspConnect(namespace) {
     return new Promise((resolve, reject) => {
-      this.nsp = io(`/${namespace}`)
+      this.nsp = socketio(`/${namespace}`)
       this.nsp.on("connection", nsp => {
         // return state of socket in redux
         resolve({nsp})
@@ -59,6 +76,7 @@ class Socket {
       /* if (!this.nsp || !this.socket) return reject("No socket connection") */
 
       if (this.nsp) {
+        console.log("nah")
         return this.nsp.emit(event, data, response => {
           if (response.error) {
             console.error(response.error)
@@ -68,6 +86,7 @@ class Socket {
         })
       }
       if (this.socket) {
+        console.log("wtf")
         return this.socket.emit(event, data, response => {
           if (response.error) {
             console.error(response.error)

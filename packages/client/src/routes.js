@@ -42,7 +42,7 @@ import {
   /* French1, */
   /* French2, */
   /* Redux */
-  Zone,
+  SocketIOCtrl,
   Zones,
   ZoneCtrl
 } from "./layouts"
@@ -186,7 +186,7 @@ export const routes = [
     component: requireAuth(Zones)
   },
   {
-    component: requireAuth(Zone),
+    component: requireAuth(SocketIOCtrl),
     exact: true,
     path: "/zone/:id",
     routes: [
