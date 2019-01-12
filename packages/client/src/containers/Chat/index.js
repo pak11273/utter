@@ -3,7 +3,8 @@ import React, {Component} from "react"
 import {bindActionCreators} from "redux"
 import _ from "lodash"
 import {connect} from "react-redux"
-import {Button, Box, List, ListItem, TextArea} from "../../components"
+import {Box, List, ListItem, TextArea} from "../../components"
+import {Button} from "semantic-ui-react"
 import styled from "styled-components"
 import cuid from "cuid"
 /* import socketio from "socket.io-client" */
@@ -113,7 +114,7 @@ class ChatContainer extends Component {
             } else {
               recorder.startRecording()
               console.log("recorder started")
-              record.style.background = "red"
+              record.style.background = "green"
               record.style.color = "black"
             }
           }
@@ -322,22 +323,20 @@ class ChatContainer extends Component {
       var recordBtn = (
         <Box flexdirection="row">
           <Button
+            style={{height: "50px", margin: "5px 10px 0 0"}}
+            circular
             className="record"
-            color="black"
-            fontsize="1.2rem"
-            margin="5px"
-            padding="3px"
-            width="100px">
+            toggle
+            color="red"
+            size="tiny">
             rec
           </Button>
           <Button
+            style={{height: "50px", margin: "5px 40px 0 0"}}
             className="stop"
-            color="black"
-            fontsize="1.2rem"
-            margin="5px"
-            padding="3px"
-            width="100px">
-            stop{" "}
+            color="teal"
+            size="tiny">
+            stop
           </Button>
         </Box>
       )
@@ -364,13 +363,10 @@ class ChatContainer extends Component {
           ) : null}
           {recordBtn}
           <Button
-            color="black"
-            fontsize="1.2rem"
-            margin="5px"
-            padding="3px"
+            style={{height: "50px", margin: "5px 10px 0 0"}}
+            color="yellow"
             onClick={this.onSend}
-            type="button"
-            width="50px">
+            type="button">
             send
           </Button>
         </Box>

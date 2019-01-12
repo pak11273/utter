@@ -13,7 +13,7 @@ import client from "./apollo.js"
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
 import {main} from "./themes/config.js"
-import {Footer, MainNavbar} from "./containers"
+import {UserProvider, Footer, MainNavbar} from "./containers"
 import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/Spacers/NavbarSpacer.js"
 import {store, persistor} from "./store.js"
@@ -52,29 +52,31 @@ const App = () => (
       <ThemeProvider theme={main}>
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
-            <Router history={history}>
-              <StyledGrid style={{minHeight: "100vh"}}>
-                <MainNavbar
-                  gridarea="navBar"
-                  list={["about", "contact", "courses", "pricing", "zones"]}
-                  changeMenuOn="640px"
-                  largeMenuClassName="large-menu"
-                  smallMenuClassName="small-menu"
-                />
-                <Section gridarea="flash">
-                  <NavbarSpacer margin="50px 0 0 0" id="spacer" />
-                  <FlashMessagesList />
-                </Section>
-                <Section gridarea="content">
-                  <Switch>
-                    {routes.map(route => (
-                      <SubRoutes key={route.path} {...route} />
-                    ))}
-                  </Switch>
-                </Section>
-                <Footer gridarea="footer" />
-              </StyledGrid>
-            </Router>
+            <UserProvider>
+              <Router history={history}>
+                <StyledGrid style={{minHeight: "100vh"}}>
+                  <MainNavbar
+                    gridarea="navBar"
+                    list={["about", "contact", "courses", "pricing", "zones"]}
+                    changeMenuOn="640px"
+                    largeMenuClassName="large-menu"
+                    smallMenuClassName="small-menu"
+                  />
+                  <Section gridarea="flash">
+                    <NavbarSpacer margin="50px 0 0 0" id="spacer" />
+                    <FlashMessagesList />
+                  </Section>
+                  <Section gridarea="content">
+                    <Switch>
+                      {routes.map(route => (
+                        <SubRoutes key={route.path} {...route} />
+                      ))}
+                    </Switch>
+                  </Section>
+                  <Footer gridarea="footer" />
+                </StyledGrid>
+              </Router>
+            </UserProvider>
           </PersistGate>
         </Provider>
       </ThemeProvider>

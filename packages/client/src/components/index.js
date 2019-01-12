@@ -48,6 +48,7 @@ import TextArea from "./TextArea.js"
 import Title from "./Text/Title.js"
 import Searching from "./Loaders/Searching.js"
 import Select from "./Select.js"
+import Scope from "./Scope"
 import Spacer from "./Spacer"
 import Wrapper from "./Wrapper.js"
 import Zone from "./Zone.js"
@@ -93,6 +94,7 @@ export {
   Searching,
   Section,
   Select,
+  Scope,
   Spacer,
   Span,
   State,

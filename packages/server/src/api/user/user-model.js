@@ -1,6 +1,7 @@
 import mongoose, {Schema} from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import bcrypt from "bcrypt"
+import Course from "../course/course-model.js"
 
 export const UserSchema = new mongoose.Schema(
   {
@@ -16,6 +17,10 @@ export const UserSchema = new mongoose.Schema(
     confirmed: {
       type: Boolean,
       default: false
+    },
+    courses: {
+      type: Schema.Types.ObjectId,
+      ref: "Course"
     },
     forgotPasswordLocked: {
       type: Boolean,
@@ -71,6 +76,7 @@ export const UserSchema = new mongoose.Schema(
     image: String,
     hash: String,
     salt: String,
+    scopes: [{String}],
     userImage: {type: String, default: "default.png"},
     facebook: {type: String, default: ""},
     fbTokens: Array,

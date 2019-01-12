@@ -17,6 +17,10 @@ var _bcrypt = require("bcrypt");
 
 var _bcrypt2 = _interopRequireDefault(_bcrypt);
 
+var _courseModel = require("../course/course-model.js");
+
+var _courseModel2 = _interopRequireDefault(_courseModel);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
@@ -30,6 +34,10 @@ var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
   confirmed: {
     type: Boolean,
     default: false
+  },
+  courses: {
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "Course"
   },
   forgotPasswordLocked: {
     type: Boolean,
@@ -85,6 +93,7 @@ var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
   image: String,
   hash: String,
   salt: String,
+  scopes: [{ String: String }],
   userImage: { type: String, default: "default.png" },
   facebook: { type: String, default: "" },
   fbTokens: Array,

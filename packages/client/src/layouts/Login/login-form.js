@@ -3,24 +3,17 @@ import {ThemeProvider} from "styled-components"
 import {withFormik, Field} from "formik"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-/* import isEmpty from "lodash/isEmpty" */
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
-/* import * as yup from "yup" */
 import {loginSchema} from "@utterzone/common"
 import {main} from "../../themes/config"
 import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
 // actions
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import login from "../../api/user/actions/login-actions.js"
 import "./forms.css"
 
 class LoginForm extends PureComponent {
-  componentDidMount() {
-    // this.props.actions.toggleFooter(false)
-  }
-
   render() {
     const {handleSubmit} = this.props
     return (
@@ -89,7 +82,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
-      toggleFooter,
       login: login.request
     },
     dispatch

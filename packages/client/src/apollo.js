@@ -1,10 +1,26 @@
 import {ApolloClient} from "apollo-client"
-/* import {ApolloLink} from "apollo-link" */
+import {ApolloLink} from "apollo-link"
 /* import {ApolloLink, Observable} from "apollo-link" */
 import {InMemoryCache} from "apollo-cache-inmemory"
 /* import {onError} from "apollo-link-error" */
-/* import {withClientState} from "apollo-link-state" */
+import {withClientState} from "apollo-link-state"
 import {HttpLink} from "apollo-link-http"
+
+const defaults = {
+	getUserByToken: {
+		__typename: "getUserByToken",
+		id:1 
+	}
+}
+
+const cache = new InMemoryCache({
+	dataIdFromObject: object => object.key || null
+})
+
+const stateLink = withClientState({
+  cache,
+  defaults
+})
 
 /* const logoutUser = () => { */
 /*   localStorage.removeItem("AUTH_TOKEN") */
@@ -40,7 +56,23 @@ import {HttpLink} from "apollo-link-http"
 /*     }) */
 /* ) */
 
+const httpLink = new HttpLink({
+  uri:
+    process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+      ? /* ? process.env.REACT_APP_SERVER_URL */
+        "https://api.utterzone.com/graphql"
+      : "/graphql",
+  headers: {
+    authorization: localStorage.getItem("AUTH_TOKEN") || null
+  }
+  // credentials:
+  //   process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
+  //     ? "include"
+  //     : "same-origin"
+})
+
 export default new ApolloClient({
+  cache,
   /* link: ApolloLink.from([ */
   /*   onError(({graphQLErrors, networkError}) => { */
   /*     if (graphQLErrors) { */
@@ -64,20 +96,6 @@ export default new ApolloClient({
   /*     } */
   /*   } */
   /* }), */
-  link: new HttpLink({
-    uri:
-      process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-        ? /* ? process.env.REACT_APP_SERVER_URL */
-          "https://api.utterzone.com/graphql"
-        : "/graphql",
-    headers: {
-      authorization: localStorage.getItem("AUTH_TOKEN") || null
-    }
-    // credentials:
-    //   process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-    //     ? "include"
-    //     : "same-origin"
-  }),
+  link: ApolloLink.from([stateLink, httpLink])
   /* ]), */
-  cache: new InMemoryCache()
 })

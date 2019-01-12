@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {Link, withRouter} from "react-router-dom"
+import {history} from "@utterzone/connector"
 import Select from "react-select"
 import isEmpty from "lodash/isEmpty"
 import cloneDeep from "lodash/cloneDeep"
@@ -72,6 +73,16 @@ class Courses extends Component {
       cursor: {$set: ""}
     })
     this.setState(newState)
+  }
+
+  handleImageClick = data => {
+    // store courseId in redux
+    console.log("id: ", data)
+
+    history.push({
+      pathname: "/course/course-settings",
+      state: {courseId: data.id}
+    })
   }
 
   render() {
@@ -166,6 +177,7 @@ class Courses extends Component {
                       <Image
                         src={`${course.courseImage}`}
                         style={{cursor: "pointer"}}
+                        onClick={() => this.handleImageClick(course)}
                       />
                       <Card.Content>
                         <Card.Header style={{wordBreak: "break-word"}}>

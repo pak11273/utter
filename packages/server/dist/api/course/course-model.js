@@ -16,6 +16,8 @@ var _termModel = require("../term/term-model.js");
 
 var _levelModel = require("../level/level-model.js");
 
+var _levelModel2 = _interopRequireDefault(_levelModel);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CourseSchema = _mongoose2.default.Schema({
@@ -68,13 +70,10 @@ var CourseSchema = _mongoose2.default.Schema({
     type: _mongoose.Schema.Types.ObjectId,
     ref: "User"
   }],
-  levels: [_levelModel.LevelSchema],
-  // levels: [
-  //   {
-  //     type: Schema.Types.ObjectId,
-  //     ref: 'Level'
-  //   }
-  // ],
+  levels: [{
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "Level"
+  }],
   courseDescription: {
     type: String,
     default: ""

@@ -1,5 +1,6 @@
 import mongoose, {Schema} from "mongoose"
 import User, {UserSchema} from "../user/user-model.js"
+import Course from "../course/course-model.js"
 import {TermSchema} from "../term/term-model.js"
 
 export const LevelSchema = new Schema({
@@ -8,10 +9,9 @@ export const LevelSchema = new Schema({
     type: String,
     default: "Change me"
   },
-  terms: [TermSchema],
-  levelAuthor: {
+  Course: {
     type: Schema.Types.ObjectId,
-    ref: "User"
+    ref: "Course"
   }
 })
 

@@ -1,14 +1,14 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
-
+import {ContextConsumer} from '../app/context'
 import {Grid, Header} from "semantic-ui-react"
+import ContactForm from "../containers/Forms/ContactForm/contact-form"
 
 // actions
 import {contactmail} from "../app/actions/contactmailActions"
 import {toggleFooter} from "../app/actions/toggleFooterAction.js"
 
-import ContactForm from "../containers/Forms/ContactForm/contact-form"
 
 class Contact extends Component {
   componentDidMount() {
@@ -18,7 +18,9 @@ class Contact extends Component {
   render() {
     const {contactmail} = this.props
     return (
-      <div>
+      <ContextConsumer>
+			{(value) => (
+				<div>
         <Helmet>
           <meta charset="utf-8" />
           <meta
@@ -36,8 +38,11 @@ class Contact extends Component {
         <Grid>
           <Grid.Row centered style={{background: "black", padding: "100px"}}>
             <Header as="h1" size="huge" color="yellow">
-              Contact Us
+				Contact Us
             </Header>
+				<div>
+				{console.log('value: ', value)}
+				</div>
             <Header as="h3" color="yellow" textAlign="left">
               Make direct contact with our team through our contact information
               form. We will do our best to respond in a timely manner. If you
@@ -49,7 +54,9 @@ class Contact extends Component {
             <ContactForm contactmail={contactmail} />
           </Grid.Row>
         </Grid>
-      </div>
+				</div>
+			)}
+      </ContextConsumer>
     )
   }
 }

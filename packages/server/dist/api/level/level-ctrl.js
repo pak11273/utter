@@ -17,6 +17,7 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _arguments = arguments;
+/* import cuid from "cuid" */
 
 var _mongoose = require("mongoose");
 
@@ -25,10 +26,6 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 var _faker2 = require("faker");
 
 var _faker3 = _interopRequireDefault(_faker2);
-
-var _cuid = require("cuid");
-
-var _cuid2 = _interopRequireDefault(_cuid);
 
 var _isEmpty = require("lodash/isEmpty");
 
@@ -270,20 +267,17 @@ exports.default = (0, _defineProperty3.default)({
 
   faker: function faker(req, res, next) {
     for (var i = 0; i < 3; ++i) {
-      var _ref2, _ref3, _ref4, _ref5;
-
       var level = new _levelModel2.default();
 
       console.log("level: ", level);
-      // random object ids for terms.level
+      // random object ids for <pending>
       var id1 = _mongoose2.default.Types.ObjectId();
       var id2 = _mongoose2.default.Types.ObjectId();
       var id3 = _mongoose2.default.Types.ObjectId();
-      var id4 = _mongoose2.default.Types.ObjectId();
       level.category = _faker3.default.commerce.department();
-      level.levelRef = _faker3.default.random.arrayElement(["TTMIK", "Topik Level 1", "How to study Korean"]);
-      level.teachingLang = _faker3.default.random.arrayElement(["korean", "french", "spanish"]);
-      level.usingLang = _faker3.default.random.arrayElement(["english", "french", "spanish"]);
+      level.level = _faker3.default.random.number();
+      level.title = _faker3.default.random.arrayElement(["alphabet", "body parts", "bedroom"]);
+      level.Course = _faker3.default.random.arrayElement(["5b6b21e445912f4b8277bb06", "5b6b21e445912f4b8277bb06", "5b6b21e445912f4b8277bb06"]);
       // TODO: change ids to ones in the db
       // level.subscribers = faker.random.arrayElement([
       //   ["5b6b21e445912f4b8277bb06"],
@@ -308,55 +302,8 @@ exports.default = (0, _defineProperty3.default)({
       //     "5b93f9184d034f51d0e72287"
       //   ]
       // ])
-      level.levelId = (0, _cuid2.default)();
-      level.levelAuthor = _faker3.default.random.arrayElement(["5b9012f043aa4329f187f01a", "5b93f90c4d034f51d0e72286", "5baf12a86b73051f6295172b"]);
-      level.levelName = _faker3.default.commerce.productName();
-      level.price = _faker3.default.commerce.price();
       level.levelDescription = "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.";
-      level.levelImage = _faker3.default.image.image();
-      level.levels = [(_ref2 = {
-        level: level._id
-      }, (0, _defineProperty3.default)(_ref2, "level", 1), (0, _defineProperty3.default)(_ref2, "name", "Change Me"), (0, _defineProperty3.default)(_ref2, "terms", [{
-        level: id1,
-        word: "hello",
-        translation: "안영"
-      }, {
-        level: id1,
-        word: "world",
-        translation: "세상"
-      }]), _ref2), (_ref3 = {
-        level: level._id
-      }, (0, _defineProperty3.default)(_ref3, "level", 2), (0, _defineProperty3.default)(_ref3, "name", "Change Me"), (0, _defineProperty3.default)(_ref3, "terms", [{
-        level: id2,
-        word: "bart",
-        translation: "안영"
-      }, {
-        level: id2,
-        word: "sympson",
-        translation: "세상"
-      }]), _ref3), (_ref4 = {
-        level: level._id
-      }, (0, _defineProperty3.default)(_ref4, "level", 4), (0, _defineProperty3.default)(_ref4, "name", "Change Me"), (0, _defineProperty3.default)(_ref4, "terms", [{
-        level: id3,
-        word: "cat",
-        translation: "안영"
-      }, {
-        level: id3,
-        word: "dog",
-        translation: "세상"
-      }]), _ref4), (_ref5 = {
-        level: level._id
-      }, (0, _defineProperty3.default)(_ref5, "level", 10), (0, _defineProperty3.default)(_ref5, "name", "Change Me"), (0, _defineProperty3.default)(_ref5, "terms", [{
-        level: id4,
-        word: "merlin",
-        translation: "안영"
-      }, {
-        level: id4,
-        word: "samson",
-        translation: "세상"
-      }]), _ref5)];
 
-      // console.log('level', level.levels[i]._id)
       level.save(function (err) {
         if (err) throw err;
       });

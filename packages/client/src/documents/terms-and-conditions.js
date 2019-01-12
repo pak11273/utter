@@ -77,7 +77,7 @@ export default class Terms extends PureComponent {
             </p>
             <Header as="h4">Your Utterzone Account</Header>
             <p>
-              You may need a Utterzone Account in order to use some of our
+              You may need an Utterzone Account in order to use some of our
               Platform. You may create your own Utterzone Account, or your
               Utterzone Account may be assigned to you by an administrator, such
               as your employer or educational institution. If you are using a
@@ -105,18 +105,13 @@ export default class Terms extends PureComponent {
               terminate accounts of repeat infringers according to the process
               set out in the U.S. Digital Millennium Copyright Act.
             </p>
-            <p>
-              We provide information to help copyright holders manage their
-              intellectual property online. If you think somebody is violating
-              your copyrights and want to notify us please call or email
-              support.
-            </p>
             <Header as="h4">Your Content in our Platform</Header>
             <p>
               Some of our Platform allow you to upload, submit, store, send or
-              receive content. You retain ownership of any intellectual property
-              rights that you hold in that content. In short, what belongs to
-              you stays yours.
+              receive content. The content you store on our servers will
+              transfer ownership to Utterzone. Therefore if you decide not to
+              use our services and/or cancel your account, it will be up to
+              Utterzone to keep or delete the content.
             </p>
             <p>
               When you upload, submit, store, send or receive content to or
@@ -128,14 +123,6 @@ export default class Terms extends PureComponent {
               publicly display and distribute such content. The rights you grant
               in this license are for the limited purpose of operating,
               promoting, and improving our Platform, and to develop new ones.
-              This license continues even if you stop using our Platform (for
-              example, for a business listing you have added to Utterzone Maps).
-              Some Platform may offer you ways to access and remove content that
-              has been provided to that Service. Also, in some of our Platform,
-              there are terms or settings that narrow the scope of our use of
-              the content submitted in those Platform. Make sure you have the
-              necessary rights to grant us this license for any content that you
-              submit to our Platform.
             </p>
             <p>
               Our automated systems analyze your content (including emails) to
@@ -148,18 +135,15 @@ export default class Terms extends PureComponent {
               If you have a Utterzone Account, we may display your Profile name,
               Profile photo, and actions you take on Utterzone or on third-party
               applications connected to your Utterzone Account (such as +1’s,
-              reviews you write and comments you post) in our Platform,
+              reviews you write and messages you post) in our Platform,
               including displaying in ads and other commercial contexts. We will
               respect the choices you make to limit sharing or visibility
               settings in your Utterzone Account. For example, you can choose
               your settings so your name and photo do not appear in an ad.
             </p>
             <p>
-              You can find more information about how Utterzone uses and stores
-              content in the privacy policy or additional terms for particular
-              Platform. If you submit feedback or suggestions about our
-              Platform, we may use your feedback or suggestions without
-              obligation to you.
+              If you submit feedback or suggestions about our Platform, we may
+              use your feedback or suggestions without obligation to you.
             </p>
             <Header as="h4">About Software in our Platform</Header>
             <p>

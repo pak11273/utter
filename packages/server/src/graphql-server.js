@@ -72,10 +72,6 @@ const schema = makeExecutableSchema({
   )
 })
 
-// reference: https://gist.github.com/donedgardo/ed2d36f6e650991543e5a55c77cddc0d
-// TODO: if apollo-server2 integrates with graphql-shield then check following line:
-/* const schemaWithMiddleware = applyMiddleware(schema, permissions) */
-
 const {ObjectId} = mongoose.Types
 ObjectId.prototype.valueOf = function() {
   return this.toString()

@@ -1,8 +1,10 @@
 /* eslint-enable no-unused-vars */
 import chalk from "chalk"
+import jwt from "jsonwebtoken"
 import isEmpty from "lodash/isEmpty"
 import * as yup from "yup"
-import {authenticate, signToken} from "../../auth"
+import config from "../../config"
+import {authenticate, decodeToken, signToken} from "../../auth"
 import {
   confirmEmail,
   expiredKey,
@@ -175,8 +177,42 @@ const login = async (parent, args, ctx, info) => {
   }
 }
 
+function isAsync(func) {
+  const string = func.toString().trim()
+
+  return !!// native
+  (
+    string.match(/^async /) ||
+    // babel (this may change, but hey...)
+    string.match(/return _ref[^\.]*\.apply/)
+  )
+  // insert your other dirty transpiler check
+
+  // there are other more complex situations that maybe require you to check the return line for a *promise*
+}
+
+const getUserByToken = (_, args, ctx, info) => {
+  var token = ctx.req.headers.authorization || null
+  console.log("token: ", token)
+  if (token) {
+    const result = jwt.verify(token, config.env.JWT, (err, decoded) => {
+      console.log("decoded: ", decoded)
+      if (err) console.log("err: ", err)
+      if (decoded) {
+        const userID = decoded._id
+        const user = User.findOne({_id: userID})
+        return user
+      } else {
+        return {username: ""}
+      }
+    })
+    return result
+  }
+}
+
 const getUserById = async (_, args, ctx, info) => {
-  let result = await User.findOne({id: args.input})
+  let result = await User.findById({id: args.input})
+  console.log("result: ", result)
   return result
 }
 
@@ -208,6 +244,7 @@ const updateMe = (_, {input}, {user}) => {
 export const userResolvers = {
   Query: {
     getUserById,
+    getUserByToken,
     getUserByUsername,
     hello: (_, {name}) => `Hello ${name || "World"}`
   },

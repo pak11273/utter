@@ -51,7 +51,6 @@ var SocketIO = function () {
 
       _this.socket.on("connect", function (nsp) {
         // return state of socket in redux
-        console.log("hello foo", nsp);
         resolve(nsp);
       });
       _this.socket.on("connect_error", function (error) {
@@ -114,7 +113,6 @@ var SocketIO = function () {
         /* if (!this.nsp || !this.socket) return reject("No socket connection") */
 
         if (_this4.nsp) {
-          console.log("nah");
           return _this4.nsp.emit(event, data, function (response) {
             if (response.error) {
               console.error(response.error);
@@ -124,7 +122,6 @@ var SocketIO = function () {
           });
         }
         if (_this4.socket) {
-          console.log("wtf");
           return _this4.socket.emit(event, data, function (response) {
             if (response.error) {
               console.error(response.error);

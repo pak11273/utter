@@ -10,6 +10,8 @@ type User {
 	id: ID
   email: String 
   password: String
+	roles: [ String ]
+	scopes: [String]
   contacts: [String]
   username: String!
   createdAt: String
@@ -60,6 +62,7 @@ input SignupInput {
 type Query {
   getUserById(id: ID!): User!
   getUserByUsername(input: String!): User
+	getUserByToken: User 
   hello(name: String): String!
 }
 

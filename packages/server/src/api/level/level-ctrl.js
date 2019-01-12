@@ -1,6 +1,6 @@
 import mongoose from "mongoose"
 import faker from "faker"
-import cuid from "cuid"
+/* import cuid from "cuid" */
 import isEmpty from "lodash/isEmpty"
 
 import Level from "./level-model.js"
@@ -202,26 +202,21 @@ export default {
       var level = new Level()
 
       console.log("level: ", level)
-      // random object ids for terms.level
+      // random object ids for <pending>
       var id1 = mongoose.Types.ObjectId()
       var id2 = mongoose.Types.ObjectId()
       var id3 = mongoose.Types.ObjectId()
-      var id4 = mongoose.Types.ObjectId()
       level.category = faker.commerce.department()
-      level.levelRef = faker.random.arrayElement([
-        "TTMIK",
-        "Topik Level 1",
-        "How to study Korean"
+      level.level = faker.random.number()
+      level.title = faker.random.arrayElement([
+        "alphabet",
+        "body parts",
+        "bedroom"
       ])
-      level.teachingLang = faker.random.arrayElement([
-        "korean",
-        "french",
-        "spanish"
-      ])
-      level.usingLang = faker.random.arrayElement([
-        "english",
-        "french",
-        "spanish"
+      level.Course = faker.random.arrayElement([
+        "5b6b21e445912f4b8277bb06",
+        "5b6b21e445912f4b8277bb06",
+        "5b6b21e445912f4b8277bb06"
       ])
       // TODO: change ids to ones in the db
       // level.subscribers = faker.random.arrayElement([
@@ -247,89 +242,9 @@ export default {
       //     "5b93f9184d034f51d0e72287"
       //   ]
       // ])
-      level.levelId = cuid()
-      level.levelAuthor = faker.random.arrayElement([
-        "5b9012f043aa4329f187f01a",
-        "5b93f90c4d034f51d0e72286",
-        "5baf12a86b73051f6295172b"
-      ])
-      level.levelName = faker.commerce.productName()
-      level.price = faker.commerce.price()
       level.levelDescription =
         "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild."
-      level.levelImage = faker.image.image()
-      level.levels = [
-        {
-          level: level._id,
-          level: 1,
-          name: "Change Me",
-          terms: [
-            {
-              level: id1,
-              word: "hello",
-              translation: "안영"
-            },
-            {
-              level: id1,
-              word: "world",
-              translation: "세상"
-            }
-          ]
-        },
-        {
-          level: level._id,
-          level: 2,
-          name: "Change Me",
-          terms: [
-            {
-              level: id2,
-              word: "bart",
-              translation: "안영"
-            },
-            {
-              level: id2,
-              word: "sympson",
-              translation: "세상"
-            }
-          ]
-        },
-        {
-          level: level._id,
-          level: 4,
-          name: "Change Me",
-          terms: [
-            {
-              level: id3,
-              word: "cat",
-              translation: "안영"
-            },
-            {
-              level: id3,
-              word: "dog",
-              translation: "세상"
-            }
-          ]
-        },
-        {
-          level: level._id,
-          level: 10,
-          name: "Change Me",
-          terms: [
-            {
-              level: id4,
-              word: "merlin",
-              translation: "안영"
-            },
-            {
-              level: id4,
-              word: "samson",
-              translation: "세상"
-            }
-          ]
-        }
-      ]
 
-      // console.log('level', level.levels[i]._id)
       level.save(function(err) {
         if (err) throw err
       })

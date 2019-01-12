@@ -87,10 +87,6 @@ var schema = (0, _graphqlTools.makeExecutableSchema)({
   resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)
 });
 
-// reference: https://gist.github.com/donedgardo/ed2d36f6e650991543e5a55c77cddc0d
-// TODO: if apollo-server2 integrates with graphql-shield then check following line:
-/* const schemaWithMiddleware = applyMiddleware(schema, permissions) */
-
 var ObjectId = _mongoose2.default.Types.ObjectId;
 
 ObjectId.prototype.valueOf = function () {

@@ -17,6 +17,10 @@ var _chalk = require("chalk");
 
 var _chalk2 = _interopRequireDefault(_chalk);
 
+var _jsonwebtoken = require("jsonwebtoken");
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
 var _isEmpty = require("lodash/isEmpty");
 
 var _isEmpty2 = _interopRequireDefault(_isEmpty);
@@ -24,6 +28,10 @@ var _isEmpty2 = _interopRequireDefault(_isEmpty);
 var _yup = require("yup");
 
 var yup = _interopRequireWildcard(_yup);
+
+var _config = require("../../config");
+
+var _config2 = _interopRequireDefault(_config);
 
 var _auth = require("../../auth");
 
@@ -360,6 +368,37 @@ var login = function () {
   };
 }();
 
+function isAsync(func) {
+  var string = func.toString().trim();
+
+  return !!( // native
+  string.match(/^async /) ||
+  // babel (this may change, but hey...)
+  string.match(/return _ref[^\.]*\.apply/));
+  // insert your other dirty transpiler check
+
+  // there are other more complex situations that maybe require you to check the return line for a *promise*
+}
+
+var getUserByToken = function getUserByToken(_, args, ctx, info) {
+  var token = ctx.req.headers.authorization || null;
+  console.log("token: ", token);
+  if (token) {
+    var result = _jsonwebtoken2.default.verify(token, _config2.default.env.JWT, function (err, decoded) {
+      console.log("decoded: ", decoded);
+      if (err) console.log("err: ", err);
+      if (decoded) {
+        var userID = decoded._id;
+        var user = _userModel2.default.findOne({ _id: userID });
+        return user;
+      } else {
+        return { username: "" };
+      }
+    });
+    return result;
+  }
+};
+
 var getUserById = function () {
   var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
     var result;
@@ -368,13 +407,15 @@ var getUserById = function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.next = 2;
-            return _userModel2.default.findOne({ id: args.input });
+            return _userModel2.default.findById({ id: args.input });
 
           case 2:
             result = _context4.sent;
+
+            console.log("result: ", result);
             return _context4.abrupt("return", result);
 
-          case 4:
+          case 5:
           case "end":
             return _context4.stop();
         }
@@ -469,6 +510,7 @@ var updateMe = function updateMe(_, _ref11, _ref12) {
 var userResolvers = exports.userResolvers = {
   Query: {
     getUserById: getUserById,
+    getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
     hello: function hello(_, _ref13) {
       var name = _ref13.name;

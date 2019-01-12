@@ -23,7 +23,6 @@ class SocketIO {
 
       this.socket.on("connect", nsp => {
         // return state of socket in redux
-        console.log("hello foo", nsp)
         resolve(nsp)
       })
       this.socket.on("connect_error", error => reject(error))
@@ -72,7 +71,6 @@ class SocketIO {
       /* if (!this.nsp || !this.socket) return reject("No socket connection") */
 
       if (this.nsp) {
-        console.log("nah")
         return this.nsp.emit(event, data, response => {
           if (response.error) {
             console.error(response.error)
@@ -82,7 +80,6 @@ class SocketIO {
         })
       }
       if (this.socket) {
-        console.log("wtf")
         return this.socket.emit(event, data, response => {
           if (response.error) {
             console.error(response.error)

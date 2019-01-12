@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import {Button, Grid, Header, Loader} from "semantic-ui-react"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
+import {Masthead} from "../../../containers"
 
 import {AgGridReact} from "ag-grid-react"
 import "ag-grid-community/dist/styles/ag-grid.css"
@@ -79,7 +80,9 @@ class Levels extends Component {
           return (
             <Grid columns={1} centered>
               <Grid.Column textAlign="center">
-                <Header as="h1">Course Levels</Header>
+                <Masthead>
+                  <Header as="h1">Course Levels</Header>
+                </Masthead>
               </Grid.Column>
               <Grid.Column>
                 {/* {data.getCourse.levels.map(level => { 

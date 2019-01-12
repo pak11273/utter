@@ -308,59 +308,7 @@ exports.default = {
       course.price = _faker3.default.commerce.price();
       course.courseDescription = "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.";
       course.courseImage = _faker3.default.image.image();
-      course.levels = [{
-        course: course._id,
-        level: 1,
-        name: "Change Me",
-        terms: [{
-          level: id1,
-          word: "hello",
-          translation: "안영"
-        }, {
-          level: id1,
-          word: "world",
-          translation: "세상"
-        }]
-      }, {
-        course: course._id,
-        level: 2,
-        name: "Change Me",
-        terms: [{
-          level: id2,
-          word: "bart",
-          translation: "안영"
-        }, {
-          level: id2,
-          word: "sympson",
-          translation: "세상"
-        }]
-      }, {
-        course: course._id,
-        level: 4,
-        name: "Change Me",
-        terms: [{
-          level: id3,
-          word: "cat",
-          translation: "안영"
-        }, {
-          level: id3,
-          word: "dog",
-          translation: "세상"
-        }]
-      }, {
-        course: course._id,
-        level: 10,
-        name: "Change Me",
-        terms: [{
-          level: id4,
-          word: "merlin",
-          translation: "안영"
-        }, {
-          level: id4,
-          word: "samson",
-          translation: "세상"
-        }]
-      }];
+      course.levels = [{ id: "5c37691a3bcc4427fcd1a4ec" }];
 
       // console.log('course', course.levels[i]._id)
       course.save(function (err) {

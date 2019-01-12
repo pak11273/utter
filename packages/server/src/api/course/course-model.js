@@ -1,7 +1,7 @@
 import mongoose, {Schema} from "mongoose"
-import User, {UserSchema} from "../user/user-model.js"
+import User from "../user/user-model.js"
 import {TermSchema} from "../term/term-model.js"
-import {LevelSchema} from "../level/level-model.js"
+import Level from "../level/level-model.js"
 
 const CourseSchema = mongoose.Schema(
   {
@@ -58,13 +58,12 @@ const CourseSchema = mongoose.Schema(
         ref: "User"
       }
     ],
-    levels: [LevelSchema],
-    // levels: [
-    //   {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Level'
-    //   }
-    // ],
+    levels: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Level"
+      }
+    ],
     courseDescription: {
       type: String,
       default: ""

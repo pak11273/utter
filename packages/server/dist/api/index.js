@@ -16,12 +16,17 @@ var _courseRoutes = require("./course/course-routes.js");
 
 var _courseRoutes2 = _interopRequireDefault(_courseRoutes);
 
+var _levelRoutes = require("./level/level-routes.js");
+
+var _levelRoutes2 = _interopRequireDefault(_levelRoutes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express2.default)();
 
 router.use("/users", _userRoutes2.default);
 router.use("/courses", _courseRoutes2.default);
+router.use("/levels", _levelRoutes2.default);
 router.use("/test", function () {
   return "whatever dude";
 });
