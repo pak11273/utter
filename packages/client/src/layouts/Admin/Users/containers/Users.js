@@ -42,7 +42,7 @@ class Users extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
+  const session = orm.session(state.apiReducer)
   const {Users} = session
   const users = Users.all().toRefArray()
   return {users}

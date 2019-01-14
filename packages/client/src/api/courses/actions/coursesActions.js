@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import {COURSES_ASYNC} from '../types.js'
 
-import {createAction} from '../../../utils/reduxUtils.js'
+import {createAction} from '../../../utils/redux-utils.js'
 
 export default {
   request: state => createAction(COURSES_ASYNC.REQUEST, state),

@@ -1,14 +1,19 @@
 /* eslint no-unused-vars: 0 */
 
-import {graphql} from "react-apollo"
-import React, {PureComponent} from "react"
+import {compose, graphql} from "react-apollo"
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalizeErrors"
 import isEmpty from "lodash/isEmpty"
 /* import history from "../index.js" */
 
+// actions
+import {loadData} from "../../../client/src/api/actions.js"
+
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
-export class D extends PureComponent {
+export class D extends Component {
   submit = async values => {
     try {
       const response = await this.props.mutate({
@@ -24,6 +29,9 @@ export class D extends PureComponent {
       }
       if (token) {
         localStorage.setItem("AUTH_TOKEN", token)
+        const payload = response.data.login.user
+
+        this.props.loadData(payload)
       }
       return null
     } catch (err) {
@@ -36,10 +44,26 @@ export class D extends PureComponent {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      loadData
+    },
+    dispatch
+  )
+}
+
 const loginMutation = gql`
   mutation loginMutation($identifier: String!, $password: String!) {
     login(input: {identifier: $identifier, password: $password}) {
       token
+      user {
+        id
+        username
+        email
+        roles
+        scopes
+      }
       error {
         path
         message
@@ -48,4 +72,7 @@ const loginMutation = gql`
   }
 `
 
-export const LoginConnector = graphql(loginMutation)(D)
+export const LoginConnector = connect(
+  null,
+  mapDispatchToProps
+)(graphql(loginMutation)(D))

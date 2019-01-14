@@ -1,9 +1,14 @@
 /* eslint no-unused-vars: 0 */
 
 import React, {PureComponent} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalizeErrors"
+
+// actions
+import {loadData} from "../../../client/src/api/actions.js"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class C extends PureComponent {
@@ -15,6 +20,9 @@ export class C extends PureComponent {
         },
         data: {
           signup: {token}
+        },
+        data: {
+          signup: {user}
         }
       } = await this.props.mutate({
         variables: {
@@ -27,6 +35,7 @@ export class C extends PureComponent {
       })
 
       if (token !== null) {
+        this.props.loadData(user)
         return token
       }
 
@@ -62,6 +71,13 @@ const signupMutation = gql`
       }
     ) {
       token
+      user {
+        id
+        username
+        email
+        roles
+        scopes
+      }
       error {
         path
         message
@@ -70,4 +86,16 @@ const signupMutation = gql`
   }
 `
 
-export const SignupConnector = graphql(signupMutation)(C)
+const mapDispatchToProps = dispatch => {
+  return bindActionCreators(
+    {
+      loadData
+    },
+    dispatch
+  )
+}
+
+export const SignupConnector = connect(
+  null,
+  mapDispatchToProps
+)(graphql(signupMutation)(C))

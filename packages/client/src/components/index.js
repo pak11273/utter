@@ -5,6 +5,7 @@ import Box from "./Boxes/index.js"
 import Button from "./Buttons/Button.js"
 import ButtonBrowse from "./Buttons/ButtonBrowse.js"
 import ButtonCta from "./Buttons/CTA.js"
+import Can from './Can'
 import Container from "./Container"
 import Column from "./Columns/index.js"
 import ColorPickerButton from "./ColorPicker/ColorPickerButton.js"
@@ -48,7 +49,6 @@ import TextArea from "./TextArea.js"
 import Title from "./Text/Title.js"
 import Searching from "./Loaders/Searching.js"
 import Select from "./Select.js"
-import Scope from "./Scope"
 import Spacer from "./Spacer"
 import Wrapper from "./Wrapper.js"
 import Zone from "./Zone.js"
@@ -62,6 +62,7 @@ export {
   Button,
   ButtonBrowse,
   ButtonCta,
+	Can,
   Column,
   ColorPickerButton,
   Container,
@@ -94,7 +95,6 @@ export {
   Searching,
   Section,
   Select,
-  Scope,
   Spacer,
   Span,
   State,

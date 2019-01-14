@@ -1,4 +1,4 @@
-import {createReducer} from '../utils/reduxUtils.js'
+import {createReducer} from '../utils/redux-utils.js'
 
 import orm from './schema'
 const defaultEditingEntities = orm.getEmptyState()

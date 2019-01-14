@@ -1,13 +1,14 @@
-import {Schema, ORM} from 'redux-orm'
-import Course from '../api/course/courseModel.js'
-import Courses from '../api/courses/coursesModel.js'
-import Level from '../api/levels/levelsModel.js'
-import ShoppingCart from '../api/shoppingCart/shoppingCartModel.js'
-import Terms from '../api/terms/termsModel.js'
-import User from '../api/user/userModel.js'
-import Users from '../api/users/usersModel.js'
+import {ORM} from "redux-orm"
+import Course from "../api/course/course-model.js"
+/* import Courses from "../api/courses/courses-model.js" */
+import Level from "../api/level/level-model.js"
+/* import ShoppingCart from "../api/shoppingCart/shoppingCartModel.js" */
+/* import Term from "../api/term/term-model.js" */
+import User from "../api/user/user-model.js"
+/* import Users from "../api/users/users-model.js" */
 
 const orm = new ORM()
-orm.register(Course, Courses, Level, ShoppingCart, Terms, User, Users)
+
+orm.register(Course, Level, User)
 
 export default orm

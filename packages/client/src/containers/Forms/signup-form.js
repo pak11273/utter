@@ -20,7 +20,7 @@ import {main} from "../../themes/config"
 import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 import Terms from "../../documents/terms-and-conditions.js"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
-import signup from "../../api/user/actions/signupActions.js"
+/* import signup from "../../api/user/actions/signup-actions.js" */
 import {history} from "@utterzone/connector"
 
 const initialState = {
@@ -157,8 +157,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
-      toggleFooter,
-      signup: signup.request
+      toggleFooter
+      /* signup: signup.request */
     },
     dispatch
   )

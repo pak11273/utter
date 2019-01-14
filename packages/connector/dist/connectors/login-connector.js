@@ -33,7 +33,12 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      user {\n        id\n        username\n        email\n        roles\n        scopes\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      user {\n        id\n        username\n        email\n        roles\n        scopes\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+
+/* import history from "../index.js" */
+
+// actions
+
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -53,6 +58,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _redux = require("redux");
+
+var _reactRedux = require("react-redux");
+
 var _graphqlTag = require("graphql-tag");
 
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
@@ -63,13 +72,13 @@ var _isEmpty = require("lodash/isEmpty");
 
 var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
+var _actions = require("../../../client/src/api/actions.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* import history from "../index.js" */
-
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
-var D = exports.D = function (_PureComponent) {
-  (0, _inherits3.default)(D, _PureComponent);
+var D = exports.D = function (_Component) {
+  (0, _inherits3.default)(D, _Component);
 
   function D() {
     var _ref,
@@ -85,7 +94,7 @@ var D = exports.D = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = D.__proto__ || Object.getPrototypeOf(D)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var response, errors, token;
+        var response, errors, token, payload;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -114,6 +123,10 @@ var D = exports.D = function (_PureComponent) {
               case 8:
                 if (token) {
                   localStorage.setItem("AUTH_TOKEN", token);
+                  payload = response.data.login.user;
+
+
+                  _this.props.loadData(payload);
                 }
                 return _context.abrupt("return", null);
 
@@ -144,11 +157,17 @@ var D = exports.D = function (_PureComponent) {
     }
   }]);
   return D;
-}(_react.PureComponent);
+}(_react.Component);
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    loadData: _actions.loadData
+  }, dispatch);
+};
 
 var loginMutation = (0, _graphqlTag2.default)(_templateObject);
 
-var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMutation)(D);
+var LoginConnector = exports.LoginConnector = (0, _reactRedux.connect)(null, mapDispatchToProps)((0, _reactApollo.graphql)(loginMutation)(D));
 ;
 
 (function () {
@@ -162,6 +181,7 @@ var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMut
 
   reactHotLoader.register(D, "D", "src/connectors/login-connector.js");
   reactHotLoader.register(LoginConnector, "LoginConnector", "src/connectors/login-connector.js");
+  reactHotLoader.register(mapDispatchToProps, "mapDispatchToProps", "src/connectors/login-connector.js");
   reactHotLoader.register(loginMutation, "loginMutation", "src/connectors/login-connector.js");
   leaveModule(module);
 })();
@@ -180,6 +200,7 @@ var LoginConnector = exports.LoginConnector = (0, _reactApollo.graphql)(loginMut
 
   reactHotLoader.register(D, "D", "src/connectors/login-connector.js");
   reactHotLoader.register(LoginConnector, "LoginConnector", "src/connectors/login-connector.js");
+  reactHotLoader.register(mapDispatchToProps, "mapDispatchToProps", "src/connectors/login-connector.js");
   reactHotLoader.register(loginMutation, "loginMutation", "src/connectors/login-connector.js");
   leaveModule(module);
 })();

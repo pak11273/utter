@@ -164,7 +164,7 @@ var signup = function () {
     var redis = _ref4.redis,
         url = _ref4.url;
 
-    var token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser, signedUser;
+    var token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
 
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
@@ -224,35 +224,37 @@ var signup = function () {
             // Valid with unique email
 
             if (!(foundDupeEmail === null && (0, _isEmpty2.default)(arrayOfErrors))) {
-              _context2.next = 33;
+              _context2.next = 32;
               break;
             }
 
             newUser = new _userModel2.default(args.input);
-            _context2.next = 24;
-            return newUser.save();
 
-          case 24:
-            signedUser = _context2.sent;
-
-            token = (0, _auth.signToken)(signedUser._id);
+            newUser.save();
+            token = (0, _auth.signToken)(newUser._id);
             _context2.t1 = _mail.sendConfirmEmail;
             _context2.t2 = newUser.email;
-            _context2.next = 30;
-            return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, signedUser._id, redis);
+            _context2.next = 28;
+            return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
 
-          case 30:
+          case 28:
             _context2.t3 = _context2.sent;
-            _context2.next = 33;
+            _context2.next = 31;
             return (0, _context2.t1)(_context2.t2, _context2.t3);
 
-          case 33:
+          case 31:
             return _context2.abrupt("return", {
               token: token,
+              user: newUser,
               error: arrayOfErrors
             });
 
-          case 34:
+          case 32:
+            return _context2.abrupt("return", {
+              error: arrayOfErrors
+            });
+
+          case 33:
           case "end":
             return _context2.stop();
         }
@@ -302,7 +304,7 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context3.next = 26;
+            _context3.next = 25;
             break;
 
           case 13:
@@ -313,7 +315,7 @@ var login = function () {
 
             // use authenticate() on user.doc, pass in the posted password, hash it and check
             arrayOfErrors.push({ path: "password", message: "Invalid Password" });
-            _context3.next = 26;
+            _context3.next = 25;
             break;
 
           case 17:
@@ -332,30 +334,29 @@ var login = function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context3.next = 26;
+            _context3.next = 25;
             break;
 
           case 21:
             if (!user) {
-              _context3.next = 26;
+              _context3.next = 25;
               break;
             }
 
-            console.log("made it");
-            // assign valid user info
-            _context3.next = 25;
+            _context3.next = 24;
             return (0, _auth.signToken)(user._id);
 
-          case 25:
+          case 24:
             token = _context3.sent;
 
-          case 26:
+          case 25:
             return _context3.abrupt("return", {
               token: token,
+              user: user,
               error: arrayOfErrors
             });
 
-          case 27:
+          case 26:
           case "end":
             return _context3.stop();
         }

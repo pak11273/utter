@@ -1,10 +1,10 @@
-import Subscription from './subscriptionModel.js'
-import Course from '../course/courseModel.js'
+import Subscription from "./subscriptionModel.js"
+import Course from "../course/course-model.js"
 
 const getSubscription = async (_, {input}) => {
   const subscription = await Subscription.findById(id).exec()
   if (!subscription) {
-    throw new Error('Cannot find subscription with id')
+    throw new Error("Cannot find subscription with id")
   }
 
   return subscription
@@ -37,7 +37,7 @@ export const subscriptionResolvers = {
 
   Subscription: {
     async courses(subscription) {
-      const populated = await subscription.populate('courses').execPopulate()
+      const populated = await subscription.populate("courses").execPopulate()
 
       return populated.courses
     }

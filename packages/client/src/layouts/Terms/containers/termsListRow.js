@@ -43,7 +43,7 @@ const TermsListRow = ({
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const session = orm.session(state.entitiesReducer)
+  const session = orm.session(state.apiReducer)
 
   const {Terms} = session
 

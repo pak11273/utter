@@ -36,20 +36,12 @@ const CourseSchema = mongoose.Schema(
         default: {}
       }
     ],
-    favorite: {
-      type: Boolean,
-      default: false
-    },
     teachingLang: {
       type: String,
       default: ""
     },
     usingLang: {
       type: String,
-      default: ""
-    },
-    tags: {
-      type: Array,
       default: ""
     },
     subscribers: [

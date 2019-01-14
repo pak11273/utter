@@ -50,20 +50,12 @@ var CourseSchema = _mongoose2.default.Schema({
     type: _mongoose.Schema.Types.Mixed,
     default: {}
   }],
-  favorite: {
-    type: Boolean,
-    default: false
-  },
   teachingLang: {
     type: String,
     default: ""
   },
   usingLang: {
     type: String,
-    default: ""
-  },
-  tags: {
-    type: Array,
     default: ""
   },
   subscribers: [{

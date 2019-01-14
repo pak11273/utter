@@ -2,7 +2,7 @@ import {createSelector} from 'reselect'
 
 import orm from '../../app/schema'
 
-export const selectEntities = state => state.entitiesReducer
+export const selectEntities = state => state.apiReducer
 
 export const getEntitiesSession = createSelector(selectEntities, entities =>
   orm.session(entities)

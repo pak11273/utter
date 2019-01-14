@@ -65,7 +65,7 @@ function* createCourseThumbnail(action) {
 
 function* deleteTeachingCourse(state) {
   const {courseAuthor, courseId, courseName} = state
-  const getAuthId = state => state.entitiesReducer.User.items[0]
+  const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   const url = `/api/courses/${authId}/${courseAuthor}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
@@ -114,7 +114,7 @@ function* deleteTeachingCourse(state) {
 
 export function* fetchTeachingCourse(state) {
   const {courseAuthorId, courseId, courseName} = state
-  const getAuthId = state => state.entitiesReducer.User.items[0]
+  const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   const url = `/api/courses/${authId}/${courseAuthorId}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
@@ -162,7 +162,7 @@ export function* fetchTeachingCourse(state) {
 
 export function* updateTeachingCourse(state) {
   const {courseAuthor, courseId, courseName} = state
-  const getAuthId = state => state.entitiesReducer.User.items[0]
+  const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   /**
    * @param {string} url ex.'/api/courses/:authId/:courseAuthor/:courseId/:courseName'

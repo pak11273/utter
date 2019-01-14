@@ -2,7 +2,6 @@ import Chat from "./Chat"
 import ChatPanel from "./ChatPanel"
 import Challenge from "./Challenge"
 import Channels from "./Channels"
-import UserProvider from "./UserProvider"
 import ContextMenu from "./ContextMenus"
 import Container from "./Container"
 import Footer from "./Footers/Footer"
@@ -28,7 +27,6 @@ export {
   Chat,
   ChatPanel,
   Container,
-  UserProvider,
   ContextMenu,
   Footer,
   KnowledgeBase,

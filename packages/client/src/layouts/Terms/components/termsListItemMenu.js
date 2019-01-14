@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Menu} from 'semantic-ui-react'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {Menu} from "semantic-ui-react"
 
-import {selectTerm} from '../../../api/terms/actions.js'
-import {deleteEntity} from '../../../api/entities/actions.js'
-import {hideContextMenu} from '../../../containers/ContextMenus/actions.js'
+import {selectTerm} from "../../../api/term/actions.js"
+import {deleteEntity} from "../../../api/entities/actions.js"
+import {hideContextMenu} from "../../../containers/ContextMenus/actions.js"
 
 const actions = {
   selectTerm,
@@ -19,7 +19,7 @@ export class TermsListItemMenu extends Component {
   }
 
   onDeleteClicked = () => {
-    this.props.deleteEntity('Term', this.props.termId)
+    this.props.deleteEntity("Term", this.props.termId)
     this.props.hideContextMenu()
   }
 
@@ -39,4 +39,7 @@ export class TermsListItemMenu extends Component {
   }
 }
 
-export default connect(null, actions)(TermsListItemMenu)
+export default connect(
+  null,
+  actions
+)(TermsListItemMenu)

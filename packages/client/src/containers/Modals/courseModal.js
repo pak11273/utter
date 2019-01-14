@@ -38,7 +38,7 @@ export class ModalContainer extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
+  const session = orm.session(state.apiReducer)
   const {Course} = session
   const course = Course.first().ref
 

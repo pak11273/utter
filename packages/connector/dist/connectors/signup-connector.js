@@ -33,7 +33,10 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      user {\n        id\n        username\n        email\n        roles\n        scopes\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"], ["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      user {\n        id\n        username\n        email\n        roles\n        scopes\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+
+// actions
+
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -51,6 +54,10 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _redux = require("redux");
+
+var _reactRedux = require("react-redux");
+
 var _reactApollo = require("react-apollo");
 
 var _graphqlTag = require("graphql-tag");
@@ -58,6 +65,8 @@ var _graphqlTag = require("graphql-tag");
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
 var _normalizeErrors = require("../utils/normalizeErrors");
+
+var _actions = require("../../../client/src/api/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -79,7 +88,7 @@ var C = exports.C = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = C.__proto__ || Object.getPrototypeOf(C)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var _ref3, error, token;
+        var _ref3, error, token, user;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -101,41 +110,43 @@ var C = exports.C = function (_PureComponent) {
                 _ref3 = _context.sent;
                 error = _ref3.data.signup.error;
                 token = _ref3.data.signup.token;
+                user = _ref3.data.signup.user;
 
                 if (!(token !== null)) {
-                  _context.next = 8;
+                  _context.next = 10;
                   break;
                 }
 
+                _this.props.loadData(user);
                 return _context.abrupt("return", token);
 
-              case 8:
+              case 10:
                 if (!error) {
-                  _context.next = 10;
+                  _context.next = 12;
                   break;
                 }
 
                 return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
 
-              case 10:
-                _context.next = 15;
+              case 12:
+                _context.next = 17;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 14:
+                _context.prev = 14;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 15:
+              case 17:
                 return _context.abrupt("return", null);
 
-              case 16:
+              case 18:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 12]]);
+        }, _callee, _this2, [[0, 14]]);
       }));
 
       return function (_x) {
@@ -155,7 +166,13 @@ var C = exports.C = function (_PureComponent) {
 
 var signupMutation = (0, _graphqlTag2.default)(_templateObject);
 
-var SignupConnector = exports.SignupConnector = (0, _reactApollo.graphql)(signupMutation)(C);
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    loadData: _actions.loadData
+  }, dispatch);
+};
+
+var SignupConnector = exports.SignupConnector = (0, _reactRedux.connect)(null, mapDispatchToProps)((0, _reactApollo.graphql)(signupMutation)(C));
 ;
 
 (function () {
@@ -170,6 +187,7 @@ var SignupConnector = exports.SignupConnector = (0, _reactApollo.graphql)(signup
   reactHotLoader.register(C, "C", "src/connectors/signup-connector.js");
   reactHotLoader.register(SignupConnector, "SignupConnector", "src/connectors/signup-connector.js");
   reactHotLoader.register(signupMutation, "signupMutation", "src/connectors/signup-connector.js");
+  reactHotLoader.register(mapDispatchToProps, "mapDispatchToProps", "src/connectors/signup-connector.js");
   leaveModule(module);
 })();
 
@@ -188,6 +206,7 @@ var SignupConnector = exports.SignupConnector = (0, _reactApollo.graphql)(signup
   reactHotLoader.register(C, "C", "src/connectors/signup-connector.js");
   reactHotLoader.register(SignupConnector, "SignupConnector", "src/connectors/signup-connector.js");
   reactHotLoader.register(signupMutation, "signupMutation", "src/connectors/signup-connector.js");
+  reactHotLoader.register(mapDispatchToProps, "mapDispatchToProps", "src/connectors/signup-connector.js");
   leaveModule(module);
 })();
 

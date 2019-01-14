@@ -5,7 +5,10 @@ import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
 import PropTypes from "prop-types"
 import styled from "styled-components"
-import {AUTH_TOKEN} from "../../layouts/Login/containers/constants.js"
+import {
+  AUTH_TOKEN,
+  USER_INFO
+} from "../../layouts/Login/containers/constants.js"
 import "./styles.css"
 
 import {Login} from "../index.js"
@@ -149,6 +152,7 @@ class MainNavbar extends Component {
   logout = e => {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
+    localStorage.removeItem(USER_INFO)
     this.props.history.push("/login")
   }
 

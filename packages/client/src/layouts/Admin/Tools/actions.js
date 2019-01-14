@@ -1,4 +1,4 @@
-import {createAction} from '../../../utils/reduxUtils.js'
+import {createAction} from '../../../utils/redux-utils.js'
 
 import {LOAD_USERS_ASYNC} from './types'
 

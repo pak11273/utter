@@ -9,7 +9,7 @@ import * as types from '../types'
 import {LOADER_ASYNC} from '../types'
 
 export function* fetchUser(state) {
-  const getAuthId = state => state.entitiesReducer.User.items[0]
+  const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   const url = `/api/users/${authId}`
   const htmlReadyUrl = encodeURI(url)
@@ -68,7 +68,7 @@ export function* fetchUser(state) {
 }
 
 export function* updateAccount(state) {
-  const getAuthId = state => state.entitiesReducer.User.items[0]
+  const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   const url = `/api/users/${authId}`
   const htmlReadyUrl = encodeURI(url)

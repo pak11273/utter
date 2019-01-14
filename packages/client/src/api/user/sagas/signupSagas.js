@@ -1,11 +1,4 @@
-import {browserHistory} from "react-router"
-import {push} from "react-router-redux"
-import {all, call, put, take, takeLatest} from "redux-saga/effects"
-import axios from "axios"
-import jwt from "jsonwebtoken"
-import {actions} from "../actions/signupActions.js"
-import {request as login} from "../actions/login-actions.js"
-import {AUTH_TOKEN} from "../../../layouts/Login/containers/constants.js"
+import {all, call, put, takeLatest} from "redux-saga/effects"
 
 // actions
 import * as types from "../types"
@@ -13,20 +6,6 @@ import {ADD_FLASH_MESSAGE} from "../../../app/types.js"
 
 import {fetchData} from "../../../utils/apiMgr"
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'
-
-export function* authorize(token) {
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
-    localStorage.setItem(AUTH_TOKEN, token)
-  } else {
-    delete axios.defaults.headers.common["Authorization"]
-  }
-}
-
-export function* deAuthorize() {
-  localStorage.setItem("jwtToken", null)
-  delete axios.defaults.headers.common["Authorization"]
-}
 
 export function* signup(state) {
   try {
@@ -53,7 +32,6 @@ export function* signup(state) {
       //   type: types.SIGNUP_ASYNC.RESET
       // })
 
-      const token = res.data.token
       const identifier = data.username || data.eamil
       const formattedData = {...data, identifier}
 
@@ -62,7 +40,7 @@ export function* signup(state) {
         ...formattedData
       })
 
-      //TODO implement
+      // TODO implement
       yield put({
         type: ADD_FLASH_MESSAGE,
         text: "You signed up successfully. Welcome aboard."
@@ -83,6 +61,7 @@ export function* signup(state) {
       })
     }
   } finally {
+    // pending
   }
 }
 
@@ -90,8 +69,4 @@ function* watchSignup() {
   yield all([takeLatest(types.SIGNUP_ASYNC.REQUEST, signup)])
 }
 
-function* watchDeAuthorize() {
-  yield all([takeLatest(types.DEAUTHORIZE, deAuthorize)])
-}
-
-export default [watchDeAuthorize, watchSignup]
+export default [watchSignup]

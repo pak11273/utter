@@ -14,7 +14,7 @@ import {
   SET_CURRENT_USER
 } from "../types.js"
 
-import {createAction} from "../../../utils/reduxUtils.js"
+import {createAction} from "../../../utils/redux-utils.js"
 
 // import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
 // import {fetchData} from '../../utils/apiMgr'

@@ -1,5 +1,5 @@
 import {COURSE_ASYNC} from "./types.js"
-import {createAction} from "../../utils/reduxUtils.js"
+import {createAction} from "../../utils/redux-utils.js"
 
 /* import { */
 /*   FETCHED_COURSE_NAME, */

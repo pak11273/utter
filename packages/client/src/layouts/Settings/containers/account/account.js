@@ -14,7 +14,7 @@ import {
 
 import orm from "../../../../app/schema.js"
 import {updateEntity} from "../../../../api/entities/actions.js"
-import updateAccount from "../../../../api/user/actions/accountActions.js"
+import updateAccount from "../../../../api/user/actions/account-actions.js"
 import languageData from "../../../../data/languageData.js"
 
 const initialState = {
@@ -126,7 +126,7 @@ class AccountInfo extends Component {
 const mapStateToProps = state => {
   // Create a Redux-ORM Session from our "entities" slice, which
   // contains the "tables" for each model type
-  const session = orm.session(state.entitiesReducer)
+  const session = orm.session(state.apiReducer)
 
   // Retrieve the model class that we need.  Each Session
   // specifically "binds" model classes to itself, so that

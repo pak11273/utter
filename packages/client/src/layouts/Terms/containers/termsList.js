@@ -34,7 +34,7 @@ class TermsList extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
+  const session = orm.session(state.apiReducer)
 
   const {Terms} = session
 

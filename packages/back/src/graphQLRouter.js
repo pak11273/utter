@@ -20,7 +20,7 @@ const subscriptionTypeDefs = fs.readFileSync(subscriptionSchema, "utf8")
 
 // resolver imports
 import {userResolvers} from "./api/user/user.resolvers.js"
-import {courseResolvers} from "./api/course/course.resolvers.js"
+import {courseResolvers} from "./api/course/course-resolvers.js"
 import {subscriptionResolvers} from "./api/subscription/subscription.resolvers.js"
 import _ from "lodash"
 import {graphqlExpress} from "apollo-server-express"

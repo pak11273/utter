@@ -8,7 +8,6 @@ type Course {
   courseImage: String
   courseMode: String!
   levels: [Level]
-  favorite: Boolean
   teachingLang: String
   usingLang: String
   createdAt: Int
@@ -20,7 +19,6 @@ input CourseUpdated {
   courseName: String
   coursedescription: String
   courseMode: String
-  favorite: Boolean
 }
 
 input CourseCreateInput {

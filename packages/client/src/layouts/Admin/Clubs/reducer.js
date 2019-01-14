@@ -1,4 +1,4 @@
-import {createReducer} from '../../../utils/reduxUtils.js'
+import {createReducer} from '../../../utils/redux-utils.js'
 
 const initialState = {
   name: 'KHS French Club',

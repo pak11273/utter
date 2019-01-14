@@ -1,6 +1,6 @@
 import {COURSE_ASYNC} from "../types.js"
 
-import {createAction} from "../../../utils/reduxUtils.js"
+import {createAction} from "../../../utils/redux-utils.js"
 
 export default {
   update: state => createAction(COURSE_ASYNC.UPDATE, state),

@@ -22,13 +22,17 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 // redux-dev tools requirement
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+var composeEnhancers = compose
+
+if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+}
 
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
   persistedReducer,
-  /* preloadedState, */ composeEnhancers(
+  composeEnhancers(
     applyMiddleware(
       sagaMiddleware,
       thunk,

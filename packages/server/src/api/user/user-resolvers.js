@@ -112,18 +112,23 @@ const signup = async (_, args, {redis, url}, info) => {
 
   // Valid with unique email
   if (foundDupeEmail === null && isEmpty(arrayOfErrors)) {
-    let newUser = new User(args.input)
-    let signedUser = await newUser.save()
-    token = signToken(signedUser._id)
+    const newUser = new User(args.input)
+    newUser.save()
+    token = signToken(newUser._id)
     await sendConfirmEmail(
       newUser.email,
-      await createEmailConfirmLink(url, signedUser._id, redis)
+      await createEmailConfirmLink(url, newUser._id, redis)
     )
+
+    return {
+      token,
+      user: newUser,
+      error: arrayOfErrors
+    }
   }
 
   return {
-    token,
-    error: arrayOfErrors
+		error: arrayOfErrors
   }
 }
 
@@ -166,13 +171,13 @@ const login = async (parent, args, ctx, info) => {
       message: passwordLocked
     })
   } else if (user) {
-    console.log("made it")
     // assign valid user info
     token = await signToken(user._id)
   }
 
   return {
     token,
+    user,
     error: arrayOfErrors
   }
 }

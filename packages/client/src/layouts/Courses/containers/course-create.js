@@ -32,7 +32,6 @@ import {fetchCourseName} from "../actions.js"
 import {main} from "../../../themes/config"
 import {toggleFooter} from "../../../app/actions/toggleFooterAction"
 import CourseRef from "../components/CourseRef"
-import CourseTags from "../components/CourseTags"
 import Teaching from "./Teaching"
 import Using from "./Using"
 
@@ -97,7 +96,6 @@ const initialState = {
   public_id: "",
   secure_url: "",
   signature: "",
-  tags: [],
   teachingLang: "",
   terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
   uploadedFile: {},
@@ -135,12 +133,6 @@ class CourseCreate extends Component {
   addRef = value => {
     this.setState({
       courseRef: value
-    })
-  }
-
-  addTags = value => {
-    this.setState({
-      tags: value
     })
   }
 
@@ -352,11 +344,7 @@ class CourseCreate extends Component {
                       <p>ie. Book, Classroom, Online Course</p>
                       <CourseRef addRef={this.addRef} />
                     </StyledFlex>
-                    <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
-                      <Header>Tags</Header>
-                      <CourseTags addTags={this.addTags} />
-                    </StyledFlex>
-                    <StyledFlex gridarea="tags" margin1080="40px 0 0 0">
+                    <StyledFlex gridarea="thumbnail" margin1080="40px 0 0 0">
                       <Header>Course Thumbnail</Header>
                       <p>
                         Format: png or jpg, Dimensions: ~300pxx300px, Maximum

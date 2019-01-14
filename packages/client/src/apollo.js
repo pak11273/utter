@@ -6,15 +6,10 @@ import {InMemoryCache} from "apollo-cache-inmemory"
 import {withClientState} from "apollo-link-state"
 import {HttpLink} from "apollo-link-http"
 
-const defaults = {
-	getUserByToken: {
-		__typename: "getUserByToken",
-		id:1 
-	}
-}
+const defaults = {}
 
 const cache = new InMemoryCache({
-	dataIdFromObject: object => object.key || null
+  dataIdFromObject: object => object.key || null
 })
 
 const stateLink = withClientState({

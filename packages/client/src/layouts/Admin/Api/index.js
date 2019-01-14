@@ -72,7 +72,7 @@ class Api extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = orm.session(state.entitiesReducer)
+  const session = orm.session(state.apiReducer)
   const {User} = session
   let users = User.all().toRefArray()
   return {users}

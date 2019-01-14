@@ -92,7 +92,6 @@ const initialState = {
   public_id: "",
   secure_url: "",
   signature: "",
-  tags: [],
   terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}],
   url: ""
 }
@@ -145,12 +144,6 @@ class ZoneCreate extends Component {
   addRef = value => {
     this.setState({
       zoneRef: value
-    })
-  }
-
-  addTags = value => {
-    this.setState({
-      tags: value
     })
   }
 
