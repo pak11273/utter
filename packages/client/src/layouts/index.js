@@ -34,7 +34,6 @@ import Korean6 from "./Korean/Level6"
 import Korean7 from "./Korean/Level7"
 import Korean8 from "./Korean/Level8"
 import Pricing from "./Pricing.js"
-/* import ResetPassword from "./ResetPassword.js" */
 import Spanish1 from "./Spanish/level1"
 import Spanish2 from "./Spanish/level2/index.js"
 import Spanish3 from "./Spanish/Level3"
@@ -77,7 +76,6 @@ export {
   Korean7,
   Korean8,
   Pricing,
-  /* ResetPassword, */
   ShoppingCart,
   Spanish1,
   Spanish2,

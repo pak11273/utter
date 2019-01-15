@@ -1,5 +1,3 @@
-import jwt from "jsonwebtoken"
-import axios from "axios"
 import {
   // CHANGE_FORM,
   // SET_AUTH,
@@ -7,14 +5,12 @@ import {
   // LOGIN_REQUEST,
   // REGISTER_REQUEST,
   LOAD_USER_PROFILE,
-  LOGIN_ASYNC,
-  LOGOUT,
   // REQUEST_ERROR,
   // CLEAR_ERROR
   SET_CURRENT_USER
 } from "../types.js"
 
-import {createAction} from "../../../utils/redux-utils.js"
+/* import {createAction} from "../../../utils/redux-utils.js" */
 
 // import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
 // import {fetchData} from '../../utils/apiMgr'
@@ -105,17 +101,6 @@ import {createAction} from "../../../utils/redux-utils.js"
  * @param  {string} data.password The password of the user to log in
  */
 
-// export function login(data) {
-//   return {type: LOGIN_REQUEST, data}
-// }
-
-/**
- * Tells the app we want to log out a user
- */
-// export function logout() {
-//   return {type: LOGOUT}
-// }
-
 /**
  * Tells the app we want to register a user
  * @param  {object} data          The data we're sending for registration
@@ -141,12 +126,6 @@ import {createAction} from "../../../utils/redux-utils.js"
 //   return {type: CLEAR_ERROR}
 // }
 
-export function resetpassword(data) {
-  return dispatch => {
-    return axios.post("/mail/reset-password", data)
-  }
-}
-
 // export function logout() {
 //   return dispatch => {
 //     localStorage.removeItem('jwtToken')
@@ -168,14 +147,4 @@ export function loadUserProfile(payload) {
   }
 }
 
-export function loadUserSuccess(user) {
-  return {type: types.LOAD_USER_SUCCESS, user}
-}
-
-export default {
-  request: state => createAction(LOGIN_ASYNC.REQUEST, state),
-  success: posts => createAction(LOGIN_ASYNC.SUCCESS, {user}),
-  error: error => createAction(LOGIN_ASYNC.ERROR, error),
-  reset: () => createAction(LOGIN_ASYNC.RESET),
-  logout: () => createAction(LOGOUT)
-}
+export default {}
