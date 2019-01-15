@@ -1,4 +1,4 @@
-import rules from "../../app/auth/roles-schema"
+import rules from "@utterzone/common/dist/auth/roles-schema"
 import {flatten, uniq} from "lodash"
 
 const check = (rules, roles, action, data) => {
