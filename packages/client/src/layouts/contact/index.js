@@ -4,13 +4,13 @@ import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 /* import {UserContext} from "../app/auth/user-context.js" */
 import {Grid, Header} from "semantic-ui-react"
-import ContactForm from "../containers/forms/contact_form/contact-form"
-import {Can} from "../components"
-import schema from "../app/schema"
+import ContactForm from "../../containers/forms/contact_form/contact-form"
+import {Can} from "../../components"
+import schema from "../../app/schema"
 
 // actions
-import {contactmail} from "../app/actions/contact-mail-actions"
-import {toggleFooter} from "../app/actions/toggleFooterAction.js"
+import {contactmail} from "../../app/actions/contact-mail-actions"
+import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
 
 class Contact extends Component {
   componentDidMount() {
@@ -18,8 +18,11 @@ class Contact extends Component {
   }
 
   render() {
-    const {contactmail, user} = this.props
-    console.log("roles: ", user.roles)
+    let {user} = this.props
+    const {contactmail} = this.props
+    if (!user) {
+      user = {roles: ["guest"]}
+    }
     return (
       <Can
         roles={user.roles}

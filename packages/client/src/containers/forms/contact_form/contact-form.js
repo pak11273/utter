@@ -1,11 +1,16 @@
 import React, {Component} from "react"
+import {connect} from "react-redux"
 import {Box, InputLine, Label, Section} from "../../../components"
-import Button from "../../../components/Buttons/Button.js"
+import {Button} from "semantic-ui-react"
 import styled from "styled-components"
 import Select from "react-select"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
 import CallingCodes from "../../../assets/js/CallingCodes.js"
+import {bindActionCreators} from "redux"
 import "./select.css"
+
+// actions
+import {contactMailSend} from "../../../layouts/contact/actions.js"
 
 const Role = styled.div`
   color: ${props => props.color};
@@ -136,6 +141,7 @@ class ContactForm extends Component {
   onSubmit = e => {
     e.preventDefault()
     this.props.contactmail(this.state)
+    this.props.contactMailSend()
   }
 
   getValidNumber = phoneNumber => {
@@ -188,6 +194,7 @@ class ContactForm extends Component {
               value={this.state.name}
               type="text"
               name="name"
+              required
             />
           </Box>
           <Box
@@ -203,6 +210,7 @@ class ContactForm extends Component {
               value={this.state.email}
               type="text"
               name="email"
+              required
             />
           </Box>
           <Phone>
@@ -255,9 +263,14 @@ class ContactForm extends Component {
               value={this.state.subject}
               type="text"
               name="subject"
+              required
             />
           </Box>
-          <Box alignitems="flex-start" padding="50px" margin="0 0 100px 0">
+          <Box
+            alignitems="flex-start"
+            padding="50px"
+            margin="0 0 100px 0"
+            position="relative">
             <Box margin="40px 0 0 0">
               <Label margin="0 0 20px 0" textalign="left" fontsize="1rem">
                 Message
@@ -269,15 +282,15 @@ class ContactForm extends Component {
               value={this.state.letter}
               type="text"
               name="letter"
+              required
             />
             <Button
-              alignself="flex-end"
-              bottom="-60px"
-              fontsize="1rem"
-              right="-6px"
-              color="black"
-              margin="80px 0 0 0"
-              width="100px">
+              loading={this.props.contactReducer.loading}
+              color="yellow"
+              floated="right"
+              fontSize="1.5rem"
+              style={{bottom: "0", right: "60px", position: "absolute"}}
+              type="submit">
               Send
             </Button>
           </Box>
@@ -287,4 +300,21 @@ class ContactForm extends Component {
   }
 }
 
-export default ContactForm
+const mapStateToProps = state => {
+  return {
+    contactReducer: state.contactReducer
+  }
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      contactMailSend
+    },
+    dispatch
+  )
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactForm)

@@ -1,10 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react"
+import styled from "styled-components"
 
 const Input = styled.input`
   background-color: transparent;
   border: none;
-  border-bottom: 1px solid #CCC;
+  border-bottom: 1px solid #ccc;
   box-sizing: border-box;
   color: ${props => props.color};
   font-size: ${props => props.fontsize};
@@ -13,35 +13,36 @@ const Input = styled.input`
   height: ${props => props.height};
   margin: ${props => props.margin};
   padding: ${props => props.padding};
+  required: ${props => props.required};
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 
   &:focus {
-    outline: none;    
+    outline: none;
   }
 
   &::-webkit-input-placeholder {
-    color: #AAA;
+    color: #aaa;
   }
-  
+
   &:focus::-webkit-input-placeholder {
     color: dodgerblue;
   }
-  
-  &:focus+.underline {
+
+  &:focus + .underline {
     transform: scale(1);
   }
 `
 Input.defaultProps = {
-  color: 'black',
-  fontsize: '1.5rem',
-  fontfamily: 'Arial',
-  height: '2rem',
-  margin: '10px auto',
-  padding: '3px 5% 2px 5%',
-  textalign: 'center',
-  weight: '100',
-  width: '200px'
+  color: "black",
+  fontsize: "1.5rem",
+  fontfamily: "Arial",
+  height: "2rem",
+  margin: "10px auto",
+  padding: "3px 5% 2px 5%",
+  textalign: "center",
+  weight: "100",
+  width: "200px"
 }
 
 const Wrap = styled.div`
@@ -65,10 +66,10 @@ const Underline = styled.div`
 `
 
 Underline.defaultProps = {
-  width: '300px'
+  width: "300px"
 }
 
-export default props =>
+export default props => (
   <Wrap>
     <Input
       autoComplete={props.autocomplete}
@@ -76,8 +77,10 @@ export default props =>
       name={props.name}
       value={props.value}
       onChange={props.onChange}
+      required={props.required}
     />
     <Underline />
   </Wrap>
+)
 
 // ref: https://codepen.io/fongfan999/pen/ozVYoW?editors=0100
