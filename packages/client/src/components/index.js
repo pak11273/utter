@@ -5,7 +5,7 @@ import Box from "./Boxes/index.js"
 import Button from "./Buttons/Button.js"
 import ButtonBrowse from "./Buttons/ButtonBrowse.js"
 import ButtonCta from "./Buttons/CTA.js"
-import Can from './Can'
+import Can from "./Can"
 import Container from "./Container"
 import Column from "./Columns/index.js"
 import ColorPickerButton from "./ColorPicker/ColorPickerButton.js"
@@ -14,7 +14,7 @@ import Dictionary from "./Dictionary"
 import Dropdown from "./Dropdowns"
 import Flex from "./Flex"
 import FormEditWrapper from "./FormEditWrapper"
-import Form from "./Forms"
+import Form from "./forms"
 import {FormikInput, FormikTextArea} from "./Inputs/FormikField.js"
 import Grid from "./Grids"
 import Hamburger from "./Buttons/Hamburger.js"
@@ -62,7 +62,7 @@ export {
   Button,
   ButtonBrowse,
   ButtonCta,
-	Can,
+  Can,
   Column,
   ColorPickerButton,
   Container,

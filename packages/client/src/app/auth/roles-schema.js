@@ -2,14 +2,11 @@
 
 /* @Dynamic scopes are scopes which need additional data to determine access. */
 
-/* scopes are in the (resource:action) pattern */
+/* Thes schema is only concerned with resources that need to be protected.  Therefore, all resources not specified here are considered public and anyone can view them.  The role "registeredUser" is given to everyone who signsup.  Protected resources have scopes in the (resource:action) format. */
 
 const rules = {
-  guest: {
-    static: ["courses:read", "home:read", "contact:read"]
-  },
   registeredUser: {
-    static: ["courses:create", "users:getSelf", "home:read", "dashboard:read"],
+    static: ["courses:create", "users:getSelf", "dashboard:read"],
     dynamic: {
       "courses:update": ({userId, postOwnerId}) => {
         if (!userId || !postOwnerId) return false
@@ -19,7 +16,6 @@ const rules = {
   },
   admin: {
     static: [
-      "courses:read",
       "courses:create",
       "courses:update",
       "courses:delete",

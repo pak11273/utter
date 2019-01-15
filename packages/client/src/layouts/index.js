@@ -4,11 +4,11 @@ import French1 from "./French/Level1.js"
 import Home from "./Home"
 import About from "./About"
 import Contact from "./Contact.js"
-import ChangePassword from "./ChangePassword/change-password-ctrl.js"
-import ForgotPassword from "./ForgotPassword/forgot-password-ctrl.js"
+import ChangePassword from "./change_password/change-password-ctrl.js"
+import ForgotPassword from "./forgot_password/forgot-password-ctrl.js"
 import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
-import LoginCtrl from "./Login/login-ctrl.js"
+import LoginCtrl from "./login/login-ctrl.js"
 import noAuth from "../utils/noAuth.js"
 import Settings from "./Settings"
 import ShoppingCart from "./ShoppingCart/components"
@@ -34,7 +34,7 @@ import Korean6 from "./Korean/Level6"
 import Korean7 from "./Korean/Level7"
 import Korean8 from "./Korean/Level8"
 import Pricing from "./Pricing.js"
-import ResetPassword from "./ResetPassword.js"
+/* import ResetPassword from "./ResetPassword.js" */
 import Spanish1 from "./Spanish/level1"
 import Spanish2 from "./Spanish/level2/index.js"
 import Spanish3 from "./Spanish/Level3"
@@ -77,7 +77,7 @@ export {
   Korean7,
   Korean8,
   Pricing,
-  ResetPassword,
+  /* ResetPassword, */
   ShoppingCart,
   Spanish1,
   Spanish2,

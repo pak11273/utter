@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: 0 */
 
 import React, {PureComponent} from "react"
-import {normalizeErrors} from "../../utils/normalizeErrors"
+import {normalizeErrors} from "../../utils/normalize-errors"
 /* import io from "socket.io-client" */
 /* import {eventChannel} from "redux-saga" */
 /* import {fork, take, call, put, cancel} from "redux-saga/effects" */

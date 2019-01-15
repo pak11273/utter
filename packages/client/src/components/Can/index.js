@@ -2,8 +2,6 @@ import rules from "../../app/auth/roles-schema"
 import {flatten, uniq} from "lodash"
 
 const check = (rules, roles, action, data) => {
-  console.log("roles: ", roles)
-
   if (!roles) roles = ["guest"]
   // Users without roles
   roles.map(role => {
@@ -14,8 +12,9 @@ const check = (rules, roles, action, data) => {
     }
   })
 
-  const permissions = rules[roles]
+  /* const permissions = rules[roles] */
 
+  // Static rules setup
   var combinedStaticRules = []
 
   roles.map(role => {
@@ -25,14 +24,21 @@ const check = (rules, roles, action, data) => {
   var staticPermissions = uniq(flatten(combinedStaticRules))
   console.log("static: ", staticPermissions)
 
-  /* const staticPermissions = permissions.static */
-
   if (staticPermissions && staticPermissions.includes(action)) {
     // static rule not provided for action
     return true
   }
 
-  const dynamicPermissions = permissions.dynamic
+  // Dynamic rules setup
+  var combinedDynamicRules = []
+
+  roles.map(role => {
+    combinedDynamicRules.push(rules[role].dynamic)
+  })
+
+  var combinedDynamicPermissions = uniq(flatten(combinedDynamicRules))
+
+  const dynamicPermissions = combinedDynamicPermissions.dynamic
 
   if (dynamicPermissions) {
     const permissionCondition = dynamicPermissions[action]

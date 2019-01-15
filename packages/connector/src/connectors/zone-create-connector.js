@@ -3,7 +3,7 @@
 import React, {PureComponent} from "react"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
-import {normalizeErrors} from "../utils/normalizeErrors"
+import {normalizeErrors} from "../utils/normalize-errors"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class Z extends PureComponent {

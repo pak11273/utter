@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 /* import {UserContext} from "../app/auth/user-context.js" */
 import {Grid, Header} from "semantic-ui-react"
-import ContactForm from "../containers/Forms/ContactForm/contact-form"
+import ContactForm from "../containers/forms/contact_form/contact-form"
 import {Can} from "../components"
 import schema from "../app/schema"
 
@@ -18,16 +18,14 @@ class Contact extends Component {
   }
 
   render() {
-    const {contactmail} = this.props
-    const user = JSON.parse(localStorage.getItem("USER_INFO"))
-    console.log("user: ", user)
+    const {contactmail, user} = this.props
+    console.log("roles: ", user.roles)
     return (
       <Can
         roles={user.roles}
-        perform="contact:read"
+        perform="home:read"
         yes={() => (
           <div>
-            <div>{console.log("context: ")}</div>
             <Helmet>
               <meta charset="utf-8" />
               <meta
@@ -73,35 +71,29 @@ const actions = {
   toggleFooter
 }
 
-/* Omit imports not relevant to this commit */
-
 const mapStateToProps = state => {
   // Create a Redux-ORM Session from our "entities" slice, which
   // contains the "tables" for each model type
-  const session = schema.from(state.entities)
+  const session = schema.session(state.apiReducer)
 
   // Retrieve the model class that we need.  Each Session
   // specifically "binds" model classes to itself, so that
   // updates to model instances are applied to that session.
   // These "bound classes" are available as fields in the sesssion.
-  const {Pilot} = session
+  const {User} = session
 
-  // Query the session for all Pilot instances.
+  // Query the session for all User instances.
   // The QuerySet that is returned from all() can be used to
-  // retrieve instances of the Pilot class, or retrieve the
+  // retrieve instances of the User class, or retrieve the
   // plain JS objects that are actually in the store.
   // The toRefArray() method will give us an array of the
   // plain JS objects for each item in the QuerySet.
-  const pilots = Pilot.all().toRefArray()
+  const userObj = User.all().toRefArray()
+  const user = {user: userObj[0]}
 
-  // Now that we have an array of all pilot objects, return it as a prop
-  return {pilots}
+  // Now that we have an array of all user objects, return the first one as a prop
+  return user
 }
-
-/* const {pilots = []} = this.props; */
-
-/* // Use the first pilot as the "current" one for display, if available. */
-/* const currentPilot = pilots[0] || {}; */
 
 export default connect(
   mapStateToProps,

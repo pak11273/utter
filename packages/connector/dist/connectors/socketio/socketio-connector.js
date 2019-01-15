@@ -41,7 +41,7 @@ var _socketio = require("../../services/socketio");
 
 var _socketio2 = _interopRequireDefault(_socketio);
 
-var _normalizeErrors = require("../../utils/normalizeErrors");
+var _normalizeErrors = require("../../utils/normalize-errors");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

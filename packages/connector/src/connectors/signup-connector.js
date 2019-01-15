@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
-import {normalizeErrors} from "../utils/normalizeErrors"
+import {normalizeErrors} from "../utils/normalize-errors"
 
 // actions
 import {loadData} from "../../../client/src/api/actions.js"

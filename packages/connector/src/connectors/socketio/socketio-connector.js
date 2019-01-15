@@ -2,7 +2,7 @@
 
 import React, {PureComponent} from "react"
 import SocketIOInstance from "../../services/socketio"
-import {normalizeErrors} from "../../utils/normalizeErrors"
+import {normalizeErrors} from "../../utils/normalize-errors"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 

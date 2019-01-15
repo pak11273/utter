@@ -66,7 +66,7 @@ export const UserSchema = new mongoose.Schema(
     },
     roles: {
       type: [String],
-      default: "guest"
+      default: "registeredUser"
     },
     password: {
       default: "",

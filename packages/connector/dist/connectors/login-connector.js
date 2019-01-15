@@ -66,7 +66,7 @@ var _graphqlTag = require("graphql-tag");
 
 var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
-var _normalizeErrors = require("../utils/normalizeErrors");
+var _normalizeErrors = require("../utils/normalize-errors");
 
 var _isEmpty = require("lodash/isEmpty");
 

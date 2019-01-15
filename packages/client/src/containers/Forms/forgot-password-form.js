@@ -4,7 +4,7 @@ import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import {main} from "../../themes/config"
-import {FormikField, Spacer} from "../../components"
+import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
 // actions
@@ -38,7 +38,7 @@ class ForgotPasswordForm extends PureComponent {
             <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
               <Header as="h1">ForgotPassword</Header>
-              <Field name="email" placeholder="email" component={FormikField} />
+              <Field name="email" placeholder="email" component={FormikInput} />
               <ThemeProvider theme={main}>
                 <Button color="yellow" fontSize="1.5rem" type="submit">
                   Reset Password

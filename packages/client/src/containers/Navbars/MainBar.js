@@ -5,10 +5,8 @@ import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
 import PropTypes from "prop-types"
 import styled from "styled-components"
-import {
-  AUTH_TOKEN,
-  USER_INFO
-} from "../../layouts/Login/containers/constants.js"
+import schema from "../../app/schema"
+import {AUTH_TOKEN} from "../../layouts/Login/containers/constants.js"
 import "./styles.css"
 
 import {Login} from "../index.js"
@@ -152,11 +150,13 @@ class MainNavbar extends Component {
   logout = e => {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
-    localStorage.removeItem(USER_INFO)
+    // Clear user orm reducer
+
     this.props.history.push("/login")
   }
 
   render() {
+    console.log("props: ", this.props)
     const {
       list,
       largeMenuClassName,
@@ -295,12 +295,6 @@ MainNavbar.defaultProps = {
   smallMenuClassName: ""
 }
 
-const mapStateToProps = state => {
-  return {
-    userReducer: state.userReducer
-  }
-}
-
 const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
@@ -309,6 +303,33 @@ const mapDispatchToProps = dispatch => {
       },
       dispatch
     )
+  }
+}
+
+const mapStateToProps = state => {
+  // Create a Redux-ORM Session from our "entities" slice, which
+  // contains the "tables" for each model type
+  const session = schema.session(state.apiReducer)
+
+  // Retrieve the model class that we need.  Each Session
+  // specifically "binds" model classes to itself, so that
+  // updates to model instances are applied to that session.
+  // These "bound classes" are available as fields in the sesssion.
+  const {User} = session
+
+  // Query the session for all User instances.
+  // The QuerySet that is returned from all() can be used to
+  // retrieve instances of the User class, or retrieve the
+  // plain JS objects that are actually in the store.
+  // The toRefArray() method will give us an array of the
+  // plain JS objects for each item in the QuerySet.
+  const userObj = User.all().toRefArray()
+  const user = userObj[0]
+
+  // Now that we have an array of all user objects, return the first one as a prop
+  return {
+    user,
+    userReducer: state.userReducer
   }
 }
 
