@@ -9,7 +9,12 @@ const rules = {
     static: ["home:read", "contact:read", "pricing:read", "login:read"]
   },
   registeredUser: {
-    static: ["courses:create", "users:getSelf", "dashboard:read"],
+    static: [
+      "courses:create",
+      "users:getSelf",
+      "dashboard:read",
+      "contact:read"
+    ],
     dynamic: {
       "courses:update": ({userId, postOwnerId}) => {
         if (!userId || !postOwnerId) return false

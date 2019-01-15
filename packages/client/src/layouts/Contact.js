@@ -23,7 +23,7 @@ class Contact extends Component {
     return (
       <Can
         roles={user.roles}
-        perform="home:read"
+        perform="contact:read"
         yes={() => (
           <div>
             <Helmet>
