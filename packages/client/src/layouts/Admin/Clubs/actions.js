@@ -1,10 +1,10 @@
-import reduxCrud from 'redux-crud'
-import axios from 'axios'
-import _ from 'lodash'
-import cuid from 'cuid'
+import reduxCrud from "redux-crud"
+import axios from "axios"
+import _ from "lodash"
+import cuid from "cuid"
 const cid = cuid()
 
-const baseActionCreators = reduxCrud.actionCreatorsFor('word')
+const baseActionCreators = reduxCrud.actionCreatorsFor("word")
 
 let actionCreators = {
   fetch(level, lang) {
@@ -13,9 +13,9 @@ let actionCreators = {
       dispatch(action)
 
       // api request
-      const url = '/api/dictionary'
+      const url = "/api/dictionary"
       if (!level) {
-        level = '1'
+        level = "1"
       }
       const promise = axios({
         url,
@@ -56,10 +56,10 @@ let actionCreators = {
       dispatch(action)
 
       // api request
-      const url = '/api/dictionary'
+      const url = "/api/dictionary"
       const promise = axios({
         url,
-        method: 'POST',
+        method: "POST",
         data: word
       })
 
@@ -91,7 +91,7 @@ let actionCreators = {
   update(word) {
     return function(dispatch) {
       // optimistic update
-      console.log('word in actions: ', word)
+      console.log("word in actions: ", word)
       const action = baseActionCreators.updateStart(word)
       dispatch(action)
 
@@ -99,7 +99,7 @@ let actionCreators = {
       const url = `/api/dictionary/${word._id}`
       const promise = axios({
         url,
-        method: 'PUT',
+        method: "PUT",
         data: {
           word
         }
@@ -133,7 +133,7 @@ let actionCreators = {
       const url = `/api/dictionary/${word._id}`
       const promise = axios({
         url,
-        method: 'DELETE'
+        method: "DELETE"
       })
 
       promise

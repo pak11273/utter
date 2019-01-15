@@ -55,6 +55,19 @@ input:-webkit-autofill {
   margin: 0 !important;
 }
 
+/* Card Override */
+.ui.card {
+	min-width: 300px !important;
+	max-width: 300px !important;
+	margin: 0 auto;
+}
+
+@media (max-width: 969px) {
+	.ui .card {
+		margin: 0 auto !important;
+	}
+}
+
 /* Footer Override */
 .rt-td {
   display: flex;

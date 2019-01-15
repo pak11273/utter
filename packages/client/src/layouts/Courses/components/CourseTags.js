@@ -2,7 +2,7 @@ import React, {Component} from "react"
 /* import styled from "styled-components" */
 import Select from "react-select"
 import {Box} from "../../../components"
-/* import "../layouts/Courses/styles.css" */
+/* import "../layouts/courses/styles.css" */
 
 class Tags extends Component {
   constructor(props) {

@@ -170,10 +170,10 @@ class Courses extends Component {
               )
             }
             return (
-              <div>
+              <div style={{margin: "0 auto"}}>
                 <Card.Group doubling stackable itemsPerRow={4}>
                   {data.getCourses.courses.map(course => (
-                    <Card key={course.id} fluid={false}>
+                    <Card key={course.id}>
                       <Image
                         src={`${course.courseImage}`}
                         style={{cursor: "pointer"}}

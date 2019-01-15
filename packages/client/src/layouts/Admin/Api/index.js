@@ -1,31 +1,16 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import styled from 'styled-components'
-import orm from '../../../app/schema.js'
-import {TabBarContainer} from '../../../containers'
-import {Header, Container} from 'semantic-ui-react'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import styled from "styled-components"
+import orm from "../../../app/schema.js"
+import {TabBarContainer} from "../../../containers"
+import {Container} from "semantic-ui-react"
 
-import {
-  Box,
-  Button,
-  Column,
-  Flex,
-  Grid,
-  Input,
-  Label,
-  Line,
-  Section,
-  Select,
-  Text,
-  Title
-} from '../../../components'
+import {Box, Button, Flex, Title} from "../../../components"
 
-import actionCreators from './actions.js'
-import Users from '../Users/containers/Users.js'
-import Courses from '../Courses/containers/Courses.js'
-import ClubsList from '../Clubs/containers/ClubsList.js'
-import Tools from '../Tools'
+import Users from "../Users/containers/Users.js"
+import ClubsList from "../Clubs/containers/ClubsList.js"
+import Tools from "../Tools"
 
 const StyledButton = styled(Button)`
   border-radius: 50px;
@@ -41,16 +26,11 @@ const StyledButton = styled(Button)`
   }
 `
 class Api extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const tabs = [
-      {name: 'users', label: 'Users', component: Users},
-      {name: 'courses', label: 'Courses', component: Courses},
-      {name: 'clubs', label: 'Clubs', component: ClubsList},
-      {name: 'tools', label: 'Tools', component: Tools}
+      {name: "users", label: "Users", component: Users},
+      {name: "clubs", label: "Clubs", component: ClubsList},
+      {name: "tools", label: "Tools", component: Tools}
     ]
 
     return (
@@ -74,7 +54,7 @@ class Api extends Component {
 const mapStateToProps = state => {
   const session = orm.session(state.apiReducer)
   const {User} = session
-  let users = User.all().toRefArray()
+  const users = User.all().toRefArray()
   return {users}
 }
 
@@ -90,4 +70,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Api)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Api)

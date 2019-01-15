@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
-import styled from 'styled-components'
-import PropTypes from 'prop-types'
-import Select from 'react-select'
-import {Box} from '../../../components'
-import '../../../layouts/Courses/styles.css'
+import React, {Component} from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
+import Select from "react-select"
+import {Box} from "../../../components"
+import "../../../layouts/courses/styles.css"
 
 class CourseRef extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class CourseRef extends Component {
   }
 
   clearValue = e => {
-    this.select.setInputValue('')
+    this.select.setInputValue("")
   }
 
   updateValue = newValue => {
@@ -36,17 +36,17 @@ class CourseRef extends Component {
       <Box width="250px" width1080="74%">
         <Select.Creatable
           wrapperStyle={{
-            margin: '20px 0 0 0',
-            width: '100%'
+            margin: "20px 0 0 0",
+            width: "100%"
           }}
           style={{
-            width: '100%'
+            width: "100%"
           }}
           menuContainerStyle={{
-            width: '100%'
+            width: "100%"
           }}
           menuStyle={{
-            width: '100%'
+            width: "100%"
           }}
           multi={multi}
           options={options}
@@ -65,7 +65,7 @@ CourseRef.propTypes = {
 }
 
 CourseRef.defaultProps = {
-  label: 'CourseRef:',
+  label: "CourseRef:",
   searchable: true
 }
 

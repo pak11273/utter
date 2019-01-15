@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {Table} from 'semantic-ui-react'
+import React, {Component} from "react"
+import {Table} from "semantic-ui-react"
 
-import CoursesListHeader from '../components/CoursesListHeader'
-import CoursesListRow from '../components/CoursesListRow'
+import CoursesListHeader from "./CoursesListHeader"
+import CoursesListRow from "./CoursesListRow"
 
 export default class CoursesList extends Component {
   render() {
