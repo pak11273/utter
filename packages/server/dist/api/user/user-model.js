@@ -83,7 +83,7 @@ var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
   },
   roles: {
     type: [String],
-    default: "guest"
+    default: "registeredUser"
   },
   password: {
     default: "",
