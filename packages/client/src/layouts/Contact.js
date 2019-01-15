@@ -9,7 +9,7 @@ import {Can} from "../components"
 import schema from "../app/schema"
 
 // actions
-import {contactmail} from "../app/actions/contactmailActions"
+import {contactmail} from "../app/actions/contact-mail-actions"
 import {toggleFooter} from "../app/actions/toggleFooterAction.js"
 
 class Contact extends Component {

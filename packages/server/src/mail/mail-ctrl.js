@@ -19,6 +19,7 @@ transporter.use("compile", hbs(options))
 
 export default {
   contactmail: function(req, res) {
+    console.log("req.body: ", req.body)
     const data = {
       from: "utterzone11273@gmail.com",
       to: "pak11273@gmail.com",

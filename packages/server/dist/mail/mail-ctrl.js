@@ -49,6 +49,7 @@ _mail.transporter.use("compile", (0, _nodemailerExpressHandlebars2.default)(opti
 
 exports.default = {
   contactmail: function contactmail(req, res) {
+    console.log("req.body: ", req.body);
     var data = {
       from: "utterzone11273@gmail.com",
       to: "pak11273@gmail.com",
