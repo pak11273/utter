@@ -7,7 +7,8 @@ const asyncTypes = {
   DELETE: "DELETE",
   SUCCESS: "SUCCESS",
   ERROR: "ERROR",
-  RESET: "RESET"
+  RESET: "RESET",
+  REMOVE: "REMOVE"
 }
 
 // ie. typesString FETCH_USER_ASYNC will produce:
@@ -20,6 +21,7 @@ const asyncTypes = {
 // FETCH_USER_ASYNC.SUCCESS
 // FETCH_USER_ASYNC.ERROR
 // FETCH_USER_ASYNC.RESET
+// FETCH_USER_ASYNC.REMOVE
 export const createAsyncTypes = typeString =>
   Object.values(asyncTypes).reduce((acc, curr) => {
     acc[curr] = `${typeString}_${curr}`

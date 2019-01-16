@@ -21,7 +21,7 @@ import "react-select/dist/react-select.css" // comment out exclude node_modules 
 /* import "./styles.css" */
 
 // actions
-import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
 /* const getCourse = gql` */
 /*   query getCourse($courseId: String) { */

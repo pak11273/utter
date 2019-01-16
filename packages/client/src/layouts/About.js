@@ -5,7 +5,7 @@ import {Helmet} from "react-helmet"
 import {Grid, Header, Image} from "semantic-ui-react"
 
 // actions
-import {toggleFooter} from "../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../app/actions/toggle-footer-action.js"
 
 class About extends Component {
   componentDidMount() {

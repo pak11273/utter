@@ -18,7 +18,7 @@ import {Staticbar} from "../../containers"
 
 // actions
 /* import {chooseCourseLanguage} from "./actions" */
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../app/actions/toggle-footer-action.js"
 // import {getTeachingList} from './actions.js'
 
 const StyledSubtitle = styled(Subtitle)`

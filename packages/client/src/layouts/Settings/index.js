@@ -15,7 +15,7 @@ import Notifications from "./containers/notifications.js"
 import "semantic-ui-css/semantic.css"
 
 // actions
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../app/actions/toggle-footer-action.js"
 
 class Settings extends Component {
   constructor() {

@@ -17,7 +17,7 @@ import React, {PureComponent} from "react"
 import cloneDeep from "lodash/cloneDeep"
 import {FormikInput, Spacer} from "../../components"
 import {main} from "../../themes/config"
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../app/actions/toggle-footer-action.js"
 import Terms from "../../documents/terms-and-conditions.js"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
 /* import signup from "../../api/user/actions/signup-actions.js" */

@@ -6,7 +6,7 @@ import {NavLink} from "react-router-dom"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import schema from "../../app/schema"
-import {AUTH_TOKEN} from "../../layouts/Login/containers/constants.js"
+import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
 import "./styles.css"
 
 import {Login} from "../index.js"
@@ -17,6 +17,7 @@ import Graphic from "../../assets/images/logo.svg"
 
 // actions
 import actions from "../../api/user/actions/login-actions"
+import {deleteData} from "../../api/actions"
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -150,13 +151,11 @@ class MainNavbar extends Component {
   logout = e => {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
-    // Clear user orm reducer
-
+    this.props.deleteData(this.props.user)
     this.props.history.push("/login")
   }
 
   render() {
-    console.log("props: ", this.props)
     const {
       list,
       largeMenuClassName,
@@ -299,7 +298,8 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        logout: actions.logout
+        logout: actions.logout,
+        deleteData
       },
       dispatch
     )

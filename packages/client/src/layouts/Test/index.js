@@ -16,6 +16,7 @@ const TestComponent = () => (
 
         return (
           <div>
+            <h1>THIS IS A TEST</h1>
             <p>{data.beef}</p>
           </div>
         )

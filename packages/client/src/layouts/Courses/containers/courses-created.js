@@ -21,7 +21,7 @@ import cloneDeep from "lodash/cloneDeep"
 import gql from "graphql-tag"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
-import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
 const getCreatedCourses = gql`
   query getCreatedCourses($cursor: String, $author: String!) {
@@ -64,7 +64,7 @@ class Courses extends Component {
     console.log("id: ", data)
 
     history.push({
-      pathname: "/course/course-settings",
+      pathname: "/course/course-introduction",
       state: {courseId: data.id}
     })
   }

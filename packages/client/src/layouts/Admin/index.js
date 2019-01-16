@@ -15,7 +15,7 @@ import Team from "./Team"
 import Etc from "./Etc"
 
 // actions
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../app/actions/toggle-footer-action.js"
 
 const Dropdown = styled(Button)`
   background: transparent;

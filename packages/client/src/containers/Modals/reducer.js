@@ -1,6 +1,6 @@
-import {MODAL_CLOSE, MODAL_OPEN, MODAL_RESET} from './types.js'
+import {MODAL_CLOSE, MODAL_OPEN, MODAL_RESET} from "./types.js"
 
-import {createReducer} from '../../utils/redux-utils.js'
+import {createReducer} from "../../utils/redux-utils.js"
 
 const initialState = []
 
@@ -11,15 +11,15 @@ export function openModal(state, payload) {
   return state.concat({modalType, modalProps})
 }
 
-export function closeModal(state, payload) {
+export function closeModal(state) {
   // Always popping the last modal off the stack
   const newState = state.slice()
   newState.pop()
   return newState
 }
 
-export function resetModal(state, payload) {
-  return (state = initialState)
+export function resetModal(state) {
+  return state
 }
 
 export default createReducer(initialState, {

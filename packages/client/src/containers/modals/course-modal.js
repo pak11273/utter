@@ -1,10 +1,10 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import orm from '../../app/schema.js'
-import {Modal, Button} from 'semantic-ui-react'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import orm from "../../app/schema.js"
+import {Modal, Button} from "semantic-ui-react"
 
-import {closeModal} from './actions.js'
-import courseActions from '../../api/course/actions/courseActions.js'
+import {closeModal} from "./actions.js"
+import courseActions from "../../api/course/actions/course-actions.js"
 
 export class ModalContainer extends Component {
   deleteCourse = () => {

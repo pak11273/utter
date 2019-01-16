@@ -15,6 +15,7 @@ import {
   /* Sponsorship, */
   Courses,
   CourseEdit,
+  CourseIntroduction,
   CourseSettings,
   /* CourseDetails, */
   /* MyCourses, */
@@ -139,6 +140,10 @@ export const routes = [
     path: "/course/:id",
     routes: [
       {
+        path: "/course/course-introduction",
+        component: requireAuth(CourseIntroduction)
+      },
+      {
         path: "/course/course-settings",
         component: requireAuth(CourseSettings)
       },
@@ -191,12 +196,24 @@ export const routes = [
     path: "/zone/:id",
     routes: [
       {
-        path: "/course/course-settings",
-        component: CourseSettings
+        exact: true,
+        path: "/course/test",
+        component: requireAuth(Test)
       },
       {
+        exact: true,
+        path: "/course/course-introduction",
+        component: requireAuth(CourseIntroduction)
+      },
+      {
+        exact: true,
+        path: "/course/course-settings",
+        component: requireAuth(CourseSettings)
+      },
+      {
+        exact: true,
         path: "/course/levels",
-        component: Levels
+        component: requireAuth(Levels)
       }
     ]
   },

@@ -85,6 +85,9 @@ class CourseEdit extends Component {
               <Spacer margin="50px 0 0 0" />
               <Item align="center">
                 <Header as="h2">
+                  <Link to="/course/course-introduction">Introduction</Link>
+                </Header>
+                <Header as="h2">
                   <Link to="/course/course-settings">Settings</Link>
                 </Header>
                 <Header as="h2">

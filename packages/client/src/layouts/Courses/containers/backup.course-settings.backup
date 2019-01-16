@@ -21,11 +21,11 @@ import FormEditWrapper from "../../../components/FormEditWrapper"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
 import {updateEntity} from "../../../api/entities/actions.js"
 import {getValueFromEvent} from "../../../utils/clientUtils.js"
-import ModalMgr from "../../../containers/Modals/ModalMgr.js"
+import ModalMgr from "../../../containers/modals/ModalMgr.js"
 import "../styles.css"
 
 // actions
-import {openModal} from "../../../containers/Modals/actions.js"
+import {openModal} from "../../../containers/modals/actions.js"
 import updateSettings from "../../../api/course/actions/courseActions.js"
 /* const CLOUDINARY_UPLOAD_PRESET = "your_upload_preset_id" */
 /* const CLOUDINARY_UPLOAD_URL = "http://res.cloudinary.com/z28ks5gg/upload" */

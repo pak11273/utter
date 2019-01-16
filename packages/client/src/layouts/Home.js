@@ -30,7 +30,7 @@ import ceoImg from "../assets/images/ceo.jpg"
 import visitingImg from "../assets/images/walking-around.jpg"
 
 // actions
-import {toggleFooter} from "../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../app/actions/toggle-footer-action.js"
 
 /* eslint-disable react/no-multi-comp */
 

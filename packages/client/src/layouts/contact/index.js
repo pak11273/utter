@@ -10,7 +10,7 @@ import schema from "../../app/schema"
 
 // actions
 import {contactmail} from "../../app/actions/contact-mail-actions"
-import {toggleFooter} from "../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../app/actions/toggle-footer-action.js"
 
 class Contact extends Component {
   componentDidMount() {

@@ -80,7 +80,7 @@ class Courses extends Component {
     console.log("id: ", data)
 
     history.push({
-      pathname: "/course/course-settings",
+      pathname: "/course/course-introduction",
       state: {courseId: data.id}
     })
   }

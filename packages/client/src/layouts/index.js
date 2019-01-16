@@ -19,6 +19,7 @@ import Levels from "./Levels/containers/levels-controller.js"
 import MyCourses from "./courses/MyCourses.js"
 import CourseCtrl from "./courses/containers/course-controller.js"
 import CoursesCreated from "./courses/containers/courses-created.js"
+import CourseIntroduction from "./courses/containers/course-introduction.js"
 import CourseSettings from "./courses/containers/course-settings.js"
 import Courses from "./courses/index.js"
 import NotFound from "../components/Misc/NotFound.js"
@@ -60,6 +61,7 @@ export {
   MyCourses,
   CourseCtrl,
   CoursesCreated,
+  CourseIntroduction,
   CourseSettings,
   Settings,
   noAuth,

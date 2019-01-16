@@ -26,7 +26,7 @@ import {
 import {Masthead} from "../../../containers"
 import {addFlashMessage} from "../../../app/actions/flashMessages"
 import {main} from "../../../themes/config"
-import {toggleFooter} from "../../../app/actions/toggleFooterAction"
+import {toggleFooter} from "../../../app/actions/toggle-footer-action"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;

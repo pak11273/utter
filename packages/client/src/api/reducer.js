@@ -1,4 +1,4 @@
-import * as sharedTypes from "../shared/types"
+import * as sharedTypes from "./shared/types.js"
 /* import * as userTypes from "./user/types.js" */
 /* import * as usersTypes from "./users/types.js" */
 /* import * as courseTypes from "../../course/types.js" */
@@ -48,6 +48,21 @@ export function loadData(state, payload) {
   /* }) */
   /* users.forEach(user => Users.parse(user)) */
   User.parse(user)
+  return session.state
+}
+
+export function deleteData(state, payload) {
+  // Create a Redux-ORM session from our entities "tables"
+  const session = orm.session(state)
+  // Get a reference to the correct version of the Users class for this Session
+  const {User} = session
+  const user = payload
+  // add id by converting _id for each record
+  /* user.map(user => { */
+  /*   return (user.id = user._id) */
+  /* }) */
+  /* users.forEach(user => Users.parse(user)) */
+  User.delete(user)
   return session.state
 }
 
@@ -120,7 +135,8 @@ export function loadData(state, payload) {
 /* } */
 
 export default createReducer(initialState, {
-  [sharedTypes.LOAD_DATA_ASYNC.LOAD]: loadData
+  [sharedTypes.LOAD_DATA_ASYNC.LOAD]: loadData,
+  [sharedTypes.DELETE_DATA_ASYNC.DELETE]: loadData
   /* [courseTypes.COURSE_ASYNC.SUCCESS]: loadCourse */
   /* [coursesTypes.COURSES_ASYNC.SUCCESS]: loadCourses, */
   /* [coursesTypes.COURSES_ASYNC.RESET]: resetCourses */

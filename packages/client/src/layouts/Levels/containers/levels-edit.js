@@ -9,7 +9,7 @@ import {AgGridReact} from "ag-grid-react"
 import "ag-grid-community/dist/styles/ag-grid.css"
 import "ag-grid-community/dist/styles/ag-theme-material.css"
 
-import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
+import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
 const getCourse = gql`
   query getCourse($courseId: String!) {
@@ -80,7 +80,7 @@ class Levels extends Component {
           return (
             <Grid columns={1} centered>
               <Grid.Column textAlign="center">
-                <Masthead>
+                <Masthead padding="60px 20px 0 20px">
                   <Header as="h1">Course Levels</Header>
                 </Masthead>
               </Grid.Column>
@@ -90,6 +90,7 @@ class Levels extends Component {
                 <div
                   className="ag-theme-material"
                   style={{
+                    position: "relative",
                     height: "500px",
                     margin: "0 auto",
                     width: "800px"
@@ -106,11 +107,21 @@ class Levels extends Component {
                     columnDefs={this.state.columnDefs}
                     rowData={this.state.rowData}
                   />
-                  <Button type="button" onClick={this.onButtonClick}>
+                  <Button
+                    onClick={this.onButtonClick}
+                    color="yellow"
+                    floated="right"
+                    fontSize="1.5rem"
+                    style={{
+                      bottom: "-80px",
+                      right: "60px",
+                      position: "absolute"
+                    }}
+                    type="submit">
                     Save
                   </Button>
                 </div>
-                ){/*  })} */}
+                )
               </Grid.Column>
             </Grid>
           )

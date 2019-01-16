@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import {Container, Grid, Header, List, Segment} from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.css'
-import styled from 'styled-components'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import {Container, Grid, Header, List, Segment} from "semantic-ui-react"
+import "semantic-ui-css/semantic.css"
+import styled from "styled-components"
 
-import {toggleFooter} from '../../../app/actions/toggleFooterAction.js'
+import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
 const StyledFooter = styled.section`
   align-items: ${props => props.alignitems};
@@ -67,10 +67,10 @@ const StyledFooter = styled.section`
   }
 `
 StyledFooter.defaultProps = {
-  boxsizing: 'border-box',
-  color: 'black',
-  display: 'grid',
-  fontsize: '1rem'
+  boxsizing: "border-box",
+  color: "black",
+  display: "grid",
+  fontsize: "1rem"
 }
 
 class Footer extends Component {
@@ -87,7 +87,7 @@ class Footer extends Component {
     if (toggleFooterReducer.toggle) {
       var MainFooter = (
         <StyledFooter {...this.props}>
-          <Segment inverted vertical style={{padding: '5em 0em'}}>
+          <Segment inverted vertical style={{padding: "5em 0em"}}>
             <Container>
               <Grid divided inverted stackable>
                 <Grid.Row>
@@ -147,4 +147,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Footer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Footer)

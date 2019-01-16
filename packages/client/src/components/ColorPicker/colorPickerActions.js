@@ -1,6 +1,6 @@
-import _ from 'lodash'
+import _ from "lodash"
 
-import {openModal} from '../../components/Modals/actions.js'
+import {openModal} from "../../components/modals/actions.js"
 
 export function showColorPicker(initialColor, onColorPickedAction) {
   // Define props that we want to "pass" to the ColorPicker dialog,
@@ -10,7 +10,7 @@ export function showColorPicker(initialColor, onColorPickedAction) {
     color: initialColor,
     onColorPicked: onColorPickedAction
   }
-  return openModal('ColorPickerDialog', colorPickerProps)
+  return openModal("ColorPickerDialog", colorPickerProps)
 }
 
 export function colorSelected(color, actionToDispatch) {

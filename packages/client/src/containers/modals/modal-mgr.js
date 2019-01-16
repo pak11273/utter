@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, {Component} from "react"
+import {connect} from "react-redux"
 
-import testModal from './testModal.js'
-import courseModal from './courseModal.js'
+import testModal from "./test-modal.js"
+import courseModal from "./course-modal.js"
 
 const modalComponentLookupTable = {
   courseModal,

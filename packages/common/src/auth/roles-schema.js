@@ -16,9 +16,13 @@ const rules = {
       "contact:read"
     ],
     dynamic: {
-      "courses:update": ({userId, postOwnerId}) => {
-        if (!userId || !postOwnerId) return false
-        return userId === postOwnerId
+      "course-settings:read": ({userId, courseOwnerId}) => {
+        if (!userId || !courseOwnerId) return false
+        return userId === courseOwnerId
+      },
+      "course-introduction:update": ({userId, courseOwnerId}) => {
+        if (!userId || !courseOwnerId) return false
+        return userId === courseOwnerId
       }
     }
   },

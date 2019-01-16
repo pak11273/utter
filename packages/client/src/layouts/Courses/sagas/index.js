@@ -5,10 +5,10 @@ import {ADD_FLASH_MESSAGE} from "../../../app/types.js"
 
 // types
 import * as types from "../types"
-import {MODAL_RESET} from "../../../containers/Modals/types.js"
+import {MODAL_RESET} from "../../../containers/modals/types.js"
 
 // actions
-// import {resetModal} from '../../../containers/Modals/actions.js'
+// import {resetModal} from '../../../containers/modals/actions.js'
 
 function* fetchLevels(action) {
   yield console.log("action: ", action)
