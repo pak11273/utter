@@ -1,5 +1,6 @@
 import React, {Component} from "react"
-import {Link, withRouter} from "react-router-dom"
+import {connect} from "react-redux"
+import {Link} from "react-router-dom"
 import {history} from "@utterzone/connector"
 import Select from "react-select"
 import isEmpty from "lodash/isEmpty"
@@ -7,6 +8,7 @@ import cloneDeep from "lodash/cloneDeep"
 import Waypoint from "react-waypoint"
 import {Helmet} from "react-helmet"
 import update from "immutability-helper"
+import {store} from "../../store.js"
 import {
   Button as SemButton,
   Card,
@@ -26,6 +28,9 @@ import "./styles.css"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
+
+// actions
+import {loadData} from "../../api/actions.js"
 
 const getCourses = gql`
   query getCourses(
@@ -76,12 +81,13 @@ class Courses extends Component {
   }
 
   handleImageClick = data => {
-    // store courseId in redux
-    console.log("id: ", data)
+    const payload = {}
+    payload.course = data
+    store.dispatch(loadData(payload))
 
     history.push({
       pathname: "/course/course-introduction",
-      state: {courseId: data.id}
+      state: {data}
     })
   }
 
@@ -170,7 +176,7 @@ class Courses extends Component {
               )
             }
             return (
-              <div style={{margin: "0 auto"}}>
+              <div style={{margin: "0 auto", justifyContent: "centered"}}>
                 <Card.Group doubling stackable itemsPerRow={4}>
                   {data.getCourses.courses.map(course => (
                     <Card key={course.id}>
@@ -481,4 +487,13 @@ class CoursesContainer extends Component {
   }
 }
 
-export default withRouter(CoursesContainer)
+const mapDispatchToProps = dispatch => {
+  return {
+    loadData: payload => dispatch(loadData(payload))
+  }
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(CoursesContainer)

@@ -123,9 +123,10 @@ var D = exports.D = function (_Component) {
               case 8:
                 if (token) {
                   localStorage.setItem("AUTH_TOKEN", token);
-                  payload = response.data.login.user;
+                  payload = {};
 
-
+                  payload.user = response.data.login.user;
+                  console.log("payload: ", payload);
                   _this.props.loadData(payload);
                 }
                 return _context.abrupt("return", null);

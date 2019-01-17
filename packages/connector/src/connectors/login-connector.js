@@ -29,8 +29,9 @@ export class D extends Component {
       }
       if (token) {
         localStorage.setItem("AUTH_TOKEN", token)
-        const payload = response.data.login.user
-
+        const payload = {}
+        payload.user = response.data.login.user
+        console.log("payload: ", payload)
         this.props.loadData(payload)
       }
       return null

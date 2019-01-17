@@ -59,7 +59,7 @@ class LoginForm extends PureComponent {
                   color="yellow"
                   floated="right"
                   fontSize="1.5rem"
-                  style={{margin: "30px 0 0 0"}}
+                  style={{margin: "80px 0 0 0"}}
                   type="submit">
                   Submit
                 </Button>

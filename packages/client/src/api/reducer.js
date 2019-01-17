@@ -37,17 +37,22 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
+  console.log("pay: ", payload)
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
-  const {User} = session
-  const user = payload
-  // add id by converting _id for each record
-  /* user.map(user => { */
-  /*   return (user.id = user._id) */
-  /* }) */
-  /* users.forEach(user => Users.parse(user)) */
-  User.parse(user)
+  /* const {User, Course} = session */
+
+  const entities = ["user", "course"]
+  /* const {user, course} = payload */
+  const payloadKeys = Object.keys(payload)
+  console.log("keys: ", payloadKeys)
+  payloadKeys.map(key => {
+    const upperCaseKey = key.charAt(0).toUpperCase() + key.slice(1)
+    if (entities.includes(key)) {
+      session[upperCaseKey].parse(payload[key])
+    }
+  })
   return session.state
 }
 

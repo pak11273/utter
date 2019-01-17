@@ -3,9 +3,10 @@ import {connect} from "react-redux"
 import Helmet from "react-helmet"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 /* import {history} from "@utterzone/connector" */
-import {Container, Header, Form, Segment} from "semantic-ui-react"
+import {Container, Form, Header, Item, Segment} from "semantic-ui-react"
 import {Masthead} from "../../../containers"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
+import ControlEdit from "../components/course-edit-controls.js"
 
 // actions
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
@@ -24,8 +25,6 @@ class CourseIntroduction extends Component {
     /* } else { */
     /*   console.log("we need this in redux") */
     /* } */
-
-    console.log(this.props.location.state)
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value})
@@ -42,6 +41,17 @@ class CourseIntroduction extends Component {
   }
 
   render() {
+    const {courseName, courseDescription} = this.props.location.state.data
+    const items = [
+      {
+        childKey: 0,
+        image: "/images/wireframe/image.png",
+        header: courseName,
+        description: courseDescription,
+        meta: "",
+        extra: ""
+      }
+    ]
     return (
       <Container>
         <Container>
@@ -68,8 +78,10 @@ class CourseIntroduction extends Component {
             <Header as="h4" attached="top" block>
               Course Information
             </Header>
-            <Segment attached>Title</Segment>
-            <Segment attached>Description</Segment>
+            <Segment attached>
+              <Item.Group items={items} />
+            </Segment>
+            <ControlEdit />
             <Header as="h4" attached="bottom" block />
           </Container>
           <Container style={{paddingBottom: "5em"}} text>
@@ -77,16 +89,14 @@ class CourseIntroduction extends Component {
 
             <Header as="h4" attached="top" block />
             <Segment attached>Change Image</Segment>
+            <ControlEdit />
             <Header as="h4" attached="bottom" block />
           </Container>
           <Container style={{paddingBottom: "5em"}} text>
             <Header as="h2">Tips</Header>
-
             <Header as="h4" attached="top" block />
             <Segment attached>This is permanent</Segment>
-            <Form.Button color="red" onClick={this.openModalClicked} attached>
-              Delete Course
-            </Form.Button>
+            <ControlEdit />
             <Header as="h4" attached="bottom" block />
           </Container>
           <Container style={{position: "relative", paddingBottom: "5em"}} text>

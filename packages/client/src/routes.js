@@ -141,15 +141,15 @@ export const routes = [
     routes: [
       {
         path: "/course/course-introduction",
-        component: requireAuth(CourseIntroduction)
+        component: CourseIntroduction
       },
       {
         path: "/course/course-settings",
-        component: requireAuth(CourseSettings)
+        component: CourseSettings
       },
       {
         path: "/course/levels",
-        component: requireAuth(Levels)
+        component: Levels
       }
     ]
   },

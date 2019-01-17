@@ -64,7 +64,7 @@ input:-webkit-autofill {
 
 @media (max-width: 969px) {
 	.ui .card {
-		margin: 0 auto !important;
+		margin: 1em auto !important;
 	}
 }
 
