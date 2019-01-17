@@ -29,12 +29,19 @@ var rules = {
   registeredUser: {
     static: ["courses:create", "users:getSelf", "dashboard:read", "contact:read"],
     dynamic: {
-      "courses:update": function coursesUpdate(_ref) {
+      "course-settings:read": function courseSettingsRead(_ref) {
         var userId = _ref.userId,
-            postOwnerId = _ref.postOwnerId;
+            courseOwnerId = _ref.courseOwnerId;
 
-        if (!userId || !postOwnerId) return false;
-        return userId === postOwnerId;
+        if (!userId || !courseOwnerId) return false;
+        return userId === courseOwnerId;
+      },
+      "course-introduction:update": function courseIntroductionUpdate(_ref2) {
+        var userId = _ref2.userId,
+            courseOwnerId = _ref2.courseOwnerId;
+
+        if (!userId || !courseOwnerId) return false;
+        return userId === courseOwnerId;
       }
     }
   },

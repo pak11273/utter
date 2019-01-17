@@ -51,18 +51,12 @@ export function loadData(state, payload) {
   return session.state
 }
 
-export function deleteData(state, payload) {
+export function deleteData(state) {
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
   const {User} = session
-  const user = payload
-  // add id by converting _id for each record
-  /* user.map(user => { */
-  /*   return (user.id = user._id) */
-  /* }) */
-  /* users.forEach(user => Users.parse(user)) */
-  User.delete(user)
+  User.delete()
   return session.state
 }
 
@@ -136,7 +130,7 @@ export function deleteData(state, payload) {
 
 export default createReducer(initialState, {
   [sharedTypes.LOAD_DATA_ASYNC.LOAD]: loadData,
-  [sharedTypes.DELETE_DATA_ASYNC.DELETE]: loadData
+  [sharedTypes.DELETE_DATA]: deleteData
   /* [courseTypes.COURSE_ASYNC.SUCCESS]: loadCourse */
   /* [coursesTypes.COURSES_ASYNC.SUCCESS]: loadCourses, */
   /* [coursesTypes.COURSES_ASYNC.RESET]: resetCourses */

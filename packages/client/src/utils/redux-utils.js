@@ -33,10 +33,11 @@ export const createAction = (type, payload = {}) => ({type, ...payload})
 export const createReducer = (initialState, handlers) => (
   state = initialState,
   action
-) =>
-  handlers.hasOwnProperty(action.type)
+) => {
+  return handlers.hasOwnProperty(action.type)
     ? handlers[action.type](state, action)
     : state
+}
 
 export function reduceReducers(...reducers) {
   return (previous, current) =>

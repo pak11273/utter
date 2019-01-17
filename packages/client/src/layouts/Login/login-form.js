@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react"
 import {ThemeProvider} from "styled-components"
 import {withFormik, Field} from "formik"
-import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import {loginSchema} from "@utterzone/common"
@@ -10,7 +9,6 @@ import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
 // actions
-import login from "../../api/user/actions/login-actions.js"
 import "./forms.css"
 
 class LoginForm extends PureComponent {
@@ -79,18 +77,9 @@ const mapStateToProps = state => ({
   loginReducer: state.userReducer.login
 })
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    {
-      login: login.request
-    },
-    dispatch
-  )
-})
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(
   withFormik({
     validationSchema: loginSchema,

@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import {withRouter} from "react-router"
-import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
 import PropTypes from "prop-types"
@@ -16,7 +15,6 @@ import {Box, Hamburger, Logo, Section} from "../../components"
 import Graphic from "../../assets/images/logo.svg"
 
 // actions
-import actions from "../../api/user/actions/login-actions"
 import {deleteData} from "../../api/actions"
 
 const StyledNavLink = styled(NavLink)`
@@ -151,7 +149,7 @@ class MainNavbar extends Component {
   logout = e => {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
-    this.props.deleteData(this.props.user)
+    this.props.deleteData()
     this.props.history.push("/login")
   }
 
@@ -294,18 +292,6 @@ MainNavbar.defaultProps = {
   smallMenuClassName: ""
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(
-      {
-        logout: actions.logout,
-        deleteData
-      },
-      dispatch
-    )
-  }
-}
-
 const mapStateToProps = state => {
   // Create a Redux-ORM Session from our "entities" slice, which
   // contains the "tables" for each model type
@@ -335,7 +321,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  {deleteData},
   null,
   {
     pure: false
