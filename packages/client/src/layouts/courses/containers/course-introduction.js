@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
+import schema from "../../../app/schema.js"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 /* import {history} from "@utterzone/connector" */
 import {Container, Form, Header, Item, Segment} from "semantic-ui-react"
@@ -41,11 +42,10 @@ class CourseIntroduction extends Component {
   }
 
   render() {
-    const {courseName, courseDescription} = this.props.location.state.data
+    const {courseName, courseDescription} = this.props.course
     const items = [
       {
         childKey: 0,
-        image: "/images/wireframe/image.png",
         header: courseName,
         description: courseDescription,
         meta: "",
@@ -115,11 +115,21 @@ class CourseIntroduction extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {Course} = session
+  const courses = Course.all().toRefArray()
+  return {
+    course: courses[0],
+    courseReducer: state.apiReducer.Course
+  }
+}
+
 const actions = {
   toggleFooter
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(CourseIntroduction)

@@ -8,6 +8,17 @@ const rules = {
   guest: {
     static: ["home:read", "contact:read", "pricing:read", "login:read"]
   },
+  test: {
+    static: ["test:create"],
+    dynamic: [
+      {
+        "test:trash": ({username, courseAuthorUsername}) => {
+          if (!username || !courseAuthorUsername) return false
+          return username === courseAuthorUsername
+        }
+      }
+    ]
+  },
   registeredUser: {
     static: [
       "courses:create",
@@ -15,16 +26,20 @@ const rules = {
       "dashboard:read",
       "contact:read"
     ],
-    dynamic: {
-      "course-settings:read": ({userId, courseOwnerId}) => {
-        if (!userId || !courseOwnerId) return false
-        return userId === courseOwnerId
+    dynamic: [
+      {
+        "course-settings:read": ({username, courseAuthorUsername}) => {
+          if (!username || !courseAuthorUsername) return false
+          return username === courseAuthorUsername
+        }
       },
-      "course-introduction:update": ({userId, courseOwnerId}) => {
-        if (!userId || !courseOwnerId) return false
-        return userId === courseOwnerId
+      {
+        "course-introduction:update": ({username, courseAuthorUsername}) => {
+          if (!username || !courseAuthorUsername) return false
+          return username === courseAuthorUsername
+        }
       }
-    }
+    ]
   },
   admin: {
     static: [

@@ -312,7 +312,6 @@ const mapStateToProps = state => {
   const userObj = User.all().toRefArray()
   const user = userObj[0]
 
-  // Now that we have an array of all user objects, return the first one as a prop
   return {
     user,
     userReducer: state.userReducer

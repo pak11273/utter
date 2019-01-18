@@ -12,8 +12,6 @@ const check = (rules, roles, action, data) => {
     }
   })
 
-  /* const permissions = rules[roles] */
-
   // Static rules setup
   var combinedStaticRules = []
 
@@ -22,7 +20,6 @@ const check = (rules, roles, action, data) => {
   })
 
   var staticPermissions = uniq(flatten(combinedStaticRules))
-  console.log("static: ", staticPermissions)
 
   if (staticPermissions && staticPermissions.includes(action)) {
     // static rule not provided for action
@@ -31,23 +28,39 @@ const check = (rules, roles, action, data) => {
 
   // Dynamic rules setup
   var combinedDynamicRules = []
-
   roles.map(role => {
-    combinedDynamicRules.push(rules[role].dynamic)
+    if (rules[role].dynamic) {
+      var rulesArr = rules[role].dynamic
+    }
+    combinedDynamicRules.push(rulesArr)
   })
 
   var combinedDynamicPermissions = uniq(flatten(combinedDynamicRules))
 
-  const dynamicPermissions = combinedDynamicPermissions.dynamic
+  const hasPermission = combinedDynamicPermissions.map(
+    obj => Object.keys(obj)[0]
+  )
 
-  if (dynamicPermissions) {
-    const permissionCondition = dynamicPermissions[action]
+  if (hasPermission) {
+    const permissionCondition = hasPermission.includes(action)
     if (!permissionCondition) {
-      // dynamic rule not provided for action
       return false
     }
 
-    return permissionCondition(data)
+    const keys = Object.keys(rules)
+
+    var userHasRights = null
+    keys.map(item => {
+      if (rules[item].hasOwnProperty("dynamic")) {
+        rules[item].dynamic.map(func => {
+          if (func.hasOwnProperty(action)) {
+            userHasRights = func[action]
+          }
+        })
+      }
+    })
+
+    return userHasRights(data)
   }
   return false
 }

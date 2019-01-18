@@ -37,7 +37,6 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
-  console.log("pay: ", payload)
   // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
   // Get a reference to the correct version of the Users class for this Session
@@ -46,7 +45,6 @@ export function loadData(state, payload) {
   const entities = ["user", "course"]
   /* const {user, course} = payload */
   const payloadKeys = Object.keys(payload)
-  console.log("keys: ", payloadKeys)
   payloadKeys.map(key => {
     const upperCaseKey = key.charAt(0).toUpperCase() + key.slice(1)
     if (entities.includes(key)) {

@@ -26,24 +26,37 @@ var rules = {
   guest: {
     static: ["home:read", "contact:read", "pricing:read", "login:read"]
   },
+  test: {
+    static: ["test:create"],
+    dynamic: [{
+      "test:trash": function testTrash(_ref) {
+        var username = _ref.username,
+            courseAuthorUsername = _ref.courseAuthorUsername;
+
+        if (!username || !courseAuthorUsername) return false;
+        return username === courseAuthorUsername;
+      }
+    }]
+  },
   registeredUser: {
     static: ["courses:create", "users:getSelf", "dashboard:read", "contact:read"],
-    dynamic: {
-      "course-settings:read": function courseSettingsRead(_ref) {
-        var userId = _ref.userId,
-            courseOwnerId = _ref.courseOwnerId;
+    dynamic: [{
+      "course-settings:read": function courseSettingsRead(_ref2) {
+        var username = _ref2.username,
+            courseAuthorUsername = _ref2.courseAuthorUsername;
 
-        if (!userId || !courseOwnerId) return false;
-        return userId === courseOwnerId;
-      },
-      "course-introduction:update": function courseIntroductionUpdate(_ref2) {
-        var userId = _ref2.userId,
-            courseOwnerId = _ref2.courseOwnerId;
-
-        if (!userId || !courseOwnerId) return false;
-        return userId === courseOwnerId;
+        if (!username || !courseAuthorUsername) return false;
+        return username === courseAuthorUsername;
       }
-    }
+    }, {
+      "course-introduction:update": function courseIntroductionUpdate(_ref3) {
+        var username = _ref3.username,
+            courseAuthorUsername = _ref3.courseAuthorUsername;
+
+        if (!username || !courseAuthorUsername) return false;
+        return username === courseAuthorUsername;
+      }
+    }]
   },
   admin: {
     static: ["courses:create", "courses:update", "courses:delete", "users:get", "users:getSelf", "home:read", "dashboard:read"]

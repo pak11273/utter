@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
-import {Can, Cant} from "../../../components"
+/* import {Can, Cant} from "../../../components" */
 import schema from "../../../app/schema"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 /* import {history} from "@utterzone/connector" */
@@ -26,8 +26,6 @@ class CourseSettings extends Component {
     /* } else { */
     /*   console.log("we need this in redux") */
     /* } */
-
-    console.log(this.props.location.state)
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value})
@@ -45,70 +43,62 @@ class CourseSettings extends Component {
 
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
-    /* console.log(this.props.location.state.courseId) */
 
-    let {user} = this.props
-    if (!user) {
-      user = {roles: ["guest"]}
-    }
+    /* const {user} = this.props */
+
     return (
-      <Can
+      <div>
+        {/* <Can
         role={user.role}
-        perform="course-settings:read"
-        yes={() => (
+        perform="test:create"
+        yes={() => ( */}
+        <Container>
           <Container>
-            <Container>
-              <Masthead padding="60px 20px 40px  20px">
-                <Header as="h1">Course Settings</Header>
-              </Masthead>
-              <Helmet>
-                <meta charset="utf-8" />
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1, shrink-to-fit=no"
-                />
-                <meta
-                  name="description"
-                  content="Affordable language learning"
-                />
-                <meta name="author" content="Isaac Pak" />
-                <title>Utterzone | Settings</title>
-                <link rel="canonical" href="https://utter.zone/settings" />
-              </Helmet>
+            <Masthead padding="60px 20px 40px  20px">
+              <Header as="h1">Course Settings</Header>
+            </Masthead>
+            <Helmet>
+              <meta charset="utf-8" />
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, shrink-to-fit=no"
+              />
+              <meta name="description" content="Affordable language learning" />
+              <meta name="author" content="Isaac Pak" />
+              <title>Utterzone | Settings</title>
+              <link rel="canonical" href="https://utter.zone/settings" />
+            </Helmet>
+          </Container>
+          <Form onSubmit={this.handleSubmit} style={{position: "relative"}}>
+            {/*  <ModalMgr /> */}
+            <Container style={{paddingBottom: "5em"}} text>
+              <Header as="h2">General Settings</Header>
+
+              <Header as="h4" attached="top" block>
+                Course Information
+              </Header>
+              <Segment attached>Title</Segment>
+              <Segment attached>Description</Segment>
+              <Header as="h4" attached="bottom" block />
             </Container>
-            <Form onSubmit={this.handleSubmit} style={{position: "relative"}}>
-              {/*  <ModalMgr /> */}
-              <Container style={{paddingBottom: "5em"}} text>
-                <Header as="h2">General Settings</Header>
+            <Container style={{paddingBottom: "5em"}} text>
+              <Header as="h2">Image</Header>
 
-                <Header as="h4" attached="top" block>
-                  Course Information
-                </Header>
-                <Segment attached>Title</Segment>
-                <Segment attached>Description</Segment>
-                <Header as="h4" attached="bottom" block />
-              </Container>
-              <Container style={{paddingBottom: "5em"}} text>
-                <Header as="h2">Image</Header>
+              <Header as="h4" attached="top" block />
+              <Segment attached>Change Image</Segment>
+              <Header as="h4" attached="bottom" block />
+            </Container>
+            <Container style={{paddingBottom: "5em"}} text>
+              <Header as="h2">Danger Zone</Header>
 
-                <Header as="h4" attached="top" block />
-                <Segment attached>Change Image</Segment>
-                <Header as="h4" attached="bottom" block />
-              </Container>
-              <Container style={{paddingBottom: "5em"}} text>
-                <Header as="h2">Danger Zone</Header>
-
-                <Header as="h4" attached="top" block />
-                <Segment attached>This is permanent</Segment>
-                <Form.Button
-                  color="red"
-                  onClick={this.openModalClicked}
-                  attached>
-                  Delete Course
-                </Form.Button>
-                <Header as="h4" attached="bottom" block />
-              </Container>
-              {/*
+              <Header as="h4" attached="top" block />
+              <Segment attached>This is permanent</Segment>
+              <Form.Button color="red" onClick={this.openModalClicked} attached>
+                Delete Course
+              </Form.Button>
+              <Header as="h4" attached="bottom" block />
+            </Container>
+            {/*
             <Form.Group>
               <Segment>
                 <Grid>
@@ -195,8 +185,8 @@ class CourseSettings extends Component {
                       <Select
                         id="usingLang"
                         /* ref={ref => { */
-              /*   this.select = ref */
-              /* }} 
+            /*   this.select = ref */
+            /* }} 
                         onBlurResetsInput={false}
                         onSelectResetsInput={false}
                         options={languageData}
@@ -226,8 +216,8 @@ class CourseSettings extends Component {
                       <Select
                         id="teachingLang"
                         /* ref={ref => { */
-              /*   this.select = ref */
-              /* }} 
+            /*   this.select = ref */
+            /* }} 
                         onBlurResetsInput={false}
                         onSelectResetsInput={false}
                         options={languageData}
@@ -264,48 +254,34 @@ class CourseSettings extends Component {
               </Segment>
             </Form.Group>
 				*/}
-              <Container
-                style={{position: "relative", paddingBottom: "5em"}}
-                text>
-                <Form.Button
-                  floated="right"
-                  onClick={this.onButtonClick}
-                  content="Save Changes"
-                  color="yellow"
-                  fontSize="1.5rem"
-                  style={{position: "absolute", right: "0"}}
-                />
-              </Container>
-            </Form>
-          </Container>
+            <Container
+              style={{position: "relative", paddingBottom: "5em"}}
+              text>
+              <Form.Button
+                floated="right"
+                onClick={this.onButtonClick}
+                content="Save Changes"
+                color="yellow"
+                fontSize="1.5rem"
+                style={{position: "absolute", right: "0"}}
+              />
+            </Container>
+          </Form>
+        </Container>
+        {/*
         )}
-        no={() => <Cant />}
       />
+			*/}
+      </div>
     )
   }
 }
 
 const mapStateToProps = state => {
-  // Create a Redux-ORM Session from our "entities" slice, which
-  // contains the "tables" for each model type
   const session = schema.session(state.apiReducer)
-
-  // Retrieve the model class that we need.  Each Session
-  // specifically "binds" model classes to itself, so that
-  // updates to model instances are applied to that session.
-  // These "bound classes" are available as fields in the sesssion.
   const {User} = session
-
-  // Query the session for all User instances.
-  // The QuerySet that is returned from all() can be used to
-  // retrieve instances of the User class, or retrieve the
-  // plain JS objects that are actually in the store.
-  // The toRefArray() method will give us an array of the
-  // plain JS objects for each item in the QuerySet.
   const userObj = User.all().toRefArray()
   const user = {user: userObj[0]}
-
-  // Now that we have an array of all user objects, return the first one as a prop
   return user
 }
 

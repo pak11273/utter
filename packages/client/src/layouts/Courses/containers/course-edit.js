@@ -1,13 +1,15 @@
 import React, {Component} from "react"
+import {connect} from "react-redux"
+import schema from "../../../app/schema.js"
 import {
   /* Switch, */
   Route,
-  Link,
-  withRouter
+  NavLink
 } from "react-router-dom"
 /* import Select from "react-select" */
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
+import {Can, Spacer} from "../../../components"
 
 import {
   Grid,
@@ -16,7 +18,6 @@ import {
   /* Segment, */
   /* Select as SemSelect */
 } from "semantic-ui-react"
-import {Spacer} from "../../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 /* import "./styles.css" */
 
@@ -62,57 +63,122 @@ class CourseEdit extends Component {
         render={props => <route.component {...props} routes={route.routes} />}
       />
     )
-    const {routes} = this.props
+    const {routes, user, course} = this.props
     return (
-      <Grid stackable>
-        <Helmet>
-          <meta charset="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <meta
-            name="description"
-            content="Edit your course.  Add material that you are using from another learning resource and make it your own.  Create a strategy that think makes the most sense and is pedagogically sound."
-          />
-          <meta name="author" content="Isaac Pak" />
-          <title>Utterzone | Course Edit</title>
-          <link rel="canonical" href="https://utter.zone/course/:id" />
-        </Helmet>
-        <Grid.Column width={4} style={{background: "LightGray"}}>
-          <Grid columns={1} centered padded="vertically">
-            <Grid.Column textAlign="center">
-              <Spacer margin="50px 0 0 0" />
-              <Item align="center">
-                <Header as="h2">
-                  <Link to="/course/course-introduction">Introduction</Link>
-                </Header>
-                <Header as="h2">
-                  <Link to="/course/course-settings">Settings</Link>
-                </Header>
-                <Header as="h2">
-                  <Link to="/course/levels">Levels</Link>
-                </Header>
-                <Header as="h2">Vocabulary</Header>
-                <Header as="h2">Grammar</Header>
-                <Header as="h2">Phrases</Header>
-                <div style={{margin: "40px 0 0 0"}}>
-                  <Link to="/courses/created" onClick={this.forceUpdate}>
-                    My Created Courses
-                  </Link>
-                </div>
-              </Item>
-            </Grid.Column>
-          </Grid>
-        </Grid.Column>
-        <Grid.Column width={12}>
-          {routes.map(route => (
-            <SubRoutes key={route.path} {...route} />
-          ))}
-        </Grid.Column>
-      </Grid>
+      <div>
+        <Grid stackable>
+          <Helmet>
+            <meta charset="utf-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+            <meta
+              name="description"
+              content="Edit your course.  Add material that you are using from another learning resource and make it your own.  Create a strategy that think makes the most sense and is pedagogically sound."
+            />
+            <meta name="author" content="Isaac Pak" />
+            <title>Utterzone | Course Edit</title>
+            <link rel="canonical" href="https://utter.zone/course/:id" />
+          </Helmet>
+          <Grid.Column width={4} style={{background: "LightGray"}}>
+            <Grid columns={1} centered padded="vertically">
+              <Grid.Column textAlign="center">
+                <Spacer margin="50px 0 0 0" />
+                <Item align="center">
+                  <Header as="h2">
+                    <NavLink
+                      activeStyle={{
+                        fontWeight: "bold",
+                        fontSize: "1em",
+                        color: "orange"
+                      }}
+                      to="/course/course-introduction">
+                      Introduction
+                    </NavLink>
+                  </Header>
+                  <Can
+                    roles={user.roles}
+                    perform="course-settings:read"
+                    data={{
+											username: user.username,
+											courseAuthorUsername: course.courseAuthor.username
+										}}
+                    yes={() => (
+                      <Header as="h2">
+                        <NavLink
+                          activeStyle={{
+                            fontWeight: "bold",
+                            fontSize: "1em",
+                            color: "orange"
+                          }}
+                          to="/course/course-settings">
+                          Settings
+                        </NavLink>
+                      </Header>
+                    )}
+                    no={() => null}
+                  />
+                  <Header as="h2">
+                    <NavLink
+                      activeStyle={{
+                        fontWeight: "bold",
+                        fontSize: "1em",
+                        color: "orange"
+                      }}
+                      to="/course/levels">
+                      Levels
+                    </NavLink>
+                  </Header>
+                  <Header as="h2">Vocabulary</Header>
+                  <Header as="h2">Grammar</Header>
+                  <Header as="h2">Phrases</Header>
+                  <div style={{margin: "40px 0 0 0"}}>
+                    <NavLink
+                      activeStyle={{
+                        fontWeight: "bold",
+                        fontSize: "1em",
+                        color: "orange"
+                      }}
+                      to="/courses/created"
+                      onClick={this.forceUpdate}>
+                      My Created Courses
+                    </NavLink>
+                  </div>
+                </Item>
+              </Grid.Column>
+            </Grid>
+          </Grid.Column>
+          <Grid.Column width={12}>
+            {routes.map(route => (
+              <SubRoutes key={route.path} {...route} />
+            ))}
+          </Grid.Column>
+        </Grid>
+      </div>
     )
   }
 }
 
-export default withRouter(CourseEdit)
+const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {User, Course} = session
+  const userObj = User.all().toRefArray()
+  const courseObj = Course.all().toRefArray()
+  var user = userObj[0]
+  var course = courseObj[0]
+
+  if (!user) {
+    user = {roles: "guest"}
+  }
+
+  return {
+		user,
+		course
+	}
+}
+
+export default connect(
+  mapStateToProps,
+  null
+)(CourseEdit)
