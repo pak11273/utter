@@ -1,6 +1,9 @@
 import isEmpty from "lodash/isEmpty"
+import config from "../../config"
+import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import Course from "./course-model"
+import {userByToken} from "../shared/resolver-functions.js"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
@@ -17,20 +20,20 @@ const getCourse = async (_, {courseId}, {user}) => {
 }
 
 const courseDelete = async (_, {id}, ctx) => {
-  console.log("id: ", id)
-  const course = await Course.findById(id).exec()
-  /* Course.findOneAndDelete({courseAuthor: user._id && id: id}) { */
-  /* } */
+  const user = await userByToken(ctx)
+  const course = await Course.findOne({courseAuthor: user._id})
+  /* const deleted = await Course.findByIdAndDelete({courseAuthor: user._id}) */
 
   if (!course) {
     throw new Error("No course found.")
   }
 
-  if (course.courseAuthor === id) {
-    // TODO: delete course
+  if (course) {
+    const deleted = await Course.findByIdAndDelete(course._id)
+    console.log("deleted: ", deleted)
   }
 
-  return course
+  return true
 }
 
 const courseUpdate = (_, {input}) => {
@@ -39,14 +42,13 @@ const courseUpdate = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
-  console.log("args: ", args)
-  console.log("ctx: ", ctx.user)
+  const user = await userByToken(ctx)
+
   //TODO can't have duplicate course names
   const {input} = args
-  input.courseAuthor = ctx.user
+  input.courseAuthor = user._id
   const course = await Course.create(input)
   course.id = course._id
-  console.log("course: ", typeof course)
   return course
 }
 

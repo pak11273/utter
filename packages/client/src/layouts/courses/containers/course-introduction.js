@@ -1,34 +1,54 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
+import {withFormik} from "formik"
+import {courseSchema} from "@utterzone/common"
+import update from "immutability-helper"
+
 import schema from "../../../app/schema.js"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 /* import {history} from "@utterzone/connector" */
-import {Container, Form, Header, Item, Segment} from "semantic-ui-react"
+import {
+  Button,
+  Container,
+  Form,
+  Header,
+  Image,
+  Input,
+  Segment
+} from "semantic-ui-react"
 import {Masthead} from "../../../containers"
+import {Can} from "../../../components"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
-import ControlEdit from "../components/course-edit-controls.js"
+import "../styles.css"
 
 // actions
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 /* import {openModal} from "../../../containers/modals/actions.js" */
 
 class CourseIntroduction extends Component {
-  state = {name: "", email: "", submittedName: "", submittedEmail: ""}
+  state = {
+    name: "",
+    email: "",
+    submittedName: "",
+    submittedEmail: "",
+    courseName: "",
+    courseDescription: ""
+  }
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    // TODO if no courseId redirect back to courses-created
-    // TODO put courseId into redux :
-    /* console.log("props: ", this.props) */
-    /* if (!this.props.location.state || !this.props.location.state.courseId) { */
-    /*   history.push("/courses/created") */
-    /* } else { */
-    /*   console.log("we need this in redux") */
-    /* } */
+
+    const newData = update(this.state, {
+      courseName: {$set: this.props.course.courseName},
+      courseDescription: {$set: this.props.course.courseDescription}
+    })
+    this.setState(newData)
   }
 
-  handleChange = (e, {name, value}) => this.setState({[name]: value})
+  handleChange = e => {
+    this.setState({[e.target.name]: e.target.value})
+  }
 
   handleSubmit = () => {
     const {name, email} = this.state
@@ -42,16 +62,8 @@ class CourseIntroduction extends Component {
   }
 
   render() {
-    const {courseName, courseDescription} = this.props.course
-    const items = [
-      {
-        childKey: 0,
-        header: courseName,
-        description: courseDescription,
-        meta: "",
-        extra: ""
-      }
-    ]
+    const {user, course} = this.props
+
     return (
       <Container>
         <Container>
@@ -74,41 +86,74 @@ class CourseIntroduction extends Component {
           {/*  <ModalMgr /> */}
           <Container style={{paddingBottom: "5em"}} text>
             <Header as="h2">General Introduction</Header>
-
-            <Header as="h4" attached="top" block>
-              Course Information
-            </Header>
-            <Segment attached>
-              <Item.Group items={items} />
+            <Segment attached style={{border: "none !important"}}>
+              <Input
+                name="courseName"
+                value={this.state.courseName}
+                onChange={this.handleChange}
+                type="text"
+                className="input-editable input-header"
+                style={{border: "none !important"}}
+                fluid
+              />
             </Segment>
-            <ControlEdit />
+            <Segment attached>
+              <textarea
+                name="courseDescription"
+                value={this.state.courseDescription}
+                onChange={this.handleChange}
+                type="text"
+                className="input-editable"
+              />
+            </Segment>
+            <Segment textAlign="right" attached>
+              <Button color="orange">Subscribe</Button>
+            </Segment>
             <Header as="h4" attached="bottom" block />
           </Container>
           <Container style={{paddingBottom: "5em"}} text>
-            <Header as="h2">Objectives</Header>
+            <Header as="h2">Course Thumbnail</Header>
 
             <Header as="h4" attached="top" block />
-            <Segment attached>Change Image</Segment>
-            <ControlEdit />
+            <Segment
+              style={{display: "flex", justifyContent: "center"}}
+              attached>
+              <Image src={course.courseImage} />
+            </Segment>
             <Header as="h4" attached="bottom" block />
           </Container>
           <Container style={{paddingBottom: "5em"}} text>
-            <Header as="h2">Tips</Header>
+            <Header as="h2">Stats</Header>
             <Header as="h4" attached="top" block />
-            <Segment attached>This is permanent</Segment>
-            <ControlEdit />
+            <Segment attached>Course Author</Segment>
+            <Segment attached>Levels</Segment>
+            <Segment attached>Subscribers</Segment>
+            <Segment attached>Reviews</Segment>
             <Header as="h4" attached="bottom" block />
           </Container>
-          <Container style={{position: "relative", paddingBottom: "5em"}} text>
-            <Form.Button
-              floated="right"
-              onClick={this.onButtonClick}
-              content="Save Changes"
-              color="yellow"
-              fontSize="1.5rem"
-              style={{position: "absolute", right: "0"}}
-            />
-          </Container>
+          <Can
+            roles={user.roles}
+            perform="course-introduction:update"
+            data={{
+              username: user.username,
+              courseAuthorUsername: course.courseAuthor.username
+            }}
+            yes={() => (
+              <Container
+                style={{position: "relative", paddingBottom: "5em"}}
+                text>
+                <Form.Button
+                  floated="right"
+                  type="submit"
+                  content="Save Changes"
+                  color="yellow"
+                  fontSize="1.5rem"
+                  style={{position: "absolute", right: "0"}}
+                />
+              </Container>
+            )}
+            no={() => null}
+          />
         </Form>
       </Container>
     )
@@ -117,11 +162,15 @@ class CourseIntroduction extends Component {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {Course} = session
-  const courses = Course.all().toRefArray()
+  const {User, Course} = session
+  const userObj = User.all().toRefArray()
+  const courseObj = Course.all().toRefArray()
+  var user = userObj[0]
+  var course = courseObj[0]
+
   return {
-    course: courses[0],
-    courseReducer: state.apiReducer.Course
+    user,
+    course
   }
 }
 
@@ -132,4 +181,26 @@ const actions = {
 export default connect(
   mapStateToProps,
   actions
-)(CourseIntroduction)
+)(
+  withFormik({
+    validationSchema: courseSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      "username or email": "",
+      password: ""
+    }),
+    handleSubmit: async (values, {props, setErrors}) => {
+      const errors = await props.submit(values)
+      if (errors) {
+        if (errors.identifier) {
+          errors["username or email"] = errors.identifier
+        }
+        setErrors(errors)
+      }
+      if (!errors) {
+        history.push("/")
+      }
+    }
+  })(CourseIntroduction)
+)

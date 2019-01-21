@@ -81,7 +81,9 @@ class CourseEdit extends Component {
             <title>Utterzone | Course Edit</title>
             <link rel="canonical" href="https://utter.zone/course/:id" />
           </Helmet>
-          <Grid.Column width={4} style={{background: "LightGray"}}>
+          <Grid.Column
+            width={4}
+            style={{background: "LightGray", minHeight: "900px"}}>
             <Grid columns={1} centered padded="vertically">
               <Grid.Column textAlign="center">
                 <Spacer margin="50px 0 0 0" />
@@ -101,9 +103,9 @@ class CourseEdit extends Component {
                     roles={user.roles}
                     perform="course-settings:read"
                     data={{
-											username: user.username,
-											courseAuthorUsername: course.courseAuthor.username
-										}}
+                      username: user.username,
+                      courseAuthorUsername: course.courseAuthor.username
+                    }}
                     yes={() => (
                       <Header as="h2">
                         <NavLink
@@ -168,14 +170,10 @@ const mapStateToProps = state => {
   var user = userObj[0]
   var course = courseObj[0]
 
-  if (!user) {
-    user = {roles: "guest"}
-  }
-
   return {
-		user,
-		course
-	}
+    user,
+    course
+  }
 }
 
 export default connect(

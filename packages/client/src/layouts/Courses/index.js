@@ -24,7 +24,7 @@ import {
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-import "./styles.css"
+/* import "./styles.css" */
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"

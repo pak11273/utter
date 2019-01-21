@@ -56,6 +56,14 @@ var rules = {
         if (!username || !courseAuthorUsername) return false;
         return username === courseAuthorUsername;
       }
+    }, {
+      "course-settings:delete": function courseSettingsDelete(_ref4) {
+        var username = _ref4.username,
+            courseAuthorUsername = _ref4.courseAuthorUsername;
+
+        if (!username || !courseAuthorUsername) return false;
+        return username === courseAuthorUsername;
+      }
     }]
   },
   admin: {

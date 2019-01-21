@@ -38,6 +38,12 @@ const rules = {
           if (!username || !courseAuthorUsername) return false
           return username === courseAuthorUsername
         }
+      },
+      {
+        "course-settings:delete": ({username, courseAuthorUsername}) => {
+          if (!username || !courseAuthorUsername) return false
+          return username === courseAuthorUsername
+        }
       }
     ]
   },

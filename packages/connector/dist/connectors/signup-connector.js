@@ -88,7 +88,7 @@ var C = exports.C = function (_PureComponent) {
 
     return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref = C.__proto__ || Object.getPrototypeOf(C)).call.apply(_ref, [this].concat(args))), _this), _this.submit = function () {
       var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(values) {
-        var _ref3, error, token, user;
+        var _ref3, error, token, signup;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -110,14 +110,14 @@ var C = exports.C = function (_PureComponent) {
                 _ref3 = _context.sent;
                 error = _ref3.data.signup.error;
                 token = _ref3.data.signup.token;
-                user = _ref3.data.signup.user;
+                signup = _ref3.data.signup;
 
                 if (!(token !== null)) {
                   _context.next = 10;
                   break;
                 }
 
-                _this.props.loadData(user);
+                _this.props.loadData(signup);
                 return _context.abrupt("return", token);
 
               case 10:

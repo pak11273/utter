@@ -13,6 +13,7 @@ type User {
 	roles: [ String ]
 	scopes: [String]
   contacts: [String]
+	blocked: [String]
   username: String!
   createdAt: String
   updatedAt: String
@@ -36,6 +37,7 @@ input UpdatedUserInput {
   firstName: String
   lastName: String
   contacts: [String]
+	blocked: [String]
   isDeleted: Boolean
   roles: [String]
   username: String

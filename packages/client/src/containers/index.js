@@ -9,6 +9,7 @@ import KnowledgeBase from "./KnowledgeBase"
 import Login from "./Logins"
 import Masthead from "./Mastheads/Masthead.js"
 import MainNavbar from "./Navbars/MainBar.js"
+import ModalMgr from "./modals/modal-mgr.js"
 import testModal from "./modals/test-modal.js"
 import Pagination from "./Pagination"
 import Pictures from "./Pictures"
@@ -33,6 +34,7 @@ export {
   Login,
   Masthead,
   MainNavbar,
+  ModalMgr,
   testModal,
   Pagination,
   Pictures,

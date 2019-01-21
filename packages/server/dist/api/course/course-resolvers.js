@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.courseResolvers = undefined;
 
-var _typeof2 = require("babel-runtime/helpers/typeof");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -25,6 +21,14 @@ var _isEmpty = require("lodash/isEmpty");
 
 var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
+var _config = require("../../config");
+
+var _config2 = _interopRequireDefault(_config);
+
+var _jsonwebtoken = require("jsonwebtoken");
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
+
 var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
@@ -32,6 +36,8 @@ var _mongoose2 = _interopRequireDefault(_mongoose);
 var _courseModel = require("./course-model");
 
 var _courseModel2 = _interopRequireDefault(_courseModel);
+
+var _resolverFunctions = require("../shared/resolver-functions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -81,34 +87,47 @@ var getCourse = function () {
 var courseDelete = function () {
   var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
     var id = _ref5.id;
-    var course;
+    var user, course, deleted;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log("id: ", id);
-            _context2.next = 3;
-            return _courseModel2.default.findById(id).exec();
+            _context2.next = 2;
+            return (0, _resolverFunctions.userByToken)(ctx);
 
-          case 3:
+          case 2:
+            user = _context2.sent;
+            _context2.next = 5;
+            return _courseModel2.default.findOne({ courseAuthor: user._id });
+
+          case 5:
             course = _context2.sent;
 
             if (course) {
-              _context2.next = 6;
+              _context2.next = 8;
               break;
             }
 
             throw new Error("No course found.");
 
-          case 6:
-
-            if (course.courseAuthor === id) {
-              // TODO: delete course
+          case 8:
+            if (!course) {
+              _context2.next = 13;
+              break;
             }
 
-            return _context2.abrupt("return", course);
+            _context2.next = 11;
+            return _courseModel2.default.findByIdAndDelete(course._id);
 
-          case 8:
+          case 11:
+            deleted = _context2.sent;
+
+            console.log("deleted: ", deleted);
+
+          case 13:
+            return _context2.abrupt("return", true);
+
+          case 14:
           case "end":
             return _context2.stop();
         }
@@ -131,25 +150,29 @@ var courseUpdate = function courseUpdate(_, _ref6) {
 
 var courseCreate = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var input, course;
+    var user, input, course;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            console.log("args: ", args);
-            console.log("ctx: ", ctx.user);
+            _context3.next = 2;
+            return (0, _resolverFunctions.userByToken)(ctx);
+
+          case 2:
+            user = _context3.sent;
+
+
             //TODO can't have duplicate course names
             input = args.input;
 
-            input.courseAuthor = ctx.user;
-            _context3.next = 6;
+            input.courseAuthor = user._id;
+            _context3.next = 7;
             return _courseModel2.default.create(input);
 
-          case 6:
+          case 7:
             course = _context3.sent;
 
             course.id = course._id;
-            console.log("course: ", typeof course === "undefined" ? "undefined" : (0, _typeof3.default)(course));
             return _context3.abrupt("return", course);
 
           case 10:

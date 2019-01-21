@@ -51,6 +51,14 @@ var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = require("react-redux");
+
+var _schema = require("../../../client/src/app/schema");
+
+var _schema2 = _interopRequireDefault(_schema);
+
+var _actions = require("../../../client/src/api/actions.js");
+
 var _reactApollo = require("react-apollo");
 
 var _graphqlTag = require("graphql-tag");
@@ -102,40 +110,31 @@ var CC = exports.CC = function (_PureComponent) {
                 _ref3 = _context.sent;
                 courseCreate = _ref3.data;
 
-                if (!courseCreate) {
-                  _context.next = 7;
-                  break;
+
+                if (courseCreate) {
+                  courseCreate.course = courseCreate.courseCreate;
+                  delete courseCreate.courseCreate;
+
+                  _this.props.loadData(courseCreate);
                 }
 
                 return _context.abrupt("return", courseCreate);
 
-              case 7:
-                if (!error) {
-                  _context.next = 9;
-                  break;
-                }
-
-                return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
-
               case 9:
-                _context.next = 14;
-                break;
-
-              case 11:
-                _context.prev = 11;
+                _context.prev = 9;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 14:
+              case 12:
                 return _context.abrupt("return", null);
 
-              case 15:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 11]]);
+        }, _callee, _this2, [[0, 9]]);
       }));
 
       return function (_x) {
@@ -155,7 +154,24 @@ var CC = exports.CC = function (_PureComponent) {
 
 var CourseCreateMutation = (0, _graphqlTag2.default)(_templateObject);
 
-var CourseCreateConnector = exports.CourseCreateConnector = (0, _reactApollo.graphql)(CourseCreateMutation)(CC);
+/* const mapStateToProps = state => { */
+/*   const session = schema.session(state.apiReducer) */
+/*   const {Course} = session */
+/*   const course = Course.first().ref */
+/*   return { */
+/*     course */
+/*   } */
+/* } */
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    loadData: function loadData(payload) {
+      return dispatch((0, _actions.loadData)(payload));
+    }
+  };
+};
+
+var CourseCreateConnector = exports.CourseCreateConnector = (0, _reactRedux.connect)(null, mapDispatchToProps)((0, _reactApollo.graphql)(CourseCreateMutation)(CC));
 ;
 
 (function () {
@@ -170,6 +186,7 @@ var CourseCreateConnector = exports.CourseCreateConnector = (0, _reactApollo.gra
   reactHotLoader.register(CC, "CC", "src/connectors/course-create-connector.js");
   reactHotLoader.register(CourseCreateConnector, "CourseCreateConnector", "src/connectors/course-create-connector.js");
   reactHotLoader.register(CourseCreateMutation, "CourseCreateMutation", "src/connectors/course-create-connector.js");
+  reactHotLoader.register(mapDispatchToProps, "mapDispatchToProps", "src/connectors/course-create-connector.js");
   leaveModule(module);
 })();
 
@@ -188,6 +205,7 @@ var CourseCreateConnector = exports.CourseCreateConnector = (0, _reactApollo.gra
   reactHotLoader.register(CC, "CC", "src/connectors/course-create-connector.js");
   reactHotLoader.register(CourseCreateConnector, "CourseCreateConnector", "src/connectors/course-create-connector.js");
   reactHotLoader.register(CourseCreateMutation, "CourseCreateMutation", "src/connectors/course-create-connector.js");
+  reactHotLoader.register(mapDispatchToProps, "mapDispatchToProps", "src/connectors/course-create-connector.js");
   leaveModule(module);
 })();
 

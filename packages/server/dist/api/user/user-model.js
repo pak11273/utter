@@ -27,6 +27,10 @@ var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
   age: {
     type: Number
   },
+  blocked: [{
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   contacts: [{
     type: _mongoose.Schema.Types.ObjectId,
     ref: "User"

@@ -443,18 +443,20 @@ export default connect(
         // TODO: push courseId to redux
         history.push({
           pathname: "/course/course-settings",
-          state: {courseId: result.courseCreate.id}
+          state: {courseId: result.course.id}
         })
       }
 
       // if create is legit
       if (result) {
+        console.log("res: ", result)
         onComplete(result)
         props.actions.addFlashMessage({
           type: "success",
           text: "Start building your course."
         })
       } else {
+        console.log("result: ", result)
         setErrors(result.courseCreate.errors)
         props.actions.addFlashMessage({
           type: "error",

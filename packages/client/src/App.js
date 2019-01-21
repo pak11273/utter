@@ -6,14 +6,13 @@ import styled, {ThemeProvider} from "styled-components"
 import {AppContainer} from "react-hot-loader"
 import {ConnectedRouter as Router} from "react-router-redux"
 import ReactGA from "react-ga"
-
 import {ApolloProvider} from "react-apollo"
 import client from "./apollo.js"
 
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
 import {main} from "./themes/config.js"
-import {Footer, MainNavbar} from "./containers"
+import {Footer, MainNavbar, ModalMgr} from "./containers"
 import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/Spacers/NavbarSpacer.js"
 import {store, persistor} from "./store.js"
@@ -54,6 +53,7 @@ class App extends Component {
           <ThemeProvider theme={main}>
             <Provider store={store}>
               <PersistGate loading={null} persistor={persistor}>
+                <ModalMgr />
                 <Router history={history}>
                   <StyledGrid style={{minHeight: "100vh"}}>
                     <MainNavbar

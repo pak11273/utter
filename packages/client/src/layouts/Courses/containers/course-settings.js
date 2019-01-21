@@ -1,17 +1,18 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
+import {withFormik} from "formik"
 import Helmet from "react-helmet"
 /* import {Can, Cant} from "../../../components" */
 import schema from "../../../app/schema"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 /* import {history} from "@utterzone/connector" */
-import {Container, Header, Form, Segment} from "semantic-ui-react"
+import {Button, Container, Header, Form, Segment} from "semantic-ui-react"
 import {Masthead} from "../../../containers"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
 
 // actions
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
-/* import {openModal} from "../../../containers/modals/actions.js" */
+import {openModal} from "../../../containers/modals/actions.js"
 
 class CourseSettings extends Component {
   state = {name: "", email: "", submittedName: "", submittedEmail: ""}
@@ -38,13 +39,16 @@ class CourseSettings extends Component {
 
   openModalClicked = e => {
     e.preventDefault()
-    /*   this.props.openModal("courseModal", null) */
+    this.props.openModal("courseModal", null)
+  }
+
+  openTestModal = e => {
+    e.preventDefault()
+    this.props.openModal("testModal", {counter: 1})
   }
 
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
-
-    /* const {user} = this.props */
 
     return (
       <div>
@@ -73,24 +77,12 @@ class CourseSettings extends Component {
             {/*  <ModalMgr /> */}
             <Container style={{paddingBottom: "5em"}} text>
               <Header as="h2">General Settings</Header>
-
-              <Header as="h4" attached="top" block>
-                Course Information
-              </Header>
-              <Segment attached>Title</Segment>
-              <Segment attached>Description</Segment>
-              <Header as="h4" attached="bottom" block />
-            </Container>
-            <Container style={{paddingBottom: "5em"}} text>
-              <Header as="h2">Image</Header>
-
               <Header as="h4" attached="top" block />
-              <Segment attached>Change Image</Segment>
+              <Segment attached>General</Segment>
               <Header as="h4" attached="bottom" block />
             </Container>
             <Container style={{paddingBottom: "5em"}} text>
               <Header as="h2">Danger Zone</Header>
-
               <Header as="h4" attached="top" block />
               <Segment attached>This is permanent</Segment>
               <Form.Button color="red" onClick={this.openModalClicked} attached>
@@ -254,6 +246,9 @@ class CourseSettings extends Component {
               </Segment>
             </Form.Group>
 				*/}
+            <Container>
+              <Button onClick={this.openTestModal}>Test Modal</Button>
+            </Container>
             <Container
               style={{position: "relative", paddingBottom: "5em"}}
               text>
@@ -279,17 +274,49 @@ class CourseSettings extends Component {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {User} = session
+  const {User, Course} = session
+  const course = Course.first().ref
   const userObj = User.all().toRefArray()
   const user = {user: userObj[0]}
-  return user
+  return {
+    user,
+    course
+  }
 }
 
 const actions = {
+  openModal,
   toggleFooter
 }
 
 export default connect(
   mapStateToProps,
   actions
-)(CourseSettings)
+)(
+  withFormik({
+    mapPropsToValues: ({course}) => ({
+      courseID: course.id,
+      courseName: course.courseName
+    }),
+    handleSubmit: async (values, {props, setErrors}) => {
+      const result = await props.remove(values)
+      const onComplete = () => {
+        history.push("/courses", {
+          announcement: "Please check your email to confirm your address."
+        })
+      }
+
+      // if signup info is legit
+      if (typeof result === "string") {
+        onComplete()
+        props.addFlashMessage({
+          type: "success",
+          text: "Your Course was deleted."
+        })
+      } else {
+        // if singup info is not legit
+        setErrors(result)
+      }
+    }
+  })(CourseSettings)
+)

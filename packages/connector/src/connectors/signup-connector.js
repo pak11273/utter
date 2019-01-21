@@ -21,9 +21,7 @@ export class C extends PureComponent {
         data: {
           signup: {token}
         },
-        data: {
-          signup: {user}
-        }
+        data: {signup}
       } = await this.props.mutate({
         variables: {
           username: values.username,
@@ -35,7 +33,7 @@ export class C extends PureComponent {
       })
 
       if (token !== null) {
-        this.props.loadData(user)
+        this.props.loadData(signup)
         return token
       }
 

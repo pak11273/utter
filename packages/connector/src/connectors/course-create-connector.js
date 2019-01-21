@@ -1,6 +1,9 @@
 /* eslint no-unused-vars: 0 */
 
 import React, {PureComponent} from "react"
+import {connect} from "react-redux"
+import schema from "../../../client/src/app/schema"
+import {loadData} from "../../../client/src/api/actions.js"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
@@ -21,11 +24,13 @@ export class CC extends PureComponent {
       })
 
       if (courseCreate) {
-        return courseCreate
+        courseCreate.course = courseCreate.courseCreate
+        delete courseCreate.courseCreate
+
+        this.props.loadData(courseCreate)
       }
-      if (error) {
-        return normalizeErrors(error)
-      }
+
+      return courseCreate
     } catch (err) {
       console.log("err: ", err)
     }
@@ -67,4 +72,22 @@ const CourseCreateMutation = gql`
   }
 `
 
-export const CourseCreateConnector = graphql(CourseCreateMutation)(CC)
+/* const mapStateToProps = state => { */
+/*   const session = schema.session(state.apiReducer) */
+/*   const {Course} = session */
+/*   const course = Course.first().ref */
+/*   return { */
+/*     course */
+/*   } */
+/* } */
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadData: payload => dispatch(loadData(payload))
+  }
+}
+
+export const CourseCreateConnector = connect(
+  null,
+  mapDispatchToProps
+)(graphql(CourseCreateMutation)(CC))

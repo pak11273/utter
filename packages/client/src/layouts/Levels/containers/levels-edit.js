@@ -1,6 +1,13 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {Button, Grid, Header, Loader} from "semantic-ui-react"
+import {
+  Button,
+  Container,
+  Grid,
+  Header,
+  Loader,
+  Segment
+} from "semantic-ui-react"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 import {Masthead} from "../../../containers"
@@ -87,41 +94,46 @@ class Levels extends Component {
               <Grid.Column>
                 {/* {data.getCourse.levels.map(level => { 
               return ( */}
-                <div
-                  className="ag-theme-material"
-                  style={{
-                    position: "relative",
-                    height: "500px",
-                    margin: "0 auto",
-                    width: "800px"
-                  }}>
-                  <AgGridReact
-                    enableColResize
-                    rowDragManaged
-                    defaultColDef={{
-                      headerComponentParams: {
-                        menuIcon: "fa-bars"
-                      }
-                    }}
-                    onGridReady={params => (this.gridApi = params.api)}
-                    columnDefs={this.state.columnDefs}
-                    rowData={this.state.rowData}
-                  />
-                  <Button
-                    onClick={this.onButtonClick}
-                    color="yellow"
-                    floated="right"
-                    fontSize="1.5rem"
-                    style={{
-                      bottom: "-80px",
-                      right: "60px",
-                      position: "absolute"
-                    }}
-                    type="submit">
-                    Save
-                  </Button>
-                </div>
-                )
+                <Container style={{paddingBottom: "5em"}} text>
+                  <Header as="h4" attached="top" block />
+                  <Segment attached>
+                    <div
+                      className="ag-theme-material"
+                      style={{
+                        position: "relative",
+                        height: "500px",
+                        margin: "0 auto",
+                        width: "100%"
+                      }}>
+                      <AgGridReact
+                        enableColResize
+                        rowDragManaged
+                        defaultColDef={{
+                          headerComponentParams: {
+                            menuIcon: "fa-bars"
+                          }
+                        }}
+                        onGridReady={params => (this.gridApi = params.api)}
+                        columnDefs={this.state.columnDefs}
+                        rowData={this.state.rowData}
+                      />
+                      <Button
+                        onClick={this.onButtonClick}
+                        color="yellow"
+                        floated="right"
+                        fontSize="1.5rem"
+                        style={{
+                          bottom: "-80px",
+                          right: "60px",
+                          position: "absolute"
+                        }}
+                        type="submit">
+                        Save
+                      </Button>
+                    </div>
+                  </Segment>
+                  <Header as="h4" attached="bottom" block />
+                </Container>
               </Grid.Column>
             </Grid>
           )

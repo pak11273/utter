@@ -8,6 +8,12 @@ export const UserSchema = new mongoose.Schema(
     age: {
       type: Number
     },
+    blocked: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
     contacts: [
       {
         type: Schema.Types.ObjectId,

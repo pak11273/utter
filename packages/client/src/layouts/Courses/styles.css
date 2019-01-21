@@ -78,6 +78,37 @@ input:-webkit-autofill {
 	border: none
 } 
 
+.input-editable {
+	outline: none !important;
+	border: none !important;
+}
+
+.input-header {
+	font-size: 1.4em !important;
+	font-weight: 700 !important;
+}
+
+
+input[type=text], textarea {
+	-webkit-transition: all 0.30s ease-in-out !important;
+	-moz-transition: all 0.30s ease-in-out !important;
+	-ms-transition: all 0.30s ease-in-out !important;
+	-o-transition: all 0.30s ease-in-out !important;
+	outline: none !important;
+	/* padding: 3px 0px 3px 3px !important; */
+	margin: 5px 1px 3px 0px !important;
+}
+
+/* input { */
+/* 	border: none !important; */
+/* } */
+
+input[type=text]:focus, textarea:focus {
+	box-shadow: 0 0 10px rgba(85, 133, 246, 1) !important;
+	/* padding: 3px 0px 3px 3px !important; */
+	margin: 5px 1px 3px 0px !important;
+}
+
 /* Hides default view of Field labels */
 .ui.form .field > label {
 	display: none
@@ -88,3 +119,5 @@ input:-webkit-autofill {
 #courseRef {
   border: none;
 }
+
+
