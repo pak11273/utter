@@ -1,13 +1,18 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {withFormik} from "formik"
+import {withFormik, setErrors} from "formik"
 import {Form, Modal, Button} from "semantic-ui-react"
 import {graphql} from "react-apollo"
+import {history} from "@utterzone/connector"
 import gql from "graphql-tag"
 
 import orm from "../../app/schema.js"
 import {closeModal} from "./actions.js"
 /* import courseActions from "../../api/course/actions/course-actions.js" */
+
+// actions
+import {addFlashMessage} from "../../app/actions/flashMessages.js"
+import {deleteData} from "../../api/actions.js"
 
 const courseDeleteMutation = gql`
   mutation courseDeleteMutation($id: String!) {
@@ -52,7 +57,9 @@ const mapStateToProps = state => {
   const course = Course.first().ref
 
   return {
-    course
+    addFlashMessage,
+    course,
+    deleteData
   }
 }
 
@@ -73,24 +80,22 @@ export default connect(
           variables: values
         })
 
-        console.log("data: ", data)
-        /* const onComplete = () => { */
-        /*   history.push("/courses", { */
-        /*     announcement: "Please check your email to confirm your address." */
-        /*   }) */
-        /* } */
+        const onComplete = () => {
+          props.closeModal()
+          props.deleteData("course")
+          history.push("/courses/created")
+          props.addFlashMessage({
+            type: "success",
+            text: "Your Course was deleted."
+          })
+        }
 
-        /* // if signup info is legit */
-        /* if (typeof result === "string") { */
-        /*   onComplete() */
-        /*   props.addFlashMessage({ */
-        /*     type: "success", */
-        /*     text: "Your Course was deleted." */
-        /*   }) */
-        /* } else { */
-        /*   // if singup info is not legit */
-        /*   setErrors(result) */
-        /* } */
+        // if delete was successfull
+        if (data.courseDelete) {
+          onComplete()
+        } else {
+          setErrors(data.errors)
+        }
       }
     })(ModalContainer)
   )

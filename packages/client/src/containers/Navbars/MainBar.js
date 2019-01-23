@@ -149,7 +149,7 @@ class MainNavbar extends Component {
   logout = e => {
     e.preventDefault()
     localStorage.removeItem(AUTH_TOKEN)
-    this.props.deleteData()
+    this.props.deleteData("user")
     this.props.history.push("/login")
   }
 

@@ -12,9 +12,9 @@ const rules = {
     static: ["test:create"],
     dynamic: [
       {
-        "test:trash": ({username, courseAuthorUsername}) => {
-          if (!username || !courseAuthorUsername) return false
-          return username === courseAuthorUsername
+        "test:trash": ({id, ownerId}) => {
+          if (!id || !ownerId) return false
+          return id === ownerId
         }
       }
     ]

@@ -52,6 +52,10 @@ class Courses extends Component {
     this.state = cloneDeep(initialCoursesState)
   }
 
+  componentDidMount() {
+    this.forceUpdate()
+  }
+
   componentWillReceiveProps() {
     const newState = update(this.state, {
       cursor: {$set: ""}

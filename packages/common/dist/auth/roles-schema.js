@@ -30,11 +30,11 @@ var rules = {
     static: ["test:create"],
     dynamic: [{
       "test:trash": function testTrash(_ref) {
-        var username = _ref.username,
-            courseAuthorUsername = _ref.courseAuthorUsername;
+        var id = _ref.id,
+            ownerId = _ref.ownerId;
 
-        if (!username || !courseAuthorUsername) return false;
-        return username === courseAuthorUsername;
+        if (!id || !ownerId) return false;
+        return id === ownerId;
       }
     }]
   },

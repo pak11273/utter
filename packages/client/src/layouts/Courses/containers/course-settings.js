@@ -1,12 +1,11 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {withFormik} from "formik"
 import Helmet from "react-helmet"
 /* import {Can, Cant} from "../../../components" */
 import schema from "../../../app/schema"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 /* import {history} from "@utterzone/connector" */
-import {Button, Container, Header, Form, Segment} from "semantic-ui-react"
+import {Container, Header, Form, Segment} from "semantic-ui-react"
 import {Masthead} from "../../../containers"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
 
@@ -19,14 +18,6 @@ class CourseSettings extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    // TODO if no courseId redirect back to courses-created
-    // TODO put courseId into redux :
-    /* console.log("props: ", this.props) */
-    /* if (!this.props.location.state || !this.props.location.state.courseId) { */
-    /*   history.push("/courses/created") */
-    /* } else { */
-    /*   console.log("we need this in redux") */
-    /* } */
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value})
@@ -40,11 +31,6 @@ class CourseSettings extends Component {
   openModalClicked = e => {
     e.preventDefault()
     this.props.openModal("courseModal", null)
-  }
-
-  openTestModal = e => {
-    e.preventDefault()
-    this.props.openModal("testModal", {counter: 1})
   }
 
   render() {
@@ -246,9 +232,6 @@ class CourseSettings extends Component {
               </Segment>
             </Form.Group>
 				*/}
-            <Container>
-              <Button onClick={this.openTestModal}>Test Modal</Button>
-            </Container>
             <Container
               style={{position: "relative", paddingBottom: "5em"}}
               text>
@@ -292,31 +275,4 @@ const actions = {
 export default connect(
   mapStateToProps,
   actions
-)(
-  withFormik({
-    mapPropsToValues: ({course}) => ({
-      courseID: course.id,
-      courseName: course.courseName
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const result = await props.remove(values)
-      const onComplete = () => {
-        history.push("/courses", {
-          announcement: "Please check your email to confirm your address."
-        })
-      }
-
-      // if signup info is legit
-      if (typeof result === "string") {
-        onComplete()
-        props.addFlashMessage({
-          type: "success",
-          text: "Your Course was deleted."
-        })
-      } else {
-        // if singup info is not legit
-        setErrors(result)
-      }
-    }
-  })(CourseSettings)
-)
+)(CourseSettings)

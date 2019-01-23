@@ -6,8 +6,10 @@ const TestComponent = () => (
   <React.Fragment>
     <Query
       query={gql`
-        query beef {
-          beef
+        query test {
+          getTest {
+            testName
+          }
         }
       `}>
       {({loading, error, data}) => {
@@ -17,7 +19,7 @@ const TestComponent = () => (
         return (
           <div>
             <h1>THIS IS A TEST</h1>
-            <p>{data.beef}</p>
+            <p>{data.test}</p>
           </div>
         )
       }}
@@ -51,6 +53,42 @@ export default Test
 /*     return ( */
 /*       <div> */
 /*         <p>{data.today}</p> */
+/*       </div> */
+/*     ) */
+/*   }} */
+/* </Query> */
+/* <Query */
+/*   query={gql` */
+/*     query beef { */
+/*       beef */
+/*     } */
+/*   `}> */
+/*   {({loading, error, data}) => { */
+/*     if (loading) return <p>Loading...</p> */
+/*     if (error) return <p>{error.message}</p> */
+
+/*     return ( */
+/*       <div> */
+/*         <h1>THIS IS A TEST</h1> */
+/*         <p>{data.beef}</p> */
+/*       </div> */
+/*     ) */
+/*   }} */
+/* </Query> */
+/* <Query */
+/*   query={gql` */
+/*     query getTest{ */
+/*       test */
+/*     } */
+/*   `}> */
+/*   {({loading, error, data}) => { */
+/*     if (loading) return <p>Loading...</p> */
+/*     if (error) return <p>{error.message}</p> */
+
+/*     return ( */
+/*       <div> */
+/*         <h1>THIS IS A TEST</h1> */
+/*         <p>{data.test}</p> */
 /*       </div> */
 /*     ) */
 /*   }} */

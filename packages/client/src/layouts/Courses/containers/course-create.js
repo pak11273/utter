@@ -393,11 +393,6 @@ class CourseCreate extends Component {
                         Create Course
                       </Button>
                     </StyledFlex>
-                    <button
-                      type="button"
-                      onClick={() => this.handleImageDelete(this.state)}>
-                      delete
-                    </button>
                   </Grid>
                 </StyledForm>
               </Grid.Column>
@@ -449,7 +444,6 @@ export default connect(
 
       // if create is legit
       if (result) {
-        console.log("res: ", result)
         onComplete(result)
         props.actions.addFlashMessage({
           type: "success",

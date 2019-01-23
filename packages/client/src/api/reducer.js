@@ -37,13 +37,8 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
-  // Create a Redux-ORM session from our entities "tables"
   const session = orm.session(state)
-  // Get a reference to the correct version of the Users class for this Session
-  /* const {User, Course} = session */
-
   const entities = ["user", "course"]
-  /* const {user, course} = payload */
   const payloadKeys = Object.keys(payload)
   payloadKeys.map(key => {
     const upperCaseKey = key.charAt(0).toUpperCase() + key.slice(1)
@@ -54,12 +49,16 @@ export function loadData(state, payload) {
   return session.state
 }
 
-export function deleteData(state) {
-  // Create a Redux-ORM session from our entities "tables"
+/*
+  ** @payload: String
+	** ie. course, user, etc
+*/
+export function deleteData(state, payload) {
+  const upperCasePayload =
+    payload.data.charAt(0).toUpperCase() + payload.data.slice(1)
   const session = orm.session(state)
-  // Get a reference to the correct version of the Users class for this Session
-  const {User} = session
-  User.delete()
+  const entity = session[upperCasePayload]
+  entity.delete()
   return session.state
 }
 

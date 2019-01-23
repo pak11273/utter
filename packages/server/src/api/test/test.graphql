@@ -1,10 +1,18 @@
 directive @formattableDate(defaultFormat: String = "mmmm d, yyyy") on FIELD_DEFINITION
-directive @auth on FIELD_DEFINITION
+directive @auth on OBJECT
 
 scalar Date
 
+type Test @auth {
+	id: ID,
+	testName: String!, 
+  testDescription: String,
+  testSubject: String
+}
+
 extend type Query {
-	today: Date @formattableDate 
-	beef: String @auth 
+	getTest: Test!
+	today: Date @formattableDate  
+	beef: String 
 }
 

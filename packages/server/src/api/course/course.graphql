@@ -1,4 +1,3 @@
-directive @auth on FIELD_DEFINITION
 
 type Course {
   id: ID!
@@ -50,13 +49,12 @@ extend type Query {
 	getCreatedCourses(
     cursor: String
     author: String!
-	): PaginatedCourses @auth
+	): PaginatedCourses 
   getCourseCount: Int
 }
 
 extend type Mutation {
-  courseCreate(input: CourseCreateInput!): Course! @auth
+  courseCreate(input: CourseCreateInput!): Course! 
 	courseDelete(id: String!): Boolean
   courseUpdate(input: CourseUpdated!): Course!
-  courseRemove(id: ID!): Boolean
 }

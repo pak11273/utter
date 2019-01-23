@@ -10,7 +10,6 @@ const escapeRegex = text => {
 }
 
 const getCourse = async (_, {courseId}, {user}) => {
-  console.log("courseId: ", courseId)
   const course = await Course.findById(courseId).exec()
   if (!course) {
     throw new Error("Cannot find course with id")
@@ -21,8 +20,7 @@ const getCourse = async (_, {courseId}, {user}) => {
 
 const courseDelete = async (_, {id}, ctx) => {
   const user = await userByToken(ctx)
-  const course = await Course.findOne({courseAuthor: user._id})
-  /* const deleted = await Course.findByIdAndDelete({courseAuthor: user._id}) */
+  const course = await Course.findById(id)
 
   if (!course) {
     throw new Error("No course found.")
@@ -30,7 +28,6 @@ const courseDelete = async (_, {id}, ctx) => {
 
   if (course) {
     const deleted = await Course.findByIdAndDelete(course._id)
-    console.log("deleted: ", deleted)
   }
 
   return true

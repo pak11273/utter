@@ -1,16 +1,18 @@
 import {ApolloServer} from "apollo-server-express"
 import {importSchema} from "graphql-import"
-import {makeExecutableSchema} from "graphql-tools"
+import {makeExecutableSchema} from "apollo-server"
 import merge from "lodash/merge"
 import mongoose from "mongoose"
 import fs from "fs"
 import path from "path"
-import {DeprecatedDirective} from "./directives/deprecated/deprecated.js"
-import {FormattableDateDirective} from "./directives/formattableDate.js"
-import {isAuthenticatedDirective} from "./directives/auth/auth-directive"
 import {redis} from "./redis"
 import {restDirective} from "./directives/rest.js"
-/* import { userLoader } from './loaders/userLoader'; */
+
+// directive imports
+import {DeprecatedDirective} from "./directives/deprecated/deprecated.js"
+import {FormattableDateDirective} from "./directives/formattableDate.js"
+import {AuthDirective} from "./directives/auth/auth-directive.js"
+import {hasScopeDirective} from "./directives/auth/auth-has-scope.js"
 
 // schema imports
 const appSchema = path.join(__dirname, "./api/app/app.graphql")
@@ -50,7 +52,8 @@ const schema = makeExecutableSchema({
   schemaDirectives: {
     formattableDate: FormattableDateDirective,
     deprecated: DeprecatedDirective,
-    auth: isAuthenticatedDirective
+    auth: AuthDirective,
+    hasScope: hasScopeDirective
   },
   typeDefs: [
     baseSchema,

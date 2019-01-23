@@ -60,6 +60,11 @@ const check = (rules, roles, action, data) => {
       }
     })
 
+    /* data={{ */
+    /* id, */
+    /* resourceId */
+    /* }} */
+
     return userHasRights(data)
   }
   return false

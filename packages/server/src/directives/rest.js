@@ -1,4 +1,4 @@
-import {SchemaDirectiveVisitor} from "graphql-tools"
+import {SchemaDirectiveVisitor} from "apollo-server"
 
 export class restDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {

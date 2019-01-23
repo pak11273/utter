@@ -1,62 +1,48 @@
-import {SchemaDirectiveVisitor} from "graphql-tools"
+import {SchemaDirectiveVisitor} from "apollo-server"
 import * as jwt from "jsonwebtoken"
 import {
   GraphQLDirective,
+  GraphQLList,
   DirectiveLocation,
   defaultFieldResolver
 } from "graphql"
-import {authorizationError} from "../../errors/graphql-errors"
 import config from "../../config"
 
-export class isAuthenticatedDirective extends SchemaDirectiveVisitor {
-  /* static getDirectiveDeclaration(directiveName, schema) { */
-  /*   return new GraphQLDirective({ */
-  /*     name: "auth", */
-  /*     locations: [DirectiveLocation.FIELD_DEFINITION, DirectiveLocation.OBJECT] */
-  /*   }) */
-  /* } */
-  visitObject(type) {
-    this.ensureFieldsWrapped(type)
-    type._requiredAuthRole = this.args.requires
-  }
+export class AuthDirective extends SchemaDirectiveVisitor {
+  visitObject(obj) {
+    const fields = obj.getFields()
 
-  visitFieldDefinition(field) {
-    const {resolve = defaultFieldResolver} = field
-    field.resolve = async function(source, {format, ...otherArgs}, ctx, info) {
-      if (!ctx || !ctx.req.headers || !ctx.req.headers.authorization) {
-        throw new Error("No authorization token")
-      }
+    Object.keys(fields).forEach(fieldName => {
+      const field = fields[fieldName]
 
-      const token = ctx.req.headers.authorization
-
-      jwt.verify(token, config.env.JWT, (err, decoded) => {
-        if (err) {
-          console.log("err: ", err)
-          throw new Error("You are not authorized for this resource.")
-        } else {
-          ctx.user = decoded._id
+      field.resolve = async function(
+        source,
+        {format, ...otherArgs},
+        ctx,
+        info
+      ) {
+        if (!ctx || !ctx.req.headers || !ctx.req.headers.authorization) {
+          throw new Error("No authorization token")
         }
-      })
-      return resolve(source, otherArgs, ctx)
 
-      /* try { */
-      /*   const decoded = jwt.verify( */
-      /*     token, */
-      /*     config.secrets.JWT, */
-      /*     async (err, decoded) => { */
-      /*       if (err) { */
-      /*         console.log("err: ", err) */
-      /*         return err */
-      /*       } else { */
-      /*         console.log("decoded: ", decoded) */
-      /*         ctx.user = await decoded._id */
-      /*       } */
-      /*     } */
-      /*   ) */
-      /*   return resolve(source, field.args, ctx) */
-      /* } catch (err) { */
-      /*   throw new Error("You are not authorized for this resource.") */
-      /* } */
-    }
+        const token = ctx.req.headers.authorization
+
+        try {
+          jwt.verify(token, config.env.JWT, (err, decoded) => {
+            if (err) {
+              throw new Error(
+                "Something is wrong with your credentials.  Please contact technical support."
+              )
+            } else {
+              ctx.user = decoded._id
+            }
+          })
+
+          return source[fieldName]
+        } catch (err) {
+          throw new Error("You must be registered to view this resource.")
+        }
+      }
+    })
   }
 }

@@ -1,4 +1,4 @@
-import {makeExecutableSchema} from "graphql-tools"
+import {makeExecutableSchema} from "apollo-server"
 import path from "path"
 import fs from "fs"
 

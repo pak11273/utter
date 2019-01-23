@@ -1,4 +1,3 @@
-directive @auth on FIELD_DEFINITION
 
 type Term {
   id: ID
@@ -44,12 +43,12 @@ extend type Query {
 	getCreatedTerms(
     cursor: String
     author: String!
-	): PaginatedTerms @auth
+	): PaginatedTerms 
   getTermCount: Int
 }
 
 extend type Mutation {
-  termCreate(input: CreateTermInput!): Term! @auth
+  termCreate(input: CreateTermInput!): Term! 
 	deleteTerm(id: String!): Boolean
   updateTerm(input: UpdatedTerm!): Term!
   removeTerm(id: ID!): Boolean

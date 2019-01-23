@@ -5,6 +5,7 @@ import {createAction} from "../utils/redux-utils.js"
 // LOAD_DATA_ASYNC.LOAD = LOAD_DATA_ASYNC_LOAD
 export const loadData = payload => createAction(LOAD_DATA_ASYNC.LOAD, payload)
 /* export const deleteData = createAction(DELETE_DATA_ASYNC.DELETE, payload) */
-export const deleteData = () => ({
-  type: "DELETE_DATA"
+export const deleteData = data => ({
+  type: "DELETE_DATA",
+  data
 })
