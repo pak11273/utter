@@ -19,18 +19,23 @@ const getCourse = async (_, {courseId}, {user}) => {
 }
 
 const courseDelete = async (_, {id}, ctx) => {
-  const user = await userByToken(ctx)
-  const course = await Course.findById(id)
+  if (token === "null") {
+    return new Error("You need to be registered to view this resource.")
+  }
+  const token = ctx.req.headers.authorization
+  const user = await userByToken(token, (err, res) => {
+    if (err) return err
+    return res
+  })
 
+  const course = await Course.findOneAndDelete({courseAuthor: user._id})
   if (!course) {
-    throw new Error("No course found.")
+    throw new Error("No course found by this author.")
   }
 
   if (course) {
-    const deleted = await Course.findByIdAndDelete(course._id)
+    return true
   }
-
-  return true
 }
 
 const courseUpdate = (_, {input}) => {
@@ -39,7 +44,14 @@ const courseUpdate = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
-  const user = await userByToken(ctx)
+  const token = ctx.req.headers.authorization
+  if (token === "null") {
+    return new Error("You need to be registered to view this resource.")
+  }
+  const user = await userByToken(token, (err, res) => {
+    if (err) return err
+    return res
+  })
 
   //TODO can't have duplicate course names
   const {input} = args
@@ -56,14 +68,11 @@ const getCourseLevels = async (_, args, ctx, info) => {
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   // build query object
   const query = {}
   query.courseAuthor = ctx.user
   // end query object
-
-  /* // TODO: HOTFIX, using a fake courseAuthor, delete this after testing */
-  /* query.courseAuthor = "5b9012f043aa4329f187f01a" */
-  /* end */
 
   if (args.cursor) {
     // type cast id, $lt is not the same in aggregate vs query
@@ -90,7 +99,6 @@ const getCourses = async (_, args, ctx, info) => {
   // build query object
   const query = {}
   var courseName, courseRef, courseAuthor
-
   args.title
     ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
     : null
@@ -131,7 +139,6 @@ const getCourses = async (_, args, ctx, info) => {
     .exec()
 
   if (isEmpty(result)) {
-    console.log("done")
     return {courses: [], cursor: "done"}
   } else {
     cursor = result[result.length - 1]._id

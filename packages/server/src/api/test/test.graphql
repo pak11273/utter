@@ -1,5 +1,6 @@
 directive @formattableDate(defaultFormat: String = "mmmm d, yyyy") on FIELD_DEFINITION
-directive @auth on OBJECT
+directive @auth on OBJECT | FIELD_DEFINITION
+directive @hasScope(scopes: [String]) on OBJECT | FIELD_DEFINITION
 
 scalar Date
 
@@ -11,8 +12,8 @@ type Test @auth {
 }
 
 extend type Query {
-	getTest: Test!
-	today: Date @formattableDate  
+	getTest: Test! @auth
+	today: Date @formattableDate @auth @hasScope(scopes: ["test:read"]) 
 	beef: String 
 }
 
