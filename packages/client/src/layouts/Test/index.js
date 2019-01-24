@@ -59,7 +59,22 @@ export default Test
 /*   `}> */
 /*   {({loading, error, data}) => { */
 /*     if (loading) return <p>Loading...</p> */
-/*     if (error) return <p>Error :(</p> */
+/*     if (error) return 
+/* <pre> */
+/*   {error.graphQLErrors.map(({message}, i) => ( */
+/*     <p */
+/*       style={{ */
+/*         fontSize: "2em", */
+/*         color: "red", */
+/*         margin: "30px", */
+/*         padding: "30px", */
+/*         textAlign: "center" */
+/*       }} */
+/*       key={i}> */
+/*       {message} */
+/*     </p> */
+/*   ))} */
+/* </pre> */
 
 /*     return ( */
 /*       <div> */
@@ -88,18 +103,36 @@ export default Test
 /* </Query> */
 /* <Query */
 /*   query={gql` */
-/*     query getTest{ */
-/*       test */
+/* query={gql` */
+/*   query getTest { */
+/*     getTest { */
+/*       testName */
 /*     } */
+/*   } */
 /*   `}> */
 /*   {({loading, error, data}) => { */
 /*     if (loading) return <p>Loading...</p> */
-/*     if (error) return <p>{error.message}</p> */
+/*     if (error) return 
+/* <pre> */
+/*   {error.graphQLErrors.map(({message}, i) => ( */
+/*     <p */
+/*       style={{ */
+/*         fontSize: "2em", */
+/*         color: "red", */
+/*         margin: "30px", */
+/*         padding: "30px", */
+/*         textAlign: "center" */
+/*       }} */
+/*       key={i}> */
+/*       {message} */
+/*     </p> */
+/*   ))} */
+/* </pre> */
 
 /*     return ( */
 /*       <div> */
 /*         <h1>THIS IS A TEST</h1> */
-/*         <p>{data.test}</p> */
+/*         <p>{data.getTest.testName}</p> */
 /*       </div> */
 /*     ) */
 /*   }} */

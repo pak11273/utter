@@ -5,15 +5,15 @@ directive @hasScope(scopes: [String]) on OBJECT | FIELD_DEFINITION
 scalar Date
 
 type Test @auth {
-	id: ID,
-	testName: String!, 
-  testDescription: String,
+	id: ID
+	testName: String! 
+  testDescription: String
   testSubject: String
 }
 
-extend type Query {
-	getTest: Test! @auth
-	today: Date @formattableDate @auth @hasScope(scopes: ["test:read"]) 
+extend type Query  {
+	getTest: Test! @auth  
+	today: Date @formattableDate @hasScope(scopes: ["test:read"]) @auth
 	beef: String 
 }
 
