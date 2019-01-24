@@ -68,10 +68,18 @@ const getCourseLevels = async (_, args, ctx, info) => {
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
-  console.log("args: ", args)
+  if (token === "null") {
+    return new Error("You need to be registered to view this resource.")
+  }
+  const token = ctx.req.headers.authorization
+  const user = await userByToken(token, (err, res) => {
+    if (err) return err
+    return res
+  })
+
   // build query object
   const query = {}
-  query.courseAuthor = ctx.user
+  query.courseAuthor = user._id
   // end query object
 
   if (args.cursor) {

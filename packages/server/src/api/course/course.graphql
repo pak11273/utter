@@ -48,7 +48,6 @@ extend type Query {
   ): PaginatedCourses  
 	getCreatedCourses(
     cursor: String
-    author: String!
 	): PaginatedCourses 
   getCourseCount: Int
 }

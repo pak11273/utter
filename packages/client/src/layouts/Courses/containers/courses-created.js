@@ -24,8 +24,8 @@ import {Spacer} from "../../../components"
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
 const getCreatedCourses = gql`
-  query getCreatedCourses($cursor: String, $author: String!) {
-    getCreatedCourses(cursor: $cursor, author: $author) {
+  query getCreatedCourses($cursor: String) {
+    getCreatedCourses(cursor: $cursor) {
       courses {
         id
         courseImage
@@ -41,8 +41,7 @@ const getCreatedCourses = gql`
 `
 
 const initialCoursesState = {
-  cursor: "initial",
-  author: localStorage.getItem("AUTH_TOKEN")
+  cursor: "initial"
 }
 
 class Courses extends Component {
@@ -74,14 +73,12 @@ class Courses extends Component {
   }
 
   render() {
-    const {author} = this.props
     return (
       <Grid.Row style={{padding: "40px"}}>
         <Query
           query={getCreatedCourses}
           variables={{
-            cursor: "",
-            author
+            cursor: ""
           }}>
           {({loading, error, data, fetchMore}) => {
             if (loading) return <Grid.Column>loading...</Grid.Column>
