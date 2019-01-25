@@ -113,7 +113,24 @@ class Courses extends Component {
                 </Grid.Column>
               )
             }
-            if (error) return <Grid.Column>{error.message}</Grid.Column>
+            if (error)
+              return (
+                <Grid.Column>
+                  {error.graphQLErrors.map(({message}, i) => (
+                    <p
+                      style={{
+                        fontSize: "1.5em",
+                        color: "red",
+                        margin: "30px",
+                        padding: "30px",
+                        textAlign: "center"
+                      }}
+                      key={i}>
+                      {message}
+                    </p>
+                  ))}
+                </Grid.Column>
+              )
             if (this.state.cursor !== "done") {
               var waypoint = (
                 <Waypoint
@@ -178,6 +195,7 @@ class Courses extends Component {
             return (
               <div style={{margin: "0 auto", justifyContent: "centered"}}>
                 <Card.Group doubling stackable itemsPerRow={4}>
+                  {console.log("data: ", data)}
                   {data.getCourses.courses.map(course => (
                     <Card key={course.id}>
                       <Image

@@ -14,6 +14,7 @@ export class AuthDirective extends SchemaDirectiveVisitor {
 
     Object.keys(fields).forEach(fieldName => {
       const field = fields[fieldName]
+      console.log("object field: ", field)
 
       field.resolve = async function(source, args, ctx, info) {
         if (
@@ -22,6 +23,7 @@ export class AuthDirective extends SchemaDirectiveVisitor {
           !ctx.req.headers.authorization ||
           ctx.req.headers.authorization === "null"
         ) {
+          console.log("HELLLO")
           throw new Error("You must be registered to view this resource.")
         }
 
@@ -46,41 +48,36 @@ export class AuthDirective extends SchemaDirectiveVisitor {
     })
   }
 
-  visitFieldDefinition(field, details) {
-    const fields = details.objectType.getFields()
+  visitFieldDefinition(field) {
     const {resolve = defaultFieldResolver} = field
 
-    Object.keys(fields).forEach(fieldName => {
-      const field = fields[fieldName]
-
-      field.resolve = async function(...args) {
-        const ctx = args[2]
-        if (
-          !ctx ||
-          !ctx.req.headers ||
-          !ctx.req.headers.authorization ||
-          ctx.req.headers.authorization === "null"
-        ) {
-          throw new Error("You must be registered to view this resource.")
-        }
-
-        const token = ctx.req.headers.authorization
-
-        try {
-          jwt.verify(token, config.env.JWT, (err, decoded) => {
-            if (err) {
-              throw new Error(
-                "Something is wrong with your credentials.  Please contact technical support."
-              )
-            } else {
-              ctx.user = decoded._id
-            }
-          })
-          return resolve.apply(this, args)
-        } catch (err) {
-          return err
-        }
+    field.resolve = async function(...args) {
+      const ctx = args[2]
+      if (
+        !ctx ||
+        !ctx.req.headers ||
+        !ctx.req.headers.authorization ||
+        ctx.req.headers.authorization === "null"
+      ) {
+        throw new Error("You must be registered to view this resource.")
       }
-    })
+
+      const token = ctx.req.headers.authorization
+
+      try {
+        jwt.verify(token, config.env.JWT, (err, decoded) => {
+          if (err) {
+            throw new Error(
+              "Something is wrong with your credentials.  Please contact technical support."
+            )
+          } else {
+            ctx.user = decoded._id
+          }
+        })
+        return resolve.apply(this, args)
+      } catch (err) {
+        return err
+      }
+    }
   }
 }

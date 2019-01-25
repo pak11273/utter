@@ -1,3 +1,4 @@
+directive @auth on OBJECT | FIELD_DEFINITION
 
 type Course {
   id: ID!
@@ -31,7 +32,7 @@ input CourseCreateInput {
 }
 
 type PaginatedCourses {
-  courses: [Course]
+  courses: [Course] 
   cursor: String
 }
 
@@ -45,10 +46,10 @@ extend type Query {
     author: String!
     usingLang: String!
     teachingLang: String!
-  ): PaginatedCourses  
+  ): PaginatedCourses 
 	getCreatedCourses(
     cursor: String
-	): PaginatedCourses 
+	): PaginatedCourses @auth 
   getCourseCount: Int
 }
 
