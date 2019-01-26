@@ -1,4 +1,4 @@
-directive @auth on FIELD_DEFINITION
+directive @auth on OBJECT | FIELD_DEFINITION
 
 type Course {
   id: ID!
@@ -32,7 +32,7 @@ input CourseCreateInput {
 }
 
 type PaginatedCourses {
-  courses: [Course]
+  courses: [Course] 
   cursor: String
 }
 
@@ -46,17 +46,15 @@ extend type Query {
     author: String!
     usingLang: String!
     teachingLang: String!
-  ): PaginatedCourses  
+  ): PaginatedCourses 
 	getCreatedCourses(
     cursor: String
-    author: String!
-	): PaginatedCourses @auth
+	): PaginatedCourses @auth 
   getCourseCount: Int
 }
 
 extend type Mutation {
-  courseCreate(input: CourseCreateInput!): Course! @auth
+  courseCreate(input: CourseCreateInput!): Course! 
 	courseDelete(id: String!): Boolean
   courseUpdate(input: CourseUpdated!): Course!
-  courseRemove(id: ID!): Boolean
 }

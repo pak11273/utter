@@ -1,4 +1,3 @@
-directive @auth on FIELD_DEFINITION
 
 type App {
   id: ID!
@@ -45,12 +44,12 @@ extend type Query {
 	getCreatedApps(
     cursor: String
     author: String!
-	): PaginatedApps @auth
+	): PaginatedApps 
   getAppCount: Int
 }
 
 extend type Mutation {
-  appCreate(input: AppCreateInput!): App! @auth
+  appCreate(input: AppCreateInput!): App! 
 	appDelete(id: String!): Boolean
   appUpdate(input: AppUpdated!): App!
   appRemove(id: ID!): Boolean

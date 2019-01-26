@@ -21,7 +21,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _graphqlTools = require("graphql-tools");
+var _apolloServer = require("apollo-server");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -58,4 +58,4 @@ var DeprecatedDirective = exports.DeprecatedDirective = function (_SchemaDirecti
     }
   }]);
   return DeprecatedDirective;
-}(_graphqlTools.SchemaDirectiveVisitor);
+}(_apolloServer.SchemaDirectiveVisitor);

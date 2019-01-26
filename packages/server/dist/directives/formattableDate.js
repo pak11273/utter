@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _graphqlTools = require("graphql-tools");
+var _apolloServer = require("apollo-server");
 
 var _graphql = require("graphql");
 
@@ -100,4 +100,4 @@ var FormattableDateDirective = exports.FormattableDateDirective = function (_Sch
     }
   }]);
   return FormattableDateDirective;
-}(_graphqlTools.SchemaDirectiveVisitor);
+}(_apolloServer.SchemaDirectiveVisitor);

@@ -1,5 +1,4 @@
 # import Error from "../shared/shared.graphql"
-directive @test on OBJECT
 
 type Error {
   path: String!

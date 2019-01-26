@@ -8,7 +8,7 @@ var _apolloServerExpress = require("apollo-server-express");
 
 var _graphqlImport = require("graphql-import");
 
-var _graphqlTools = require("graphql-tools");
+var _apolloServer = require("apollo-server");
 
 var _merge = require("lodash/merge");
 
@@ -26,15 +26,17 @@ var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);
 
+var _redis = require("./redis");
+
+var _rest = require("./directives/rest.js");
+
 var _deprecated = require("./directives/deprecated/deprecated.js");
 
 var _formattableDate = require("./directives/formattableDate.js");
 
-var _authDirective = require("./directives/auth/auth-directive");
+var _authDirective = require("./directives/auth/auth-directive.js");
 
-var _redis = require("./redis");
-
-var _rest = require("./directives/rest.js");
+var _authHasScope = require("./directives/auth/auth-has-scope.js");
 
 var _appResolvers = require("./api/app/app-resolvers.js");
 
@@ -52,9 +54,10 @@ var _zoneResolvers = require("./api/zone/zone-resolvers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* import { userLoader } from './loaders/userLoader'; */
-
 // schema imports
+
+
+// directive imports
 var appSchema = _path2.default.join(__dirname, "./api/app/app.graphql");
 var courseSchema = _path2.default.join(__dirname, "./api/course/course.graphql");
 var levelSchema = _path2.default.join(__dirname, "./api/level/level.graphql");
@@ -77,11 +80,12 @@ var zoneTypeDefs = _fs2.default.readFileSync(zoneSchema, "utf8");
 
 // baseSchema minimum requirement is a property query: Query
 var baseSchema = "\n  schema {\n    query: Query,\n    mutation: Mutation\n  }\n";
-var schema = (0, _graphqlTools.makeExecutableSchema)({
+var schema = (0, _apolloServer.makeExecutableSchema)({
   schemaDirectives: {
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
-    auth: _authDirective.isAuthenticatedDirective
+    auth: _authDirective.AuthDirective,
+    hasScope: _authHasScope.hasScopeDirective
   },
   typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, termTypeDefs, testTypeDefs, zoneTypeDefs],
   resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)

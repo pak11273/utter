@@ -54,24 +54,23 @@ var getCourse = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("courseId: ", courseId);
-            _context.next = 3;
+            _context.next = 2;
             return _courseModel2.default.findById(courseId).exec();
 
-          case 3:
+          case 2:
             course = _context.sent;
 
             if (course) {
-              _context.next = 6;
+              _context.next = 5;
               break;
             }
 
             throw new Error("Cannot find course with id");
 
-          case 6:
+          case 5:
             return _context.abrupt("return", course);
 
-          case 7:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -87,47 +86,50 @@ var getCourse = function () {
 var courseDelete = function () {
   var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
     var id = _ref5.id;
-    var user, course, deleted;
+    var token, user, course;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
-            return (0, _resolverFunctions.userByToken)(ctx);
-
-          case 2:
-            user = _context2.sent;
-            _context2.next = 5;
-            return _courseModel2.default.findOne({ courseAuthor: user._id });
-
-          case 5:
-            course = _context2.sent;
-
-            if (course) {
-              _context2.next = 8;
+            if (!(token === "null")) {
+              _context2.next = 2;
               break;
             }
 
-            throw new Error("No course found.");
+            return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
+
+          case 2:
+            token = ctx.req.headers.authorization;
+            _context2.next = 5;
+            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 5:
+            user = _context2.sent;
+            _context2.next = 8;
+            return _courseModel2.default.findOneAndDelete({ courseAuthor: user._id });
 
           case 8:
+            course = _context2.sent;
+
+            if (course) {
+              _context2.next = 11;
+              break;
+            }
+
+            throw new Error("No course found by this author.");
+
+          case 11:
             if (!course) {
               _context2.next = 13;
               break;
             }
 
-            _context2.next = 11;
-            return _courseModel2.default.findByIdAndDelete(course._id);
-
-          case 11:
-            deleted = _context2.sent;
-
-            console.log("deleted: ", deleted);
-
-          case 13:
             return _context2.abrupt("return", true);
 
-          case 14:
+          case 13:
           case "end":
             return _context2.stop();
         }
@@ -150,15 +152,28 @@ var courseUpdate = function courseUpdate(_, _ref6) {
 
 var courseCreate = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var user, input, course;
+    var token, user, input, course;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 2;
-            return (0, _resolverFunctions.userByToken)(ctx);
+            token = ctx.req.headers.authorization;
 
-          case 2:
+            if (!(token === "null")) {
+              _context3.next = 3;
+              break;
+            }
+
+            return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
+
+          case 3:
+            _context3.next = 5;
+            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 5:
             user = _context3.sent;
 
 
@@ -166,16 +181,16 @@ var courseCreate = function () {
             input = args.input;
 
             input.courseAuthor = user._id;
-            _context3.next = 7;
+            _context3.next = 10;
             return _courseModel2.default.create(input);
 
-          case 7:
+          case 10:
             course = _context3.sent;
 
             course.id = course._id;
             return _context3.abrupt("return", course);
 
-          case 10:
+          case 13:
           case "end":
             return _context3.stop();
         }
@@ -215,20 +230,35 @@ var getCourseLevels = function () {
 
 var getCreatedCourses = function () {
   var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var query, cursorObj, cursor, result;
+    var token, user, query, cursorObj, cursor, result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            if (!(token === "null")) {
+              _context5.next = 2;
+              break;
+            }
+
+            return _context5.abrupt("return", new Error("You need to be registered to view this resource."));
+
+          case 2:
+            token = ctx.req.headers.authorization;
+            _context5.next = 5;
+            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 5:
+            user = _context5.sent;
+
+
             // build query object
             query = {};
 
-            query.courseAuthor = ctx.user;
+            query.courseAuthor = user._id;
             // end query object
-
-            /* // TODO: HOTFIX, using a fake courseAuthor, delete this after testing */
-            /* query.courseAuthor = "5b9012f043aa4329f187f01a" */
-            /* end */
 
             if (args.cursor) {
               // type cast id, $lt is not the same in aggregate vs query
@@ -240,24 +270,24 @@ var getCreatedCourses = function () {
               query._id = { $lt: cursor };
             }
 
-            _context5.next = 5;
+            _context5.next = 11;
             return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
 
-          case 5:
+          case 11:
             result = _context5.sent;
 
             if (!(0, _isEmpty2.default)(result)) {
-              _context5.next = 10;
+              _context5.next = 16;
               break;
             }
 
             return _context5.abrupt("return", { courses: [], cursor: "done" });
 
-          case 10:
+          case 16:
             cursor = result[result.length - 1]._id;
             return _context5.abrupt("return", { courses: result, cursor: cursor });
 
-          case 12:
+          case 18:
           case "end":
             return _context5.stop();
         }
@@ -279,7 +309,6 @@ var getCourses = function () {
           case 0:
             // build query object
             query = {};
-
 
             args.title ? query.courseName = new RegExp(escapeRegex(args.title), "gi") : null;
 
@@ -326,18 +355,17 @@ var getCourses = function () {
             result = _context6.sent;
 
             if (!(0, _isEmpty2.default)(result)) {
-              _context6.next = 18;
+              _context6.next = 17;
               break;
             }
 
-            console.log("done");
             return _context6.abrupt("return", { courses: [], cursor: "done" });
 
-          case 18:
+          case 17:
             cursor = result[result.length - 1]._id;
             return _context6.abrupt("return", { courses: result, cursor: cursor });
 
-          case 20:
+          case 19:
           case "end":
             return _context6.stop();
         }

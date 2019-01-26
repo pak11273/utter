@@ -1,4 +1,3 @@
-directive @auth on FIELD_DEFINITION
 
 type Level {
   id: ID!
@@ -38,12 +37,12 @@ extend type Query {
 	getCreatedLevels(
     cursor: String
     author: String!
-	): PaginatedLevels @auth
+	): PaginatedLevels 
   getLevelCount: Int
 }
 
 extend type Mutation {
-  levelCreate(input: CreateLevelInput!): Level! @auth
+  levelCreate(input: CreateLevelInput!): Level! 
 	deleteLevel(id: String!): Boolean
   updateLevel(input: UpdatedLevel!): Level!
   removeLevel(id: ID!): Boolean
