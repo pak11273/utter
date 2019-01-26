@@ -94,7 +94,6 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
       const userId = user._id
       const resourceId = "Test"
       const passPermissionsArr = []
-      console.log("userId: ", userId)
 
       await expectedScope.map(scope => {
         if (dynamicKeys.indexOf(scope) > -1) {
@@ -111,7 +110,11 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
                 Course.findOne({courseAuthor: userId}, (err, doc) => {
                   if (doc) {
                     const ownerId = doc.courseAuthor
-                    console.log("ownerId: ", ownerId)
+                    console.log("props: ", userId.toObject())
+                    console.log("id: ", typeof userId)
+                    console.log("ownerId: ", typeof ownerId)
+                    console.log(userId === ownerId)
+                    console.log("funct: ", obj[scope])
                     passPermissionsArr.push(obj[scope](userId, ownerId))
                     console.log("array: ", passPermissionsArr)
                   }

@@ -44,8 +44,8 @@ const roles = {
       },
       {
         "test:trash": (id, ownerId) => {
-          console.log("id: ", id)
-          console.log("ownerId: ", ownerId)
+          console.log("id: ", typeof id)
+          console.log("ownerId: ", typeof ownerId)
           if (!id || !ownerId) return false
           return id === ownerId
         }

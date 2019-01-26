@@ -4,17 +4,23 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
+var _typeof2 = require("babel-runtime/helpers/typeof");
 
-  enterModule && enterModule(module);
-})();
+var _typeof3 = _interopRequireDefault(_typeof2);
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
 
   enterModule && enterModule(module);
 })();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* @Static scopes are those scopes which don't need any data apart from the user role. */
 
@@ -51,8 +57,8 @@ var roles = {
       }
     }, {
       "test:trash": function testTrash(id, ownerId) {
-        console.log("id: ", id);
-        console.log("ownerId: ", ownerId);
+        console.log("id: ", typeof id === "undefined" ? "undefined" : (0, _typeof3.default)(id));
+        console.log("ownerId: ", typeof ownerId === "undefined" ? "undefined" : (0, _typeof3.default)(ownerId));
         if (!id || !ownerId) return false;
         return id === ownerId;
       }
