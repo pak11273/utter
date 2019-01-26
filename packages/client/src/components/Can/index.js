@@ -1,7 +1,7 @@
 import rules from "@utterzone/common/dist/auth/roles-schema"
 import {flatten, uniq} from "lodash"
 
-const check = (rules, roles, action, data) => {
+const check = (rules, roles, action, username, ownerId) => {
   if (!roles) roles = ["guest"]
   // Users without roles
   roles.map(role => {
@@ -50,9 +50,9 @@ const check = (rules, roles, action, data) => {
     const keys = Object.keys(rules)
 
     var userHasRights = null
-    keys.map(item => {
-      if (rules[item].hasOwnProperty("dynamic")) {
-        rules[item].dynamic.map(func => {
+    keys.map(role => {
+      if (rules[role].hasOwnProperty("dynamic")) {
+        rules[role].dynamic.map(func => {
           if (func.hasOwnProperty(action)) {
             userHasRights = func[action]
           }
@@ -60,18 +60,13 @@ const check = (rules, roles, action, data) => {
       }
     })
 
-    /* data={{ */
-    /* id, */
-    /* resourceId */
-    /* }} */
-
-    return userHasRights(data)
+    return userHasRights(username, ownerId)
   }
   return false
 }
 
 const Can = props =>
-  check(rules, props.roles, props.perform, props.data)
+  check(rules, props.roles, props.perform, props.username, props.ownerId)
     ? props.yes()
     : props.no()
 

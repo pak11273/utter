@@ -101,11 +101,9 @@ class CourseEdit extends Component {
                   </Header>
                   <Can
                     roles={user.roles}
-                    perform="course-settings:read"
-                    data={{
-                      username: user.username,
-                      courseAuthorUsername: course.courseAuthor.username
-                    }}
+                    perform="course:update"
+                    username={user.username}
+                    ownerId={course.courseAuthor.username}
                     yes={() => (
                       <Header as="h2">
                         <NavLink

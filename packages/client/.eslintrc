@@ -19,6 +19,7 @@
 		"no-prototype-builtins":0,
 		"no-restricted-globals": 0,
 		"no-shadow": 0,
+		"no-unused-expresssions": 0,
 		"one-var": 0,
 		"prefer-template": 0,
 		"react/destructuring-assignment": 0,
