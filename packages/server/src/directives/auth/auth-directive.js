@@ -14,7 +14,6 @@ export class AuthDirective extends SchemaDirectiveVisitor {
 
     Object.keys(fields).forEach(fieldName => {
       const field = fields[fieldName]
-      console.log("object field: ", field)
 
       field.resolve = async function(source, args, ctx, info) {
         if (
@@ -23,7 +22,6 @@ export class AuthDirective extends SchemaDirectiveVisitor {
           !ctx.req.headers.authorization ||
           ctx.req.headers.authorization === "null"
         ) {
-          console.log("HELLLO")
           throw new Error("You must be registered to view this resource.")
         }
 
@@ -39,7 +37,6 @@ export class AuthDirective extends SchemaDirectiveVisitor {
               ctx.user = decoded._id
             }
           })
-          console.log("SOURCE: ", source[fieldName])
           return source[fieldName]
         } catch (err) {
           return err

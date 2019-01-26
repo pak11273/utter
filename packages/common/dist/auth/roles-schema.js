@@ -22,47 +22,39 @@ Object.defineProperty(exports, "__esModule", {
 
 /* Thes schema is only concerned with resources that need to be protected.  Therefore, all resources not specified here are considered public and anyone can view them.  The role "registeredUser" is given to everyone who signsup.  Protected resources have scopes in the (resource:action) format. */
 
-var rules = {
+/*  Use hierarchy system: Ensure that no dynamic functions have the same permission functions, otherwise if a user has that roles with same functions, they will be run with @hasScope which will make multiple database calls */
+
+var roles = {
   guest: {
     static: ["home:read", "contact:read", "pricing:read", "login:read"]
   },
   test: {
     static: ["test:create"],
     dynamic: [{
-      "test:trash": function testTrash(_ref) {
-        var id = _ref.id,
-            ownerId = _ref.ownerId;
-
+      "test:trash": function testTrash(id, ownerId) {
         if (!id || !ownerId) return false;
         return id === ownerId;
       }
     }]
   },
   registeredUser: {
-    static: ["courses:create", "users:getSelf", "dashboard:read", "contact:read"],
+    static: ["course:read", "courses:create", "users:getSelf", "dashboard:read", "contact:read"],
     dynamic: [{
-      "course-settings:read": function courseSettingsRead(_ref2) {
-        var username = _ref2.username,
-            courseAuthorUsername = _ref2.courseAuthorUsername;
-
+      "course:update": function courseUpdate(username, courseAuthorUsername) {
         if (!username || !courseAuthorUsername) return false;
         return username === courseAuthorUsername;
       }
     }, {
-      "course-introduction:update": function courseIntroductionUpdate(_ref3) {
-        var username = _ref3.username,
-            courseAuthorUsername = _ref3.courseAuthorUsername;
-
+      "course:delete": function courseDelete(username, courseAuthorUsername) {
         if (!username || !courseAuthorUsername) return false;
         return username === courseAuthorUsername;
       }
     }, {
-      "course-settings:delete": function courseSettingsDelete(_ref4) {
-        var username = _ref4.username,
-            courseAuthorUsername = _ref4.courseAuthorUsername;
-
-        if (!username || !courseAuthorUsername) return false;
-        return username === courseAuthorUsername;
+      "test:trash": function testTrash(id, ownerId) {
+        console.log("id: ", id);
+        console.log("ownerId: ", ownerId);
+        if (!id || !ownerId) return false;
+        return id === ownerId;
       }
     }]
   },
@@ -71,7 +63,7 @@ var rules = {
   }
 };
 
-var _default = rules;
+var _default = roles;
 var _default2 = _default;
 exports.default = _default2;
 ;
@@ -85,7 +77,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(rules, "rules", "src/auth/roles-schema.js");
+  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
   reactHotLoader.register(_default, "default", "src/auth/roles-schema.js");
   leaveModule(module);
 })();
@@ -102,7 +94,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(rules, "rules", "src/auth/roles-schema.js");
+  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
   reactHotLoader.register(_default2, "default", "src/auth/roles-schema.js");
   leaveModule(module);
 })();

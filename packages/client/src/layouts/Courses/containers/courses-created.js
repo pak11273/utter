@@ -1,6 +1,6 @@
 import "react-select/dist/react-select.css"
 import {history} from "@utterzone/connector"
-import "../styles.css"
+import {store} from "../../../store.js"
 import {
   Button as SemButton,
   Card,
@@ -22,6 +22,10 @@ import gql from "graphql-tag"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import "../styles.css"
+
+// actions
+import {loadData} from "../../../api/actions.js"
 
 const getCreatedCourses = gql`
   query getCreatedCourses($cursor: String) {
@@ -63,8 +67,9 @@ class Courses extends Component {
   }
 
   handleImageClick = data => {
-    // store courseId in redux
-    console.log("id: ", data)
+    const payload = {}
+    payload.course = data
+    store.dispatch(loadData(payload))
 
     history.push({
       pathname: "/course/course-introduction",
@@ -86,8 +91,21 @@ class Courses extends Component {
               console.log("err: ", error)
               return (
                 <Grid.Column>
-                  The server is restarting due to maintenance. Please refresh
-                  your browser in a few minutes.
+                  <p>
+                    {error.graphQLErrors.map(({message}, i) => (
+                      <p
+                        style={{
+                          fontSize: "1.3em",
+                          color: "red",
+                          margin: "30px",
+                          padding: "30px",
+                          textAlign: "center"
+                        }}
+                        key={i}>
+                        {message}
+                      </p>
+                    ))}
+                  </p>
                 </Grid.Column>
               )
             }
@@ -321,8 +339,9 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = dispatch => {
   return {
+    loadData: payload => dispatch(loadData(payload)),
     toggleFooter
   }
 }

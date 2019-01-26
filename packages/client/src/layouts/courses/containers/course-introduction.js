@@ -133,7 +133,7 @@ class CourseIntroduction extends Component {
           </Container>
           <Can
             roles={user.roles}
-            perform="course-introduction:update"
+            perform="course:update"
             data={{
               username: user.username,
               courseAuthorUsername: course.courseAuthor.username

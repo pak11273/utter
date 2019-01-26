@@ -18,11 +18,11 @@ class Test extends Component {
             if (loading) return <p>Loading...</p>
             if (error)
               return (
-                <pre>
+                <p>
                   {error.graphQLErrors.map(({message}, i) => (
                     <p
                       style={{
-                        fontSize: "2em",
+                        fontSize: "1.3em",
                         color: "red",
                         margin: "30px",
                         padding: "30px",
@@ -32,7 +32,7 @@ class Test extends Component {
                       {message}
                     </p>
                   ))}
-                </pre>
+                </p>
               )
 
             return (
