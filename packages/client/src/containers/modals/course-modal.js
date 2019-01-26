@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {withFormik, setErrors} from "formik"
+import {withFormik} from "formik"
 import {Form, Modal, Button} from "semantic-ui-react"
 import {graphql} from "react-apollo"
 import {history} from "@utterzone/connector"
@@ -75,7 +75,7 @@ export default connect(
       mapPropsToValues: ({course}) => ({
         id: course.id
       }),
-      handleSubmit: async (values, {props}) => {
+      handleSubmit: async (values, {props}, setErrors) => {
         const {data} = await props.mutate({
           variables: values
         })

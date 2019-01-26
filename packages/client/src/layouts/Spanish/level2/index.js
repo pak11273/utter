@@ -45,7 +45,7 @@ const u = cdn + vocab.category.alphabet.vowels.u.spanish.audioUrl
 const hello = cdn + sharedPhrases.greetings.hello.spanish.informal.audioUrl
 const bye = cdn + sharedPhrases.greetings.bye.spanish.informal.audioUrl
 
-class SpanishLevel1 extends Component {
+class SpanishLevel2 extends Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -660,4 +660,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpanishLevel1)
+export default connect(mapStateToProps, mapDispatchToProps)(SpanishLevel2)

@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
-import {BrowserRouter as Router, Link, Route} from 'react-router-dom'
-import styled from 'styled-components'
-import {Box, Button, Grid, Spacer, Text} from '../components'
-import {Sidebar} from '../containers'
-import {FaCaretDown} from 'react-icons/fa'
+import React, {Component} from "react"
+import {BrowserRouter as Router, Link, Route} from "react-router-dom"
+import styled from "styled-components"
+import {Box, Button, Grid, Spacer, Text} from "../components"
+import {Sidebar} from "../containers"
+import {Icon} from "semantic-ui-react"
 
-import KoreanLevel1 from '../layouts/Korean/Level1/'
-import KoreanLevel2 from '../layouts/Korean/Level2/'
-import KoreanLevel3 from '../layouts/Korean/Level3/'
-import SpanishLevel1 from '../layouts/Spanish/level1/'
-import SpanishLevel2 from '../layouts/Spanish/level2/'
+import KoreanLevel1 from "./Korean/Level1"
+import KoreanLevel2 from "./Korean/Level2"
+import KoreanLevel3 from "./Korean/Level3"
+import SpanishLevel1 from "./Spanish/level1"
+import SpanishLevel2 from "./Spanish/level2"
 
 const Dropdown = styled(Button)`
   background: transparent;
@@ -68,13 +68,13 @@ const Progress = () => (
       <Text>Level 2</Text>
     </Box>
     <Box flexdirection="row">
-      <Box padding="0 20px 0 0"> A </Box>{' '}
+      <Box padding="0 20px 0 0"> A </Box>{" "}
       <Box>
         <a href="#">retake</a>
       </Box>
     </Box>
     <Box flexdirection="row">
-      <Box padding="0 20px 0 0"> F </Box>{' '}
+      <Box padding="0 20px 0 0"> F </Box>{" "}
       <Box>
         <a href="#">retake</a>
       </Box>
@@ -102,16 +102,16 @@ const Progress = () => (
 
 class Dashboard extends Component {
   DropFunc = e => {
-    let name = e.target.name
-    let x = document.getElementById(name)
-    if (x.className.indexOf('show') == -1) {
-      x.className += ' show'
-      x.previousElementSibling.className += ' w3-green'
+    let {name} = e.target
+    const x = document.getElementById(name)
+    if (x.className.indexOf("show") == -1) {
+      x.className += " show"
+      x.previousElementSibling.className += " w3-green"
     } else {
-      x.className = x.className.replace(' show', '')
+      x.className = x.className.replace(" show", "")
       x.previousElementSibling.className = x.previousElementSibling.className.replace(
-        ' w3-green',
-        ''
+        " w3-green",
+        ""
       )
     }
   }
@@ -133,20 +133,20 @@ class Dashboard extends Component {
               </Link>
               <Dropdown color="white" name="spanish" onClick={this.DropFunc}>
                 Spanish Curriculum
-                <FaCaretDown />
+                <Icon name="caret down" />
               </Dropdown>
               <Box id="spanish" className="hide">
                 <Link to="/settings/spanish/1" className="dropButton">
                   Spanish 1 - Alphabet
                 </Link>
                 <Link to="/settings/spanish/2" className="dropButton">
-                  Spanish 2 - Basic Grammar{' '}
+                  Spanish 2 - Basic Grammar{" "}
                 </Link>
               </Box>
               <Spacer margin="10px" />
               <Dropdown color="white" name="korean" onClick={this.DropFunc}>
                 Korean Curriculum
-                <FaCaretDown />
+                <Icon name="caret down" />
               </Dropdown>
               <Box id="korean" className="hide">
                 <Link to="/settings/korean/1" className="dropButton">

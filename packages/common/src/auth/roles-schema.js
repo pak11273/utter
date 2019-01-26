@@ -62,6 +62,17 @@ const roles = {
       "home:read",
       "dashboard:read"
     ]
+  },
+  superAdmin: {
+    static: [
+      "courses:create",
+      "courses:update",
+      "courses:delete",
+      "users:get",
+      "users:getSelf",
+      "home:read",
+      "dashboard:read"
+    ]
   }
 }
 

@@ -5,7 +5,7 @@ import {Link, Route} from "react-router-dom"
 import styled from "styled-components"
 import Vocabulary from "./Vocabulary"
 import {Box, Button, Grid, Spacer, Text} from "../../components"
-import {FaCaretDown} from "react-icons/fa"
+import {Icon} from "semantic-ui-react"
 import "./styles.css"
 import Aws from "./Aws"
 import Phrases from "./Phrases"
@@ -120,7 +120,7 @@ class Admin extends Component {
             <Spacer margin="10px" />
             <Dropdown color="white" name="awsAcc" onClick={this.DropFunc}>
               AWS Module
-              <FaCaretDown />
+              <Icon name="caret down" />
             </Dropdown>
             <Box id="awsAcc" className="hide">
               <Link to="/admin/aws" className="dropButton">
@@ -130,7 +130,7 @@ class Admin extends Component {
             <Spacer margin="10px" />
             <Dropdown color="white" name="userAcc" onClick={this.DropFunc}>
               User Module
-              <FaCaretDown />
+              <Icon name="caret down" />
             </Dropdown>
             <Box id="userAcc" className="hide">
               <Link to="/admin/api" className="dropButton">
@@ -145,7 +145,7 @@ class Admin extends Component {
             </Box>
             <Spacer margin="10px" />
             <Dropdown color="white" name="languageAcc" onClick={this.DropFunc}>
-              Language Module <FaCaretDown />
+              Language Module <Icon name="caret down" />
             </Dropdown>
             <Box id="languageAcc" className="hide">
               <Link to="/admin/vocabulary" className="dropButton">
