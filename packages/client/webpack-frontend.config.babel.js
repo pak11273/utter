@@ -17,9 +17,7 @@ module.exports = env => {
     context: path.resolve(__dirname, "src"),
     entry: {
       app: "./App.js",
-      vendor: ["react", "redux", "lodash"]
     },
-    // ['./App.js'],
     output: {
       path: path.join(__dirname, "dist"),
       filename: "bundle.[name].[hash].js",
@@ -131,16 +129,6 @@ module.exports = env => {
           use: ["cache-loader", "babel-loader"]
         }
       ]
-    },
-    // This replaces the deprecated CommonsChunkPlugin
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            name: "vendor"
-          }
-        }
-      }
     },
     plugins: removeEmpty([
       ifNotProd(

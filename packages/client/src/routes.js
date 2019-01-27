@@ -33,7 +33,7 @@ import Loading from "./components/loaders/layout-loader.js"
 
 // Code Splitting: lazy loaded routes
 const getAbout = Loadable({
-  loader: () => import("./layouts/about"),
+	loader: () => import(/* webpackChunkName: 'about' */ "./layouts/about"),
   loading: Loading
 })
 
@@ -48,7 +48,7 @@ const getChangePassword = Loadable({
 })
 
 const getContact = Loadable({
-  loader: () => import("./layouts/contact"),
+	loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/contact"),
   loading: Loading
 })
 

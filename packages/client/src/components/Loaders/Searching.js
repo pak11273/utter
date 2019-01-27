@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from "react"
+import styled from "styled-components"
 
 const Style = styled.div`
   color: ${props => props.color};
@@ -16,7 +16,7 @@ const Style = styled.div`
     vertical-align: bottom;
     -webkit-animation: ellipsis steps(4, end) 900ms infinite;
     animation: ellipsis steps(4, end) 900ms infinite;
-    content: '\\2026';
+    content: "\\2026";
     width: 0px;
 
     @keyframes ellipsis {
@@ -34,9 +34,7 @@ const Style = styled.div`
 `
 
 Style.defaultProps = {
-  display: 'block'
+  display: "block"
 }
 
-const Searching = () => <Style>searching</Style>
-
-export default Searching
+export const Searching = () => <Style>searching</Style>

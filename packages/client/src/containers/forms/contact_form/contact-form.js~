@@ -1,0 +1,332 @@
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {Box, InputLine, Label, Section} from "../../../components"
+import {Button} from "semantic-ui-react"
+import styled from "styled-components"
+import Select from "react-select"
+import {PhoneNumberFormat} from "google-libphonenumber"
+/* getPhoneNumberUtil */
+import CallingCodes from "../../../assets/js/CallingCodes.js"
+import {bindActionCreators} from "redux"
+import "./select.css"
+
+const getPhoneNumberUtil = React.lazy(
+  import("google-libphonenumber").then(module => {
+    const {PhoneNumberUtil} = module.default
+    return PhoneNumberUtil
+  })
+)
+
+// actions
+import {contactMailSend} from "../../../layouts/contact/actions.js"
+
+const Role = styled.div`
+  color: ${props => props.color};
+  font-size: ${props => props.fontsize};
+  font-weight: ${props => props.fontweight};
+  padding: ${props => props.padding};
+  text-align: ${props => props.textalign};
+  text-shadow: ${props => props.textshadow};
+`
+
+Role.defaultProps = {
+  color: "blue",
+  fontsize: "2rem",
+  fontweight: "600",
+  padding: "0 0 20px 0",
+  textalign: "left",
+  textshadow: "0 0 0 0"
+}
+
+const Phone = styled.div`
+  align-items: baseline;
+  display: flex;
+  width: 100%;
+`
+const Form = styled.form`
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: ${props => props.flexdirection};
+  height: ${props => props.height};
+  justify-content: center;
+  overflow: hidden;
+  position: ${props => props.position};
+  width: ${props => props.width};
+
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: ${props => props.flexdirection768};
+    justify-content: center;
+  }
+`
+Form.defaultProps = {
+  flexdirection: "column",
+  position: "relative",
+  width: "100%"
+}
+
+const Rightside = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: ${props => props.height};
+  justify-content: space-between;
+  padding: ${props => props.padding};
+  position: ${props => props.position};
+  width: ${props => props.width};
+
+  @media (min-width: 768px) {
+    padding: 5rem 0;
+  }
+`
+Rightside.defaultProps = {
+  padding: "0 0 5rem 0",
+  position: "relative",
+  width: "50%"
+}
+
+const MsgBox = styled.textarea`
+  height: ${props => props.height};
+  margin: 0 auto;
+  width: ${props => props.width};
+`
+MsgBox.defaultProps = {
+  height: "300px",
+  width: "100%"
+}
+
+const Closing = styled.div`
+  color: ${props => props.color};
+  text-align: right;
+  margin-right: 130px;
+`
+Closing.defaultProps = {
+  color: props => props.theme.color
+}
+
+const Signature = styled.div`
+  color: ${props => props.color};
+  font-size: ${props => props.fontsize};
+  margin-right: 50px;
+  text-align: right;
+`
+Signature.defaultProps = {
+  color: props => props.theme.color,
+  fontsize: "1rem"
+}
+
+class ContactForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      name: "",
+      email: "",
+      number: "",
+      country: "",
+      subject: "",
+      letter: "",
+      message: "",
+      timezone: "Puerto Rico (Atlantic) America/Puerto_Rico"
+    }
+  }
+
+  onChange = ({target}) => {
+    this.setState({
+      [target.name]: target.value
+    })
+    if (target.name === "number") {
+      this.validatePhoneNumber("+" + this.state.country + " " + target.value)
+    }
+  }
+
+  onSelect2 = cntrObj => {
+    this.setState({
+      country: cntrObj.value
+    })
+    this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.number)
+  }
+
+  onSubmit = e => {
+    e.preventDefault()
+    this.props.contactmail(this.state)
+    this.props.contactMailSend()
+  }
+
+  getValidNumber = phoneNumber => {
+    const phoneUtil = getPhoneNumberUtil.getInstance()
+    const parsedNumber = phoneUtil.parse(phoneNumber)
+    return phoneUtil.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL)
+  }
+
+  validatePhoneNumber = phoneNumber => {
+    /*
+     *     Phone number validation using google-libphonenumber
+     *         */
+    let valid = false
+    try {
+      const hi = getPhoneNumberUtil.then(m => console.log("m: ", m))
+      console.log("hi: ", hi)
+      const phoneUtil = getPhoneNumberUtil.getInstance()
+      console.log("phoneutil: ", getPhoneNumberUtil)
+      valid = phoneUtil.isValidNumber(phoneUtil.parse(phoneNumber))
+    } catch (e) {
+      console.log("e: ", e)
+      valid = false
+    }
+    if (valid) {
+      this.setState({
+        message: `Phone number ${this.getValidNumber(phoneNumber)} is valid`,
+        color: "green"
+      })
+    } else {
+      this.setState({
+        message: `Phone number ${phoneNumber} is not valid`,
+        color: "red"
+      })
+    }
+  }
+
+  render() {
+    return (
+      <Form onSubmit={this.onSubmit}>
+        <Section margin="80px 0 0 0" padding="100px" maxwidth="1024px">
+          <Role color="#273e63" fontsize="1rem" padding="0" textalign="left">
+            Request Information
+          </Role>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <Label textalign="left" fontsize="1rem" width="130px">
+              Name
+            </Label>
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.name}
+              type="text"
+              name="name"
+              required
+            />
+          </Box>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <Label textalign="left" fontsize="1rem" width="130px">
+              Email{" "}
+            </Label>
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.email}
+              type="text"
+              name="email"
+              required
+            />
+          </Box>
+          <Phone>
+            <Label textalign="left" fontsize="1rem" width="130px">
+              Phone
+            </Label>
+            <Select
+              clearable={false}
+              name="country"
+              autosize
+              placeholder="country name"
+              value={this.state.country}
+              onChange={this.onSelect2}
+              options={CallingCodes}
+              labelKey="country"
+              valueKey="value"
+              valueRenderer={country => country.value}
+            />
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.number}
+              type="text"
+              name="number"
+            />
+          </Phone>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <div
+              className="message"
+              style={{
+                color: this.state.color,
+                margin: "0 0 0 50px"
+              }}>
+              {this.state.message}
+            </div>
+          </Box>
+          <Box
+            alignitems="baseline"
+            flexdirection="row"
+            justifycontent="flex-start">
+            <Label textalign="left" fontsize="1rem" width="140px">
+              Subject{" "}
+            </Label>
+            <InputLine
+              textalign="left"
+              onChange={this.onChange}
+              value={this.state.subject}
+              type="text"
+              name="subject"
+              required
+            />
+          </Box>
+          <Box
+            alignitems="flex-start"
+            padding="50px"
+            margin="0 0 100px 0"
+            position="relative">
+            <Box margin="40px 0 0 0">
+              <Label margin="0 0 20px 0" textalign="left" fontsize="1rem">
+                Message
+              </Label>
+            </Box>
+            <MsgBox
+              height="180px"
+              onChange={this.onChange}
+              value={this.state.letter}
+              type="text"
+              name="letter"
+              required
+            />
+            <Button
+              loading={this.props.contactReducer.loading}
+              color="yellow"
+              floated="right"
+              fontSize="1.5rem"
+              style={{bottom: "0", right: "60px", position: "absolute"}}
+              type="submit">
+              Send
+            </Button>
+          </Box>
+        </Section>
+      </Form>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    contactReducer: state.contactReducer
+  }
+}
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      contactMailSend
+    },
+    dispatch
+  )
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ContactForm)

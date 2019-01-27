@@ -11,7 +11,7 @@ import {Container} from "semantic-ui-react"
 import Account from "./containers/account/account.js"
 import Profile from "./containers/profile.js"
 import Notifications from "./containers/notifications.js"
-import "semantic-ui-css/semantic.css"
+import "semantic-ui-css/semantic.min.css"
 
 // actions
 import {toggleFooter} from "../../app/actions/toggle-footer-action.js"

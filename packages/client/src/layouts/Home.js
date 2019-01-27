@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import PropTypes from "prop-types"
 import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
@@ -12,7 +13,9 @@ import {
   Responsive,
   Segment
 } from "semantic-ui-react"
-import "semantic-ui-css/semantic.css"
+
+import "semantic-ui-css/semantic.min.css"
+
 import {
   ButtonCta,
   Column,
@@ -31,8 +34,6 @@ import visitingImg from "../assets/images/walking-around.jpg"
 
 // actions
 import {toggleFooter} from "../app/actions/toggle-footer-action.js"
-
-/* eslint-disable react/no-multi-comp */
 
 const HomepageHeading = () => (
   <Masthead

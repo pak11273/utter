@@ -2,8 +2,6 @@
   "presets": [ 
     "react", 
     [ "env", { "targets": { "browsers": ["last 2 versions"] }, "modules": false } ],
-    ["es2015", { "modules": false}],
-    "es2016",
     "stage-2",
     "stage-0",
     ],
@@ -26,7 +24,7 @@
   "plugins": [  
     "transform-class-properties",
     ["transform-runtime", { "polyfill": false, "regenerator": true }],
-    "styled-components", "transform-object-rest-spread", "transform-class-properties", "react-hot-loader/babel"
+    "styled-components", "transform-object-rest-spread", "transform-class-properties", "react-hot-loader/babel", "syntax-dynamic-import"
   ]
 }
 

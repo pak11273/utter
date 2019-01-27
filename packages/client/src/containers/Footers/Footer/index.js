@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {Container, Grid, Header, List, Segment} from "semantic-ui-react"
-import "semantic-ui-css/semantic.css"
+import "semantic-ui-css/semantic.min.css"
 import styled from "styled-components"
 
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
@@ -74,16 +74,12 @@ StyledFooter.defaultProps = {
 }
 
 class Footer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
     // this.props.actions.toggleFooter()
   }
 
   render() {
-    const toggleFooterReducer = this.props.toggleFooterReducer
+    const {toggleFooterReducer} = this.props
     if (toggleFooterReducer.toggle) {
       var MainFooter = (
         <StyledFooter {...this.props}>
@@ -124,7 +120,7 @@ class Footer extends Component {
         </StyledFooter>
       )
     } else {
-      var MainFooter = <div />
+      MainFooter = <div />
     }
     return MainFooter
   }
