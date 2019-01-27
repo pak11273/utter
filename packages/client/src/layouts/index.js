@@ -1,9 +1,6 @@
 import Announcement from "./Announcement"
 import French1 from "./French/Level1.js"
 import Home from "./Home"
-import ChangePassword from "./change_password/change-password-ctrl.js"
-import ForgotPassword from "./forgot_password/forgot-password-ctrl.js"
-import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
 import noAuth from "../utils/noAuth.js"
 import Settings from "./Settings"
@@ -41,10 +38,7 @@ export {
   Home,
   CourseEdit,
   Levels,
-  ChangePassword,
-  ForgotPassword,
   GettingStarted,
-  Test,
   MyCourses,
   CourseCtrl,
   CoursesCreated,

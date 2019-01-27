@@ -1,28 +1,28 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {Button, Box, Label, Input, Select, Text} from '../../components'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {Button, Box, Label, Input, Select, Text} from "../../components"
 
 // actions
-import {updateRoomCreator, updateRoomLevel, updateListType} from './actions.js'
+import {updateRoomCreator, updateRoomLevel, updateListType} from "./actions.js"
 
-import actionCreators from '../../layouts/Admin/Vocabulary/actions.js'
-import {loadWordList, loadOriginalWordList} from '../Pictures/actions.js'
+/* import actionCreators from "../../layouts/Admin/Vocabulary/actions.js" */
+import {loadWordList, loadOriginalWordList} from "../Pictures/actions.js"
 
-import {createRoom, joinRoom} from '../../services/socketio/actions.js'
+import {createRoom, joinRoom} from "../../services/socketio/actions.js"
 
 class RoomCreator extends Component {
   constructor(props) {
     super(props)
     this.state = {
       room: {
-        ageGroup: '',
+        ageGroup: "",
         language: this.props.roomReducer.language,
-        level: '',
-        listType: '',
-        creator: '',
-        people: '',
-        title: ''
+        level: "",
+        listType: "",
+        creator: "",
+        people: "",
+        title: ""
       }
     }
   }
@@ -32,13 +32,13 @@ class RoomCreator extends Component {
     const courses = this.props.userReducer.userProfile.courses
     const yourLevel = courses.filter(obj => {
       return obj.name === course
-    })[0]['level']
+    })[0]["level"]
     if (!this.state.room.title) {
-      alert('You need a room title to create a room')
+      alert("You need a room title to create a room")
     } else if (!this.state.room.level) {
-      alert('You need to input a level for your room')
+      alert("You need to input a level for your room")
     } else if (this.state.room.level > yourLevel) {
-      alert('You cannot create or join rooms above your level')
+      alert("You cannot create or join rooms above your level")
     } else {
       const room = this.state.room
       this.props.actions.updateRoomCreator(
@@ -54,12 +54,12 @@ class RoomCreator extends Component {
         ].words
 
         // determine listType
-        var listType = 'letters'
+        var listType = "letters"
 
-        if (listObj[0].category === 'alphabet') {
-          listType = 'letters'
+        if (listObj[0].category === "alphabet") {
+          listType = "letters"
         } else {
-          listType = 'words'
+          listType = "words"
         }
         this.props.actions.updateListType(listType)
         this.originalWordList = listObj
@@ -73,7 +73,7 @@ class RoomCreator extends Component {
         this.props.actions.updateRoomLevel(room.level)
       })
     }
-  };
+  }
 
   updateName = e => {
     e.preventDefault
@@ -82,7 +82,7 @@ class RoomCreator extends Component {
     this.setState({
       room: updatedRoom
     })
-  };
+  }
 
   render() {
     return (
@@ -140,7 +140,7 @@ class RoomCreator extends Component {
         </Box>
         <Box>
           <Button onClick={this.createRoom} color="black">
-            Create Room{' '}
+            Create Room{" "}
           </Button>
         </Box>
       </Box>
@@ -177,4 +177,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoomCreator)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RoomCreator)

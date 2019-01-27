@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import styled, {ThemeProvider} from 'styled-components'
-import {NavLink} from 'react-router-dom'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import styled, {ThemeProvider} from "styled-components"
+import {NavLink} from "react-router-dom"
 import {
   Audio,
   Box,
@@ -17,20 +17,20 @@ import {
   Text,
   Section,
   Wrapper
-} from '../../../components'
+} from "../../../components"
 
-import {Info, Masthead} from '../components'
-import PlayImg from '../../../assets/images/play.svg'
+import {Info, Masthead} from "../components"
+import PlayImg from "../../../assets/images/play.svg"
 
 // fetch level 1 vocabulary and store in redux
-import actionCreators from '../../Admin/Vocabulary/actions.js'
-import fetchWords from '../../Admin/Vocabulary/actions.js'
+/* import actionCreators from '../../Admin/Vocabulary/actions.js' */
+/* import fetchWords from '../../Admin/Vocabulary/actions.js' */
 
 // cdn
-import cdnUrl from '../../../../src/config/secrets.js'
+import cdnUrl from "../../../../src/config/secrets.js"
 const cdn = cdnUrl.cdn
 
-import sharedPhrases from '../../../../src/data/shared/phrases.js'
+import sharedPhrases from "../../../../src/data/shared/phrases.js"
 
 // phrases
 const hello = cdn + sharedPhrases.greetings.hello.korean.informal.audioUrl
@@ -75,7 +75,7 @@ class KoreanLevel1 extends Component {
         [item.word]: cdn + audioUrl
       })
     })
-  };
+  }
 
   render() {
     return (
@@ -117,7 +117,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">니은</Box>
             <Box alignitems="flex-start">
               <p>
-                'n' sound as in <span style={{color: 'red'}}>n</span>ame
+                'n' sound as in <span style={{color: "red"}}>n</span>
+                ame
               </p>
             </Box>
             <PlayBox id="ㄴ" src={this.state.ㄴ} />
@@ -131,7 +132,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">쌍디귿</Box>
             <Box alignitems="flex-start">
               <p>
-                'th' sound as in <span style={{color: 'red'}}>th</span>ing
+                'th' sound as in <span style={{color: "red"}}>th</span>
+                ing
               </p>
             </Box>
             <PlayBox id="ㄸ" src={this.state.ㄸ} />
@@ -145,7 +147,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">미음</Box>
             <Box alignitems="flex-start">
               <p>
-                'm' sound as in <span style={{color: 'red'}}>m</span>om
+                'm' sound as in <span style={{color: "red"}}>m</span>
+                om
               </p>
             </Box>
             <PlayBox id="ㅁ" src={this.state.ㅁ} />
@@ -165,7 +168,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">시옷</Box>
             <Box alignitems="flex-start">
               <p>
-                a soft 's' sound as in <span style={{color: 'red'}}>s</span>oft
+                a soft 's' sound as in <span style={{color: "red"}}>s</span>
+                oft
               </p>
             </Box>
             <PlayBox id="ㅅ" src={this.state.ㅅ} />
@@ -173,7 +177,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">쌍시옷</Box>
             <Box alignitems="flex-start">
               <p>
-                's' sound as in <span style={{color: 'red'}}>s</span>ell
+                's' sound as in <span style={{color: "red"}}>s</span>
+                ell
               </p>
             </Box>
             <PlayBox id="ㅆ" src={this.state.ㅆ} />
@@ -181,8 +186,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">이응</Box>
             <Box alignitems="flex-start">
               <p>
-                'ng' sound as in so<span style={{color: 'red'}}>ng</span> or is
-                silent
+                'ng' sound as in so
+                <span style={{color: "red"}}>ng</span> or is silent
               </p>
             </Box>
             <PlayBox id="ㅇ" src={this.state.ㅇ} />
@@ -202,7 +207,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">치읓</Box>
             <Box alignitems="flex-start">
               <p>
-                'ch' sound as in <span style={{color: 'red'}}>ch</span>air{' '}
+                'ch' sound as in <span style={{color: "red"}}>ch</span>
+                air{" "}
               </p>
             </Box>
             <PlayBox id="ㅊ" src={this.state.ㅊ} />
@@ -210,7 +216,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">키읔</Box>
             <Box alignitems="flex-start">
               <p>
-                'k' sound as in <span style={{color: 'red'}}>k</span>ite
+                'k' sound as in <span style={{color: "red"}}>k</span>
+                ite
               </p>
             </Box>
             <PlayBox id="ㅋ" src={this.state.ㅋ} />
@@ -218,7 +225,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">티읕</Box>
             <Box alignitems="flex-start">
               <p>
-                't' sound as in <span style={{color: 'red'}}>t</span>ime
+                't' sound as in <span style={{color: "red"}}>t</span>
+                ime
               </p>
             </Box>
             <PlayBox id="ㅌ" src={this.state.ㅌ} />
@@ -226,7 +234,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">피읖</Box>
             <Box alignitems="flex-start">
               <p>
-                'p' sound as in <span style={{color: 'red'}}>p</span>ig
+                'p' sound as in <span style={{color: "red"}}>p</span>
+                ig
               </p>
             </Box>
             <PlayBox id="ㅍ" src={this.state.ㅍ} />
@@ -234,7 +243,8 @@ class KoreanLevel1 extends Component {
             <Box alignitems="flex-start">히읗</Box>
             <Box alignitems="flex-start">
               <p>
-                'h' sound as in <span style={{color: 'red'}}>h</span>at
+                'h' sound as in <span style={{color: "red"}}>h</span>
+                at
               </p>
             </Box>
             <PlayBox id="ㅎ" src={this.state.ㅎ} />
@@ -267,42 +277,44 @@ class KoreanLevel1 extends Component {
             <Box>ㅗ</Box>
             <Box alignitems="flex-start">
               <p>
-                'o' sound as in d<span style={{color: 'red'}}>ough</span>nut
+                'o' sound as in d<span style={{color: "red"}}>ough</span>
+                nut
               </p>
             </Box>
             <PlayBox id="ㅗ" src={this.state.ㅗ} />
             <Box>ㅛ</Box>
             <Box alignitems="flex-start">
               <p>
-                'yo' sound as in <span style={{color: 'red'}}>yo yo</span>
+                'yo' sound as in <span style={{color: "red"}}>yo yo</span>
               </p>
             </Box>
             <PlayBox id="ㅛ" src={this.state.ㅛ} />
             <Box>ㅜ</Box>
             <Box alignitems="flex-start">
               <p>
-                'ew' sound as in sh<span style={{color: 'red'}}>oe</span>
+                'ew' sound as in sh
+                <span style={{color: "red"}}>oe</span>
               </p>
             </Box>
             <PlayBox id="ㅜ" src={this.state.ㅜ} />
             <Box>ㅠ</Box>
             <Box alignitems="flex-start">
               <p>
-                'you' sound as in <span style={{color: 'red'}}>you</span>
+                'you' sound as in <span style={{color: "red"}}>you</span>
               </p>
             </Box>
             <PlayBox id="ㅠ" src={this.state.ㅠ} />
             <Box>ㅡ</Box>
             <Box alignitems="flex-start">
               <p>
-                'eu' sound as in l<span style={{color: 'red'}}>oo</span>k
+                'eu' sound as in l<span style={{color: "red"}}>oo</span>k
               </p>
             </Box>
             <PlayBox id="ㅡ" src={this.state.ㅡ} />
             <Box>ㅣ</Box>
             <Box alignitems="flex-start">
               <p>
-                'e' sound as in e<span style={{color: 'red'}}>at</span>
+                'e' sound as in e<span style={{color: "red"}}>at</span>
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
@@ -329,98 +341,104 @@ class KoreanLevel1 extends Component {
             <Box>가 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ga' sound as in <span style={{color: 'red'}}>ga ga</span>
+                'ga' sound as in <span style={{color: "red"}}>ga ga</span>
               </p>
             </Box>
             <PlayBox id="ㅡ" src={this.state.ㅡ} />
             <Box>나 </Box>
             <Box alignitems="flex-start">
               <p>
-                'na' sound as in <span style={{color: 'red'}}>no</span>t
+                'na' sound as in <span style={{color: "red"}}>no</span>t
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>다 </Box>
             <Box alignitems="flex-start">
               <p>
-                'da' sound as in <span style={{color: 'red'}}>daugh</span>ter
+                'da' sound as in <span style={{color: "red"}}>daugh</span>
+                ter
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>라 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ra' sound as in <span style={{color: 'red'}}>ro</span>ck
+                'ra' sound as in <span style={{color: "red"}}>ro</span>
+                ck
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>마 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ma' sound as in <span style={{color: 'red'}}>ma</span> ma
+                'ma' sound as in <span style={{color: "red"}}>ma</span> ma
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>바 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ba' sound as in <span style={{color: 'red'}}>ba</span>
+                'ba' sound as in <span style={{color: "red"}}>ba</span>
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>사 </Box>
             <Box alignitems="flex-start">
               <p>
-                'sa' sound as in <span style={{color: 'red'}}>sa</span>
+                'sa' sound as in <span style={{color: "red"}}>sa</span>
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>아 </Box>
             <Box alignitems="flex-start">
               <p>
-                'a' sound as in <span style={{color: 'red'}}>au</span>tumn
+                'a' sound as in <span style={{color: "red"}}>au</span>
+                tumn
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>자 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ja' sound as in <span style={{color: 'red'}}>jo</span>lly
+                'ja' sound as in <span style={{color: "red"}}>jo</span>
+                lly
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>차 </Box>
             <Box alignitems="flex-start">
               <p>
-                'cha' sound as in <span style={{color: 'red'}}>cha</span>
+                'cha' sound as in <span style={{color: "red"}}>cha</span>
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>카 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ca' sound as in <span style={{color: 'red'}}>caugh</span>t
+                'ca' sound as in <span style={{color: "red"}}>caugh</span>t
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>타 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ta' sound as in <span style={{color: 'red'}}>taugh</span>t
+                'ta' sound as in <span style={{color: "red"}}>taugh</span>t
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>파 </Box>
             <Box alignitems="flex-start">
               <p>
-                'pa' sound as in <span style={{color: 'red'}}>po</span>nd
+                'pa' sound as in <span style={{color: "red"}}>po</span>
+                nd
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
             <Box>하 </Box>
             <Box alignitems="flex-start">
               <p>
-                'ha' sound as in <span style={{color: 'red'}}>ha</span>ll
+                'ha' sound as in <span style={{color: "red"}}>ha</span>
+                ll
               </p>
             </Box>
             <PlayBox id="ㅣ" src={this.state.ㅣ} />
@@ -465,7 +483,7 @@ class KoreanLevel1 extends Component {
             </Box>
             <PlayBox id="byeLeaving" src={byeLeaving} />
             <Box textalign="left">
-              좋은 아침, <span>좋은 아침이야,</span>{' '}
+              좋은 아침, <span>좋은 아침이야,</span>{" "}
               <span>좋은 아침이에요</span>
             </Box>
             <Box alignitems="flex-start">
@@ -474,7 +492,8 @@ class KoreanLevel1 extends Component {
             <PlayBox id="goodMorning" src={goodMorning} />
             <Box>좋은 아침입니다</Box>
             <Box alignitems="flex-start">
-              Good Morning<span>(formal)</span>
+              Good Morning
+              <span>(formal)</span>
             </Box>
             <PlayBox id="goodMorningFormal" src={goodMorningFormal} />
           </Dictionary>
@@ -485,7 +504,7 @@ class KoreanLevel1 extends Component {
         />
         <RememberSection
           list={[
-            'ㅒ and ㅔ are pronounced with the same sound',
+            "ㅒ and ㅔ are pronounced with the same sound",
             "ㄹ sounds like an 'l' at the beginning and ending of a word",
             "ㄹ sounds like a 'd' in the middle of a word while surrounded by vowels",
             '조은 아침 is rarely used for "good morning".  Instead you would use the all-purpose: 안영 or 안용하세요'
@@ -495,7 +514,7 @@ class KoreanLevel1 extends Component {
           <Box>
             <Text fontsize="3rem" fontweight="900" color="white">
               <NavLink
-                style={{fontSize: '40px', color: 'white'}}
+                style={{fontSize: "40px", color: "white"}}
                 to="/connections">
                 Go Practice!
               </NavLink>
@@ -528,4 +547,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(KoreanLevel1)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(KoreanLevel1)

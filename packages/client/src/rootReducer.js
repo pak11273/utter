@@ -18,15 +18,12 @@ import loaderReducer from "./app/reducers/loaderReducer.js"
 import modalReducer from "./containers/modals/reducer.js"
 import paginateReducer from "./containers/Pagination/reducer.js"
 import pictureReducer from "./containers/Pictures/reducer.js"
-import phraseReducer from "./layouts/Admin/Phrases/reducer.js"
 import socketReducer from "./services/socketio/reducer.js"
 import tabsReducer from "./containers/Tabs/reducer.js"
 import termReducer from "./api/term/reducer.js"
-import toolsReducer from "./layouts/Admin/Tools/reducers.js"
 import toggleFooterReducer from "./app/reducers/toggleFooterReducer.js"
 import userReducer from "./api/user/reducers/generic.js"
 import utteredReducer from "./containers/Uttered/reducer.js"
-import vocabReducer from "./layouts/Admin/Vocabulary/reducer.js"
 import {routerReducer} from "react-router-redux"
 
 const combinedReducers = combineReducers({
@@ -45,15 +42,12 @@ const combinedReducers = combineReducers({
   modalReducer,
   paginateReducer,
   pictureReducer,
-  phraseReducer,
   roomReducer,
   router: routerReducer,
   socketReducer,
   tabsReducer,
   termReducer,
   toggleFooterReducer,
-  toolsReducer,
-  vocabReducer,
   userReducer,
   utteredReducer
 })

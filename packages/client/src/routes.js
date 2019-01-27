@@ -4,10 +4,7 @@ import Loadable from "react-loadable"
 import {
   Announcement,
   Home,
-  ChangePassword,
-  ForgotPassword,
   /* GettingStarted, */
-  Test,
   Settings,
   ShoppingCart,
   /* Sponsorship, */
@@ -56,6 +53,11 @@ const getAdmin = Loadable({
   loading: Loading
 })
 
+const getChangePassword = Loadable({
+  loader: () => import("./layouts/change_password/change-password-ctrl.js"),
+  loading: Loading
+})
+
 const getContact = Loadable({
   loader: () => import("./layouts/contact"),
   loading: Loading
@@ -63,6 +65,11 @@ const getContact = Loadable({
 
 const getCourses = Loadable({
   loader: () => import("./layouts/courses"),
+  loading: Loading
+})
+
+const getForgotPassword = Loadable({
+  loader: () => import("./layouts/forgot_password/forgot-password-ctrl.js"),
   loading: Loading
 })
 
@@ -78,6 +85,11 @@ const getPricing = Loadable({
 
 const getSignupCtrl = Loadable({
   loader: () => import("./layouts/signup/signup-ctrl.js"),
+  loading: Loading
+})
+
+const getTest = Loadable({
+  loader: () => import("./layouts/test"),
   loading: Loading
 })
 
@@ -115,12 +127,12 @@ export const routes = [
   {
     exact: true,
     path: "/change-password/:token",
-    component: ChangePassword
+    component: getChangePassword
   },
   {
     exact: true,
     path: "/forgot-password",
-    component: ForgotPassword
+    component: getForgotPassword
   },
   {
     component: requireAuth(Dashboard),
@@ -235,11 +247,6 @@ export const routes = [
     routes: [
       {
         exact: true,
-        path: "/course/test",
-        component: requireAuth(Test)
-      },
-      {
-        exact: true,
         path: "/course/course-introduction",
         component: requireAuth(CourseIntroduction)
       },
@@ -328,7 +335,7 @@ export const routes = [
   {
     // exact: true,
     path: "/test",
-    component: Test
+    component: getTest
   }
   // {
   //   component: NotFound,

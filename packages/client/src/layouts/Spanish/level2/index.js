@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import styled, {ThemeProvider} from 'styled-components'
-import {NavLink} from 'react-router-dom'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import styled, {ThemeProvider} from "styled-components"
+import {NavLink} from "react-router-dom"
 import {
   Audio,
   Box,
@@ -18,21 +18,21 @@ import {
   Text,
   Section,
   Wrapper
-} from '../../../components'
+} from "../../../components"
 
-import {Masthead, Info} from '../components'
-import PlayImg from '../../../assets/images/play.svg'
+import {Masthead, Info} from "../components"
+import PlayImg from "../../../assets/images/play.svg"
 
 // fetch level 1 vocabulary and store in redux
-import actionCreators from '../../Admin/Vocabulary/actions.js'
-import fetchWords from '../../Admin/Vocabulary/actions.js'
+/* import actionCreators from '../../Admin/Vocabulary/actions.js' */
+/* import fetchWords from '../../Admin/Vocabulary/actions.js' */
 
 // cdn
-import cdnUrl from '../../../../src/config/secrets.js'
+import cdnUrl from "../../../../src/config/secrets.js"
 const cdn = cdnUrl.cdn
 
-import vocab from '../../../../src/data/spanish/level1/vocab.js'
-import sharedPhrases from '../../../../src/data/shared/phrases.js'
+import vocab from "../../../../src/data/spanish/level1/vocab.js"
+import sharedPhrases from "../../../../src/data/shared/phrases.js"
 
 // vowels
 const a = cdn + vocab.category.alphabet.vowels.a.spanish.audioUrl
@@ -76,7 +76,7 @@ class SpanishLevel2 extends Component {
         [item.word]: cdn + audioUrl
       })
     })
-  };
+  }
 
   render() {
     return (
@@ -101,7 +101,10 @@ class SpanishLevel2 extends Component {
               <p>b</p>
             </Box>
             <Box alignitems="flex-start">
-              <p>b as in <span style={{color: 'red'}}>b</span>ed</p>
+              <p>
+                b as in <span style={{color: "red"}}>b</span>
+                ed
+              </p>
             </Box>
             <Box alignitems="flex-start">
               <PlayBox
@@ -116,7 +119,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                c as in <span style={{color: 'red'}}>c</span>esar and c as in c<span style={{color: 'red'}}>at</span>
+                c as in <span style={{color: "red"}}>c</span>
+                esar and c as in c<span style={{color: "red"}}>at</span>
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -134,7 +138,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                d as in <span style={{color: 'red'}}>d</span>ear
+                d as in <span style={{color: "red"}}>d</span>
+                ear
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -150,8 +155,9 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                g as in <span style={{color: 'red'}}>g</span>ator or h as in{' '}
-                <span style={{color: 'red'}}>h</span>air
+                g as in <span style={{color: "red"}}>g</span>
+                ator or h as in <span style={{color: "red"}}>h</span>
+                air
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -166,9 +172,7 @@ class SpanishLevel2 extends Component {
               <p>h</p>
             </Box>
             <Box alignitems="flex-start">
-              <p>
-                You do not pronounce this letter
-              </p>
+              <p>You do not pronounce this letter</p>
             </Box>
             <Box alignitems="flex-start">
               <PlayBox
@@ -183,7 +187,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                ch as in <span style={{color: 'red'}}>ch</span>air{' '}
+                ch as in <span style={{color: "red"}}>ch</span>
+                air{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -199,7 +204,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                h as in <span style={{color: 'red'}}>h</span>air{' '}
+                h as in <span style={{color: "red"}}>h</span>
+                air{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -215,7 +221,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                k as in <span style={{color: 'red'}}>k</span>ite{' '}
+                k as in <span style={{color: "red"}}>k</span>
+                ite{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -231,7 +238,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                l as in <span style={{color: 'red'}}>l</span>ady{' '}
+                l as in <span style={{color: "red"}}>l</span>
+                ady{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -247,7 +255,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                y as in <span style={{color: 'red'}}>y</span>es{' '}
+                y as in <span style={{color: "red"}}>y</span>
+                es{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -263,7 +272,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                m as in <span style={{color: 'red'}}>m</span>an{' '}
+                m as in <span style={{color: "red"}}>m</span>
+                an{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -279,7 +289,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                n as in <span style={{color: 'red'}}>n</span>ame{' '}
+                n as in <span style={{color: "red"}}>n</span>
+                ame{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -295,7 +306,7 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                onio as in o<span style={{color: 'red'}}>nio</span>n{' '}
+                onio as in o<span style={{color: "red"}}>nio</span>n{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -311,7 +322,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                p as in <span style={{color: 'red'}}>p</span>ower{' '}
+                p as in <span style={{color: "red"}}>p</span>
+                ower{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -327,7 +339,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                k as in <span style={{color: 'red'}}>k</span>id{' '}
+                k as in <span style={{color: "red"}}>k</span>
+                id{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -343,7 +356,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                r as in <span style={{color: 'red'}}>r</span>ed{' '}
+                r as in <span style={{color: "red"}}>r</span>
+                ed{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -359,7 +373,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                rr as in pe<span style={{color: 'red'}}>rr</span>o{' '}
+                rr as in pe
+                <span style={{color: "red"}}>rr</span>o{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -375,7 +390,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                s as in <span style={{color: 'red'}}>s</span>ed{' '}
+                s as in <span style={{color: "red"}}>s</span>
+                ed{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -391,7 +407,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                t as in <span style={{color: 'red'}}>t</span>alk{' '}
+                t as in <span style={{color: "red"}}>t</span>
+                alk{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -407,7 +424,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                b as in <span style={{color: 'red'}}>b</span>ed{' '}
+                b as in <span style={{color: "red"}}>b</span>
+                ed{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -423,7 +441,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                w as in <span style={{color: 'red'}}>w</span>ord{' '}
+                w as in <span style={{color: "red"}}>w</span>
+                ord{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -439,7 +458,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                h as in <span style={{color: 'red'}}>h</span>ello{' '}
+                h as in <span style={{color: "red"}}>h</span>
+                ello{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -455,8 +475,9 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                y as in <span style={{color: 'red'}}>y</span>ellow{' '}
-                e as in <span style={{color: 'red'}}>e</span>at{' '}
+                y as in <span style={{color: "red"}}>y</span>
+                ellow e as in <span style={{color: "red"}}>e</span>
+                at{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -472,7 +493,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                s as in <span style={{color: 'red'}}>s</span>un{' '}
+                s as in <span style={{color: "red"}}>s</span>
+                un{" "}
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -498,7 +520,10 @@ class SpanishLevel2 extends Component {
               <p>a</p>
             </Box>
             <Box alignitems="flex-start">
-              <p>a as in b<span style={{color: 'red'}}>a</span>nana</p>
+              <p>
+                a as in b<span style={{color: "red"}}>a</span>
+                nana
+              </p>
             </Box>
             <Box alignitems="flex-start">
               <PlayBox
@@ -512,7 +537,9 @@ class SpanishLevel2 extends Component {
               <p>e</p>
             </Box>
             <Box alignitems="flex-start">
-              <p>e as in b<span style={{color: 'red'}}>e</span>d</p>
+              <p>
+                e as in b<span style={{color: "red"}}>e</span>d
+              </p>
             </Box>
             <Box alignitems="flex-start">
               <PlayBox
@@ -527,7 +554,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                e as in f<span style={{color: 'red'}}>e</span>ed
+                e as in f<span style={{color: "red"}}>e</span>
+                ed
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -543,7 +571,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                o as in <span style={{color: 'red'}}>o</span>ver
+                o as in <span style={{color: "red"}}>o</span>
+                ver
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -559,7 +588,8 @@ class SpanishLevel2 extends Component {
             </Box>
             <Box alignitems="flex-start">
               <p>
-                u as in l<span style={{color: 'red'}}>u</span>be
+                u as in l<span style={{color: "red"}}>u</span>
+                be
               </p>
             </Box>
             <Box alignitems="flex-start">
@@ -601,7 +631,10 @@ class SpanishLevel2 extends Component {
               />
             </Box>
             <Box>
-              <p>adiós{}</p>
+              <p>
+                adiós
+                {}
+              </p>
             </Box>
             <Box alignitems="flex-start">
               <p>Bye</p>
@@ -619,15 +652,15 @@ class SpanishLevel2 extends Component {
         </Section>
         <RememberSection
           list={[
-            'Vowels are never silent and are always pronounced.',
-            'Vowels are never silent and are always pronounced.Vowels are never silent and are always pronounced.'
+            "Vowels are never silent and are always pronounced.",
+            "Vowels are never silent and are always pronounced.Vowels are never silent and are always pronounced."
           ]}
         />
         <Section background="green" height="600px" maxwidth="1024px">
           <Box>
             <Text fontsize="3rem" fontweight="900" color="white">
               <NavLink
-                style={{fontSize: '40px', color: 'white'}}
+                style={{fontSize: "40px", color: "white"}}
                 to="/connections">
                 Go Practice!
               </NavLink>
@@ -660,4 +693,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpanishLevel2)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SpanishLevel2)
