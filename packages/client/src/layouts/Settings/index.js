@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import styled from "styled-components"
 // TODO import {validateInput} from '../../utils/validations/courseUpdate.js'
 
 import {Flex, Title} from "../../components"

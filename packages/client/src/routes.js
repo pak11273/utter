@@ -1,26 +1,16 @@
-import React from "react"
 import Loadable from "react-loadable"
 
 import {
   Announcement,
   Home,
   /* GettingStarted, */
-  Settings,
-  ShoppingCart,
   /* Sponsorship, */
-  CourseEdit,
-  CourseIntroduction,
-  CourseSettings,
   /* CourseDetails, */
   /* MyCourses, */
-  CourseCtrl,
-  CoursesCreated,
-  Levels,
   /* NotFound, */
   noAuth,
   requireAuth,
   requireAdmin,
-  Dashboard,
   /* Korean1, */
   /* Korean2, */
   /* Korean3, */
@@ -36,11 +26,10 @@ import {
   /* French1, */
   /* French2, */
   /* Redux */
-  SocketIOCtrl,
-  ZoneCtrl
+  SocketIOCtrl
 } from "./layouts"
 
-const Loading = () => <h1>Loading...</h1>
+import Loading from "./components/loaders/layout-loader.js"
 
 // Code Splitting: lazy loaded routes
 const getAbout = Loadable({
@@ -68,8 +57,43 @@ const getCourses = Loadable({
   loading: Loading
 })
 
+const getCoursesCreated = Loadable({
+  loader: () => import("./layouts/courses/containers/courses-created.js"),
+  loading: Loading
+})
+
+const getCourseCtrl = Loadable({
+  loader: () => import("./layouts/courses/containers/course-controller.js"),
+  loading: Loading
+})
+
+const getCourseEdit = Loadable({
+  loader: () => import("./layouts/courses/containers/course-edit.js"),
+  loading: Loading
+})
+
+const getCourseIntroduction = Loadable({
+  loader: () => import("./layouts/courses/containers/course-introduction.js"),
+  loading: Loading
+})
+
+const getCourseSettings = Loadable({
+  loader: () => import("./layouts/courses/containers/course-settings.js"),
+  loading: Loading
+})
+
+const getDashboard = Loadable({
+  loader: () => import("./layouts/dashboard.js"),
+  loading: Loading
+})
+
 const getForgotPassword = Loadable({
   loader: () => import("./layouts/forgot_password/forgot-password-ctrl.js"),
+  loading: Loading
+})
+
+const getLevels = Loadable({
+  loader: () => import("./layouts/levels/containers/levels-controller.js"),
   loading: Loading
 })
 
@@ -83,6 +107,11 @@ const getPricing = Loadable({
   loading: Loading
 })
 
+const getSettings = Loadable({
+  loader: () => import("./layouts/settings"),
+  loading: Loading
+})
+
 const getSignupCtrl = Loadable({
   loader: () => import("./layouts/signup/signup-ctrl.js"),
   loading: Loading
@@ -90,6 +119,16 @@ const getSignupCtrl = Loadable({
 
 const getTest = Loadable({
   loader: () => import("./layouts/test"),
+  loading: Loading
+})
+
+const getZoneCtrl = Loadable({
+  loader: () => import("./layouts/zones/containers/zone-controller.js"),
+  loading: Loading
+})
+
+const getShoppingCart = Loadable({
+  loader: () => import("./layouts/shopping_cart/components/index.js"),
   loading: Loading
 })
 
@@ -135,9 +174,9 @@ export const routes = [
     component: getForgotPassword
   },
   {
-    component: requireAuth(Dashboard),
+    component: requireAuth(getDashboard),
     exact: true,
-    path: "/Dashboard"
+    path: "/dashboard"
   },
   // {
   //   path: '/getting-started',
@@ -170,12 +209,12 @@ export const routes = [
     path: "/courses"
   },
   {
-    component: requireAuth(CourseCtrl),
+    component: requireAuth(getCourseCtrl),
     exact: true,
     path: "/courses/create"
   },
   {
-    component: requireAuth(CoursesCreated),
+    component: requireAuth(getCoursesCreated),
     exact: true,
     path: "/courses/created"
   },
@@ -185,21 +224,21 @@ export const routes = [
     path: "/login"
   },
   {
-    component: requireAuth(CourseEdit),
+    component: requireAuth(getCourseEdit),
     exact: true,
     path: "/course/:id",
     routes: [
       {
         path: "/course/course-introduction",
-        component: CourseIntroduction
+        component: getCourseIntroduction
       },
       {
         path: "/course/course-settings",
-        component: CourseSettings
+        component: getCourseSettings
       },
       {
         path: "/course/levels",
-        component: Levels
+        component: getLevels
       }
     ]
   },
@@ -220,11 +259,11 @@ export const routes = [
   // },
   {
     path: "/Settings",
-    component: requireAuth(Settings)
+    component: requireAuth(getSettings)
   },
   {
     path: "/shoppingcart",
-    component: requireAuth(ShoppingCart)
+    component: requireAuth(getShoppingCart)
   },
   {
     path: "/signup",
@@ -248,22 +287,22 @@ export const routes = [
       {
         exact: true,
         path: "/course/course-introduction",
-        component: requireAuth(CourseIntroduction)
+        component: requireAuth(getCourseIntroduction)
       },
       {
         exact: true,
         path: "/course/course-settings",
-        component: requireAuth(CourseSettings)
+        component: requireAuth(getCourseSettings)
       },
       {
         exact: true,
         path: "/course/levels",
-        component: requireAuth(Levels)
+        component: requireAuth(getLevels)
       }
     ]
   },
   {
-    component: requireAuth(ZoneCtrl),
+    component: requireAuth(getZoneCtrl),
     exact: true,
     path: "/zones/create"
   },

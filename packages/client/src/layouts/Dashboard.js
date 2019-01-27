@@ -9,7 +9,7 @@ import KoreanLevel1 from "./Korean/Level1"
 import KoreanLevel2 from "./Korean/Level2"
 import KoreanLevel3 from "./Korean/Level3"
 import SpanishLevel1 from "./Spanish/level1"
-import SpanishLevel2 from "./Spanish/level2"
+/* import SpanishLevel2 from "./Spanish/level2" */
 
 const Dropdown = styled(Button)`
   background: transparent;
@@ -102,9 +102,9 @@ const Progress = () => (
 
 class Dashboard extends Component {
   DropFunc = e => {
-    let {name} = e.target
+    const {name} = e.target
     const x = document.getElementById(name)
-    if (x.className.indexOf("show") == -1) {
+    if (x.className.indexOf("show") === -1) {
       x.className += " show"
       x.previousElementSibling.className += " w3-green"
     } else {
@@ -169,7 +169,13 @@ class Dashboard extends Component {
             <Route exact path="/settings/korean/2" component={KoreanLevel2} />
             <Route exact path="/settings/korean/3" component={KoreanLevel3} />
             <Route exact path="/settings/spanish/1" component={SpanishLevel1} />
-            <Route exact path="/settings/spanish/2" component={SpanishLevel2} />
+            {/*
+            <Route
+              exact
+              path="/settings/spanish/2"
+              component={SpanishLevel2}
+            />
+            */}
           </Grid>
         </Container>
       </Router>
