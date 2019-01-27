@@ -9,6 +9,10 @@ var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _typeof2 = require("babel-runtime/helpers/typeof");
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
 var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -137,17 +141,14 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                 containsPermission = _this.arrayContainsAnotherArray(expectedScope, allPermissions);
 
                 if (!containsPermission) {
-                  _context.next = 25;
+                  _context.next = 24;
                   break;
                 }
 
                 userId = user._id;
                 resourceId = "Test";
                 passPermissionsArr = [];
-
-                console.log("userId: ", userId);
-
-                _context.next = 20;
+                _context.next = 19;
                 return expectedScope.map(function (scope) {
                   if (dynamicKeys.indexOf(scope) > -1) {
                     roles.map(function (role) {
@@ -162,7 +163,11 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                           _courseModel2.default.findOne({ courseAuthor: userId }, function (err, doc) {
                             if (doc) {
                               var ownerId = doc.courseAuthor;
-                              console.log("ownerId: ", ownerId);
+                              console.log("props: ", userId.toObject());
+                              console.log("id: ", typeof userId === "undefined" ? "undefined" : (0, _typeof3.default)(userId));
+                              console.log("ownerId: ", typeof ownerId === "undefined" ? "undefined" : (0, _typeof3.default)(ownerId));
+                              console.log(userId === ownerId);
+                              console.log("funct: ", obj[scope]);
                               passPermissionsArr.push(obj[scope](userId, ownerId));
                               console.log("array: ", passPermissionsArr);
                             }
@@ -173,37 +178,37 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                   }
                 });
 
-              case 20:
+              case 19:
 
                 console.log("arry: ", passPermissionsArr);
 
                 if (!passPermissionsArr.includes(false)) {
-                  _context.next = 23;
+                  _context.next = 22;
                   break;
                 }
 
                 return _context.abrupt("return", false);
 
-              case 23:
+              case 22:
                 if (!passPermissionsArr.includes(true)) {
-                  _context.next = 25;
+                  _context.next = 24;
                   break;
                 }
 
                 return _context.abrupt("return", true);
 
-              case 25:
+              case 24:
                 if (!containsPermission) {
-                  _context.next = 29;
+                  _context.next = 28;
                   break;
                 }
 
                 return _context.abrupt("return", true);
+
+              case 28:
+                return _context.abrupt("return", false);
 
               case 29:
-                return _context.abrupt("return", false);
-
-              case 30:
               case "end":
                 return _context.stop();
             }
