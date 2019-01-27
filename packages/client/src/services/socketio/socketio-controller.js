@@ -1,7 +1,7 @@
 import React, {PureComponent} from "react"
 import {SocketIOInitialConnector} from "@utterzone/connector"
 
-import Zone from "../../layouts/Zones/containers/zone.js"
+import Zone from "../../layouts/zones/containers/zone.js"
 
 export default class SocketIOCtrl extends PureComponent {
   render() {

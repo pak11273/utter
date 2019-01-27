@@ -1,13 +1,10 @@
-import React, {Component} from 'react'
-import styled, {ThemeProvider} from 'styled-components'
-import {Button, Container, Grid, Header, Menu, Segment} from 'semantic-ui-react'
-import {Masthead, Navbar} from '../containers'
-import {Helmet} from 'react-helmet'
-import {Box, Column, Subtitle, Title, Wrapper} from '../components'
+import React from "react"
+import {Button, Container, Grid, Header, Menu, Segment} from "semantic-ui-react"
+import {Helmet} from "react-helmet"
 
-function Pricing(props) {
+function Pricing() {
   return (
-    <Container style={{padding: '80px'}}>
+    <Container style={{padding: "80px"}}>
       <Helmet>
         <meta charset="utf-8" />
         <meta
@@ -22,7 +19,7 @@ function Pricing(props) {
       <Header as="h2" align="center" color="red">
         Obtain a priceless skill for the price of a Starbucks coffee.
       </Header>
-      <p style={{textAlign: 'center', padding: '5px 0 20px 0'}}>
+      <p style={{textAlign: "center", padding: "5px 0 20px 0"}}>
         Your payments are processed over the highest security connections.
       </p>
       <Grid stackable textAlign="center" columns={4}>

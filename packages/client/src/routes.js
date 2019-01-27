@@ -1,19 +1,16 @@
+import React from "react"
+import Loadable from "react-loadable"
+
 import {
-  Admin,
   Announcement,
   Home,
-  About,
   ChangePassword,
-  Contact,
   ForgotPassword,
   /* GettingStarted, */
   Test,
-  LoginCtrl,
   Settings,
   ShoppingCart,
-  SignupCtrl,
   /* Sponsorship, */
-  Courses,
   CourseEdit,
   CourseIntroduction,
   CourseSettings,
@@ -35,7 +32,6 @@ import {
   /* Korean6, */
   /* Korean7, */
   /* Korean8, */
-  Pricing,
   /* ResetPassword, */
   /* Spanish1, */
   /* Spanish2, */
@@ -44,17 +40,59 @@ import {
   /* French2, */
   /* Redux */
   SocketIOCtrl,
-  Zones,
   ZoneCtrl
 } from "./layouts"
+
+const Loading = () => <h1>Loading...</h1>
+
+// Code Splitting: lazy loaded routes
+const getAbout = Loadable({
+  loader: () => import("./layouts/about"),
+  loading: Loading
+})
+
+const getAdmin = Loadable({
+  loader: () => import("./layouts/admin"),
+  loading: Loading
+})
+
+const getContact = Loadable({
+  loader: () => import("./layouts/contact"),
+  loading: Loading
+})
+
+const getCourses = Loadable({
+  loader: () => import("./layouts/courses"),
+  loading: Loading
+})
+
+const getLoginCtrl = Loadable({
+  loader: () => import("./layouts/login/login-ctrl.js"),
+  loading: Loading
+})
+
+const getPricing = Loadable({
+  loader: () => import("./layouts/pricing"),
+  loading: Loading
+})
+
+const getSignupCtrl = Loadable({
+  loader: () => import("./layouts/signup/signup-ctrl.js"),
+  loading: Loading
+})
+
+const getZones = Loadable({
+  loader: () => import("./layouts/zones"),
+  loading: Loading
+})
 
 /* import language from "./data/language.json" */
 
 export const routes = [
   {
-    component: About,
+    component: getAbout,
     exact: true,
-    path: "/About"
+    path: "/about"
   },
   {
     component: Announcement,
@@ -72,7 +110,7 @@ export const routes = [
   },
   {
     path: "/admin",
-    component: requireAdmin(Admin)
+    component: requireAdmin(getAdmin)
   },
   {
     exact: true,
@@ -96,7 +134,7 @@ export const routes = [
   // },
   {
     path: "/contact",
-    component: Contact
+    component: getContact
   },
   // {
   //   path: '/CourseDetails/:name',
@@ -115,7 +153,7 @@ export const routes = [
   //   loadData: () => getSomeData()
   // },
   {
-    component: Courses,
+    component: getCourses,
     exact: true,
     path: "/courses"
   },
@@ -130,7 +168,7 @@ export const routes = [
     path: "/courses/created"
   },
   {
-    component: noAuth(LoginCtrl),
+    component: noAuth(getLoginCtrl),
     exact: true,
     path: "/login"
   },
@@ -154,7 +192,7 @@ export const routes = [
     ]
   },
   {
-    component: Pricing,
+    component: getPricing,
     exact: true,
     path: "/pricing"
   },
@@ -178,7 +216,7 @@ export const routes = [
   },
   {
     path: "/signup",
-    component: SignupCtrl
+    component: getSignupCtrl
   },
   // {
   //   path: '/Sponsorship',
@@ -188,7 +226,7 @@ export const routes = [
   {
     exact: true,
     path: "/zones",
-    component: requireAuth(Zones)
+    component: requireAuth(getZones)
   },
   {
     component: requireAuth(SocketIOCtrl),

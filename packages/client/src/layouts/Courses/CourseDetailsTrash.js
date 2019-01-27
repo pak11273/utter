@@ -1,19 +1,19 @@
-import React, {Component} from 'react'
-import {NavLink, Link} from 'react-router-dom'
-import styled, {ThemeProvider} from 'styled-components'
-import {Button, Select, Title, Subtitle, Wrapper} from '../../components'
-import {Masthead} from '../../containers'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
+import React, {Component} from "react"
+import {NavLink, Link} from "react-router-dom"
+import styled, {ThemeProvider} from "styled-components"
+import {Button, Select, Title, Subtitle, Wrapper} from "../../components"
+import {Masthead} from "../../containers"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
 
 // actions
-import {addCourse, loadUserProfile} from '../Zones/actions.js'
+import {addCourse, loadUserProfile} from "../zones/actions.js"
 
 class CourseDetails extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: 'English'
+      value: "English"
     }
   }
   componentDidMount() {
@@ -27,16 +27,16 @@ class CourseDetails extends Component {
     //if course is already in user db then
     // check in redux
     const language = this.props.courseReducer.courseLanguage
-    console.log('lang: ', language)
+    console.log("lang: ", language)
     var course = this.state.value
-    course = language + ' for ' + course + ' Speakers'
-    console.log('course: ', course)
+    course = language + " for " + course + " Speakers"
+    console.log("course: ", course)
     const exists = this.props.userReducer.userProfile.courses.filter(
       obj => obj.name === course
     )[0]
-    console.log('exists: ', exists)
+    console.log("exists: ", exists)
     if (exists) {
-      alert('you are already enrolled in this course')
+      alert("you are already enrolled in this course")
     } else {
       const id = this.props.userReducer.userProfile._id
       this.props.actions.addCourse(id, course)
@@ -46,7 +46,7 @@ class CourseDetails extends Component {
   handleChange = e => {
     const newValues = getValueFromEvent(e)
     const {id} = this.props.course
-    this.props.actions.updateEntity('Course', id, newValues)
+    this.props.actions.updateEntity("Course", id, newValues)
     // this.setState({
     //   value: e.target.value
     // })
@@ -54,8 +54,8 @@ class CourseDetails extends Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    let button = document.getElementById('submit')
-    this.props.history.push('/getting-started')
+    let button = document.getElementById("submit")
+    this.props.history.push("/getting-started")
     button.disabled = true
   }
 
@@ -64,17 +64,17 @@ class CourseDetails extends Component {
     var items = []
 
     switch (name) {
-      case 'French':
-        items = ['English']
+      case "French":
+        items = ["English"]
         break
-      case 'English':
-        items = ['English']
+      case "English":
+        items = ["English"]
         break
-      case 'Korean':
-        items = ['English']
+      case "Korean":
+        items = ["English"]
         break
       default:
-        items = ['English']
+        items = ["English"]
     }
 
     return (

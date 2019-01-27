@@ -1,18 +1,13 @@
-import Admin from "./Admin"
 import Announcement from "./Announcement"
 import French1 from "./French/Level1.js"
 import Home from "./Home"
-import About from "./About"
-import Contact from "./contact"
 import ChangePassword from "./change_password/change-password-ctrl.js"
 import ForgotPassword from "./forgot_password/forgot-password-ctrl.js"
 import Test from "./Test"
 import GettingStarted from "./GettingStarted.js"
-import LoginCtrl from "./login/login-ctrl.js"
 import noAuth from "../utils/noAuth.js"
 import Settings from "./Settings"
 import ShoppingCart from "./ShoppingCart/components"
-import SignupCtrl from "./Signup/signup-ctrl.js"
 import Sponsorship from "./Sponsorship.js"
 import CourseEdit from "./courses/containers/course-edit.js"
 import Levels from "./Levels/containers/levels-controller.js"
@@ -21,7 +16,6 @@ import CourseCtrl from "./courses/containers/course-controller.js"
 import CoursesCreated from "./courses/containers/courses-created.js"
 import CourseIntroduction from "./courses/containers/course-introduction.js"
 import CourseSettings from "./courses/containers/course-settings.js"
-import Courses from "./courses/index.js"
 import NotFound from "../components/Misc/NotFound.js"
 import requireAuth from "../utils/requireAuth.js"
 import requireAdmin from "../utils/requireAdmin.js"
@@ -34,30 +28,23 @@ import Korean5 from "./Korean/Level5"
 import Korean6 from "./Korean/Level6"
 import Korean7 from "./Korean/Level7"
 import Korean8 from "./Korean/Level8"
-import Pricing from "./Pricing.js"
 import Spanish1 from "./Spanish/level1"
 import Spanish2 from "./Spanish/level2/index.js"
 import Spanish3 from "./Spanish/Level3"
 import Redux from "./Redux.js"
 import SocketIOCtrl from "../services/socketio/socketio-controller.js"
-import Zones from "./Zones/index.js"
-import ZoneCtrl from "./Zones/containers/zone-controller.js"
+import ZoneCtrl from "./zones/containers/zone-controller.js"
 
 export {
-  Admin,
   Announcement,
   French1,
   Home,
-  About,
-  Contact,
   CourseEdit,
   Levels,
-  Courses,
   ChangePassword,
   ForgotPassword,
   GettingStarted,
   Test,
-  LoginCtrl,
   MyCourses,
   CourseCtrl,
   CoursesCreated,
@@ -77,15 +64,12 @@ export {
   Korean6,
   Korean7,
   Korean8,
-  Pricing,
   ShoppingCart,
   Spanish1,
   Spanish2,
   Spanish3,
   Redux,
-  SignupCtrl,
   Sponsorship,
   SocketIOCtrl,
-  Zones,
   ZoneCtrl
 }
