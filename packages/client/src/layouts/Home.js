@@ -154,7 +154,6 @@ class Home extends Component {
                   bordered
                   rounded
                   size="large"
-                  style={{height: "300px"}}
                   src={`${embarrassedImg}`}
                   centered
                 />
@@ -218,7 +217,7 @@ class Home extends Component {
                 verticalAlign="middle">
                 <Header as="h3" style={{fontSize: "1.5em"}}>
                   &quot;I built this platform and used it exclusively to learn
-                  my native tongue. After 6 months of use I can have successful,
+                  my native tongue. After 6 months of use I can have meaningful,
                   everyday conversations with native speakers.&quot;
                 </Header>
                 <p style={{fontSize: "1.33em"}}>
