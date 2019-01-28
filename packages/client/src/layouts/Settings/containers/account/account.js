@@ -1,16 +1,8 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import cloneDeep from "lodash/cloneDeep"
+import {cloneDeep} from "lodash"
 import Select from "react-select"
-import {
-  Button,
-  Dropdown,
-  Form,
-  Grid,
-  Header,
-  Label,
-  Segment
-} from "semantic-ui-react"
+import {Button, Form, Grid, Header, Segment} from "semantic-ui-react"
 
 import orm from "../../../../app/schema.js"
 import {updateEntity} from "../../../../api/entities/actions.js"
@@ -43,22 +35,24 @@ class AccountInfo extends Component {
   }
 
   render() {
-    let user = this.props.user
     return (
       <Segment attached="bottom">
         <Grid>
           <Grid.Column width={8}>
             <Form size="large" onSubmit={this.handleSubmit}>
               <Form.Field name="name" width={6}>
-                <label>Username</label>
-                <input
-                  placeholder="Name"
-                  defaultValue="todo changeme"
-                  disabled
-                />
+                <label htmlFor="username">
+                  Username
+                  <input
+                    id="username"
+                    placeholder="Name"
+                    defaultValue="todo changeme"
+                    disabled
+                  />
+                </label>
               </Form.Field>
               <Form.Field name="native-language" width={6}>
-                <label>Native Language</label>
+                <div>Using Language</div>
                 <Select
                   id="usingLang"
                   ref={ref => {
@@ -91,21 +85,28 @@ class AccountInfo extends Component {
                 />
               </Form.Field>
               <Form.Field name="email" width={6}>
-                <label>Email</label>
-                <input
-                  placeholder="example@gmail.com"
-                  defaultValue="todo: email change"
-                />
+                <label htmlFor="email">
+                  Email
+                  <input
+                    id="email"
+                    placeholder="example@gmail.com"
+                    defaultValue="todo: email change"
+                  />
+                </label>
               </Form.Field>
               <Header size="small">Change Password</Header>
               <Segment>
                 <Form.Field name="password" width={6}>
-                  <label>New Password</label>
-                  <input placeholder="Password" />
+                  <label htmlFor="password">
+                    New Password
+                    <input id="password" placeholder="Password" />
+                  </label>
                 </Form.Field>
                 <Form.Field name="password confirmation" width={6}>
-                  <label>Confirm Password</label>
-                  <input placeholder="password" />
+                  <label htmlFor="confirm-password">
+                    Confirm Password
+                    <input id="confirm-password" placeholder="password" />
+                  </label>
                 </Form.Field>
               </Segment>
               <Button
@@ -141,7 +142,7 @@ const mapStateToProps = state => {
   // The toRefArray() method will give us an array of the
   // plain JS objects for each item in the QuerySet.
 
-  let user = User.first()
+  const user = User.first()
 
   // Now that we have an array of all pilot objects, return it as a prop
   // return {users}

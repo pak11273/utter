@@ -1,12 +1,12 @@
-import Language from './languageModel.js'
-import _ from 'lodash'
+import Language from "./languageModel.js"
+import {merge} from "lodash"
 
 export default {
   findByParams: (req, res, next, id) => {
     Language.findById(id).then(
       language => {
         if (!language) {
-          next(new Error('No language with that id'))
+          next(new Error("No language with that id"))
         } else {
           req.language = language
           next()
@@ -54,7 +54,7 @@ export default {
     let language = req.language
     let update = req.body
 
-    let saved = _.merge(language, update)
+    let saved = merge(language, update)
 
     language.save((err, saved) => {
       if (err) {

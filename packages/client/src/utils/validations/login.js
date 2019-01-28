@@ -1,5 +1,5 @@
 import Validator from "validator"
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 
 export const validateInput = state => {
   const errors = {}

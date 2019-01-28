@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
-import _ from 'lodash'
+import { isEmpty } from 'lodash'
 import axios from 'axios'
 import superagent from 'superagent'
 import {Box, Button, Input, Text} from '../../components'
@@ -93,7 +93,7 @@ function RoomList(props) {
     updateListType
   } = props
   let list = roomList
-  if (_.isEmpty(list)) {
+  if (isEmpty(list)) {
     var renderList = <div>No rooms available. Try creating your own.</div>
   } else {
     // grab lobby and make it the first component

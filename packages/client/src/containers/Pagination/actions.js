@@ -1,7 +1,7 @@
-import capitalize from 'lodash/capitalize'
-import {PAGINATE_ASYNC} from './types.js'
-import {createAction} from '../../utils/redux-utils.js'
-import {selectCourseProp} from './selectors.js'
+import {capitalize} from "lodash"
+import {PAGINATE_ASYNC} from "./types.js"
+import {createAction} from "../../utils/redux-utils.js"
+import {selectCourseProp} from "./selectors.js"
 
 export function paginateRequest(resource, state) {
   resource = capitalize(resource)

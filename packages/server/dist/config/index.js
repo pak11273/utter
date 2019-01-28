@@ -8,9 +8,7 @@ var _dotenv = require("dotenv");
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
 
-var _merge = require("lodash/merge");
-
-var _merge2 = _interopRequireDefault(_merge);
+var _lodash = require("lodash");
 
 var _chalk = require("chalk");
 
@@ -59,4 +57,4 @@ switch (env) {
 }
 
 // merge the two objects and export it so our app can use it
-exports.default = (0, _merge2.default)(baseConfig, envConfig || {});
+exports.default = (0, _lodash.merge)(baseConfig, envConfig || {});

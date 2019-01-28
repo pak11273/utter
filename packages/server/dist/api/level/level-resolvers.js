@@ -21,9 +21,7 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _isEmpty = require("lodash/isEmpty");
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
+var _lodash = require("lodash");
 
 var _mongoose = require("mongoose");
 
@@ -168,7 +166,7 @@ var getCreatedLevels = function () {
           case 5:
             result = _context3.sent;
 
-            if (!(0, _isEmpty2.default)(result)) {
+            if (!(0, _lodash.isEmpty)(result)) {
               _context3.next = 10;
               break;
             }

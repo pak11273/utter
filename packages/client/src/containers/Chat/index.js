@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 /* import {Link} from "react-router-dom" */
 import {bindActionCreators} from "redux"
-import _ from "lodash"
+import {find} from "lodash"
 import {connect} from "react-redux"
 import {Box, List, ListItem, TextArea} from "../../components"
 import {Button} from "semantic-ui-react"
@@ -291,7 +291,7 @@ class ChatContainer extends Component {
   updateReview = e => {
     e.preventDefault()
     const {originalList, query} = this.props.pictureReducer
-    const reviewObj = _.find(originalList, {word: query})
+    const reviewObj = find(originalList, {word: query})
 
     if (!this.props.pictureReducer.reviewList) {
       this.props.actions.updateReviewList(reviewObj)

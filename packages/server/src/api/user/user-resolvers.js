@@ -1,7 +1,7 @@
 /* eslint-enable no-unused-vars */
 import chalk from "chalk"
 import jwt from "jsonwebtoken"
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 import * as yup from "yup"
 import config from "../../config"
 import {authenticate, decodeToken, signToken} from "../../auth"
@@ -128,7 +128,7 @@ const signup = async (_, args, {redis, url}, info) => {
   }
 
   return {
-		error: arrayOfErrors
+    error: arrayOfErrors
   }
 }
 

@@ -1,13 +1,12 @@
-import express from 'express'
-import _ from 'lodash'
-import pwd from '../config/pwd.js'
-import nodemailer from 'nodemailer'
-import path from 'path'
+import express from "express"
+import pwd from "../config/pwd.js"
+import nodemailer from "nodemailer"
+import path from "path"
 const mailRouter = express.Router()
 
-mailRouter.post('/', function(req, res) {
+mailRouter.post("/", function(req, res) {
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: pwd.gmail_username,
       pass: pwd.gmail_password
@@ -15,23 +14,23 @@ mailRouter.post('/', function(req, res) {
   })
 
   const mailOptions = {
-    from: 'utterzone11273@gmail.com',
-    to: 'pak11273@gmail.com',
+    from: "utterzone11273@gmail.com",
+    to: "pak11273@gmail.com",
     subject: req.body.subject,
     text:
-      'phone: ' +
-      ' ' +
+      "phone: " +
+      " " +
       req.body.country +
-      ' ' +
+      " " +
       req.body.number +
-      '\n\n' +
-      'email: ' +
+      "\n\n" +
+      "email: " +
       req.body.email +
-      '\n\n' +
-      'subjedct: ' +
+      "\n\n" +
+      "subjedct: " +
       req.body.subject +
-      '\n\n' +
-      'message: ' +
+      "\n\n" +
+      "message: " +
       req.body.letter
   }
 
@@ -39,20 +38,20 @@ mailRouter.post('/', function(req, res) {
     if (error) {
       console.log(error)
     } else {
-      console.log('Email sent: ' + info.response)
+      console.log("Email sent: " + info.response)
     }
   })
 
   // password-reset
-  const hbs = require('nodemailer-express-handlebars')
+  const hbs = require("nodemailer-express-handlebars")
 
   const handlebarsOptions = {
-    viewEngine: 'handlebars',
-    viewPath: path.resolve('../templates/'),
-    extName: '.html'
+    viewEngine: "handlebars",
+    viewPath: path.resolve("../templates/"),
+    extName: ".html"
   }
 
-  transporter.use('compile', hbs(handlebarsOptions))
+  transporter.use("compile", hbs(handlebarsOptions))
 })
 
 export default mailRouter

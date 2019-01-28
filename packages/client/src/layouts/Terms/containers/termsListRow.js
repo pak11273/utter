@@ -1,22 +1,22 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import _ from 'lodash'
-import {Button, Icon, Table} from 'semantic-ui-react'
-import orm from '../../../app/schema.js'
-import {deleteEntity} from '../../../api/entities/actions.js'
+import React from "react"
+import {connect} from "react-redux"
+import {noop} from "lodash"
+import {Button, Icon, Table} from "semantic-ui-react"
+import orm from "../../../app/schema.js"
+import {deleteEntity} from "../../../api/entities/actions.js"
 
 const TermsListRow = ({
   entry = {},
-  onTermClicked = _.noop,
+  onTermClicked = noop,
   selected,
   deleteEntity
 }) => {
-  const {id = null, word = '', level = '', translation = '', audio = ''} = entry
+  const {id = null, word = "", level = "", translation = "", audio = ""} = entry
 
   const onDeleteClicked = e => {
     e.stopPropagation()
     e.preventDefault()
-    deleteEntity('Terms', id)
+    deleteEntity("Terms", id)
   }
 
   const onRowClicked = () => onTermClicked(id)
@@ -62,4 +62,7 @@ const actions = {
   deleteEntity
 }
 
-export default connect(mapStateToProps, actions)(TermsListRow)
+export default connect(
+  mapStateToProps,
+  actions
+)(TermsListRow)

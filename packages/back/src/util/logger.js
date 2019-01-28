@@ -1,6 +1,6 @@
-import 'colors'
-import _ from 'lodash'
-import config from '../config/index.js'
+import "colors"
+import {toArray} from "lodash"
+import config from "../config/index.js"
 // noop function when login is disabled
 let noop = () => {}
 
@@ -9,7 +9,7 @@ let consoleLog = config.logging ? console.log.bind(console) : noop
 
 // const Logger = {
 //   log() {
-//     let args = _.toArray(arguments)
+//     let args = toArray(arguments)
 //       .map((arg) => {
 //         if(typeof arg === 'object') {
 //           let string = JSON.stringify(arg, 2);
@@ -27,17 +27,17 @@ let consoleLog = config.logging ? console.log.bind(console) : noop
 
 const logger = {
   log() {
-    let tag = '[ ✨ LOG ✨ ]'.green
+    let tag = "[ ✨ LOG ✨ ]".green
     // arguments is an array like object with all the passed
     // in arguments to this function
-    let args = _.toArray(arguments).map(arg => {
-      if (typeof arg === 'object') {
+    let args = toArray(arguments).map(arg => {
+      if (typeof arg === "object") {
         // turn the object to a string so we
         // can log all the properties and color it
         let string = JSON.stringify(arg, null, 2)
-        return tag + '  ' + string.cyan
+        return tag + "  " + string.cyan
       } else {
-        return tag + '  ' + arg.cyan
+        return tag + "  " + arg.cyan
       }
     })
 
@@ -47,10 +47,10 @@ const logger = {
     consoleLog.apply(console, args)
   },
   error() {
-    let args = _.toArray(arguments).map(arg => {
+    let args = toArray(arguments).map(arg => {
       arg = arg.stack || arg
-      let name = arg.name || '[ ❌ ERROR ❌ ]'
-      let log = name.yellow + '  ' + arg.red
+      let name = arg.name || "[ ❌ ERROR ❌ ]"
+      let log = name.yellow + "  " + arg.red
       return log
     })
 

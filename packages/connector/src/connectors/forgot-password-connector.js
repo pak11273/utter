@@ -4,7 +4,7 @@ import {graphql} from "react-apollo"
 import React, {PureComponent} from "react"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors.js"
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 /* import history from "../index.js" */
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */

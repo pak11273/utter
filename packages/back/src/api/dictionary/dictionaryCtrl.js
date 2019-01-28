@@ -1,13 +1,12 @@
-import Dictionary from './dictionaryModel.js'
-import _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
+import Dictionary from "./dictionaryModel.js"
+import {merge, isEmpty} from "lodash"
 
 export default {
   findByParams: (req, res, next, id) => {
     Dictionary.findById(id).then(
       word => {
         if (!word) {
-          next(new Error('No word with that id'))
+          next(new Error("No word with that id"))
         } else {
           req.word = word
           next()
@@ -42,7 +41,7 @@ export default {
     let word = req.word
     let update = req.body.word
 
-    let merged = _.merge(word, update)
+    let merged = merge(word, update)
 
     word.save((err, saved) => {
       if (err) {

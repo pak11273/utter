@@ -4,7 +4,6 @@ import styled from "styled-components"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {Helmet} from "react-helmet"
-import _ from "lodash"
 
 import {
   Challenge,

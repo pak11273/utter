@@ -1,29 +1,26 @@
-import React, {Component} from 'react'
-import PropTypes from 'prop-types'
+import React, {Component} from "react"
+import PropTypes from "prop-types"
 
-import {noop, debounce, defaults, values} from 'lodash'
+import {noop, debounce, defaults, values} from "lodash"
 
-import {getValueFromEvent} from '../../../src/utils/clientUtils'
+import {getValueFromEvent} from "../../utils/clientUtils"
 
 class FormEditWrapper extends Component {
   static propTypes = {
-    value: PropTypes.object.isRequired,
     // isEditing: PropTypes.bool,
     onChange: PropTypes.func,
     valuePropName: PropTypes.string,
     onChangePropName: PropTypes.string,
     singleValue: PropTypes.bool,
-    passIsEditing: PropTypes.bool,
     dispatchDelay: PropTypes.number
   }
 
   static defaultProps = {
     // isEditing: true,
     onChange: noop,
-    valuePropName: 'value',
-    onChangePropName: 'onChange',
+    valuePropName: "value",
+    onChangePropName: "onChange",
     singleValue: false,
-    passIsEditing: true,
     dispatchDelay: 250
   }
 
@@ -91,7 +88,7 @@ class FormEditWrapper extends Component {
     let valueToPassDown = currentValues
 
     if (singleValue) {
-      valueToPassDown = values(currentValues)[0]
+      ;[valueToPassDown] = values(currentValues)
     }
 
     // const editingValue = passIsEditing ? {isEditing} : {}

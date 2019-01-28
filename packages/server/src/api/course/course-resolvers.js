@@ -1,4 +1,4 @@
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 import config from "../../config"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"

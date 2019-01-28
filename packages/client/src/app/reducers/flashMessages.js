@@ -1,6 +1,6 @@
-import {ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE} from '../types.js'
-import cuid from 'cuid'
-import findIndex from 'lodash/findIndex'
+import {ADD_FLASH_MESSAGE, DELETE_FLASH_MESSAGE} from "../types.js"
+import cuid from "cuid"
+import {findIndex} from "lodash"
 
 export default (state = [], action = {}) => {
   switch (action.type) {

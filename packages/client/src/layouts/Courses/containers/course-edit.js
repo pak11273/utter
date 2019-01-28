@@ -7,7 +7,7 @@ import {
   NavLink
 } from "react-router-dom"
 /* import Select from "react-select" */
-import cloneDeep from "lodash/cloneDeep"
+import {cloneDeep} from "lodash"
 import {Helmet} from "react-helmet"
 import {Can, Spacer} from "../../../components"
 

@@ -1,6 +1,5 @@
 import Comment from './commentModel.js'
-import _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
+import {isEmpty,  merge } from 'lodash'
 import auth from '../../auth/auth'
 const signToken = auth.signToken
 
@@ -41,7 +40,7 @@ export default {
     let comment = req.comment
     let update = req.body
 
-    _.merge(comment, update)
+    merge(comment, update)
 
     comment.save((err, saved) => {
       if (err) {

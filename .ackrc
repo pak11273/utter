@@ -13,6 +13,8 @@
 
 --ignore-file=is:tags
 --ignore-file=is:yarn.lock
+--ignore-file=is:package.json
+--ignore-file=is:yarn-error.log
 --ignore-dir=.cache/
 --ignore-dir=offline-mirror
 --ignore-dir=packages/client/dist

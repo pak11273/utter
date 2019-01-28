@@ -1,13 +1,12 @@
-import Phrase from './phraseModel.js'
-import _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
+import Phrase from "./phraseModel.js"
+import {merge, isArray, isEmpty} from "lodash"
 
 export default {
   findByParams: (req, res, next, id) => {
     Phrase.findById(id).then(
       phrase => {
         if (!phrase) {
-          next(new Error('No phrase with that id'))
+          next(new Error("No phrase with that id"))
         } else {
           req.phrase = phrase
           next()
@@ -39,13 +38,13 @@ export default {
 
   updateOne: (req, res, next) => {
     function customizer(objValue, srcValue) {
-      if (_.isArray(objValue)) {
+      if (isArray(objValue)) {
         return (objValue = srcValue)
       }
     }
     let phrase = req.phrase
     let update = req.body.phrase
-    _.mergeWith(phrase, update, customizer)
+    mergeWith(phrase, update, customizer)
 
     phrase.save((err, saved) => {
       if (err) {

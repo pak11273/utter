@@ -1,4 +1,4 @@
-import {isObject} from 'lodash'
+import {isObject} from "lodash"
 
 export function getValueFromEvent(e) {
   const {target} = e
@@ -6,7 +6,7 @@ export function getValueFromEvent(e) {
   let newValues
 
   if (target) {
-    const value = target.type === 'checkbox' ? target.checked : target.value
+    const value = target.type === "checkbox" ? target.checked : target.value
     newValues = {
       [target.name]: value
     }

@@ -1,17 +1,17 @@
-var _ = require('lodash');
-var User = require('../api/user/userModel');
+import {merge} from "lodash"
+var User = require("../api/user/userModel")
 // var Post = require('../api/post/postModel');
 
 // var Category = require('../api/category/categoryModel');
-var logger = require('./logger');
+var logger = require("./logger")
 
-logger.log('Seeding the Database');
+logger.log("Seeding the Database")
 
 var users = [
-  {username: 'Jimmylo', password: 'test'},
-  {username: 'Xoko', password: 'test'},
-  {username: 'katamon', password: 'test'}
-];
+  {username: "Jimmylo", password: "test"},
+  {username: "Xoko", password: "test"},
+  {username: "katamon", password: "test"}
+]
 
 // var categories = [
 //   {name: 'intros'},
@@ -28,31 +28,28 @@ var users = [
 var createDoc = function(model, doc) {
   return new Promise(function(resolve, reject) {
     new model(doc).save(function(err, saved) {
-      return err ? reject(err) : resolve(saved);
-    });
-  });
-};
+      return err ? reject(err) : resolve(saved)
+    })
+  })
+}
 
 var cleanDB = function() {
-  logger.log('... cleaning the DB');
-  var cleanPromises = [User, Category, Post]
-    .map(function(model) {
-      return model.remove().exec();
-    });
-  return Promise.all(cleanPromises);
+  logger.log("... cleaning the DB")
+  var cleanPromises = [User, Category, Post].map(function(model) {
+    return model.remove().exec()
+  })
+  return Promise.all(cleanPromises)
 }
 
 var createUsers = function(data) {
-
   var promises = users.map(function(user) {
-    return createDoc(User, user);
-  });
+    return createDoc(User, user)
+  })
 
-  return Promise.all(promises)
-    .then(function(users) {
-      return _.merge({users: users}, data || {});
-    });
-};
+  return Promise.all(promises).then(function(users) {
+    return merge({users: users}, data || {})
+  })
+}
 
 // var createCategories = function(data) {
 //   var promises = categories.map(function(category) {
@@ -61,7 +58,7 @@ var createUsers = function(data) {
 
 //   return Promise.all(promises)
 //     .then(function(categories) {
-//       return _.merge({categories: categories}, data
+//       return merge({categories: categories}, data
 //         || {});
 //     });
 // };
@@ -96,8 +93,7 @@ var createUsers = function(data) {
 
 cleanDB()
   .then(createUsers)
-// .then(createCategories)
-// .then(createPosts)
+  // .then(createCategories)
+  // .then(createPosts)
   .then(logger.log.bind(logger))
-  .catch(logger.log.bind(logger));
-
+  .catch(logger.log.bind(logger))

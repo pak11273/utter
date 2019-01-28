@@ -1,6 +1,6 @@
 /* import { AuthorizationError } from "./errors"; */
 import * as jwt from "jsonwebtoken"
-import {flatten, uniq, union} from "lodash"
+import {flatten, uniq} from "lodash"
 import {SchemaDirectiveVisitor} from "apollo-server"
 import {userByToken} from "../../api/shared/resolver-functions.js"
 import {defaultFieldResolver} from "graphql"

@@ -1,4 +1,4 @@
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 import mongoose from "mongoose"
 import Level from "./level-model"
 

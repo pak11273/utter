@@ -1,14 +1,13 @@
-import Room from './roomModel.js'
-import _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
-import {signToken} from '../../auth/auth'
+import Room from "./roomModel.js"
+import {merge, isEmpty} from "lodash"
+import {signToken} from "../../auth/auth"
 
 export default {
   findByParams: (req, res, next, id) => {
     Room.findById(id).then(
       room => {
         if (!room) {
-          next(new Error('No room with that id'))
+          next(new Error("No room with that id"))
         } else {
           req.room = room
           next()
@@ -50,13 +49,13 @@ export default {
   updateOne: (req, res, next) => {
     let room = req.room
     let update = req.body
-    _.merge(room, update)
+    merge(room, update)
 
     room.save((err, saved) => {
       if (err) {
         next(err)
       }
-      res.send('yes')
+      res.send("yes")
     })
   },
 

@@ -1,15 +1,15 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import styled from 'styled-components'
-import secrets from '../../config/secrets.js'
-import superagent from 'superagent'
-import Rand from '../../utils/randomGenerator.js'
-import PicturesMgr from '../../utils/PicturesMgr.js'
-import {Ad, Box, Button, Img, Text} from '../../components'
-import PlayImg from '../../assets/images/play.svg'
-import _ from 'lodash'
-import {speechStart} from '../../services/speech'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
+import styled from "styled-components"
+import secrets from "../../config/secrets.js"
+import superagent from "superagent"
+import Rand from "../../utils/randomGenerator.js"
+import PicturesMgr from "../../utils/PicturesMgr.js"
+import {Ad, Box, Button, Img, Text} from "../../components"
+import PlayImg from "../../assets/images/play.svg"
+import {isEmpty, omit} from "lodash"
+import {speechStart} from "../../services/speech"
 
 import {
   loadAudioUrl,
@@ -22,13 +22,13 @@ import {
   updateReviewList,
   sendRomanized,
   sendTranslated
-} from './actions.js'
+} from "./actions.js"
 
-import {sendRoomMeta} from '../../services/socketio/actions.js'
+import {sendRoomMeta} from "../../services/socketio/actions.js"
 // import {loadQuestion} from '../../containers/Challenge/actions.js'
 
 // audio
-import cdnUrl from '../../../src/config/secrets.js'
+import cdnUrl from "../../../src/config/secrets.js"
 const cdn = cdnUrl.cdn
 
 const Wrap = styled.section`
@@ -58,14 +58,14 @@ const Wrap = styled.section`
   }
 `
 Wrap.defaultProps = {
-  alignitems: 'center',
-  background: 'transparent',
-  color: 'black',
-  display: 'flex',
-  flexdirection: 'column',
-  justifycontent: 'center',
-  position: 'relative',
-  width: '100%'
+  alignitems: "center",
+  background: "transparent",
+  color: "black",
+  display: "flex",
+  flexdirection: "column",
+  justifycontent: "center",
+  position: "relative",
+  width: "100%"
 }
 
 class Pictures extends Component {
@@ -119,19 +119,19 @@ class Pictures extends Component {
 
     this.props.actions.loadQuery(query)
 
-    if (this.props.roomReducer.listType === 'words') {
+    if (this.props.roomReducer.listType === "words") {
       superagent
-        .get('http://pixabay.com/api')
+        .get("http://pixabay.com/api")
         .query({
           key: secrets.pixabay,
           q: query,
           safesearch: true,
-          image_type: 'photo'
+          image_type: "photo"
         })
-        .set('Accept', 'application/json')
+        .set("Accept", "application/json")
         .end((err, res) => {
           if (err) {
-            console.log('error : ' + err)
+            console.log("error : " + err)
             return
           }
 
@@ -178,9 +178,9 @@ class Pictures extends Component {
       let updatedList = list.filter(o => o.word !== query)
       this.props.actions.updateWordList(updatedList)
 
-      if (list.length === 1 && (_.isEmpty(review) || !review)) {
+      if (list.length === 1 && (isEmpty(review) || !review)) {
         alert(
-          'YOU JUST FINISHED ALL OF YOUR WORDS.  ALL WORD LISTS WILL NOW BE RESET.'
+          "YOU JUST FINISHED ALL OF YOUR WORDS.  ALL WORD LISTS WILL NOW BE RESET."
         )
         this.props.actions.updateWordList(
           this.props.pictureReducer.originalList
@@ -214,9 +214,9 @@ class Pictures extends Component {
 
   render() {
     var picture = <Ad />
-    if (this.props.roomReducer.listType === 'words') {
+    if (this.props.roomReducer.listType === "words") {
       picture = <Img src={this.props.pictureReducer.pictureSrc} />
-    } else if (this.props.roomReducer.listType === 'letters') {
+    } else if (this.props.roomReducer.listType === "letters") {
       picture = (
         <Text fontsize="7rem">{this.props.pictureReducer.translation}</Text>
       )
@@ -224,11 +224,11 @@ class Pictures extends Component {
 
     const wordSound = this.props.query
     const language = this.props.roomReducer.language
-    if (typeof wordSound !== 'undefined') {
+    if (typeof wordSound !== "undefined") {
       let audioUrl = this.props.pictureReducer.audioUrl
       var wordAudio = audioUrl
     } else {
-      var wordAudio = ''
+      var wordAudio = ""
     }
     if (this.props.roomReducer.creator) {
       //show controls
@@ -313,4 +313,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pictures)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Pictures)

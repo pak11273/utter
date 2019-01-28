@@ -1,6 +1,6 @@
 import dot from "dotenv"
 dot.config()
-import merge from "lodash/merge"
+import {merge} from "lodash"
 
 // if env not set, set it to default
 const env = process.env.NODE_ENV || "development"

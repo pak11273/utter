@@ -21,9 +21,7 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _isEmpty = require("lodash/isEmpty");
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
+var _lodash = require("lodash");
 
 var _mongoose = require("mongoose");
 
@@ -197,7 +195,7 @@ var getCreatedTerms = function () {
           case 5:
             result = _context4.sent;
 
-            if (!(0, _isEmpty2.default)(result)) {
+            if (!(0, _lodash.isEmpty)(result)) {
               _context4.next = 10;
               break;
             }
@@ -246,7 +244,7 @@ var getTerms = function () {
               if (err) {
                 // console.log doesn't work here
               }
-              if (!(0, _isEmpty2.default)(docs)) {
+              if (!(0, _lodash.isEmpty)(docs)) {
                 var courseAuthor = docs._id;
                 query.courseAuthor = courseAuthor;
               }
@@ -276,7 +274,7 @@ var getTerms = function () {
           case 12:
             result = _context5.sent;
 
-            if (!(0, _isEmpty2.default)(result)) {
+            if (!(0, _lodash.isEmpty)(result)) {
               _context5.next = 18;
               break;
             }

@@ -1,14 +1,14 @@
-import Message from './messageModel.js'
-import _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
-import {signToken} from '../../auth/auth'
+import Message from "./messageModel.js"
+import {merge} from "lodash"
+import {isEmpty} from "lodash/isEmpty"
+import {signToken} from "../../auth/auth"
 
 export default {
   findByParams: (req, res, next, id) => {
     Message.findById(id).then(
       message => {
         if (!message) {
-          next(new Error('No message with that id'))
+          next(new Error("No message with that id"))
         } else {
           req.message = message
           next()
@@ -40,7 +40,7 @@ export default {
     let message = req.message
     let update = req.body
 
-    _.merge(message, update)
+    merge(message, update)
 
     message.save((err, saved) => {
       if (err) {

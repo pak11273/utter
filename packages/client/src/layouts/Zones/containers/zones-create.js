@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux"
 /* import update from "immutability-helper" */
 import {connect} from "react-redux"
 import React, {Component} from "react"
-import cloneDeep from "lodash/cloneDeep"
+import {cloneDeep} from "lodash"
 import cuid from "cuid"
 import styled, {ThemeProvider} from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"

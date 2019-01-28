@@ -17,9 +17,7 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _isEmpty = require("lodash/isEmpty");
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
+var _lodash = require("lodash");
 
 var _config = require("../../config");
 
@@ -276,7 +274,7 @@ var getCreatedCourses = function () {
           case 11:
             result = _context5.sent;
 
-            if (!(0, _isEmpty2.default)(result)) {
+            if (!(0, _lodash.isEmpty)(result)) {
               _context5.next = 16;
               break;
             }
@@ -324,7 +322,7 @@ var getCourses = function () {
               if (err) {
                 // console.log doesn't work here
               }
-              if (!(0, _isEmpty2.default)(docs)) {
+              if (!(0, _lodash.isEmpty)(docs)) {
                 var courseAuthor = docs._id;
                 query.courseAuthor = courseAuthor;
               }
@@ -354,7 +352,7 @@ var getCourses = function () {
           case 12:
             result = _context6.sent;
 
-            if (!(0, _isEmpty2.default)(result)) {
+            if (!(0, _lodash.isEmpty)(result)) {
               _context6.next = 17;
               break;
             }

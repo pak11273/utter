@@ -1,12 +1,12 @@
-import Channel from './channelModel.js'
-import _ from 'lodash'
+import Channel from "./channelModel.js"
+import {merge} from "lodash"
 
 export default {
   findByParams: (req, res, next, id) => {
     Channel.findById(id).then(
       channel => {
         if (!channel) {
-          next(new Error('No channel with that id'))
+          next(new Error("No channel with that id"))
         } else {
           req.channel = channel
           next()
@@ -48,13 +48,13 @@ export default {
   updateOne: (req, res, next) => {
     let channel = req.channel
     let update = req.body
-    _.merge(channel, update)
+    merge(channel, update)
 
     channel.save((err, saved) => {
       if (err) {
         next(err)
       }
-      res.send('yes')
+      res.send("yes")
     })
   },
 

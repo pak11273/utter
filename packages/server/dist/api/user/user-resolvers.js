@@ -21,9 +21,7 @@ var _jsonwebtoken = require("jsonwebtoken");
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
-var _isEmpty = require("lodash/isEmpty");
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
+var _lodash = require("lodash");
 
 var _yup = require("yup");
 
@@ -223,7 +221,7 @@ var signup = function () {
 
             // Valid with unique email
 
-            if (!(foundDupeEmail === null && (0, _isEmpty2.default)(arrayOfErrors))) {
+            if (!(foundDupeEmail === null && (0, _lodash.isEmpty)(arrayOfErrors))) {
               _context2.next = 32;
               break;
             }

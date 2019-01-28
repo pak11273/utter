@@ -1,14 +1,13 @@
-import Zone from './zoneModel.js'
-import _ from 'lodash'
-import isEmpty from 'lodash/isEmpty'
-import {signToken} from '../../auth/auth'
+import Zone from "./zoneModel.js"
+import {merge} from "lodash"
+import {signToken} from "../../auth/auth"
 
 export default {
   findByParams: (req, res, next, id) => {
     Zone.findById(id).then(
       zone => {
         if (!zone) {
-          next(new Error('No zone with that id'))
+          next(new Error("No zone with that id"))
         } else {
           req.zone = zone
           next()
@@ -40,29 +39,29 @@ export default {
     let zone = req.zone
     let update = req.body
 
-    _.merge(zone, update)
+    merge(zone, update)
 
     zone.save((err, saved) => {
       if (err) {
         next(err)
       }
       // res.json(saved.toJSON())
-      res.send('yes')
+      res.send("yes")
     })
   },
 
   createOne: (req, res, next) => {
-    if (typeof req.body['zipCodes'] === 'String') {
+    if (typeof req.body["zipCodes"] === "String") {
       let jk
     }
-    let zips = req.body['zipCodes']
-    let zip = zips.split(',')
+    let zips = req.body["zipCodes"]
+    let zip = zips.split(",")
     let newZips = []
     zip.forEach(zipcode => {
       newZips.push(zipcode.trim())
     })
 
-    req.body['zipCodes'] = newZips
+    req.body["zipCodes"] = newZips
 
     Zone.create(req.body).then(
       zone => {

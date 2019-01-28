@@ -1,6 +1,6 @@
 import React from "react"
 import {Form, Message, TextArea} from "semantic-ui-react"
-import isEmpty from "lodash/isEmpty"
+import { isEmpty } from "lodash"
 
 export const FormikInput = ({
   field, // { name, value, onChange, onBlur }

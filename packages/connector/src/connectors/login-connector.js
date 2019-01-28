@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 /* import history from "../index.js" */
 
 // actions

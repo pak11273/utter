@@ -1,6 +1,4 @@
-import isEmpty from "lodash/isEmpty"
-import isNil from "lodash/isNil"
-import isNaN from "lodash/isNaN"
+import {isEmpty, isNil, isNan} from "lodash"
 
 export const validateInput = state => {
   const errors = {}

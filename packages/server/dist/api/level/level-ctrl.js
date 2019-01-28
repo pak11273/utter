@@ -27,9 +27,7 @@ var _faker2 = require("faker");
 
 var _faker3 = _interopRequireDefault(_faker2);
 
-var _isEmpty = require("lodash/isEmpty");
-
-var _isEmpty2 = _interopRequireDefault(_isEmpty);
+var _lodash = require("lodash");
 
 var _levelModel = require("./level-model.js");
 
@@ -83,7 +81,7 @@ exports.default = (0, _defineProperty3.default)({
                 if (err) {
                   // console.log doesn't work here
                 }
-                if (!(0, _isEmpty2.default)(docs)) {
+                if (!(0, _lodash.isEmpty)(docs)) {
                   var levelAuthor = docs._id;
                   console.log("level author: ", levelAuthor);
                   query.levelAuthor = levelAuthor;
@@ -173,11 +171,11 @@ exports.default = (0, _defineProperty3.default)({
               lastResultId = "";
 
 
-              if (!(0, _isEmpty2.default)(lastResultId)) {
+              if (!(0, _lodash.isEmpty)(lastResultId)) {
                 lastResultId = result[result.length - 1]._id.toString();
               }
 
-              if ((0, _isEmpty2.default)(result)) {
+              if ((0, _lodash.isEmpty)(result)) {
                 _next = "done";
                 res.json({ result: result, next: _next });
               } else {

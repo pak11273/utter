@@ -1,6 +1,6 @@
 import Course from "./course-model.js"
 import mongoose from "mongoose"
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")

@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 import faker from "faker"
 import cuid from "cuid"
-import isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 
 import Course from "./course-model.js"
 const ObjectId = mongoose.Types.ObjectId

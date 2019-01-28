@@ -1,4 +1,4 @@
-import _ from "lodash"
+import { cloneDeep } from "lodash"
 
 import {openModal} from "../../components/modals/actions.js"
 
@@ -16,7 +16,7 @@ export function showColorPicker(initialColor, onColorPickedAction) {
 export function colorSelected(color, actionToDispatch) {
   return dispatch => {
     if (actionToDispatch) {
-      const newAction = _.cloneDeep(actionToDispatch)
+      const newAction = cloneDeep(actionToDispatch)
       newAction.payload.color = color
 
       dispatch(newAction)

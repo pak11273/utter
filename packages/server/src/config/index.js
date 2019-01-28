@@ -1,6 +1,6 @@
 import dot from "dotenv"
 dot.config()
-import merge from "lodash/merge"
+import {merge} from "lodash"
 import chalk from "chalk"
 
 // if env not set, set it to default
