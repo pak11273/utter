@@ -56,17 +56,56 @@ input:-webkit-autofill {
 }
 
 /* Card Override */
+
 .ui.card {
 	min-width: 300px !important;
 	max-width: 300px !important;
 	margin: 0 auto;
 }
 
-@media (max-width: 969px) {
+@media only screen and (max-width: 991px) and (min-width: 768px) {
+	.ui.four.cards {
+		margin-left: calc(25%) !important;
+		margin-right: 0 !important;
+	}
+}
+
+@media (max-width: 768px) {
 	.ui .card {
 		margin: 1em auto !important;
 	}
 }
+
+@media (max-width: 1812px) {
+	.ui.four.cards {
+		margin-left: calc(10%);
+	}
+}
+
+@media (max-width: 1544px) {
+	.ui.four.cards {
+		margin-left: calc(17%);
+	}
+}
+
+@media (max-width: 1149px) {
+	.ui.four.cards {
+		margin-left: calc(8%);
+	}
+}
+
+@media (max-width: 1047px) {
+	.ui.four.cards {
+		margin-left: calc(2%);
+	}
+}
+
+@media (max-width: 1047px) {
+	.ui.four.cards {
+		margin-left: calc(25%);
+	}
+}
+
 
 /* Footer Override */
 .rt-td {

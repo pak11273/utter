@@ -24,7 +24,7 @@ import {
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-/* import "./styles.css" */
+import "./styles.css"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
@@ -193,7 +193,7 @@ class Courses extends Component {
               )
             }
             return (
-              <div style={{margin: "0 auto", justifyContent: "centered"}}>
+              <Grid.Column>
                 <Card.Group doubling stackable itemsPerRow={4}>
                   {data.getCourses.courses.map(course => (
                     <Card key={course.id} style={{width: "300px"}}>
@@ -236,7 +236,7 @@ class Courses extends Component {
                   ))}
                 </Card.Group>
                 {waypoint}
-              </div>
+              </Grid.Column>
             )
           }}
         </Query>
