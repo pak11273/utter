@@ -10,6 +10,7 @@ import update from "immutability-helper"
 import {store} from "../../store.js"
 import {
   Button as SemButton,
+  Container,
   Card,
   Grid,
   Header,
@@ -195,7 +196,7 @@ class Courses extends Component {
               <div style={{margin: "0 auto", justifyContent: "centered"}}>
                 <Card.Group doubling stackable itemsPerRow={4}>
                   {data.getCourses.courses.map(course => (
-                    <Card key={course.id}>
+                    <Card key={course.id} style={{width: "300px"}}>
                       <Image
                         src={`${course.courseImage}`}
                         style={{cursor: "pointer"}}
@@ -433,39 +434,39 @@ class CoursesContainer extends Component {
           <link rel="canonical" href="https://utter.zone/courses" />
         </Helmet>
         <Grid.Column width={4} style={{background: "LightGray"}}>
-          <Grid columns={1} centered padded="vertically">
-            <Grid.Column textAlign="center">
-              <Spacer margin="50px 0 0 0" />
-              <Item align="center">
-                <Header as="h2">I speak:</Header>
-                <Select
-                  name="form-field-name"
-                  value={this.state.usingLang}
-                  onChange={this.handleSpeakingChange}
-                  options={[
-                    {value: "english", label: "English"},
-                    {value: "spanish", label: "Spanish"},
-                    {value: "french", label: "French"}
-                  ]}
-                />
-                <Header as="h2">I want to learn:</Header>
-                <Select
-                  name="form-field-name"
-                  value={this.state.teachingLang}
-                  onChange={this.handleTeachingChange}
-                  options={[
-                    {value: "korean", label: "Korean"},
-                    {value: "english", label: "English"},
-                    {value: "spanish", label: "Spanish"},
-                    {value: "french", label: "French"}
-                  ]}
-                />
-                <div style={{margin: "40px 0 0 0"}}>
-                  <Link to="/courses/created">My Created Courses</Link>
-                </div>
-              </Item>
-            </Grid.Column>
-          </Grid>
+          <Container
+            textAlign="center"
+            style={{padding: "20px 20px 20px 30px"}}>
+            <Spacer margin="50px 0 0 0" />
+            <Item align="center">
+              <Header as="h2">I speak:</Header>
+              <Select
+                name="form-field-name"
+                value={this.state.usingLang}
+                onChange={this.handleSpeakingChange}
+                options={[
+                  {value: "english", label: "English"},
+                  {value: "spanish", label: "Spanish"},
+                  {value: "french", label: "French"}
+                ]}
+              />
+              <Header as="h2">I want to learn:</Header>
+              <Select
+                name="form-field-name"
+                value={this.state.teachingLang}
+                onChange={this.handleTeachingChange}
+                options={[
+                  {value: "korean", label: "Korean"},
+                  {value: "english", label: "English"},
+                  {value: "spanish", label: "Spanish"},
+                  {value: "french", label: "French"}
+                ]}
+              />
+              <div style={{margin: "40px 0 0 0"}}>
+                <Link to="/courses/created">My Created Courses</Link>
+              </div>
+            </Item>
+          </Container>
         </Grid.Column>
         <Grid.Column width={12}>
           <Grid columns={1} centered padded="vertically">
