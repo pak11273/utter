@@ -1,9 +1,9 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
-/* import {Can, Cant} from "../../../components" */
+/* import {Can} from "../../../components" */
 import schema from "../../../app/schema"
-/* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
+import ModalMgr from "../../../containers/modals/modal-mgr.js"
 /* import {history} from "@utterzone/connector" */
 import {Container, Header, Form, Segment} from "semantic-ui-react"
 import {Masthead} from "../../../containers"
@@ -35,13 +35,10 @@ class CourseSettings extends Component {
 
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
+    /* const {user} = this.props */
 
     return (
       <div>
-        {/* <Can
-        role={user.role}
-        perform="test:create"
-        yes={() => ( */}
         <Container>
           <Container>
             <Masthead padding="60px 20px 40px  20px">
@@ -60,7 +57,7 @@ class CourseSettings extends Component {
             </Helmet>
           </Container>
           <Form onSubmit={this.handleSubmit} style={{position: "relative"}}>
-            {/*  <ModalMgr /> */}
+            <ModalMgr />
             <Container style={{paddingBottom: "5em"}} text>
               <Header as="h2">General Settings</Header>
               <Header as="h4" attached="top" block />
@@ -246,10 +243,6 @@ class CourseSettings extends Component {
             </Container>
           </Form>
         </Container>
-        {/*
-        )}
-      />
-			*/}
       </div>
     )
   }

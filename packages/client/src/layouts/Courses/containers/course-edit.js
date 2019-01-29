@@ -9,7 +9,7 @@ import {
 /* import Select from "react-select" */
 import {cloneDeep} from "lodash"
 import {Helmet} from "react-helmet"
-import {Spacer} from "../../../components"
+import {Can, Spacer} from "../../../components"
 
 import {
   Grid,
@@ -63,7 +63,7 @@ class CourseEdit extends Component {
         render={props => <route.component {...props} routes={route.routes} />}
       />
     )
-    const {routes} = this.props
+    const {course, routes, user} = this.props
     return (
       <div>
         <Grid stackable>
@@ -99,12 +99,12 @@ class CourseEdit extends Component {
                       Introduction
                     </NavLink>
                   </Header>
-                  {/* <Can
+                  <Can
                     roles={user.roles}
                     perform="course:update"
                     username={user.username}
                     ownerId={course.courseAuthor.username}
-                    yes={() => ( 
+                    yes={() => (
                       <Header as="h2">
                         <NavLink
                           activeStyle={{
@@ -116,9 +116,9 @@ class CourseEdit extends Component {
                           Settings
                         </NavLink>
                       </Header>
-                    )} 
+                    )}
                     no={() => null}
-                  /> */}
+                  />
                   <Header as="h2">
                     <NavLink
                       activeStyle={{
