@@ -1,8 +1,13 @@
 import mongoose, {Schema} from "mongoose"
 import Test from "../test/test-model.js"
+import User from "../user/user-model.js"
 
 const TestSchema = mongoose.Schema(
   {
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "User"
+    },
     testId: {
       type: String,
       default: ""

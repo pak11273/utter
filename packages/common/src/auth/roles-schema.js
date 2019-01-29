@@ -14,6 +14,12 @@ const roles = {
     static: ["test:create"],
     dynamic: [
       {
+        "test:read": (id, ownerId) => {
+          if (!id || !ownerId) return false
+          return id === ownerId
+        }
+      },
+      {
         "test:trash": (id, ownerId) => {
           if (!id || !ownerId) return false
           return id === ownerId
@@ -40,14 +46,6 @@ const roles = {
         "course:delete": (username, courseAuthorUsername) => {
           if (!username || !courseAuthorUsername) return false
           return username === courseAuthorUsername
-        }
-      },
-      {
-        "test:trash": (id, ownerId) => {
-          console.log("id: ", typeof id)
-          console.log("ownerId: ", typeof ownerId)
-          if (!id || !ownerId) return false
-          return id === ownerId
         }
       }
     ]

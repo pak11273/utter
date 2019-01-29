@@ -9,6 +9,7 @@ import {history} from "@utterzone/connector"
 import {
   Button,
   Card,
+  Container,
   Grid,
   Header,
   Icon,
@@ -430,7 +431,9 @@ class ZonesContainer extends Component {
           <link rel="canonical" href="https://utter.zone/zones" />
         </Helmet>
         <Grid.Column width={4} style={{background: "LightGray"}}>
-          <Grid columns={1} centered padded="vertically">
+          <Container
+            textAlign="center"
+            style={{padding: "20px 20px 20px 30px"}}>
             <Grid.Column textAlign="center">
               <Spacer margin="50px 0 0 0" />
               <Item align="center">
@@ -489,7 +492,7 @@ class ZonesContainer extends Component {
                 </div>
               </Item>
             </Grid.Column>
-          </Grid>
+          </Container>
         </Grid.Column>
         <Grid.Column width={12}>
           <Grid columns={1} centered padded="vertically">

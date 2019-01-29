@@ -1,2 +1,0 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[34],{"II/P":function(o,p){o.exports=function(o,p){var t=function(){};t.prototype=p.prototype,o.prototype=new t,o.prototype.constructor=o}}}]);
-//# sourceMappingURL=bundle.npm.component-inherit.5d61bcd9f6fea8440acd.js.map

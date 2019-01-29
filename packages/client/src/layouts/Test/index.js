@@ -10,19 +10,22 @@ class Test extends Component {
       <div>
         <Query
           query={gql`
-            query todayDate {
-              today(format: "mmmm dd, yyyy")
+            query getTest($resourceId: String) {
+              getTest(resourceId: $resourceId) {
+                testName
+              }
             }
-          `}>
+          `}
+          variables={{resourceId: "5c48d596384cfb1bea427c9b"}}>
           {({loading, error, data}) => {
             if (loading) return <p>Loading...</p>
             if (error)
               return (
-                <p>
+                <pre>
                   {error.graphQLErrors.map(({message}, i) => (
                     <p
                       style={{
-                        fontSize: "1.3em",
+                        fontSize: "2em",
                         color: "red",
                         margin: "30px",
                         padding: "30px",
@@ -32,12 +35,13 @@ class Test extends Component {
                       {message}
                     </p>
                   ))}
-                </p>
+                </pre>
               )
 
             return (
               <div>
-                <p>{data.today}</p>
+                <h1>THIS IS A TEST</h1>
+                <p>{data.getTest.testName}</p>
               </div>
             )
           }}
