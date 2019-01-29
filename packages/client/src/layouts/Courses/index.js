@@ -7,7 +7,7 @@ import {isEmpty, cloneDeep} from "lodash"
 import Waypoint from "react-waypoint"
 import {Helmet} from "react-helmet"
 import update from "immutability-helper"
-import {store} from "../../store.js"
+/* import {store} from "../../store.js" */
 import {
   Button as SemButton,
   Container,
@@ -80,14 +80,15 @@ class Courses extends Component {
     this.setState(newState)
   }
 
-  handleImageClick = data => {
-    const payload = {}
-    payload.course = data
-    store.dispatch(loadData(payload))
+  /* handleImageClick = data => { */
+  handleImageClick = () => {
+    /* const payload = {} */
+    /* payload.course = data */
+    /* store.dispatch(loadData(payload)) */
 
     history.push({
-      pathname: "/course/course-introduction",
-      state: {data}
+      pathname: "/course/course-introduction"
+      /* state: {data} */
     })
   }
 

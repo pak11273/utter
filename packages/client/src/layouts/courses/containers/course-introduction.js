@@ -4,10 +4,9 @@ import Helmet from "react-helmet"
 import {withFormik} from "formik"
 import {courseSchema} from "@utterzone/common"
 import update from "immutability-helper"
-
 import schema from "../../../app/schema.js"
 /* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
-/* import {history} from "@utterzone/connector" */
+import {history} from "@utterzone/connector"
 import {
   Button,
   Container,
@@ -38,7 +37,6 @@ class CourseIntroduction extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-
     const newData = update(this.state, {
       courseName: {$set: this.props.course.courseName},
       courseDescription: {$set: this.props.course.courseDescription}
@@ -62,7 +60,7 @@ class CourseIntroduction extends Component {
   }
 
   render() {
-    const {user, course} = this.props
+    const {course, user} = this.props
 
     return (
       <Container>

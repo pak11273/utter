@@ -37,9 +37,11 @@ const check = (rules, roles, action, username, ownerId) => {
 
   var combinedDynamicPermissions = uniq(flatten(combinedDynamicRules))
 
-  const hasPermission = combinedDynamicPermissions.map(
-    obj => Object.keys(obj)[0]
-  )
+  const hasPermission = combinedDynamicPermissions.map(obj => {
+    if (obj) {
+      return Object.keys(obj)[0]
+    }
+  })
 
   if (hasPermission) {
     const permissionCondition = hasPermission.includes(action)
