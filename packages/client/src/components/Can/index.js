@@ -1,7 +1,9 @@
 import rules from "@utterzone/common/dist/auth/roles-schema"
 import {flatten, uniq} from "lodash"
 
-const check = (rules, roles, action, username, ownerId) => {
+const check = (rules, roles, action, id, matchingID) => {
+  console.log("id: ", id)
+  console.log("matchign: ", matchingID)
   if (!roles) roles = ["guest"]
   // Users without roles
   roles.map(role => {
@@ -62,13 +64,13 @@ const check = (rules, roles, action, username, ownerId) => {
       }
     })
 
-    return userHasRights(username, ownerId)
+    return userHasRights(id, matchingID)
   }
   return false
 }
 
 const Can = props =>
-  check(rules, props.roles, props.perform, props.username, props.ownerId)
+  check(rules, props.roles, props.perform, props.id, props.matchingID)
     ? props.yes()
     : props.no()
 

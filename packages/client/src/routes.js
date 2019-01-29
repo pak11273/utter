@@ -68,8 +68,8 @@ const getCourseCtrl = Loadable({
   loading: Loading
 })
 
-const getCourseEdit = Loadable({
-  loader: () => import("./layouts/courses/containers/course-edit.js"),
+const getCourseUpdate = Loadable({
+  loader: () => import("./layouts/courses/containers/course-update.js"),
   loading: Loading
 })
 
@@ -225,7 +225,7 @@ export const routes = [
     path: "/login"
   },
   {
-    component: requireAuth(getCourseEdit),
+    component: requireAuth(getCourseUpdate),
     exact: true,
     path: "/course/:id",
     routes: [

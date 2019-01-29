@@ -9,7 +9,7 @@ import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import styled from "styled-components"
 import "react-table/react-table.css"
-/* import CourseEdit from "./containers/course-edit.js" */
+/* import CourseUpdate from "./containers/course-update.js" */
 /* import requireAuth from "../../utils/requireAuth.js" */
 
 import {Column, Grid, Section, Subtitle} from "../../components"

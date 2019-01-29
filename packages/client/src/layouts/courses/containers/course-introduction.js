@@ -83,7 +83,7 @@ class CourseIntroduction extends Component {
         <Form onSubmit={this.handleSubmit} style={{position: "relative"}}>
           {/*  <ModalMgr /> */}
           <Container style={{paddingBottom: "5em"}} text>
-            <Header as="h2">General Introduction</Header>
+            <Header as="h2">General Information</Header>
             <Segment attached style={{border: "none !important"}}>
               <Input
                 name="courseName"
@@ -132,10 +132,8 @@ class CourseIntroduction extends Component {
           <Can
             roles={user.roles}
             perform="course:update"
-            data={{
-              username: user.username,
-              courseAuthorUsername: course.courseAuthor.username
-            }}
+            id={user.username}
+            matchingID={course.courseAuthor.username}
             yes={() => (
               <Container
                 style={{position: "relative", paddingBottom: "5em"}}

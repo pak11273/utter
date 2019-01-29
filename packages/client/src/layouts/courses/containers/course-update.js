@@ -42,7 +42,7 @@ const initialCoursesContainerState = {
   courseRef: ""
 }
 
-class CourseEdit extends Component {
+class CourseUpdate extends Component {
   locationName = this.props.path
 
   constructor(props) {
@@ -177,4 +177,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   null
-)(CourseEdit)
+)(CourseUpdate)

@@ -20,47 +20,48 @@ Object.defineProperty(exports, "__esModule", {
 
 /* @Dynamic scopes are scopes which need additional data to determine access. */
 
-/* Thes schema is only concerned with resources that need to be protected.  Therefore, all resources not specified here are considered public and anyone can view them.  The role "registeredUser" is given to everyone who signsup.  Protected resources have scopes in the (resource:action) format. */
+/* Thes schema is only concerned with resources that need to be protected.  Therefore, all resources not specified here are considered public and anyone can view them.  The role "registeredUser" is given to everyone who signs up.  Protected resources MUST be in (resource:action) format. */
 
 /*  Use hierarchy system: Ensure that no dynamic functions have the same permission functions, otherwise if a user has that roles with same functions, they will be run with @hasScope which will make multiple database calls */
 
+var matchID = function matchID(id, matchingID) {
+  if (!id || !matchingID) return false;
+  return id === matchingID;
+};
+
 var roles = {
   guest: {
-    static: ["home:read", "contact:read", "pricing:read", "login:read"]
+    static: [""]
   },
   test: {
-    static: ["test:create"],
+    static: [""],
     dynamic: [{
-      "test:read": function testRead(id, ownerId) {
-        if (!id || !ownerId) return false;
-        return id === ownerId;
+      "test:read": function testRead(id, matchingID) {
+        if (!id || !matchingID) return false;
+        return id === matchingID;
       }
     }, {
-      "test:trash": function testTrash(id, ownerId) {
-        if (!id || !ownerId) return false;
-        return id === ownerId;
+      "test:trash": function testTrash(id, matchingID) {
+        if (!id || !matchingID) return false;
+        return id === matchingID;
       }
     }]
   },
   registeredUser: {
-    static: ["course:read", "courses:create", "users:getSelf", "dashboard:read", "contact:read"],
+    static: [""],
     dynamic: [{
-      "course:update": function courseUpdate(username, courseAuthorUsername) {
-        if (!username || !courseAuthorUsername) return false;
-        return username === courseAuthorUsername;
-      }
+      "course:read": matchID
     }, {
-      "course:delete": function courseDelete(username, courseAuthorUsername) {
-        if (!username || !courseAuthorUsername) return false;
-        return username === courseAuthorUsername;
-      }
+      "course:update": matchID
+    }, {
+      "course:delete": matchID
     }]
   },
   admin: {
-    static: ["courses:create", "courses:update", "courses:delete", "users:get", "users:getSelf", "home:read", "dashboard:read"]
+    static: [""]
   },
   superAdmin: {
-    static: ["courses:create", "courses:update", "courses:delete", "users:get", "users:getSelf", "home:read", "dashboard:read"]
+    static: [""]
   }
 };
 
@@ -78,6 +79,7 @@ exports.default = _default2;
     return;
   }
 
+  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js");
   reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
   reactHotLoader.register(_default, "default", "src/auth/roles-schema.js");
   leaveModule(module);
@@ -95,6 +97,7 @@ exports.default = _default2;
     return;
   }
 
+  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js");
   reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
   reactHotLoader.register(_default2, "default", "src/auth/roles-schema.js");
   leaveModule(module);
