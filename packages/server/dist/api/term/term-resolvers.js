@@ -21,6 +21,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _lodash = require("lodash");
 
 var _mongoose = require("mongoose");
@@ -337,3 +349,49 @@ var courseResolvers = exports.courseResolvers = {
     }
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(courseResolvers, "courseResolvers", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(getTerm, "getTerm", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(deleteTerm, "deleteTerm", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(updateTerm, "updateTerm", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(courseCreate, "courseCreate", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(getCreatedTerms, "getCreatedTerms", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(getTerms, "getTerms", "src/api/term/term-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(courseResolvers, "courseResolvers", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(getTerm, "getTerm", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(deleteTerm, "deleteTerm", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(updateTerm, "updateTerm", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(courseCreate, "courseCreate", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(getCreatedTerms, "getCreatedTerms", "src/api/term/term-resolvers.js");
+  reactHotLoader.register(getTerms, "getTerms", "src/api/term/term-resolvers.js");
+  leaveModule(module);
+})();
+
+;

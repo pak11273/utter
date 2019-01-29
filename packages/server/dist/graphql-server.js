@@ -4,6 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _apolloServerExpress = require("apollo-server-express");
 
 var _graphqlImport = require("graphql-import");
@@ -99,7 +111,7 @@ ObjectId.prototype.valueOf = function () {
  * graphqlExpress will send the req object to all of our resolvers through the context object!
  */
 
-exports.default = new _apolloServerExpress.ApolloServer({
+var _default = new _apolloServerExpress.ApolloServer({
   introspection: true,
   playground: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? false : true,
 
@@ -117,3 +129,72 @@ exports.default = new _apolloServerExpress.ApolloServer({
     };
   }
 });
+
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(appSchema, "appSchema", "src/graphql-server.js");
+  reactHotLoader.register(courseSchema, "courseSchema", "src/graphql-server.js");
+  reactHotLoader.register(levelSchema, "levelSchema", "src/graphql-server.js");
+  reactHotLoader.register(termSchema, "termSchema", "src/graphql-server.js");
+  reactHotLoader.register(testSchema, "testSchema", "src/graphql-server.js");
+  reactHotLoader.register(userSchema, "userSchema", "src/graphql-server.js");
+  reactHotLoader.register(zoneSchema, "zoneSchema", "src/graphql-server.js");
+  reactHotLoader.register(appTypeDefs, "appTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(courseTypeDefs, "courseTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(levelTypeDefs, "levelTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(termTypeDefs, "termTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(testTypeDefs, "testTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(userTypeDefs, "userTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(zoneTypeDefs, "zoneTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(baseSchema, "baseSchema", "src/graphql-server.js");
+  reactHotLoader.register(schema, "schema", "src/graphql-server.js");
+  reactHotLoader.register(ObjectId, "ObjectId", "src/graphql-server.js");
+  reactHotLoader.register(_default, "default", "src/graphql-server.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(appSchema, "appSchema", "src/graphql-server.js");
+  reactHotLoader.register(courseSchema, "courseSchema", "src/graphql-server.js");
+  reactHotLoader.register(levelSchema, "levelSchema", "src/graphql-server.js");
+  reactHotLoader.register(termSchema, "termSchema", "src/graphql-server.js");
+  reactHotLoader.register(testSchema, "testSchema", "src/graphql-server.js");
+  reactHotLoader.register(userSchema, "userSchema", "src/graphql-server.js");
+  reactHotLoader.register(zoneSchema, "zoneSchema", "src/graphql-server.js");
+  reactHotLoader.register(appTypeDefs, "appTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(courseTypeDefs, "courseTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(levelTypeDefs, "levelTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(termTypeDefs, "termTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(testTypeDefs, "testTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(userTypeDefs, "userTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(zoneTypeDefs, "zoneTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(baseSchema, "baseSchema", "src/graphql-server.js");
+  reactHotLoader.register(schema, "schema", "src/graphql-server.js");
+  reactHotLoader.register(ObjectId, "ObjectId", "src/graphql-server.js");
+  reactHotLoader.register(_default2, "default", "src/graphql-server.js");
+  leaveModule(module);
+})();
+
+;

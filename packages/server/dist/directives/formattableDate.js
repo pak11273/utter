@@ -33,6 +33,18 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _apolloServer = require("apollo-server");
 
 var _graphql = require("graphql");
@@ -101,3 +113,36 @@ var FormattableDateDirective = exports.FormattableDateDirective = function (_Sch
   }]);
   return FormattableDateDirective;
 }(_apolloServer.SchemaDirectiveVisitor);
+
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(FormattableDateDirective, "FormattableDateDirective", "src/directives/formattableDate.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(FormattableDateDirective, "FormattableDateDirective", "src/directives/formattableDate.js");
+  leaveModule(module);
+})();
+
+;

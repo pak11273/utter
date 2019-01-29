@@ -1,5 +1,17 @@
 "use strict";
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _passport = require("passport");
 
 var _passport2 = _interopRequireDefault(_passport);
@@ -74,3 +86,35 @@ _passport2.default.use("local.login", new LocalStrategy({
     return done(null, user);
   });
 }));
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(LocalStrategy, "LocalStrategy", "src/passport/passport-local.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(LocalStrategy, "LocalStrategy", "src/passport/passport-local.js");
+  leaveModule(module);
+})();
+
+;

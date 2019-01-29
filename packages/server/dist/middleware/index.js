@@ -4,6 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _cors = require("cors");
 
 var _cors2 = _interopRequireDefault(_cors);
@@ -36,7 +48,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 require("dotenv").config();
 
-exports.default = function (app) {
+var _default = function _default(app) {
   app.use((0, _cors2.default)({
     credentials: true,
     origin: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? [
@@ -60,3 +72,38 @@ exports.default = function (app) {
     useNewUrlParser: true
   });
 };
+
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(_default, "default", "src/middleware/index.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(_default2, "default", "src/middleware/index.js");
+  leaveModule(module);
+})();
+
+;

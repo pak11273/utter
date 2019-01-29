@@ -4,6 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _userModel = require("../api/user/user-model");
 
 var _userModel2 = _interopRequireDefault(_userModel);
@@ -47,7 +59,7 @@ var options = {
 
 _mail.transporter.use("compile", (0, _nodemailerExpressHandlebars2.default)(options));
 
-exports.default = {
+var _default = {
   contactmail: function contactmail(req, res) {
     var data = {
       from: "utterzone11273@gmail.com",
@@ -178,3 +190,39 @@ exports.default = {
     });
   }
 };
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(options, "options", "src/mail/mail-ctrl.js");
+  reactHotLoader.register(_default, "default", "src/mail/mail-ctrl.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(options, "options", "src/mail/mail-ctrl.js");
+  reactHotLoader.register(_default2, "default", "src/mail/mail-ctrl.js");
+  leaveModule(module);
+})();
+
+;

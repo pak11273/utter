@@ -13,6 +13,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _testModel = require("./test-model.js");
 
 var _testModel2 = _interopRequireDefault(_testModel);
@@ -54,3 +66,37 @@ var testResolvers = exports.testResolvers = {
     getTest: getTest
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(testResolvers, "testResolvers", "src/api/test/test-resolvers.js");
+  reactHotLoader.register(getTest, "getTest", "src/api/test/test-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(testResolvers, "testResolvers", "src/api/test/test-resolvers.js");
+  reactHotLoader.register(getTest, "getTest", "src/api/test/test-resolvers.js");
+  leaveModule(module);
+})();
+
+;

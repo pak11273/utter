@@ -9,10 +9,6 @@ var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _typeof2 = require("babel-runtime/helpers/typeof");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -32,6 +28,18 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
 
 var _jsonwebtoken = require("jsonwebtoken");
 
@@ -65,6 +73,10 @@ var _termModel = require("../../api/term/term-model.js");
 
 var _termModel2 = _interopRequireDefault(_termModel);
 
+var _testModel = require("../../api/test/test-model.js");
+
+var _testModel2 = _interopRequireDefault(_testModel);
+
 var _zoneModel = require("../../api/zone/zone-model.js");
 
 var _zoneModel2 = _interopRequireDefault(_zoneModel);
@@ -72,6 +84,13 @@ var _zoneModel2 = _interopRequireDefault(_zoneModel);
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// register resources
+
+
+// resources
+/* import { AuthorizationError } from "./errors"; */
+var resources = [{ user: _userModel2.default }, { course: _courseModel2.default }, { level: _levelModel2.default }, { term: _termModel2.default }, { test: _testModel2.default }, { zone: _zoneModel2.default }];
 
 var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVisit) {
   (0, _inherits3.default)(hasScopeDirective, _SchemaDirectiveVisit);
@@ -93,22 +112,21 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
         if (haystack.indexOf(needle[i]) === -1) return false;
       }
       return true;
-    }, _this.reducePermissions = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(rules, user, expectedScope) {
-        var roles, hasDynamicPermissions, hasStaticPermissions, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, resourceId, passPermissionsArr;
+    }, _this.hasPermission = function () {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(rules, user, resourceId, expectedScope) {
+        var roles, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, key, modelSlice, modelName, Model;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.prev = 0;
                 roles = user.roles;
-                hasDynamicPermissions = false;
-                hasStaticPermissions = false;
 
                 // Users without roles get "guest" applied
 
                 if (!roles) roles = ["guest"];
 
-                // Flatten all dynamic rules
+                // Flatten all dynamic rules of the user
                 dynamicRules = [];
 
                 roles.map(function (role) {
@@ -117,13 +135,13 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                   }
                 });
 
-                combinedDynamicRules = (0, _lodash.uniq)((0, _lodash.flatten)(dynamicRules));
+                combinedDynamicRules = (0, _lodash.flatten)(dynamicRules);
 
                 // Array of Keys for combinedDynamicRules
 
-                dynamicKeys = combinedDynamicRules.map(function (obj) {
+                dynamicKeys = (0, _lodash.uniq)(combinedDynamicRules.map(function (obj) {
                   return Object.keys(obj)[0];
-                });
+                }));
 
                 // Static rules setup,flattened all user's static permissions
 
@@ -138,85 +156,56 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
 
                 // See if user's roles has the permissions from expectedScope
 
-                containsPermission = _this.arrayContainsAnotherArray(expectedScope, allPermissions);
+                containsPermission = allPermissions.includes(expectedScope);
+
+                // This is where we resolve dynamic permissions
 
                 if (!containsPermission) {
-                  _context.next = 24;
+                  _context.next = 23;
                   break;
                 }
 
                 userId = user._id;
-                resourceId = "Test";
-                passPermissionsArr = [];
-                _context.next = 19;
-                return expectedScope.map(function (scope) {
-                  if (dynamicKeys.indexOf(scope) > -1) {
-                    roles.map(function (role) {
-                      rules[role].dynamic.map(function (obj) {
-                        var objName = Object.getOwnPropertyNames(obj)[0];
-                        var modelSlice = objName.slice(0, objName.indexOf(":"));
-                        var modelName = modelSlice[0].toUpperCase() + modelSlice.slice(1);
 
-                        if (obj.hasOwnProperty(scope)) {
-                          // make db call then
-                          /* const resourceId = null */
-                          _courseModel2.default.findOne({ courseAuthor: userId }, function (err, doc) {
-                            if (doc) {
-                              var ownerId = doc.courseAuthor;
-                              console.log("props: ", userId.toObject());
-                              console.log("id: ", typeof userId === "undefined" ? "undefined" : (0, _typeof3.default)(userId));
-                              console.log("ownerId: ", typeof ownerId === "undefined" ? "undefined" : (0, _typeof3.default)(ownerId));
-                              console.log(userId === ownerId);
-                              console.log("funct: ", obj[scope]);
-                              passPermissionsArr.push(obj[scope](userId, ownerId));
-                              console.log("array: ", passPermissionsArr);
-                            }
-                          });
-                        }
-                      });
-                    });
-                  }
+                // Go through user dynamic permissions
+
+                key = dynamicKeys.find(function (ele) {
+                  if (ele === expectedScope) return ele;
                 });
+                modelSlice = key.slice(0, key.indexOf(":"));
+                modelName = modelSlice[0] + modelSlice.slice(1);
+                Model = resources.find(function (obj) {
+                  return Object.keys(obj)[0] === modelName;
+                });
+                // make db call
 
-              case 19:
+                _context.next = 20;
+                return Model[modelName].findById(resourceId);
 
-                console.log("arry: ", passPermissionsArr);
+              case 20:
+                return _context.abrupt("return", _context.sent);
 
-                if (!passPermissionsArr.includes(false)) {
-                  _context.next = 22;
-                  break;
-                }
-
-                return _context.abrupt("return", false);
-
-              case 22:
-                if (!passPermissionsArr.includes(true)) {
-                  _context.next = 24;
-                  break;
-                }
-
-                return _context.abrupt("return", true);
+              case 23:
+                return _context.abrupt("return", new Error("You do not have sufficient permissions for this resource."));
 
               case 24:
-                if (!containsPermission) {
-                  _context.next = 28;
-                  break;
-                }
+                _context.next = 29;
+                break;
 
-                return _context.abrupt("return", true);
-
-              case 28:
-                return _context.abrupt("return", false);
+              case 26:
+                _context.prev = 26;
+                _context.t0 = _context["catch"](0);
+                return _context.abrupt("return", _context.t0);
 
               case 29:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2);
+        }, _callee, _this2, [[0, 26]]);
       }));
 
-      return function (_x, _x2, _x3) {
+      return function (_x, _x2, _x3, _x4) {
         return _ref2.apply(this, arguments);
       };
     }(), _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
@@ -227,7 +216,7 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
     value: function visitFieldDefinition(field) {
       var _this3 = this;
 
-      var expectedScope = this.args.scopes;
+      var expectedScope = this.args.scope;
       var _field$resolve = field.resolve,
           resolve = _field$resolve === undefined ? _graphql.defaultFieldResolver : _field$resolve;
 
@@ -238,56 +227,79 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
             args[_key2] = arguments[_key2];
           }
 
-          var token, user, thing;
+          var resourceId, token, user, Resource;
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
+                  resourceId = args[1].resourceId;
                   token = args[2].req.headers.authorization;
 
                   if (!(token === "null")) {
-                    _context2.next = 3;
+                    _context2.next = 4;
                     break;
                   }
 
                   return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
 
-                case 3:
-                  _context2.prev = 3;
-                  _context2.next = 6;
+                case 4:
+                  _context2.prev = 4;
+                  _context2.next = 7;
                   return (0, _resolverFunctions.userByToken)(token, function (err, res) {
                     if (err) return err;
                     return res;
                   });
 
-                case 6:
+                case 7:
                   user = _context2.sent;
 
                   if (!(user.name === "JsonWebTokenError")) {
-                    _context2.next = 9;
+                    _context2.next = 10;
                     break;
                   }
 
                   throw new Error("Please be aware.  Due to suspicious activities, we are monitoring actions from your ip now.");
 
-                case 9:
-                  thing = _this3.reducePermissions(_rolesSchema2.default, user, expectedScope);
+                case 10:
+                  _context2.next = 12;
+                  return _this3.hasPermission(_rolesSchema2.default, user, resourceId, expectedScope);
 
-                  /*   /1*  if (!requiredScope) { *1/ */
+                case 12:
+                  Resource = _context2.sent;
+
+                  if (Resource.owner) {
+                    _context2.next = 15;
+                    break;
+                  }
+
+                  return _context2.abrupt("return", Resource);
+
+                case 15:
+                  if (!(JSON.stringify(Resource.owner) === JSON.stringify(user._id))) {
+                    _context2.next = 19;
+                    break;
+                  }
 
                   return _context2.abrupt("return", resolve.apply(_this3, args));
 
-                case 13:
-                  _context2.prev = 13;
-                  _context2.t0 = _context2["catch"](3);
+                case 19:
+                  return _context2.abrupt("return", new Error("You don't have sufficient privileges for this resource."));
+
+                case 20:
+                  _context2.next = 25;
+                  break;
+
+                case 22:
+                  _context2.prev = 22;
+                  _context2.t0 = _context2["catch"](4);
                   return _context2.abrupt("return", _context2.t0);
 
-                case 16:
+                case 25:
                 case "end":
                   return _context2.stop();
               }
             }
-          }, _callee2, _this3, [[3, 13]]);
+          }, _callee2, _this3, [[4, 22]]);
         }));
 
         return function () {
@@ -299,5 +311,37 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
   return hasScopeDirective;
 }(_apolloServer.SchemaDirectiveVisitor);
 
-// resources
-/* import { AuthorizationError } from "./errors"; */
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(hasScopeDirective, "hasScopeDirective", "src/directives/auth/auth-has-scope.js");
+  reactHotLoader.register(resources, "resources", "src/directives/auth/auth-has-scope.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(hasScopeDirective, "hasScopeDirective", "src/directives/auth/auth-has-scope.js");
+  reactHotLoader.register(resources, "resources", "src/directives/auth/auth-has-scope.js");
+  leaveModule(module);
+})();
+
+;

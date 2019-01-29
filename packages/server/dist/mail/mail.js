@@ -5,6 +5,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sendForgotPasswordEmail = exports.sendConfirmEmail = exports.transporter = undefined;
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _nodemailer = require("nodemailer");
 
 var _nodemailer2 = _interopRequireDefault(_nodemailer);
@@ -83,3 +95,41 @@ var sendForgotPasswordEmail = exports.sendForgotPasswordEmail = function sendFor
     }
   });
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(transporter, "transporter", "src/mail/mail.js");
+  reactHotLoader.register(sendConfirmEmail, "sendConfirmEmail", "src/mail/mail.js");
+  reactHotLoader.register(sendForgotPasswordEmail, "sendForgotPasswordEmail", "src/mail/mail.js");
+  reactHotLoader.register(options, "options", "src/mail/mail.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(transporter, "transporter", "src/mail/mail.js");
+  reactHotLoader.register(sendConfirmEmail, "sendConfirmEmail", "src/mail/mail.js");
+  reactHotLoader.register(sendForgotPasswordEmail, "sendForgotPasswordEmail", "src/mail/mail.js");
+  reactHotLoader.register(options, "options", "src/mail/mail.js");
+  leaveModule(module);
+})();
+
+;

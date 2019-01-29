@@ -17,6 +17,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _lodash = require("lodash");
 
 var _config = require("../../config");
@@ -415,3 +427,51 @@ var courseResolvers = exports.courseResolvers = {
     }
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(courseResolvers, "courseResolvers", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCourse, "getCourse", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(courseDelete, "courseDelete", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(courseUpdate, "courseUpdate", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(courseCreate, "courseCreate", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCourseLevels, "getCourseLevels", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCreatedCourses, "getCreatedCourses", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCourses, "getCourses", "src/api/course/course-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(courseResolvers, "courseResolvers", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCourse, "getCourse", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(courseDelete, "courseDelete", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(courseUpdate, "courseUpdate", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(courseCreate, "courseCreate", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCourseLevels, "getCourseLevels", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCreatedCourses, "getCreatedCourses", "src/api/course/course-resolvers.js");
+  reactHotLoader.register(getCourses, "getCourses", "src/api/course/course-resolvers.js");
+  leaveModule(module);
+})();
+
+;

@@ -14,6 +14,18 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _arguments = arguments;
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
@@ -36,7 +48,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ObjectId = _mongoose2.default.Types.ObjectId;
 
-exports.default = {
+var _default = {
   get: function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res, next) {
       var limit, query, courseAuthor, prePopResult, result, totalRecords, _next, lastResultId;
@@ -421,3 +433,39 @@ exports.default = {
     );
   }
 };
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(ObjectId, "ObjectId", "src/api/course/course-ctrl.js");
+  reactHotLoader.register(_default, "default", "src/api/course/course-ctrl.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(ObjectId, "ObjectId", "src/api/course/course-ctrl.js");
+  reactHotLoader.register(_default2, "default", "src/api/course/course-ctrl.js");
+  leaveModule(module);
+})();
+
+;

@@ -21,6 +21,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _lodash = require("lodash");
 
 var _mongoose = require("mongoose");
@@ -364,3 +376,51 @@ var appResolvers = exports.appResolvers = {
     }
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(appResolvers, "appResolvers", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getApp, "getApp", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(appDelete, "appDelete", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(appUpdate, "appUpdate", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(appCreate, "appCreate", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getAppLevels, "getAppLevels", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getCreatedApps, "getCreatedApps", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getApps, "getApps", "src/api/app/app-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(appResolvers, "appResolvers", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getApp, "getApp", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(appDelete, "appDelete", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(appUpdate, "appUpdate", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(appCreate, "appCreate", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getAppLevels, "getAppLevels", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getCreatedApps, "getCreatedApps", "src/api/app/app-resolvers.js");
+  reactHotLoader.register(getApps, "getApps", "src/api/app/app-resolvers.js");
+  leaveModule(module);
+})();
+
+;

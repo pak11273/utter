@@ -5,6 +5,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.signToken = exports.authenticate = exports.verifyUser = exports.getFreshUser = exports.hydrateUser = exports.decodeToken = exports.getUserFromJwt = undefined;
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _jsonwebtoken = require("jsonwebtoken");
 
 var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
@@ -147,3 +159,47 @@ var authenticate = exports.authenticate = function authenticate(req, res, next) 
 var signToken = exports.signToken = function signToken(id) {
   return _jsonwebtoken2.default.sign({ _id: id }, _config2.default.env.JWT);
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(getUserFromJwt, "getUserFromJwt", "src/auth/index.js");
+  reactHotLoader.register(decodeToken, "decodeToken", "src/auth/index.js");
+  reactHotLoader.register(hydrateUser, "hydrateUser", "src/auth/index.js");
+  reactHotLoader.register(getFreshUser, "getFreshUser", "src/auth/index.js");
+  reactHotLoader.register(verifyUser, "verifyUser", "src/auth/index.js");
+  reactHotLoader.register(authenticate, "authenticate", "src/auth/index.js");
+  reactHotLoader.register(signToken, "signToken", "src/auth/index.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(getUserFromJwt, "getUserFromJwt", "src/auth/index.js");
+  reactHotLoader.register(decodeToken, "decodeToken", "src/auth/index.js");
+  reactHotLoader.register(hydrateUser, "hydrateUser", "src/auth/index.js");
+  reactHotLoader.register(getFreshUser, "getFreshUser", "src/auth/index.js");
+  reactHotLoader.register(verifyUser, "verifyUser", "src/auth/index.js");
+  reactHotLoader.register(authenticate, "authenticate", "src/auth/index.js");
+  reactHotLoader.register(signToken, "signToken", "src/auth/index.js");
+  leaveModule(module);
+})();
+
+;

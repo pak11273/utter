@@ -13,6 +13,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var forgotPasswordLockAccount = exports.forgotPasswordLockAccount = function () {
@@ -36,3 +48,35 @@ var forgotPasswordLockAccount = exports.forgotPasswordLockAccount = function () 
     return _ref.apply(this, arguments);
   };
 }();
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(forgotPasswordLockAccount, "forgotPasswordLockAccount", "src/utils/lock-account.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(forgotPasswordLockAccount, "forgotPasswordLockAccount", "src/utils/lock-account.js");
+  leaveModule(module);
+})();
+
+;

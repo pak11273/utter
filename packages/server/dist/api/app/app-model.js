@@ -4,6 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
@@ -55,4 +67,41 @@ AppSchema.set("toJSON", {
   virtuals: true
 });
 
-exports.default = _mongoose2.default.model("App", AppSchema);
+var _default = _mongoose2.default.model("App", AppSchema);
+
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(AppSchema, "AppSchema", "src/api/app/app-model.js");
+  reactHotLoader.register(_default, "default", "src/api/app/app-model.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(AppSchema, "AppSchema", "src/api/app/app-model.js");
+  reactHotLoader.register(_default2, "default", "src/api/app/app-model.js");
+  leaveModule(module);
+})();
+
+;

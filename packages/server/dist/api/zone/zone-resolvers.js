@@ -21,6 +21,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _lodash = require("lodash");
 
 var _mongoose = require("mongoose");
@@ -363,3 +375,51 @@ var zoneResolvers = exports.zoneResolvers = {
     }
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(zoneResolvers, "zoneResolvers", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getZone, "getZone", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(zoneDelete, "zoneDelete", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(zoneUpdate, "zoneUpdate", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(zoneCreate, "zoneCreate", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getZoneLevels, "getZoneLevels", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getCreatedZones, "getCreatedZones", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getZones, "getZones", "src/api/zone/zone-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(zoneResolvers, "zoneResolvers", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getZone, "getZone", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(zoneDelete, "zoneDelete", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(zoneUpdate, "zoneUpdate", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(zoneCreate, "zoneCreate", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getZoneLevels, "getZoneLevels", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getCreatedZones, "getCreatedZones", "src/api/zone/zone-resolvers.js");
+  reactHotLoader.register(getZones, "getZones", "src/api/zone/zone-resolvers.js");
+  leaveModule(module);
+})();
+
+;

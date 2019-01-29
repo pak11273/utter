@@ -21,6 +21,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _lodash = require("lodash");
 
 var _mongoose = require("mongoose");
@@ -227,3 +239,45 @@ var levelResolvers = exports.levelResolvers = {
     }
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(levelResolvers, "levelResolvers", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(deleteLevel, "deleteLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(updateLevel, "updateLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(levelCreate, "levelCreate", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(getCreatedLevels, "getCreatedLevels", "src/api/level/level-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(levelResolvers, "levelResolvers", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(deleteLevel, "deleteLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(updateLevel, "updateLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(levelCreate, "levelCreate", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(getCreatedLevels, "getCreatedLevels", "src/api/level/level-resolvers.js");
+  leaveModule(module);
+})();
+
+;

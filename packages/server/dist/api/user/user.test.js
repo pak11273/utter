@@ -8,6 +8,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _ioredis = require("ioredis");
 
 var _ioredis2 = _interopRequireDefault(_ioredis);
@@ -273,3 +285,51 @@ try {
 } catch (err) {
   console.log("err: ", err);
 }
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(userId, "userId", "src/api/user/user.test.js");
+  reactHotLoader.register(redis, "redis", "src/api/user/user.test.js");
+  reactHotLoader.register(email, "email", "src/api/user/user.test.js");
+  reactHotLoader.register(username, "username", "src/api/user/user.test.js");
+  reactHotLoader.register(password, "password", "src/api/user/user.test.js");
+  reactHotLoader.register(newPassword, "newPassword", "src/api/user/user.test.js");
+  reactHotLoader.register(signupMutation, "signupMutation", "src/api/user/user.test.js");
+  reactHotLoader.register(loginMutation, "loginMutation", "src/api/user/user.test.js");
+  reactHotLoader.register(forgotPasswordMutation, "forgotPasswordMutation", "src/api/user/user.test.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(userId, "userId", "src/api/user/user.test.js");
+  reactHotLoader.register(redis, "redis", "src/api/user/user.test.js");
+  reactHotLoader.register(email, "email", "src/api/user/user.test.js");
+  reactHotLoader.register(username, "username", "src/api/user/user.test.js");
+  reactHotLoader.register(password, "password", "src/api/user/user.test.js");
+  reactHotLoader.register(newPassword, "newPassword", "src/api/user/user.test.js");
+  reactHotLoader.register(signupMutation, "signupMutation", "src/api/user/user.test.js");
+  reactHotLoader.register(loginMutation, "loginMutation", "src/api/user/user.test.js");
+  reactHotLoader.register(forgotPasswordMutation, "forgotPasswordMutation", "src/api/user/user.test.js");
+  leaveModule(module);
+})();
+
+;

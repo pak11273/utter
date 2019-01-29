@@ -13,6 +13,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _chalk = require("chalk");
 
 var _chalk2 = _interopRequireDefault(_chalk);
@@ -135,3 +147,37 @@ var forgotPasswordEmail = exports.forgotPasswordEmail = function () {
     return _ref2.apply(this, arguments);
   };
 }();
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(confirmationEmail, "confirmationEmail", "src/api/user/user-ctrl.js");
+  reactHotLoader.register(forgotPasswordEmail, "forgotPasswordEmail", "src/api/user/user-ctrl.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(confirmationEmail, "confirmationEmail", "src/api/user/user-ctrl.js");
+  reactHotLoader.register(forgotPasswordEmail, "forgotPasswordEmail", "src/api/user/user-ctrl.js");
+  leaveModule(module);
+})();
+
+;

@@ -11,6 +11,18 @@ var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _ref;
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
@@ -58,4 +70,41 @@ TermSchema.set("toJSON", {
   virtuals: true
 });
 
-exports.default = _mongoose2.default.model("Term", TermSchema);
+var _default = _mongoose2.default.model("Term", TermSchema);
+
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(TermSchema, "TermSchema", "src/api/term/term-model.js");
+  reactHotLoader.register(_default, "default", "src/api/term/term-model.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(TermSchema, "TermSchema", "src/api/term/term-model.js");
+  reactHotLoader.register(_default2, "default", "src/api/term/term-model.js");
+  leaveModule(module);
+})();
+
+;

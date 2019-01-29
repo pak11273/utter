@@ -29,6 +29,18 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _apolloServer = require("apollo-server");
 
 var _jsonwebtoken = require("jsonwebtoken");
@@ -168,3 +180,36 @@ var AuthDirective = exports.AuthDirective = function (_SchemaDirectiveVisit) {
   }]);
   return AuthDirective;
 }(_apolloServer.SchemaDirectiveVisitor);
+
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(AuthDirective, "AuthDirective", "src/directives/auth/auth-directive.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(AuthDirective, "AuthDirective", "src/directives/auth/auth-directive.js");
+  leaveModule(module);
+})();
+
+;

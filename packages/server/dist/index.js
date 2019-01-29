@@ -1,5 +1,17 @@
 "use strict";
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _chalk = require("chalk");
 
 var _chalk2 = _interopRequireDefault(_chalk);
@@ -72,3 +84,41 @@ server.listen(_config2.default.port, function () {
   console.log(_chalk2.default.white.bgMagenta.bold("listening on port ") + " " + _chalk2.default.greenBright.bold(_config2.default.port));
   console.log(_chalk2.default.white.bgGreen.bold("GraphQL Path ") + " " + _chalk2.default.greenBright.bold(_graphqlServer2.default.graphqlPath));
 });
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(server, "server", "src/index.js");
+  reactHotLoader.register(socketio, "socketio", "src/index.js");
+  reactHotLoader.register(currentApp, "currentApp", "src/index.js");
+  reactHotLoader.register(env, "env", "src/index.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(server, "server", "src/index.js");
+  reactHotLoader.register(socketio, "socketio", "src/index.js");
+  reactHotLoader.register(currentApp, "currentApp", "src/index.js");
+  reactHotLoader.register(env, "env", "src/index.js");
+  leaveModule(module);
+})();
+
+;

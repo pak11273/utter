@@ -13,6 +13,18 @@ var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _chalk = require("chalk");
 
 var _chalk2 = _interopRequireDefault(_chalk);
@@ -533,3 +545,53 @@ var userResolvers = exports.userResolvers = {
     updateMe: updateMe
   }
 };
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(isAsync, "isAsync", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(userResolvers, "userResolvers", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(changePassword, "changePassword", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(signup, "signup", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(login, "login", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getUserByToken, "getUserByToken", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getUserById, "getUserById", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getUserByUsername, "getUserByUsername", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(forgotPassword, "forgotPassword", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(updateMe, "updateMe", "src/api/user/user-resolvers.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(isAsync, "isAsync", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(userResolvers, "userResolvers", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(changePassword, "changePassword", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(signup, "signup", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(login, "login", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getUserByToken, "getUserByToken", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getUserById, "getUserById", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getUserByUsername, "getUserByUsername", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(forgotPassword, "forgotPassword", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(updateMe, "updateMe", "src/api/user/user-resolvers.js");
+  leaveModule(module);
+})();
+
+;

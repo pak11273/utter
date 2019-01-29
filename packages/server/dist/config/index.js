@@ -4,6 +4,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
+
+  enterModule && enterModule(module);
+})();
+
 var _dotenv = require("dotenv");
 
 var _dotenv2 = _interopRequireDefault(_dotenv);
@@ -57,4 +69,46 @@ switch (env) {
 }
 
 // merge the two objects and export it so our app can use it
-exports.default = (0, _lodash.merge)(baseConfig, envConfig || {});
+
+var _default = (0, _lodash.merge)(baseConfig, envConfig || {});
+
+var _default2 = _default;
+exports.default = _default2;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(env, "env", "src/config/index.js");
+  reactHotLoader.register(baseConfig, "baseConfig", "src/config/index.js");
+  reactHotLoader.register(envConfig, "envConfig", "src/config/index.js");
+  reactHotLoader.register(_default, "default", "src/config/index.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(env, "env", "src/config/index.js");
+  reactHotLoader.register(baseConfig, "baseConfig", "src/config/index.js");
+  reactHotLoader.register(envConfig, "envConfig", "src/config/index.js");
+  reactHotLoader.register(_default2, "default", "src/config/index.js");
+  leaveModule(module);
+})();
+
+;
