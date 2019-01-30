@@ -101,7 +101,7 @@ class CourseUpdate extends Component {
                   </Header>
                   <Can
                     roles={user.roles}
-                    perform="course:update"
+                    perform="course:update-settings"
                     username={user.username}
                     ownerId={course.courseAuthor.username}
                     yes={() => (

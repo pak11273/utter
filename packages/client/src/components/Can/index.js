@@ -2,8 +2,6 @@ import rules from "@utterzone/common/dist/auth/roles-schema"
 import {flatten, uniq} from "lodash"
 
 const check = (rules, roles, action, id, matchingID) => {
-  console.log("id: ", id)
-  console.log("matchign: ", matchingID)
   if (!roles) roles = ["guest"]
   // Users without roles
   roles.map(role => {

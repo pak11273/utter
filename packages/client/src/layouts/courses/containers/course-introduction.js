@@ -5,7 +5,6 @@ import {withFormik} from "formik"
 import {courseSchema} from "@utterzone/common"
 import update from "immutability-helper"
 import schema from "../../../app/schema.js"
-/* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 import {history} from "@utterzone/connector"
 import {
   Button,
@@ -32,7 +31,8 @@ class CourseIntroduction extends Component {
     submittedName: "",
     submittedEmail: "",
     courseName: "",
-    courseDescription: ""
+    courseDescription: "",
+    disabled: true
   }
 
   componentDidMount() {
@@ -41,7 +41,14 @@ class CourseIntroduction extends Component {
       courseName: {$set: this.props.course.courseName},
       courseDescription: {$set: this.props.course.courseDescription}
     })
+
     this.setState(newData)
+
+    if (this.props.user.username === this.props.course.courseAuthor.username) {
+      this.setState({
+        disabled: false
+      })
+    }
   }
 
   handleChange = e => {
@@ -61,7 +68,6 @@ class CourseIntroduction extends Component {
 
   render() {
     const {course, user} = this.props
-
     return (
       <Container>
         <Container>
@@ -81,7 +87,6 @@ class CourseIntroduction extends Component {
           </Helmet>
         </Container>
         <Form onSubmit={this.handleSubmit} style={{position: "relative"}}>
-          {/*  <ModalMgr /> */}
           <Container style={{paddingBottom: "5em"}} text>
             <Header as="h2">General Information</Header>
             <Segment attached style={{border: "none !important"}}>
@@ -91,6 +96,7 @@ class CourseIntroduction extends Component {
                 onChange={this.handleChange}
                 type="text"
                 className="input-editable input-header"
+                disabled={this.state.disabled}
                 style={{border: "none !important"}}
                 fluid
               />
@@ -102,6 +108,7 @@ class CourseIntroduction extends Component {
                 onChange={this.handleChange}
                 type="text"
                 className="input-editable"
+                disabled={this.state.disabled}
               />
             </Segment>
             <Segment textAlign="right" attached>
@@ -109,29 +116,39 @@ class CourseIntroduction extends Component {
             </Segment>
             <Header as="h4" attached="bottom" block />
           </Container>
-          <Container style={{paddingBottom: "5em"}} text>
-            <Header as="h2">Course Thumbnail</Header>
+          <Can
+            roles={user.roles}
+            perform="course:update"
+            id={user.username}
+            matchingID={course.courseAuthor.username}
+            yes={() => (
+              <Container style={{paddingBottom: "5em"}} text>
+                <Header as="h2">Course Thumbnail</Header>
 
-            <Header as="h4" attached="top" block />
-            <Segment
-              style={{display: "flex", justifyContent: "center"}}
-              attached>
-              <Image src={course.courseImage} />
-            </Segment>
-            <Header as="h4" attached="bottom" block />
-          </Container>
+                <Header as="h4" attached="top" block />
+                <Segment
+                  style={{display: "flex", justifyContent: "center"}}
+                  attached>
+                  <Image src={course.courseImage} />
+                </Segment>
+                <Header as="h4" attached="bottom" block />
+              </Container>
+            )}
+            no={() => null}
+          />
+
           <Container style={{paddingBottom: "5em"}} text>
             <Header as="h2">Stats</Header>
             <Header as="h4" attached="top" block />
-            <Segment attached>Course Author</Segment>
-            <Segment attached>Levels</Segment>
-            <Segment attached>Subscribers</Segment>
-            <Segment attached>Reviews</Segment>
+            <Segment attached>
+              Course Author:{" "}
+              <em style={{fontWeight: 900}}>{course.courseAuthor.username}</em>
+            </Segment>
             <Header as="h4" attached="bottom" block />
           </Container>
           <Can
             roles={user.roles}
-            perform="course:update"
+            perform="course:update-introduction"
             id={user.username}
             matchingID={course.courseAuthor.username}
             yes={() => (

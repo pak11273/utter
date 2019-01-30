@@ -50,9 +50,11 @@ var roles = {
   registeredUser: {
     static: [""],
     dynamic: [{
-      "course:read": matchID
+      "course:update-introduction": matchID
     }, {
-      "course:update": matchID
+      "course:read-settings": matchID
+    }, {
+      "course:update-settings": matchID
     }, {
       "course:delete": matchID
     }]
