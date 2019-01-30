@@ -138,7 +138,7 @@ class CourseIntroduction extends Component {
           />
 
           <Container style={{paddingBottom: "5em"}} text>
-            <Header as="h2">Stats</Header>
+            <Header as="h2">Meta</Header>
             <Header as="h4" attached="top" block />
             <Segment attached>
               Course Author:{" "}

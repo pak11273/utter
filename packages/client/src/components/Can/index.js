@@ -37,22 +37,22 @@ const check = (rules, roles, action, id, matchingID) => {
 
   var combinedDynamicPermissions = uniq(flatten(combinedDynamicRules))
 
-  const hasPermission = combinedDynamicPermissions.map(obj => {
+  const dynamicKeys = combinedDynamicPermissions.map(obj => {
     if (obj) {
       return Object.keys(obj)[0]
     }
   })
 
-  if (hasPermission) {
-    const permissionCondition = hasPermission.includes(action)
+  if (dynamicKeys) {
+    const permissionCondition = dynamicKeys.includes(action)
     if (!permissionCondition) {
       return false
     }
 
-    const keys = Object.keys(rules)
+    const roleKeys = Object.keys(rules)
 
     var userHasRights = null
-    keys.map(role => {
+    roleKeys.map(role => {
       if (rules[role].hasOwnProperty("dynamic")) {
         rules[role].dynamic.map(func => {
           if (func.hasOwnProperty(action)) {

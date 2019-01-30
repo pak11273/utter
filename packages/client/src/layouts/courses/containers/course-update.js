@@ -102,8 +102,8 @@ class CourseUpdate extends Component {
                   <Can
                     roles={user.roles}
                     perform="course:update-settings"
-                    username={user.username}
-                    ownerId={course.courseAuthor.username}
+                    id={user.username}
+                    matchingID={course.courseAuthor.username}
                     yes={() => (
                       <Header as="h2">
                         <NavLink
