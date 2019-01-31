@@ -31,12 +31,16 @@ var _levelModel = require("../level/level-model.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ZoneSchema = _mongoose2.default.Schema({
+  ageGroup: {
+    type: String,
+    default: "Any age"
+  },
   zoneName: {
     type: String,
     default: "",
     required: [true, "can't be blank"]
   },
-  zoneAuthor: {
+  owner: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "User"
   },

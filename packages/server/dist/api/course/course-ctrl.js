@@ -51,7 +51,7 @@ var ObjectId = _mongoose2.default.Types.ObjectId;
 var _default = {
   get: function () {
     var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res, next) {
-      var limit, query, courseAuthor, prePopResult, result, totalRecords, _next, lastResultId;
+      var limit, query, owner, prePopResult, result, totalRecords, _next, lastResultId;
 
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
@@ -70,8 +70,8 @@ var _default = {
               if (req.query.courseRef) {
                 query.courseRef = new RegExp("" + req.query.courseRef, "i");
               }
-              if (req.query.courseAuthor) {
-                query.courseAuthor = req.query.courseAuthor;
+              if (req.query.owner) {
+                query.owner = req.query.owner;
               }
               if (req.query.usingLang) {
                 query.usingLang = req.query.usingLang;
@@ -82,25 +82,25 @@ var _default = {
 
               _context.prev = 7;
 
-              if (!req.query.courseAuthor) {
+              if (!req.query.owner) {
                 _context.next = 12;
                 break;
               }
 
               _context.next = 11;
-              return _courseModel2.default.findByUsername(req.query.courseAuthor, function (err, docs) {
+              return _courseModel2.default.findByUsername(req.query.owner, function (err, docs) {
                 if (err) {
                   // console.log doesn't work here
                 }
                 if (!(0, _lodash.isEmpty)(docs)) {
-                  var courseAuthor = docs._id;
-                  console.log("course author: ", courseAuthor);
-                  query.courseAuthor = courseAuthor;
+                  var owner = docs._id;
+                  console.log("course author: ", owner);
+                  query.owner = owner;
                 }
               });
 
             case 11:
-              courseAuthor = _context.sent;
+              owner = _context.sent;
 
             case 12:
               if (!(!req.query.next || req.query.next === "done")) {
@@ -114,7 +114,7 @@ var _default = {
                   courseName: 1,
                   courseDescription: 1,
                   courseRef: 1,
-                  courseAuthor: 1,
+                  owner: 1,
                   courseImage: 1,
                   subscribers: { $size: "$subscribers" }
                 }
@@ -124,7 +124,7 @@ var _default = {
               prePopResult = _context.sent;
               _context.next = 18;
               return _courseModel2.default.populate(prePopResult, {
-                path: "courseAuthor"
+                path: "owner"
               });
 
             case 18:
@@ -164,7 +164,7 @@ var _default = {
                   courseName: 1,
                   courseDescription: 1,
                   courseRef: 1,
-                  courseAuthor: 1,
+                  owner: 1,
                   courseImage: 1,
                   subscribers: { $size: "$subscribers" }
                 }
@@ -174,7 +174,7 @@ var _default = {
               prePopResult = _context.sent;
               _context.next = 36;
               return _courseModel2.default.populate(prePopResult, {
-                path: "courseAuthor"
+                path: "owner"
               });
 
             case 36:
@@ -224,7 +224,7 @@ var _default = {
     if (req.params.courseId) {
       _courseModel2.default.findOne({
         _id: req.params.courseId,
-        courseAuthor: req.params.courseAuthorId
+        owner: req.params.owner
       }).then(function (data) {
         res.json({ data: data });
       }, function (err) {
@@ -249,8 +249,8 @@ var _default = {
   createOne: function createOne(req, res, next) {
     console.log("body: ", req.body.course);
     var newCourse = req.body.course;
-    newCourse.courseAuthor = {
-      _id: req.body.course.courseAuthorId
+    newCourse.owner = {
+      _id: req.body.course.owner
     };
     _courseModel2.default.create(newCourse).then(function (course) {
       res.json(course);
@@ -313,7 +313,7 @@ var _default = {
       //   ]
       // ])
       course.courseId = (0, _cuid2.default)();
-      course.courseAuthor = _faker3.default.random.arrayElement(["5b9012f043aa4329f187f01a", "5b93f90c4d034f51d0e72286", "5baf12a86b73051f6295172b"]);
+      course.owner = _faker3.default.random.arrayElement(["5b9012f043aa4329f187f01a", "5b93f90c4d034f51d0e72286", "5baf12a86b73051f6295172b"]);
       course.courseName = _faker3.default.commerce.productName();
       course.price = _faker3.default.commerce.price();
       course.courseDescription = "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.";
@@ -348,7 +348,7 @@ var _default = {
     var offset = (pg - 1) * limit;
     // const pageStart = 1
     // const numPages = 10
-    _courseModel2.default.paginate({ courseAuthorId: req.params.courseAuthorId }, { offset: offset, limit: limit, lean: true }).then(function (result) {
+    _courseModel2.default.paginate({ owner: req.params.owner }, { offset: offset, limit: limit, lean: true }).then(function (result) {
       res.json({
         result: result
       });

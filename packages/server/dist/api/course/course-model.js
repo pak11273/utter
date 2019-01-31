@@ -37,16 +37,12 @@ var CourseSchema = _mongoose2.default.Schema({
     type: _mongoose.Schema.Types.Mixed,
     default: {}
   },
-  courseId: {
-    type: String,
-    default: ""
-  },
   courseName: {
     type: String,
     default: "",
     required: [true, "can't be blank"]
   },
-  courseAuthor: {
+  owner: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "User"
   },

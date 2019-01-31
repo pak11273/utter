@@ -113,8 +113,8 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
       }
       return true;
     }, _this.hasPermission = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(rules, user, resourceId, expectedScope) {
-        var roles, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, key, modelSlice, modelName, Model;
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(rules, user, resourceID, expectedScope) {
+        var roles, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, key, modelSlice, modelName, Model, result;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -161,7 +161,7 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                 // This is where we resolve dynamic permissions
 
                 if (!containsPermission) {
-                  _context.next = 23;
+                  _context.next = 29;
                   break;
                 }
 
@@ -180,29 +180,44 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                 // make db call
 
                 _context.next = 20;
-                return Model[modelName].findById(resourceId);
+                return Model[modelName].findById(resourceID);
 
               case 20:
-                return _context.abrupt("return", _context.sent);
+                result = _context.sent;
 
-              case 23:
-                return _context.abrupt("return", new Error("You do not have sufficient permissions for this resource."));
+                if (!result) {
+                  _context.next = 25;
+                  break;
+                }
 
-              case 24:
-                _context.next = 29;
+                return _context.abrupt("return", result);
+
+              case 25:
+                console.log("error: ", result);
+                return _context.abrupt("return", new Error("Wrong resource was queried please contact technical support."));
+
+              case 27:
+                _context.next = 30;
                 break;
 
-              case 26:
-                _context.prev = 26;
+              case 29:
+                return _context.abrupt("return", new Error("You do not have the right privileges for this resource."));
+
+              case 30:
+                _context.next = 35;
+                break;
+
+              case 32:
+                _context.prev = 32;
                 _context.t0 = _context["catch"](0);
                 return _context.abrupt("return", _context.t0);
 
-              case 29:
+              case 35:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 26]]);
+        }, _callee, _this2, [[0, 32]]);
       }));
 
       return function (_x, _x2, _x3, _x4) {
@@ -227,79 +242,88 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
             args[_key2] = arguments[_key2];
           }
 
-          var resourceId, token, user, Resource;
+          var resourceID, token, user, resource;
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  resourceId = args[1].resourceId;
+                  resourceID = args[1].resourceID;
+
+                  console.log("RESOURCE ID: ", resourceID);
                   token = args[2].req.headers.authorization;
 
                   if (!(token === "null")) {
-                    _context2.next = 4;
+                    _context2.next = 5;
                     break;
                   }
 
                   return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
 
-                case 4:
-                  _context2.prev = 4;
-                  _context2.next = 7;
+                case 5:
+                  _context2.prev = 5;
+                  _context2.next = 8;
                   return (0, _resolverFunctions.userByToken)(token, function (err, res) {
                     if (err) return err;
                     return res;
                   });
 
-                case 7:
+                case 8:
                   user = _context2.sent;
 
                   if (!(user.name === "JsonWebTokenError")) {
-                    _context2.next = 10;
+                    _context2.next = 11;
                     break;
                   }
 
                   throw new Error("Please be aware.  Due to suspicious activities, we are monitoring actions from your ip now.");
 
-                case 10:
-                  _context2.next = 12;
-                  return _this3.hasPermission(_rolesSchema2.default, user, resourceId, expectedScope);
+                case 11:
+                  _context2.next = 13;
+                  return _this3.hasPermission(_rolesSchema2.default, user, resourceID, expectedScope);
 
-                case 12:
-                  Resource = _context2.sent;
+                case 13:
+                  resource = _context2.sent;
 
-                  if (Resource.owner) {
-                    _context2.next = 15;
+
+                  console.log("resource: ", resource);
+
+                  if (!(resource instanceof Error)) {
+                    _context2.next = 17;
                     break;
                   }
 
-                  return _context2.abrupt("return", Resource);
+                  return _context2.abrupt("return", resource);
 
-                case 15:
-                  if (!(JSON.stringify(Resource.owner) === JSON.stringify(user._id))) {
-                    _context2.next = 19;
+                case 17:
+
+                  console.log("owner: ", resource.owner);
+                  console.log("user: ", user._id);
+
+                  if (!(JSON.stringify(resource.owner) === JSON.stringify(user._id))) {
+                    _context2.next = 23;
                     break;
                   }
 
                   return _context2.abrupt("return", resolve.apply(_this3, args));
 
-                case 19:
-                  return _context2.abrupt("return", new Error("You don't have sufficient privileges for this resource."));
+                case 23:
+                  return _context2.abrupt("return", new Error("You are not the owner of this resource."));
 
-                case 20:
-                  _context2.next = 25;
+                case 24:
+                  _context2.next = 29;
                   break;
 
-                case 22:
-                  _context2.prev = 22;
-                  _context2.t0 = _context2["catch"](4);
+                case 26:
+                  _context2.prev = 26;
+                  _context2.t0 = _context2["catch"](5);
                   return _context2.abrupt("return", _context2.t0);
 
-                case 25:
+                case 29:
                 case "end":
                   return _context2.stop();
               }
             }
-          }, _callee2, _this3, [[4, 22]]);
+          }, _callee2, _this3, [[5, 26]]);
         }));
 
         return function () {

@@ -91,13 +91,13 @@ var zoneTypeDefs = _fs2.default.readFileSync(zoneSchema, "utf8");
 // baseSchema minimum requirement is a property query: Query
 var baseSchema = "\n  schema {\n    query: Query,\n    mutation: Mutation\n  }\n";
 var schema = (0, _apolloServer.makeExecutableSchema)({
+  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, termTypeDefs, testTypeDefs, zoneTypeDefs],
   schemaDirectives: {
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.AuthDirective,
     hasScope: _authHasScope.hasScopeDirective
   },
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, termTypeDefs, testTypeDefs, zoneTypeDefs],
   resolvers: (0, _lodash.merge)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)
 });
 

@@ -111,7 +111,7 @@ var deleteTerm = function () {
 
           case 6:
 
-            if (course.courseAuthor === id) {
+            if (course.owner === id) {
               // TODO: delete course
             }
 
@@ -150,7 +150,7 @@ var courseCreate = function () {
             //TODO can't have duplicate course names
             input = args.input;
 
-            input.courseAuthor = ctx.user;
+            input.owner = ctx.user;
             _context3.next = 6;
             return _termModel2.default.create(input);
 
@@ -184,11 +184,11 @@ var getCreatedTerms = function () {
             // build query object
             query = {};
 
-            query.courseAuthor = ctx.user;
+            query.owner = ctx.user;
             // end query object
 
-            /* // TODO: HOTFIX, using a fake courseAuthor, delete this after testing */
-            /* query.courseAuthor = "5b9012f043aa4329f187f01a" */
+            /* // TODO: HOTFIX, using a fake owner, delete this after testing */
+            /* query.owner = "5b9012f043aa4329f187f01a" */
             /* end */
 
             if (args.cursor) {
@@ -233,7 +233,7 @@ var getCreatedTerms = function () {
 
 var getTerms = function () {
   var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var query, courseName, courseRef, courseAuthor, cursor, result;
+    var query, courseName, courseRef, owner, cursor, result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -257,13 +257,13 @@ var getTerms = function () {
                 // console.log doesn't work here
               }
               if (!(0, _lodash.isEmpty)(docs)) {
-                var courseAuthor = docs._id;
-                query.courseAuthor = courseAuthor;
+                var owner = docs._id;
+                query.owner = owner;
               }
             });
 
           case 6:
-            courseAuthor = _context5.sent;
+            owner = _context5.sent;
 
           case 7:
 
@@ -323,7 +323,7 @@ var courseResolvers = exports.courseResolvers = {
     courseCreate: courseCreate
   },
   Term: {
-    courseAuthor: function courseAuthor(course) {
+    owner: function owner(course) {
       var _this = this;
 
       return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
@@ -333,11 +333,11 @@ var courseResolvers = exports.courseResolvers = {
             switch (_context6.prev = _context6.next) {
               case 0:
                 _context6.next = 2;
-                return course.populate("courseAuthor").execPopulate();
+                return course.populate("owner").execPopulate();
 
               case 2:
                 populated = _context6.sent;
-                return _context6.abrupt("return", populated.courseAuthor);
+                return _context6.abrupt("return", populated.owner);
 
               case 4:
               case "end":

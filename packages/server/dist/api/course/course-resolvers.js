@@ -119,7 +119,7 @@ var courseDelete = function () {
           case 5:
             user = _context2.sent;
             _context2.next = 8;
-            return _courseModel2.default.findOneAndDelete({ courseAuthor: user._id });
+            return _courseModel2.default.findOneAndDelete({ owner: user._id });
 
           case 8:
             course = _context2.sent;
@@ -190,7 +190,7 @@ var courseCreate = function () {
             //TODO can't have duplicate course names
             input = args.input;
 
-            input.courseAuthor = user._id;
+            input.owner = user._id;
             _context3.next = 10;
             return _courseModel2.default.create(input);
 
@@ -223,7 +223,7 @@ var getCourseLevels = function () {
             // build query object
             query = {};
 
-            query.courseAuthor = ctx.user;
+            query.owner = ctx.user;
 
           case 2:
           case "end":
@@ -267,7 +267,7 @@ var getCreatedCourses = function () {
             // build query object
             query = {};
 
-            query.courseAuthor = user._id;
+            query.owner = user._id;
             // end query object
 
             if (args.cursor) {
@@ -312,7 +312,7 @@ var getCreatedCourses = function () {
 
 var getCourses = function () {
   var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
-    var query, courseName, courseRef, courseAuthor, cursor, result;
+    var query, courseName, courseRef, owner, cursor, result;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -335,13 +335,13 @@ var getCourses = function () {
                 // console.log doesn't work here
               }
               if (!(0, _lodash.isEmpty)(docs)) {
-                var courseAuthor = docs._id;
-                query.courseAuthor = courseAuthor;
+                var owner = docs._id;
+                query.owner = owner;
               }
             });
 
           case 6:
-            courseAuthor = _context6.sent;
+            owner = _context6.sent;
 
           case 7:
 
@@ -401,7 +401,7 @@ var courseResolvers = exports.courseResolvers = {
     courseCreate: courseCreate
   },
   Course: {
-    courseAuthor: function courseAuthor(course) {
+    owner: function owner(course) {
       var _this = this;
 
       return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
@@ -411,11 +411,11 @@ var courseResolvers = exports.courseResolvers = {
             switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.next = 2;
-                return course.populate("courseAuthor").execPopulate();
+                return course.populate("owner").execPopulate();
 
               case 2:
                 populated = _context7.sent;
-                return _context7.abrupt("return", populated.courseAuthor);
+                return _context7.abrupt("return", populated.owner);
 
               case 4:
               case "end":

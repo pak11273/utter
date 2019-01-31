@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.zoneResolvers = undefined;
 
-var _typeof2 = require("babel-runtime/helpers/typeof");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -112,7 +108,7 @@ var zoneDelete = function () {
 
           case 6:
 
-            if (zone.zoneAuthor === id) {
+            if (zone.owner === id) {
               // TODO: delete zone
             }
 
@@ -149,19 +145,17 @@ var zoneCreate = function () {
             //TODO can't have duplicate zone names
             input = args.input;
 
-            console.log("input:", input);
-            input.zoneAuthor = ctx.user;
-            _context3.next = 5;
+            console.log("ingput: ", input);
+            _context3.next = 4;
             return _zoneModel2.default.create(input);
 
-          case 5:
+          case 4:
             zone = _context3.sent;
 
             zone.id = zone._id;
-            console.log("zone: ", typeof zone === "undefined" ? "undefined" : (0, _typeof3.default)(zone));
             return _context3.abrupt("return", zone);
 
-          case 9:
+          case 7:
           case "end":
             return _context3.stop();
         }
@@ -184,7 +178,7 @@ var getZoneLevels = function () {
             // build query object
             query = {};
 
-            query.zoneAuthor = ctx.user;
+            query.owner = ctx.user;
 
           case 2:
           case "end":
@@ -209,11 +203,11 @@ var getCreatedZones = function () {
             // build query object
             query = {};
 
-            query.zoneAuthor = ctx.user;
+            query.owner = ctx.user;
             // end query object
 
-            /* // TODO: HOTFIX, using a fake zoneAuthor, delete this after testing */
-            /* query.zoneAuthor = "5b9012f043aa4329f187f01a" */
+            /* // TODO: HOTFIX, using a fake owner, delete this after testing */
+            /* query.owner = "5b9012f043aa4329f187f01a" */
             /* end */
 
             if (args.cursor) {
@@ -258,7 +252,7 @@ var getCreatedZones = function () {
 
 var getZones = function () {
   var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
-    var query, zoneName, zoneRef, zoneAuthor, cursor, result;
+    var query, zoneName, zoneRef, owner, cursor, result;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -271,24 +265,24 @@ var getZones = function () {
 
             args.ref ? query.zoneRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
-            if (!args.author) {
+            if (!args.owner) {
               _context6.next = 7;
               break;
             }
 
             _context6.next = 6;
-            return _zoneModel2.default.findByUsername(args.author, function (err, docs) {
+            return _zoneModel2.default.findByUsername(args.owner, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
               }
               if (!(0, _lodash.isEmpty)(docs)) {
-                var zoneAuthor = docs._id;
-                query.zoneAuthor = zoneAuthor;
+                var owner = docs._id;
+                query.owner = owner;
               }
             });
 
           case 6:
-            zoneAuthor = _context6.sent;
+            owner = _context6.sent;
 
           case 7:
 
@@ -349,7 +343,7 @@ var zoneResolvers = exports.zoneResolvers = {
     zoneCreate: zoneCreate
   },
   Zone: {
-    zoneAuthor: function zoneAuthor(zone) {
+    owner: function owner(zone) {
       var _this = this;
 
       return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
@@ -359,11 +353,11 @@ var zoneResolvers = exports.zoneResolvers = {
             switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.next = 2;
-                return zone.populate("zoneAuthor").execPopulate();
+                return zone.populate("owner").execPopulate();
 
               case 2:
                 populated = _context7.sent;
-                return _context7.abrupt("return", populated.zoneAuthor);
+                return _context7.abrupt("return", populated.owner);
 
               case 4:
               case "end":
