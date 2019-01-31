@@ -1,9 +1,7 @@
 import React, {Component} from "react"
-import styled from "styled-components"
-import PropTypes from "prop-types"
 import Select from "react-select"
 import {Box} from "../../../components"
-import "../../../layouts/courses/styles.css"
+import "../../styles.css"
 
 class CourseRef extends Component {
   constructor(props) {
@@ -16,7 +14,7 @@ class CourseRef extends Component {
     }
   }
 
-  clearValue = e => {
+  clearValue = () => {
     this.select.setInputValue("")
   }
 
@@ -57,16 +55,6 @@ class CourseRef extends Component {
       </Box>
     )
   }
-}
-
-CourseRef.propTypes = {
-  label: PropTypes.string,
-  searchable: PropTypes.bool
-}
-
-CourseRef.defaultProps = {
-  label: "CourseRef:",
-  searchable: true
 }
 
 export default CourseRef

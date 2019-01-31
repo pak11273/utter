@@ -1,4 +1,4 @@
-import "../styles.css"
+import "../../styles.css"
 import {Button, Container, Form, Grid, Header, Image} from "semantic-ui-react"
 import {Field, withFormik} from "formik"
 import {isEmpty, cloneDeep} from "lodash"

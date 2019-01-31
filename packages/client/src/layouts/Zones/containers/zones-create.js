@@ -1,4 +1,4 @@
-import "../styles.css"
+import "../../styles.css"
 import React, {Component} from "react"
 import {Button, Container, Form, Grid, Header} from "semantic-ui-react"
 import {Field, withFormik} from "formik"
@@ -77,6 +77,7 @@ const StyledSpan = styled(Span)`
   }
 `
 const initialState = {
+  ageGroup: "Any age",
   cdn: {},
   charCount: 0,
   course: "",
@@ -113,6 +114,12 @@ class ZoneCreate extends Component {
 
   componentWillUnmount() {
     this.props.actions.toggleFooter(true)
+  }
+
+  addAge = value => {
+    this.setState({
+      ageGroup: value
+    })
   }
 
   onBlur = () => {
@@ -152,7 +159,6 @@ class ZoneCreate extends Component {
   render() {
     const {handleSubmit} = this.props
     const {zoneName, zoneDescription} = this.props.values
-    console.log("userid: ", this.props.user.id)
     return (
       <ThemeProvider theme={main}>
         <Grid>
@@ -248,10 +254,41 @@ class ZoneCreate extends Component {
                         <Field
                           name="level"
                           component="select"
-                          onClick={this.addCourse}>
+                          onClick={this.addLevel}>
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
+                        </Field>
+                      </Flex>
+                    </StyledFlex>
+                    <StyledFlex gridarea="ageGroup" margin1080="40px 0 0 0">
+                      <Flex overflow="initial" position="relative">
+                        <Header>Age Restrictions</Header>
+                        <p>
+                          Pick an appropriate age setting or a specific age
+                          demographic.
+                        </p>
+                        <Field
+                          name="ageGroup"
+                          component="select"
+                          onClick={this.addAge}>
+                          <option>Any age</option>
+                          <option>0-2 Babies</option>
+                          <option>Appropriate for ages rated 3+</option>
+                          <option>Appropriate for ages rated 7+</option>
+                          <option>Appropriate for ages rated 12+</option>
+                          <option>Appropriate for ages rated 16+</option>
+                          <option>Appropriate for ages rated 18+</option>
+                          <option>Kindergarten</option>
+                          <option>Elementary</option>
+                          <option>Middle School</option>
+                          <option>High School</option>
+                          <option>College</option>
+                          <option>Only 18+</option>
+                          <option>Only 30+</option>
+                          <option>Only 40+</option>
+                          <option>Only 50+</option>
+                          <option>Only 60+</option>
                         </Field>
                       </Flex>
                     </StyledFlex>

@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation zoneCreate(\n    $owner: String!\n    $zoneName: String!\n    $zoneImage: String\n    $zoneDescription: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    zoneCreate(\n      input: {\n        owner: $owner\n        zoneName: $zoneName\n        zoneImage: $zoneImage\n        zoneDescription: $zoneDescription\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      zoneName\n      owner {\n        username\n      }\n      zoneDescription\n    }\n  }\n"], ["\n  mutation zoneCreate(\n    $owner: String!\n    $zoneName: String!\n    $zoneImage: String\n    $zoneDescription: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    zoneCreate(\n      input: {\n        owner: $owner\n        zoneName: $zoneName\n        zoneImage: $zoneImage\n        zoneDescription: $zoneDescription\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      zoneName\n      owner {\n        username\n      }\n      zoneDescription\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation zoneCreate(\n    $ageGroup: String!\n    $owner: String!\n    $zoneName: String!\n    $zoneImage: String\n    $zoneDescription: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    zoneCreate(\n      input: {\n        ageGroup: $ageGroup\n        owner: $owner\n        zoneName: $zoneName\n        zoneImage: $zoneImage\n        zoneDescription: $zoneDescription\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      ageGroup\n      zoneName\n      zoneDescription\n      owner {\n        username\n      }\n    }\n  }\n"], ["\n  mutation zoneCreate(\n    $ageGroup: String!\n    $owner: String!\n    $zoneName: String!\n    $zoneImage: String\n    $zoneDescription: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    zoneCreate(\n      input: {\n        ageGroup: $ageGroup\n        owner: $owner\n        zoneName: $zoneName\n        zoneImage: $zoneImage\n        zoneDescription: $zoneDescription\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      ageGroup\n      zoneName\n      zoneDescription\n      owner {\n        username\n      }\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -89,6 +89,7 @@ var Z = exports.Z = function (_PureComponent) {
                 _context.next = 3;
                 return _this.props.mutate({
                   variables: {
+                    ageGroup: values.ageGroup,
                     owner: values.owner,
                     zoneName: values.zoneName,
                     zoneDescription: values.zoneDescription,

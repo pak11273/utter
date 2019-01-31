@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import PropTypes from "prop-types"
 import Select from "react-select"
 import {Box} from "../../../components"
-import "../styles.css"
+import "../../styles.css"
 
 class Teaching extends Component {
   constructor(props) {

@@ -5,6 +5,10 @@ import {LevelSchema} from "../level/level-model.js"
 
 const ZoneSchema = mongoose.Schema(
   {
+    ageGroup: {
+      type: String,
+      default: "Any age"
+    },
     zoneName: {
       type: String,
       default: "",

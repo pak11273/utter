@@ -41,6 +41,7 @@ const zoneUpdate = (_, {input}) => {
 const zoneCreate = async (_, args, ctx, info) => {
   //TODO can't have duplicate zone names
   const {input} = args
+  console.log("ingput: ", input)
   const zone = await Zone.create(input)
   zone.id = zone._id
   return zone

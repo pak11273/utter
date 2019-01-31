@@ -18,7 +18,7 @@ import {
 import {Masthead} from "../../../containers"
 import {Can} from "../../../components"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
-import "../styles.css"
+import "../../styles.css"
 
 // actions
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"

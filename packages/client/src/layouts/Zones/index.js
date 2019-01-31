@@ -21,7 +21,7 @@ import {
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-import "./styles.css"
+import "../../layouts/styles.css"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
@@ -57,9 +57,12 @@ const getZones = gql`
       cursor
       zones {
         id
+        ageGroup
+        teachingLang
+        usingLang
+        zoneDescription
         zoneImage
         zoneName
-        zoneDescription
         owner {
           username
         }
@@ -83,6 +86,12 @@ class Zones extends Component {
       cursor: {$set: ""}
     })
     this.setState(newState)
+  }
+
+  ageRestrictionNotice = () => {
+    alert(
+      "AGE GROUPS: \nAny age \n0-2 Babies \nAppropriate for ages rated 3+ \nAppropriate for ages rated 7+ \nAppropriate for ages rated 12+ \nAppropriate for ages rated 16+ \nAppropriate for ages rated 18+ \nKindergarten \nElementary \nMiddle School \nHigh School \nCollege \nOnly 18+ \nOnly 30+ \nOnly 40+ \nOnly 50+ \nOnly 60+"
+    )
   }
 
   handleJoin = zone => {
@@ -192,9 +201,9 @@ class Zones extends Component {
             }
             return (
               <div>
-                <Card.Group doubling stackable itemsPerRow={4}>
+                <Card.Group centered doubling stackable itemsPerRow={4}>
                   {data.getZones.zones.map(zone => (
-                    <Card key={zone.id} fluid={false}>
+                    <Card key={zone.id} style={{width: "300px"}}>
                       <Image src={`${zone.zoneImage}`} />
                       <Card.Content>
                         <Card.Header style={{wordBreak: "break-word"}}>
@@ -231,11 +240,21 @@ class Zones extends Component {
                           <span style={{padding: "0 20px 0 0"}}>Max: 30</span>
                         </div>
                         <div>
-                          <Icon name="pencil" />
                           <a style={{padding: "0 20px 0 0"}}>
-                            {zone.owner.username}
+                            Host:{" "}
+                            <span style={{color: "blue"}}>
+                              {zone.owner.username}
+                            </span>
                           </a>
                         </div>
+                        <Button
+                          color="orange"
+                          size="mini"
+                          floated="left"
+                          onClick={this.ageRestrictionNotice}
+                          style={{margin: "20px 0 10px 0"}}>
+                          {zone.ageGroup}
+                        </Button>
                         <Button
                           color="teal"
                           size="mini"

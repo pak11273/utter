@@ -21,7 +21,7 @@ import gql from "graphql-tag"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
-import "../styles.css"
+import "../../styles.css"
 
 // actions
 import {loadData} from "../../../api/actions.js"

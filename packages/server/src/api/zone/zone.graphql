@@ -1,7 +1,8 @@
 
 type Zone {
   id: ID!
-	game: String,
+	ageGroup: String
+	game: String
   zoneName: String!
   owner: User
   zoneDescription: String
@@ -21,6 +22,7 @@ input ZoneUpdated {
 }
 
 input ZoneCreateInput {
+	ageGroup: String
 	owner: String!
   zoneId: String
 	zoneImage: String

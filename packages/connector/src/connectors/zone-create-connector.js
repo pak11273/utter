@@ -11,6 +11,7 @@ export class Z extends PureComponent {
     try {
       const {data: zoneCreate} = await this.props.mutate({
         variables: {
+          ageGroup: values.ageGroup,
           owner: values.owner,
           zoneName: values.zoneName,
           zoneDescription: values.zoneDescription,
@@ -40,6 +41,7 @@ export class Z extends PureComponent {
 
 const ZoneCreateMutation = gql`
   mutation zoneCreate(
+    $ageGroup: String!
     $owner: String!
     $zoneName: String!
     $zoneImage: String
@@ -49,6 +51,7 @@ const ZoneCreateMutation = gql`
   ) {
     zoneCreate(
       input: {
+        ageGroup: $ageGroup
         owner: $owner
         zoneName: $zoneName
         zoneImage: $zoneImage
@@ -58,11 +61,12 @@ const ZoneCreateMutation = gql`
       }
     ) {
       id
+      ageGroup
       zoneName
+      zoneDescription
       owner {
         username
       }
-      zoneDescription
     }
   }
 `
