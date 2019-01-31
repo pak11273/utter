@@ -10,7 +10,7 @@ const ZoneSchema = mongoose.Schema(
       default: "",
       required: [true, "can't be blank"]
     },
-    zoneAuthor: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User"
     },

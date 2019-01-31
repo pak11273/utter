@@ -34,7 +34,7 @@ const getCreatedCourses = gql`
         courseImage
         courseName
         courseMode
-        courseAuthor {
+        owner {
           username
         }
       }
@@ -189,7 +189,7 @@ class Courses extends Component {
               // TODO use push here to go to details page?
               // const LangCard = this.props.courses.map(item => {
               //   var author = ""
-              //   item.courseAuthor.username ? (author = item.courseAuthor.username) : null
+              //   item.owner.username ? (author = item.owner.username) : null
               //   let keys = []
               //   item.courseRef.map(item => {
               //     keys.push(item.value)
@@ -220,7 +220,7 @@ class Courses extends Component {
                         <div>
                           <Icon name="pencil" />
                           <a style={{padding: "0 20px 0 0"}}>
-                            {course.courseAuthor.username}
+                            {course.owner.username}
                           </a>
                         </div>
                         <div>
@@ -249,7 +249,7 @@ class Courses extends Component {
 
 const initialCoursesContainerState = {
   search: "",
-  courseAuthor: "",
+  owner: "",
   courseInput: "",
   courseName: "",
   selectionBox: "title",
@@ -321,7 +321,7 @@ class CoursesCreatedContainer extends Component {
           </Grid>
           <Courses
             title={this.state.courseName}
-            author={this.state.courseAuthor}
+            author={this.state.owner}
             courseRef={this.state.courseRef}
             usingLang={this.state.usingLang}
             teachingLang={this.state.teachingLang}

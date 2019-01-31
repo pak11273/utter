@@ -4,6 +4,7 @@ import {flatten, uniq} from "lodash"
 import {SchemaDirectiveVisitor} from "apollo-server"
 import {userByToken} from "../../api/shared/resolver-functions.js"
 import {defaultFieldResolver} from "graphql"
+
 import rules from "@utterzone/common/dist/auth/roles-schema"
 
 // resources
@@ -30,7 +31,8 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
     const {resolve = defaultFieldResolver} = field
 
     field.resolve = async (...args) => {
-      const resourceId = args[1].resourceId
+      const resourceID = args[1].resourceID
+      console.log("RESOURCE ID: ", resourceID)
       const token = args[2].req.headers.authorization
       if (token === "null") {
         return new Error("You need to be registered to view this resource.")
@@ -46,24 +48,26 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
           )
         }
 
-        var Resource = await this.hasPermission(
+        var resource = await this.hasPermission(
           rules,
           user,
-          resourceId,
+          resourceID,
           expectedScope
         )
 
-        if (!Resource.owner) {
-          return Resource
-          /* return new Error("This resource does not have an owner property.") */
+        console.log("resource: ", resource)
+
+        if (resource instanceof Error) {
+          return resource
         }
 
-        if (JSON.stringify(Resource.owner) === JSON.stringify(user._id)) {
+        console.log("owner: ", resource.owner)
+        console.log("user: ", user._id)
+
+        if (JSON.stringify(resource.owner) === JSON.stringify(user._id)) {
           return resolve.apply(this, args)
         } else {
-          return new Error(
-            "You don't have sufficient privileges for this resource."
-          )
+          return new Error("You are not the owner of this resource.")
         }
 
         /*   /1*  return field.resolve.apply(this, args) *1/ */
@@ -80,7 +84,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
     return true
   }
 
-  hasPermission = async (rules, user, resourceId, expectedScope) => {
+  hasPermission = async (rules, user, resourceID, expectedScope) => {
     try {
       var roles = user.roles
 
@@ -128,10 +132,18 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
           return Object.keys(obj)[0] === modelName
         })
         // make db call
-        return await Model[modelName].findById(resourceId)
+        const result = await Model[modelName].findById(resourceID)
+        if (result) {
+          return result
+        } else {
+          console.log("error: ", result)
+          return new Error(
+            "Wrong resource was queried please contact technical support."
+          )
+        }
       } else {
         return new Error(
-          "You do not have sufficient permissions for this resource."
+          "You do not have the right privileges for this resource."
         )
       }
     } catch (err) {

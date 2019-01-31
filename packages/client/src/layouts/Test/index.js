@@ -10,13 +10,13 @@ class Test extends Component {
       <div>
         <Query
           query={gql`
-            query getTest($resourceId: String) {
-              getTest(resourceId: $resourceId) {
+            query getTest($resourceID: String) {
+              getTest(resourceID: $resourceID) {
                 testName
               }
             }
           `}
-          variables={{resourceId: "5c48d596384cfb1bea427c9b"}}>
+          variables={{resourceID: "5c48d596384cfb1bea427c9b"}}>
           {({loading, error, data}) => {
             if (loading) return <p>Loading...</p>
             if (error)

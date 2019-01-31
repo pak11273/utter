@@ -1,22 +1,22 @@
-import {push} from 'react-router-redux'
-import {all, call, put, take, takeLatest} from 'redux-saga/effects'
-import axios from 'axios'
+import {push} from "react-router-redux"
+import {all, call, put, take, takeLatest} from "redux-saga/effects"
+import axios from "axios"
 
 // actions
-import * as types from '../types'
+import * as types from "../types"
 
-import {fetchData} from '../../../utils/apiMgr'
+import {fetchData} from "../../../utils/apiMgr"
 
 export function* fetchCourses(state) {
   try {
-    const url = '/api/courses'
-    const method = 'get'
+    const url = "/api/courses"
+    const method = "get"
     const data = null
     const cb = null
     const params = state
 
     /**
-     * @param {string} url ex.'/my-courses/:courseAuthorId/:courseId/:courseName'
+     * @param {string} url ex.'/my-courses/:owner/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
@@ -32,7 +32,7 @@ export function* fetchCourses(state) {
     if (!error.response) {
       yield put({
         type: types.COURSES_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
       const err = error.response.statusText

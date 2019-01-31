@@ -72,7 +72,7 @@ const CourseSchema = mongoose.Schema(
       default: "",
       required: [true, "can't be blank"]
     },
-    courseAuthor: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User"
     },

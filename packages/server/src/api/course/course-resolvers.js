@@ -28,7 +28,7 @@ const courseDelete = async (_, {id}, ctx) => {
     return res
   })
 
-  const course = await Course.findOneAndDelete({courseAuthor: user._id})
+  const course = await Course.findOneAndDelete({owner: user._id})
   if (!course) {
     throw new Error("No course found by this author.")
   }
@@ -55,7 +55,7 @@ const courseCreate = async (_, args, ctx, info) => {
 
   //TODO can't have duplicate course names
   const {input} = args
-  input.courseAuthor = user._id
+  input.owner = user._id
   const course = await Course.create(input)
   course.id = course._id
   return course
@@ -64,7 +64,7 @@ const courseCreate = async (_, args, ctx, info) => {
 const getCourseLevels = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  query.courseAuthor = ctx.user
+  query.owner = ctx.user
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
@@ -79,7 +79,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 
   // build query object
   const query = {}
-  query.courseAuthor = user._id
+  query.owner = user._id
   // end query object
 
   if (args.cursor) {
@@ -106,7 +106,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 const getCourses = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  var courseName, courseRef, courseAuthor
+  var courseName, courseRef, owner
   args.title
     ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
     : null
@@ -114,13 +114,13 @@ const getCourses = async (_, args, ctx, info) => {
   args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
 
   if (args.author) {
-    var courseAuthor = await Course.findByUsername(args.author, (err, docs) => {
+    var owner = await Course.findByUsername(args.author, (err, docs) => {
       if (err) {
         // console.log doesn't work here
       }
       if (!isEmpty(docs)) {
-        var courseAuthor = docs._id
-        query.courseAuthor = courseAuthor
+        var owner = docs._id
+        query.owner = owner
       }
     })
   }
@@ -167,10 +167,10 @@ export const courseResolvers = {
     courseCreate
   },
   Course: {
-    async courseAuthor(course) {
-      const populated = await course.populate("courseAuthor").execPopulate()
+    async owner(course) {
+      const populated = await course.populate("owner").execPopulate()
 
-      return populated.courseAuthor
+      return populated.owner
     }
   }
 }

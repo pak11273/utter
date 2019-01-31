@@ -1,0 +1,139 @@
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {Container, Grid, Header, Loader} from "semantic-ui-react"
+import {Query} from "react-apollo"
+import gql from "graphql-tag"
+
+import {AgGridReact} from "ag-grid-react"
+import "ag-grid-community/dist/styles/ag-grid.css"
+import "ag-grid-community/dist/styles/ag-theme-material.css"
+
+import {toggleFooter} from "../../../app/actions/toggleFooterAction.js"
+
+const getCourse = gql`
+  query getCourse($courseId: String!) {
+    getCourse(courseId: $courseId) {
+      courseName
+      levels {
+        id
+        title
+      }
+    }
+  }
+`
+
+class Levels extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      columnDefs: [
+        {
+          rowDrag: true,
+          headerName: "Make",
+          field: "make",
+          checkboxSelection: true
+        },
+        {headerName: "Model", field: "model"},
+        {headerName: "Price", field: "price"}
+      ],
+      rowData: [
+        {make: "Toyota", model: "Celica", price: 35000},
+        {make: "Ford", model: "Mondeo", price: 32000},
+        {make: "Porsche", model: "Boxter", price: 72000}
+      ]
+    }
+  }
+
+  componentDidMount() {
+    this.props.toggleFooter(true)
+    fetch("https://api.myjson.com/bins/15psn9")
+      .then(result => result.json())
+      .then(rowData => this.setState({rowData}))
+  }
+
+  onButtonClick = () => {
+    const selectedNodes = this.gridApi.getSelectedNodes()
+    const selectedData = selectedNodes.map(node => node.data)
+    const selectedDataStringPresentation = selectedData
+      .map(node => node.make + " " + node.model)
+      .join(", ")
+    alert(`Selected nodes: ${selectedDataStringPresentation}`)
+  }
+
+  render() {
+    return (
+      <Query
+        query={getCourse}
+        variables={{
+          courseId: "5c2437abfe78c625504080f1"
+        }}>
+        {({loading, error, data}) => {
+          console.log("data: ", data)
+          if (loading) {
+            return (
+              <Grid.Column>
+                <Loader active>Loading</Loader>
+              </Grid.Column>
+            )
+          }
+          if (error) return <Grid.Column>{error.message}</Grid.Column>
+          return (
+            <Container>
+              <Grid columns={1} centered>
+                <Grid.Column textAlign="center">
+                  <Header as="h1">Course Levels</Header>
+                </Grid.Column>
+                <Grid.Column>
+                  {/* {data.getCourse.levels.map(level => { 
+              return ( */}
+                  <div
+                    className="ag-theme-material"
+                    style={{
+                      height: "500px",
+                      width: "600px"
+                    }}>
+                    <AgGridReact
+                      enableColResize
+                      rowDragManaged
+                      defaultColDef={{
+                        headerComponentParams: {
+                          menuIcon: "fa-bars"
+                        }
+                      }}
+                      rowSelection="multiple"
+                      onGridReady={params => (this.gridApi = params.api)}
+                      columnDefs={this.state.columnDefs}
+                      rowData={this.state.rowData}
+                    />
+                    <button type="button" onClick={this.onButtonClick}>
+                      Save
+                    </button>
+                  </div>
+                  ){/*  })} */}
+                </Grid.Column>
+              </Grid>
+            </Container>
+          )
+        }}
+      </Query>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    course: state.courseReducer
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleFooter: () => dispatch(toggleFooter())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Levels)

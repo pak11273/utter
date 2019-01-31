@@ -29,7 +29,7 @@ import "react-select/dist/react-select.css" // comment out exclude node_modules 
 /*         courseImage */
 /*         courseName */
 /*         courseMode */
-/*         courseAuthor { */
+/*         owner { */
 /*           username */
 /*         } */
 /*       } */
@@ -103,7 +103,7 @@ class CourseUpdate extends Component {
                     roles={user.roles}
                     perform="course:update-settings"
                     id={user.username}
-                    matchingID={course.courseAuthor.username}
+                    matchingID={course.owner.username}
                     yes={() => (
                       <Header as="h2">
                         <NavLink

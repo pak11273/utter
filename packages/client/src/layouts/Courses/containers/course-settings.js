@@ -35,13 +35,14 @@ class CourseSettings extends Component {
 
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
-    const {user} = this.props
-
+    const {user, course} = this.props
     return (
       <div>
         <Can
-          role={user.role}
+          roles={user.roles}
           perform="course:read-settings"
+          id={user.username}
+          matchingID={course.owner.username}
           yes={() => (
             <Container>
               <Container>
@@ -74,171 +75,16 @@ class CourseSettings extends Component {
                 <Container style={{paddingBottom: "5em"}} text>
                   <Header as="h2">Danger Zone</Header>
                   <Header as="h4" attached="top" block />
-                  <Segment attached>This is permanent</Segment>
-                  <Form.Button
-                    color="red"
-                    onClick={this.openModalClicked}
-                    attached>
-                    Delete Course
-                  </Form.Button>
+                  <Segment clearing attached>
+                    <Form.Button
+                      floated="right"
+                      color="red"
+                      onClick={this.openModalClicked}
+                      content="Delete Course"
+                    />
+                  </Segment>
                   <Header as="h4" attached="bottom" block />
                 </Container>
-                {/*
-            <Form.Group>
-              <Segment>
-                <Grid>
-                  <Grid.Column width={8}>
-                    <Segment>
-                      <div>
-                        {this.state.secure_url === "" ? null : (
-                          <Form.Field
-                            label="Course Thumbnail Preview"
-                            name="image"
-                            control={Image}
-                            src={this.props.course.courseImage}
-                            size="small"
-                          />
-                        )}
-                      </div>
-                      <p>{this.state.uploadedFile.name}</p>
-                      <Dropzone
-                        style={{
-                          padding: "3px",
-                          position: "relative",
-                          width: "100px",
-                          height: "50px",
-                          borderWidth: "2px",
-                          borderColor: "rgb(102, 102, 102)",
-                          borderStyle: "dashed",
-                          borderRadius: "5px"
-                        }}
-                        multiple={false}
-                        accept="image/*"
-                        onDrop={this.onImageDrop}>
-                        <p>
-                          Drop an image or click to select a file to upload.
-                        </p>
-                      </Dropzone>
-                    </Segment>
-                    <FormEditWrapper
-                      singleValue
-                      value={{courseName}}
-                      onChange={this.inputChange}>
-                      <Form.Field
-                        label="Course Name"
-                        name="courseName"
-                        control={Input}
-                        placeholder="Name"
-                      />
-                    </FormEditWrapper>
-                    <FormEditWrapper
-                      singleValue
-                      value={{courseDescription}}
-                      onChange={this.inputChange}>
-                      <Form.Field
-                        label="Course Description"
-                        name="courseDescription"
-                        control={TextArea}
-                        placeholder="This section will describe this course."
-                      />
-                    </FormEditWrapper>
-                  </Grid.Column>
-                  <Grid.Column width={8}>
-                    <Segment>
-                      <Label>Course Reference</Label>
-                      <Select.Creatable
-                        id="courseRef"
-                        wrapperStyle={{
-                          margin: "20px 0 0 0",
-                          width: "100%"
-                        }}
-                        style={{
-                          width: "100%"
-                        }}
-                        menuContainerStyle={{
-                          width: "100%"
-                        }}
-                        menuStyle={{
-                          width: "100%"
-                        }}
-                        multi={multi}
-                        options={options}
-                        onChange={this.updateValue}
-                        value={multi ? multiValue : value}
-                      />
-                      <Label>Using Language</Label>
-                      <Select
-                        id="usingLang"
-                        /* ref={ref => { */
-                /*   this.select = ref */
-                /* }} 
-                        onBlurResetsInput={false}
-                        onSelectResetsInput={false}
-                        options={languageData}
-                        simpleValue
-                        clearable={this.state.clearable}
-                        wrapperStyle={{
-                          margin: "20px 0 0 0",
-                          width: "100%"
-                        }}
-                        style={{
-                          width: "100%"
-                        }}
-                        menuContainerStyle={{
-                          width: "100%"
-                        }}
-                        menuStyle={{
-                          width: "100%"
-                        }}
-                        name="usingLang"
-                        disabled={this.state.disabled}
-                        value={course.usingLang}
-                        onChange={this.usingDropdownChange}
-                        rtl={this.state.rtl}
-                        searchable={this.state.searchable}
-                      />
-                      <Label>Teaching Language</Label>
-                      <Select
-                        id="teachingLang"
-                        /* ref={ref => { */
-                /*   this.select = ref */
-                /* }} 
-                        onBlurResetsInput={false}
-                        onSelectResetsInput={false}
-                        options={languageData}
-                        simpleValue
-                        clearable={this.state.clearable}
-                        wrapperStyle={{
-                          margin: "20px 0 0 0",
-                          width: "100%"
-                        }}
-                        style={{
-                          width: "100%"
-                        }}
-                        menuContainerStyle={{
-                          width: "100%"
-                        }}
-                        menuStyle={{
-                          width: "100%"
-                        }}
-                        name="teachingLang"
-                        disabled={this.state.disabled}
-                        value={course.teachingLang}
-                        onChange={this.teachingDropdownChange}
-                        rtl={this.state.rtl}
-                        searchable={this.state.searchable}
-                      />
-                    </Segment>
-                    <Button
-                      style={{background: "#F6D155"}}
-                      loading={this.props.courseMeta.loading}>
-                      Save
-                    </Button>
-                  </Grid.Column>
-                </Grid>
-              </Segment>
-            </Form.Group>
-				*/}
                 <Container
                   style={{position: "relative", paddingBottom: "5em"}}
                   text>
@@ -248,25 +94,178 @@ class CourseSettings extends Component {
                     content="Save Changes"
                     color="yellow"
                     fontSize="1.5rem"
-                    style={{position: "absolute", right: "0"}}
+                    style={{position: "absolute", right: "15px"}}
                   />
                 </Container>
               </Form>
             </Container>
           )}
-          no={() => null}
+          no={() => <h1>wtf</h1>}
         />
       </div>
     )
   }
 }
 
+/* <Form.Group> */
+/*   <Segment> */
+/*     <Grid> */
+/*       <Grid.Column width={8}> */
+/*         <Segment> */
+/*           <div> */
+/*             {this.state.secure_url === "" ? null : ( */
+/*               <Form.Field */
+/*                 label="Course Thumbnail Preview" */
+/*                 name="image" */
+/*                 control={Image} */
+/*                 src={this.props.course.courseImage} */
+/*                 size="small" */
+/*               /> */
+/*             )} */
+/*           </div> */
+/*           <p>{this.state.uploadedFile.name}</p> */
+/*           <Dropzone */
+/*             style={{ */
+/*               padding: "3px", */
+/*               position: "relative", */
+/*               width: "100px", */
+/*               height: "50px", */
+/*               borderWidth: "2px", */
+/*               borderColor: "rgb(102, 102, 102)", */
+/*               borderStyle: "dashed", */
+/*               borderRadius: "5px" */
+/*             }} */
+/*             multiple={false} */
+/*             accept="image/*" */
+/*             onDrop={this.onImageDrop}> */
+/*             <p> */
+/*               Drop an image or click to select a file to upload. */
+/*             </p> */
+/*           </Dropzone> */
+/*         </Segment> */
+/*         <FormEditWrapper */
+/*           singleValue */
+/*           value={{courseName}} */
+/*           onChange={this.inputChange}> */
+/*           <Form.Field */
+/*             label="Course Name" */
+/*             name="courseName" */
+/*             control={Input} */
+/*             placeholder="Name" */
+/*           /> */
+/*         </FormEditWrapper> */
+/*         <FormEditWrapper */
+/*           singleValue */
+/*           value={{courseDescription}} */
+/*           onChange={this.inputChange}> */
+/*           <Form.Field */
+/*             label="Course Description" */
+/*             name="courseDescription" */
+/*             control={TextArea} */
+/*             placeholder="This section will describe this course." */
+/*           /> */
+/*         </FormEditWrapper> */
+/*       </Grid.Column> */
+/*       <Grid.Column width={8}> */
+/*         <Segment> */
+/*           <Label>Course Reference</Label> */
+/*           <Select.Creatable */
+/*             id="courseRef" */
+/*             wrapperStyle={{ */
+/*               margin: "20px 0 0 0", */
+/*               width: "100%" */
+/*             }} */
+/*             style={{ */
+/*               width: "100%" */
+/*             }} */
+/*             menuContainerStyle={{ */
+/*               width: "100%" */
+/*             }} */
+/*             menuStyle={{ */
+/*               width: "100%" */
+/*             }} */
+/*             multi={multi} */
+/*             options={options} */
+/*             onChange={this.updateValue} */
+/*             value={multi ? multiValue : value} */
+/*           /> */
+/*           <Label>Using Language</Label> */
+/*           <Select */
+/*             id="usingLang" */
+/*             ref={ref => { this.select = ref }} */
+
+/*             onBlurResetsInput={false} */
+/*             onSelectResetsInput={false} */
+/*             options={languageData} */
+/*             simpleValue */
+/*             clearable={this.state.clearable} */
+/*             wrapperStyle={{ */
+/*               margin: "20px 0 0 0", */
+/*               width: "100%" */
+/*             }} */
+/*             style={{ */
+/*               width: "100%" */
+/*             }} */
+/*             menuContainerStyle={{ */
+/*               width: "100%" */
+/*             }} */
+/*             menuStyle={{ */
+/*               width: "100%" */
+/*             }} */
+/*             name="usingLang" */
+/*             disabled={this.state.disabled} */
+/*             value={course.usingLang} */
+/*             onChange={this.usingDropdownChange} */
+/*             rtl={this.state.rtl} */
+/*             searchable={this.state.searchable} */
+/*           /> */
+/*           <Label>Teaching Language</Label> */
+/*           <Select */
+/*             id="teachingLang" */
+/*              ref={ref => { this.select = ref }} */
+
+/*             onBlurResetsInput={false} */
+/*             onSelectResetsInput={false} */
+/*             options={languageData} */
+/*             simpleValue */
+/*             clearable={this.state.clearable} */
+/*             wrapperStyle={{ */
+/*               margin: "20px 0 0 0", */
+/*               width: "100%" */
+/*             }} */
+/*             style={{ */
+/*               width: "100%" */
+/*             }} */
+/*             menuContainerStyle={{ */
+/*               width: "100%" */
+/*             }} */
+/*             menuStyle={{ */
+/*               width: "100%" */
+/*             }} */
+/*             name="teachingLang" */
+/*             disabled={this.state.disabled} */
+/*             value={course.teachingLang} */
+/*             onChange={this.teachingDropdownChange} */
+/*             rtl={this.state.rtl} */
+/*             searchable={this.state.searchable} */
+/*           /> */
+/*         </Segment> */
+/*         <Button */
+/*           style={{background: "#F6D155"}} */
+/*           loading={this.props.courseMeta.loading}> */
+/*           Save */
+/*         </Button> */
+/*       </Grid.Column> */
+/*     </Grid> */
+/*   </Segment> */
+/* </Form.Group> */
+
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
   const {User, Course} = session
   const course = Course.first().ref
   const userObj = User.all().toRefArray()
-  const user = {user: userObj[0]}
+  var user = userObj[0]
   return {
     user,
     course

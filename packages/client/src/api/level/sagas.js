@@ -23,13 +23,13 @@ export function* updateTeachingLevel(state) {
   var courseDetails = yield select(getCourseDetails)
   courseDetails =
     courseDetails.itemsById[Object.keys(courseDetails.itemsById)[0]]
-  const {courseAuthor, courseId, courseName} = courseDetails
+  const {owner, courseId, courseName} = courseDetails
   const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   /**
-   * @param {string} url ex.'/api/courses/:authId/:courseAuthor/:courseId/:courseName'
+   * @param {string} url ex.'/api/courses/:authId/:owner/:courseId/:courseName'
    */
-  const url = `/api/courses/${authId}/${courseAuthor}/${courseId}/${courseName}`
+  const url = `/api/courses/${authId}/${owner}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     const url = htmlReadyUrl
@@ -54,7 +54,7 @@ export function* updateTeachingLevel(state) {
         }
       })
 
-      res.data.data.courseAuthorId = res.data.data.courseAuthor
+      res.data.data.owner = res.data.data.owner
 
       yield put(push(`/course/${courseId}/${courseName}/edit`))
     } else {

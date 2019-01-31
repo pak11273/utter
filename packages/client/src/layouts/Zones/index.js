@@ -17,7 +17,6 @@ import {
   Input,
   Item,
   Loader,
-  /* Segment, */
   Select as SemSelect
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
@@ -43,7 +42,7 @@ const getZones = gql`
     $cursor: String
     $zoneName: String!
     $ref: String!
-    $author: String!
+    $owner: String!
     $usingLang: String!
     $teachingLang: String!
   ) {
@@ -51,7 +50,7 @@ const getZones = gql`
       cursor: $cursor
       zoneName: $zoneName
       ref: $ref
-      author: $author
+      owner: $owner
       usingLang: $usingLang
       teachingLang: $teachingLang
     ) {
@@ -61,7 +60,7 @@ const getZones = gql`
         zoneImage
         zoneName
         zoneDescription
-        zoneAuthor {
+        owner {
           username
         }
       }
@@ -91,7 +90,7 @@ class Zones extends Component {
   }
 
   render() {
-    const {zoneName, zoneRef, author, usingLang, teachingLang} = this.props
+    const {zoneName, zoneRef, owner, usingLang, teachingLang} = this.props
     return (
       <Grid.Row style={{padding: "40px"}}>
         <Query
@@ -100,7 +99,7 @@ class Zones extends Component {
             cursor: "",
             zoneName,
             ref: zoneRef,
-            author,
+            owner,
             usingLang,
             teachingLang
           }}>
@@ -112,7 +111,24 @@ class Zones extends Component {
                 </Grid.Column>
               )
             }
-            if (error) return <Grid.Column>{error.message}</Grid.Column>
+            if (error)
+              return (
+                <Grid.Column>
+                  {error.graphQLErrors.map(({message}, i) => (
+                    <p
+                      style={{
+                        fontSize: "1.3em",
+                        color: "red",
+                        margin: "30px",
+                        padding: "30px",
+                        textAlign: "center"
+                      }}
+                      key={i}>
+                      {message}
+                    </p>
+                  ))}
+                </Grid.Column>
+              )
             if (this.state.cursor !== "done") {
               var waypoint = (
                 <Waypoint
@@ -217,7 +233,7 @@ class Zones extends Component {
                         <div>
                           <Icon name="pencil" />
                           <a style={{padding: "0 20px 0 0"}}>
-                            {zone.zoneAuthor.username}
+                            {zone.owner.username}
                           </a>
                         </div>
                         <Button
@@ -245,12 +261,12 @@ class Zones extends Component {
 const options = [
   {key: "name", text: "Name", value: "name"},
   {key: "reference", text: "Reference", value: "reference"},
-  {key: "author", text: "Author", value: "author"}
+  {key: "owner", text: "Host", value: "owner"}
 ]
 
 const initialZonesContainerState = {
   search: "",
-  zoneAuthor: "",
+  owner: "",
   zoneInput: "",
   zoneName: "",
   selectionBox: "title",
@@ -334,7 +350,7 @@ class ZonesContainer extends Component {
       case "name": {
         // set zoneName
         const newName = update(this.state, {
-          zoneAuthor: {
+          owner: {
             $set: ""
           },
           zoneName: {
@@ -356,7 +372,7 @@ class ZonesContainer extends Component {
       case "reference": {
         // set zoneRef
         const newRef = update(this.state, {
-          zoneAuthor: {
+          owner: {
             $set: ""
           },
           zoneName: {
@@ -375,10 +391,10 @@ class ZonesContainer extends Component {
         break
       }
 
-      case "author": {
-        // set zoneAuthor
-        const newAuthor = update(this.state, {
-          zoneAuthor: {
+      case "owner": {
+        // set owner
+        const newOwner = update(this.state, {
+          owner: {
             $set: zoneInput
           },
           zoneName: {
@@ -392,7 +408,7 @@ class ZonesContainer extends Component {
           }
         })
 
-        this.setState(newAuthor)
+        this.setState(newOwner)
 
         break
       }
@@ -426,7 +442,7 @@ class ZonesContainer extends Component {
             name="description"
             content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
           />
-          <meta name="author" content="Isaac Pak" />
+          <meta name="owner" content="Isaac Pak" />
           <title>Utterzone | Zones</title>
           <link rel="canonical" href="https://utter.zone/zones" />
         </Helmet>
@@ -519,7 +535,7 @@ class ZonesContainer extends Component {
           </Grid.Column>
           <Zones
             zoneName={this.state.zoneName}
-            author={this.state.zoneAuthor}
+            owner={this.state.owner}
             zoneRef={this.state.zoneRef}
             usingLang={this.state.usingLang}
             teachingLang={this.state.teachingLang}

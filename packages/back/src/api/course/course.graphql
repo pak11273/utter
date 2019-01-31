@@ -15,7 +15,7 @@ type Level {
 type Course {
   id: ID
   courseName: String!
-  courseAuthor: User
+  owner: User
   courseDescription: String
   courseImage: String
   courseMode: String!

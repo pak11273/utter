@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
 import {withFormik} from "formik"
 import {Form, Modal, Button} from "semantic-ui-react"
 import {graphql} from "react-apollo"
@@ -15,8 +16,8 @@ import {addFlashMessage} from "../../app/actions/flashMessages.js"
 import {deleteData} from "../../api/actions.js"
 
 const courseDeleteMutation = gql`
-  mutation courseDeleteMutation($id: String!) {
-    courseDelete(id: $id)
+  mutation courseDeleteMutation($resourceID: String!) {
+    courseDelete(resourceID: $resourceID)
   }
 `
 
@@ -57,44 +58,53 @@ const mapStateToProps = state => {
   const course = Course.first().ref
 
   return {
-    addFlashMessage,
     course,
     deleteData
   }
 }
 
-/* const actions = {closeModal, deleteCourse: courseActions.delete} */
-const actions = {closeModal}
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(
+    {
+      addFlashMessage,
+      closeModal,
+      deleteData
+    },
+    dispatch
+  )
+})
 
 export default connect(
   mapStateToProps,
-  actions
+  mapDispatchToProps
 )(
   graphql(courseDeleteMutation)(
     withFormik({
       mapPropsToValues: ({course}) => ({
-        id: course.id
+        resourceID: course.id
       }),
       handleSubmit: async (values, {props}, setErrors) => {
-        const {data} = await props.mutate({
+        const result = await props.mutate({
           variables: values
         })
 
         const onComplete = () => {
-          props.closeModal()
-          props.deleteData("course")
+          console.log("props: ", props)
+          props.actions.closeModal()
+          props.actions.deleteData("course")
           history.push("/courses/created")
-          props.addFlashMessage({
-            type: "success",
-            text: "Your Course was deleted."
-          })
         }
 
         // if delete was successfull
-        if (data.courseDelete) {
+        if (result.data.courseDelete) {
           onComplete()
+          props.actions.addFlashMessage({
+            type: "success",
+            text: "Your Course was deleted."
+          })
         } else {
-          setErrors(data.errors)
+          console.log("result.data.errors: ", result.data.errors)
+          setErrors(result.data.errors)
         }
       }
     })(ModalContainer)

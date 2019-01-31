@@ -49,8 +49,15 @@ const roles = {
       }
     ]
   },
-  admin: {
+  paidUser: {
     static: [""]
+  },
+  admin: {
+    static: [
+      {
+        "admin:test": matchID
+      }
+    ]
   },
   superAdmin: {
     static: [""]

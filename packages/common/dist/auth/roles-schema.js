@@ -59,8 +59,13 @@ var roles = {
       "course:delete": matchID
     }]
   },
-  admin: {
+  paidUser: {
     static: [""]
+  },
+  admin: {
+    static: [{
+      "admin:test": matchID
+    }]
   },
   superAdmin: {
     static: [""]

@@ -1,9 +1,10 @@
 directive @auth on OBJECT | FIELD_DEFINITION
+directive @hasScope(scope: String) on FIELD_DEFINITION
 
 type Course {
   id: ID!
   courseName: String!
-  courseAuthor: User
+  owner: User
   courseDescription: String
   courseImage: String
   courseMode: String!
@@ -55,6 +56,6 @@ extend type Query {
 
 extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
-	courseDelete(id: String!): Boolean
+	courseDelete(resourceID: String!): Boolean @hasScope(scope: "course:delete")
   courseUpdate(input: CourseUpdated!): Course!
 }

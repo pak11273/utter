@@ -44,7 +44,7 @@ class CourseIntroduction extends Component {
 
     this.setState(newData)
 
-    if (this.props.user.username === this.props.course.courseAuthor.username) {
+    if (this.props.user.username === this.props.course.owner.username) {
       this.setState({
         disabled: false
       })
@@ -120,7 +120,7 @@ class CourseIntroduction extends Component {
             roles={user.roles}
             perform="course:update"
             id={user.username}
-            matchingID={course.courseAuthor.username}
+            matchingID={course.owner.username}
             yes={() => (
               <Container style={{paddingBottom: "5em"}} text>
                 <Header as="h2">Course Thumbnail</Header>
@@ -142,7 +142,7 @@ class CourseIntroduction extends Component {
             <Header as="h4" attached="top" block />
             <Segment attached>
               Course Author:{" "}
-              <em style={{fontWeight: 900}}>{course.courseAuthor.username}</em>
+              <em style={{fontWeight: 900}}>{course.owner.username}</em>
             </Segment>
             <Header as="h4" attached="bottom" block />
           </Container>
@@ -150,7 +150,7 @@ class CourseIntroduction extends Component {
             roles={user.roles}
             perform="course:update-introduction"
             id={user.username}
-            matchingID={course.courseAuthor.username}
+            matchingID={course.owner.username}
             yes={() => (
               <Container
                 style={{position: "relative", paddingBottom: "5em"}}

@@ -49,12 +49,6 @@ const baseSchema = `
   }
 `
 const schema = makeExecutableSchema({
-  schemaDirectives: {
-    formattableDate: FormattableDateDirective,
-    deprecated: DeprecatedDirective,
-    auth: AuthDirective,
-    hasScope: hasScopeDirective
-  },
   typeDefs: [
     baseSchema,
     userTypeDefs,
@@ -64,6 +58,12 @@ const schema = makeExecutableSchema({
     testTypeDefs,
     zoneTypeDefs
   ],
+  schemaDirectives: {
+    formattableDate: FormattableDateDirective,
+    deprecated: DeprecatedDirective,
+    auth: AuthDirective,
+    hasScope: hasScopeDirective
+  },
   resolvers: merge(
     {},
     userResolvers,

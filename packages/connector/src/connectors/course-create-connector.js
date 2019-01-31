@@ -63,7 +63,7 @@ const CourseCreateMutation = gql`
     ) {
       id
       courseName
-      courseAuthor {
+      owner {
         username
       }
       courseDescription

@@ -25,7 +25,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 var composeEnhancers = compose
 
 if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
-  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 }
 
 const sagaMiddleware = createSagaMiddleware()

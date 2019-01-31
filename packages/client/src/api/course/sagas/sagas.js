@@ -11,10 +11,10 @@ import {MODAL_RESET} from "../../../containers/modals/types.js"
 // import {resetModal} from '../../../containers/modals/actions.js'
 
 function* deleteTeachingCourse(state) {
-  const {courseAuthor, courseId, courseName} = state
+  const {owner, courseId, courseName} = state
   const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
-  const url = `/api/courses/${authId}/${courseAuthor}/${courseId}/${courseName}`
+  const url = `/api/courses/${authId}/${owner}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     const url = htmlReadyUrl
@@ -60,10 +60,10 @@ function* deleteTeachingCourse(state) {
 }
 
 export function* fetchTeachingCourse(state) {
-  const {courseAuthorId, courseId, courseName} = state
+  const {owner, courseId, courseName} = state
   const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
-  const url = `/api/courses/${authId}/${courseAuthorId}/${courseId}/${courseName}`
+  const url = `/api/courses/${authId}/${owner}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
 
   try {
@@ -74,7 +74,7 @@ export function* fetchTeachingCourse(state) {
     const params = null
 
     /**
-     * @param {string} url ex.'/api/courses/:authId/:courseAuthorId/:courseId/:courseName'
+     * @param {string} url ex.'/api/courses/:authId/:owner/:courseId/:courseName'
      */
     const res = yield call(fetchData, {url, method, data, params, cb})
 
@@ -108,13 +108,13 @@ export function* fetchTeachingCourse(state) {
 }
 
 export function* updateTeachingCourse(state) {
-  const {courseAuthor, courseId, courseName} = state
+  const {owner, courseId, courseName} = state
   const getAuthId = state => state.apiReducer.User.items[0]
   const authId = yield select(getAuthId)
   /**
-   * @param {string} url ex.'/api/courses/:authId/:courseAuthor/:courseId/:courseName'
+   * @param {string} url ex.'/api/courses/:authId/:owner/:courseId/:courseName'
    */
-  const url = `/api/courses/${authId}/${courseAuthor}/${courseId}/${courseName}`
+  const url = `/api/courses/${authId}/${owner}/${courseId}/${courseName}`
   const htmlReadyUrl = encodeURI(url)
   try {
     const url = htmlReadyUrl
@@ -139,7 +139,7 @@ export function* updateTeachingCourse(state) {
         }
       })
 
-      res.data.data.courseAuthorId = res.data.data.courseAuthor
+      res.data.data.owner = res.data.data.owner
       yield call(fetchTeachingCourse, res.data.data)
 
       yield put(push(`/course/${courseId}/${courseName}/edit`))

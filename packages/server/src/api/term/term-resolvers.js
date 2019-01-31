@@ -18,14 +18,14 @@ const getTerm = async (_, {id}, {user}) => {
 const deleteTerm = async (_, {id}, ctx) => {
   console.log("id: ", id)
   const course = await Term.findById(id).exec()
-  /* Term.findOneAndDelete({courseAuthor: user._id && id: id}) { */
+  /* Term.findOneAndDelete({owner: user._id && id: id}) { */
   /* } */
 
   if (!course) {
     throw new Error("No course found.")
   }
 
-  if (course.courseAuthor === id) {
+  if (course.owner === id) {
     // TODO: delete course
   }
 
@@ -42,7 +42,7 @@ const courseCreate = async (_, args, ctx, info) => {
   console.log("ctx: ", ctx.user)
   //TODO can't have duplicate course names
   const {input} = args
-  input.courseAuthor = ctx.user
+  input.owner = ctx.user
   const course = await Term.create(input)
   course.id = course._id
   console.log("course: ", typeof course)
@@ -52,11 +52,11 @@ const courseCreate = async (_, args, ctx, info) => {
 const getCreatedTerms = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  query.courseAuthor = ctx.user
+  query.owner = ctx.user
   // end query object
 
-  /* // TODO: HOTFIX, using a fake courseAuthor, delete this after testing */
-  /* query.courseAuthor = "5b9012f043aa4329f187f01a" */
+  /* // TODO: HOTFIX, using a fake owner, delete this after testing */
+  /* query.owner = "5b9012f043aa4329f187f01a" */
   /* end */
 
   if (args.cursor) {
@@ -83,7 +83,7 @@ const getCreatedTerms = async (_, args, ctx, info) => {
 const getTerms = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  var courseName, courseRef, courseAuthor
+  var courseName, courseRef, owner
 
   args.title
     ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
@@ -92,13 +92,13 @@ const getTerms = async (_, args, ctx, info) => {
   args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
 
   if (args.author) {
-    var courseAuthor = await Term.findByUsername(args.author, (err, docs) => {
+    var owner = await Term.findByUsername(args.author, (err, docs) => {
       if (err) {
         // console.log doesn't work here
       }
       if (!isEmpty(docs)) {
-        var courseAuthor = docs._id
-        query.courseAuthor = courseAuthor
+        var owner = docs._id
+        query.owner = owner
       }
     })
   }
@@ -145,10 +145,10 @@ export const courseResolvers = {
     courseCreate
   },
   Term: {
-    async courseAuthor(course) {
-      const populated = await course.populate("courseAuthor").execPopulate()
+    async owner(course) {
+      const populated = await course.populate("owner").execPopulate()
 
-      return populated.courseAuthor
+      return populated.owner
     }
   }
 }

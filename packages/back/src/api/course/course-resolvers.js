@@ -28,7 +28,7 @@ const getCourses = async (_, args, ctx, info) => {
   console.log("args: ", args)
   // build query object
   const query = {}
-  var courseName, courseRef, courseAuthor
+  var courseName, courseRef, owner
 
   args.title
     ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
@@ -37,13 +37,13 @@ const getCourses = async (_, args, ctx, info) => {
   args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
 
   if (args.author) {
-    var courseAuthor = await Course.findByUsername(args.author, (err, docs) => {
+    var owner = await Course.findByUsername(args.author, (err, docs) => {
       if (err) {
         // console.log doesn't work here
       }
       if (!isEmpty(docs)) {
-        var courseAuthor = docs._id
-        query.courseAuthor = courseAuthor
+        var owner = docs._id
+        query.owner = owner
       }
     })
   }
@@ -89,10 +89,10 @@ export const courseResolvers = {
     createCourse
   },
   Course: {
-    async courseAuthor(course) {
-      const populated = await course.populate("courseAuthor").execPopulate()
+    async owner(course) {
+      const populated = await course.populate("owner").execPopulate()
 
-      return populated.courseAuthor
+      return populated.owner
     }
   }
 }

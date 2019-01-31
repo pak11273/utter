@@ -19,8 +19,8 @@ export default {
     if (req.query.courseRef) {
       query.courseRef = new RegExp(`${req.query.courseRef}`, "i")
     }
-    if (req.query.courseAuthor) {
-      query.courseAuthor = req.query.courseAuthor
+    if (req.query.owner) {
+      query.owner = req.query.owner
     }
     if (req.query.usingLang) {
       query.usingLang = req.query.usingLang
@@ -30,18 +30,18 @@ export default {
     }
 
     try {
-      // find courseAuthorId from name
-      if (req.query.courseAuthor) {
-        var courseAuthor = await Course.findByUsername(
-          req.query.courseAuthor,
+      // find owner from name
+      if (req.query.owner) {
+        var owner = await Course.findByUsername(
+          req.query.owner,
           (err, docs) => {
             if (err) {
               // console.log doesn't work here
             }
             if (!isEmpty(docs)) {
-              var courseAuthor = docs._id
-              console.log("course author: ", courseAuthor)
-              query.courseAuthor = courseAuthor
+              var owner = docs._id
+              console.log("course author: ", owner)
+              query.owner = owner
             }
           }
         )
@@ -57,7 +57,7 @@ export default {
               courseName: 1,
               courseDescription: 1,
               courseRef: 1,
-              courseAuthor: 1,
+              owner: 1,
               courseImage: 1,
               subscribers: {$size: "$subscribers"}
             }
@@ -67,7 +67,7 @@ export default {
         ])
 
         var result = await Course.populate(prePopResult, {
-          path: "courseAuthor"
+          path: "owner"
         })
 
         var totalRecords = await Course.find(query).countDocuments()
@@ -98,7 +98,7 @@ export default {
               courseName: 1,
               courseDescription: 1,
               courseRef: 1,
-              courseAuthor: 1,
+              owner: 1,
               courseImage: 1,
               subscribers: {$size: "$subscribers"}
             }
@@ -106,7 +106,7 @@ export default {
         ])
 
         var result = await Course.populate(prePopResult, {
-          path: "courseAuthor"
+          path: "owner"
         })
 
         var lastResultId = ""
@@ -135,7 +135,7 @@ export default {
     if (req.params.courseId) {
       Course.findOne({
         _id: req.params.courseId,
-        courseAuthor: req.params.courseAuthorId
+        owner: req.params.owner
       }).then(
         data => {
           res.json({data})
@@ -166,8 +166,8 @@ export default {
   createOne: (req, res, next) => {
     console.log("body: ", req.body.course)
     let newCourse = req.body.course
-    newCourse.courseAuthor = {
-      _id: req.body.course.courseAuthorId
+    newCourse.owner = {
+      _id: req.body.course.owner
     }
     Course.create(newCourse).then(
       course => {
@@ -248,7 +248,7 @@ export default {
       //   ]
       // ])
       course.courseId = cuid()
-      course.courseAuthor = faker.random.arrayElement([
+      course.owner = faker.random.arrayElement([
         "5b9012f043aa4329f187f01a",
         "5b93f90c4d034f51d0e72286",
         "5baf12a86b73051f6295172b"
@@ -289,7 +289,7 @@ export default {
     // const pageStart = 1
     // const numPages = 10
     Course.paginate(
-      {courseAuthorId: req.params.courseAuthorId},
+      {owner: req.params.owner},
       {offset, limit, lean: true}
     )
       .then(function(result) {

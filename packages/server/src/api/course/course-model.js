@@ -9,16 +9,12 @@ const CourseSchema = mongoose.Schema(
       type: Schema.Types.Mixed,
       default: {}
     },
-    courseId: {
-      type: String,
-      default: ""
-    },
     courseName: {
       type: String,
       default: "",
       required: [true, "can't be blank"]
     },
-    courseAuthor: {
+    owner: {
       type: Schema.Types.ObjectId,
       ref: "User"
     },

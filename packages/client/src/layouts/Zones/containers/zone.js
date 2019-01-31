@@ -31,7 +31,7 @@ import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 /*         courseImage */
 /*         courseName */
 /*         courseMode */
-/*         courseAuthor { */
+/*         owner { */
 /*           username */
 /*         } */
 /*       } */

@@ -449,7 +449,6 @@ export default connect(
           text: "Start building your course."
         })
       } else {
-        console.log("result: ", result)
         setErrors(result.courseCreate.errors)
         props.actions.addFlashMessage({
           type: "error",

@@ -18,7 +18,7 @@ Course.fields = {
   id: attr(),
   courseName: attr(),
   email: attr(),
-  courseAuthor: attr(),
+  owner: attr(),
   courseDescription: attr(),
   courseImage: attr(),
   courseMode: attr(),

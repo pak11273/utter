@@ -1,10 +1,11 @@
 import "../styles.css"
+import React, {Component} from "react"
 import {Button, Container, Form, Grid, Header} from "semantic-ui-react"
 import {Field, withFormik} from "formik"
 import {bindActionCreators} from "redux"
 /* import update from "immutability-helper" */
 import {connect} from "react-redux"
-import React, {Component} from "react"
+import schema from "../../../app/schema.js"
 import {cloneDeep} from "lodash"
 import cuid from "cuid"
 import styled, {ThemeProvider} from "styled-components"
@@ -89,6 +90,7 @@ const initialState = {
   levels: [{level: 1, cuid: cuid()}],
   level: "",
   loading: false,
+  owner: "",
   public_id: "",
   secure_url: "",
   signature: "",
@@ -150,7 +152,7 @@ class ZoneCreate extends Component {
   render() {
     const {handleSubmit} = this.props
     const {zoneName, zoneDescription} = this.props.values
-
+    console.log("userid: ", this.props.user.id)
     return (
       <ThemeProvider theme={main}>
         <Grid>
@@ -167,6 +169,14 @@ class ZoneCreate extends Component {
             <Container>
               <Grid.Column textAlign="center">
                 <StyledForm error onSubmit={handleSubmit}>
+                  <div>
+                    <Field
+                      name="owner"
+                      component={FormikInput}
+                      value={this.props.user.id}
+                      style={{display: "none"}}
+                    />
+                  </div>
                   <Box margin="40px 0 0 0" position="relative">
                     <Header>
                       Zone Name
@@ -265,6 +275,16 @@ class ZoneCreate extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {User} = session
+  const userObj = User.all().toRefArray()
+  var user = userObj[0]
+  return {
+    user
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
@@ -276,14 +296,15 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(
   withFormik({
     validationSchema: zoneCreateSchema,
     validateOnChange: false,
     validateOnBlur: false,
-    mapPropsToValues: () => ({
+    mapPropsToValues: props => ({
+      owner: props.user.id,
       zoneName: "",
       zoneImage:
         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
@@ -307,7 +328,7 @@ export default connect(
         onComplete(result)
         props.actions.addFlashMessage({
           type: "success",
-          text: "Start building your zone."
+          text: "Zone successfully created!"
         })
       } else {
         setErrors(result.zoneCreate.errors)

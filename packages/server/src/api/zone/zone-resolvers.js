@@ -19,14 +19,14 @@ const getZone = async (_, {zoneId}, {user}) => {
 const zoneDelete = async (_, {id}, ctx) => {
   console.log("id: ", id)
   const zone = await Zone.findById(id).exec()
-  /* Zone.findOneAndDelete({zoneAuthor: user._id && id: id}) { */
+  /* Zone.findOneAndDelete({owner: user._id && id: id}) { */
   /* } */
 
   if (!zone) {
     throw new Error("No zone found.")
   }
 
-  if (zone.zoneAuthor === id) {
+  if (zone.owner === id) {
     // TODO: delete zone
   }
 
@@ -41,28 +41,25 @@ const zoneUpdate = (_, {input}) => {
 const zoneCreate = async (_, args, ctx, info) => {
   //TODO can't have duplicate zone names
   const {input} = args
-  console.log("input:", input)
-  input.zoneAuthor = ctx.user
   const zone = await Zone.create(input)
   zone.id = zone._id
-  console.log("zone: ", typeof zone)
   return zone
 }
 
 const getZoneLevels = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  query.zoneAuthor = ctx.user
+  query.owner = ctx.user
 }
 
 const getCreatedZones = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  query.zoneAuthor = ctx.user
+  query.owner = ctx.user
   // end query object
 
-  /* // TODO: HOTFIX, using a fake zoneAuthor, delete this after testing */
-  /* query.zoneAuthor = "5b9012f043aa4329f187f01a" */
+  /* // TODO: HOTFIX, using a fake owner, delete this after testing */
+  /* query.owner = "5b9012f043aa4329f187f01a" */
   /* end */
 
   if (args.cursor) {
@@ -89,7 +86,7 @@ const getCreatedZones = async (_, args, ctx, info) => {
 const getZones = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  var zoneName, zoneRef, zoneAuthor
+  var zoneName, zoneRef, owner
 
   args.title
     ? (query.zoneName = new RegExp(escapeRegex(args.title), "gi"))
@@ -97,14 +94,14 @@ const getZones = async (_, args, ctx, info) => {
 
   args.ref ? (query.zoneRef = new RegExp(escapeRegex(args.ref), "gi")) : null
 
-  if (args.author) {
-    var zoneAuthor = await Zone.findByUsername(args.author, (err, docs) => {
+  if (args.owner) {
+    var owner = await Zone.findByUsername(args.owner, (err, docs) => {
       if (err) {
         // console.log doesn't work here
       }
       if (!isEmpty(docs)) {
-        var zoneAuthor = docs._id
-        query.zoneAuthor = zoneAuthor
+        var owner = docs._id
+        query.owner = owner
       }
     })
   }
@@ -152,10 +149,10 @@ export const zoneResolvers = {
     zoneCreate
   },
   Zone: {
-    async zoneAuthor(zone) {
-      const populated = await zone.populate("zoneAuthor").execPopulate()
+    async owner(zone) {
+      const populated = await zone.populate("owner").execPopulate()
 
-      return populated.zoneAuthor
+      return populated.owner
     }
   }
 }

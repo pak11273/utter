@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
+/* import {connect} from "react-redux" */
 import {Link} from "react-router-dom"
 import {history} from "@utterzone/connector"
 import Select from "react-select"
@@ -55,7 +55,7 @@ const getCourses = gql`
         courseImage
         courseName
         courseDescription
-        courseAuthor {
+        owner {
           username
         }
       }
@@ -84,6 +84,7 @@ class Courses extends Component {
     const payload = {}
     payload.course = data
     store.dispatch(loadData(payload))
+    /* this.props.loadData(payload) */
 
     history.push({
       pathname: "/course/course-introduction",
@@ -228,7 +229,7 @@ class Courses extends Component {
                         <div>
                           <Icon name="pencil" />
                           <a style={{padding: "0 20px 0 0"}}>
-                            {course.courseAuthor.username}
+                            {course.owner.username}
                           </a>
                         </div>
                       </Card.Content>
@@ -253,7 +254,7 @@ const options = [
 
 const initialCoursesContainerState = {
   search: "",
-  courseAuthor: "",
+  owner: "",
   courseInput: "",
   courseName: "",
   selectionBox: "title",
@@ -337,7 +338,7 @@ class CoursesContainer extends Component {
       case "title": {
         // set courseName
         const newName = update(this.state, {
-          courseAuthor: {
+          owner: {
             $set: ""
           },
           courseName: {
@@ -359,7 +360,7 @@ class CoursesContainer extends Component {
       case "reference": {
         // set courseRef
         const newRef = update(this.state, {
-          courseAuthor: {
+          owner: {
             $set: ""
           },
           courseName: {
@@ -379,9 +380,9 @@ class CoursesContainer extends Component {
       }
 
       case "author": {
-        // set courseAuthor
+        // set owner
         const newAuthor = update(this.state, {
-          courseAuthor: {
+          owner: {
             $set: courseInput
           },
           courseName: {
@@ -402,6 +403,10 @@ class CoursesContainer extends Component {
       default:
         break
     }
+  }
+
+  refreshPage = () => {
+    this.forceUpdate()
   }
 
   render() {
@@ -463,7 +468,9 @@ class CoursesContainer extends Component {
                 ]}
               />
               <div style={{margin: "40px 0 0 0"}}>
-                <Link to="/courses/created">My Created Courses</Link>
+                <Link onClick={this.refreshPage} to="/courses/created">
+                  My Created Courses
+                </Link>
               </div>
             </Item>
           </Container>
@@ -493,7 +500,7 @@ class CoursesContainer extends Component {
           </Grid.Column>
           <Courses
             title={this.state.courseName}
-            author={this.state.courseAuthor}
+            author={this.state.owner}
             courseRef={this.state.courseRef}
             usingLang={this.state.usingLang}
             teachingLang={this.state.teachingLang}
@@ -504,13 +511,15 @@ class CoursesContainer extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadData: payload => dispatch(loadData(payload))
-  }
-}
+/* const mapDispatchToProps = dispatch => { */
+/*   return { */
+/*     loadData: payload => dispatch(loadData(payload)) */
+/*   } */
+/* } */
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CoursesContainer)
+/* export default connect( */
+/*   null, */
+/*   mapDispatchToProps */
+/* )(CoursesContainer) */
+
+export default CoursesContainer

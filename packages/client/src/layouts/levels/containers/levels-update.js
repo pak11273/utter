@@ -1,5 +1,9 @@
+/* eslint no-unused-vars: 0 */
 import React, {Component} from "react"
+import ReactTable from "react-table"
+import "react-table/react-table.css"
 import {connect} from "react-redux"
+import schema from "../../../app/schema.js"
 import {
   Button,
   Container,
@@ -11,10 +15,6 @@ import {
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 import {Masthead} from "../../../containers"
-
-import {AgGridReact} from "ag-grid-react"
-import "ag-grid-community/dist/styles/ag-grid.css"
-import "ag-grid-community/dist/styles/ag-theme-material.css"
 
 import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
@@ -69,11 +69,44 @@ class Levels extends Component {
   }
 
   render() {
+    const {course, level} = this.props
+    console.log("level: ", level)
+    const data = [
+      {
+        name: "Tanner Linsley",
+        age: 26,
+        friend: {
+          name: "Jason Maurer",
+          age: 23
+        }
+      }
+    ]
+
+    const columns = [
+      {
+        Header: "Name",
+        accessor: "name" // String-based value accessors!
+      },
+      {
+        Header: "Age",
+        accessor: "age",
+        Cell: props => <span className="number">{props.value}</span> // Custom cell components!
+      },
+      {
+        id: "friendName", // Required because our accessor is not a string
+        Header: "Friend Name",
+        accessor: d => d.friend.name // Custom value accessors!
+      },
+      {
+        Header: props => <span>Friend Age</span>, // Custom header components!
+        accessor: "friend.age"
+      }
+    ]
     return (
       <Query
         query={getCourse}
         variables={{
-          courseId: "5c2437abfe78c625504080f1"
+          courseId: course.id
         }}>
         {({loading, error}) => {
           if (loading) {
@@ -83,7 +116,26 @@ class Levels extends Component {
               </Grid.Column>
             )
           }
-          if (error) return <Grid.Column>{error.message}</Grid.Column>
+          if (error)
+            return (
+              <Grid.Column>
+                <pre>
+                  {error.graphQLErrors.map(({message}, i) => (
+                    <p
+                      style={{
+                        fontSize: "1em",
+                        color: "red",
+                        margin: "30px",
+                        padding: "30px",
+                        textAlign: "center"
+                      }}
+                      key={i}>
+                      {message}
+                    </p>
+                  ))}
+                </pre>
+              </Grid.Column>
+            )
           return (
             <Grid columns={1} centered>
               <Grid.Column textAlign="center">
@@ -97,40 +149,20 @@ class Levels extends Component {
                 <Container style={{paddingBottom: "5em"}} text>
                   <Header as="h4" attached="top" block />
                   <Segment attached>
-                    <div
-                      className="ag-theme-material"
+                    <ReactTable data={data} columns={columns} />
+                    <Button
+                      onClick={this.onButtonClick}
+                      color="yellow"
+                      floated="right"
+                      fontSize="1.5rem"
                       style={{
-                        position: "relative",
-                        height: "500px",
-                        margin: "0 auto",
-                        width: "100%"
-                      }}>
-                      <AgGridReact
-                        enableColResize
-                        rowDragManaged
-                        defaultColDef={{
-                          headerComponentParams: {
-                            menuIcon: "fa-bars"
-                          }
-                        }}
-                        onGridReady={params => (this.gridApi = params.api)}
-                        columnDefs={this.state.columnDefs}
-                        rowData={this.state.rowData}
-                      />
-                      <Button
-                        onClick={this.onButtonClick}
-                        color="yellow"
-                        floated="right"
-                        fontSize="1.5rem"
-                        style={{
-                          bottom: "-80px",
-                          right: "60px",
-                          position: "absolute"
-                        }}
-                        type="submit">
-                        Save
-                      </Button>
-                    </div>
+                        bottom: "-80px",
+                        right: "60px",
+                        position: "absolute"
+                      }}
+                      type="submit">
+                      Save
+                    </Button>
                   </Segment>
                   <Header as="h4" attached="bottom" block />
                 </Container>
@@ -144,8 +176,19 @@ class Levels extends Component {
 }
 
 const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {User, Course, Level} = session
+  const userObj = User.all().toRefArray()
+  const courseObj = Course.all().toRefArray()
+  const levelObj = Level.all().toRefArray()
+  var user = userObj[0]
+  var course = courseObj[0]
+  var level = levelObj[0]
+
   return {
-    course: state.courseReducer
+    user,
+    course,
+    level
   }
 }
 
