@@ -5,7 +5,4 @@ export * from "./connectors/change-password-connector.js"
 export * from "./connectors/forgot-password-connector.js"
 export * from "./connectors/course-create-connector.js"
 export * from "./connectors/zone-create-connector.js"
-export * from "./connectors/socketio/socketio-connector.js"
-export * from "./connectors/socketio/message-connector.js"
-
 export * from "./history"

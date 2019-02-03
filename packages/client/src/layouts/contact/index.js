@@ -3,7 +3,6 @@ import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 import {Container, Grid, Header} from "semantic-ui-react"
 import ContactForm from "../../containers/forms/contact_form/contact-form"
-import socketio from "../../services/socketio/index.js"
 
 // actions
 import {contactmail} from "../../app/actions/contact-mail-actions"
@@ -15,7 +14,6 @@ class Contact extends Component {
   }
 
   render() {
-    console.log("socket: ", socketio)
     const {contactmail} = this.props
     return (
       <div>

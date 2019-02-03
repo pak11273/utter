@@ -23,9 +23,7 @@ import {
 } from "../../services/socketio/actions.js"
 import "./styles.css"
 
-/* import io from "socket.io-client" */
-
-/* const socket = io() */
+/* const socket = socketio() */
 
 const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">
@@ -102,7 +100,7 @@ class ChatContainer extends Component {
   }
 
   componentDidMount() {
-    /* const {zoneName} = this.props.zone */
+    const {zoneName} = this.props.zone
 
     /* socket.on("connect", () => { */
     /*   console.log("yeah, user connected!") */
@@ -113,12 +111,6 @@ class ChatContainer extends Component {
 
     /*   socket.emit("join", params, () => { */
     /*     console.log(`User has joined "${zoneName}."`) */
-    /*   }) */
-
-    /*   socket.on("newMessge", data => { */
-    /*     console.log("new message: ", data) */
-    /*     console.log("dat: , ", data.msg) */
-    /*     /1* console.log("dat: , ", data.zoneName) *1/ */
     /*   }) */
     /* }) */
 
@@ -162,7 +154,7 @@ class ChatContainer extends Component {
                   audio: {
                     /* author: props.userReducer.userProfile.username, */
                     author: "chino",
-                    room: props.socketReducer.joined_room,
+                    /* room: props.socketReducer.joined_room, */
                     /* name: "file" + fileCounter++ + ".wav", */
                     type: "audio/wav",
                     dataUrl
@@ -220,8 +212,8 @@ class ChatContainer extends Component {
         id: cuid.generate(),
         msg: value,
         /* author: this.props.userReducer.userProfile.username, */
-        author: "chino",
-        room: this.props.socketReducer.joined_room
+        author: "chino"
+        /* room: this.props.socketReducer.joined_room */
       }
 
       this.props.actions.addMsg(body)
@@ -237,7 +229,7 @@ class ChatContainer extends Component {
 
     /* socket.emit("createMessage", { */
     /*   msg: this.state.msg, */
-    /*   zoneName: this.props.zone.zoneName */
+    /*   zone: this.props.zone.zoneName */
     /* }) */
 
     const audio = this.props.socketReducer.audioBlob
@@ -254,8 +246,8 @@ class ChatContainer extends Component {
       id: cuid(),
       msg: this.state.msg,
       /* author: this.props.userReducer.userProfile.username, */
-      author: "chino",
-      room: this.props.socketReducer.joined_room
+      author: "chino"
+      /* room: this.props.socketReducer.joined_room */
     }
     if (body.msg) {
       this.props.actions.addMsg(body)
@@ -361,30 +353,34 @@ class ChatContainer extends Component {
   }
 
   render() {
+    /* socket.on("newMessge", data => { */
+    /*   console.log("new message: ", data) */
+    /*   console.log("dat: , ", data.msg) */
+    /*   /1* console.log("dat: , ", data.zoneName) *1/ */
+    /* }) */
+
     const {zoneName} = this.props.zone
     /* console.log("process: ", process.env.SOCKETIO_SERVER_URL) */
-    if (this.props.socketReducer.joined_room !== "Lobby") {
-      var recordBtn = (
-        <Box flexdirection="row">
-          <Button
-            style={{height: "50px", margin: "5px 10px 0 0"}}
-            circular
-            className="record"
-            toggle
-            color="red"
-            size="tiny">
-            rec
-          </Button>
-          <Button
-            style={{height: "50px", margin: "5px 40px 0 0"}}
-            className="stop"
-            color="teal"
-            size="tiny">
-            stop
-          </Button>
-        </Box>
-      )
-    }
+    var recordBtn = (
+      <Box flexdirection="row">
+        <Button
+          style={{height: "50px", margin: "5px 10px 0 0"}}
+          circular
+          className="record"
+          toggle
+          color="red"
+          size="tiny">
+          rec
+        </Button>
+        <Button
+          style={{height: "50px", margin: "5px 40px 0 0"}}
+          className="stop"
+          color="teal"
+          size="tiny">
+          stop
+        </Button>
+      </Box>
+    )
     return (
       <Box>
         <Box padding="20px">

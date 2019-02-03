@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
-/* import socketio from "../services/socketio/index.js" */
 
 import {Grid, Header, Image} from "semantic-ui-react"
 
@@ -14,7 +13,6 @@ class About extends Component {
   }
 
   render() {
-    /* console.log("socketio: ", socketio) */
     return (
       <Grid centered columns={2} style={{background: "black"}}>
         <Helmet>

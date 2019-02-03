@@ -28,17 +28,6 @@ import "../styles.css"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
-/* import socketio from "socket.io-client" */
-
-/* // socketio connection */
-/* if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") { */
-/*   console.log("server soket url: ", process.env.SOCKETIO_SERVER_URL) */
-/*   var socket = socketio.connect(process.env.SOCKETIO_SERVER_URL) */
-/* } else { */
-/*   socket = socketio.connect("http://192.168.68.8:3010") */
-/* } */
-
-/* socket.on("connect", () => console.log("we connected")) */
 
 const getZones = gql`
   query getZones(

@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^3.9.1",
     "@utterzone/common": "^1.0.0",
     "@utterzone/connector": "^1.0.0",
     "apollo-boost": "^0.1.16",

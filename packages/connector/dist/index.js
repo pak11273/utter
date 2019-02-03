@@ -88,30 +88,6 @@ Object.keys(_zoneCreateConnector).forEach(function (key) {
   });
 });
 
-var _socketioConnector = require("./connectors/socketio/socketio-connector.js");
-
-Object.keys(_socketioConnector).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _socketioConnector[key];
-    }
-  });
-});
-
-var _messageConnector = require("./connectors/socketio/message-connector.js");
-
-Object.keys(_messageConnector).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _messageConnector[key];
-    }
-  });
-});
-
 var _history = require("./history");
 
 Object.keys(_history).forEach(function (key) {
