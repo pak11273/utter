@@ -1,10 +1,11 @@
 import React, {Component} from "react"
+import schema from "../../app/schema.js"
 /* import {Link} from "react-router-dom" */
 import {bindActionCreators} from "redux"
 import {find} from "lodash"
 import {connect} from "react-redux"
 import {Box, List, ListItem, TextArea} from "../../components"
-import {Button} from "semantic-ui-react"
+import {Button, Header} from "semantic-ui-react"
 import styled from "styled-components"
 import cuid from "cuid"
 /* import socketio from "socket.io-client" */
@@ -20,12 +21,19 @@ import {
   sendAudioBlob,
   sendMsg
 } from "../../services/socketio/actions.js"
+import "./styles.css"
+
+/* import io from "socket.io-client" */
+
+/* const socket = io() */
 
 const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">
     {author}:{" "}
     {audio ? (
-      <audio src={audio} controls>
+      <audio className="msg-audio" src={audio} controls>
+        Your browser does not support the
+        <code>audio</code> element.
         <track kind="captions" />
       </audio>
     ) : null}{" "}
@@ -36,18 +44,20 @@ const Msg = ({author, audio, msg}) => (
 function MsgList(props) {
   const {list, onMsgClick} = props
   return (
-    <div style={{margin: "100px 0 0 0", width: "90%"}}>
+    <div style={{width: "90%"}}>
       <Box
         id="chatList"
         alignitems="flex-start"
         height="600px"
         justifycontent="flex-start"
         margin="0 0 20px 0"
-        overflowy="scroll">
+        overflowy="scroll"
+        padding="20px"
+        wordbreak="break-all">
         <List className="Message" style={{textAlign: "left", fontSize: "1rem"}}>
           {list.map(item => (
             <Msg
-              key={item.id}
+              key={cuid()}
               author={item.author}
               audio={item.dataUrl}
               msg={item.msg}
@@ -61,18 +71,15 @@ function MsgList(props) {
 }
 
 class MsgBox extends Component {
-  onChange = () => {
-    // set the current message
-  }
-
   render() {
-    const {current_msg, onKeyUp} = this.props
+    const {onKeyUp} = this.props
     return (
       <TextArea
         id="inputMessageBox"
+        name="msg"
         placeholder="enter a message"
-        value={current_msg}
-        onChange={this.onChange}
+        defaultValue={this.props.value}
+        onChange={e => this.props.onChange(e.target.value)}
         onKeyUp={onKeyUp}
         width="90%"
       />
@@ -89,10 +96,32 @@ class ChatContainer extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {msg: ""}
+    this.state = {
+      msg: ""
+    }
   }
 
   componentDidMount() {
+    /* const {zoneName} = this.props.zone */
+
+    /* socket.on("connect", () => { */
+    /*   console.log("yeah, user connected!") */
+
+    /*   var params = { */
+    /*     zone: zoneName */
+    /*   } */
+
+    /*   socket.emit("join", params, () => { */
+    /*     console.log(`User has joined "${zoneName}."`) */
+    /*   }) */
+
+    /*   socket.on("newMessge", data => { */
+    /*     console.log("new message: ", data) */
+    /*     console.log("dat: , ", data.msg) */
+    /*     /1* console.log("dat: , ", data.zoneName) *1/ */
+    /*   }) */
+    /* }) */
+
     /* var fileCounter = 0 */
     var {props} = this
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -203,6 +232,14 @@ class ChatContainer extends Component {
 
   onSend = e => {
     e.preventDefault()
+
+    console.log("msg: ", this.state.msg)
+
+    /* socket.emit("createMessage", { */
+    /*   msg: this.state.msg, */
+    /*   zoneName: this.props.zone.zoneName */
+    /* }) */
+
     const audio = this.props.socketReducer.audioBlob
     // send audio file
     if (audio) {
@@ -238,7 +275,7 @@ class ChatContainer extends Component {
     // const obj = {
     //   // author: this.props.userReducer.userProfile.username,
     //   room_id: this.props.roomReducer.selected,
-    //   message: this.props.chatReducer.current_msg
+    //   message: this.props.chatReducer.msg
     // }
 
     // if (obj.message) {
@@ -307,6 +344,12 @@ class ChatContainer extends Component {
     element.scrollTop = element.scrollHeight
   }
 
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   UNSAFE_componentWillUpdate() {
     // scroll ref: http://blog.vjeux.com/2013/javascript/scroll-position-with-react.html
     var node = document.getElementById("chatList")
@@ -318,7 +361,8 @@ class ChatContainer extends Component {
   }
 
   render() {
-    console.log("process: ", process.env.SOCKETIO_SERVER_URL)
+    const {zoneName} = this.props.zone
+    /* console.log("process: ", process.env.SOCKETIO_SERVER_URL) */
     if (this.props.socketReducer.joined_room !== "Lobby") {
       var recordBtn = (
         <Box flexdirection="row">
@@ -343,12 +387,18 @@ class ChatContainer extends Component {
     }
     return (
       <Box>
+        <Box padding="20px">
+          <Header>{zoneName}</Header>
+        </Box>
         <MsgList list={this.filteredMessages()} />
-        <Box style={{padding: "20px"}}>
-          {" "}
+        <Box padding="20px">
           <Article className="sound-clips" />
         </Box>
-        <MsgBox onKeyUp={this.onKeyUp} />
+        <MsgBox
+          onKeyUp={this.onKeyUp}
+          onChange={x => this.setState({msg: x})}
+          value={this.state.msg}
+        />
         <Box alignitems="flex-start" flexdirection="row" width="200px">
           {this.props.roomReducer.creator ? (
             <Button
@@ -376,6 +426,11 @@ class ChatContainer extends Component {
 }
 
 const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {Zone} = session
+  const zoneObj = Zone.all().toRefArray()
+  const zone = zoneObj[0]
+
   return {
     channelReducer: state.channelReducer,
     chatReducer: state.chatReducer,
@@ -384,7 +439,8 @@ const mapStateToProps = state => {
     roomReducer: state.roomReducer,
     socketReducer: state.socketReducer,
     userReducer: state.userReducer,
-    utteredList: state.utteredReducer.utteredList
+    utteredList: state.utteredReducer.utteredList,
+    zone
   }
 }
 

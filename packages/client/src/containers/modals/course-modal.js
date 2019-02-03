@@ -9,7 +9,7 @@ import gql from "graphql-tag"
 
 import orm from "../../app/schema.js"
 import {closeModal} from "./actions.js"
-/* import courseActions from "../../api/course/actions/course-actions.js" */
+/* import course-actions from "../../api/course/actions/course-actions.js" */
 
 // actions
 import {addFlashMessage} from "../../app/actions/flashMessages.js"

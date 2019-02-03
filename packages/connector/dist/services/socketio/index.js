@@ -24,16 +24,13 @@ var _createClass3 = _interopRequireDefault(_createClass2);
   enterModule && enterModule(module);
 })();
 
-var _socket = require("socket.io-client");
-
-var _socket2 = _interopRequireDefault(_socket);
-
 var _store = require("../../../../client/src/store.js");
 
 var _actions = require("../../../../client/src/services/socketio/actions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* import socketio from "socket.io-client" */
 var SocketIO = function () {
   function SocketIO() {
     var _this = this;
@@ -44,9 +41,9 @@ var SocketIO = function () {
 
     connect: new Promise(function (resolve, reject) {
       if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
-        _this.socket = _socket2.default.connect(process.env.SOCKETIO_SERVER_URL);
+        _this.socket = socketio.connect(process.env.SOCKETIO_SERVER_URL);
       } else {
-        _this.socket = _socket2.default.connect("http://192.168.68.8:3010");
+        _this.socket = socketio.connect("http://192.168.68.8:3010");
       }
 
       _this.socket.on("connect", function (nsp) {
@@ -68,7 +65,7 @@ var SocketIO = function () {
       var _this2 = this;
 
       return new Promise(function (resolve, reject) {
-        _this2.nsp = (0, _socket2.default)("/" + namespace);
+        _this2.nsp = socketio("/" + namespace);
         _this2.nsp.on("connection", function (nsp) {
           // return state of socket in redux
           resolve({ nsp: nsp });

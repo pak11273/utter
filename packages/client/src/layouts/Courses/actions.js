@@ -61,7 +61,7 @@ import {createAction} from "../../utils/redux-utils.js"
 /* } */
 
 /* // COURSE CREATE */
-/* // This action was moved to api/course/actions/courseActions.js */
+/* // This action was moved to api/course/actions/course-actions.js */
 
 /* // COURSE READ */
 /* const fetchCourse = course => { */

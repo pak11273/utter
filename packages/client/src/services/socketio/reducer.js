@@ -1,4 +1,6 @@
 import {
+  ADD_MESSAGE,
+  MESSAGE_FROM_SERVER,
   CREATE_ROOM,
   CREATE_ROOM_FAIL,
   CREATE_ROOM_SUCCESS,
@@ -41,6 +43,17 @@ import {
 
 export default (state = {nsp: []}, action) => {
   switch (action.type) {
+    case ADD_MESSAGE:
+    case MESSAGE_FROM_SERVER: {
+      return state.concat([
+        {
+          message: action.message,
+          author: action.author,
+          id: action.id
+        }
+      ])
+    }
+
     case CREATE_ROOM:
       return {
         ...state,
@@ -100,10 +113,9 @@ export default (state = {nsp: []}, action) => {
     case LOAD_SOCKET_NSPS_FAIL:
       return {...state, status: "loading nsp socket failed"}
     case LOAD_SOCKET_NSPS_SUCCESS:
-      const socket = action.result.socket
       return {
         ...state,
-        socket,
+        socket: action.result.socket,
         status: "connected to a namespace"
       }
     case NSP_CONNECT:

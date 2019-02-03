@@ -1,55 +1,70 @@
-function subscribe(socket) {
-  return eventChannel(emit => {
-    socket.on("users.login", ({username}) => {
-      emit(addUser({username}))
-    })
-    socket.on("users.logout", ({username}) => {
-      emit(removeUser({username}))
-    })
-    socket.on("messages.new", ({message}) => {
-      emit(newMessage({message}))
-    })
-    socket.on("disconnect", e => {
-      // TODO: handle
-    })
-    return () => {}
+import {takeEvery, call, take, put} from "redux-saga/effects"
+import {eventChannel} from "redux-saga"
+
+import {ADD_MESSAGE, MESSAGE_FROM_CLIENT} from "./types"
+
+function socketSendMessage(socket, action) {
+  return new Promise((resolve, reject) => {
+    try {
+      socket.send(JSON.stringify(action))
+      resolve(true)
+    } catch (err) {
+      reject(err)
+    }
   })
 }
 
-function* read(socket) {
-  const channel = yield call(subscribe, socket)
-  while (true) {
-    let action = yield take(channel)
-    yield put(action)
+export function* sendNewMessSage(socket, username, action) {
+  try {
+    const actionToSocket = {
+      ...action,
+      type: MESSAGE_FROM_CLIENT,
+      author: username
+    }
+    yield call(socketSendMessage, socket, actionToSocket)
+  } catch (error) {
+    console.log(error) // TODO: need better error handler
   }
 }
 
-function* write(socket) {
+export function* watchSendMessageSaga(socket, username) {
+  yield takeEvery(ADD_MESSAGE, sendNewMessSage, socket, username)
+}
+
+function createSocketChannel(socket) {
+  return eventChannel(emit => {
+    const errorHandler = error => {
+      emit(new Error(error))
+    }
+
+    const messageHandler = message => {
+      emit(JSON.parse(message))
+    }
+
+    socket.on("error", errorHandler)
+    socket.on("message", messageHandler)
+    const unsubscribe = () => {
+      socket.off("message", messageHandler)
+    }
+    return unsubscribe
+  })
+}
+
+export function* watchOnPings(socket) {
+  const socketChannel = yield call(createSocketChannel, socket)
+
   while (true) {
-    const {payload} = yield take(`${sendMessage}`)
-    socket.emit("message", payload)
+    try {
+      // An error from socketChannel will cause the saga jump to the catch block
+      const {type, ...payload} = yield take(socketChannel)
+      yield put({type, ...payload})
+    } catch (err) {
+      socketChannel.close()
+    }
   }
 }
 
-function* handleIO(socket) {
-  yield fork(read, socket)
-  yield fork(write, socket)
-}
-
-function* flow() {
-  while (true) {
-    let {payload} = yield take(`${login}`)
-    const socket = yield call(connect)
-    socket.emit("login", {username: payload.username})
-
-    const task = yield fork(handleIO, socket)
-
-    let action = yield take(`${logout}`)
-    yield cancel(task)
-    socket.emit("logout")
-  }
-}
-
-export default function* rootSaga() {
-  yield fork(flow)
+export default function getSagas(config) {
+  const {socket, username} = config
+  return [watchSendMessageSaga(socket, username), watchOnPings(socket)]
 }

@@ -266,19 +266,20 @@ class ZoneCreate extends Component {
                         <Header>Age Restrictions</Header>
                         <p>
                           Pick an appropriate age setting or a specific age
-                          demographic.
+                          demographic. Conversations are still not to involve
+                          any sexual misconduct or vulgar behaviour.
                         </p>
                         <Field
                           name="ageGroup"
                           component="select"
                           onClick={this.addAge}>
                           <option>Any age</option>
-                          <option>0-2 Babies</option>
-                          <option>Appropriate for ages rated 3+</option>
-                          <option>Appropriate for ages rated 7+</option>
-                          <option>Appropriate for ages rated 12+</option>
-                          <option>Appropriate for ages rated 16+</option>
-                          <option>Appropriate for ages rated 18+</option>
+                          <option>Safe for ages 0-2</option>
+                          <option>Safe for ages 3+</option>
+                          <option>Safe for ages 7+</option>
+                          <option>Safe for ages 12+</option>
+                          <option>Safe for ages 16+</option>
+                          <option>Safe for ages 18+</option>
                           <option>Kindergarten</option>
                           <option>Elementary</option>
                           <option>Middle School</option>
@@ -353,7 +354,6 @@ export default connect(
       console.log("values; ", values)
       const result = await props.submit(values)
       const onComplete = result => {
-        // TODO: push zoneId to redux
         history.push({
           pathname: "/zone/zone-settings",
           state: {zoneId: result.zoneCreate.id}

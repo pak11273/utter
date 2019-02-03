@@ -1,4 +1,6 @@
 import {
+  ADD_MESSAGE,
+  MESSAGE_FROM_SERVER,
   CREATE_ROOM,
   CREATE_ROOM_FAIL,
   CREATE_ROOM_SUCCESS,
@@ -34,24 +36,39 @@ import {
   SEND_ROOM_META,
   SEND_ROOM_META_FAIL,
   SEND_ROOM_META_SUCCESS
-} from './types.js'
+} from "./types.js"
 
-import io from 'socket.io-client'
-import ss from 'socket.io-stream'
+/* import io from "socket.io-client" */
+import ss from "socket.io-stream"
 const stream = ss.createStream()
-import {addAudio, addMsg} from '../../containers/Chat/actions.js'
+import {addAudio, addMsg} from "../../containers/chat/actions.js"
 import {
   loadQuestion,
   updatePicture,
   updateTranslation
-} from '../../containers/Pictures/actions.js'
-import {loadListType} from '../../containers/Rooms/actions.js'
+} from "../../containers/Pictures/actions.js"
+
+import {loadListType} from "../../containers/Rooms/actions.js"
+
+export const addMessage = (message, author, id) => ({
+  type: ADD_MESSAGE,
+  id,
+  message,
+  author
+})
+
+export const messageReceived = (message, author, id) => ({
+  type: MESSAGE_FROM_SERVER,
+  id,
+  message,
+  author
+})
 
 const createRoom = room => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [CREATE_ROOM, CREATE_ROOM_SUCCESS, CREATE_ROOM_FAIL],
-    promise: socket => socket.emit('create room', room)
+    promise: socket => socket.emit("create room", room)
   }
 }
 
@@ -64,17 +81,17 @@ const deleteAudioBlob = blob => {
 
 const getRooms = () => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [GET_ROOMS, GET_ROOMS_SUCCESS, GET_ROOMS_FAIL],
-    promise: socket => socket.emit('get rooms')
+    promise: socket => socket.emit("get rooms")
   }
 }
 
 const joinRoom = room => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [JOIN_ROOM, JOIN_ROOM_SUCCESS, JOIN_ROOM_FAIL],
-    promise: socket => socket.emit('join room', room)
+    promise: socket => socket.emit("join room", room)
   }
 }
 
@@ -88,7 +105,7 @@ const loadAudioBlob = blob => {
 //TODO: remove this action?
 const loadSocketNsps = socket => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [LOAD_SOCKET_NSPS, LOAD_SOCKET_NSPS_SUCCESS, LOAD_SOCKET_NSPS_FAIL],
     promise: socket => socket.connect()
   }
@@ -96,7 +113,7 @@ const loadSocketNsps = socket => {
 
 const nspConnect = namespace => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [GET_ROOMS, GET_ROOMS_SUCCESS, GET_ROOMS_FAIL],
     promise: socket => socket.nspConnect(namespace)
   }
@@ -105,14 +122,14 @@ const nspConnect = namespace => {
 const receiveAudioBlob = data => {
   return dispatch => {
     dispatch({
-      type: 'socket',
+      type: "socket",
       types: [
         RECEIVE_AUDIO_BLOB,
         RECEIVE_AUDIO_BLOB_SUCCESS,
         RECEIVE_AUDIO_BLOB_FAIL
       ],
       promise: socket =>
-        socket.on('receive audio blob', data).then(result => {
+        socket.on("receive audio blob", data).then(result => {
           dispatch(
             addAudio({
               author: result.audio.author,
@@ -127,10 +144,10 @@ const receiveAudioBlob = data => {
 const receiveMsg = body => {
   return dispatch => {
     dispatch({
-      type: 'socket',
+      type: "socket",
       types: [RECEIVE_MSG, RECEIVE_MSG_SUCCESS, RECEIVE_MSG_FAIL],
       promise: socket =>
-        socket.on('receive  msg', body).then(result => {
+        socket.on("receive  msg", body).then(result => {
           dispatch(addMsg({author: result.author, msg: result.msg}))
         })
     })
@@ -140,14 +157,14 @@ const receiveMsg = body => {
 const receiveRoomMeta = meta => {
   return dispatch => {
     dispatch({
-      type: 'socket',
+      type: "socket",
       types: [
         RECEIVE_ROOM_META,
         RECEIVE_ROOM_META_SUCCESS,
         RECEIVE_ROOM_META_FAIL
       ],
       promise: socket =>
-        socket.on('receive room meta', meta).then(result => {
+        socket.on("receive room meta", meta).then(result => {
           dispatch(loadQuestion(result.question))
           dispatch(updatePicture(result.src))
           dispatch(loadListType(result.listType))
@@ -159,25 +176,25 @@ const receiveRoomMeta = meta => {
 
 const sendAudioBlob = files => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [SEND_AUDIO_BLOB, SEND_AUDIO_BLOB_SUCCESS, SEND_AUDIO_BLOB_FAIL],
-    promise: socket => socket.emit('send audio blob', files)
+    promise: socket => socket.emit("send audio blob", files)
   }
 }
 
 const sendMsg = msg => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [SEND_MSG, SEND_MSG_SUCCESS, SEND_MSG_FAIL],
-    promise: socket => socket.emit('send msg', msg)
+    promise: socket => socket.emit("send msg", msg)
   }
 }
 
 const sendRoomMeta = meta => {
   return {
-    type: 'socket',
+    type: "socket",
     types: [SEND_ROOM_META, SEND_ROOM_META_SUCCESS, SEND_ROOM_META_FAIL],
-    promise: socket => socket.emit('send room meta', meta)
+    promise: socket => socket.emit("send room meta", meta)
   }
 }
 

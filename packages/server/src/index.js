@@ -5,16 +5,12 @@ import app from "./server.js"
 import config from "./config"
 import graphqlServer from "./graphql-server.js"
 import {decodeToken, hydrateUser} from "./auth"
-import SocketIO from "socket.io"
+import socketServer from "./socketio/socket-server.js"
 
 const server = http.createServer(app)
 
 // socketio instance
-const socketio = SocketIO(server)
-
-// require zone chat
-import zoneChat from "./socketio/zone-chat.js"
-zoneChat(socketio)
+socketServer(server)
 
 let currentApp = app
 

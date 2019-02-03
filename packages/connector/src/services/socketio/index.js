@@ -1,4 +1,4 @@
-import socketio from "socket.io-client"
+/* import socketio from "socket.io-client" */
 import {store} from "../../../../client/src/store.js"
 
 import {

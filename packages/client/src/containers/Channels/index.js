@@ -1,12 +1,12 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import styled from 'styled-components'
-import axios from 'axios'
-import io from 'socket.io-client'
-import {Rooms} from '../../containers'
-import {Box, Button, Column, Input, Ol, Text} from '../../components'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {Link} from "react-router-dom"
+import styled from "styled-components"
+import axios from "axios"
+/* import io from "socket.io-client" */
+import {Rooms} from "../../containers"
+import {Box, Button, Column, Input, Ol, Text} from "../../components"
 
 // actions
 import {
@@ -15,16 +15,16 @@ import {
   loadChannels,
   setChannelSocket,
   sortChannels
-} from './actions.js'
+} from "./actions.js"
 
-import {updateMsg} from '../Chat/actions.js'
+import {updateMsg} from "../chat/actions.js"
 
-import {updateRoomLanguage, updateRoomTitle} from '../Rooms/actions.js'
+import {updateRoomLanguage, updateRoomTitle} from "../Rooms/actions.js"
 
-import {nspConnect} from '../../services/socketio/actions.js'
+import {nspConnect} from "../../services/socketio/actions.js"
 
 const StyledChannel = styled.div`
-  color: ${props => (props.selected ? 'red' : 'black')};
+  color: ${props => (props.selected ? "red" : "black")};
   cursor: pointer;
   font-size: 1rem;
   padding: 10px 0 0 0;
@@ -55,14 +55,14 @@ const ChannelsList = ({channelList, channelSortAsc, onChannelSelect}) => (
 class ChannelsContainer extends Component {
   componentDidMount() {
     axios
-      .get('/api/channels')
+      .get("/api/channels")
       .then(res => {
         const channels = res.data.channel
         this.props.actions.loadChannels(channels)
       })
       .catch(err => {
         alert(
-          'Sorry. There was an internal error.  Please contact the system administrator about the problem' +
+          "Sorry. There was an internal error.  Please contact the system administrator about the problem" +
             err
         )
       })
@@ -79,7 +79,7 @@ class ChannelsContainer extends Component {
       this.props.actions.setChannelId(_id)
       this.props.actions.nspConnect(socket)
     } else {
-      alert('you must be enrolled in that course to join a channel')
+      alert("you must be enrolled in that course to join a channel")
     }
   }
 
@@ -104,7 +104,7 @@ class ChannelsContainer extends Component {
         </Column>
       )
     }
-    return <div style={{width: '100%'}}>{channel_room}</div>
+    return <div style={{width: "100%"}}>{channel_room}</div>
   }
 }
 
@@ -135,4 +135,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 // rooms should have a language property
-export default connect(mapStateToProps, mapDispatchToProps)(ChannelsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ChannelsContainer)

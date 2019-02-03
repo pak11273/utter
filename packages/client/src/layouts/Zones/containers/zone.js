@@ -74,7 +74,7 @@ class Zone extends Component {
     /* /> */
     /* const {routes} = this.props */
     return (
-      <Grid stackable>
+      <Grid>
         <Helmet>
           <meta charset="utf-8" />
           <meta
@@ -95,11 +95,12 @@ class Zone extends Component {
           ))}
         </Grid.Column>
 				*/}
-        <Grid.Column computer={6} style={{background: "LightGray"}}>
-          <Grid columns={1} padded="vertically">
-            <Grid.Column>
-              <Chat />
-              {/*
+        <Grid.Column width={12}>
+          <h1>GAMES</h1>
+        </Grid.Column>
+        <Grid.Column width={4} style={{background: "LightGray"}}>
+          <Chat />
+          {/*
               <Spacer margin="50px 0 0 0" />
               <Item align="center">
                 <Header as="h2">
@@ -118,8 +119,6 @@ class Zone extends Component {
                 </div>
               </Item>
 				*/}
-            </Grid.Column>
-          </Grid>
         </Grid.Column>
       </Grid>
     )

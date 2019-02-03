@@ -1,11 +1,14 @@
 import React, {Component} from "react"
-import {Link, withRouter} from "react-router-dom"
+import {connect} from "react-redux"
+import schema from "../../app/schema"
+import {Link} from "react-router-dom"
 import Select from "react-select"
 import {isEmpty, cloneDeep} from "lodash"
 import Waypoint from "react-waypoint"
 import {Helmet} from "react-helmet"
 import update from "immutability-helper"
 import {history} from "@utterzone/connector"
+import {loadData} from "../../api/actions.js"
 import {
   Button,
   Card,
@@ -21,7 +24,7 @@ import {
 } from "semantic-ui-react"
 import {Spacer} from "../../components"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-import "../../layouts/styles.css"
+import "../styles.css"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
@@ -95,6 +98,8 @@ class Zones extends Component {
   }
 
   handleJoin = zone => {
+    this.props.loadData({zone})
+
     history.push(`/zone/${zone.id}`)
   }
 
@@ -558,6 +563,7 @@ class ZonesContainer extends Component {
             zoneRef={this.state.zoneRef}
             usingLang={this.state.usingLang}
             teachingLang={this.state.teachingLang}
+            {...this.props}
           />
         </Grid.Column>
       </Grid>
@@ -565,4 +571,24 @@ class ZonesContainer extends Component {
   }
 }
 
-export default withRouter(ZonesContainer)
+const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {Zone} = session
+  const zoneObj = Zone.all().toRefArray()
+  const zone = zoneObj[0]
+
+  return {
+    zone
+  }
+}
+
+/* const mapDispatchToProps = dispatch => { */
+/*   return { */
+/*     loadData: payload => dispatch(loadData(payload)) */
+/*   } */
+/* } */
+
+export default connect(
+  mapStateToProps,
+  {loadData}
+)(ZonesContainer)

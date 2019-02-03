@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Box = styled.div`
   align-items: ${props => props.alignitems};
@@ -35,6 +35,7 @@ const Box = styled.div`
   top: ${props => props.top};
   white-space: ${props => props.whitespace};
   width: ${props => props.width};
+  word-break: ${props => props.wordbreak};
   z-index: ${props => props.zindex};
 
   @media (min-width: 640px) {
@@ -50,12 +51,12 @@ const Box = styled.div`
   }
 `
 Box.defaultProps = {
-  alignitems: 'center',
-  boxsizing: 'border-box',
-  display: 'flex',
-  flexdirection: 'column',
-  justifycontent: 'center',
-  textalign: 'left'
+  alignitems: "center",
+  boxsizing: "border-box",
+  display: "flex",
+  flexdirection: "column",
+  justifycontent: "center",
+  textalign: "left"
 }
 
 export default Box

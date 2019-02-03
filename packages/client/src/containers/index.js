@@ -1,4 +1,4 @@
-import Chat from "./Chat"
+import Chat from "./chat"
 import ChatPanel from "./ChatPanel"
 import Challenge from "./Challenge"
 import Channels from "./Channels"
