@@ -38,24 +38,16 @@ var _graphqlServer2 = _interopRequireDefault(_graphqlServer);
 
 var _auth = require("./auth");
 
-var _socket = require("socket.io");
+var _socketServer = require("./socketio/socket-server.js");
 
-var _socket2 = _interopRequireDefault(_socket);
-
-var _zoneChat = require("./socketio/zone-chat.js");
-
-var _zoneChat2 = _interopRequireDefault(_zoneChat);
+var _socketServer2 = _interopRequireDefault(_socketServer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var server = _http2.default.createServer(_server2.default);
 
 // socketio instance
-var socketio = (0, _socket2.default)(server);
-
-// require zone chat
-
-(0, _zoneChat2.default)(socketio);
+(0, _socketServer2.default)(server);
 
 var currentApp = _server2.default;
 
@@ -96,7 +88,6 @@ server.listen(_config2.default.port, function () {
   }
 
   reactHotLoader.register(server, "server", "src/index.js");
-  reactHotLoader.register(socketio, "socketio", "src/index.js");
   reactHotLoader.register(currentApp, "currentApp", "src/index.js");
   reactHotLoader.register(env, "env", "src/index.js");
   leaveModule(module);
@@ -115,7 +106,6 @@ server.listen(_config2.default.port, function () {
   }
 
   reactHotLoader.register(server, "server", "src/index.js");
-  reactHotLoader.register(socketio, "socketio", "src/index.js");
   reactHotLoader.register(currentApp, "currentApp", "src/index.js");
   reactHotLoader.register(env, "env", "src/index.js");
   leaveModule(module);

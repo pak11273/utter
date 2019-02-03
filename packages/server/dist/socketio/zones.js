@@ -16,16 +16,19 @@ Object.defineProperty(exports, "__esModule", {
   enterModule && enterModule(module);
 })();
 
-var _default = function _default(socketio) {
-  socketio.on("connection", function (socket) {
-    console.log("User connected");
-
-    socket.on("createMessage", function (data) {
-      console.log("val: ", data);
-    });
-  });
-};
-
+var _default = [{
+  name: "Terminus",
+  image: "chatrooms/terminus.jpg"
+}, {
+  name: "Alexandria",
+  image: "chatrooms/alexandria.jpg"
+}, {
+  name: "Sanctuary",
+  image: "chatrooms/sanctuary.jpg"
+}, {
+  name: "Hilltop",
+  image: "chatrooms/hilltop.jpg"
+}];
 var _default2 = _default;
 exports.default = _default2;
 ;
@@ -39,7 +42,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(_default, "default", "src/socketio/zone-chat.js");
+  reactHotLoader.register(_default, "default", "src/socketio/zones.js");
   leaveModule(module);
 })();
 
@@ -55,7 +58,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(_default2, "default", "src/socketio/zone-chat.js");
+  reactHotLoader.register(_default2, "default", "src/socketio/zones.js");
   leaveModule(module);
 })();
 
