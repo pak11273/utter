@@ -1,6 +1,6 @@
-import {createSelector} from 'reselect'
+import {createSelector} from "reselect"
 
-import orm from '../../app/schema'
+import orm from "../../core/schema"
 
 export const selectEntities = state => state.apiReducer
 

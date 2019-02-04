@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import schema from "../../app/schema"
+import schema from "../../core/schema"
 import {Link} from "react-router-dom"
 import Select from "react-select"
 import {isEmpty, cloneDeep} from "lodash"

@@ -141,7 +141,7 @@ var _default = function _default(socket, socketManager, zoneManager) {
     // remove user profile
     socketManager.removeSocket(socket);
     // remove member from all zones
-    zoneManager.removeSocket(socket);
+    socketManager.removeSocket(socket);
   }
 
   return {

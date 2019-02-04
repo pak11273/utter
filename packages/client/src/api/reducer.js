@@ -6,7 +6,7 @@ import * as sharedTypes from "./shared/types.js"
 
 import {createReducer} from "../utils/redux-utils.js"
 
-import orm from "../app/schema.js"
+import orm from "../core/schema.js"
 
 const initialState = orm.getEmptyState()
 

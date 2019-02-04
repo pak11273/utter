@@ -33,7 +33,7 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
   enterModule && enterModule(module);
 })();
 
-var _lodash = require("lodash");
+var _lodashEs = require("lodash-es");
 
 var _mongoose = require("mongoose");
 
@@ -233,7 +233,7 @@ var getCreatedApps = function () {
           case 5:
             result = _context5.sent;
 
-            if (!(0, _lodash.isEmpty)(result)) {
+            if (!(0, _lodashEs.isEmpty)(result)) {
               _context5.next = 10;
               break;
             }
@@ -282,7 +282,7 @@ var getApps = function () {
               if (err) {
                 // console.log doesn't work here
               }
-              if (!(0, _lodash.isEmpty)(docs)) {
+              if (!(0, _lodashEs.isEmpty)(docs)) {
                 var appAuthor = docs._id;
                 query.appAuthor = appAuthor;
               }
@@ -312,7 +312,7 @@ var getApps = function () {
           case 12:
             result = _context6.sent;
 
-            if (!(0, _lodash.isEmpty)(result)) {
+            if (!(0, _lodashEs.isEmpty)(result)) {
               _context6.next = 18;
               break;
             }

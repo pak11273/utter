@@ -1,6 +1,6 @@
 import React, {Component} from "react"
-import schema from "../app/schema.js"
-import {addFlashMessage} from "../app/actions/flashMessages.js"
+import schema from "../core/schema.js"
+import {addFlashMessage} from "../core/actions/flashMessages.js"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {history} from "@utterzone/connector"

@@ -32,7 +32,7 @@ import ceoImg from "../assets/images/ceo.jpg"
 import visitingImg from "../assets/images/walking-around.jpg"
 
 // actions
-import {toggleFooter} from "../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../core/actions/toggle-footer-action.js"
 
 const styles = theme => ({
   root: {

@@ -5,7 +5,7 @@ import {Field, withFormik} from "formik"
 import {bindActionCreators} from "redux"
 /* import update from "immutability-helper" */
 import {connect} from "react-redux"
-import schema from "../../../app/schema.js"
+import schema from "../../../core/schema.js"
 import {cloneDeep} from "lodash"
 import cuid from "cuid"
 import styled, {ThemeProvider} from "styled-components"
@@ -25,9 +25,9 @@ import {
   Span
 } from "../../../components"
 import {Masthead} from "../../../containers"
-import {addFlashMessage} from "../../../app/actions/flashMessages"
+import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {main} from "../../../themes/config"
-import {toggleFooter} from "../../../app/actions/toggle-footer-action"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;

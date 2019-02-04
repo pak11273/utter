@@ -1,12 +1,12 @@
-import {push} from 'react-router-redux'
-import {all, call, put, select, take, takeLatest} from 'redux-saga/effects'
-import axios from 'axios'
-import {fetchData} from '../../../utils/apiMgr'
-import {ADD_FLASH_MESSAGE} from '../../../app/types.js'
+import {push} from "react-router-redux"
+import {all, call, put, select, take, takeLatest} from "redux-saga/effects"
+import axios from "axios"
+import {fetchData} from "../../../utils/apiMgr"
+import {ADD_FLASH_MESSAGE} from "../../../core/types.js"
 
 // types
-import * as types from '../types'
-import {LOADER_ASYNC} from '../types'
+import * as types from "../types"
+import {LOADER_ASYNC} from "../types"
 
 export function* fetchUser(state) {
   const getAuthId = state => state.apiReducer.User.items[0]
@@ -16,7 +16,7 @@ export function* fetchUser(state) {
 
   try {
     const url = htmlReadyUrl
-    const method = 'get'
+    const method = "get"
     const data = {}
     const cb = null
     const params = null
@@ -40,8 +40,8 @@ export function* fetchUser(state) {
       yield put({
         type: ADD_FLASH_MESSAGE,
         message: {
-          type: 'success',
-          text: 'Your account was updated successfully.'
+          type: "success",
+          text: "Your account was updated successfully."
         }
       })
 
@@ -53,10 +53,10 @@ export function* fetchUser(state) {
     if (!error.response) {
       yield put({
         type: types.ACCOUNT_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
-      console.log('error: ', error.response.statusText)
+      console.log("error: ", error.response.statusText)
       const err = error.response.statusText
       yield put({
         type: types.ACCOUNT_ASYNC.ERROR,
@@ -74,7 +74,7 @@ export function* updateAccount(state) {
   const htmlReadyUrl = encodeURI(url)
   try {
     const url = htmlReadyUrl
-    const method = 'put'
+    const method = "put"
     const data = state
     const cb = null
     const params = null
@@ -97,10 +97,10 @@ export function* updateAccount(state) {
     if (!error.response) {
       yield put({
         type: types.ACCOUNT_ASYNC.ERROR,
-        payload: error.message || 'Something went wrong.'
+        payload: error.message || "Something went wrong."
       })
     } else {
-      console.log('error: ', error.response.statusText)
+      console.log("error: ", error.response.statusText)
       const err = error.response.statusText
       yield put({
         type: types.ACCOUNT_ASYNC.ERROR,

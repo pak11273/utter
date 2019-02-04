@@ -4,7 +4,7 @@ import {cloneDeep} from "lodash"
 import Select from "react-select"
 import {Button, Form, Grid, Header, Segment} from "semantic-ui-react"
 
-import orm from "../../../../app/schema.js"
+import orm from "../../../../core/schema.js"
 import {updateEntity} from "../../../../api/entities/actions.js"
 import updateAccount from "../../../../api/user/actions/account-actions.js"
 import languageData from "../../../../data/languageData.js"

@@ -26,10 +26,10 @@ import {
   Span
 } from "../../../components"
 import {Masthead} from "../../../containers"
-import {addFlashMessage} from "../../../app/actions/flashMessages"
+import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {fetchCourseName} from "../actions.js"
 import {main} from "../../../themes/config"
-import {toggleFooter} from "../../../app/actions/toggle-footer-action"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 import CourseRef from "../components/CourseRef"
 import Teaching from "./Teaching"
 import Using from "./Using"

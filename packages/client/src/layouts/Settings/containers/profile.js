@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {Form, Dropdown, Segment} from "semantic-ui-react"
-import orm from "../../../app/schema.js"
+import orm from "../../../core/schema.js"
 
 // import {selectUserInfo} from '../../../../api/user/selectors.js'
 

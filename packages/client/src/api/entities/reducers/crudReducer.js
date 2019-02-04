@@ -1,6 +1,6 @@
-import {ENTITY_UPDATE, ENTITY_DELETE, ENTITY_CREATE} from '../types.js'
-import {createConditionalSliceReducer} from '../../../utils/redux-utils.js'
-import orm from '../../../app/schema.js'
+import {ENTITY_UPDATE, ENTITY_DELETE, ENTITY_CREATE} from "../types.js"
+import {createConditionalSliceReducer} from "../../../utils/redux-utils.js"
+import orm from "../../../core/schema.js"
 
 export function createEntity(state, payload) {
   const {itemType, newItemAttributes} = payload.payload
@@ -52,7 +52,7 @@ const entityHandlers = {
 }
 
 const entityCrudReducer = createConditionalSliceReducer(
-  'apiReducer',
+  "apiReducer",
   entityHandlers
 )
 

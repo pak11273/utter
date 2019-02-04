@@ -7,12 +7,12 @@ import {graphql} from "react-apollo"
 import {history} from "@utterzone/connector"
 import gql from "graphql-tag"
 
-import orm from "../../app/schema.js"
+import orm from "../../core/schema.js"
 import {closeModal} from "./actions.js"
 /* import course-actions from "../../api/course/actions/course-actions.js" */
 
 // actions
-import {addFlashMessage} from "../../app/actions/flashMessages.js"
+import {addFlashMessage} from "../../core/actions/flashMessages.js"
 import {deleteData} from "../../api/actions.js"
 
 const courseDeleteMutation = gql`

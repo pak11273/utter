@@ -2,7 +2,7 @@
 
 import React, {PureComponent} from "react"
 import {connect} from "react-redux"
-import schema from "../../../client/src/app/schema"
+import schema from "../../../client/src/core/schema"
 import {loadData} from "../../../client/src/api/actions.js"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"

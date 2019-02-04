@@ -3,7 +3,7 @@ import React, {Component} from "react"
 import ReactTable from "react-table"
 import "react-table/react-table.css"
 import {connect} from "react-redux"
-import schema from "../../../app/schema.js"
+import schema from "../../../core/schema.js"
 import {
   Button,
   Container,
@@ -16,7 +16,7 @@ import {Query} from "react-apollo"
 import gql from "graphql-tag"
 import {Masthead} from "../../../containers"
 
-import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 const getCourse = gql`
   query getCourse($courseId: String!) {

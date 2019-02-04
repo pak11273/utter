@@ -5,7 +5,7 @@ import {Container, Grid, Header, List, Segment} from "semantic-ui-react"
 import "semantic-ui-css/semantic.min.css"
 import styled from "styled-components"
 
-import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 const StyledFooter = styled.section`
   align-items: ${props => props.alignitems};

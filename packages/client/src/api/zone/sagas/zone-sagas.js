@@ -1,7 +1,7 @@
 import {push} from "react-router-redux"
 import {all, call, put, select, takeLatest} from "redux-saga/effects"
 import {fetchData} from "../../../utils/apiMgr"
-import {ADD_FLASH_MESSAGE} from "../../../app/types.js"
+import {ADD_FLASH_MESSAGE} from "../../../core/types.js"
 
 // types
 import * as types from "../types"

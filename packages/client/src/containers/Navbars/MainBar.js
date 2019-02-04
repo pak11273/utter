@@ -4,7 +4,7 @@ import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
 import PropTypes from "prop-types"
 import styled from "styled-components"
-import schema from "../../app/schema"
+import schema from "../../core/schema"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
 import "./styles.css"
 

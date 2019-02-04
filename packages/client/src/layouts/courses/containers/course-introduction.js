@@ -4,7 +4,7 @@ import Helmet from "react-helmet"
 import {withFormik} from "formik"
 import {courseSchema} from "@utterzone/common"
 import update from "immutability-helper"
-import schema from "../../../app/schema.js"
+import schema from "../../../core/schema.js"
 import {history} from "@utterzone/connector"
 import {
   Button,
@@ -21,7 +21,7 @@ import {Can} from "../../../components"
 import "../../styles.css"
 
 // actions
-import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 /* import {openModal} from "../../../containers/modals/actions.js" */
 
 class CourseIntroduction extends Component {

@@ -3,7 +3,7 @@ import {Redirect} from "react-router-dom"
 import {connect} from "react-redux"
 
 import ForgotPasswordForm from "../../containers/forms/forgot-password-form.js"
-import {addFlashMessage} from "../../app/actions/flashMessages.js"
+import {addFlashMessage} from "../../core/actions/flashMessages.js"
 
 function forgotPassword({submit, addFlashMessage}) {
   const loggedIn = localStorage.getItem("AUTH_TOKEN")

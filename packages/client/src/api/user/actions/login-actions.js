@@ -12,7 +12,7 @@ import {
 
 /* import {createAction} from "../../../utils/redux-utils.js" */
 
-// import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../app/types.js'
+// import {SET_CURRENT_USER, LOAD_USER_PROFILE} from '../../core/types.js'
 // import {fetchData} from '../../utils/apiMgr'
 
 // export function setCurrentUser(user) {

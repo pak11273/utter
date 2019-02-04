@@ -1,12 +1,12 @@
-import {createReducer} from '../../utils/requireAuth.js'
+import {createReducer} from "../../utils/requireAuth.js"
 
-import orm from '../../app/schema'
+import orm from "../../core/schema"
 
 import {
   createEntity,
   updateEntity,
   deleteEntity
-} from '../../containers/Entities/reducers.js'
+} from "../../containers/Entities/reducers.js"
 
 import {
   EDIT_ITEM_EXISTING,
@@ -15,17 +15,17 @@ import {
   EDIT_ITEM_APPLY,
   EDIT_ITEM_STOP,
   EDIT_ITEM_RESET
-} from './types.js'
+} from "./types.js"
 
-import {getModelByType} from '../../../src/utils/modelUtils.js'
+import {getModelByType} from "../../../src/utils/modelUtils.js"
 
-import {selectEntities} from '../../containers/Entities/selectors.js'
-import {selectEditingEntities} from './selectors.js'
+import {selectEntities} from "../../containers/Entities/selectors.js"
+import {selectEditingEntities} from "./selectors.js"
 import {
   readEntityData,
   updateEntitiesState,
   updateEditingEntitiesState
-} from './editingUtils.js'
+} from "./editingUtils.js"
 
 export function copyEntity(sourceEntities, destinationEntities, payload) {
   const {itemID, itemType} = payload

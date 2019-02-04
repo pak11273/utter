@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
 import {Can} from "../../../components"
-import schema from "../../../app/schema"
+import schema from "../../../core/schema"
 import ModalMgr from "../../../containers/modals/modal-mgr.js"
 /* import {history} from "@utterzone/connector" */
 import {Container, Header, Form, Segment} from "semantic-ui-react"
@@ -10,7 +10,7 @@ import {Masthead} from "../../../containers"
 /* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
 
 // actions
-import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 import {openModal} from "../../../containers/modals/actions.js"
 
 class CourseSettings extends Component {

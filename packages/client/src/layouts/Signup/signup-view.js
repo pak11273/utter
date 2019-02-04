@@ -2,7 +2,7 @@ import React from "react"
 import {connect} from "react-redux"
 
 import SignupForm from "../../containers/forms/signup-form.js"
-import {addFlashMessage} from "../../app/actions/flashMessages.js"
+import {addFlashMessage} from "../../core/actions/flashMessages.js"
 
 function Signup({submit, signupRequest, addFlashMessage}) {
   return (

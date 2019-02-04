@@ -20,7 +20,7 @@ import React, {Component} from "react"
 import gql from "graphql-tag"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
-import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 import "../../styles.css"
 
 // actions

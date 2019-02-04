@@ -5,23 +5,21 @@ import /* Switch, */
 /* Link, */
 "react-router-dom"
 /* import Select from "react-select" */
+
+import {withStyles} from "@material-ui/core/styles"
+import Grid from "@material-ui/core/Grid"
+
 import {cloneDeep} from "lodash"
 import {Helmet} from "react-helmet"
 
-import {
-  Grid
-  /* Header, */
-  /* Item */
-  /* Segment, */
-  /* Select as SemSelect */
-} from "semantic-ui-react"
-/* import {Spacer} from "../../../components" */
+import AppsContainer from "../../../apps/apps-container"
+/* import {Section} from "../../../components" */
 import {Chat} from "../../../containers"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 /* import "./styles.css" */
 
 // actions
-import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
+import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 /* const getCourse = gql` */
 /*   query getCourse($courseId: String) { */
@@ -40,7 +38,18 @@ import {toggleFooter} from "../../../app/actions/toggle-footer-action.js"
 
 /* ` */
 
-const initialCoursesContainerState = {
+const styles = theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: "center",
+    color: theme.palette.text.secondary
+  }
+})
+
+const initialCoursesdivState = {
   courseRef: ""
 }
 
@@ -50,7 +59,7 @@ class Zone extends Component {
   constructor(props) {
     super(props)
 
-    this.state = cloneDeep(initialCoursesContainerState)
+    this.state = cloneDeep(initialCoursesdivState)
   }
 
   componentDidMount() {
@@ -67,14 +76,9 @@ class Zone extends Component {
   }
 
   render() {
-    /* const SubRoutes = route => ( */
-    /* <Route */
-    /*  path={route.path} */
-    /*  render={props => <route.component {...props} routes={route.routes} />} */
-    /* /> */
-    /* const {routes} = this.props */
+    const {classes} = this.props
     return (
-      <Grid>
+      <React.Fragment>
         <Helmet>
           <meta charset="utf-8" />
           <meta
@@ -89,38 +93,18 @@ class Zone extends Component {
           <title>Utterzone | Course Edit</title>
           <link rel="canonical" href="https://utter.zone/course/:id" />
         </Helmet>
-        {/*  <Grid.Column computer={10}>
-          {routes.map(route => (
-            <SubRoutes key={route.path} {...route} />
-          ))}
-        </Grid.Column>
-				*/}
-        <Grid.Column width={12}>
-          <h1>GAMES</h1>
-        </Grid.Column>
-        <Grid.Column width={4} style={{background: "LightGray"}}>
-          <Chat />
-          {/*
-              <Spacer margin="50px 0 0 0" />
-              <Item align="center">
-                <Header as="h2">
-                  <Link to="/course/course-settings">Settings</Link>
-                </Header>
-                <Header as="h2">
-                  <Link to="/course/levels">Levels</Link>
-                </Header>
-                <Header as="h2">Vocabulary</Header>
-                <Header as="h2">Grammar</Header>
-                <Header as="h2">Phrases</Header>
-                <div style={{margin: "40px 0 0 0"}}>
-                  <Link to="/courses/created" onClick={this.forceUpdate}>
-                    My Created Courses
-                  </Link>
-                </div>
-              </Item>
-				*/}
-        </Grid.Column>
-      </Grid>
+
+        <Grid container spacing={24} className={classes.root}>
+          <Grid item xs={8}>
+            <AppsContainer />
+          </Grid>
+          <Grid item xs={4}>
+            <div style={{background: "LightGray"}}>
+              <Chat />
+            </div>
+          </Grid>
+        </Grid>
+      </React.Fragment>
     )
   }
 }
@@ -128,4 +112,4 @@ class Zone extends Component {
 export default connect(
   null,
   {toggleFooter}
-)(Zone)
+)(withStyles(styles)(Zone))

@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {Section} from '../../components'
-import FlashMessage from '../../components/FlashMessages/FlashMessage.js'
-import {deleteFlashMessage} from '../../app/actions/flashMessages.js'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {Section} from "../../components"
+import FlashMessage from "../../components/FlashMessages/FlashMessage.js"
+import {deleteFlashMessage} from "../../core/actions/flashMessages.js"
 
 function FlashMessagesList(props) {
   const messages = props.messages.map(message => (
@@ -21,4 +21,7 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps, {deleteFlashMessage})(FlashMessagesList)
+export default connect(
+  mapStateToProps,
+  {deleteFlashMessage}
+)(FlashMessagesList)

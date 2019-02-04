@@ -2,7 +2,7 @@ import {all, fork} from "redux-saga/effects"
 import accountSaga from "./api/user/sagas/accountSagas.js"
 import courseSaga from "./layouts/courses/sagas/index.js"
 import coursesSaga from "./api/courses/sagas/courses-sagas.js"
-import flashSaga from "./app/sagas/flashSagas.js"
+import flashSaga from "./core/sagas/flashSagas.js"
 import levelsSaga from "./api/level/level-sagas.js"
 import signupSaga from "./api/user/sagas/signupSagas.js"
 /* import socketIOSaga from "./services/socketio/sagas.js" */

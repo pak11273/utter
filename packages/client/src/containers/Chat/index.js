@@ -1,14 +1,17 @@
 import React, {Component} from "react"
-import schema from "../../app/schema.js"
+import schema from "../../core/schema.js"
 /* import {Link} from "react-router-dom" */
 import {bindActionCreators} from "redux"
 import {find} from "lodash"
 import {connect} from "react-redux"
-import {Box, List, ListItem, TextArea} from "../../components"
+import {Box, List, ListItem, Section, TextArea} from "../../components"
+
+/* import {List, ListItem} from "@material-ui/core/List" */
+
 import {Button, Header} from "semantic-ui-react"
 import styled from "styled-components"
 import cuid from "cuid"
-/* import socketio from "socket.io-client" */
+import socketio from "socket.io-client"
 import RecordRTC from "recordrtc"
 /* import filename from "../../assets/images/play.svg" */
 
@@ -23,7 +26,27 @@ import {
 } from "../../services/socketio/actions.js"
 import "./styles.css"
 
-/* const socket = socketio() */
+const socket = socketio()
+
+const ChatWindow = styled.div`
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  width: 420px;
+  box-sizing: border-box;
+`
+/* const ChatPanel = styled.div` */
+/*   position: relative; */
+/*   display: inline-flex; */
+/*   flex-direction: column; */
+/*   justify-content: flex-end; */
+/*   height: 100%; */
+/*   width: 100%; */
+/*   box-sizing: border-box; */
+/*   z-index: 1; */
+/* ` */
 
 const Msg = ({author, audio, msg}) => (
   <ListItem alignitems="center" display="flex" padding="10px 0">
@@ -102,17 +125,17 @@ class ChatContainer extends Component {
   componentDidMount() {
     const {zoneName} = this.props.zone
 
-    /* socket.on("connect", () => { */
-    /*   console.log("yeah, user connected!") */
+    socket.on("connect", () => {
+      console.log("yeah, user connected!")
 
-    /*   var params = { */
-    /*     zone: zoneName */
-    /*   } */
+      var params = {
+        zone: zoneName
+      }
 
-    /*   socket.emit("join", params, () => { */
-    /*     console.log(`User has joined "${zoneName}."`) */
-    /*   }) */
-    /* }) */
+      socket.emit("join", params, () => {
+        console.log(`User has joined "${zoneName}."`)
+      })
+    })
 
     /* var fileCounter = 0 */
     var {props} = this
@@ -382,41 +405,43 @@ class ChatContainer extends Component {
       </Box>
     )
     return (
-      <Box>
-        <Box padding="20px">
-          <Header>{zoneName}</Header>
-        </Box>
-        <MsgList list={this.filteredMessages()} />
-        <Box padding="20px">
-          <Article className="sound-clips" />
-        </Box>
-        <MsgBox
-          onKeyUp={this.onKeyUp}
-          onChange={x => this.setState({msg: x})}
-          value={this.state.msg}
-        />
-        <Box alignitems="flex-start" flexdirection="row" width="200px">
-          {this.props.roomReducer.creator ? (
+      <Section>
+        <ChatWindow>
+          <Box padding="20px">
+            <Header>{zoneName}</Header>
+          </Box>
+          <MsgList list={this.filteredMessages()} />
+          <Box padding="20px">
+            <Article className="sound-clips" />
+          </Box>
+          <MsgBox
+            onKeyUp={this.onKeyUp}
+            onChange={x => this.setState({msg: x})}
+            value={this.state.msg}
+          />
+          <Box alignitems="flex-start" flexdirection="row" width="200px">
+            {this.props.roomReducer.creator ? (
+              <Button
+                color="black"
+                fontsize="1.2rem"
+                margin="5px"
+                padding="3px"
+                onClick={this.updateReview}
+                width="50px">
+                review{" "}
+              </Button>
+            ) : null}
+            {recordBtn}
             <Button
-              color="black"
-              fontsize="1.2rem"
-              margin="5px"
-              padding="3px"
-              onClick={this.updateReview}
-              width="50px">
-              review{" "}
+              style={{height: "50px", margin: "5px 10px 0 0"}}
+              color="yellow"
+              onClick={this.onSend}
+              type="button">
+              send
             </Button>
-          ) : null}
-          {recordBtn}
-          <Button
-            style={{height: "50px", margin: "5px 10px 0 0"}}
-            color="yellow"
-            onClick={this.onSend}
-            type="button">
-            send
-          </Button>
-        </Box>
-      </Box>
+          </Box>
+        </ChatWindow>
+      </Section>
     )
   }
 }

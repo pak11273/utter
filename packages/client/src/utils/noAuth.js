@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {addFlashMessage} from "../app/actions/flashMessages.js"
+import {addFlashMessage} from "../core/actions/flashMessages.js"
 import {connect} from "react-redux"
 import {history} from "@utterzone/connector"
 

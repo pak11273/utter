@@ -2,7 +2,7 @@ import {all, call, put, takeLatest} from "redux-saga/effects"
 
 // actions
 import * as types from "../types"
-import {ADD_FLASH_MESSAGE} from "../../../app/types.js"
+import {ADD_FLASH_MESSAGE} from "../../../core/types.js"
 
 import {fetchData} from "../../../utils/apiMgr"
 // import {SET_CURRENT_USER} from '../../api/user/actions.js'

@@ -53,7 +53,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRedux = require("react-redux");
 
-var _schema = require("../../../client/src/app/schema");
+var _schema = require("../../../client/src/core/schema");
 
 var _schema2 = _interopRequireDefault(_schema);
 

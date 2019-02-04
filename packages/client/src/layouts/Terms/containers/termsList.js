@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Table} from 'semantic-ui-react'
-import orm from '../../../app/schema.js'
+import orm from '../../../core/schema.js'
 
 import TermsListHeader from '../components/termsListHeader.js'
 import TermsListRow from './termsListRow'
