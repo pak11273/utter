@@ -9,11 +9,13 @@ import schema from "../../core/schema"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
 
 import AccountCircle from "@material-ui/icons/AccountCircle"
+import AssignmentIcon from "@material-ui/icons/Assignment"
 import AppBar from "@material-ui/core/AppBar"
 import Badge from "@material-ui/core/Badge"
 /* import Button from "@material-ui/core/Button" */
 import Divider from "@material-ui/core/Divider"
 import HomeIcon from "@material-ui/icons/Home"
+import InfoIcon from "@material-ui/icons/Info"
 import IconButton from "@material-ui/core/IconButton"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
@@ -32,6 +34,7 @@ import MoodIcon from "@material-ui/icons/Mood"
 import MoreIcon from "@material-ui/icons/MoreVert"
 import NotificationsIcon from "@material-ui/icons/Notifications"
 import QuestionAnswer from "@material-ui/icons/QuestionAnswer"
+import SubjectIcon from "@material-ui/icons/Subject"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
@@ -156,7 +159,7 @@ const StyledNavLink = styled(NavLink)`
 const styles = theme => ({
   root: {
     width: "100%",
-		zIndex: 99
+    zIndex: 99
   },
   grow: {
     flexGrow: 1
@@ -195,17 +198,9 @@ class MainNavbar extends Component {
     right: false
   }
 
-  handleHamburger = () => {
-    this.setState({showMenu: !this.state.showMenu})
-    var navSection = document.getElementById("NavSection")
-    var spacer = document.getElementById("spacer")
-    if (!this.state.showMenu) {
-      navSection.style.height = "250px"
-      spacer.style.margin = "250px 0 0 0"
-    } else {
-      navSection.style.height = "50px"
-      spacer.style.margin = "50px 0 0 0"
-    }
+  login = e => {
+    e.preventDefault()
+    this.props.history.push("/login")
   }
 
   logout = e => {
@@ -230,6 +225,18 @@ class MainNavbar extends Component {
 
   handleMobileMenuClose = () => {
     this.setState({mobileMoreAnchorEl: null})
+  }
+
+  redirectTo = data => e => {
+    data = data
+      .trim()
+      .replace(/\s+/g, "")
+      .toLowerCase()
+    if (data === "utterzone") {
+      this.props.history.push("/")
+    } else {
+      this.props.history.push(`/${data}`)
+    }
   }
 
   toggleDrawer = (side, open) => () => {
@@ -295,7 +302,7 @@ class MainNavbar extends Component {
               icon = <QuestionAnswer />
             }
             return (
-              <ListItem button key={text}>
+              <ListItem button key={text} onClick={this.redirectTo(text)}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
@@ -304,14 +311,25 @@ class MainNavbar extends Component {
         </List>
         <Divider />
         <List>
-          {["Pricing"].map((text, index) => (
-            <ListItem button key={text}>
+          {["About", "Contact", "Pricing", "Sign Up"].map((text, index) => {
+            var icon = <MoodIcon />
+            if (index === 0) {
+              icon = <InfoIcon />
+            } else if (index === 1) {
+              icon = <SubjectIcon />
+            } else if (index === 2) {
+              icon = <LocalOfferIcon />
+            } else if (index === 3) {
+							icon = <AssignmentIcon />
+						}
+						return (
+            <ListItem button key={text} onClick={this.redirectTo(text)}>
               <ListItemIcon>
-                {index % 2 === 0 ? <LocalOfferIcon /> : <InboxIcon />}
+						{icon}
               </ListItemIcon>
               <ListItemText primary={text} />
-            </ListItem>
-          ))}
+            </ListItem>)
+          })}
         </List>
       </div>
     )
@@ -353,8 +371,11 @@ class MainNavbar extends Component {
         onClose={this.handleMenuClose}>
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
         <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-          {!isAuthenticated ?  <MenuItem onClick={this.handleMenuClose}>Login</MenuItem> :
-        <MenuItem onClick={this.logout}>Log Out</MenuItem>}
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.login}>Login</MenuItem>
+        ) : (
+          <MenuItem onClick={this.logout}>Log Out</MenuItem>
+        )}
       </Menu>
     )
 
@@ -414,6 +435,48 @@ class MainNavbar extends Component {
                   width="48px"
                   height="48px"
                 />
+              </StyledNavLink>
+            </Typography>
+            <Typography
+              className={classes.title}
+              variant="h6"
+              color="inherit"
+              noWrap>
+              <StyledNavLink
+                exact
+                activeStyle={{
+                  color: "red"
+                }}
+                to="/about">
+                About
+              </StyledNavLink>
+            </Typography>
+            <Typography
+              className={classes.title}
+              variant="h6"
+              color="inherit"
+              noWrap>
+              <StyledNavLink
+                exact
+                activeStyle={{
+                  color: "red"
+                }}
+                to="/contact">
+                Contact
+              </StyledNavLink>
+            </Typography>
+            <Typography
+              className={classes.title}
+              variant="h6"
+              color="inherit"
+              noWrap>
+              <StyledNavLink
+                exact
+                activeStyle={{
+                  color: "red"
+                }}
+                to="/pricing">
+                Pricing
               </StyledNavLink>
             </Typography>
             <Typography

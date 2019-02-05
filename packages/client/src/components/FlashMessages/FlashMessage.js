@@ -2,14 +2,15 @@ import React, {Component} from "react"
 import styled from "styled-components"
 import Text from "../Text/Text.js"
 import Button from "../Buttons/Button.js"
-import "./styles.css"
 
 const StyledMessage = styled.div`
   align-items: center;
-  background: #8b1a87;
+  background: #cc1abf;
+  color: white;
   display: flex;
   justify-content: center;
   margin: ${props => props.margin};
+  width: 100%;
   z-index: 99;
 `
 class FlashMessage extends Component {
@@ -36,13 +37,13 @@ class FlashMessage extends Component {
     const {text} = this.props.message
     return (
       <StyledMessage>
-        <Text color="white" fontsize="2rem" padding="2rem">
+        <Text color="white" fontsize="1.4rem" padding="2rem">
           {text}
         </Text>
         <Button
           border="none"
           background="none"
-          color="black"
+          color="white"
           fontsize="2rem"
           onClick={this.onClick}>
           &times;

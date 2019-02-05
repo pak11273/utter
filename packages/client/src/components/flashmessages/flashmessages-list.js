@@ -1,7 +1,7 @@
-import React, {Component} from "react"
+import React from "react"
 import {connect} from "react-redux"
-import {Section} from "../../components"
-import FlashMessage from "../../components/FlashMessages/FlashMessage.js"
+import {Section} from "../index.js"
+import FlashMessage from "./flashmessage.js"
 import {deleteFlashMessage} from "../../core/actions/flashMessages.js"
 
 function FlashMessagesList(props) {

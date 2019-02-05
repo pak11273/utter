@@ -1,5 +1,4 @@
-import {Component} from 'react'
-import styled, {ThemeProvider} from 'styled-components'
+import styled from 'styled-components'
 
 const Masthead = styled.div`
   align-items: ${props => props.alignitems};
@@ -20,7 +19,6 @@ const Masthead = styled.div`
 `
 Masthead.defaultProps = {
   alignitems: 'center',
-  backgroundsize: 'cover',
   background: 'white',
   boxsizing: 'border-box',
   display: 'flex',

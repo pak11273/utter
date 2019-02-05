@@ -1,9 +1,14 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {Box, InputLine, Label, Section} from "../../../components"
-import {Button} from "semantic-ui-react"
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import SendIcon from '@material-ui/icons/Send'
+/* import Typography from "@material-ui/core/Typography" */
+import TextField from "@material-ui/core/TextField"
+import {withStyles} from "@material-ui/core/styles"
 import styled from "styled-components"
 import Select from "react-select"
+import {Label, Section} from "../../../components"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
 import CallingCodes from "../../../assets/js/CallingCodes.js"
 import {bindActionCreators} from "redux"
@@ -11,6 +16,40 @@ import "./select.css"
 
 // actions
 import {contactMailSend} from "../../../layouts/contact/actions.js"
+
+const styles = theme => ({
+  root: {
+    maxWidth: 900,
+		margin: "0 auto",
+  },
+	button: {
+			    position: 'absolute',
+			    bottom: theme.spacing.unit * 4,
+			    right: theme.spacing.unit * 2,
+	},
+  text: {
+    color: "white"
+  },
+  masthead: {
+    padding: theme.spacing.unit * 1,
+    margin: "auto",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column"
+    }
+  },
+	 rightIcon: {
+		     marginLeft: theme.spacing.unit,
+		   },
+  section: {
+    padding: theme.spacing.unit * 1,
+    margin: "0 auto 100px",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column"
+    }
+  }
+})
 
 const Role = styled.div`
   color: ${props => props.color};
@@ -118,7 +157,6 @@ class ContactForm extends Component {
       subject: "",
       letter: "",
       message: "",
-      timezone: "Puerto Rico (Atlantic) America/Puerto_Rico"
     }
   }
 
@@ -175,127 +213,103 @@ class ContactForm extends Component {
   }
 
   render() {
+    const {classes} = this.props
     return (
-      <Form onSubmit={this.onSubmit}>
-        <Section margin="80px 0 0 0" padding="100px" maxwidth="1024px">
-          <Role color="#273e63" fontsize="1rem" padding="0" textalign="left">
-            Request Information
-          </Role>
-          <Box
-            alignitems="baseline"
-            flexdirection="row"
-            justifycontent="flex-start">
-            <Label textalign="left" fontsize="1rem" width="130px">
-              Name
-            </Label>
-            <InputLine
-              textalign="left"
-              onChange={this.onChange}
-              value={this.state.name}
-              type="text"
-              name="name"
-              required
-            />
-          </Box>
-          <Box
-            alignitems="baseline"
-            flexdirection="row"
-            justifycontent="flex-start">
-            <Label textalign="left" fontsize="1rem" width="130px">
-              Email{" "}
-            </Label>
-            <InputLine
-              textalign="left"
-              onChange={this.onChange}
-              value={this.state.email}
-              type="text"
-              name="email"
-              required
-            />
-          </Box>
-          <Phone>
-            <Label textalign="left" fontsize="1rem" width="130px">
-              Phone
-            </Label>
-            <Select
-              clearable={false}
-              name="country"
-              autosize
-              placeholder="country name"
-              value={this.state.country}
-              onChange={this.onSelect2}
-              options={CallingCodes}
-              labelKey="country"
-              valueKey="value"
-              valueRenderer={country => country.value}
-            />
-            <InputLine
-              textalign="left"
-              onChange={this.onChange}
-              value={this.state.number}
-              type="text"
-              name="number"
-            />
-          </Phone>
-          <Box
-            alignitems="baseline"
-            flexdirection="row"
-            justifycontent="flex-start">
-            <div
-              className="message"
-              style={{
-                color: this.state.color,
-                margin: "0 0 0 50px"
-              }}>
-              {this.state.message}
-            </div>
-          </Box>
-          <Box
-            alignitems="baseline"
-            flexdirection="row"
-            justifycontent="flex-start">
-            <Label textalign="left" fontsize="1rem" width="140px">
-              Subject{" "}
-            </Label>
-            <InputLine
-              textalign="left"
-              onChange={this.onChange}
-              value={this.state.subject}
-              type="text"
-              name="subject"
-              required
-            />
-          </Box>
-          <Box
-            alignitems="flex-start"
-            padding="50px"
-            margin="0 0 100px 0"
-            position="relative">
-            <Box margin="40px 0 0 0">
-              <Label margin="0 0 20px 0" textalign="left" fontsize="1rem">
-                Message
-              </Label>
-            </Box>
-            <MsgBox
-              height="180px"
-              onChange={this.onChange}
-              value={this.state.letter}
-              type="text"
-              name="letter"
-              required
-            />
-            <Button
-              loading={this.props.contactReducer.loading}
-              color="yellow"
-              floated="right"
-              fontSize="1.5rem"
-              style={{bottom: "0", right: "60px", position: "absolute"}}
-              type="submit">
-              Send
-            </Button>
-          </Box>
-        </Section>
-      </Form>
+      <React.Fragment>
+			<main className={classes.root}>
+        <Form onSubmit={this.onSubmit}>
+          <Section margin="80px 0 0 0" padding="0 0 100px 0" maxwidth="1024px">
+            <Grid container spacing={24}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="Name"
+                  name="name"
+                  label="Name"
+                  fullWidth
+                  onChange={this.onChange}
+                  autoComplete="name"
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  id="email"
+                  name="email"
+                  label="Email"
+                  fullWidth
+                  onChange={this.onChange}
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="Subject"
+                  name="subject"
+                  label="Subject"
+                  fullWidth
+                  onChange={this.onChange}
+                  autoComplete="subject"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Phone>
+                  <Label
+                    textalign="left"
+                    padding="0 20px 0 0"
+                    fontsize="1rem"
+                    width="50px">
+                    Phone
+                  </Label>
+                  <Select
+                    clearable={false}
+                    name="country"
+                    autosize
+                    placeholder="country"
+                    value={this.state.country}
+                    onChange={this.onSelect2}
+                    options={CallingCodes}
+                    labelKey="country"
+                    valueKey="value"
+                    valueRenderer={country => country.value}
+                  />
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      id="number"
+                      name="number"
+                      fullWidth
+                      onChange={this.onChange}
+                      autoComplete="number"
+                    />
+                  </Grid>
+                </Phone>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  id="outlined-multiline-static"
+                  name="letter"
+                  required
+                  label="Message"
+                  multiline
+                  rows="8"
+									onChange={this.onChange}
+                  className={classes.textField}
+                      fullWidth
+                  margin="normal"
+                  variant="outlined"
+                />
+					<Button variant="contained" color="primary" className={classes.button} type="submit">
+			        Send
+			        <SendIcon className={classes.rightIcon}>send</SendIcon>
+			      </Button>
+              </Grid>
+            </Grid>
+          </Section>
+        </Form>
+			</main>
+      </React.Fragment>
     )
   }
 }
@@ -317,4 +331,4 @@ const mapDispatchToProps = dispatch =>
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ContactForm)
+)(withStyles(styles)(ContactForm))

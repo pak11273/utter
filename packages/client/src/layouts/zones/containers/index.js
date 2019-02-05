@@ -298,7 +298,7 @@ class Zones extends Component {
                     align="center"
                     color="textPrimary"
                     gutterBottom>
-                    Album layout
+			Zones
                   </Typography>
                   <Typography
                     variant="h6"

@@ -21,7 +21,7 @@ import {Footer, MainNavbar, ModalMgr} from "./containers"
 import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {store, persistor} from "./store.js"
-import FlashMessagesList from "./components/FlashMessages/FlashMessagesList"
+import FlashMessagesList from "./components/flashmessages/flashmessages-list"
 import {history} from "@utterzone/connector"
 import {PersistGate} from "redux-persist/integration/react"
 

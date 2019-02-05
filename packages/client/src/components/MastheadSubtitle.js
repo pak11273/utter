@@ -6,8 +6,9 @@ const MastheadSubtitle = styled.div`
   font-size: ${props => props.fontsize};
   font-weight: ${props => props.fontweight};
   line-height: ${props => props.lineheight};
+	max-width: ${props => props.maxwidth};
   padding: ${props => props.padding};
-  text-align: ${props => props.textalign} 
+  text-align: ${props => props.textalign}; 
   width: ${props => props.width};
 `
 MastheadSubtitle.defaultProps = {
