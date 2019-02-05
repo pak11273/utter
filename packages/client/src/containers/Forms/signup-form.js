@@ -8,7 +8,6 @@ import {
   Container,
   Message
 } from "semantic-ui-react"
-import {ThemeProvider} from "styled-components"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {signupSchema} from "@utterzone/common"
@@ -16,7 +15,6 @@ import {withFormik, Field} from "formik"
 import React, {PureComponent} from "react"
 import {cloneDeep} from "lodash"
 import {FormikInput, Spacer} from "../../components"
-import {main} from "../../themes/config"
 import {toggleFooter} from "../../core/actions/toggle-footer-action.js"
 import Terms from "../../documents/terms-and-conditions.js"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
@@ -130,17 +128,15 @@ class SignupForm extends PureComponent {
                   <Terms />
                 </span>
               </Form.Group>
-              <ThemeProvider theme={main}>
-                <Button
-                  disabled={agreementChecked}
-                  color="yellow"
-                  floated="right"
-                  fontSize="1.5rem"
-                  style={{margin: "30px 0 0 0"}}
-                  type="submit">
-                  Join
-                </Button>
-              </ThemeProvider>
+              <Button
+                disabled={agreementChecked}
+                color="yellow"
+                floated="right"
+                fontSize="1.5rem"
+                style={{margin: "30px 0 0 0"}}
+                type="submit">
+                Join
+              </Button>
             </Form>
           </Container>
         </Grid.Column>

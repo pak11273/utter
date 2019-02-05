@@ -9,7 +9,7 @@ import {connect} from "react-redux"
 import axios from "axios"
 import React, {Component} from "react"
 import cuid from "cuid"
-import styled, {ThemeProvider} from "styled-components"
+import styled from "styled-components"
 import {courseCreateSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
 import CryptoJS from "crypto-js"
@@ -28,7 +28,6 @@ import {
 import {Masthead} from "../../../containers"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {fetchCourseName} from "../actions.js"
-import {main} from "../../../themes/config"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 import CourseRef from "../components/CourseRef"
 import Teaching from "./Teaching"
@@ -268,137 +267,133 @@ class CourseCreate extends Component {
     const {courseName, courseDescription} = this.props.values
 
     return (
-      <ThemeProvider theme={main}>
-        <Grid>
-          <Grid.Row centered>
-            <Masthead background="#000 url(http://www.focusondrives.com/wp-content/uploads/Danfoss-application-software-development-2-1024x657.jpg) no-repeat left top">
-              <MastheadTitle color="#F6D155">Create a Course</MastheadTitle>
-              <MastheadSubtitle color="#F6D155">
-                Use material from current resources you are learning from or
-                formulate your own teaching strategy!
-              </MastheadSubtitle>
-            </Masthead>
-          </Grid.Row>
-          <Grid.Row centered>
-            <Container>
-              <Grid.Column textAlign="center">
-                <StyledForm error onSubmit={handleSubmit}>
-                  <Box margin="40px 0 0 0" position="relative">
-                    <Header>
-                      Course Name
-                      <StyledSpan display640="inline-block">
-                        {" "}
-                        (10-100 chars.)
-                      </StyledSpan>
-                    </Header>
-                    <DisplayCount>{courseName.length}</DisplayCount>
+      <Grid>
+        <Grid.Row centered>
+          <Masthead background="#000 url(http://www.focusondrives.com/wp-content/uploads/Danfoss-application-software-development-2-1024x657.jpg) no-repeat left top">
+            <MastheadTitle color="#F6D155">Create a Course</MastheadTitle>
+            <MastheadSubtitle color="#F6D155">
+              Use material from current resources you are learning from or
+              formulate your own teaching strategy!
+            </MastheadSubtitle>
+          </Masthead>
+        </Grid.Row>
+        <Grid.Row centered>
+          <Container>
+            <Grid.Column textAlign="center">
+              <StyledForm error onSubmit={handleSubmit}>
+                <Box margin="40px 0 0 0" position="relative">
+                  <Header>
+                    Course Name
+                    <StyledSpan display640="inline-block">
+                      {" "}
+                      (10-100 chars.)
+                    </StyledSpan>
+                  </Header>
+                  <DisplayCount>{courseName.length}</DisplayCount>
+                  <Field
+                    name="courseName"
+                    placeholder="Provide a unique name for your course."
+                    component={FormikInput}
+                    style={{width: "300px"}}
+                  />
+                </Box>
+                <Box margin="40px 0 0 0" position="relative">
+                  <Header>
+                    Course Description
+                    <StyledSpan display640="inline-block">
+                      {" "}
+                      (10-100 chars.)
+                    </StyledSpan>
+                  </Header>
+                  <DisplayCount>{courseDescription.length}</DisplayCount>
+                  <Field
+                    name="courseDescription"
+                    placeholder="Provide a brief description of your course."
+                    component={FormikTextArea}
+                    style={{width: "500px"}}
+                  />
+                </Box>
+                <Grid>
+                  <StyledFlex gridarea="using" margin1080="40px 0 0 0">
+                    <Header>Using</Header>
                     <Field
-                      name="courseName"
-                      placeholder="Provide a unique name for your course."
-                      component={FormikInput}
-                      style={{width: "300px"}}
+                      name="usingLang"
+                      component={Using}
+                      addUsingLang={this.addUsingLang}
+                      options={languageData}
                     />
-                  </Box>
-                  <Box margin="40px 0 0 0" position="relative">
-                    <Header>
-                      Course Description
-                      <StyledSpan display640="inline-block">
-                        {" "}
-                        (10-100 chars.)
-                      </StyledSpan>
-                    </Header>
-                    <DisplayCount>{courseDescription.length}</DisplayCount>
+                  </StyledFlex>
+                  <Flex
+                    gridarea="teaching"
+                    margin="40px 0 0 0"
+                    overflow="initial"
+                    position="relative">
+                    <Header>Teaching</Header>
                     <Field
-                      name="courseDescription"
-                      placeholder="Provide a brief description of your course."
-                      component={FormikTextArea}
-                      style={{width: "500px"}}
+                      name="teachingLang"
+                      component={Teaching}
+                      addTeachingLang={this.addTeachingLang}
+                      options={languageData}
                     />
-                  </Box>
-                  <Grid>
-                    <StyledFlex gridarea="using" margin1080="40px 0 0 0">
-                      <Header>Using</Header>
-                      <Field
-                        name="usingLang"
-                        component={Using}
-                        addUsingLang={this.addUsingLang}
-                        options={languageData}
-                      />
-                    </StyledFlex>
-                    <Flex
-                      gridarea="teaching"
-                      margin="40px 0 0 0"
-                      overflow="initial"
-                      position="relative">
-                      <Header>Teaching</Header>
-                      <Field
-                        name="teachingLang"
-                        component={Teaching}
-                        addTeachingLang={this.addTeachingLang}
-                        options={languageData}
-                      />
-                    </Flex>
-                    <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-                      <Header>Course Reference</Header>
-                      <p>ie. Book, Classroom, Online Course</p>
-                      <CourseRef addRef={this.addRef} />
-                    </StyledFlex>
-                    <StyledFlex gridarea="thumbnail" margin1080="40px 0 0 0">
-                      <Header>Course Thumbnail</Header>
-                      <p>
-                        Format: png or jpg, Dimensions: ~300pxx300px, Maximum
-                        size limit: 500kb
-                      </p>
-                      <div style={{margin: "50px"}}>
-                        {this.state.courseImage === "" ? (
-                          <p>Thumbnail Preview</p>
-                        ) : (
-                          <Form.Field
-                            label="Course Thumbnail Preview"
-                            name="image"
-                            control={Image}
-                            src={this.state.courseImage}
-                            size="small"
-                          />
-                        )}
-                      </div>
-                      <Dropzone
-                        style={{
-                          padding: "3px",
-                          position: "relative",
-                          width: "200px",
-                          height: "100px",
-                          borderWidth: "2px",
-                          borderColor: "rgb(102, 102, 102)",
-                          borderStyle: "dashed",
-                          borderRadius: "5px"
-                        }}
-                        maxSize={500000}
-                        multiple={false}
-                        accept="image/*"
-                        onDrop={this.onImageDrop}>
-                        <p>
-                          Drop an image or click to select a file to upload.
-                        </p>
-                      </Dropzone>
-                      <p>{this.state.uploadedFile.name}</p>
-                    </StyledFlex>
-                    <StyledFlex margin1080="40px 0">
-                      <Button
-                        type="submit"
-                        color="yellow"
-                        loading={this.state.loading}
-                        disabled={this.state.disabled}>
-                        Create Course
-                      </Button>
-                    </StyledFlex>
-                  </Grid>
-                </StyledForm>
-              </Grid.Column>
-            </Container>
-          </Grid.Row>
-        </Grid>
-      </ThemeProvider>
+                  </Flex>
+                  <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
+                    <Header>Course Reference</Header>
+                    <p>ie. Book, Classroom, Online Course</p>
+                    <CourseRef addRef={this.addRef} />
+                  </StyledFlex>
+                  <StyledFlex gridarea="thumbnail" margin1080="40px 0 0 0">
+                    <Header>Course Thumbnail</Header>
+                    <p>
+                      Format: png or jpg, Dimensions: ~300pxx300px, Maximum size
+                      limit: 500kb
+                    </p>
+                    <div style={{margin: "50px"}}>
+                      {this.state.courseImage === "" ? (
+                        <p>Thumbnail Preview</p>
+                      ) : (
+                        <Form.Field
+                          label="Course Thumbnail Preview"
+                          name="image"
+                          control={Image}
+                          src={this.state.courseImage}
+                          size="small"
+                        />
+                      )}
+                    </div>
+                    <Dropzone
+                      style={{
+                        padding: "3px",
+                        position: "relative",
+                        width: "200px",
+                        height: "100px",
+                        borderWidth: "2px",
+                        borderColor: "rgb(102, 102, 102)",
+                        borderStyle: "dashed",
+                        borderRadius: "5px"
+                      }}
+                      maxSize={500000}
+                      multiple={false}
+                      accept="image/*"
+                      onDrop={this.onImageDrop}>
+                      <p>Drop an image or click to select a file to upload.</p>
+                    </Dropzone>
+                    <p>{this.state.uploadedFile.name}</p>
+                  </StyledFlex>
+                  <StyledFlex margin1080="40px 0">
+                    <Button
+                      type="submit"
+                      color="yellow"
+                      loading={this.state.loading}
+                      disabled={this.state.disabled}>
+                      Create Course
+                    </Button>
+                  </StyledFlex>
+                </Grid>
+              </StyledForm>
+            </Grid.Column>
+          </Container>
+        </Grid.Row>
+      </Grid>
     )
   }
 }

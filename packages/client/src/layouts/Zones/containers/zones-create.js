@@ -8,7 +8,7 @@ import {connect} from "react-redux"
 import schema from "../../../core/schema.js"
 import {cloneDeep} from "lodash"
 import cuid from "cuid"
-import styled, {ThemeProvider} from "styled-components"
+import styled from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"
 import Games from "./games"
 import gameData from "../../../data/gameData.js"
@@ -26,7 +26,6 @@ import {
 } from "../../../components"
 import {Masthead} from "../../../containers"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
-import {main} from "../../../themes/config"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
 const DisplayCount = styled.div`
@@ -160,155 +159,153 @@ class ZoneCreate extends Component {
     const {handleSubmit} = this.props
     const {zoneName, zoneDescription} = this.props.values
     return (
-      <ThemeProvider theme={main}>
-        <Grid>
-          <Grid.Row centered>
-            <Masthead background="#000 url(https://betterthannarnia.files.wordpress.com/2014/02/wardrobe.jpg) no-repeat left top">
-              <MastheadTitle color="#F6D155">Host a Zone</MastheadTitle>
-              <MastheadSubtitle color="#F6D155">
-                Zones are places where you and other users can get together and
-                practice speaking.
-              </MastheadSubtitle>
-            </Masthead>
-          </Grid.Row>
-          <Grid.Row centered>
-            <Container>
-              <Grid.Column textAlign="center">
-                <StyledForm error onSubmit={handleSubmit}>
-                  <div>
+      <Grid>
+        <Grid.Row centered>
+          <Masthead background="#000 url(https://betterthannarnia.files.wordpress.com/2014/02/wardrobe.jpg) no-repeat left top">
+            <MastheadTitle color="#F6D155">Host a Zone</MastheadTitle>
+            <MastheadSubtitle color="#F6D155">
+              Zones are places where you and other users can get together and
+              practice speaking.
+            </MastheadSubtitle>
+          </Masthead>
+        </Grid.Row>
+        <Grid.Row centered>
+          <Container>
+            <Grid.Column textAlign="center">
+              <StyledForm error onSubmit={handleSubmit}>
+                <div>
+                  <Field
+                    name="owner"
+                    component={FormikInput}
+                    value={this.props.user.id}
+                    style={{display: "none"}}
+                  />
+                </div>
+                <Box margin="40px 0 0 0" position="relative">
+                  <Header>
+                    Zone Name
+                    <StyledSpan display640="inline-block">
+                      {" "}
+                      (10-100 chars.)
+                    </StyledSpan>
+                  </Header>
+                  <DisplayCount>{zoneName.length}</DisplayCount>
+                  <Field
+                    name="zoneName"
+                    placeholder="Provide a unique name for your zone."
+                    component={FormikInput}
+                    style={{width: "300px"}}
+                  />
+                </Box>
+                <Box margin="40px 0 0 0" position="relative">
+                  <Header>
+                    Zone Description
+                    <StyledSpan display640="inline-block">
+                      {" "}
+                      (10-100 chars.)
+                    </StyledSpan>
+                  </Header>
+                  <DisplayCount>{zoneDescription.length}</DisplayCount>
+                  <Field
+                    name="zoneDescription"
+                    placeholder="Provide a brief description of your zone."
+                    component={FormikTextArea}
+                    style={{width: "500px"}}
+                  />
+                </Box>
+                <Grid>
+                  <Flex
+                    gridarea="games"
+                    margin="40px 0 0 0"
+                    overflow="initial"
+                    position="relative">
+                    <Header>Games</Header>
                     <Field
-                      name="owner"
-                      component={FormikInput}
-                      value={this.props.user.id}
-                      style={{display: "none"}}
+                      name="game"
+                      component={Games}
+                      addGame={this.addGame}
+                      options={gameData}
                     />
-                  </div>
-                  <Box margin="40px 0 0 0" position="relative">
-                    <Header>
-                      Zone Name
-                      <StyledSpan display640="inline-block">
-                        {" "}
-                        (10-100 chars.)
-                      </StyledSpan>
-                    </Header>
-                    <DisplayCount>{zoneName.length}</DisplayCount>
-                    <Field
-                      name="zoneName"
-                      placeholder="Provide a unique name for your zone."
-                      component={FormikInput}
-                      style={{width: "300px"}}
-                    />
-                  </Box>
-                  <Box margin="40px 0 0 0" position="relative">
-                    <Header>
-                      Zone Description
-                      <StyledSpan display640="inline-block">
-                        {" "}
-                        (10-100 chars.)
-                      </StyledSpan>
-                    </Header>
-                    <DisplayCount>{zoneDescription.length}</DisplayCount>
-                    <Field
-                      name="zoneDescription"
-                      placeholder="Provide a brief description of your zone."
-                      component={FormikTextArea}
-                      style={{width: "500px"}}
-                    />
-                  </Box>
-                  <Grid>
+                  </Flex>
+                  <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
                     <Flex
-                      gridarea="games"
-                      margin="40px 0 0 0"
+                      gridarea="courses"
                       overflow="initial"
                       position="relative">
-                      <Header>Games</Header>
+                      <Header>Subscribed Courses</Header>
                       <Field
-                        name="game"
-                        component={Games}
-                        addGame={this.addGame}
-                        options={gameData}
-                      />
+                        name="course"
+                        component="select"
+                        onClick={this.addCourse}>
+                        <option>first</option>
+                        <option>second</option>
+                        <option>third</option>
+                      </Field>
                     </Flex>
-                    <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-                      <Flex
-                        gridarea="courses"
-                        overflow="initial"
-                        position="relative">
-                        <Header>Subscribed Courses</Header>
-                        <Field
-                          name="course"
-                          component="select"
-                          onClick={this.addCourse}>
-                          <option>first</option>
-                          <option>second</option>
-                          <option>third</option>
-                        </Field>
-                      </Flex>
-                    </StyledFlex>
-                    <StyledFlex gridarea="levels" margin1080="40px 0 0 0">
-                      <Flex overflow="initial" position="relative">
-                        <Header>Set Levels</Header>
-                        <p>
-                          The minimum level a user has to be to enter this zone.
-                        </p>
-                        <Field
-                          name="level"
-                          component="select"
-                          onClick={this.addLevel}>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                        </Field>
-                      </Flex>
-                    </StyledFlex>
-                    <StyledFlex gridarea="ageGroup" margin1080="40px 0 0 0">
-                      <Flex overflow="initial" position="relative">
-                        <Header>Age Restrictions</Header>
-                        <p>
-                          Pick an appropriate age setting or a specific age
-                          demographic. Conversations are still not to involve
-                          any sexual misconduct or vulgar behaviour.
-                        </p>
-                        <Field
-                          name="ageGroup"
-                          component="select"
-                          onClick={this.addAge}>
-                          <option>Any age</option>
-                          <option>Safe for ages 0-2</option>
-                          <option>Safe for ages 3+</option>
-                          <option>Safe for ages 7+</option>
-                          <option>Safe for ages 12+</option>
-                          <option>Safe for ages 16+</option>
-                          <option>Safe for ages 18+</option>
-                          <option>Kindergarten</option>
-                          <option>Elementary</option>
-                          <option>Middle School</option>
-                          <option>High School</option>
-                          <option>College</option>
-                          <option>Only 18+</option>
-                          <option>Only 30+</option>
-                          <option>Only 40+</option>
-                          <option>Only 50+</option>
-                          <option>Only 60+</option>
-                        </Field>
-                      </Flex>
-                    </StyledFlex>
-                    <StyledFlex margin1080="40px 0">
-                      <Button
-                        type="submit"
-                        color="yellow"
-                        loading={this.state.loading}
-                        disabled={this.state.disabled}>
-                        Create Zone
-                      </Button>
-                    </StyledFlex>
-                  </Grid>
-                </StyledForm>
-              </Grid.Column>
-            </Container>
-          </Grid.Row>
-        </Grid>
-      </ThemeProvider>
+                  </StyledFlex>
+                  <StyledFlex gridarea="levels" margin1080="40px 0 0 0">
+                    <Flex overflow="initial" position="relative">
+                      <Header>Set Levels</Header>
+                      <p>
+                        The minimum level a user has to be to enter this zone.
+                      </p>
+                      <Field
+                        name="level"
+                        component="select"
+                        onClick={this.addLevel}>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                      </Field>
+                    </Flex>
+                  </StyledFlex>
+                  <StyledFlex gridarea="ageGroup" margin1080="40px 0 0 0">
+                    <Flex overflow="initial" position="relative">
+                      <Header>Age Restrictions</Header>
+                      <p>
+                        Pick an appropriate age setting or a specific age
+                        demographic. Conversations are still not to involve any
+                        sexual misconduct or vulgar behaviour.
+                      </p>
+                      <Field
+                        name="ageGroup"
+                        component="select"
+                        onClick={this.addAge}>
+                        <option>Any age</option>
+                        <option>Safe for ages 0-2</option>
+                        <option>Safe for ages 3+</option>
+                        <option>Safe for ages 7+</option>
+                        <option>Safe for ages 12+</option>
+                        <option>Safe for ages 16+</option>
+                        <option>Safe for ages 18+</option>
+                        <option>Kindergarten</option>
+                        <option>Elementary</option>
+                        <option>Middle School</option>
+                        <option>High School</option>
+                        <option>College</option>
+                        <option>Only 18+</option>
+                        <option>Only 30+</option>
+                        <option>Only 40+</option>
+                        <option>Only 50+</option>
+                        <option>Only 60+</option>
+                      </Field>
+                    </Flex>
+                  </StyledFlex>
+                  <StyledFlex margin1080="40px 0">
+                    <Button
+                      type="submit"
+                      color="yellow"
+                      loading={this.state.loading}
+                      disabled={this.state.disabled}>
+                      Create Zone
+                    </Button>
+                  </StyledFlex>
+                </Grid>
+              </StyledForm>
+            </Grid.Column>
+          </Container>
+        </Grid.Row>
+      </Grid>
     )
   }
 }

@@ -11,7 +11,7 @@ import {Box, List, ListItem, Section, TextArea} from "../../components"
 import {Button, Header} from "semantic-ui-react"
 import styled from "styled-components"
 import cuid from "cuid"
-import socketio from "socket.io-client"
+/* import socketio from "socket.io-client" */
 import RecordRTC from "recordrtc"
 /* import filename from "../../assets/images/play.svg" */
 
@@ -26,7 +26,7 @@ import {
 } from "../../services/socketio/actions.js"
 import "./styles.css"
 
-const socket = socketio()
+/* const socket = socketio() */
 
 const ChatWindow = styled.div`
   position: relative;
@@ -123,19 +123,19 @@ class ChatContainer extends Component {
   }
 
   componentDidMount() {
-    const {zoneName} = this.props.zone
+    /* const {zoneName} = this.props.zone */
 
-    socket.on("connect", () => {
-      console.log("yeah, user connected!")
+    /* socket.on("connect", () => { */
+    /*   console.log("yeah, user connected!") */
 
-      var params = {
-        zone: zoneName
-      }
+    /*   var params = { */
+    /*     zone: zoneName */
+    /*   } */
 
-      socket.emit("join", params, () => {
-        console.log(`User has joined "${zoneName}."`)
-      })
-    })
+    /*   socket.emit("join", params, () => { */
+    /*     console.log(`User has joined "${zoneName}."`) */
+    /*   }) */
+    /* }) */
 
     /* var fileCounter = 0 */
     var {props} = this
@@ -382,8 +382,10 @@ class ChatContainer extends Component {
     /*   /1* console.log("dat: , ", data.zoneName) *1/ */
     /* }) */
 
-    const {zoneName} = this.props.zone
-    /* console.log("process: ", process.env.SOCKETIO_SERVER_URL) */
+    /* var {zoneName} = this.props.zone */
+    var zoneName = "blah blah"
+
+    console.log("props: ", this.props)
     var recordBtn = (
       <Box flexdirection="row">
         <Button

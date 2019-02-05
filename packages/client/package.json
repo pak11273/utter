@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@material-ui/core": "^3.9.1",
+    "@material-ui/icons": "^3.0.2",
     "@utterzone/common": "^1.0.0",
     "@utterzone/connector": "^1.0.0",
     "apollo-boost": "^0.1.16",
@@ -31,6 +32,7 @@
     "bcrypt": "^3.0.0",
     "bluebird": "^3.5.0",
     "buffer-equal-constant-time": "^1.0.1",
+    "classnames": "^2.2.6",
     "cloudinary-react": "^1.0.6",
     "crypto": "0.0.3",
     "crypto-js": "^3.1.9-1",

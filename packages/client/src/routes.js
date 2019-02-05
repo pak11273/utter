@@ -10,7 +10,7 @@ import {
   /* NotFound, */
   noAuth,
   requireAuth,
-  requireAdmin,
+  requireAdmin
   /* Korean1, */
   /* Korean2, */
   /* Korean3, */
@@ -26,7 +26,6 @@ import {
   /* French1, */
   /* French2, */
   /* Redux */
-  SocketIOCtrl
 } from "./layouts"
 
 import Loading from "./components/loaders/layout-loader.js"
@@ -134,7 +133,12 @@ const getShoppingCart = Loadable({
 })
 
 const getZones = Loadable({
-  loader: () => import("./layouts/zones"),
+  loader: () => import("./layouts/zones/containers"),
+  loading: Loading
+})
+
+const getZone = Loadable({
+  loader: () => import("./layouts/zones/containers/zone.js"),
   loading: Loading
 })
 
@@ -281,7 +285,7 @@ export const routes = [
     component: requireAuth(getZones)
   },
   {
-    component: requireAuth(SocketIOCtrl),
+    component: requireAuth(getZone),
     exact: true,
     path: "/zone/:id",
     routes: [

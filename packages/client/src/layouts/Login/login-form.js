@@ -1,10 +1,8 @@
 import React, {PureComponent} from "react"
-import {ThemeProvider} from "styled-components"
 import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import {loginSchema} from "@utterzone/common"
-import {main} from "../../themes/config"
 import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
@@ -54,16 +52,14 @@ class LoginForm extends PureComponent {
               <Form.Group style={{position: "absolute", right: "10px"}}>
                 <a href="/forgot-password"> Forgot Password? </a>
               </Form.Group>
-              <ThemeProvider theme={main}>
-                <Button
-                  color="yellow"
-                  floated="right"
-                  fontSize="1.5rem"
-                  style={{margin: "80px 0 0 0"}}
-                  type="submit">
-                  Submit
-                </Button>
-              </ThemeProvider>
+              <Button
+                color="yellow"
+                floated="right"
+                fontSize="1.5rem"
+                style={{margin: "80px 0 0 0"}}
+                type="submit">
+                Submit
+              </Button>
             </Form>
           </Container>
         </Grid.Column>

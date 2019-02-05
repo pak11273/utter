@@ -1,10 +1,8 @@
 import React, {PureComponent} from "react"
-import {ThemeProvider} from "styled-components"
 import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
 import {changePasswordSchema} from "@utterzone/common"
-import {main} from "../../themes/config"
 import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
@@ -49,16 +47,14 @@ class ChangePasswordForm extends PureComponent {
                 type="password"
                 component={FormikInput}
               />
-              <ThemeProvider theme={main}>
-                <Button
-                  color="yellow"
-                  floated="right"
-                  fontSize="1.5rem"
-                  style={{margin: "30px 0 0 0"}}
-                  type="submit">
-                  Submit
-                </Button>
-              </ThemeProvider>
+              <Button
+                color="yellow"
+                floated="right"
+                fontSize="1.5rem"
+                style={{margin: "30px 0 0 0"}}
+                type="submit">
+                Submit
+              </Button>
             </Form>
           </Container>
         </Grid.Column>

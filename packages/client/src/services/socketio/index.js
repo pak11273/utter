@@ -1,39 +1,51 @@
 import io from "socket.io-client"
 
-export default function() {
+export default () => {
   var url = ""
+
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod")
     url = process.env.SOCKETIO_SERVER_URL
   else url = "http://192.168.68.8:3010"
+
   const socket = io(url)
-  function registerHandler(onMessageReceived) {
-    socket.on("message", onMessageReceived)
-  }
-  function unregisterHandler() {
-    socket.off("message")
-  }
-  socket.on("error", function(err) {
+
+  socket.on("error", err => {
     console.log("received socket error:")
     console.log(err)
   })
-  function register(name, cb) {
+
+  const registerHandler = onMessageReceived => {
+    socket.on("message", onMessageReceived)
+  }
+
+  const unregisterHandler = () => {
+    socket.off("message")
+  }
+
+  const register = (name, cb) => {
     socket.emit("register", name, cb)
   }
-  function join(zoneName, cb) {
+
+  const join = (zoneName, cb) => {
     socket.emit("join", zoneName, cb)
   }
-  function leave(zoneName, cb) {
+
+  const leave = (zoneName, cb) => {
     socket.emit("leave", zoneName, cb)
   }
-  function message(zoneName, msg, cb) {
+
+  const message = (zoneName, msg, cb) => {
     socket.emit("message", {zoneName, message: msg}, cb)
   }
-  function getZones(cb) {
+
+  const getZones = cb => {
     socket.emit("zones", null, cb)
   }
-  function getAvailableUsers(cb) {
+
+  const getAvailableUsers = cb => {
     socket.emit("availableUsers", null, cb)
   }
+
   return {
     register,
     join,

@@ -1,9 +1,11 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import /* Switch, */
-/* Route */
-/* Link, */
-"react-router-dom"
+import {
+  Redirect
+  /* Switch, */
+  /* Route */
+  /* Link, */
+} from "react-router-dom"
 /* import Select from "react-select" */
 
 import {withStyles} from "@material-ui/core/styles"
@@ -49,31 +51,78 @@ const styles = theme => ({
   }
 })
 
-const initialCoursesdivState = {
-  courseRef: ""
+const Loader = () => <div>Loading...</div>
+
+const initialState = {
+  courseRef: "",
+  user: null,
+  isRegisterInProcess: false,
+  chatrooms: null
 }
 
 class Zone extends Component {
   locationName = this.props.path
 
-  constructor(props) {
-    super(props)
-
-    this.state = cloneDeep(initialCoursesdivState)
-  }
+  state = cloneDeep(initialState)
 
   componentDidMount() {
     this.props.toggleFooter(false)
   }
 
-  componentWillUnmount() {
-    this.props.toggleFooter(true)
+  onLeaveChatroom = (chatroomName, onLeaveSuccess) => {
+    this.state.client.leave(chatroomName, err => {
+      if (err) return console.error(err)
+      return onLeaveSuccess()
+    })
   }
 
-  handleImageClick = e => {
-    e.preventDefault()
-    // TODO
+  getChatrooms = () => {
+    this.state.client.getChatrooms((err, chatrooms) => {
+      this.setState({chatrooms})
+    })
   }
+
+  register = name => {
+    const onRegisterResponse = user =>
+      this.setState({isRegisterInProcess: false, user})
+    this.setState({isRegisterInProcess: true})
+    this.state.client.register(name, (err, user) => {
+      if (err) return onRegisterResponse(null)
+      return onRegisterResponse(user)
+    })
+  }
+
+  renderUserSelectionOrRedirect = renderUserSelection => {
+    if (this.state.user) {
+      return <Redirect to="/" />
+    }
+
+    return this.state.isRegisterInProcess ? <Loader /> : renderUserSelection()
+  }
+
+  /* renderChatroomOrRedirect = (chatroom, {history}) => { */
+  /*   if (!this.state.user) { */
+  /*     return <Redirect to="/" /> */
+  /*   } */
+
+  /*   const {chatHistory} = history.location.state */
+
+  /*   return ( */
+  /*     <Chatroom */
+  /*       chatroom={chatroom} */
+  /*       chatHistory={chatHistory} */
+  /*       user={this.state.user} */
+  /*       onLeave={() => */
+  /*         this.onLeaveChatroom(chatroom.name, () => history.push("/")) */
+  /*       } */
+  /*       onSendMessage={(message, cb) => */
+  /*         this.state.client.message(chatroom.name, message, cb) */
+  /*       } */
+  /*       registerHandler={this.state.client.registerHandler} */
+  /*       unregisterHandler={this.state.client.unregisterHandler} */
+  /*     /> */
+  /*   ) */
+  /* } */
 
   render() {
     const {classes} = this.props

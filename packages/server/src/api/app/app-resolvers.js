@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash-es"
+import {isEmpty} from "lodash"
 import mongoose from "mongoose"
 import App from "./app-model"
 

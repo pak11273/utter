@@ -2,19 +2,24 @@ import React, {Component} from "react"
 import {Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
 import {Provider} from "react-redux"
-import styled, {ThemeProvider} from "styled-components"
+import styled from "styled-components"
 import {AppContainer} from "react-hot-loader"
 import {ConnectedRouter as Router} from "react-router-redux"
 import ReactGA from "react-ga"
 import {ApolloProvider} from "react-apollo"
+
+import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import yellow from "@material-ui/core/colors/yellow"
+import green from "@material-ui/core/colors/green"
+
 import client from "./apollo.js"
 
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
-import {main} from "./themes/config.js"
 import {Footer, MainNavbar, ModalMgr} from "./containers"
 import {Grid, Section} from "./components"
-import NavbarSpacer from "./components/Spacers/NavbarSpacer.js"
+import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {store, persistor} from "./store.js"
 import FlashMessagesList from "./components/FlashMessages/FlashMessagesList"
 import {history} from "@utterzone/connector"
@@ -26,6 +31,20 @@ const SubRoutes = route => (
     render={props => <route.component {...props} routes={route.routes} />}
   />
 )
+
+// Material UI Theme
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  },
+  palette: {
+    primary: yellow,
+    secondary: green
+  },
+  status: {
+    danger: "orange"
+  }
+})
 
 const StyledGrid = styled(Grid)`
   display: grid;
@@ -49,9 +68,10 @@ class App extends Component {
       /* const toggleFooter = store.getState().toggleFooterReducer.toggle */
       <ApolloProvider client={client}>
         <AppContainer>
-          <ThemeProvider theme={main}>
-            <Provider store={store}>
-              <PersistGate loading={null} persistor={persistor}>
+          <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+              <MuiThemeProvider theme={theme}>
+                <CssBaseline />
                 <ModalMgr />
                 <Router history={history}>
                   <StyledGrid style={{minHeight: "100vh"}}>
@@ -63,7 +83,7 @@ class App extends Component {
                       smallMenuClassName="small-menu"
                     />
                     <Section gridarea="flash">
-                      <NavbarSpacer margin="50px 0 0 0" id="spacer" />
+                      <NavbarSpacer margin="0" id="spacer" />
                       <FlashMessagesList />
                     </Section>
                     <Section gridarea="content">
@@ -76,9 +96,9 @@ class App extends Component {
                     <Footer gridarea="footer" />
                   </StyledGrid>
                 </Router>
-              </PersistGate>
-            </Provider>
-          </ThemeProvider>
+              </MuiThemeProvider>
+            </PersistGate>
+          </Provider>
         </AppContainer>
       </ApolloProvider>
     )

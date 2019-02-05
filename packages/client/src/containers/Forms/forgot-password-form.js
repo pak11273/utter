@@ -1,9 +1,7 @@
 import React, {PureComponent} from "react"
-import {ThemeProvider} from "styled-components"
 import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
 import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
-import {main} from "../../themes/config"
 import {FormikInput, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
@@ -39,11 +37,9 @@ class ForgotPasswordForm extends PureComponent {
               <Spacer margin="70px" />
               <Header as="h1">ForgotPassword</Header>
               <Field name="email" placeholder="email" component={FormikInput} />
-              <ThemeProvider theme={main}>
-                <Button color="yellow" fontSize="1.5rem" type="submit">
-                  Reset Password
-                </Button>
-              </ThemeProvider>
+              <Button color="yellow" fontSize="1.5rem" type="submit">
+                Reset Password
+              </Button>
             </Form>
           </Container>
         </Grid.Column>
