@@ -80,7 +80,7 @@ const tiers = [
     price: "8.95",
     description: [
       "8.95/mo.",
-      "$8.95 charged every 3 months.",
+      "$26.85 charged every 3 months.",
       "10 GB of storage",
       "Help center access",
       "Priority email support"
@@ -93,7 +93,7 @@ const tiers = [
     price: "7.45",
     description: [
       "7.45/mo.",
-      "$7.45 charged every 6 months.",
+      "$44.70 charged every 6 months.",
       "30 GB of storage",
       "Help center access",
       "Phone & email support"
@@ -106,7 +106,7 @@ const tiers = [
     price: "6.95",
     description: [
       "6.95/mo.",
-      "$6.95 charged every 12 months.",
+      "$83.40 charged every 12 months.",
       "30 GB of storage",
       "Help center access",
       "Phone & email support"

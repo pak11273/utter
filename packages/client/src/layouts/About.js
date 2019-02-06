@@ -3,10 +3,7 @@ import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {
-  Container,
-  Section
-} from "../components"
+import {Container, Section} from "../components"
 import {Masthead} from "../containers"
 
 // actions
@@ -14,12 +11,12 @@ import {toggleFooter} from "../core/actions/toggle-footer-action.js"
 
 const styles = theme => ({
   root: {
-		backgroundColor: "black",
+    backgroundColor: "black",
     height: "100%"
   },
-	text: {
-		color: "white"
-	},
+  text: {
+    color: "white"
+  },
   masthead: {
     padding: theme.spacing.unit * 1,
     margin: "auto",
@@ -62,40 +59,36 @@ class About extends Component {
           <link rel="canonical" href="https://utter.zone/about" />
         </Helmet>
         <Container className={classes.root}>
-            <Masthead
-							className={classes.masthead}
-              background={`url("https://s.hswstatic.com/gif/brain-1.jpg") #000 no-repeat center/contain`}
-							height="400px"
-							width="300px"
-			/>
-          <Section
-							className={classes.section}>
-          <Typography
-            variant="h4"
-            align="center"
-						className={classes.text}
-            component="p"
-						gutterBottom
-			>
-								We foster the greatest learning tool you have available
-              already-Your brain. Our techniques allow you to naturally learn
-              something at the highest level possible. 
-					</Typography>
-          <Typography
-            variant="h2"
-            align="center"
-						className={classes.text}
-            component="p"
-						gutterBottom
-			>
-No tricks, no gimmicks.
-					</Typography>
-          <Typography
-            align="center"
-						className={classes.text}
-            component="p"
-						gutterBottom
-			>
+          <Masthead
+            className={classes.masthead}
+            background={`url("https://s.hswstatic.com/gif/brain-1.jpg") #000 no-repeat center/contain`}
+            height="400px"
+            width="300px"
+          />
+          <Section className={classes.section}>
+            <Typography
+              variant="h4"
+              align="center"
+              className={classes.text}
+              component="p"
+              gutterBottom>
+              You possess the greatest learning tool in the world, but do you
+              know how to use it? Our techniques allow you to naturally learn
+              something at the highest level possible.
+            </Typography>
+            <Typography
+              variant="h2"
+              align="center"
+              className={classes.text}
+              component="p"
+              gutterBottom>
+              No tricks, no gimmicks.
+            </Typography>
+            <Typography
+              align="center"
+              className={classes.text}
+              component="p"
+              gutterBottom>
               Our goal is to bring peace to the world by language. As the world
               has become more global, one of the major problems we have is
               misunderstandings due to cultural differences. Language happens to
@@ -104,8 +97,7 @@ No tricks, no gimmicks.
               difficult and hard to become fluent in. We make every endeavor to
               not make it any simpler, but to make it more available and more
               efficient to learn.
-
-					</Typography>
+            </Typography>
           </Section>
         </Container>
       </React.Fragment>

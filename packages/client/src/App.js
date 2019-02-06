@@ -83,7 +83,7 @@ class App extends Component {
                       smallMenuClassName="small-menu"
                     />
                     <Section gridarea="flash">
-                      <NavbarSpacer margin="0" id="spacer" />
+                      <NavbarSpacer id="spacer" />
                       <FlashMessagesList />
                     </Section>
                     <Section gridarea="content">

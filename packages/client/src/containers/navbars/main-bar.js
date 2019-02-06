@@ -158,8 +158,10 @@ const StyledNavLink = styled(NavLink)`
 
 const styles = theme => ({
   root: {
-    width: "100%",
-    zIndex: 99
+    width: "100%"
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1
   },
   grow: {
     flexGrow: 1
@@ -320,15 +322,14 @@ class MainNavbar extends Component {
             } else if (index === 2) {
               icon = <LocalOfferIcon />
             } else if (index === 3) {
-							icon = <AssignmentIcon />
-						}
-						return (
-            <ListItem button key={text} onClick={this.redirectTo(text)}>
-              <ListItemIcon>
-						{icon}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>)
+              icon = <AssignmentIcon />
+            }
+            return (
+              <ListItem button key={text} onClick={this.redirectTo(text)}>
+                <ListItemIcon>{icon}</ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            )
           })}
         </List>
       </div>
@@ -413,7 +414,7 @@ class MainNavbar extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <IconButton
               className={classes.menuButton}

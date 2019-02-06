@@ -17,8 +17,6 @@ import {
   Container,
   Img,
   Line,
-  MastheadTitle,
-  MastheadSubtitle,
   Section
 } from "../components"
 import {Masthead} from "../containers"
@@ -63,6 +61,9 @@ const styles = theme => ({
     display: "block",
     maxWidth: "100%",
     maxHeight: "100%"
+  },
+  text: {
+    color: "white"
   }
 })
 
@@ -79,12 +80,20 @@ class Home extends Component {
           background={`url(${homeMastheadImg}) center/cover`}
           height="760px"
           padding="200px 20px 100px 20px">
-          <MastheadTitle color="white" lineheight="4rem">
+          <Typography
+            variant="h2"
+            align="center"
+            className={classes.text}
+            gutterBottom>
             Speak another language
-          </MastheadTitle>
-          <MastheadSubtitle color="white" fontsize="1.5rem">
+          </Typography>
+          <Typography
+            variant="h4"
+            align="center"
+            className={classes.text}
+            gutterBottom>
             Not speaking your new language yet? We can help.
-          </MastheadSubtitle>
+          </Typography>
           <ButtonCta color="black">
             <NavLink style={{fontSize: "1.8rem"}} to="/about">
               Learn More
