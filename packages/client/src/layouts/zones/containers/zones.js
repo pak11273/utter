@@ -18,7 +18,7 @@ import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 
-import CoursesGrid from "./courses-grid.js"
+import ZonesGrid from "./zones-grid.js"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
@@ -113,8 +113,8 @@ const styles = theme => ({
 })
 
 const initialState = {
-  courseInput: "",
-  courseName: "",
+  zoneInput: "",
+  zoneName: "",
   courseRef: "",
   items: "",
   labelWidth: 0,
@@ -128,7 +128,7 @@ const initialState = {
   usingLang: ""
 }
 
-class CoursesContainer extends PureComponent {
+class ZonesContainer extends PureComponent {
   state = cloneDeep(initialState)
 
   componentDidMount() {
@@ -188,7 +188,7 @@ class CoursesContainer extends PureComponent {
 
   handleInputChg = (e, data) => {
     const newState = update(this.state, {
-      courseInput: {$set: data.value}
+      zoneInput: {$set: data.value}
     })
 
     this.setState(newState)
@@ -197,16 +197,16 @@ class CoursesContainer extends PureComponent {
   handleSubmit = e => {
     e.preventDefault()
     // change state props based on selectionBox
-    const {courseInput, selectionBox} = this.state
+    const {zoneInput, selectionBox} = this.state
     switch (selectionBox) {
       case "title": {
-        // set courseName
+        // set zoneName
         const newName = update(this.state, {
           owner: {
             $set: ""
           },
-          courseName: {
-            $set: courseInput
+          zoneName: {
+            $set: zoneInput
           },
           courseRef: {
             $set: ""
@@ -227,11 +227,11 @@ class CoursesContainer extends PureComponent {
           owner: {
             $set: ""
           },
-          courseName: {
+          zoneName: {
             $set: ""
           },
           courseRef: {
-            $set: courseInput
+            $set: zoneInput
           },
           next: {
             $set: ""
@@ -247,9 +247,9 @@ class CoursesContainer extends PureComponent {
         // set owner
         const newAuthor = update(this.state, {
           owner: {
-            $set: courseInput
+            $set: zoneInput
           },
-          courseName: {
+          zoneName: {
             $set: ""
           },
           courseRef: {
@@ -322,13 +322,49 @@ class CoursesContainer extends PureComponent {
               ]}
             />
             <Spacer margin="40px 0 0 0" />
+            <Typography
+              variant="h6"
+              align="center"
+              className={classes.text}
+              gutterBottom>
+              Choose An App
+            </Typography>
+            <ReactSelect
+              name="form-field-name"
+              value={this.state.UsingLang}
+              onChange={this.handleAppChange}
+              options={[
+                {value: "chat", label: "General Chat"},
+                {value: "recall", label: "Total Recall"}
+              ]}
+            />
+            <Spacer margin="40px 0 0 0" />
+            <Typography
+              variant="h6"
+              align="center"
+              className={classes.text}
+              gutterBottom>
+              Pick Your Level:
+            </Typography>
+            <ReactSelect
+              name="form-field-name"
+              value={this.state.teachingLang}
+              onChange={this.handleTeachingChange}
+              options={[
+                {value: "1", label: "1"},
+                {value: "2", label: "2"},
+                {value: "3", label: "3"},
+                {value: "4", label: "4"}
+              ]}
+            />
+            <Spacer margin="40px 0 0 0" />
             <Divider />
             <Spacer margin="40px 0 0 0" />
             <Link
               component={RouterLink}
               onClick={this.refreshPage}
-              to="/courses/created">
-              My Created Courses
+              to="/zones/create">
+              Host A Zone
             </Link>
           </div>
         </Drawer>
@@ -356,13 +392,13 @@ class CoursesContainer extends PureComponent {
                   align="center"
                   className={classes.text}
                   gutterBottom>
-                  Subscribe to a Course
+                  Enter a Zone
                 </Typography>
                 <Grid container alignItems="center" justify="center">
                   <TextField
                     id="outlined-search"
                     label="Search"
-                    onChange={this.handleChg("courseInput")}
+                    onChange={this.handleChg("zoneInput")}
                     type="search"
                     className={classes.searchField}
                     margin="normal"
@@ -402,8 +438,8 @@ class CoursesContainer extends PureComponent {
           {/* End hero unit */}
           <Grid>
             {
-              <CoursesGrid
-                courseName={this.state.courseName}
+              <ZonesGrid
+                zoneName={this.state.zoneName}
                 courseRef={this.state.courseRef}
                 owner={this.state.owner}
                 teachingLang={this.state.teachingLang}
@@ -424,4 +460,22 @@ const actions = {
 export default connect(
   null,
   actions
-)(withStyles(styles)(CoursesContainer))
+)(withStyles(styles)(ZonesContainer))
+
+/* <ZonesGrid /> */
+/* <Zones */
+/* onEnterZone={zone => */
+/*   this.onEnterZone(zone, zoneHistory => */
+/*     props.history.push({ */
+/*       pathname: zone, */
+/*       state: {zoneHistory} */
+/*     }) */
+/*   ) */
+/* } */
+/* zoneName={this.state.zoneName} */
+/* owner={this.state.owner} */
+/* zoneRef={this.state.zoneRef} */
+/* usingLang={this.state.usingLang} */
+/* teachingLang={this.state.teachingLang} */
+/* {...this.props} */
+/* />  *1/ */

@@ -30,7 +30,7 @@ const courseDelete = async (_, {id}, ctx) => {
 
   const course = await Course.findOneAndDelete({owner: user._id})
   if (!course) {
-    throw new Error("No course found by this author.")
+    throw new Error("No course found by this owner.")
   }
 
   if (course) {
@@ -107,14 +107,14 @@ const getCourses = async (_, args, ctx, info) => {
   // build query object
   const query = {}
   var courseName, courseRef, owner
-  args.title
-    ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
+  args.courseName
+    ? (query.courseName = new RegExp(escapeRegex(args.courseName), "gi"))
     : null
 
   args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
 
-  if (args.author) {
-    var owner = await Course.findByUsername(args.author, (err, docs) => {
+  if (args.owner) {
+    var owner = await Course.findByUsername(args.owner, (err, docs) => {
       if (err) {
         // console.log doesn't work here
       }

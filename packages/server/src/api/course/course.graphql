@@ -42,9 +42,9 @@ extend type Query {
 	getCourseLevels(courseId: String!): Course!
   getCourses(
     cursor: String
-    title: String!
+    courseName: String!
     ref: String!
-    author: String!
+    owner: String!
     usingLang: String!
     teachingLang: String!
   ): PaginatedCourses 

@@ -133,7 +133,7 @@ const getShoppingCart = Loadable({
 })
 
 const getZones = Loadable({
-  loader: () => import("./layouts/zones/containers"),
+  loader: () => import("./layouts/zones/containers/zones.js"),
   loading: Loading
 })
 
