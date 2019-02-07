@@ -52,7 +52,7 @@ const getContact = Loadable({
 })
 
 const getCourses = Loadable({
-  loader: () => import("./layouts/courses/containers/index"),
+  loader: () => import("./layouts/courses/containers/courses"),
   loading: Loading
 })
 

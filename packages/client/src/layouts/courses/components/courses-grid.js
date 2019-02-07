@@ -1,8 +1,6 @@
 import React, {Component} from "react"
 /* import {connect} from "react-redux" */
 import {history} from "@utterzone/connector"
-import {isEmpty, cloneDeep} from "lodash"
-import Waypoint from "react-waypoint"
 import update from "immutability-helper"
 import {store} from "../../../store.js"
 import {
@@ -19,39 +17,6 @@ import "../../styles.css"
 // actions
 import {loadData} from "../../../api/actions.js"
 
-import {Query} from "react-apollo"
-import gql from "graphql-tag"
-
-const getCourses = gql`
-  query getCourses(
-    $cursor: String
-    $title: String!
-    $ref: String!
-    $author: String!
-    $usingLang: String!
-    $teachingLang: String!
-  ) {
-    getCourses(
-      cursor: $cursor
-      title: $title
-      ref: $ref
-      author: $author
-      usingLang: $usingLang
-      teachingLang: $teachingLang
-    ) {
-      cursor
-      courses {
-        id
-        courseImage
-        courseName
-        courseDescription
-        owner {
-          username
-        }
-      }
-    }
-  }
-`
 
 const initialCoursesState = {
   cursor: "initial"

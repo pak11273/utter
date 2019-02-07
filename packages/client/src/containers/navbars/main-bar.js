@@ -14,6 +14,7 @@ import AppBar from "@material-ui/core/AppBar"
 import Badge from "@material-ui/core/Badge"
 /* import Button from "@material-ui/core/Button" */
 import Divider from "@material-ui/core/Divider"
+import ExittoappIcon from "@material-ui/icons/ExitToApp"
 import HomeIcon from "@material-ui/icons/Home"
 import InfoIcon from "@material-ui/icons/Info"
 import IconButton from "@material-ui/core/IconButton"
@@ -55,107 +56,6 @@ const StyledNavLink = styled(NavLink)`
     text-decoration: underline;
   }
 `
-
-/* const NavSection = styled(Section)` */
-/*   background: ${props => props.background}; */
-/*   box-sizing: border-box; */
-/*   display: grid; */
-/*   grid-template-areas: "logo navigation portal"; */
-/*   grid-template-columns: 1fr 2fr 1fr; */
-/*   height: 50px; */
-/*   position: fixed; */
-/*   top: 0; */
-/*   width: 100%; */
-/*   z-index: 99; */
-/*   @media (min-width: 640px) { */
-/*     height: 50px !important; */
-/*   } */
-/* ` */
-
-/* NavSection.defaultProps = { */
-/*   background: "#F6D155" */
-/* } */
-
-/* const SectionLeft = styled.section` */
-/*   display: flex; */
-/*   grid-area: ${props => props.gridarea}; */
-
-/*   @media (min-width: 640px) { */
-/*     align-items: center; */
-/*     display: flex; */
-/*     justify-content: flex-start; */
-/*   } */
-/* ` */
-
-/* const SectionRight = styled.section` */
-/*   a { */
-/*     color: #003478; */
-/*   } */
-/*   align-items: flex-start; */
-/*   padding: 17px 0 0 0; */
-/*   background: none; */
-/*   width: 200px; */
-
-/*   display: flex; */
-/*   grid-area: ${props => props.gridarea}; */
-/* ` */
-
-/* const Nav = styled.div` */
-/*   ul { */
-/*     padding: 0; */
-/*   } */
-/*   li { */
-/*     display: inline; */
-/*     font-size: 13px; */
-/*     list-style-type: none; */
-/*     margin-left: 30px; */
-/*   } */
-/*   a { */
-/*     text-decoration: none; */
-/*     font-size: 1rem; */
-/*     color: #003478; */
-/*     &:hover { */
-/*       color: white; */
-/*       text-decoration: underline; */
-/*     } */
-/*   } */
-/*   @media (max-width: 640px) { */
-/*     padding: 10px 0; */
-/*     li { */
-/*       padding: 10px 0; */
-/*       display: block; */
-/*       margin-left: 0; */
-/*     } */
-/*   } */
-/* ` */
-
-/* const Menu = styled.ul` */
-/*   display: flex; */
-/*   width: 185px; */
-/*   ul { */
-/*     li { */
-/*       color: #1e74b7; */
-/*       display: inline; */
-/*       font-size: 1rem; */
-/*       margin-left: 2rem; */
-/*     } */
-/*   } */
-/* ` */
-/* const SmallMenu = styled.div` */
-/*   display: none; */
-/*   text-align: center; */
-/*   @media (max-width: ${props => props.maxwidth}) { */
-/*     display: block; */
-/*   } */
-/* ` */
-/* const LargeMenu = styled.div` */
-/*   display: block; */
-/*   text-align: center; */
-/*   @media (max-width: ${props => props.maxwidth}) { */
-/*     display: none; */
-/*   } */
-/* ` */
-
 const styles = theme => ({
   root: {
     width: "100%"
@@ -169,6 +69,9 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20
+  },
+  noMargin: {
+    margin: 0
   },
   title: {
     display: "none",
@@ -221,6 +124,12 @@ class MainNavbar extends Component {
     this.handleMobileMenuClose()
   }
 
+  handleSignup = () => {
+    this.setState({anchorEl: null})
+    this.props.history.push("/signup")
+    this.handleMobileMenuClose()
+  }
+
   handleMobileMenuOpen = event => {
     this.setState({mobileMoreAnchorEl: event.currentTarget})
   }
@@ -248,13 +157,6 @@ class MainNavbar extends Component {
   }
 
   render() {
-    /* const { */
-    /*   list, */
-    /*   largeMenuClassName, */
-    /*   smallMenuClassName, */
-    /*   changeMenuOn */
-    /* } = this.props */
-
     // handle login section
     const isAuthenticated = localStorage.getItem(AUTH_TOKEN)
 
@@ -313,7 +215,7 @@ class MainNavbar extends Component {
         </List>
         <Divider />
         <List>
-          {["About", "Contact", "Pricing", "Sign Up"].map((text, index) => {
+          {["About", "Contact", "Pricing"].map((text, index) => {
             var icon = <MoodIcon />
             if (index === 0) {
               icon = <InfoIcon />
@@ -321,8 +223,6 @@ class MainNavbar extends Component {
               icon = <SubjectIcon />
             } else if (index === 2) {
               icon = <LocalOfferIcon />
-            } else if (index === 3) {
-              icon = <AssignmentIcon />
             }
             return (
               <ListItem button key={text} onClick={this.redirectTo(text)}>
@@ -371,7 +271,9 @@ class MainNavbar extends Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}>
         <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem>
+        ) : null}
         {!isAuthenticated ? (
           <MenuItem onClick={this.login}>Login</MenuItem>
         ) : (
@@ -387,28 +289,51 @@ class MainNavbar extends Component {
         transformOrigin={{vertical: "top", horizontal: "right"}}
         open={isMobileMenuOpen}
         onClose={this.handleMenuClose}>
-        <MenuItem onClick={this.handleMobileMenuClose}>
+        {/*  <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <MailIcon />
             </Badge>
           </IconButton>
           <p>Messages</p>
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={this.handleMobileMenuClose}>
           <IconButton color="inherit">
             <Badge badgeContent={11} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <p>Notifications</p>
+          <p className={classes.noMargin}>Notifications</p>
         </MenuItem>
         <MenuItem onClick={this.handleProfileMenuOpen}>
           <IconButton color="inherit">
             <AccountCircle />
           </IconButton>
-          <p>Profile</p>
+          <p className={classes.noMargin}>Profile</p>
         </MenuItem>
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.handleSignup}>
+            <IconButton color="inherit">
+              <AssignmentIcon />
+            </IconButton>
+            <p className={classes.noMargin}>Sign Up</p>
+          </MenuItem>
+        ) : null}
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.login}>
+            <IconButton color="inherit">
+              <ExittoappIcon />
+            </IconButton>
+            <p className={classes.noMargin}>Login</p>
+          </MenuItem>
+        ) : (
+          <MenuItem onClick={this.logout}>
+            <IconButton color="inherit">
+              <ExittoappIcon />
+            </IconButton>
+            <p className={classes.noMargin}>Log Out</p>
+          </MenuItem>
+        )}
       </Menu>
     )
 
@@ -510,11 +435,11 @@ class MainNavbar extends Component {
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton color="inherit">
+              {/*  <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <MailIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               <IconButton color="inherit">
                 <Badge badgeContent={17} color="secondary">
                   <NotificationsIcon />
