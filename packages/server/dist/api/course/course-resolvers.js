@@ -129,7 +129,7 @@ var courseDelete = function () {
               break;
             }
 
-            throw new Error("No course found by this author.");
+            throw new Error("No course found by this owner.");
 
           case 11:
             if (!course) {
@@ -320,17 +320,17 @@ var getCourses = function () {
             // build query object
             query = {};
 
-            args.title ? query.courseName = new RegExp(escapeRegex(args.title), "gi") : null;
+            args.courseName ? query.courseName = new RegExp(escapeRegex(args.courseName), "gi") : null;
 
             args.ref ? query.courseRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
-            if (!args.author) {
+            if (!args.owner) {
               _context6.next = 7;
               break;
             }
 
             _context6.next = 6;
-            return _courseModel2.default.findByUsername(args.author, function (err, docs) {
+            return _courseModel2.default.findByUsername(args.owner, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
               }
