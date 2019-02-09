@@ -1,5 +1,5 @@
 /* eslint react/no-did-update-set-state: 0 */
-import React, {PureComponent} from "react"
+import React, {Component} from "react"
 import {connect} from "react-redux"
 import {Link as RouterLink} from "react-router-dom"
 import ReactSelect from "react-select"
@@ -22,10 +22,13 @@ import ZonesGrid from "./zones-grid.js"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
+import socket from "../../../services/socketio"
+import {history} from "@utterzone/connector"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
+import {loadData} from "../../../api/actions.js"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -113,6 +116,7 @@ const styles = theme => ({
 })
 
 const initialState = {
+  client: socket(),
   zoneInput: "",
   zoneName: "",
   courseRef: "",
@@ -125,50 +129,30 @@ const initialState = {
   search: "",
   selectionBox: "title",
   teachingLang: "",
-  usingLang: ""
+  usingLang: "",
+  user: "jim",
+  zones: null
 }
 
-class ZonesContainer extends PureComponent {
+class ZonesContainer extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
     this.props.toggleFooter(false)
+    this.getZones()
   }
 
-  handleSpeakingChange = usingLang => {
-    if (usingLang === null) {
-      const newState = update(this.state, {
-        usingLang: {$set: ""}
-      })
-
-      this.setState(newState)
-    } else {
-      const newState = update(this.state, {
-        usingLang: {$set: usingLang.value}
-      })
-
-      this.setState(newState)
-    }
+  onEnterZone(card, onEnterSuccess) {
+    return this.state.client.join(card.id, (err, chatHistory) => {
+      if (err) return console.error(err)
+      this.props.loadData({zone: card})
+      return onEnterSuccess(chatHistory)
+    })
   }
 
-  handleTeachingChange = teachingLang => {
-    if (teachingLang === null) {
-      const newState = update(this.state, {
-        teachingLang: {$set: ""}
-      })
-
-      this.setState(newState)
-    } else {
-      const newState = update(this.state, {
-        teachingLang: {$set: teachingLang.value}
-      })
-      this.setState(newState)
-    }
-  }
-
-  handleSearch = e => {
-    this.setState({
-      search: e.target.value
+  getZones = () => {
+    this.state.client.getZones((err, zones) => {
+      this.setState({zones})
     })
   }
 
@@ -266,6 +250,43 @@ class ZonesContainer extends PureComponent {
       }
       default:
         break
+    }
+  }
+
+  handleSearch = e => {
+    this.setState({
+      search: e.target.value
+    })
+  }
+
+  handleSpeakingChange = usingLang => {
+    if (usingLang === null) {
+      const newState = update(this.state, {
+        usingLang: {$set: ""}
+      })
+
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        usingLang: {$set: usingLang.value}
+      })
+
+      this.setState(newState)
+    }
+  }
+
+  handleTeachingChange = teachingLang => {
+    if (teachingLang === null) {
+      const newState = update(this.state, {
+        teachingLang: {$set: ""}
+      })
+
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        teachingLang: {$set: teachingLang.value}
+      })
+      this.setState(newState)
     }
   }
 
@@ -444,6 +465,14 @@ class ZonesContainer extends PureComponent {
                 owner={this.state.owner}
                 teachingLang={this.state.teachingLang}
                 usingLang={this.state.usingLang}
+                onEnterZone={card =>
+                  this.onEnterZone(card, chatHistory =>
+                    history.push({
+                      pathname: `/zone/${card.id}`,
+                      state: {chatHistory, zoneId: card.id}
+                    })
+                  )
+                }
               />
             }
           </Grid>
@@ -454,6 +483,7 @@ class ZonesContainer extends PureComponent {
 }
 
 const actions = {
+  loadData,
   toggleFooter
 }
 
@@ -461,21 +491,3 @@ export default connect(
   null,
   actions
 )(withStyles(styles)(ZonesContainer))
-
-/* <ZonesGrid /> */
-/* <Zones */
-/* onEnterZone={zone => */
-/*   this.onEnterZone(zone, zoneHistory => */
-/*     props.history.push({ */
-/*       pathname: zone, */
-/*       state: {zoneHistory} */
-/*     }) */
-/*   ) */
-/* } */
-/* zoneName={this.state.zoneName} */
-/* owner={this.state.owner} */
-/* zoneRef={this.state.zoneRef} */
-/* usingLang={this.state.usingLang} */
-/* teachingLang={this.state.teachingLang} */
-/* {...this.props} */
-/* />  *1/ */

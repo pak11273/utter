@@ -6,38 +6,27 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
     })
   }
 
-  function ensureUserSelected(socketId) {
+  function ensureValidZone(zoneId) {
     return ensureExists(
-      () => socketManager.getUserBySocketId(socketId),
-      "select user first"
+      () => zoneManager.getZoneById(zoneId),
+      `invalid zone name: ${zoneId}`
     )
   }
 
-  function ensureValidZone(zoneName) {
-    return ensureExists(
-      () => zoneManager.getZoneByName(zoneName),
-      `invalid zone name: ${zoneName}`
+  function ensureValidZoneAndUserSelected(zoneId) {
+    return Promise.all([ensureValidZone(zoneId)]).then(([zone, user]) =>
+      Promise.resolve({zone, user})
     )
   }
 
-  function ensureValidZoneAndUserSelected(zoneName) {
-    return Promise.all([
-      ensureValidZone(zoneName),
-      ensureUserSelected(socket.id)
-    ]).then(([zone, user]) => Promise.resolve({zone, user}))
-  }
-
-  function handleEvent(zoneName, createEntry) {
-    return ensureValidZoneAndUserSelected(zoneName).then(function({
-      zone,
-      user
-    }) {
+  function handleEvent(zoneId, createEntry) {
+    return ensureValidZoneAndUserSelected(zoneId).then(function({zone, user}) {
       // append event to zone history
       const entry = {user, ...createEntry()}
       zone.addEntry(entry)
 
       // notify other sockets in zone
-      zone.broadcastMessage({zone: zoneName, ...entry})
+      zone.broadcastMessage({zone: zoneId, ...entry})
       return zone
     })
   }
@@ -58,10 +47,10 @@ export default (socket, socketManager, zoneManager) => {
     return callback(null, user)
   }
 
-  function handleJoin(zoneName, callback) {
-    const createEntry = () => ({event: `joined ${zoneName}`})
+  function handleJoin(zoneId, callback) {
+    const createEntry = () => ({event: `joined ${zoneId}`})
 
-    handleEvent(zoneName, createEntry)
+    handleEvent(zoneId, createEntry)
       .then(function(zone) {
         // add member to zone
         zone.addUser(socket)
@@ -85,10 +74,11 @@ export default (socket, socketManager, zoneManager) => {
       .catch(callback)
   }
 
-  function handleMessage({zoneName, message} = {}, callback) {
+  function handleMessage(zoneId, message, callback) {
     const createEntry = () => ({message})
-
-    handleEvent(zoneName, createEntry)
+console.log('hello');
+		console.log('ZONED ID: ', zoneId);
+    handleEvent(zoneId, createEntry)
       .then(() => callback(null))
       .catch(callback)
   }

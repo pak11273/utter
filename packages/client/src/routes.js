@@ -287,24 +287,7 @@ export const routes = [
   {
     component: requireAuth(getZone),
     exact: true,
-    path: "/zone/:id",
-    routes: [
-      {
-        exact: true,
-        path: "/course/course-introduction",
-        component: requireAuth(getCourseIntroduction)
-      },
-      {
-        exact: true,
-        path: "/course/course-settings",
-        component: requireAuth(getCourseSettings)
-      },
-      {
-        exact: true,
-        path: "/course/levels",
-        component: requireAuth(getLevels)
-      }
-    ]
+    path: "/zone/:id"
   },
   {
     component: requireAuth(getZoneCtrl),

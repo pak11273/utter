@@ -3,7 +3,7 @@ import Waypoint from "react-waypoint"
 
 import classNames from "classnames"
 import cloneDeep from "lodash/cloneDeep"
-import {history} from "@utterzone/connector"
+/* import {history} from "@utterzone/connector" */
 import isEmpty from "lodash/isEmpty"
 import update from "immutability-helper"
 
@@ -16,13 +16,14 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 
+/* import styled from "styled-components" */
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
-import {store} from "../../../store.js"
+/* import {store} from "../../../store.js" */
 
 // actions
-import {loadData} from "../../../api/actions.js"
+/* import {loadData} from "../../../api/actions.js" */
 
 const getZones = gql`
   query getZones(
@@ -160,6 +161,10 @@ const initialState = {
   usingLang: ""
 }
 
+/* const Wrapper = styled.div` */
+/*   cursor: pointer; */
+/* ` */
+
 class CoursesGrid extends PureComponent {
   state = cloneDeep(initialState)
 
@@ -168,17 +173,6 @@ class CoursesGrid extends PureComponent {
       cursor: {$set: ""}
     })
     this.setState(newState)
-  }
-
-  handleImageClick = data => {
-    const payload = {}
-    payload.course = data
-    store.dispatch(loadData(payload))
-
-    history.push({
-      pathname: `/zone/${data.id}`,
-      state: {zoneId: data.id}
-    })
   }
 
   render() {
@@ -303,7 +297,7 @@ class CoursesGrid extends PureComponent {
                     <Grid item key={card.id} xs={12} sm={6} md={3} lg={2}>
                       <Card className={classes.card}>
                         <CardMedia
-                          onClick={() => this.handleImageClick(card)}
+                          onClick={() => this.props.onEnterZone(card)}
                           className={classes.cardMedia}
                           image={`${card.zoneImage}`}
                           title={`${card.zoneName}`}
@@ -332,7 +326,7 @@ class CoursesGrid extends PureComponent {
                         </div>
                         <CardActions className={classes.actions}>
                           <Button
-                            onClick={() => this.handleImageClick(card)}
+                            onClick={() => this.props.onEnterZone(card)}
                             size="large"
                             className={classes.editButton}>
                             ENTER

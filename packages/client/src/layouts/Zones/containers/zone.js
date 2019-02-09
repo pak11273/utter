@@ -1,24 +1,18 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {
-  Redirect
-  /* Switch, */
-  /* Route */
-  /* Link, */
-} from "react-router-dom"
-/* import Select from "react-select" */
+import {Redirect} from "react-router-dom"
 
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
 import {cloneDeep} from "lodash"
 import {Helmet} from "react-helmet"
+import socket from "../../../services/socketio"
 
 import AppsContainer from "../../../apps/apps-container"
-/* import {Section} from "../../../components" */
-import {Chat} from "../../../containers"
+import schema from "../../../core/schema.js"
+import Chat from "./chat/index.js"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-/* import "./styles.css" */
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
@@ -55,9 +49,10 @@ const Loader = () => <div>Loading...</div>
 
 const initialState = {
   courseRef: "",
-  user: null,
+  user: {name: "beef"},
   isRegisterInProcess: false,
-  chatrooms: null
+  chatrooms: null,
+  client: socket()
 }
 
 class Zone extends Component {
@@ -69,15 +64,15 @@ class Zone extends Component {
     this.props.toggleFooter(false)
   }
 
-  onLeaveChatroom = (chatroomName, onLeaveSuccess) => {
+  onLeaveZone = (chatroomName, onLeaveSuccess) => {
     this.state.client.leave(chatroomName, err => {
       if (err) return console.error(err)
       return onLeaveSuccess()
     })
   }
 
-  getChatrooms = () => {
-    this.state.client.getChatrooms((err, chatrooms) => {
+  getZones = () => {
+    this.state.client.getZones((err, chatrooms) => {
       this.setState({chatrooms})
     })
   }
@@ -100,31 +95,10 @@ class Zone extends Component {
     return this.state.isRegisterInProcess ? <Loader /> : renderUserSelection()
   }
 
-  /* renderChatroomOrRedirect = (chatroom, {history}) => { */
-  /*   if (!this.state.user) { */
-  /*     return <Redirect to="/" /> */
-  /*   } */
-
-  /*   const {chatHistory} = history.location.state */
-
-  /*   return ( */
-  /*     <Chatroom */
-  /*       chatroom={chatroom} */
-  /*       chatHistory={chatHistory} */
-  /*       user={this.state.user} */
-  /*       onLeave={() => */
-  /*         this.onLeaveChatroom(chatroom.name, () => history.push("/")) */
-  /*       } */
-  /*       onSendMessage={(message, cb) => */
-  /*         this.state.client.message(chatroom.name, message, cb) */
-  /*       } */
-  /*       registerHandler={this.state.client.registerHandler} */
-  /*       unregisterHandler={this.state.client.unregisterHandler} */
-  /*     /> */
-  /*   ) */
-  /* } */
-
   render() {
+    const {zoneId} = this.props.zone
+		console.log('zoneid: ', zoneId);
+    var chatHistory = [{user: "franz", message: "hello there", event: null}]
     const {classes} = this.props
     return (
       <React.Fragment>
@@ -144,12 +118,31 @@ class Zone extends Component {
         </Helmet>
 
         <Grid container spacing={24} className={classes.root}>
-          <Grid item xs={8}>
+          <Grid item xs={12} sm={12} md={8} lg={9}>
             <AppsContainer />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={12} sm={12} md={4} lg={3}>
             <div style={{background: "LightGray"}}>
-              <Chat />
+              <Chat
+                chatHistory={chatHistory}
+                user={this.state.user}
+                onLeave={() =>
+                  this.onLeaveZone(zoneId, () => history.push("/zones"))
+                }
+                onSendMessage={(message, cb) =>
+                  this.state.client.message(zoneId, message, cb)
+                }
+                registerHandler={this.state.client.registerHandler}
+                unregisterHandler={this.state.client.unregisterHandler}
+              />
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={12} md={8} lg={9}>
+            <h1>Control Panel</h1>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={3}>
+            <div style={{background: "LightGray"}}>
+              <h1>Secondary</h1>
             </div>
           </Grid>
         </Grid>
@@ -158,7 +151,18 @@ class Zone extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  const session = schema.session(state.apiReducer)
+  const {Zone} = session
+  const zoneObj = Zone.all().toRefArray()
+  var zone = zoneObj[0]
+
+  return {
+    zone
+  }
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   {toggleFooter}
 )(withStyles(styles)(Zone))

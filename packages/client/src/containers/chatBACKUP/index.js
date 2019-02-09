@@ -11,6 +11,7 @@ import {Box, List, ListItem, Section, TextArea} from "../../components"
 import {Button, Header} from "semantic-ui-react"
 import styled from "styled-components"
 import cuid from "cuid"
+/* import socketio from "socket.io-client" */
 import RecordRTC from "recordrtc"
 /* import filename from "../../assets/images/play.svg" */
 
@@ -24,6 +25,8 @@ import {
   sendMsg
 } from "../../services/socketio/actions.js"
 import "./styles.css"
+
+/* const socket = socketio() */
 
 const ChatWindow = styled.div`
   position: relative;

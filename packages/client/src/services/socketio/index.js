@@ -34,8 +34,8 @@ export default () => {
     socket.emit("leave", zoneName, cb)
   }
 
-  const message = (zoneName, msg, cb) => {
-    socket.emit("message", {zoneName, message: msg}, cb)
+  const message = (zoneId, msg, cb) => {
+    socket.emit("message", {zoneId, message: msg}, cb)
   }
 
   const getZones = cb => {

@@ -5,11 +5,11 @@ import SocketManager from "./socket-mgr.js"
 import ZoneManager from "./zone-mgr.js"
 import makeHandlers from "./handlers"
 
-export default server => {
+export default async server => {
   const io = socketio(server)
 
   const socketManager = SocketManager()
-  const zoneManager = ZoneManager()
+  const zoneManager = await ZoneManager()
 
   io.on("connection", socket => {
     const {
@@ -24,11 +24,12 @@ export default server => {
 
     console.log("User connected to chat")
 
-    socket.on("join", (params, cb) => {
-      console.log("params: ", params)
-      socket.join(params.zoneName)
-      cb()
-    })
+    /* socket.on("join", (params, cb) => { */
+    /*   console.log("params: ", params) */
+    /*   console.log("params: ", params) */
+    /*   socket.join(params.zoneName) */
+    /*   cb() */
+    /* }) */
 
     socket.on("createMessage", msg => {
       console.log("val: ", msg)
@@ -42,7 +43,7 @@ export default server => {
 
     socket.on("register", handleRegister)
 
-    /* socket.on("join", handleJoin) */
+    socket.on("join", handleJoin)
 
     socket.on("leave", handleLeave)
 

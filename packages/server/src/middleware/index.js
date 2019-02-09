@@ -29,7 +29,7 @@ export default app => {
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
-  mongoose.Promise = bluebird
+  mongoose.Promise = Promise
   app.use(passport.initialize())
   app.use(passport.session())
   mongoose.connect(

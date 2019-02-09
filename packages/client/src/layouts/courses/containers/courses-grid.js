@@ -178,7 +178,6 @@ class CoursesGrid extends PureComponent {
   }
 
   render() {
-    console.log("prosp: , ", this.props)
     const {
       classes,
       courseName,

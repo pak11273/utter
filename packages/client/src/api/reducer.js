@@ -37,6 +37,7 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
+  console.log("payload: ", payload)
   const session = orm.session(state)
   const entities = ["user", "course", "zone"]
   const payloadKeys = Object.keys(payload)

@@ -1,16 +1,20 @@
 import Zone from "./zone"
-import zoneTemplates from "./zones"
+import zonesFromDB from "./zones"
 
-export default () => {
+export default async () => {
   // mapping of all available zones
-  const zones = new Map(zoneTemplates.map(c => [c.name, Zone(c)]))
+  const result = await zonesFromDB.then(doc => {
+    return doc
+  })
+
+  const zones = new Map(result.map(c => [c.id, Zone(c)]))
 
   function removeClient(client) {
     zones.forEach(c => c.removeUser(client))
   }
 
-  function getZoneByName(zoneName) {
-    return zones.get(zoneName)
+  function getZoneById(id) {
+    return zones.get(id)
   }
 
   function serializeZones() {
@@ -19,7 +23,7 @@ export default () => {
 
   return {
     removeClient,
-    getZoneByName,
+    getZoneById,
     serializeZones
   }
 }
