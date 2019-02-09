@@ -64,7 +64,7 @@ var _default = function _default(app) {
   app.use((0, _morgan2.default)("dev"));
   app.use(_bodyParser2.default.urlencoded({ extended: true }));
   app.use(_bodyParser2.default.json());
-  _mongoose2.default.Promise = _bluebird2.default;
+  _mongoose2.default.Promise = Promise;
   app.use(_passport2.default.initialize());
   app.use(_passport2.default.session());
   _mongoose2.default.connect(_config2.default.env.DB_HOST, {

@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
 
@@ -42,68 +50,91 @@ var _handlers2 = _interopRequireDefault(_handlers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = function _default(server) {
-  var io = (0, _socket2.default)(server);
+var _default = function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(server) {
+    var io, socketManager, zoneManager;
+    return _regenerator2.default.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            io = (0, _socket2.default)(server);
+            socketManager = (0, _socketMgr2.default)();
+            _context.next = 4;
+            return (0, _zoneMgr2.default)();
 
-  var socketManager = (0, _socketMgr2.default)();
-  var zoneManager = (0, _zoneMgr2.default)();
+          case 4:
+            zoneManager = _context.sent;
 
-  io.on("connection", function (socket) {
-    var _makeHandlers = (0, _handlers2.default)(socket, socketManager, zoneManager),
-        handleRegister = _makeHandlers.handleRegister,
-        handleJoin = _makeHandlers.handleJoin,
-        handleLeave = _makeHandlers.handleLeave,
-        handleMessage = _makeHandlers.handleMessage,
-        handleGetZones = _makeHandlers.handleGetZones,
-        handleGetAvailableUsers = _makeHandlers.handleGetAvailableUsers,
-        handleDisconnect = _makeHandlers.handleDisconnect;
 
-    console.log("User connected to chat");
+            io.on("connection", function (socket) {
+              var _makeHandlers = (0, _handlers2.default)(socket, socketManager, zoneManager),
+                  handleRegister = _makeHandlers.handleRegister,
+                  handleJoin = _makeHandlers.handleJoin,
+                  handleLeave = _makeHandlers.handleLeave,
+                  handleMessage = _makeHandlers.handleMessage,
+                  handleGetZones = _makeHandlers.handleGetZones,
+                  handleGetAvailableUsers = _makeHandlers.handleGetAvailableUsers,
+                  handleDisconnect = _makeHandlers.handleDisconnect;
 
-    socket.on("join", function (params, cb) {
-      console.log("params: ", params);
-      socket.join(params.zoneName);
-      cb();
-    });
+              console.log("User connected to chat");
 
-    socket.on("createMessage", function (msg) {
-      console.log("val: ", msg);
-      io.to(msg.zoneName).emit("newMessage", {
-        msg: msg.msg,
-        zoneName: msg.zoneName
-      });
-    });
+              /* socket.on("join", (params, cb) => { */
+              /*   console.log("params: ", params) */
+              /*   console.log("params: ", params) */
+              /*   socket.join(params.zoneName) */
+              /*   cb() */
+              /* }) */
 
-    console.log("User " + socket.id + " connected");
+              socket.on("createMessage", function (msg) {
+                console.log("val: ", msg);
+                io.to(msg.zoneName).emit("newMessage", {
+                  msg: msg.msg,
+                  zoneName: msg.zoneName
+                });
+              });
 
-    socket.on("register", handleRegister);
+              console.log("User " + socket.id + " connected");
 
-    /* socket.on("join", handleJoin) */
+              socket.on("register", handleRegister);
 
-    socket.on("leave", handleLeave);
+              socket.on("join", handleJoin);
 
-    socket.on("message", handleMessage);
+              socket.on("leave", handleLeave);
 
-    socket.on("zones", handleGetZones);
+              socket.on("message", handleMessage);
 
-    socket.on("availableUsers", handleGetAvailableUsers);
+              socket.on("zones", handleGetZones);
 
-    socket.on("disconnect", function () {
-      console.log("socket disconnect...", socket.id);
-      handleDisconnect();
-    });
+              socket.on("availableUsers", handleGetAvailableUsers);
 
-    socket.on("error", function (err) {
-      console.log("received error from socket:", socket.id);
-      console.log(err);
-    });
+              socket.on("disconnect", function () {
+                console.log("socket disconnect...", socket.id);
+                handleDisconnect();
+              });
 
-    socket.on("disconnect", function (socket) {
-      console.log("user disconnected");
-      io.emit("disconnect", { status: "disconnected" });
-    });
-  });
-};
+              socket.on("error", function (err) {
+                console.log("received error from socket:", socket.id);
+                console.log(err);
+              });
+
+              socket.on("disconnect", function (socket) {
+                console.log("user disconnected");
+                io.emit("disconnect", { status: "disconnected" });
+              });
+            });
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, undefined);
+  }));
+
+  return function _default(_x) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 var _default2 = _default;
 exports.default = _default2;

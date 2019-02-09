@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _regenerator = require("babel-runtime/regenerator");
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
 
@@ -26,34 +34,57 @@ var _zones2 = _interopRequireDefault(_zones);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var _default = function _default() {
-  // mapping of all available zones
-  var zones = new Map(_zones2.default.map(function (c) {
-    return [c.name, (0, _zone2.default)(c)];
+var _default = function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
+    var result, zones, removeClient, getZoneById, serializeZones;
+    return _regenerator2.default.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            serializeZones = function serializeZones() {
+              return Array.from(zones.values()).map(function (c) {
+                return c.serialize();
+              });
+            };
+
+            getZoneById = function getZoneById(id) {
+              return zones.get(id);
+            };
+
+            removeClient = function removeClient(client) {
+              zones.forEach(function (c) {
+                return c.removeUser(client);
+              });
+            };
+
+            _context.next = 5;
+            return _zones2.default.then(function (doc) {
+              return doc;
+            });
+
+          case 5:
+            result = _context.sent;
+            zones = new Map(result.map(function (c) {
+              return [c.id, (0, _zone2.default)(c)];
+            }));
+            return _context.abrupt("return", {
+              removeClient: removeClient,
+              getZoneById: getZoneById,
+              serializeZones: serializeZones
+            });
+
+          case 8:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, undefined);
   }));
 
-  function removeClient(client) {
-    zones.forEach(function (c) {
-      return c.removeUser(client);
-    });
-  }
-
-  function getZoneByName(zoneName) {
-    return zones.get(zoneName);
-  }
-
-  function serializeZones() {
-    return Array.from(zones.values()).map(function (c) {
-      return c.serialize();
-    });
-  }
-
-  return {
-    removeClient: removeClient,
-    getZoneByName: getZoneByName,
-    serializeZones: serializeZones
+  return function _default() {
+    return _ref.apply(this, arguments);
   };
-};
+}();
 
 var _default2 = _default;
 exports.default = _default2;
