@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid"
 import {cloneDeep} from "lodash"
 import {Helmet} from "react-helmet"
 import socket from "../../../services/socketio"
+import {history} from "@utterzone/connector"
 
 import AppsContainer from "../../../apps/apps-container"
 import schema from "../../../core/schema.js"
@@ -64,8 +65,8 @@ class Zone extends Component {
     this.props.toggleFooter(false)
   }
 
-  onLeaveZone = (chatroomName, onLeaveSuccess) => {
-    this.state.client.leave(chatroomName, err => {
+  onLeaveZone = (zoneId, onLeaveSuccess) => {
+    this.state.client.leave(zoneId, err => {
       if (err) return console.error(err)
       return onLeaveSuccess()
     })
@@ -96,9 +97,8 @@ class Zone extends Component {
   }
 
   render() {
-    const {zoneId} = this.props.zone
-		console.log('zoneid: ', zoneId);
-    var chatHistory = [{user: "franz", message: "hello there", event: null}]
+    const {zone} = this.props
+    const {chatHistory} = history.location.state
     const {classes} = this.props
     return (
       <React.Fragment>
@@ -127,10 +127,10 @@ class Zone extends Component {
                 chatHistory={chatHistory}
                 user={this.state.user}
                 onLeave={() =>
-                  this.onLeaveZone(zoneId, () => history.push("/zones"))
+                  this.onLeaveZone(zone.id, () => history.push("/zones"))
                 }
                 onSendMessage={(message, cb) =>
-                  this.state.client.message(zoneId, message, cb)
+                  this.state.client.message(zone.id, message, cb)
                 }
                 registerHandler={this.state.client.registerHandler}
                 unregisterHandler={this.state.client.unregisterHandler}

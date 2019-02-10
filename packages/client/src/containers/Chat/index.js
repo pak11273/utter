@@ -60,6 +60,7 @@ const Msg = ({author, audio, msg}) => (
 )
 
 function MsgList(props) {
+  console.log("props: ", props)
   const {list, onMsgClick} = props
   return (
     <div style={{width: "90%"}}>

@@ -10,8 +10,8 @@ import {cloneDeep} from "lodash"
 import cuid from "cuid"
 import styled from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"
-import Games from "./games"
-import gameData from "../../../data/gameData.js"
+import Apps from "./apps"
+import appData from "../../../data/appData.js"
 import {history} from "@utterzone/connector"
 import {
   Box,
@@ -86,9 +86,9 @@ const initialState = {
   disabled: false,
   displayName: "",
   errors: {},
-  game: "Total Recall",
+  app: "Total Recall",
   levels: [{level: 1, cuid: cuid()}],
-  level: "",
+  appLevel: "",
   loading: false,
   owner: "",
   public_id: "",
@@ -137,15 +137,15 @@ class ZoneCreate extends Component {
     })
   }
 
-  addGame = value => {
+  addApp = value => {
     this.setState({
-      game: value
+      app: value
     })
   }
 
   addLevel = value => {
     this.setState({
-      level: value
+      courseLevel: value
     })
   }
 
@@ -215,16 +215,16 @@ class ZoneCreate extends Component {
                 </Box>
                 <Grid>
                   <Flex
-                    gridarea="games"
+                    gridarea="apps"
                     margin="40px 0 0 0"
                     overflow="initial"
                     position="relative">
-                    <Header>Games</Header>
+                    <Header>Apps</Header>
                     <Field
-                      name="game"
-                      component={Games}
-                      addGame={this.addGame}
-                      options={gameData}
+                      name="app"
+                      component={Apps}
+                      addApp={this.addApp}
+                      options={appData}
                     />
                   </Flex>
                   <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
@@ -250,7 +250,7 @@ class ZoneCreate extends Component {
                         The minimum level a user has to be to enter this zone.
                       </p>
                       <Field
-                        name="level"
+                        name="courseLevel"
                         component="select"
                         onClick={this.addLevel}>
                         <option>1</option>
@@ -339,21 +339,24 @@ export default connect(
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: props => ({
+      ageGroup: "",
+      app: "",
+      appLevel: 1,
       owner: props.user.id,
       zoneName: "",
       zoneImage:
         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
       zoneDescription: "",
       course: "",
-      level: ""
+      courseLevel: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      console.log("values; ", values)
       const result = await props.submit(values)
+      const chatHistory = []
       const onComplete = result => {
         history.push({
-          pathname: "/zone/zone-settings",
-          state: {zoneId: result.zoneCreate.id}
+          pathname: `/zone/${result.zoneCreate.id}`,
+          state: {chatHistory, zoneId: result.zoneCreate.id}
         })
       }
 

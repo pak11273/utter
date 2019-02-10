@@ -20,7 +20,6 @@ export class Z extends PureComponent {
           usingLang: values.usingLang
         }
       })
-      console.log("connnector: ", values)
 
       if (zoneCreate) {
         return zoneCreate
@@ -41,6 +40,8 @@ export class Z extends PureComponent {
 
 const ZoneCreateMutation = gql`
   mutation zoneCreate(
+    $app: String
+    $appLevel: Int
     $ageGroup: String!
     $owner: String!
     $zoneName: String!
@@ -51,6 +52,8 @@ const ZoneCreateMutation = gql`
   ) {
     zoneCreate(
       input: {
+        app: $app
+        appLevel: $appLevel
         ageGroup: $ageGroup
         owner: $owner
         zoneName: $zoneName
@@ -61,6 +64,8 @@ const ZoneCreateMutation = gql`
       }
     ) {
       id
+      app
+      appLevel
       ageGroup
       zoneName
       zoneDescription

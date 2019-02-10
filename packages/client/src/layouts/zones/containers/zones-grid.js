@@ -2,10 +2,10 @@ import React, {PureComponent} from "react"
 import Waypoint from "react-waypoint"
 
 import classNames from "classnames"
-import cloneDeep from "lodash/cloneDeep"
 /* import {history} from "@utterzone/connector" */
 import isEmpty from "lodash/isEmpty"
 import update from "immutability-helper"
+import cloneDeep from "lodash/cloneDeep"
 
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -28,6 +28,8 @@ import gql from "graphql-tag"
 const getZones = gql`
   query getZones(
     $cursor: String
+    $app: String
+    $appLevel: Int
     $zoneName: String!
     $ref: String!
     $owner: String!
@@ -36,6 +38,8 @@ const getZones = gql`
   ) {
     getZones(
       cursor: $cursor
+      app: $app
+      appLevel: $appLevel
       zoneName: $zoneName
       ref: $ref
       owner: $owner
@@ -45,6 +49,8 @@ const getZones = gql`
       cursor
       zones {
         id
+        app
+        appLevel
         ageGroup
         teachingLang
         usingLang
@@ -70,6 +76,7 @@ const styles = theme => ({
     zIndex: theme.zIndex.drawer + 1
   },
   card: {
+    height: "385px",
     minHeight: "240px",
     display: "flex",
     flexDirection: "column"
@@ -145,8 +152,13 @@ const styles = theme => ({
   }
 })
 
+/* const Wrapper = styled.div` */
+/*   cursor: pointer; */
+/* ` */
+
 const initialState = {
   courseInput: "",
+  courseLevel: "",
   zoneName: "",
   courseRef: "",
   items: "",
@@ -161,37 +173,59 @@ const initialState = {
   usingLang: ""
 }
 
-/* const Wrapper = styled.div` */
-/*   cursor: pointer; */
-/* ` */
+class ZonesGrid extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = cloneDeep(initialState)
+  }
 
-class CoursesGrid extends PureComponent {
-  state = cloneDeep(initialState)
-
-  componentWillReceiveProps() {
+  componentWillReceiveProps(props) {
     const newState = update(this.state, {
       cursor: {$set: ""}
     })
+
     this.setState(newState)
+
+    if (this.state !== props) {
+      console.log("props: ", props)
+      this.setState({
+        courseLevel: props.courseLevel,
+        usingLang: props.usingLang,
+        teachingLang: props.teachingLang
+      })
+    }
+  }
+
+  ageRestrictionNotice = () => {
+    alert(
+      "AGE GROUPS: \nAny age \n0-2 Babies \nAppropriate for ages 3+ \nAppropriate for ages 7+ \nAppropriate for ages 12+ \nAppropriate for ages 16+ \nAppropriate for ages 18+ \nKindergarten \nElementary \nMiddle School \nHigh School \nCollege \nOnly 18+ \nOnly 30+ \nOnly 40+ \nOnly 50+ \nOnly 60+"
+    )
   }
 
   render() {
     const {
+      app,
+      appLevel,
       classes,
       zoneName,
       courseRef,
       owner,
+      courseLevel,
       usingLang,
       teachingLang
     } = this.props
+    console.log("values: ", this.props)
     return (
       <Query
         query={getZones}
         variables={{
+          app,
+          appLevel,
           cursor: "",
           zoneName,
           ref: courseRef,
           owner,
+          courseLevel,
           usingLang,
           teachingLang
         }}>
@@ -324,6 +358,13 @@ class CoursesGrid extends PureComponent {
                         <div style={{padding: "0 0 0 20px"}}>
                           Teaching: French
                         </div>
+                        <Button
+                          color="secondary"
+                          size="small"
+                          onClick={this.ageRestrictionNotice}
+                          style={{margin: "20px 0 10px 0"}}>
+                          {card.ageGroup}
+                        </Button>
                         <CardActions className={classes.actions}>
                           <Button
                             onClick={() => this.props.onEnterZone(card)}
@@ -346,178 +387,4 @@ class CoursesGrid extends PureComponent {
   }
 }
 
-export default withStyles(styles)(CoursesGrid)
-
-/* import React, {PureComponent} from "react" */
-/* import Waypoint from "react-waypoint" */
-
-/* import {isEmpty, cloneDeep} from "lodash" */
-/* import update from "immutability-helper" */
-/* import {history} from "@utterzone/connector" */
-/* import {Button, Card, Grid, Icon, Image, Loader} from "semantic-ui-react" */
-/* import socketio from "socket.io-client" */
-
-/* import {Query} from "react-apollo" */
-/* import gql from "graphql-tag" */
-
-/* const initialZonesState = { */
-/*   cursor: "initial", */
-/*   socket: socketio() */
-/* } */
-
-/* class ZonesGrid extends PureComponent { */
-/*   constructor(props) { */
-/*     super(props) */
-
-/*     this.state = cloneDeep(initialZonesState) */
-/*   } */
-
-/*   componentWillReceiveProps() { */
-/*     const newState = update(this.state, { */
-/*       cursor: {$set: ""} */
-/*     }) */
-/*     this.setState(newState) */
-/*   } */
-
-/*   ageRestrictionNotice = () => { */
-/*     alert( */
-/*       "AGE GROUPS: \nAny age \n0-2 Babies \nAppropriate for ages rated 3+ \nAppropriate for ages rated 7+ \nAppropriate for ages rated 12+ \nAppropriate for ages rated 16+ \nAppropriate for ages rated 18+ \nKindergarten \nElementary \nMiddle School \nHigh School \nCollege \nOnly 18+ \nOnly 30+ \nOnly 40+ \nOnly 50+ \nOnly 60+" */
-/*     ) */
-/*   } */
-
-/*   handleJoin = zone => { */
-/*     this.props.loadData({zone}) */
-
-/*     history.push(`/zone/${zone.id}`) */
-/*   } */
-
-/*   render() { */
-/*     const {zoneName, zoneRef, owner, usingLang, teachingLang} = this.props */
-/*     return ( */
-/*       <Grid.Row style={{padding: "40px"}}> */
-/*         <Query */
-/*           query={getZones} */
-/*           variables={{ */
-/*             cursor: "", */
-/*             zoneName, */
-/*             ref: zoneRef, */
-/*             owner, */
-/*             usingLang, */
-/*             teachingLang */
-/*           }}> */
-/*           {({loading, error, data, fetchMore}) => { */
-/*             if (loading) { */
-/*               return ( */
-/*                 <Grid.Column> */
-/*                   <Loader active>Loading</Loader> */
-/*                 </Grid.Column> */
-/*               ) */
-/*             } */
-/*             if (error) */
-/*               return ( */
-/*                 <Grid.Column> */
-/*                   {error.graphQLErrors.map(({message}, i) => ( */
-/*                     <p */
-/*                       style={{ */
-/*                         fontSize: "1.3em", */
-/*                         color: "red", */
-/*                         margin: "30px", */
-/*                         padding: "30px", */
-/*                         textAlign: "center" */
-/*                       }} */
-/*                       key={i}> */
-/*                       {message} */
-/*                     </p> */
-/*                   ))} */
-/*                 </Grid.Column> */
-/*               ) */
-/*             if (this.state.cursor !== "done") { */
-/*               var waypoint = ( */
-/*                 <Waypoint */
-/*                   key={data.getZones.cursor} */
-/*                   onEnter={() => { */
-/*                     // set cursor state to first response */
-/*                     const newState = update(this.state, { */
-/*                       cursor: {$set: data.getZones.cursor} */
-/*                     }) */
-
-/*                     this.setState(newState) */
-
-/*                     fetchMore({ */
-/*                       // note this is a different query than the one used in the */
-/*                       variables: { */
-/*                         cursor: this.state.cursor */
-/*                       }, */
-/*                       updateQuery: (previousResult, {fetchMoreResult}) => { */
-/*                         if (!fetchMoreResult) { */
-/*                           // TODO: pending */
-/*                         } */
-/*                         const previousEntry = previousResult.getZones.zones */
-/*                         const newZones = fetchMoreResult.getZones.zones */
-
-/*                         // display waypoint if a cursor exists */
-/*                         const newState = update(this.state, { */
-/*                           cursor: {$set: fetchMoreResult.getZones.cursor} */
-/*                         }) */
-
-/*                         this.setState(newState) */
-
-/*                         if (isEmpty(newZones)) { */
-/*                           // hide waypoint */
-/*                           const newState = update(this.state, { */
-/*                             cursor: {$set: fetchMoreResult.getZones.cursor} */
-/*                           }) */
-
-/*                           this.setState(newState) */
-
-/*                           return previousResult */
-/*                         } */
-
-/*                         var newCursor = newZones[newZones.length - 1].id */
-
-/*                         if (!fetchMoreResult) return previousEntry */
-
-/*                         return { */
-/*                           // By returning `cursor` here, we update the `fetchMore` function */
-/*                           // to the new cursor. */
-/*                           getZones: { */
-/*                             cursor: newCursor, */
-/*                             zones: [...previousEntry, ...newZones], */
-/*                             __typename: "PaginatedZones" */
-/*                           } */
-/*                         } */
-/*                       } */
-/*                     }) */
-/*                   }} */
-/*                 /> */
-/*               ) */
-/*             } */
-
-/*                           <Icon name="user" /> */
-/*                           <span style={{padding: "0 20px 0 0"}}>10</span> */
-/*                           <span style={{padding: "0 20px 0 0"}}>Max: 30</span> */
-/*                         </div> */
-/*                         <div> */
-/*                           <a style={{padding: "0 20px 0 0"}}> */
-/*                             Host:{" "} */
-/*                             <span style={{color: "blue"}}> */
-/*                               {zone.owner.username} */
-/*                             </span> */
-/*                           </a> */
-/*                         </div> */
-/*                         <Button */
-/*                           color="orange" */
-/*                           size="mini" */
-/*                           floated="left" */
-/*                           onClick={this.ageRestrictionNotice} */
-/*                           style={{margin: "20px 0 10px 0"}}> */
-/*                           {zone.ageGroup} */
-/*                         </Button> */
-/*                         <Button */
-/*                           color="teal" */
-/*                           size="mini" */
-/*                           floated="right" */
-/*                           onClick={() => this.handleJoin(zone)} */
-/*                           style={{margin: "20px 0 10px 0"}}> */
-/*                           Join */
-/*                         </Button> */
+export default withStyles(styles)(ZonesGrid)

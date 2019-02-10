@@ -1,7 +1,9 @@
 function makeHandleEvent(socket, socketManager, zoneManager) {
   function ensureExists(getter, rejectionMessage) {
     return new Promise(function(resolve, reject) {
+      console.log("getter: ", getter())
       const res = getter()
+      console.log("res: ", res)
       return res ? resolve(res) : reject(rejectionMessage)
     })
   }
@@ -9,7 +11,7 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
   function ensureValidZone(zoneId) {
     return ensureExists(
       () => zoneManager.getZoneById(zoneId),
-      `invalid zone name: ${zoneId}`
+      `invalid zone id: ${zoneId}`
     )
   }
 
@@ -37,18 +39,18 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
 export default (socket, socketManager, zoneManager) => {
   const handleEvent = makeHandleEvent(socket, socketManager, zoneManager)
 
-  function handleRegister(userName, callback) {
+  function handleRegister(userName, cb) {
     if (!socketManager.isUserAvailable(userName))
-      return callback("user is not available")
+      return cb("user is not available")
 
     const user = socketManager.getUserByName(userName)
     socketManager.registerSocket(socket, user)
 
-    return callback(null, user)
+    return cb(null, user)
   }
 
-  function handleJoin(zoneId, callback) {
-    const createEntry = () => ({event: `joined ${zoneId}`})
+  function handleJoin(zoneId, cb) {
+    const createEntry = () => ({event: `has joined the zone.`})
 
     handleEvent(zoneId, createEntry)
       .then(function(zone) {
@@ -56,39 +58,37 @@ export default (socket, socketManager, zoneManager) => {
         zone.addUser(socket)
 
         // send zone history to socket
-        callback(null, zone.getZoneHistory())
+        cb(null, zone.getZoneHistory())
       })
-      .catch(callback)
+      .catch(cb)
   }
 
-  function handleLeave(zoneName, callback) {
-    const createEntry = () => ({event: `left ${zoneName}`})
+  function handleLeave(zoneId, cb) {
+    const createEntry = () => ({event: `left the zone.`})
 
-    handleEvent(zoneName, createEntry)
+    handleEvent(zoneId, createEntry)
       .then(function(zone) {
         // remove member from zone
         zone.removeUser(socket.id)
 
-        callback(null)
+        cb(null)
       })
-      .catch(callback)
+      .catch(cb)
   }
 
-  function handleMessage(zoneId, message, callback) {
+  function handleMessage({zoneId, message} = {}, cb) {
     const createEntry = () => ({message})
-console.log('hello');
-		console.log('ZONED ID: ', zoneId);
     handleEvent(zoneId, createEntry)
-      .then(() => callback(null))
-      .catch(callback)
+      .then(() => cb(null))
+      .catch(cb)
   }
 
-  function handleGetZones(_, callback) {
-    return callback(null, zoneManager.serializeZones())
+  function handleGetZones(_, cb) {
+    return cb(null, zoneManager.serializeZones())
   }
 
-  function handleGetAvailableUsers(_, callback) {
-    return callback(null, socketManager.getAvailableUsers())
+  function handleGetAvailableUsers(_, cb) {
+    return cb(null, socketManager.getAvailableUsers())
   }
 
   function handleDisconnect() {

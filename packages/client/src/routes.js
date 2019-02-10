@@ -242,7 +242,7 @@ export const routes = [
         component: getCourseSettings
       },
       {
-        path: "/course/levels",
+        path: "/course/course-levels",
         component: getLevels
       }
     ]

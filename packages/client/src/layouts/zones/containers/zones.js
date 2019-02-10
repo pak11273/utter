@@ -121,6 +121,7 @@ const initialState = {
   zoneName: "",
   courseRef: "",
   items: "",
+  courseLevel: "",
   labelWidth: 0,
   mobileOpen: false,
   next: "",
@@ -167,7 +168,7 @@ class ZonesContainer extends Component {
     const newState = update(this.state, {
       [name]: {$set: e.target.value}
     })
-    this.setState(newState)
+    this.setState(newState, () => console.log("change: ", this.state))
   }
 
   handleInputChg = (e, data) => {
@@ -275,6 +276,21 @@ class ZonesContainer extends Component {
     }
   }
 
+  handleLevelChange = courseLevel => {
+    if (courseLevel === null) {
+      const newState = update(this.state, {
+        courseLevel: {$set: ""}
+      })
+
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        courseLevel: {$set: courseLevel.value}
+      })
+      this.setState(newState, () => console.log("lvel?: ", this.state))
+    }
+  }
+
   handleTeachingChange = teachingLang => {
     if (teachingLang === null) {
       const newState = update(this.state, {
@@ -369,13 +385,12 @@ class ZonesContainer extends Component {
             </Typography>
             <ReactSelect
               name="form-field-name"
-              value={this.state.teachingLang}
-              onChange={this.handleTeachingChange}
+              value={this.state.courseLevel}
+              onChange={this.handleLevelChange}
               options={[
                 {value: "1", label: "1"},
                 {value: "2", label: "2"},
-                {value: "3", label: "3"},
-                {value: "4", label: "4"}
+                {value: "3", label: "3"}
               ]}
             />
             <Spacer margin="40px 0 0 0" />

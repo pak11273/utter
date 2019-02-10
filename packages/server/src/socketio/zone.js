@@ -1,4 +1,4 @@
-export default ({name, image}) => {
+export default ({id, zoneName, image}) => {
   const members = new Map()
   let zoneHistory = []
 
@@ -24,7 +24,8 @@ export default ({name, image}) => {
 
   function serialize() {
     return {
-      name,
+      id,
+      zoneName,
       image,
       numMembers: members.size
     }

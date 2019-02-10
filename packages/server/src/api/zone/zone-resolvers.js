@@ -53,41 +53,11 @@ const getZoneLevels = async (_, args, ctx, info) => {
   query.owner = ctx.user
 }
 
-const getCreatedZones = async (_, args, ctx, info) => {
-  // build query object
-  const query = {}
-  query.owner = ctx.user
-  // end query object
-
-  /* // TODO: HOTFIX, using a fake owner, delete this after testing */
-  /* query.owner = "5b9012f043aa4329f187f01a" */
-  /* end */
-
-  if (args.cursor) {
-    // type cast id, $lt is not the same in aggregate vs query
-    var cursorObj = mongoose.Types.ObjectId(args.cursor)
-    // add to query object
-    var cursor = cursorObj
-    query._id = {$lt: cursor}
-  }
-
-  let result = await Zone.find(query)
-    .limit(3)
-    .sort({_id: -1})
-    .exec()
-
-  if (isEmpty(result)) {
-    return {zones: [], cursor: "done"}
-  } else {
-    cursor = result[result.length - 1]._id
-    return {zones: result, cursor}
-  }
-}
-
 const getZones = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   // build query object
   const query = {}
-  var zoneName, zoneRef, owner
+  var zoneName, zoneRef, owner, usingLang, teachingLang, app, appLevel
 
   args.title
     ? (query.zoneName = new RegExp(escapeRegex(args.title), "gi"))
@@ -116,6 +86,7 @@ const getZones = async (_, args, ctx, info) => {
     : null
   // end query object
 
+  console.log("query: ", query)
   if (args.cursor) {
     // type cast id, $lt is not the same in aggregate vs query
     var cursor = mongoose.Types.ObjectId(args.cursor)
@@ -124,7 +95,7 @@ const getZones = async (_, args, ctx, info) => {
   }
 
   let result = await Zone.find(query)
-    .limit(3)
+    .limit(12)
     .sort({_id: -1})
     .exec()
 
@@ -139,7 +110,6 @@ const getZones = async (_, args, ctx, info) => {
 
 export const zoneResolvers = {
   Query: {
-    getCreatedZones,
     getZones,
     getZone,
     getZoneLevels

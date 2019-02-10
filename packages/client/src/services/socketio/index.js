@@ -26,12 +26,12 @@ export default () => {
     socket.emit("register", name, cb)
   }
 
-  const join = (zoneName, cb) => {
-    socket.emit("join", zoneName, cb)
+  const join = (zoneId, cb) => {
+    socket.emit("join", zoneId, cb)
   }
 
-  const leave = (zoneName, cb) => {
-    socket.emit("leave", zoneName, cb)
+  const leave = (zoneId, cb) => {
+    socket.emit("leave", zoneId, cb)
   }
 
   const message = (zoneId, msg, cb) => {
