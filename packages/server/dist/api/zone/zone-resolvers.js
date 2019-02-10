@@ -193,70 +193,14 @@ var getZoneLevels = function () {
   };
 }();
 
-var getCreatedZones = function () {
+var getZones = function () {
   var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var query, cursorObj, cursor, result;
+    var query, zoneName, zoneRef, owner, usingLang, teachingLang, app, appLevel, cursor, result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            // build query object
-            query = {};
-
-            query.owner = ctx.user;
-            // end query object
-
-            /* // TODO: HOTFIX, using a fake owner, delete this after testing */
-            /* query.owner = "5b9012f043aa4329f187f01a" */
-            /* end */
-
-            if (args.cursor) {
-              // type cast id, $lt is not the same in aggregate vs query
-              cursorObj = _mongoose2.default.Types.ObjectId(args.cursor);
-              // add to query object
-
-              cursor = cursorObj;
-
-              query._id = { $lt: cursor };
-            }
-
-            _context5.next = 5;
-            return _zoneModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
-
-          case 5:
-            result = _context5.sent;
-
-            if (!(0, _lodash.isEmpty)(result)) {
-              _context5.next = 10;
-              break;
-            }
-
-            return _context5.abrupt("return", { zones: [], cursor: "done" });
-
-          case 10:
-            cursor = result[result.length - 1]._id;
-            return _context5.abrupt("return", { zones: result, cursor: cursor });
-
-          case 12:
-          case "end":
-            return _context5.stop();
-        }
-      }
-    }, _callee5, undefined);
-  }));
-
-  return function getCreatedZones(_x15, _x16, _x17, _x18) {
-    return _ref9.apply(this, arguments);
-  };
-}();
-
-var getZones = function () {
-  var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
-    var query, zoneName, zoneRef, owner, cursor, result;
-    return _regenerator2.default.wrap(function _callee6$(_context6) {
-      while (1) {
-        switch (_context6.prev = _context6.next) {
-          case 0:
+            console.log("args: ", args);
             // build query object
             query = {};
 
@@ -266,11 +210,11 @@ var getZones = function () {
             args.ref ? query.zoneRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
             if (!args.owner) {
-              _context6.next = 7;
+              _context5.next = 8;
               break;
             }
 
-            _context6.next = 6;
+            _context5.next = 7;
             return _zoneModel2.default.findByUsername(args.owner, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
@@ -281,16 +225,17 @@ var getZones = function () {
               }
             });
 
-          case 6:
-            owner = _context6.sent;
-
           case 7:
+            owner = _context5.sent;
+
+          case 8:
 
             args.usingLang ? query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi") : null;
 
             args.teachingLang ? query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi") : null;
             // end query object
 
+            console.log("query: ", query);
             if (args.cursor) {
               // type cast id, $lt is not the same in aggregate vs query
               cursor = _mongoose2.default.Types.ObjectId(args.cursor);
@@ -299,40 +244,39 @@ var getZones = function () {
               query._id = { $lt: cursor };
             }
 
-            _context6.next = 12;
-            return _zoneModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
+            _context5.next = 14;
+            return _zoneModel2.default.find(query).limit(12).sort({ _id: -1 }).exec();
 
-          case 12:
-            result = _context6.sent;
+          case 14:
+            result = _context5.sent;
 
             if (!(0, _lodash.isEmpty)(result)) {
-              _context6.next = 18;
+              _context5.next = 20;
               break;
             }
 
             console.log("done");
-            return _context6.abrupt("return", { zones: [], cursor: "done" });
-
-          case 18:
-            cursor = result[result.length - 1]._id;
-            return _context6.abrupt("return", { zones: result, cursor: cursor });
+            return _context5.abrupt("return", { zones: [], cursor: "done" });
 
           case 20:
+            cursor = result[result.length - 1]._id;
+            return _context5.abrupt("return", { zones: result, cursor: cursor });
+
+          case 22:
           case "end":
-            return _context6.stop();
+            return _context5.stop();
         }
       }
-    }, _callee6, undefined);
+    }, _callee5, undefined);
   }));
 
-  return function getZones(_x19, _x20, _x21, _x22) {
-    return _ref10.apply(this, arguments);
+  return function getZones(_x15, _x16, _x17, _x18) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
 var zoneResolvers = exports.zoneResolvers = {
   Query: {
-    getCreatedZones: getCreatedZones,
     getZones: getZones,
     getZone: getZone,
     getZoneLevels: getZoneLevels
@@ -346,25 +290,25 @@ var zoneResolvers = exports.zoneResolvers = {
     owner: function owner(zone) {
       var _this = this;
 
-      return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+      return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6() {
         var populated;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context7.next = 2;
+                _context6.next = 2;
                 return zone.populate("owner").execPopulate();
 
               case 2:
-                populated = _context7.sent;
-                return _context7.abrupt("return", populated.owner);
+                populated = _context6.sent;
+                return _context6.abrupt("return", populated.owner);
 
               case 4:
               case "end":
-                return _context7.stop();
+                return _context6.stop();
             }
           }
-        }, _callee7, _this);
+        }, _callee6, _this);
       }))();
     }
   }
@@ -387,7 +331,6 @@ var zoneResolvers = exports.zoneResolvers = {
   reactHotLoader.register(zoneUpdate, "zoneUpdate", "src/api/zone/zone-resolvers.js");
   reactHotLoader.register(zoneCreate, "zoneCreate", "src/api/zone/zone-resolvers.js");
   reactHotLoader.register(getZoneLevels, "getZoneLevels", "src/api/zone/zone-resolvers.js");
-  reactHotLoader.register(getCreatedZones, "getCreatedZones", "src/api/zone/zone-resolvers.js");
   reactHotLoader.register(getZones, "getZones", "src/api/zone/zone-resolvers.js");
   leaveModule(module);
 })();
@@ -411,7 +354,6 @@ var zoneResolvers = exports.zoneResolvers = {
   reactHotLoader.register(zoneUpdate, "zoneUpdate", "src/api/zone/zone-resolvers.js");
   reactHotLoader.register(zoneCreate, "zoneCreate", "src/api/zone/zone-resolvers.js");
   reactHotLoader.register(getZoneLevels, "getZoneLevels", "src/api/zone/zone-resolvers.js");
-  reactHotLoader.register(getCreatedZones, "getCreatedZones", "src/api/zone/zone-resolvers.js");
   reactHotLoader.register(getZones, "getZones", "src/api/zone/zone-resolvers.js");
   leaveModule(module);
 })();

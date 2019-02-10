@@ -35,6 +35,14 @@ var ZoneSchema = _mongoose2.default.Schema({
     type: String,
     default: "Any age"
   },
+  app: {
+    type: String,
+    default: "Total Recall"
+  },
+  appLevel: {
+    type: Number,
+    default: 1
+  },
   zoneName: {
     type: String,
     default: "",

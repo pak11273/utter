@@ -1,14 +1,14 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _extends2 = require("babel-runtime/helpers/extends");
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _slicedToArray2 = require('babel-runtime/helpers/slicedToArray');
+var _slicedToArray2 = require("babel-runtime/helpers/slicedToArray");
 
 var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
@@ -29,7 +29,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function makeHandleEvent(socket, socketManager, zoneManager) {
   function ensureExists(getter, rejectionMessage) {
     return new Promise(function (resolve, reject) {
+      console.log("getter: ", getter());
       var res = getter();
+      console.log("res: ", res);
       return res ? resolve(res) : reject(rejectionMessage);
     });
   }
@@ -37,7 +39,7 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
   function ensureValidZone(zoneId) {
     return ensureExists(function () {
       return zoneManager.getZoneById(zoneId);
-    }, 'invalid zone name: ' + zoneId);
+    }, "invalid zone id: " + zoneId);
   }
 
   function ensureValidZoneAndUserSelected(zoneId) {
@@ -71,18 +73,18 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
 var _default = function _default(socket, socketManager, zoneManager) {
   var handleEvent = makeHandleEvent(socket, socketManager, zoneManager);
 
-  function handleRegister(userName, callback) {
-    if (!socketManager.isUserAvailable(userName)) return callback("user is not available");
+  function handleRegister(userName, cb) {
+    if (!socketManager.isUserAvailable(userName)) return cb("user is not available");
 
     var user = socketManager.getUserByName(userName);
     socketManager.registerSocket(socket, user);
 
-    return callback(null, user);
+    return cb(null, user);
   }
 
-  function handleJoin(zoneId, callback) {
+  function handleJoin(zoneId, cb) {
     var createEntry = function createEntry() {
-      return { event: 'joined ' + zoneId };
+      return { event: "has joined the zone." };
     };
 
     handleEvent(zoneId, createEntry).then(function (zone) {
@@ -90,40 +92,44 @@ var _default = function _default(socket, socketManager, zoneManager) {
       zone.addUser(socket);
 
       // send zone history to socket
-      callback(null, zone.getZoneHistory());
-    }).catch(callback);
+      cb(null, zone.getZoneHistory());
+    }).catch(cb);
   }
 
-  function handleLeave(zoneName, callback) {
+  function handleLeave(zoneId, cb) {
     var createEntry = function createEntry() {
-      return { event: 'left ' + zoneName };
+      return { event: "left the zone." };
     };
 
-    handleEvent(zoneName, createEntry).then(function (zone) {
+    handleEvent(zoneId, createEntry).then(function (zone) {
       // remove member from zone
       zone.removeUser(socket.id);
 
-      callback(null);
-    }).catch(callback);
+      cb(null);
+    }).catch(cb);
   }
 
-  function handleMessage(zoneId, message, callback) {
+  function handleMessage() {
+    var _ref4 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        zoneId = _ref4.zoneId,
+        message = _ref4.message;
+
+    var cb = arguments[1];
+
     var createEntry = function createEntry() {
       return { message: message };
     };
-    console.log('hello');
-    console.log('ZONED ID: ', zoneId);
     handleEvent(zoneId, createEntry).then(function () {
-      return callback(null);
-    }).catch(callback);
+      return cb(null);
+    }).catch(cb);
   }
 
-  function handleGetZones(_, callback) {
-    return callback(null, zoneManager.serializeZones());
+  function handleGetZones(_, cb) {
+    return cb(null, zoneManager.serializeZones());
   }
 
-  function handleGetAvailableUsers(_, callback) {
-    return callback(null, socketManager.getAvailableUsers());
+  function handleGetAvailableUsers(_, cb) {
+    return cb(null, socketManager.getAvailableUsers());
   }
 
   function handleDisconnect() {
@@ -157,8 +163,8 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(makeHandleEvent, 'makeHandleEvent', 'src/socketio/handlers.js');
-  reactHotLoader.register(_default, 'default', 'src/socketio/handlers.js');
+  reactHotLoader.register(makeHandleEvent, "makeHandleEvent", "src/socketio/handlers.js");
+  reactHotLoader.register(_default, "default", "src/socketio/handlers.js");
   leaveModule(module);
 })();
 
@@ -174,8 +180,8 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(makeHandleEvent, 'makeHandleEvent', 'src/socketio/handlers.js');
-  reactHotLoader.register(_default2, 'default', 'src/socketio/handlers.js');
+  reactHotLoader.register(makeHandleEvent, "makeHandleEvent", "src/socketio/handlers.js");
+  reactHotLoader.register(_default2, "default", "src/socketio/handlers.js");
   leaveModule(module);
 })();
 

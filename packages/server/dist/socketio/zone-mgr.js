@@ -36,7 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var _default = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
-    var result, zones, removeClient, getZoneById, serializeZones;
+    var zones, removeClient, getZoneById, serializeZones;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -59,21 +59,22 @@ var _default = function () {
 
             _context.next = 5;
             return _zones2.default.then(function (doc) {
-              return doc;
+              // 1. result is an array of zone objects
+              // 2. each object will be passed to the Zone module, where zoneName and image is extracted
+              return new Map(doc.map(function (c) {
+                return [c.id, (0, _zone2.default)(c)];
+              }));
             });
 
           case 5:
-            result = _context.sent;
-            zones = new Map(result.map(function (c) {
-              return [c.id, (0, _zone2.default)(c)];
-            }));
+            zones = _context.sent;
             return _context.abrupt("return", {
               removeClient: removeClient,
               getZoneById: getZoneById,
               serializeZones: serializeZones
             });
 
-          case 8:
+          case 7:
           case "end":
             return _context.stop();
         }

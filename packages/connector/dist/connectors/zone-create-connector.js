@@ -103,42 +103,40 @@ var Z = exports.Z = function (_PureComponent) {
                 _ref3 = _context.sent;
                 zoneCreate = _ref3.data;
 
-                console.log("connnector: ", values);
-
                 if (!zoneCreate) {
-                  _context.next = 8;
+                  _context.next = 7;
                   break;
                 }
 
                 return _context.abrupt("return", zoneCreate);
 
-              case 8:
+              case 7:
                 if (!error) {
-                  _context.next = 10;
+                  _context.next = 9;
                   break;
                 }
 
                 return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
 
-              case 10:
-                _context.next = 15;
+              case 9:
+                _context.next = 14;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 11:
+                _context.prev = 11;
                 _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 15:
+              case 14:
                 return _context.abrupt("return", null);
 
-              case 16:
+              case 15:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[0, 12]]);
+        }, _callee, _this2, [[0, 11]]);
       }));
 
       return function (_x) {

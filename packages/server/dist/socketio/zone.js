@@ -17,7 +17,8 @@ Object.defineProperty(exports, "__esModule", {
 })();
 
 var _default = function _default(_ref) {
-  var name = _ref.name,
+  var id = _ref.id,
+      zoneName = _ref.zoneName,
       image = _ref.image;
 
   var members = new Map();
@@ -47,7 +48,8 @@ var _default = function _default(_ref) {
 
   function serialize() {
     return {
-      name: name,
+      id: id,
+      zoneName: zoneName,
       image: image,
       numMembers: members.size
     };
