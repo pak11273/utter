@@ -3,7 +3,7 @@ type Zone {
   id: ID!
 	ageGroup: String
 	app: String
-	appLevel: Int
+	courseLevel: Int
   zoneName: String!
   owner: User
   zoneDescription: String
@@ -24,7 +24,7 @@ input ZoneUpdated {
 
 input ZoneCreateInput {
 	app: String
-	appLevel: Int
+	courseLevel: Int
 	ageGroup: String
 	owner: String!
   zoneId: String
@@ -46,7 +46,7 @@ extend type Query {
   getZones(
     cursor: String
 		app: String
-		appLevel: Int
+		courseLevel: Int
     zoneName: String!
     ref: String!
     owner: String!

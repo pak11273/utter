@@ -59,8 +59,8 @@ const getZones = async (_, args, ctx, info) => {
   const query = {}
   var zoneName, zoneRef, owner, usingLang, teachingLang, app, appLevel
 
-  args.title
-    ? (query.zoneName = new RegExp(escapeRegex(args.title), "gi"))
+  args.zoneName
+    ? (query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi"))
     : null
 
   args.ref ? (query.zoneRef = new RegExp(escapeRegex(args.ref), "gi")) : null
@@ -86,13 +86,14 @@ const getZones = async (_, args, ctx, info) => {
     : null
   // end query object
 
-  console.log("query: ", query)
   if (args.cursor) {
     // type cast id, $lt is not the same in aggregate vs query
     var cursor = mongoose.Types.ObjectId(args.cursor)
     // add to query object
     query._id = {$lt: cursor}
   }
+
+  console.log("query: ", query)
 
   let result = await Zone.find(query)
     .limit(12)

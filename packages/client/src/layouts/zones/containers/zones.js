@@ -117,11 +117,9 @@ const styles = theme => ({
 
 const initialState = {
   client: socket(),
-  zoneInput: "",
-  zoneName: "",
+  courseLevel: "",
   courseRef: "",
   items: "",
-  courseLevel: "",
   labelWidth: 0,
   mobileOpen: false,
   next: "",
@@ -130,8 +128,10 @@ const initialState = {
   search: "",
   selectionBox: "title",
   teachingLang: "",
-  usingLang: "",
   user: "jim",
+  usingLang: "",
+  zoneInput: "",
+  zoneName: "",
   zones: null
 }
 
@@ -140,7 +140,8 @@ class ZonesContainer extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    this.getZones()
+    // TODO when we put zones to redis then redo this
+    /* this.getZones() */
   }
 
   onEnterZone(card, onEnterSuccess) {
@@ -151,11 +152,11 @@ class ZonesContainer extends Component {
     })
   }
 
-  getZones = () => {
-    this.state.client.getZones((err, zones) => {
-      this.setState({zones})
-    })
-  }
+  /* getZones = () => { */
+  /*   this.state.client.getZones((err, zones) => { */
+  /*     this.setState({zones}) */
+  /*   }) */
+  /* } */
 
   handleFilterChg = (e, data) => {
     const newState = update(this.state, {
@@ -168,7 +169,7 @@ class ZonesContainer extends Component {
     const newState = update(this.state, {
       [name]: {$set: e.target.value}
     })
-    this.setState(newState, () => console.log("change: ", this.state))
+    this.setState(newState)
   }
 
   handleInputChg = (e, data) => {
@@ -276,6 +277,21 @@ class ZonesContainer extends Component {
     }
   }
 
+  handleAppChange = app => {
+    if (app === null) {
+      const newState = update(this.state, {
+        app: {$set: ""}
+      })
+
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        app: {$set: app.value}
+      })
+      this.setState(newState)
+    }
+  }
+
   handleLevelChange = courseLevel => {
     if (courseLevel === null) {
       const newState = update(this.state, {
@@ -287,7 +303,7 @@ class ZonesContainer extends Component {
       const newState = update(this.state, {
         courseLevel: {$set: courseLevel.value}
       })
-      this.setState(newState, () => console.log("lvel?: ", this.state))
+      this.setState(newState)
     }
   }
 
@@ -368,7 +384,7 @@ class ZonesContainer extends Component {
             </Typography>
             <ReactSelect
               name="form-field-name"
-              value={this.state.UsingLang}
+              value={this.state.app}
               onChange={this.handleAppChange}
               options={[
                 {value: "chat", label: "General Chat"},
@@ -381,7 +397,7 @@ class ZonesContainer extends Component {
               align="center"
               className={classes.text}
               gutterBottom>
-              Pick Your Level:
+              Course Level:
             </Typography>
             <ReactSelect
               name="form-field-name"

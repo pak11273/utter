@@ -13,7 +13,7 @@ const ZoneSchema = mongoose.Schema(
       type: String,
       default: "Total Recall"
     },
-    appLevel: {
+    courseLevel: {
       type: Number,
       default: 1
     },

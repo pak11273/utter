@@ -1,9 +1,7 @@
 function makeHandleEvent(socket, socketManager, zoneManager) {
   function ensureExists(getter, rejectionMessage) {
     return new Promise(function(resolve, reject) {
-      console.log("getter: ", getter())
       const res = getter()
-      console.log("res: ", res)
       return res ? resolve(res) : reject(rejectionMessage)
     })
   }
@@ -55,8 +53,9 @@ export default (socket, socketManager, zoneManager) => {
     handleEvent(zoneId, createEntry)
       .then(function(zone) {
         // add member to zone
+        console.log("zone: ", zone)
         zone.addUser(socket)
-
+        console.log("here???")
         // send zone history to socket
         cb(null, zone.getZoneHistory())
       })

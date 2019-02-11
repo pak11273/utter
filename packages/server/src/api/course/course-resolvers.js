@@ -104,6 +104,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
+  console.log("course args: ", args)
   // build query object
   const query = {}
   var courseName, courseRef, owner
@@ -140,6 +141,8 @@ const getCourses = async (_, args, ctx, info) => {
     // add to query object
     query._id = {$lt: cursor}
   }
+
+  console.log("query: ", query)
 
   let result = await Course.find(query)
     .limit(3)

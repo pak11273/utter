@@ -27,30 +27,30 @@ import gql from "graphql-tag"
 
 const getZones = gql`
   query getZones(
-    $cursor: String
     $app: String
-    $appLevel: Int
-    $zoneName: String!
-    $ref: String!
+    $courseLevel: Int
+    $cursor: String
     $owner: String!
-    $usingLang: String!
+    $ref: String!
     $teachingLang: String!
+    $usingLang: String!
+    $zoneName: String!
   ) {
     getZones(
-      cursor: $cursor
       app: $app
-      appLevel: $appLevel
-      zoneName: $zoneName
-      ref: $ref
+      courseLevel: $courseLevel
+      cursor: $cursor
       owner: $owner
-      usingLang: $usingLang
+      ref: $ref
       teachingLang: $teachingLang
+      usingLang: $usingLang
+      zoneName: $zoneName
     ) {
       cursor
       zones {
         id
         app
-        appLevel
+        courseLevel
         ageGroup
         teachingLang
         usingLang
@@ -157,9 +157,9 @@ const styles = theme => ({
 /* ` */
 
 const initialState = {
-  courseInput: "",
+  app: "",
   courseLevel: "",
-  zoneName: "",
+  courseInput: "",
   courseRef: "",
   items: "",
   labelWidth: 0,
@@ -170,30 +170,26 @@ const initialState = {
   search: "",
   selectionBox: "title",
   teachingLang: "",
-  usingLang: ""
+  usingLang: "",
+  zoneName: ""
 }
 
 class ZonesGrid extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = cloneDeep(initialState)
-  }
+  state = cloneDeep(initialState)
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps() {
     const newState = update(this.state, {
       cursor: {$set: ""}
     })
-
     this.setState(newState)
 
-    if (this.state !== props) {
-      console.log("props: ", props)
-      this.setState({
-        courseLevel: props.courseLevel,
-        usingLang: props.usingLang,
-        teachingLang: props.teachingLang
-      })
-    }
+    /* if (this.state !== props) { */
+    /*   this.setState({ */
+    /*     courseLevel: props.courseLevel, */
+    /*     usingLang: props.usingLang, */
+    /*     teachingLang: props.teachingLang */
+    /*   }) */
+    /* } */
   }
 
   ageRestrictionNotice = () => {
@@ -205,27 +201,24 @@ class ZonesGrid extends PureComponent {
   render() {
     const {
       app,
-      appLevel,
+      courseLevel,
       classes,
       zoneName,
       courseRef,
       owner,
-      courseLevel,
       usingLang,
       teachingLang
     } = this.props
-    console.log("values: ", this.props)
     return (
       <Query
         query={getZones}
         variables={{
           app,
-          appLevel,
+          courseLevel,
           cursor: "",
           zoneName,
           ref: courseRef,
           owner,
-          courseLevel,
           usingLang,
           teachingLang
         }}>

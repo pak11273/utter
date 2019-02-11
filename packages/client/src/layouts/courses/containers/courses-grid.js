@@ -28,8 +28,8 @@ const getCourses = gql`
   query getCourses(
     $cursor: String
     $courseName: String!
-    $ref: String!
     $owner: String!
+    $ref: String!
     $usingLang: String!
     $teachingLang: String!
   ) {
