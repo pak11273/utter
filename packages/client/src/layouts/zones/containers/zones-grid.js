@@ -212,6 +212,7 @@ class ZonesGrid extends PureComponent {
     return (
       <Query
         query={getZones}
+        fetchPolicy="network-only"
         variables={{
           app,
           courseLevel,

@@ -189,6 +189,7 @@ class CoursesGrid extends PureComponent {
     return (
       <Query
         query={getCourses}
+        fetchPolicy="network-only"
         variables={{
           cursor: "",
           courseName,
