@@ -29,7 +29,9 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
   enterModule && enterModule(module);
 })();
 
-var _lodash = require("lodash");
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
 var _mongoose = require("mongoose");
 
@@ -54,24 +56,23 @@ var getZone = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("zoneId: ", zoneId);
-            _context.next = 3;
+            _context.next = 2;
             return _zoneModel2.default.findById(zoneId).exec();
 
-          case 3:
+          case 2:
             zone = _context.sent;
 
             if (zone) {
-              _context.next = 6;
+              _context.next = 5;
               break;
             }
 
             throw new Error("Cannot find zone with id");
 
-          case 6:
+          case 5:
             return _context.abrupt("return", zone);
 
-          case 7:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -92,21 +93,20 @@ var zoneDelete = function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log("id: ", id);
-            _context2.next = 3;
+            _context2.next = 2;
             return _zoneModel2.default.findById(id).exec();
 
-          case 3:
+          case 2:
             zone = _context2.sent;
 
             if (zone) {
-              _context2.next = 6;
+              _context2.next = 5;
               break;
             }
 
             throw new Error("No zone found.");
 
-          case 6:
+          case 5:
 
             if (zone.owner === id) {
               // TODO: delete zone
@@ -114,7 +114,7 @@ var zoneDelete = function () {
 
             return _context2.abrupt("return", zone);
 
-          case 8:
+          case 7:
           case "end":
             return _context2.stop();
         }
@@ -200,7 +200,6 @@ var getZones = function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            console.log("args: ", args);
             // build query object
             query = {};
 
@@ -210,25 +209,25 @@ var getZones = function () {
             args.ref ? query.zoneRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
             if (!args.owner) {
-              _context5.next = 8;
+              _context5.next = 7;
               break;
             }
 
-            _context5.next = 7;
+            _context5.next = 6;
             return _zoneModel2.default.findByUsername(args.owner, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
               }
-              if (!(0, _lodash.isEmpty)(docs)) {
+              if (!(0, _isEmpty2.default)(docs)) {
                 var owner = docs._id;
                 query.owner = owner;
               }
             });
 
-          case 7:
+          case 6:
             owner = _context5.sent;
 
-          case 8:
+          case 7:
 
             args.usingLang ? query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi") : null;
 
@@ -243,27 +242,25 @@ var getZones = function () {
               query._id = { $lt: cursor };
             }
 
-            console.log("query: ", query);
-
-            _context5.next = 14;
+            _context5.next = 12;
             return _zoneModel2.default.find(query).limit(12).sort({ _id: -1 }).exec();
 
-          case 14:
+          case 12:
             result = _context5.sent;
 
-            if (!(0, _lodash.isEmpty)(result)) {
-              _context5.next = 20;
+            if (!(0, _isEmpty2.default)(result)) {
+              _context5.next = 18;
               break;
             }
 
             console.log("done");
             return _context5.abrupt("return", { zones: [], cursor: "done" });
 
-          case 20:
+          case 18:
             cursor = result[result.length - 1]._id;
             return _context5.abrupt("return", { zones: result, cursor: cursor });
 
-          case 22:
+          case 20:
           case "end":
             return _context5.stop();
         }

@@ -55,6 +55,7 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
       var zone = _ref3.zone,
           user = _ref3.user;
 
+      console.log("zone: ", zone);
       // append event to zone history
       var entry = (0, _extends3.default)({ user: user }, createEntry());
       zone.addEntry(entry);
@@ -81,15 +82,14 @@ var _default = function _default(socket, socketManager, zoneManager) {
   }
 
   function handleJoin(zoneId, cb) {
+    console.log("zoneid: ", zoneId);
     var createEntry = function createEntry() {
       return { event: "has joined the zone." };
     };
 
     handleEvent(zoneId, createEntry).then(function (zone) {
       // add member to zone
-      console.log("zone: ", zone);
       zone.addUser(socket);
-      console.log("here???");
       // send zone history to socket
       cb(null, zone.getZoneHistory());
     }).catch(cb);
