@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash"
+import isEmpty from "lodash/isEmpty"
 import mongoose from "mongoose"
 import Zone from "./zone-model"
 
@@ -7,7 +7,6 @@ const escapeRegex = text => {
 }
 
 const getZone = async (_, {zoneId}, {user}) => {
-  console.log("zoneId: ", zoneId)
   const zone = await Zone.findById(zoneId).exec()
   if (!zone) {
     throw new Error("Cannot find zone with id")
@@ -17,7 +16,6 @@ const getZone = async (_, {zoneId}, {user}) => {
 }
 
 const zoneDelete = async (_, {id}, ctx) => {
-  console.log("id: ", id)
   const zone = await Zone.findById(id).exec()
   /* Zone.findOneAndDelete({owner: user._id && id: id}) { */
   /* } */
@@ -54,7 +52,6 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   // build query object
   const query = {}
   var zoneName, zoneRef, owner, usingLang, teachingLang, app, appLevel
@@ -92,8 +89,6 @@ const getZones = async (_, args, ctx, info) => {
     // add to query object
     query._id = {$lt: cursor}
   }
-
-  console.log("query: ", query)
 
   let result = await Zone.find(query)
     .limit(12)

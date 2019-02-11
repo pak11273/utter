@@ -27,6 +27,7 @@ export default () => {
   }
 
   const join = (zoneId, cb) => {
+    console.log("from socket server: ", zoneId)
     socket.emit("join", zoneId, cb)
   }
 

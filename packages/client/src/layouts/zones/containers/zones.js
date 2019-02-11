@@ -145,6 +145,7 @@ class ZonesContainer extends Component {
   }
 
   onEnterZone(card, onEnterSuccess) {
+    console.log("card id: ", card.id)
     return this.state.client.join(card.id, (err, chatHistory) => {
       if (err) return console.error(err)
       this.props.loadData({zone: card})
