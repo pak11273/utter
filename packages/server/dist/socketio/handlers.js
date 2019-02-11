@@ -29,9 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function makeHandleEvent(socket, socketManager, zoneManager) {
   function ensureExists(getter, rejectionMessage) {
     return new Promise(function (resolve, reject) {
-      console.log("getter: ", getter());
       var res = getter();
-      console.log("res: ", res);
       return res ? resolve(res) : reject(rejectionMessage);
     });
   }
@@ -89,8 +87,9 @@ var _default = function _default(socket, socketManager, zoneManager) {
 
     handleEvent(zoneId, createEntry).then(function (zone) {
       // add member to zone
+      console.log("zone: ", zone);
       zone.addUser(socket);
-
+      console.log("here???");
       // send zone history to socket
       cb(null, zone.getZoneHistory());
     }).catch(cb);

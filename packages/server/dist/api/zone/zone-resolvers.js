@@ -205,7 +205,7 @@ var getZones = function () {
             query = {};
 
 
-            args.title ? query.zoneName = new RegExp(escapeRegex(args.title), "gi") : null;
+            args.zoneName ? query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi") : null;
 
             args.ref ? query.zoneRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
@@ -235,7 +235,6 @@ var getZones = function () {
             args.teachingLang ? query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi") : null;
             // end query object
 
-            console.log("query: ", query);
             if (args.cursor) {
               // type cast id, $lt is not the same in aggregate vs query
               cursor = _mongoose2.default.Types.ObjectId(args.cursor);
@@ -243,6 +242,8 @@ var getZones = function () {
 
               query._id = { $lt: cursor };
             }
+
+            console.log("query: ", query);
 
             _context5.next = 14;
             return _zoneModel2.default.find(query).limit(12).sort({ _id: -1 }).exec();

@@ -28,6 +28,10 @@ var _zone = require("./zone");
 
 var _zone2 = _interopRequireDefault(_zone);
 
+var _zoneModel = require("../api/zone/zone-model");
+
+var _zoneModel2 = _interopRequireDefault(_zoneModel);
+
 var _zones = require("./zones");
 
 var _zones2 = _interopRequireDefault(_zones);
@@ -58,9 +62,9 @@ var _default = function () {
             };
 
             _context.next = 5;
-            return _zones2.default.then(function (doc) {
+            return _zoneModel2.default.find({}).then(function (doc) {
               // 1. result is an array of zone objects
-              // 2. each object will be passed to the Zone module, where zoneName and image is extracted
+              // 2. each object will be passed to the ZoneFunctions module, where zoneName and image is extracted
               return new Map(doc.map(function (c) {
                 return [c.id, (0, _zone2.default)(c)];
               }));

@@ -317,6 +317,7 @@ var getCourses = function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
+            console.log("course args: ", args);
             // build query object
             query = {};
 
@@ -325,11 +326,11 @@ var getCourses = function () {
             args.ref ? query.courseRef = new RegExp(escapeRegex(args.ref), "gi") : null;
 
             if (!args.owner) {
-              _context6.next = 7;
+              _context6.next = 8;
               break;
             }
 
-            _context6.next = 6;
+            _context6.next = 7;
             return _courseModel2.default.findByUsername(args.owner, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
@@ -340,10 +341,10 @@ var getCourses = function () {
               }
             });
 
-          case 6:
+          case 7:
             owner = _context6.sent;
 
-          case 7:
+          case 8:
 
             args.usingLang ? query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi") : null;
 
@@ -358,24 +359,26 @@ var getCourses = function () {
               query._id = { $lt: cursor };
             }
 
-            _context6.next = 12;
+            console.log("query: ", query);
+
+            _context6.next = 14;
             return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
 
-          case 12:
+          case 14:
             result = _context6.sent;
 
             if (!(0, _lodash.isEmpty)(result)) {
-              _context6.next = 17;
+              _context6.next = 19;
               break;
             }
 
             return _context6.abrupt("return", { courses: [], cursor: "done" });
 
-          case 17:
+          case 19:
             cursor = result[result.length - 1]._id;
             return _context6.abrupt("return", { courses: result, cursor: cursor });
 
-          case 19:
+          case 21:
           case "end":
             return _context6.stop();
         }
