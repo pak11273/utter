@@ -325,7 +325,7 @@ class ZonesGrid extends PureComponent {
                     <Grid item key={card.id} xs={12} sm={6} md={3} lg={2}>
                       <Card className={classes.card}>
                         <CardMedia
-                          onClick={() => this.props.onEnterZone(card)}
+                          onClick={this.props.onEnterZone(card)}
                           className={classes.cardMedia}
                           image={`${card.zoneImage}`}
                           title={`${card.zoneName}`}
@@ -361,7 +361,7 @@ class ZonesGrid extends PureComponent {
                         </Button>
                         <CardActions className={classes.actions}>
                           <Button
-                            onClick={() => this.props.onEnterZone(card)}
+                            onClick={this.props.onEnterZone(card)}
                             size="large"
                             className={classes.editButton}>
                             ENTER

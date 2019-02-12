@@ -3,6 +3,8 @@ export default ({id, zoneName, image}) => {
   let zoneHistory = []
 
   function broadcastMessage(message) {
+    console.log("message: ", message)
+    console.log("members: ", members)
     members.forEach(m => m.emit("message", message))
   }
 

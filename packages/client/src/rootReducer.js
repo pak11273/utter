@@ -18,7 +18,7 @@ import loaderReducer from "./core/reducers/loaderReducer.js"
 import modalReducer from "./containers/modals/reducer.js"
 import paginateReducer from "./containers/Pagination/reducer.js"
 import pictureReducer from "./containers/Pictures/reducer.js"
-import socketReducer from "./services/socketio/reducer.js"
+/* import socketReducer from "./services/socketio/reducer.js" */
 import tabsReducer from "./containers/Tabs/reducer.js"
 import termReducer from "./api/term/reducer.js"
 import toggleFooterReducer from "./core/reducers/toggleFooterReducer.js"
@@ -44,7 +44,7 @@ const combinedReducers = combineReducers({
   pictureReducer,
   roomReducer,
   router: routerReducer,
-  socketReducer,
+  /* socketReducer, */
   tabsReducer,
   termReducer,
   toggleFooterReducer,

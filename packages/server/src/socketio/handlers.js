@@ -21,7 +21,6 @@ function makeHandleEvent(socket, socketManager, zoneManager) {
 
   function handleEvent(zoneId, createEntry) {
     return ensureValidZoneAndUserSelected(zoneId).then(function({zone, user}) {
-      console.log("zone: ", zone)
       // append event to zone history
       const entry = {user, ...createEntry()}
       zone.addEntry(entry)
@@ -49,7 +48,6 @@ export default (socket, socketManager, zoneManager) => {
   }
 
   function handleJoin(zoneId, cb) {
-    console.log("zoneid: ", zoneId)
     const createEntry = () => ({event: `has joined the zone.`})
 
     handleEvent(zoneId, createEntry)

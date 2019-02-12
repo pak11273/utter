@@ -18,7 +18,6 @@ import IconButton from "@material-ui/core/IconButton"
 /* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" */
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import CloseIcon from "@material-ui/icons/Close"
-import Divider from "@material-ui/core/Divider"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -136,10 +135,10 @@ class Chat extends PureComponent {
   constructor(props, context) {
     super(props, context)
 
-    const {chatHistory} = props
+    /* const {chatHistory} = props */
 
     this.state = {
-      chatHistory,
+      chatHistory: [],
       input: ""
     }
   }
@@ -229,8 +228,24 @@ class Chat extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps(props) {
+    console.log("props: ", props)
+    this.setState({
+      chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
+    })
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     this.scrollChatToBottom()
+
+    Object.entries(this.props).forEach(
+      ([key, val]) =>
+        prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+    )
+    Object.entries(this.state).forEach(
+      ([key, val]) =>
+        prevState[key] !== val && console.log(`State '${key}' changed`)
+    )
   }
 
   componentWillUnmount() {
@@ -246,33 +261,35 @@ class Chat extends PureComponent {
   onSendMessage = () => {
     if (!this.state.input) return
 
-    this.props.onSendMessage(this.state.input, err => {
+    this.props.onSendMessage(this.state.input, (err, success) => {
       if (err) return console.error(err)
-
+      console.log("success", success)
+      /* if (success) { */
+      /*   this.setState({chatHistory: [...this.state.chatHistory, success]}) */
+      /* } */
+      // clears the input
       return this.setState({input: ""})
     })
 
-    const audio = this.props.socketReducer.audioBlob
+    /* const audio = this.props.socketReducer.audioBlob */
 
     // send audio file
-    if (audio) {
-      this.props.actions.addAudio({
-        author: audio.audio.author,
-        dataUrl: audio.audio.dataUrl
-      })
-      this.props.actions.sendAudioBlob(audio)
-    }
+    /* if (audio) { */
+    /*   this.props.actions.addAudio({ */
+    /*     author: audio.audio.author, */
+    /*     dataUrl: audio.audio.dataUrl */
+    /*   }) */
+    /*   this.props.actions.sendAudioBlob(audio) */
+    /* } */
 
-    // clear input for messages
-    document.getElementById("inputMessageBox").value = ""
-    // remove the soundclips
-    var soundClips = document.querySelector(".sound-clips")
-    if (soundClips.firstChild) {
-      soundClips.removeChild(soundClips.firstChild)
-    }
+    // TODO: remove the soundclips
+    /* var soundClips = document.querySelector(".sound-clips") */
+    /* if (soundClips.firstChild) { */
+    /*   soundClips.removeChild(soundClips.firstChild) */
+    /* } */
 
     // delete the audio
-    this.props.actions.deleteAudioBlob()
+    /* this.props.actions.deleteAudioBlob() */
   }
 
   onMessageReceived(entry) {
@@ -290,6 +307,7 @@ class Chat extends PureComponent {
 
   render() {
     const {classes} = this.props
+    /* const {username} = this.props.user */
     /* const Msg = ({author, audio, msg}) => ( */
     /*   <ListItem alignitems="center" display="flex" padding="10px 0"> */
     /*     <span style={{fontSize: "1rem", width: "200px"}}>{author}</span>:{" "} */
@@ -303,7 +321,6 @@ class Chat extends PureComponent {
     /*     <span style={{fontSize: "1rem"}}>{msg}</span> */
     /*   </ListItem> */
     /* ) */
-    console.log("chat state: ", this.state)
     return (
       <div style={{display: "flex", height: "100%", justifyContent: "center"}}>
         <ChatWindow>
@@ -320,24 +337,21 @@ class Chat extends PureComponent {
               }}
             />
             <List dense>
-              {this.state.chatHistory.map(({user, message, event}, i) => [
+              {this.state.chatHistory.map(({username, message, event}, i) => [
                 <NoDots key={i}>
-                  <ListItem key={i} button style={{color: "#fafafa"}}>
+                  <ListItem button style={{color: "#fafafa"}}>
                     <ListItemAvatar>
                       <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={`${user} ${event}`}
-                      secondary={
-                        message && <OutputText> {message} </OutputText>
-                      }
+                      primary={`${username} ${event}`}
+                      secondary={<OutputText>{message}</OutputText>}
                     />
                     <ListItemSecondaryAction>
                       <div>:</div>
                     </ListItemSecondaryAction>
                   </ListItem>
-                </NoDots>,
-                <Divider key={i + 1} variant="inset" />
+                </NoDots>
               ])}
             </List>
             <InputPanel>
@@ -380,9 +394,11 @@ class Chat extends PureComponent {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {Zone} = session
+  const {Zone, User} = session
   const zoneObj = Zone.all().toRefArray()
+  const userObj = User.all().toRefArray()
   const zone = zoneObj[0]
+  const user = userObj[0]
 
   return {
     channelReducer: state.channelReducer,
@@ -393,6 +409,7 @@ const mapStateToProps = state => {
     socketReducer: state.socketReducer,
     userReducer: state.userReducer,
     utteredList: state.utteredReducer.utteredList,
+    user,
     zone
   }
 }

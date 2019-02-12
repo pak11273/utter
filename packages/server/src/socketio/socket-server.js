@@ -22,28 +22,36 @@ export default async server => {
       handleDisconnect
     } = makeHandlers(socket, socketManager, zoneManager)
 
-    console.log("User connected to chat")
+    console.log("User connected to socket: " + socket.id)
 
-    /* socket.on("join", (params, cb) => { */
-    /*   console.log("params: ", params) */
-    /*   console.log("params: ", params) */
-    /*   socket.join(params.zoneName) */
-    /*   cb() */
-    /* }) */
-
-    socket.on("createMessage", msg => {
-      console.log("val: ", msg)
-      io.to(msg.zoneName).emit("newMessage", {
-        msg: msg.msg,
-        zoneName: msg.zoneName
+    socket.on("createMessage", (msgObj, cb) => {
+      if (msgObj.message.length > 255) {
+        var err = "Messages cannot be over 255 characters."
+      } else {
+        err = null
+      }
+      if (err) {
+        var success = null
+      } else {
+        success = "sucess"
+      }
+      io.to(msgObj.zoneId).emit("newMessage", {
+        data: msgObj
       })
+      cb(err, msgObj)
     })
 
-    console.log("User " + socket.id + " connected")
+    socket.on("join", (zoneId, cb) => {
+      console.log("zoneId: ", zoneId)
+      socket.join(zoneId)
+      cb()
+    })
+
+    // TODO: NEW API BELOW
 
     socket.on("register", handleRegister)
 
-    socket.on("join", handleJoin)
+    /* socket.on("join", handleJoin) */
 
     socket.on("leave", handleLeave)
 

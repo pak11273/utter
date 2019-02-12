@@ -14,6 +14,25 @@ export default () => {
     console.log(err)
   })
 
+  const connected = () => {
+    socket.on("connection", () => {
+      console.log("user connnected")
+    })
+  }
+
+  const createMessage = (username, zoneId, msg, cb) => {
+    socket.emit("createMessage", {username, zoneId, message: msg}, cb)
+  }
+
+  const newMessage = cb => {
+    socket.on("newMessage", data => {
+      cb(data)
+    })
+  }
+
+  // ...
+
+  // TODO: new api
   const registerHandler = onMessageReceived => {
     socket.on("message", onMessageReceived)
   }
@@ -27,7 +46,6 @@ export default () => {
   }
 
   const join = (zoneId, cb) => {
-    console.log("from socket server: ", zoneId)
     socket.emit("join", zoneId, cb)
   }
 
@@ -48,6 +66,10 @@ export default () => {
   }
 
   return {
+    connected,
+    createMessage,
+    newMessage,
+    // new api below
     register,
     join,
     leave,

@@ -60,7 +60,6 @@ const Msg = ({author, audio, msg}) => (
 )
 
 function MsgList(props) {
-  console.log("props: ", props)
   const {list, onMsgClick} = props
   return (
     <div style={{width: "90%"}}>
@@ -383,7 +382,6 @@ class ChatContainer extends Component {
     /* var {zoneName} = this.props.zone */
     var zoneName = "blah blah"
 
-    console.log("props: ", this.props)
     var recordBtn = (
       <Box flexdirection="row">
         <Button

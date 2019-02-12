@@ -1,3 +1,5 @@
+// array of objects of users
+
 export default [
   {
     name: "Rick",

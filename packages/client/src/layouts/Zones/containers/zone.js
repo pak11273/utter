@@ -62,6 +62,14 @@ class Zone extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
+    this.state.client.join(history.location.state.zoneId, () =>
+      console.log("User joined this zone!")
+    )
+    this.state.client.newMessage(data => {
+      this.setState({receiveMsg: data})
+      console.log("dat: ", data)
+    })
+
     this.props.toggleFooter(false)
   }
 
@@ -97,9 +105,11 @@ class Zone extends Component {
   }
 
   render() {
-    const {zone} = this.props
+    console.log("props: ", this.props)
+    const {classes, zone} = this.props
+    const {username} = this.props.user
     const {chatHistory} = history.location.state
-    const {classes} = this.props
+    this.state.client.connected(zone)
     return (
       <React.Fragment>
         <Helmet>
@@ -130,8 +140,14 @@ class Zone extends Component {
                   this.onLeaveZone(zone.id, () => history.push("/zones"))
                 }
                 onSendMessage={(message, cb) =>
-                  this.state.client.message(zone.id, message, cb)
+                  this.state.client.createMessage(
+                    username,
+                    zone.id,
+                    message,
+                    cb
+                  )
                 }
+                receiveMsg={this.state.receiveMsg}
                 registerHandler={this.state.client.registerHandler}
                 unregisterHandler={this.state.client.unregisterHandler}
               />
@@ -153,11 +169,14 @@ class Zone extends Component {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {Zone} = session
+  const {Zone, User} = session
   const zoneObj = Zone.all().toRefArray()
-  var zone = zoneObj[0]
+  const userObj = User.all().toRefArray()
+  const zone = zoneObj[0]
+  const user = userObj[0]
 
   return {
+    user,
     zone
   }
 }
