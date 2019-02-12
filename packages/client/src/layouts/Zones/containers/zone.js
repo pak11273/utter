@@ -10,6 +10,7 @@ import {Helmet} from "react-helmet"
 import socket from "../../../services/socketio"
 import {history} from "@utterzone/connector"
 
+import Members from "./members"
 import AppsContainer from "../../../apps/apps-container"
 import schema from "../../../core/schema.js"
 import Chat from "./chat/index.js"
@@ -50,7 +51,9 @@ const Loader = () => <div>Loading...</div>
 
 const initialState = {
   courseRef: "",
+	receiveMsg: '',
   user: {name: "beef"},
+	usersList: [],
   isRegisterInProcess: false,
   chatrooms: null,
   client: socket()
@@ -62,12 +65,19 @@ class Zone extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
-    this.state.client.join(history.location.state.zoneId, () =>
+    this.state.client.join(this.props.zone, this.props.user.username, () =>
       console.log("User joined this zone!")
     )
+
+
+		this.state.client.usersList(usersList => {
+			this.setState({
+				usersList 
+			})
+		})
+
     this.state.client.newMessage(data => {
       this.setState({receiveMsg: data})
-      console.log("dat: ", data)
     })
 
     this.props.toggleFooter(false)
@@ -105,10 +115,9 @@ class Zone extends Component {
   }
 
   render() {
-    console.log("props: ", this.props)
     const {classes, zone} = this.props
     const {username} = this.props.user
-    const {chatHistory} = history.location.state
+    /* const {chatHistory} = history.location.state */
     this.state.client.connected(zone)
     return (
       <React.Fragment>
@@ -131,34 +140,42 @@ class Zone extends Component {
           <Grid item xs={12} sm={12} md={8} lg={9}>
             <AppsContainer />
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={3}>
-            <div style={{background: "LightGray"}}>
-              <Chat
-                chatHistory={chatHistory}
-                user={this.state.user}
-                onLeave={() =>
-                  this.onLeaveZone(zone.id, () => history.push("/zones"))
-                }
-                onSendMessage={(message, cb) =>
-                  this.state.client.createMessage(
-                    username,
-                    zone.id,
-                    message,
-                    cb
-                  )
-                }
-                receiveMsg={this.state.receiveMsg}
-                registerHandler={this.state.client.registerHandler}
-                unregisterHandler={this.state.client.unregisterHandler}
-              />
-            </div>
+          <Grid
+            style={{
+              background: "LightGray"
+            }}
+            item
+            xs={12}
+            sm={12}
+            md={4}
+            lg={3}>
+            <Chat
+              user={this.state.user}
+              onLeave={() =>
+                this.onLeaveZone(zone.id, () => history.push("/zones"))
+              }
+              onSendMessage={(message, cb) =>
+                this.state.client.createMessage(username, zone.id, message, cb)
+              }
+              receiveMsg={this.state.receiveMsg}
+              registerHandler={this.state.client.registerHandler}
+              unregisterHandler={this.state.client.unregisterHandler}
+            />
           </Grid>
           <Grid item xs={12} sm={12} md={8} lg={9}>
             <h1>Control Panel</h1>
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={3}>
+          <Grid
+            style={{
+              background: "LightGray"
+            }}
+            item
+            xs={12}
+            sm={12}
+            md={4}
+            lg={3}>
             <div style={{background: "LightGray"}}>
-              <h1>Secondary</h1>
+              <Members usersList={this.state.usersList} />
             </div>
           </Grid>
         </Grid>

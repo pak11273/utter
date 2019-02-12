@@ -16,7 +16,7 @@ export default () => {
 
   const connected = () => {
     socket.on("connection", () => {
-      console.log("user connnected")
+      /* console.log("user connnected") */
     })
   }
 
@@ -29,6 +29,12 @@ export default () => {
       cb(data)
     })
   }
+	 
+	const usersList = (cb) => {
+		socket.on("usersList", (usersList) => {
+			cb(usersList)
+		})
+	}
 
   // ...
 
@@ -45,8 +51,8 @@ export default () => {
     socket.emit("register", name, cb)
   }
 
-  const join = (zoneId, cb) => {
-    socket.emit("join", zoneId, cb)
+  const join = (zone,username, cb) => {
+    socket.emit("join", zone,username, cb)
   }
 
   const leave = (zoneId, cb) => {
@@ -77,7 +83,8 @@ export default () => {
     getZones,
     getAvailableUsers,
     registerHandler,
-    unregisterHandler
+    unregisterHandler,
+		usersList
   }
 }
 

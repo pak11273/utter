@@ -4,12 +4,15 @@ import ss from "socket.io-stream"
 import SocketManager from "./socket-mgr.js"
 import ZoneManager from "./zone-mgr.js"
 import makeHandlers from "./handlers"
+import Users from './users.js'
 
 export default async server => {
   const io = socketio(server)
 
   const socketManager = SocketManager()
   const zoneManager = await ZoneManager()
+	const users = new Users
+
 
   io.on("connection", socket => {
     const {
@@ -41,9 +44,11 @@ export default async server => {
       cb(err, msgObj)
     })
 
-    socket.on("join", (zoneId, cb) => {
-      console.log("zoneId: ", zoneId)
-      socket.join(zoneId)
+    socket.on("join", (zone,username, cb) => {
+      socket.join(zone.id)
+			users.addUserData(zone.id, zone.zoneName, username)
+			io.to(zone.id).emit('usersList', users.getUsersList(zone.id))	
+
       cb()
     })
 

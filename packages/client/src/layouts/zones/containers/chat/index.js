@@ -12,7 +12,7 @@ import {Box} from "../../../../components"
 import styled from "styled-components"
 import ceoImg from "../../../../assets/images/ceo.jpg"
 import TextField from "@material-ui/core/TextField"
-import FloatingActionButton from "@material-ui/core/Fab"
+/* import FloatingActionButton from "@material-ui/core/Fab" */
 import {withStyles} from "@material-ui/core/styles"
 import IconButton from "@material-ui/core/IconButton"
 /* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" */
@@ -95,26 +95,12 @@ const InputPanel = styled.div`
   align-items: center;
   padding: 20px;
   align-self: center;
-  border-top: 1px solid #fafafa;
 `
-
-/* const ChatroomImage = styled.img` */
-/*   position: absolute; */
-/*   top: 0; */
-/*   width: 100%; */
-/* ` */
 
 const Scrollable = styled.div`
   height: 100%;
   overflow: auto;
 `
-
-/* const styles = () => ({ */
-/*   root: { */
-/*     width: "100%", */
-/*     maxWidth: 360 */
-/*   } */
-/* }) */
 
 const styles = theme => ({
   button: {
@@ -138,7 +124,7 @@ class Chat extends PureComponent {
     /* const {chatHistory} = props */
 
     this.state = {
-      chatHistory: [],
+			chatHistory: [],
       input: ""
     }
   }
@@ -229,27 +215,19 @@ class Chat extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    console.log("props: ", props)
+		if(props.receiveMsg.data) {
     this.setState({
       chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
     })
+		}
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     this.scrollChatToBottom()
-
-    Object.entries(this.props).forEach(
-      ([key, val]) =>
-        prevProps[key] !== val && console.log(`Prop '${key}' changed`)
-    )
-    Object.entries(this.state).forEach(
-      ([key, val]) =>
-        prevState[key] !== val && console.log(`State '${key}' changed`)
-    )
   }
 
   componentWillUnmount() {
-    this.props.unregisterHandler()
+    /* this.props.unregisterHandler() */
   }
 
   onInput = e => {
@@ -261,13 +239,8 @@ class Chat extends PureComponent {
   onSendMessage = () => {
     if (!this.state.input) return
 
-    this.props.onSendMessage(this.state.input, (err, success) => {
+    this.props.onSendMessage(this.state.input, (err) => {
       if (err) return console.error(err)
-      console.log("success", success)
-      /* if (success) { */
-      /*   this.setState({chatHistory: [...this.state.chatHistory, success]}) */
-      /* } */
-      // clears the input
       return this.setState({input: ""})
     })
 
@@ -293,7 +266,6 @@ class Chat extends PureComponent {
   }
 
   onMessageReceived(entry) {
-    console.log("onMessageReceived:", entry)
     this.updateChatHistory(entry)
   }
 
@@ -322,7 +294,13 @@ class Chat extends PureComponent {
     /*   </ListItem> */
     /* ) */
     return (
-      <div style={{display: "flex", height: "100%", justifyContent: "center"}}>
+      <div
+        style={{
+          display: "flex",
+          height: "100%",
+          flexDirection: "row",
+          justifyContent: "center"
+        }}>
         <ChatWindow>
           <Header>
             ChatTitle
@@ -337,7 +315,8 @@ class Chat extends PureComponent {
               }}
             />
             <List dense>
-              {this.state.chatHistory.map(({username, message, event}, i) => [
+				 { /* {[{username: 'bye', message: 'hi', event: null}].map(({username, message, event}, i) => [ */}
+			 {this.state.chatHistory.map(({username, message, event}, i) => [ 
                 <NoDots key={i}>
                   <ListItem button style={{color: "#fafafa"}}>
                     <ListItemAvatar>
@@ -365,9 +344,6 @@ class Chat extends PureComponent {
                   e.key === "Enter" ? this.onSendMessage() : null
                 }
               />
-              <FloatingActionButton onClick={null} style={{marginLeft: 20}}>
-                Zone Rules
-              </FloatingActionButton>
             </InputPanel>
             {/* <Article className="sound-clips" /> */}
             <Box flexdirection="row">
