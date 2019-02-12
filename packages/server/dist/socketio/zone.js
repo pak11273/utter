@@ -25,6 +25,8 @@ var _default = function _default(_ref) {
   var zoneHistory = [];
 
   function broadcastMessage(message) {
+    console.log("message: ", message);
+    console.log("members: ", members);
     members.forEach(function (m) {
       return m.emit("message", message);
     });

@@ -38,6 +38,8 @@ var _default = [{
   image: "users/negan.jpeg"
 }];
 var _default2 = _default;
+// array of objects of users
+
 exports.default = _default2;
 ;
 
