@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _classCallCheck2 = require("babel-runtime/helpers/classCallCheck");
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require("babel-runtime/helpers/createClass");
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
 
@@ -16,30 +24,44 @@ Object.defineProperty(exports, "__esModule", {
   enterModule && enterModule(module);
 })();
 
-var _default = [{
-  name: "Rick",
-  lastName: "Grimes",
-  statusText: "I am the leader!",
-  image: "users/rick.jpg"
-}, {
-  name: "Daryl",
-  lastName: "Dixon",
-  statusText: "I like smashing Walkers.",
-  image: "users/daryl.jpg"
-}, {
-  name: "Carol",
-  lastName: "Peletier",
-  statusText: "Don't mess with me!",
-  image: "users/carol.jpg"
-}, {
-  name: "Negan",
-  lastName: "",
-  statusText: "In a relationship with Lucille.",
-  image: "users/negan.jpeg"
-}];
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Users = function () {
+  function Users() {
+    (0, _classCallCheck3.default)(this, Users);
+
+    this.users = [];
+  }
+
+  (0, _createClass3.default)(Users, [{
+    key: "addUserData",
+    value: function addUserData(zoneId, zoneName, username) {
+      var users = {
+        zoneId: zoneId,
+        zoneName: zoneName,
+        username: username
+      };
+      this.users.push(users);
+      return users;
+    }
+  }, {
+    key: "getUsersList",
+    value: function getUsersList(zoneId) {
+      var users = this.users.filter(function (user) {
+        return user.zoneId === zoneId;
+      });
+
+      var namesArr = users.map(function (user) {
+        return user.username;
+      });
+      return namesArr;
+    }
+  }]);
+  return Users;
+}();
+
+var _default = Users;
 var _default2 = _default;
-// array of objects of users
-
 exports.default = _default2;
 ;
 
@@ -52,6 +74,7 @@ exports.default = _default2;
     return;
   }
 
+  reactHotLoader.register(Users, "Users", "src/socketio/users.js");
   reactHotLoader.register(_default, "default", "src/socketio/users.js");
   leaveModule(module);
 })();
@@ -68,6 +91,7 @@ exports.default = _default2;
     return;
   }
 
+  reactHotLoader.register(Users, "Users", "src/socketio/users.js");
   reactHotLoader.register(_default2, "default", "src/socketio/users.js");
   leaveModule(module);
 })();

@@ -48,11 +48,15 @@ var _handlers = require("./handlers");
 
 var _handlers2 = _interopRequireDefault(_handlers);
 
+var _users = require("./users.js");
+
+var _users2 = _interopRequireDefault(_users);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var _default = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(server) {
-    var io, socketManager, zoneManager;
+    var io, socketManager, zoneManager, users;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
@@ -64,6 +68,7 @@ var _default = function () {
 
           case 4:
             zoneManager = _context.sent;
+            users = new _users2.default();
 
 
             io.on("connection", function (socket) {
@@ -95,9 +100,11 @@ var _default = function () {
                 cb(err, msgObj);
               });
 
-              socket.on("join", function (zoneId, cb) {
-                console.log("zoneId: ", zoneId);
-                socket.join(zoneId);
+              socket.on("join", function (zone, username, cb) {
+                socket.join(zone.id);
+                users.addUserData(zone.id, zone.zoneName, username);
+                io.to(zone.id).emit('usersList', users.getUsersList(zone.id));
+
                 cb();
               });
 
@@ -131,7 +138,7 @@ var _default = function () {
               });
             });
 
-          case 6:
+          case 7:
           case "end":
             return _context.stop();
         }
