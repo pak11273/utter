@@ -65,13 +65,9 @@ const tiers = [
     title: "Standard",
     price: "12.95",
     description: [
-      "12.95/mo.",
       "$12.95 charged every month.",
-      "2 GB of storage",
-      "Help center access",
-      "Email support"
     ],
-    buttonText: "Get started",
+    buttonText: "FREE TRIAL",
     buttonVariant: "outlined"
   },
   {
@@ -79,39 +75,27 @@ const tiers = [
     subheader: "Most popular",
     price: "8.95",
     description: [
-      "8.95/mo.",
       "$26.85 charged every 3 months.",
-      "10 GB of storage",
-      "Help center access",
-      "Priority email support"
     ],
-    buttonText: "Get started",
+    buttonText: "FREE TRIAL",
     buttonVariant: "contained"
   },
   {
     title: "6 Months",
     price: "7.45",
     description: [
-      "7.45/mo.",
       "$44.70 charged every 6 months.",
-      "30 GB of storage",
-      "Help center access",
-      "Phone & email support"
     ],
-    buttonText: "Get started",
+    buttonText: "FREE TRIAL",
     buttonVariant: "outlined"
   },
   {
     title: "Annually",
     price: "6.95",
     description: [
-      "6.95/mo.",
       "$83.40 charged every 12 months.",
-      "30 GB of storage",
-      "Help center access",
-      "Phone & email support"
     ],
-    buttonText: "Get started",
+    buttonText: "FREE TRIAL",
     buttonVariant: "outlined"
   }
 ]
@@ -155,7 +139,7 @@ function Pricing(props) {
             align="center"
             color="textSecondary"
             component="p">
-            Your payments are processed over the highest security connections.
+		Try it out for a week.
           </Typography>
         </div>
         {/* End hero unit */}

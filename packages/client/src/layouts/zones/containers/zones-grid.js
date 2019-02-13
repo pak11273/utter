@@ -14,6 +14,7 @@ import CardMedia from "@material-ui/core/CardMedia"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
+/* import PersonIcon from "@material-ui/icons/Person" */
 import Typography from "@material-ui/core/Typography"
 
 /* import styled from "styled-components" */
@@ -345,13 +346,20 @@ class ZonesGrid extends PureComponent {
                             {card.owner.username}
                           </Typography>
                         </CardContent>
-                        <div style={{padding: "0 0 0 20px"}}>TTMIK</div>
                         <div style={{padding: "0 0 0 20px"}}>
-                          Using: English
+                          Course: {card.zoneRef}
                         </div>
                         <div style={{padding: "0 0 0 20px"}}>
-                          Teaching: French
+                          Using: {card.usingLang}
                         </div>
+                        <div style={{padding: "0 0 0 20px"}}>
+                          Teaching: {card.teachingLang}
+                        </div>
+                        {/* <div
+                          style={{display: "flex", padding: "10px 0 0 20px"}}>
+                          <PersonIcon />
+                          <span>14</span>
+                        </div> */}
                         <Button
                           color="secondary"
                           size="small"

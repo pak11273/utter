@@ -4,7 +4,6 @@ import Audio from "./Audio.js"
 import Box from "./Boxes/index.js"
 import Button from "./Buttons/Button.js"
 import ButtonBrowse from "./Buttons/ButtonBrowse.js"
-import ButtonCta from "./Buttons/CTA.js"
 import Can from "./can"
 import Cant from "./cant"
 import Container from "./Container"
@@ -62,7 +61,6 @@ export {
   Box,
   Button,
   ButtonBrowse,
-  ButtonCta,
   Can,
   Cant,
   Column,

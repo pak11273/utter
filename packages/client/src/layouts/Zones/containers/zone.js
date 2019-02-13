@@ -51,9 +51,9 @@ const Loader = () => <div>Loading...</div>
 
 const initialState = {
   courseRef: "",
-	receiveMsg: '',
+  receiveMsg: "",
   user: {name: "beef"},
-	usersList: [],
+  usersList: [],
   isRegisterInProcess: false,
   chatrooms: null,
   client: socket()
@@ -69,12 +69,11 @@ class Zone extends Component {
       console.log("User joined this zone!")
     )
 
-
-		this.state.client.usersList(usersList => {
-			this.setState({
-				usersList 
-			})
-		})
+    this.state.client.usersList(usersList => {
+      this.setState({
+        usersList
+      })
+    })
 
     this.state.client.newMessage(data => {
       this.setState({receiveMsg: data})
@@ -150,6 +149,7 @@ class Zone extends Component {
             md={4}
             lg={3}>
             <Chat
+              usersList={this.state.usersList}
               user={this.state.user}
               onLeave={() =>
                 this.onLeaveZone(zone.id, () => history.push("/zones"))
@@ -163,7 +163,7 @@ class Zone extends Component {
             />
           </Grid>
           <Grid item xs={12} sm={12} md={8} lg={9}>
-            <h1>Control Panel</h1>
+            <Members usersList={this.state.usersList} />
           </Grid>
           <Grid
             style={{
@@ -174,9 +174,7 @@ class Zone extends Component {
             sm={12}
             md={4}
             lg={3}>
-            <div style={{background: "LightGray"}}>
-              <Members usersList={this.state.usersList} />
-            </div>
+            <div style={{background: "LightGray"}} />
           </Grid>
         </Grid>
       </React.Fragment>

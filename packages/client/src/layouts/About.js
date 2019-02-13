@@ -72,9 +72,7 @@ class About extends Component {
               className={classes.text}
               component="p"
               gutterBottom>
-              You possess the greatest learning tool in the world, but do you
-              know how to use it? Our techniques allow you to naturally learn
-              something at the highest level possible.
+              We help you harness the greatest learning tool in the world! Our platform allows you to naturally learn a language.
             </Typography>
             <Typography
               variant="h2"
@@ -86,6 +84,7 @@ class About extends Component {
             </Typography>
             <Typography
               align="center"
+              variant="h6"
               className={classes.text}
               component="p"
               gutterBottom>

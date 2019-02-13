@@ -1,4 +1,3 @@
-import Chat from "./chat"
 import ChatPanel from "./ChatPanel"
 import Challenge from "./Challenge"
 import Channels from "./Channels"
@@ -25,7 +24,6 @@ import Uttered from "./Uttered"
 export {
   Challenge,
   Channels,
-  Chat,
   ChatPanel,
   Container,
   ContextMenu,

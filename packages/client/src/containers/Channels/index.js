@@ -17,7 +17,7 @@ import {
   sortChannels
 } from "./actions.js"
 
-import {updateMsg} from "../chat/actions.js"
+import {updateMsg} from "../../layouts/zones/containers/chat/actions.js"
 
 import {updateRoomLanguage, updateRoomTitle} from "../Rooms/actions.js"
 

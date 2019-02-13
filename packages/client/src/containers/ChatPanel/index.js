@@ -44,15 +44,11 @@ function ChatPanelContainer(props) {
           justifycontent="space-around"
           padding="10px"
           margin="0 0 20px 0">
-          <StyledLink to="/connections/chat">
-            Chat
-          </StyledLink>
           <StyledLink to="/connections/friends">
             Friends
           </StyledLink>
         </Box>
         <Box alignitems="flex-start">
-          <Route path="/connections/chat" component={Chat} />
           <Route path="/connections/friends" component={Friends} />
         </Box>
       </Column>

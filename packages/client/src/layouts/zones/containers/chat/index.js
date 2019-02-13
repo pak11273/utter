@@ -124,7 +124,7 @@ class Chat extends PureComponent {
     /* const {chatHistory} = props */
 
     this.state = {
-			chatHistory: [],
+      chatHistory: [],
       input: ""
     }
   }
@@ -215,11 +215,11 @@ class Chat extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-		if(props.receiveMsg.data) {
-    this.setState({
-      chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
-    })
-		}
+    if (props.receiveMsg.data) {
+      this.setState({
+        chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
+      })
+    }
   }
 
   componentDidUpdate() {
@@ -239,7 +239,7 @@ class Chat extends PureComponent {
   onSendMessage = () => {
     if (!this.state.input) return
 
-    this.props.onSendMessage(this.state.input, (err) => {
+    this.props.onSendMessage(this.state.input, err => {
       if (err) return console.error(err)
       return this.setState({input: ""})
     })
@@ -303,7 +303,7 @@ class Chat extends PureComponent {
         }}>
         <ChatWindow>
           <Header>
-            ChatTitle
+            {this.props.zone.zoneName} ({this.props.usersList.length})
             <IconButton color="primary" onClick={this.props.onLeave}>
               <CloseIcon />
             </IconButton>
@@ -315,8 +315,8 @@ class Chat extends PureComponent {
               }}
             />
             <List dense>
-				 { /* {[{username: 'bye', message: 'hi', event: null}].map(({username, message, event}, i) => [ */}
-			 {this.state.chatHistory.map(({username, message, event}, i) => [ 
+              {/* {[{username: 'bye', message: 'hi', event: null}].map(({username, message, event}, i) => [ */}
+              {this.state.chatHistory.map(({username, message, event}, i) => [
                 <NoDots key={i}>
                   <ListItem button style={{color: "#fafafa"}}>
                     <ListItemAvatar>

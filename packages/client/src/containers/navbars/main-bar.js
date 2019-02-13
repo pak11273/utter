@@ -124,6 +124,12 @@ class MainNavbar extends Component {
     this.handleMobileMenuClose()
   }
 
+  handleProfile = () => {
+    this.setState({anchorEl: null})
+    this.props.history.push(`/profile/${this.props.user.username}`)
+    this.handleMobileMenuClose()
+  }
+
   handleSignup = () => {
     this.setState({anchorEl: null})
     this.props.history.push("/signup")
@@ -270,7 +276,7 @@ class MainNavbar extends Component {
         transformOrigin={{vertical: "top", horizontal: "right"}}
         open={isMenuOpen}
         onClose={this.handleMenuClose}>
-        <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
         {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem>
         ) : null}
@@ -569,86 +575,3 @@ export default connect(
     pure: false
   }
 )(withRouter(withStyles(styles)(MainNavbar))) // {pure:false} needed for NavLink: activeStyle
-
-/*   <NavSection id="NavSection">
-        <Box alignitems="flex-end" gridarea="logo">
-          <StyledNavLink to="/">
-            <Logo
-              background={`url(${Graphic}) center/cover no-repeat`}
-              display="none"
-              display768="flex"
-              width="48px"
-              height="48px"
-            />
-          </StyledNavLink>
-        </Box>
-        <SectionLeft id="sectionLeft" gridarea="navigation">
-          <LargeMenu className={largeMenuClassName} maxwidth={changeMenuOn}>
-            <Nav>
-              <ul>
-                {list.map((item, i) => {
-                  let update = null
-                  if (item === "courses") {
-                    update = this.forceUpdate
-                  }
-                  return (
-                    <li key={i}>
-                      <StyledNavLink
-                        onClick={update}
-                        exact
-                        activeStyle={{
-                          color: "red"
-                        }}
-                        to={"/" + item}>
-                        {item}
-                      </StyledNavLink>
-                    </li>
-                  )
-                })}
-              </ul>
-            </Nav>
-          </LargeMenu>
-          <SmallMenu className={smallMenuClassName} maxwidth={changeMenuOn}>
-            {!this.state.showMenu ? (
-              <div>
-                <Hamburger padding="9px 0 0 0" onClick={this.handleHamburger} />
-                {/* add custom ON button here 
-              </div>
-            ) : (
-              <div>
-                <Hamburger padding="9px 0 0 0" onClick={this.handleHamburger} />
-                {/* add custom OFF button here 
-              </div>
-            )}
-            {this.state.showMenu ? (
-              <Nav>
-                <ul>
-                  {list.map((item, i) => {
-                    let update = null
-                    if (item === "courses") {
-                      update = this.forceUpdate
-                    }
-                    return (
-                      <li key={i}>
-                        <StyledNavLink
-                          onClick={update}
-                          exact
-                          activeStyle={{
-                            color: "red"
-                          }}
-                          to={"/" + item}>
-                          {item}
-                        </StyledNavLink>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </Nav>
-            ) : null}
-          </SmallMenu>
-        </SectionLeft>
-        <SectionRight gridarea="portal">
-          {isAuthenticated ? userLinks : guestLinks}
-        </SectionRight>
-      </NavSection>
-		*/

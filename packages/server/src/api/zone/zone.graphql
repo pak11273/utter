@@ -4,6 +4,7 @@ type Zone {
 	ageGroup: String
 	app: String
 	courseLevel: Int
+	members: Int
   zoneName: String!
   owner: User
   zoneDescription: String
@@ -26,6 +27,7 @@ input ZoneCreateInput {
 	app: String
 	courseLevel: Int
 	ageGroup: String
+	members: Int
 	owner: String!
   zoneId: String
 	zoneImage: String

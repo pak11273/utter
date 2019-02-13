@@ -15,9 +15,6 @@ import {
   LOAD_SOCKET_NSPS,
   LOAD_SOCKET_NSPS_FAIL,
   LOAD_SOCKET_NSPS_SUCCESS,
-  NSP_CONNECT,
-  NSP_CONNECT_FAIL,
-  NSP_CONNECT_SUCCESS,
   RECEIVE_AUDIO_BLOB,
   RECEIVE_AUDIO_BLOB_FAIL,
   RECEIVE_AUDIO_BLOB_SUCCESS,
@@ -39,9 +36,7 @@ import {
 } from "./types.js"
 
 /* import io from "socket.io-client" */
-import ss from "socket.io-stream"
-const stream = ss.createStream()
-import {addAudio, addMsg} from "../../containers/chat/actions.js"
+import {addAudio, addMsg} from "../../layouts/zones/containers/chat/actions.js"
 import {
   loadQuestion,
   updatePicture,
@@ -102,8 +97,8 @@ const loadAudioBlob = blob => {
   }
 }
 
-//TODO: remove this action?
-const loadSocketNsps = socket => {
+// TODO: remove this action?
+const loadSocketNsps = () => {
   return {
     type: "socket",
     types: [LOAD_SOCKET_NSPS, LOAD_SOCKET_NSPS_SUCCESS, LOAD_SOCKET_NSPS_FAIL],

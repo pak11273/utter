@@ -1,33 +1,27 @@
-import React, {Component} from 'react'
-import {NavLink} from 'react-router-dom'
-import styled from 'styled-components'
+import React from "react"
+import Button from "@material-ui/core/Button"
 import {
   Box,
-  ButtonCta,
   Column,
-  Img,
   Line,
   Section,
   Subtitle,
   Text,
   Title,
   Wrapper
-} from '../components'
+} from "../components"
 
-import {Masthead} from '../containers'
+import {Masthead} from "../containers"
 
 // images
-import busyPeopleImg from '../assets/images/busy-people.jpg'
-import embarrassedImg from '../assets/images/embarrassed.jpg'
+import busyPeopleImg from "../assets/images/busy-people.jpg"
 
-function Home(props) {
+function Home() {
   return (
     <Wrapper>
       <Masthead background="url('https://previews.123rf.com/images/nyul/nyul1408/nyul140800216/31077944-Corporate-people-chatting-at-business-office-lobby-Standing-gesturing-arms-crossed-arms-on-hip-confi-Stock-Photo.jpg') no-repeat center top">
         <Column maxwidth="960px">
-          <Title>
-            Sponsorship
-          </Title>
+          <Title>Sponsorship</Title>
         </Column>
       </Masthead>
       <Section>
@@ -41,17 +35,17 @@ function Home(props) {
             specific sponsors and apply to them. If you already know who your
             sponsor is then just type in the name.
           </Subtitle>
-          <ButtonCta color="black">Looking for Sponsors</ButtonCta>
+          <Button>Looking for Sponsors</Button>
           <Subtitle>
-            {' '}Anyone can be a sponsor. Parents, Teachers, Businesses,
-            Schools, Government Institutions, etc. When you become a sponsor
-            you will be ablel to monitor your sponsorees activities and their
-            progress. If a sponsoree is not actively using the program, you
-            can automatically drop them from sponsorship. Special discounts
-            for applied to the amount of sponsorees a sponsor has. Ask for
-            details.
+            {" "}
+            Anyone can be a sponsor. Parents, Teachers, Businesses, Schools,
+            Government Institutions, etc. When you become a sponsor you will be
+            ablel to monitor your sponsorees activities and their progress. If a
+            sponsoree is not actively using the program, you can automatically
+            drop them from sponsorship. Special discounts for applied to the
+            amount of sponsorees a sponsor has. Ask for details.
           </Subtitle>
-          <ButtonCta color="black">Become a Sponsor</ButtonCta>
+          <Button>Become a Sponsor</Button>
         </Column>
       </Section>
       <Section
@@ -64,8 +58,7 @@ function Home(props) {
             </Text>
             <Line />
             <Text color="white" fontsize="3rem">
-              Great for schools to help foster their language learning
-              programs.
+              Great for schools to help foster their language learning programs.
             </Text>
             <Line />
             <Text color="white" fontsize="3rem">
