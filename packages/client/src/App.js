@@ -88,8 +88,8 @@ class App extends Component {
                     </Section>
                     <Section gridarea="content">
                       <Switch>
-                        {routes.map(route => (
-                          <SubRoutes key={route.path} {...route} />
+                        {routes.map((route, i) => (
+                          <SubRoutes key={i} {...route} />
                         ))}
                       </Switch>
                     </Section>

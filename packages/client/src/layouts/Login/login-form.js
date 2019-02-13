@@ -1,70 +1,120 @@
 import React, {PureComponent} from "react"
 import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
-import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
+
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core/styles"
+
 import {loginSchema} from "@utterzone/common"
-import {FormikInput, Spacer} from "../../components"
+import {FormikInput, Img, Section} from "../../components"
 import {history} from "@utterzone/connector"
+import visitingImg from "../../assets/images/walking-around.jpg"
 
 // actions
 import "./forms.css"
 
+const styles = () => ({
+  button: {
+    right: "0px",
+    bottom: "-60px",
+    position: "absolute"
+  },
+  forgot: {
+    position: "absolute",
+    right: "0px",
+    top: "13px"
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    height: "100%",
+    margin: "100px auto",
+    width: "100%"
+  },
+  formContainer: {
+    margin: "0 auto",
+    position: "relative",
+    width: "260px"
+  },
+  section: {
+    justifyContent: "center",
+    margin: "100px auto 50px",
+    maxWidth: 1240
+  }
+})
+
 class LoginForm extends PureComponent {
   render() {
-    const {handleSubmit} = this.props
+    const {classes, handleSubmit} = this.props
     return (
-      <Grid columns={4} centered padded stackable>
-        <Grid.Column textAlign="center" width={8}>
-          <Spacer margin="65px" />
-          <Image
-            centered
-            alt=""
-            src="https://www.thestyledivision.com/wp-content/uploads/2015/05/jasper-james-double-exposure.jpg"
-          />
-          <Header as="h2">Explore a new world</Header>
-          <Header as="h3">
-            {" "}
-            &quot;To have another language is to possess a second soul.&quot;
-            &mdash;Charlemagne
-          </Header>
-          <Spacer margin="100px" />
-        </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={6}>
-          <Container>
-            <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
-              <Spacer margin="70px" />
-              <Header as="h1">Login</Header>
-              <Header>username</Header>
-              <Field
-                name="username or email"
-                placeholder="username or email"
-                component={FormikInput}
-              />
-              <Header>password</Header>
-              <Field
-                name="password"
-                placeholder="password"
-                autoComplete="new-password"
-                type="password"
-                component={FormikInput}
-              />
-              <Form.Group style={{position: "absolute", right: "10px"}}>
-                <a href="/forgot-password"> Forgot Password? </a>
-              </Form.Group>
-              <Button
-                color="yellow"
-                floated="right"
-                fontSize="1.5rem"
-                style={{margin: "80px 0 0 0"}}
-                type="submit">
-                Submit
-              </Button>
-            </Form>
-          </Container>
-        </Grid.Column>
-        <Grid.Column width={1} />
-      </Grid>
+      <Section className={classes.section}>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6} align="center">
+            <Img
+              centered
+              alt="Explore a New World"
+              margin="0 0 40px 0"
+              src={`${visitingImg}`}
+            />
+            <Typography
+              align="center"
+              variant="h4"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Explore a new world
+            </Typography>
+            <Typography align="center" variant="h6" color="inherit">
+              &quot;To have another language is to possess a second soul.&quot;
+            </Typography>
+            <Typography align="center" variant="h6" color="inherit">
+              &mdash;Charlemagne
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <div className={classes.formContainer}>
+              <form onSubmit={handleSubmit}>
+                <div className={classes.form}>
+                  <Typography variant="h4" color="inherit" gutterBottom noWrap>
+                    Login
+                  </Typography>
+                  <Typography variant="p" color="inherit" noWrap>
+                    credentials
+                  </Typography>
+                  <Field
+                    name="username or email"
+                    placeholder="username or email"
+                    component={FormikInput}
+                  />
+                  <Typography variant="p" color="inherit" noWrap>
+                    password
+                  </Typography>
+                  <Field
+                    name="password"
+                    placeholder="password"
+                    autoComplete="new-password"
+                    type="password"
+                    component={FormikInput}
+                  />
+                  <div className={classes.forgot}>
+                    <a href="/forgot-password"> Forgot Password? </a>
+                  </div>
+                </div>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  type="submit">
+                  submit
+                </Button>
+              </form>
+            </div>
+          </Grid>
+        </Grid>
+      </Section>
     )
   }
 }
@@ -97,5 +147,5 @@ export default connect(
         history.push("/")
       }
     }
-  })(LoginForm)
+  })(withStyles(styles)(LoginForm))
 )

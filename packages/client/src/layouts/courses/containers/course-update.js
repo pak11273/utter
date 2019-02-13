@@ -86,7 +86,7 @@ class CourseUpdate extends Component {
     )
     const {course, routes, user} = this.props
     return (
-      <form className={classes.root} autoComplete="off">
+      <div className={classes.root}>
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -164,7 +164,7 @@ class CourseUpdate extends Component {
             <SubRoutes key={route.path} {...route} />
           ))}
         </Grid>
-      </form>
+      </div>
     )
   }
 }

@@ -1,5 +1,4 @@
-import {Component} from 'react'
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Img = styled.img`
   align-self: ${props => props.alignself};
@@ -22,9 +21,9 @@ const Img = styled.img`
   width: ${props => props.width};
 `
 Img.defaultProps = {
-  backgroundsize: 'cover',
-  height: '300px',
-  width: '400px'
+  backgroundsize: "cover",
+  height: "300px",
+  width: "400px"
 }
 
 export default Img

@@ -1,4 +1,5 @@
 import React from "react"
+// TODO: change to material ui loader
 import {Dimmer, Loader, Segment} from "semantic-ui-react"
 
 const LoaderExampleText = () => (

@@ -1,5 +1,7 @@
 import React, {Component} from "react"
-import {NavLink} from "react-router-dom"
+/* import {NavLink} from "react-router-dom" */
+import Link from "@material-ui/core/Link"
+import {Link as RouterLink} from "react-router-dom"
 import {connect} from "react-redux"
 import classNames from "classnames"
 
@@ -7,7 +9,6 @@ import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 
-import "semantic-ui-css/semantic.min.css"
 import styled from "styled-components"
 
 /* import {togglefooter} from "../../../core/actions/toggle-footer-action.js" */
@@ -100,7 +101,11 @@ const styles = theme => ({
     color: "white"
   },
   fontSecondary: {
-    color: "rgba(247, 247, 247, 0.41)"
+    /* color: "rgba(247, 247, 247, 0.41)" */
+    color: "yellow",
+    "&:hover": {
+      color: "red"
+    }
   },
   footer: {
     marginTop: theme.spacing.unit * 6,
@@ -117,7 +122,7 @@ const styles = theme => ({
 const footers = [
   {
     title: "Company",
-    description: ["Team", "Contact Us"]
+    description: ["About Us", "Contact"]
   },
   {
     title: "Features",
@@ -151,27 +156,30 @@ class Footer extends Component {
                     {footer.title}
                   </Typography>
                   {footer.description.map(item => {
-                    var newStr = item.replace(/\s+/g, "")
-                    var link = newStr.toLowerCase()
+                    var newStr = item.replace(/\s+/g, "-")
+                    var link = "/" + newStr.toLowerCase()
                     switch (item) {
-                      case "Contact Us":
-                        link = "contact"
+                      case "About Us":
+                        link = "/about"
+                        break
+                      case "Blog":
+                        link = "https://medium.com"
                         break
                       default:
                     }
                     return (
-                      <NavLink
+                      <Link
+                        component={RouterLink}
                         key={item}
                         className={classes.navHover}
-                        activeStyle={{background: "cyan"}}
-                        to={`/${link}`}>
+                        to={`${link}`}>
                         <Typography
                           key={link}
                           variant="subtitle1"
                           className={classes.fontSecondary}>
                           {item}
                         </Typography>
-                      </NavLink>
+                      </Link>
                     )
                   })}
                 </Grid>

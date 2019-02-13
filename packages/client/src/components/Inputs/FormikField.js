@@ -1,24 +1,30 @@
 import React from "react"
+
+import TextField from "@material-ui/core/TextField"
+
 import {Form, Message, TextArea} from "semantic-ui-react"
-import { isEmpty } from "lodash"
+
+import {isEmpty} from "lodash"
 
 export const FormikInput = ({
   field, // { name, value, onChange, onBlur }
   form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
   ...props
 }) => (
-  <Form.Field>
-    <Form.Input
+  <div>
+    <TextField
+      fullWidth
       {...field}
       {...props}
+      margin="normal"
+      variant="outlined"
       error={!isEmpty(errors[field.name])}
-      label={field.name}
     />
     {errors[field.name] &&
       touched[field.name] && (
         <Message className="error-msg" error content={errors[field.name]} />
       )}
-  </Form.Field>
+  </div>
 )
 
 export const FormikTextArea = ({

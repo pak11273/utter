@@ -8,6 +8,9 @@ import {
   Container,
   Message
 } from "semantic-ui-react"
+
+import Typography from "@material-ui/core/Typography"
+
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
 import {signupSchema} from "@utterzone/common"
@@ -64,10 +67,13 @@ class SignupForm extends PureComponent {
             alt=""
             src="https://images.unsplash.com/photo-1535448996690-4277028bb0e5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8d40de7a271cae51700d439968382ffd&auto=format&fit=crop&w=1050&q=80"
           />
-          <Header as="h2">Join our Community</Header>
-          <Header as="h3">
+          <Typography variant="h2" color="inherit" noWrap>
+            Join our Community
+          </Typography>
+          <Typography variant="h4" color="inherit" noWrap>
             Become part of a growing community of avid learners like yourself
-          </Header>
+          </Typography>
+          <Header as="h3" />
           <Spacer margin="100px" />
         </Grid.Column>
         <Grid.Column width={1} />
@@ -75,7 +81,9 @@ class SignupForm extends PureComponent {
           <Container>
             <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
-              <Header as="h1">Registration</Header>
+              <Typography variant="h2" color="inherit" noWrap>
+                Registration
+              </Typography>
               <Header>username</Header>
               <Field
                 name="username"

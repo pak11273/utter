@@ -87,6 +87,11 @@ const getDashboard = Loadable({
   loading: Loading
 })
 
+const getFaq = Loadable({
+  loader: () => import("./layouts/faq.js"),
+  loading: Loading
+})
+
 const getForgotPassword = Loadable({
   loader: () => import("./layouts/forgot_password/forgot-password-ctrl.js"),
   loading: Loading
@@ -98,7 +103,7 @@ const getLevels = Loadable({
 })
 
 const getNotFound = Loadable({
-  loader: () => import("./layouts/not-found.js"),
+  loader: () => import("./components/misc/not-found.js"),
   loading: Loading
 })
 
@@ -119,6 +124,11 @@ const getProfile = Loadable({
 
 const getProfileSettings = Loadable({
   loader: () => import("./layouts/profile/profile-settings.js"),
+  loading: Loading
+})
+
+const getPrivacyPolicy = Loadable({
+  loader: () => import("./layouts/privacy-policy.js"),
   loading: Loading
 })
 
@@ -195,6 +205,11 @@ export const routes = [
   },
   {
     exact: true,
+    path: "/faq",
+    component: getFaq
+  },
+  {
+    exact: true,
     path: "/forgot-password",
     component: getForgotPassword
   },
@@ -268,11 +283,6 @@ export const routes = [
     ]
   },
   {
-    component: getPricing,
-    exact: true,
-    path: "/pricing"
-  },
-  {
     component: getProfile,
     exact: true,
     path: "/profile/:username",
@@ -282,6 +292,16 @@ export const routes = [
         component: getProfileSettings
       }
     ]
+  },
+  {
+    component: getPricing,
+    exact: true,
+    path: "/pricing"
+  },
+  {
+    component: getPrivacyPolicy,
+    exact: true,
+    path: "/privacy-policy"
   },
   // {
   //   path: '/redux',
