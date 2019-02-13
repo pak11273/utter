@@ -97,6 +97,11 @@ const getLevels = Loadable({
   loading: Loading
 })
 
+const getNotFound = Loadable({
+  loader: () => import("./layouts/not-found.js"),
+  loading: Loading
+})
+
 const getLoginCtrl = Loadable({
   loader: () => import("./layouts/login/login-ctrl.js"),
   loading: Loading
@@ -124,6 +129,11 @@ const getSettings = Loadable({
 
 const getSignupCtrl = Loadable({
   loader: () => import("./layouts/signup/signup-ctrl.js"),
+  loading: Loading
+})
+
+const getTermsOfUse = Loadable({
+  loader: () => import("./layouts/terms-of-use.js"),
   loading: Loading
 })
 
@@ -381,12 +391,16 @@ export const routes = [
   //   loadData: () => getSomeData()
   // },
   {
-    // exact: true,
+    exact: true,
     path: "/test",
     component: getTest
+  },
+  {
+    exact: true,
+    path: "/terms-of-use",
+    component: getTermsOfUse
+  },
+  {
+    component: getNotFound
   }
-  // {
-  //   component: NotFound,
-  //   loadData: () => getSomeData()
-  // }
 ]

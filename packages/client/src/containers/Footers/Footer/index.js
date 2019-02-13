@@ -106,9 +106,12 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 6,
     padding: `${theme.spacing.unit * 6}px 0`
   },
-	navHover: {
-			color: "green"
-	}
+  navHover: {
+    color: "green",
+    "&hover": {
+      color: "green"
+    }
+  }
 })
 
 const footers = [
@@ -148,7 +151,7 @@ class Footer extends Component {
                     {footer.title}
                   </Typography>
                   {footer.description.map(item => {
-										var newStr = item.replace(/\s+/g, '');
+                    var newStr = item.replace(/\s+/g, "")
                     var link = newStr.toLowerCase()
                     switch (item) {
                       case "Contact Us":
@@ -159,7 +162,7 @@ class Footer extends Component {
                     return (
                       <NavLink
                         key={item}
-											className={classes.navHover}
+                        className={classes.navHover}
                         activeStyle={{background: "cyan"}}
                         to={`/${link}`}>
                         <Typography
