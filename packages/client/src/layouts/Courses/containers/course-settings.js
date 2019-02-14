@@ -3,15 +3,39 @@ import {connect} from "react-redux"
 import Helmet from "react-helmet"
 import {Can} from "../../../components"
 import schema from "../../../core/schema"
+
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core/styles"
+
 import ModalMgr from "../../../containers/modals/modal-mgr.js"
-/* import {history} from "@utterzone/connector" */
-import {Container, Header, Form, Segment} from "semantic-ui-react"
-import {Masthead} from "../../../containers"
-/* import {getEntitiesSession} from "../../../api/entities/selectors.js" */
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 import {openModal} from "../../../containers/modals/actions.js"
+
+const styles = theme => ({
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3
+  },
+  heroUnit: {
+    backgroundColor: theme.palette.background.paper
+  },
+  heroContent: {
+    maxWidth: 600,
+    margin: "0 auto",
+    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
+  },
+  heroButtons: {
+    marginTop: theme.spacing.unit * 4
+  },
+  root: {
+    maxWidth: 900,
+    margin: "0 auto"
+  }
+})
 
 class CourseSettings extends Component {
   state = {name: "", email: "", submittedName: "", submittedEmail: ""}
@@ -35,20 +59,32 @@ class CourseSettings extends Component {
 
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
-    const {user, course} = this.props
+    const {classes, user, course} = this.props
     return (
-      <div>
-        <Can
-          roles={user.roles}
-          perform="course:read-settings"
-          id={user.username}
-          matchingID={course.owner.username}
-          yes={() => (
-            <Container>
-              <Container>
-                <Masthead padding="60px 20px 40px  20px">
-                  <Header as="h1">Course Settings</Header>
-                </Masthead>
+      <Can
+        roles={user.roles}
+        perform="course:read-settings"
+        id={user.username}
+        matchingID={course.owner.username}
+        yes={() => (
+          <form className={classes.root} onSubmit={this.handleSubmit}>
+            {/* Hero unit */}
+            <div className={classes.heroUnit}>
+              <div className={classes.heroContent}>
+                <Grid container justify="center" direction="column">
+                  <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.text}
+                    gutterBottom>
+                    Course Settings 
+                  </Typography>
+                </Grid>
+              </div>
+            </div>
+            {/* End hero unit */}
+            <main className={classes.content}>
+              <Grid container spacing={24}>
                 <Helmet>
                   <meta charset="utf-8" />
                   <meta
@@ -63,46 +99,46 @@ class CourseSettings extends Component {
                   <title>Utterzone | Settings</title>
                   <link rel="canonical" href="https://utter.zone/settings" />
                 </Helmet>
-              </Container>
-              <Form onSubmit={this.handleSubmit} style={{position: "relative"}}>
                 <ModalMgr />
-                <Container style={{paddingBottom: "5em"}} text>
-                  <Header as="h2">General Settings</Header>
-                  <Header as="h4" attached="top" block />
-                  <Segment attached>General</Segment>
-                  <Header as="h4" attached="bottom" block />
-                </Container>
-                <Container style={{paddingBottom: "5em"}} text>
-                  <Header as="h2">Danger Zone</Header>
-                  <Header as="h4" attached="top" block />
-                  <Segment clearing attached>
-                    <Form.Button
-                      floated="right"
-                      color="red"
+            <Grid item xs={12}>
+              <Typography
+                variant="h4"
+                align="left"
+                className={classes.text}
+                gutterBottom>
+                General Information
+              </Typography>
+					</Grid>
+            <Grid item xs={12} style={{backgroundColor: "black"}} >
+              <Typography
+                variant="h4"
+                align="left"
+					color="primary"
+                className={classes.text}
+                gutterBottom>
+                  Danger Zone
+              </Typography>
+                    <Button
+					variant="outlined"
+					style={{backgroundColor: 'red', color: 'white', margin: "12px"}}
                       onClick={this.openModalClicked}
-                      content="Delete Course"
-                    />
-                  </Segment>
-                  <Header as="h4" attached="bottom" block />
-                </Container>
-                <Container
-                  style={{position: "relative", paddingBottom: "5em"}}
-                  text>
-                  <Form.Button
-                    floated="right"
+					>Delete Course</Button>
+					</Grid>
+                  <Grid item xs={12} >
+					<div style={{display: "flex", justifyContent: "flex-end", margin: "50px 0"}} >
+                    <Button type="submit" 
                     onClick={this.onButtonClick}
-                    content="Save Changes"
-                    color="yellow"
-                    fontSize="1.5rem"
-                    style={{position: "absolute", right: "15px"}}
-                  />
-                </Container>
-              </Form>
-            </Container>
-          )}
-          no={() => <h1>wtf</h1>}
-        />
-      </div>
+					 variant="outlined">
+                      Save Changes
+                    </Button>
+					</div>
+                  </Grid>
+              </Grid>
+            </main>
+          </form>
+        )}
+        no={() => <h1>wtf</h1>}
+      />
     )
   }
 }
@@ -280,4 +316,4 @@ const actions = {
 export default connect(
   mapStateToProps,
   actions
-)(CourseSettings)
+)(withStyles(styles)(CourseSettings))
