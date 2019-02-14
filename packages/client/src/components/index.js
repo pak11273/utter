@@ -18,6 +18,7 @@ import Form from "./forms"
 import {FormikInput, FormikTextArea} from "./Inputs/FormikField.js"
 import Grid from "./Grids"
 import Hamburger from "./Buttons/Hamburger.js"
+import Hero from './hero.js'
 import Img from "./Img.js"
 import Input from "./Input.js"
 import InputLine from "./Inputs/InputLine.js"
@@ -76,6 +77,7 @@ export {
   FormEditWrapper,
   Grid,
   Hamburger,
+	Hero,
   Img,
   Input,
   InputLine,

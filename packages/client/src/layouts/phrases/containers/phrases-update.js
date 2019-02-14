@@ -8,7 +8,15 @@ import schema from "../../../core/schema.js"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import DeleteIcon from "@material-ui/icons/Delete"
+import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled"
+import SpeakerIcon from "@material-ui/icons/RecordVoiceOver"
+import FormControl from "@material-ui/core/FormControl"
 import IconButton from "@material-ui/core/IconButton"
+import MenuItem from "@material-ui/core/MenuItem"
+import OutlinedInput from "@material-ui/core/OutlinedInput"
+import Select from "@material-ui/core/Select"
+import TextField from "@material-ui/core/TextField"
+import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import {Query} from "react-apollo"
@@ -39,26 +47,30 @@ const styles = theme => ({
     margin: "0 auto"
   },
   button: {
-    marginBottom: theme.spacing.unit * 4
-    /* right: theme.spacing.unit * 2 */
+    /* marginBottom: theme.spacing.unit * 4 */
+    marginLeft: theme.spacing.unit * 2
   },
   text: {
     color: "white"
   }
 })
 
-class Levels extends Component {
+class Phrases extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      labelWidth: 0,
+      value: "level",
       columnDefs: [
         {
           rowDrag: true,
           headerName: ""
         },
-        {headerName: "Level", field: "level"},
-        {headerName: "Title", field: "title"},
+        {headerName: "Phrase", field: "phrase"},
+        {headerName: "Type", field: "type"},
+        {headerName: "Translation", field: "translation"},
+        {headerName: "Audio", field: "audio"},
         {headerName: "Action", field: ""}
       ],
       rowData: [
@@ -85,60 +97,78 @@ class Levels extends Component {
     alert(`Selected nodes: ${selectedDataStringPresentation}`)
   }
 
+  handleChg = name => e => {
+    this.setState({
+      [name]: e.target.value
+    })
+  }
+
   render() {
     const {classes, course, level} = this.props
     const data = [
       {
-        level: 1,
-        title: "alphabet"
+        formality: "strangers",
+        phrase: "annyeong ha seyo",
+        type: "greeting",
+        translation: "hello, good morning"
       },
       {
-        level: 2,
-        title: "numbers"
+        formality: "close friends",
+        phrase: "annyeong",
+        type: "greeting",
+        translation: "the letter b"
       },
       {
-        level: 3,
-        title: "body parts"
-      },
-      {
-        level: 4,
-        title: "familly"
-      },
-      {
-        level: 5,
-        title: "food"
-      },
-      {
-        level: 6,
-        title: "living space"
-      },
-      {
-        level: 7,
-        title: "animals"
-      },
-      {
-        level: 8,
-        title: "nature"
-      },
-      {
-        level: 9,
-        title: "everyday objects"
-      },
-      {
-        level: 10,
-        title: "activities"
+        formality: "friends",
+        phrase: "jo un achim",
+        type: "greeting",
+        translation: "good morning.  rarely used."
       }
     ]
 
     const columns = [
       {
-        Header: "Level",
-        accessor: "level" // String-based value accessors!
+        Header: "Type",
+        accessor: "type",
+        Cell: props => <span className="number">{props.value}</span> // Custom cell components!
       },
       {
-        Header: "Title",
-        accessor: "title",
+        Header: "Formality",
+        accessor: "formality",
         Cell: props => <span className="number">{props.value}</span> // Custom cell components!
+      },
+      {
+        Header: "Phrase",
+        accessor: "phrase",
+        Cell: props => <span className="number">{props.value}</span> // Custom cell components!
+      },
+      {
+        Header: "Translation",
+        accessor: "translation",
+        Cell: props => <span className="number">{props.value}</span> // Custom cell components!
+      },
+      {
+        Header: "Audio",
+        id: "456",
+        accessor: props => (
+          <span>
+            <IconButton
+              status="danger"
+              onClick={() => console.log("Pending Modal!")}>
+              <PlayCircleFilledIcon />
+            </IconButton>
+            <IconButton
+              status="danger"
+              onClick={() => console.log("Pending Modal!")}>
+              <SpeakerIcon />
+            </IconButton>
+            <IconButton
+              status="danger"
+              onClick={() => console.log("Pending Modal!")}>
+              <DeleteIcon />
+            </IconButton>
+          </span>
+        )
       },
       /* reference only */
       /* { */
@@ -192,7 +222,40 @@ class Levels extends Component {
             )
           return (
             <Grid container direction="column">
-              <Hero title="Levels" />
+              <Hero title="Phrases">
+                <Grid container alignItems="center" justify="center">
+                  <Typography variant="h6" style={{paddingRight: "20px"}}>
+                    Choose a level
+                  </Typography>
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}>
+                    <Select
+                      value={this.state.value}
+                      onChange={this.handleChg("selectionBox")}
+                      input={
+                        <OutlinedInput
+                          labelWidth={this.state.labelWidth}
+                          name="info"
+                          id="outlined-filter-simple"
+                        />
+                      }>
+                      <MenuItem value="level">1</MenuItem>
+                      <MenuItem value="level">2</MenuItem>
+                      <MenuItem value="level">3</MenuItem>
+                    </Select>
+                  </FormControl>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    type="submit"
+                    onClick={this.handleSubmit}
+                    size="small">
+                    Submit
+                  </Button>
+                </Grid>
+              </Hero>
               <Grid item>
                 {/* {data.getCourse.levels.map(level => { 
               return ( */}
@@ -243,4 +306,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Levels))
+)(withStyles(styles)(Phrases))

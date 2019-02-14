@@ -36,13 +36,10 @@ const roles = {
     static: [""],
     dynamic: [
       {
-        "course:update-introduction": matchID
-      },
-      {
         "course:read-settings": matchID
       },
       {
-        "course:update-settings": matchID
+        "course:update": matchID
       },
       {
         "course:delete": matchID

@@ -108,7 +108,7 @@ class Profile extends Component {
                     <Can
                     key={text}
                     roles={user.roles}
-                    perform="course:update-settings"
+                    perform="course:update"
                     id={user.username}
                     matchingID={user.username}
                     yes={() => (

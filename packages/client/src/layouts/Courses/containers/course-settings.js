@@ -9,7 +9,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import ModalMgr from "../../../containers/modals/modal-mgr.js"
+/* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
@@ -77,7 +77,7 @@ class CourseSettings extends Component {
                     align="center"
                     className={classes.text}
                     gutterBottom>
-                    Course Settings 
+                    Settings
                   </Typography>
                 </Grid>
               </div>
@@ -99,40 +99,50 @@ class CourseSettings extends Component {
                   <title>Utterzone | Settings</title>
                   <link rel="canonical" href="https://utter.zone/settings" />
                 </Helmet>
-                <ModalMgr />
-            <Grid item xs={12}>
-              <Typography
-                variant="h4"
-                align="left"
-                className={classes.text}
-                gutterBottom>
-                General Information
-              </Typography>
-					</Grid>
-            <Grid item xs={12} style={{backgroundColor: "black"}} >
-              <Typography
-                variant="h4"
-                align="left"
-					color="primary"
-                className={classes.text}
-                gutterBottom>
-                  Danger Zone
-              </Typography>
+                {/*  <ModalMgr /> */}
+                <Grid item xs={12}>
+                  <Typography
+                    variant="h4"
+                    align="left"
+                    className={classes.text}
+                    gutterBottom>
+                    General Information
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} style={{backgroundColor: "black"}}>
+                  <Typography
+                    variant="h4"
+                    align="left"
+                    color="primary"
+                    className={classes.text}
+                    gutterBottom>
+                    Danger Zone
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    style={{
+                      backgroundColor: "red",
+                      color: "white",
+                      margin: "12px"
+                    }}>
+                    Delete Course
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-end",
+                      margin: "50px 0"
+                    }}>
                     <Button
-					variant="outlined"
-					style={{backgroundColor: 'red', color: 'white', margin: "12px"}}
-                      onClick={this.openModalClicked}
-					>Delete Course</Button>
-					</Grid>
-                  <Grid item xs={12} >
-					<div style={{display: "flex", justifyContent: "flex-end", margin: "50px 0"}} >
-                    <Button type="submit" 
-                    onClick={this.onButtonClick}
-					 variant="outlined">
+                      type="submit"
+                      onClick={this.onButtonClick}
+                      variant="outlined">
                       Save Changes
                     </Button>
-					</div>
-                  </Grid>
+                  </div>
+                </Grid>
               </Grid>
             </main>
           </form>

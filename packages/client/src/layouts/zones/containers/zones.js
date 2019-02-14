@@ -462,7 +462,7 @@ class ZonesContainer extends Component {
                       onChange={this.handleChg("selectionBox")}
                       input={
                         <OutlinedInput
-                          labelWidth={this.state.labelWidth}
+                          labelWidth="30px"
                           name="info"
                           id="outlined-filter-simple"
                         />

@@ -102,14 +102,16 @@ class CourseUpdate extends Component {
               "levels",
               "vocabulary",
               "grammar",
-              "phrase"
+              "examples",
+              "phrases",
+              "notes"
             ].map((text, index) => {
               if (text === "settings") {
                 return (
                   <Can
                     key={text}
                     roles={user.roles}
-                    perform="course:update-settings"
+                    perform="course:update"
                     id={user.username}
                     matchingID={course.owner.username}
                     yes={() => (

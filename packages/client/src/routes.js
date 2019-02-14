@@ -87,8 +87,18 @@ const getDashboard = Loadable({
   loading: Loading
 })
 
+const getExamples = Loadable({
+  loader: () => import("./layouts/examples/containers/examples-update.js"),
+  loading: Loading
+})
+
 const getFaq = Loadable({
   loader: () => import("./layouts/faq.js"),
+  loading: Loading
+})
+
+const getGrammar = Loadable({
+  loader: () => import("./layouts/grammar/containers/grammar-update.js"),
   loading: Loading
 })
 
@@ -109,6 +119,16 @@ const getNotFound = Loadable({
 
 const getLoginCtrl = Loadable({
   loader: () => import("./layouts/login/login-ctrl.js"),
+  loading: Loading
+})
+
+const getNotes = Loadable({
+  loader: () => import("./layouts/notes/containers/notes-update.js"),
+  loading: Loading
+})
+
+const getPhrases = Loadable({
+  loader: () => import("./layouts/phrases/containers/phrases-update.js"),
   loading: Loading
 })
 
@@ -149,6 +169,11 @@ const getTermsOfUse = Loadable({
 
 const getTest = Loadable({
   loader: () => import("./layouts/test"),
+  loading: Loading
+})
+
+const getVocabulary = Loadable({
+  loader: () => import("./layouts/vocabulary/containers/vocabulary-update.js"),
   loading: Loading
 })
 
@@ -277,8 +302,28 @@ export const routes = [
         component: getCourseSettings
       },
       {
+        path: "/course/course-examples",
+        component: getExamples
+      },
+      {
         path: "/course/course-levels",
         component: getLevels
+      },
+      {
+        path: "/course/course-grammar",
+        component: getGrammar
+      },
+      {
+        path: "/course/course-notes",
+        component: getNotes
+      },
+      {
+        path: "/course/course-phrases",
+        component: getPhrases
+      },
+      {
+        path: "/course/course-vocabulary",
+        component: getVocabulary
       }
     ]
   },

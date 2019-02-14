@@ -77,10 +77,6 @@ class CourseIntroduction extends Component {
     this.setState({submittedName: name, submittedEmail: email})
   }
 
-  openModalClicked = e => {
-    e.preventDefault()
-  }
-
   render() {
     const {classes, course, user} = this.props
     return (
@@ -108,7 +104,7 @@ class CourseIntroduction extends Component {
                 align="center"
                 className={classes.text}
                 gutterBottom>
-                Course Introduction
+                Introduction
               </Typography>
             </Grid>
           </div>
@@ -118,7 +114,7 @@ class CourseIntroduction extends Component {
           <Grid container spacing={24}>
             <Can
               roles={user.roles}
-              perform="course:update-introduction"
+              perform="course:update"
               id={user.username}
               matchingID={course.owner.username}
               yes={() => (
@@ -192,7 +188,7 @@ class CourseIntroduction extends Component {
             <Grid container style={{margin: "50px auto"}}>
               <Can
                 roles={user.roles}
-                perform="course:update-introduction"
+                perform="course:update"
                 id={user.username}
                 matchingID={course.owner.username}
                 yes={() => (
