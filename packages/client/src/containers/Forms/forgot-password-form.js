@@ -1,50 +1,92 @@
 import React, {PureComponent} from "react"
 import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
-import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
-import {FormikInput, Spacer} from "../../components"
-import {history} from "@utterzone/connector"
 
-// actions
-import "./forms.css"
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import {withStyles} from "@material-ui/core/styles"
+import Typography from "@material-ui/core/Typography"
+
+import {FormikInput, Img, Section, Spacer} from "../../components"
+import {history} from "@utterzone/connector"
+import visitingImg from "../../assets/images/walking-around.jpg"
+
+const styles = () => ({
+  section: {
+    justifyContent: "center",
+    margin: "50px auto 100px",
+    maxWidth: 1240
+  }
+})
 
 class ForgotPasswordForm extends PureComponent {
   render() {
-    const {handleSubmit} = this.props
+    const {classes, handleSubmit} = this.props
     return (
-      <Grid columns={4} centered padded stackable>
-        <Grid.Column textAlign="center" width={8}>
-          <Spacer margin="65px" />
-          <Image
-            centered
-            alt=""
-            src="http://www.livescience.com/images/i/000/077/758/original/smart-woman-150812.jpg"
-          />
-          <Header as="h2">
-            Studies show bilingual people are smarter than the average.
-          </Header>
-          <Header as="h3">
-            {" "}
-            &quot;Knowledge of language is the doorway to wisdom.&quot;
-            &mdash;Roger Bacon
-          </Header>
-          <Spacer margin="100px" />
-        </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={6}>
-          <Container>
-            <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
+      <Section className={classes.section}>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            align="center"
+            className={classes.leftSide}>
+            <Img
+              centered
+              alt="Visiting People"
+              margin="0 0 40px 0"
+              src={`${visitingImg}`}
+            />
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Studies show bilingual people are smarter than the average.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              &quot;Knowledge of language is the doorway to wisdom.&quot;
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              &mdash;Roger Bacon
+            </Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={12} md={6} align="center">
+            <form onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
-              <Header as="h1">ForgotPassword</Header>
+              <Typography
+                align="center"
+                variant="h6"
+                color="inherit"
+                gutterBottom
+                noWrap>
+                We need to confirm your account before changing your password.
+              </Typography>
               <Field name="email" placeholder="email" component={FormikInput} />
-              <Button color="yellow" fontSize="1.5rem" type="submit">
+              <Button
+                style={{margin: "40px"}}
+                fontSize="1.5rem"
+                type="submit"
+                variant="solid">
                 Reset Password
               </Button>
-            </Form>
-          </Container>
-        </Grid.Column>
-        <Grid.Column width={1} />
-      </Grid>
+            </form>
+          </Grid>
+        </Grid>
+      </Section>
     )
   }
 }
@@ -68,5 +110,5 @@ export default connect(
         onComplete()
       }
     }
-  })(ForgotPasswordForm)
+  })(withStyles(styles)(ForgotPasswordForm))
 )

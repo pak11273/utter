@@ -31,7 +31,7 @@ const styles = () => ({
     flexDirection: "column",
     position: "relative",
     height: "100%",
-    margin: "100px auto",
+    margin: "0 auto",
     width: "100%"
   },
   formContainer: {
@@ -39,9 +39,14 @@ const styles = () => ({
     position: "relative",
     width: "260px"
   },
+  leftSide: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
   section: {
     justifyContent: "center",
-    margin: "100px auto 50px",
+    margin: "100px auto",
     maxWidth: 1240
   }
 })
@@ -52,7 +57,13 @@ class LoginForm extends PureComponent {
     return (
       <Section className={classes.section}>
         <Grid container>
-          <Grid item xs={12} sm={12} md={6} align="center">
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            align="center"
+            className={classes.leftSide}>
             <Img
               centered
               alt="Explore a New World"
@@ -70,7 +81,12 @@ class LoginForm extends PureComponent {
             <Typography align="center" variant="h6" color="inherit">
               &quot;To have another language is to possess a second soul.&quot;
             </Typography>
-            <Typography align="center" variant="h6" color="inherit">
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
               &mdash;Charlemagne
             </Typography>
           </Grid>
@@ -81,7 +97,7 @@ class LoginForm extends PureComponent {
                   <Typography variant="h4" color="inherit" gutterBottom noWrap>
                     Login
                   </Typography>
-                  <Typography variant="p" color="inherit" noWrap>
+                  <Typography component="p" color="inherit" noWrap>
                     credentials
                   </Typography>
                   <Field
@@ -89,7 +105,7 @@ class LoginForm extends PureComponent {
                     placeholder="username or email"
                     component={FormikInput}
                   />
-                  <Typography variant="p" color="inherit" noWrap>
+                  <Typography component="p" color="inherit" noWrap>
                     password
                   </Typography>
                   <Field

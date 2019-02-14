@@ -1,27 +1,67 @@
 import React, {PureComponent} from "react"
-import {Button, Icon, Header, Modal} from "semantic-ui-react"
+import {withStyles} from "@material-ui/core/styles"
+import IconButton from "@material-ui/core/IconButton"
+import MoreVertIcon from "@material-ui/icons/MoreVert"
+import Typography from "@material-ui/core/Typography"
+import Modal from "@material-ui/core/Modal"
+import Button from "@material-ui/core/Button"
 
-export default class Terms extends PureComponent {
-  state = {modalOpen: false}
+function rand() {
+  return Math.round(Math.random() * 20) - 10
+}
 
-  handleOpen = () => this.setState({modalOpen: true})
+function getModalStyle() {
+  const top = 50 + rand()
+  const left = 50 + rand()
 
-  handleClose = () => this.setState({modalOpen: false})
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`
+  }
+}
+
+const styles = theme => ({
+  paper: {
+    position: "absolute",
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: "none"
+  }
+})
+
+class SimpleModal extends PureComponent {
+  state = {
+    open: false
+  }
+
+  handleOpen = () => {
+    this.setState({open: true})
+  }
+
+  handleClose = () => {
+    this.setState({open: false})
+  }
 
   render() {
-    const {modalOpen} = this.state
+    const {classes} = this.props
     return (
-      <Modal
-        open={modalOpen}
-        onClose={this.handleClose}
-        trigger={
-          <a href="#" onClick={this.handleOpen}>
-            Terms and Conditions
-          </a>
-        }>
-        <Modal.Content>
-          <Modal.Description>
-            <Header>Utterzone Terms and Conditions</Header>
+      <div style={{display: "inline-block"}}>
+        <a href="#" onClick={this.handleOpen}>
+          Terms and Conditions
+        </a>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+          onClose={this.handleClose}>
+          <div style={getModalStyle()} className={classes.paper}>
+            <Typography variant="h6" id="modal-title" />
+            <Typography variant="subtitle1" id="simple-modal-description">
+              Utterzone Terms and Conditions
+            </Typography>
             <p>
               You are agreeing to these terms and conditions when you use our
               service.{" "}
@@ -33,7 +73,7 @@ export default class Terms extends PureComponent {
               those additional terms become part of your agreement with us if
               you use those Platform.
             </p>
-            <Header as="h4">Using our Platform</Header>
+            <Typography as="h4">Using our Platform</Typography>
             <p>
               You must follow any policies made available to you within the
               Platform.
@@ -75,7 +115,7 @@ export default class Terms extends PureComponent {
               such Platform in a way that distracts you and prevents you from
               obeying traffic or safety laws.
             </p>
-            <Header as="h4">Your Utterzone Account</Header>
+            <Typography as="h4">Your Utterzone Account</Typography>
             <p>
               You may need an Utterzone Account in order to use some of our
               Platform. You may create your own Utterzone Account, or your
@@ -93,7 +133,7 @@ export default class Terms extends PureComponent {
               unauthorized use of your password or Utterzone Account please
               contact support.
             </p>
-            <Header as="h4">Privacy and Copyright Protection</Header>
+            <Typography as="h4">Privacy and Copyright Protection</Typography>
             <p>
               Utterzone’s privacy policies explain how we treat your personal
               data and protect your privacy when you use our Platform. By using
@@ -105,7 +145,7 @@ export default class Terms extends PureComponent {
               terminate accounts of repeat infringers according to the process
               set out in the U.S. Digital Millennium Copyright Act.
             </p>
-            <Header as="h4">Your Content in our Platform</Header>
+            <Typography as="h4">Your Content in our Platform</Typography>
             <p>
               Some of our Platform allow you to upload, submit, store, send or
               receive content. The content you store on our servers will
@@ -145,7 +185,7 @@ export default class Terms extends PureComponent {
               If you submit feedback or suggestions about our Platform, we may
               use your feedback or suggestions without obligation to you.
             </p>
-            <Header as="h4">About Software in our Platform</Header>
+            <Typography as="h4">About Software in our Platform</Typography>
             <p>
               When a Service requires or includes downloadable software, this
               software may update automatically on your device once a new
@@ -170,7 +210,9 @@ export default class Terms extends PureComponent {
               make available to you. There may be provisions in the open source
               license that expressly override some of these terms.
             </p>
-            <Header as="h4">Modifying and Terminating our Platform</Header>
+            <Typography as="h4">
+              Modifying and Terminating our Platform
+            </Typography>
             <p>
               We are constantly changing and improving our Platform. We may add
               or remove functionalities or features, and we may suspend or stop
@@ -187,7 +229,7 @@ export default class Terms extends PureComponent {
               reasonably possible, we will give you reasonable advance notice
               and a chance to get information out of that Service.
             </p>
-            <Header as="h4">Our Warranties and Disclaimers</Header>
+            <Typography as="h4">Our Warranties and Disclaimers</Typography>
             <p>
               We provide our Platform using a commercially reasonable level of
               skill and care and we hope that you will enjoy using them. But
@@ -208,7 +250,7 @@ export default class Terms extends PureComponent {
               purpose and non-infringement. To the extent permitted by law, we
               exclude all warranties.
             </p>
-            <Header as="h4"> Liability for our Platform</Header>
+            <Typography as="h4"> Liability for our Platform</Typography>
             <p>
               When permitted by law, Utterzone, and Utterzone’s suppliers and
               distributors, will not be responsible for lost profits, revenues,
@@ -234,7 +276,7 @@ export default class Terms extends PureComponent {
               limits any consumer legal rights which may not be waived by
               contract.
             </p>
-            <Header as="h4">Business uses of our Platform</Header>
+            <Typography as="h4">Business uses of our Platform</Typography>
             <p>
               If you are using our Platform on behalf of a business, that
               business accepts these terms. It will hold harmless and indemnify
@@ -244,7 +286,7 @@ export default class Terms extends PureComponent {
               or expense arising from claims, losses, damages, suits, judgments,
               litigation costs and attorneys’ fees.
             </p>
-            <Header as="h4">About these Terms</Header>
+            <Typography as="h4">About these Terms</Typography>
             <p>
               We may modify these terms or any additional terms that apply to a
               Service to, for example, reflect changes to the law or changes to
@@ -289,15 +331,32 @@ export default class Terms extends PureComponent {
               federal or state courts where Utterzone presides in and you and
               Utterzone consent to personal jurisdiction in those courts.
             </p>
-          </Modal.Description>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button onClick={this.handleClose}>
-            I have read the terms and conditions
-            <Icon name="right chevron" />
-          </Button>
-        </Modal.Actions>
-      </Modal>
+            <Button onClick={this.handleClose}>
+              I have read the terms and conditions
+            </Button>
+            <IconButton
+              onClick={this.handleOpen}
+              color="secondary"
+              className={classes.button}
+              aria-label="Add an alarm">
+              <MoreVertIcon />
+            </IconButton>
+            <Terms />
+          </div>
+        </Modal>
+      </div>
     )
   }
 }
+
+// We need an intermediary variable for handling the recursive nesting.
+const Terms = withStyles(styles)(SimpleModal)
+
+export default Terms
+
+/*   state = {modalOpen: false} */
+
+/*   handleOpen = () => this.setState({modalOpen: true}) */
+
+/*   handleClose = () => this.setState({modalOpen: false}) */
+/*     const {modalOpen} = this.state */

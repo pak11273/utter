@@ -1,28 +1,54 @@
-import "./forms.css"
-import {
-  Grid,
-  Button,
-  Form,
-  Header,
-  Image,
-  Container,
-  Message
-} from "semantic-ui-react"
-
-import Typography from "@material-ui/core/Typography"
-
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
-import {signupSchema} from "@utterzone/common"
-import {withFormik, Field} from "formik"
 import React, {PureComponent} from "react"
+import {withFormik, Field} from "formik"
+
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core/styles"
+
 import {cloneDeep} from "lodash"
-import {FormikInput, Spacer} from "../../components"
-import {toggleFooter} from "../../core/actions/toggle-footer-action.js"
+
 import Terms from "../../documents/terms-and-conditions.js"
 import Timezones from "../../components/Selects/Timezones/Timezones.js"
-/* import signup from "../../api/user/actions/signup-actions.js" */
+import {signupSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
+import {FormikInput, Img, Section} from "../../components"
+import visitingImg from "../../assets/images/walking-around.jpg"
+
+const styles = () => ({
+  agreement: {
+    display: "flex",
+    justifyContent: "flex-end"
+  },
+  button: {
+    right: "0px",
+    bottom: "-60px",
+    position: "absolute"
+  },
+  form: {
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
+    height: "100%",
+    margin: "0 auto",
+    width: "100%"
+  },
+  formContainer: {
+    margin: "0 auto",
+    position: "relative",
+    width: "260px"
+  },
+  leftSide: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center"
+  },
+  section: {
+    justifyContent: "center",
+    margin: "50px auto 100px",
+    maxWidth: 1240
+  }
+})
 
 const initialState = {
   agreementChecked: true
@@ -32,10 +58,6 @@ class SignupForm extends PureComponent {
   constructor(props) {
     super(props)
     this.state = cloneDeep(initialState)
-  }
-
-  componentDidMount() {
-    // this.props.actions.toggleFooter(false)
   }
 
   handleChange = e => {
@@ -50,159 +72,178 @@ class SignupForm extends PureComponent {
 
   render() {
     const {
-      values,
+      classes,
+      errors,
       handleChange,
       handleBlur,
       handleSubmit,
+      Message,
       touched,
-      errors
+      values
     } = this.props
     const {agreementChecked} = this.state
     return (
-      <Grid columns={4} centered padded stackable>
-        <Grid.Column textAlign="center" width={8}>
-          <Spacer margin="65px" />
-          <Image
-            centered
-            alt=""
-            src="https://images.unsplash.com/photo-1535448996690-4277028bb0e5?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8d40de7a271cae51700d439968382ffd&auto=format&fit=crop&w=1050&q=80"
-          />
-          <Typography variant="h2" color="inherit" noWrap>
-            Join our Community
-          </Typography>
-          <Typography variant="h4" color="inherit" noWrap>
-            Become part of a growing community of avid learners like yourself
-          </Typography>
-          <Header as="h3" />
-          <Spacer margin="100px" />
-        </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={6}>
-          <Container>
-            <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
-              <Spacer margin="70px" />
-              <Typography variant="h2" color="inherit" noWrap>
-                Registration
-              </Typography>
-              <Header>username</Header>
-              <Field
-                name="username"
-                placeholder="username"
-                component={FormikInput}
-              />
-              <Header>email</Header>
-              <Field name="email" placeholder="email" component={FormikInput} />
-              <Header>password</Header>
-              <Field
-                name="password"
-                placeholder="password"
-                autoComplete="new-password"
-                type="password"
-                component={FormikInput}
-              />
-              <Header>password confirmation</Header>
-              <Field
-                name="password confirmation"
-                placeholder="password confirmation"
-                autoComplete="new-password"
-                type="password"
-                component={FormikInput}
-              />
-              <Form.Field>
-                <Header>timezone</Header>
-                <Timezones
-                  label="Timezone"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.timezone}
-                  type="text"
-                  name="timezone"
-                />
-                {errors.timezone &&
-                  touched.timezone && (
-                    <Message
-                      className="error-msg"
-                      error
-                      content={errors.timezone}
+      <Section className={classes.section}>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            align="center"
+            className={classes.leftSide}>
+            <Img
+              centered
+              alt="Join our Community"
+              margin="0 0 40px 0"
+              src={`${visitingImg}`}
+            />
+            <Typography
+              align="center"
+              variant="h4"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Join our Community
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              Become part of a growing community of avid learners like yourself
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <div className={classes.formContainer}>
+              <form onSubmit={handleSubmit}>
+                <div className={classes.form}>
+                  <Typography variant="h4" color="inherit" gutterBottom noWrap>
+                    Registration
+                  </Typography>
+                  <Typography component="p" color="inherit" noWrap>
+                    username
+                  </Typography>
+                  <Field
+                    name="username"
+                    placeholder="username"
+                    component={FormikInput}
+                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    email
+                  </Typography>
+                  <Field
+                    name="email"
+                    placeholder="email"
+                    component={FormikInput}
+                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    password
+                  </Typography>
+                  <Field
+                    name="password"
+                    placeholder="password"
+                    autoComplete="new-password"
+                    type="password"
+                    component={FormikInput}
+                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    password confirmation
+                  </Typography>
+                  <Field
+                    name="password confirmation"
+                    placeholder="password confirmation"
+                    autoComplete="new-password"
+                    type="password"
+                    component={FormikInput}
+                  />
+                  <div>
+                    <Typography
+                      component="p"
+                      color="inherit"
+                      gutterBottom
+                      noWrap>
+                      timezone
+                    </Typography>
+                    <Timezones
+                      label="Timezone"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.timezone}
+                      type="text"
+                      name="timezone"
                     />
-                  )}
-              </Form.Field>
-              <Form.Group style={{position: "absolute", right: "10px"}}>
-                <Form.Checkbox
-                  label="I agree to the"
-                  onChange={this.handleChange}
-                />
-                <span>
-                  <Terms />
-                </span>
-              </Form.Group>
-              <Button
-                disabled={agreementChecked}
-                color="yellow"
-                floated="right"
-                fontSize="1.5rem"
-                style={{margin: "30px 0 0 0"}}
-                type="submit">
-                Join
-              </Button>
-            </Form>
-          </Container>
-        </Grid.Column>
-        <Grid.Column width={1} />
-      </Grid>
+                    {errors.timezone &&
+                      touched.timezone && (
+                        <Message
+                          className="error-msg"
+                          error
+                          content={errors.timezone}
+                        />
+                      )}
+                  </div>
+                </div>
+                <div className={classes.agreement}>
+                  <input
+                    type="checkbox"
+                    label="I agree to the"
+                    onChange={this.handleChange}
+                  />
+                  <span>
+                    <Terms />
+                  </span>
+                </div>
+                <Button
+                  className={classes.button}
+                  color="primary"
+                  disabled={agreementChecked}
+                  floated="right"
+                  fontSize="1.5rem"
+                  style={{margin: "30px 0 0 0"}}
+                  type="submit"
+                  variant="contained">
+                  Join
+                </Button>
+              </form>
+            </div>
+          </Grid>
+        </Grid>
+      </Section>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  signupReducer: state.userReducer.signup
-})
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    {
-      toggleFooter
-      /* signup: signup.request */
-    },
-    dispatch
-  )
-})
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(
-  withFormik({
-    validationSchema: signupSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      username: "",
-      email: "",
-      password: "",
-      "password confirmation": "",
-      timezone: ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const result = await props.submit(values)
-      const onComplete = () => {
-        history.push("/a/confirm-email", {
-          announcement: "Please check your email to confirm your address."
-        })
-      }
-
-      // if signup info is legit
-      if (typeof result === "string") {
-        localStorage.setItem("AUTH_TOKEN", result)
-        onComplete()
-        props.addFlashMessage({
-          type: "success",
-          text: "Welcome to Utterzone"
-        })
-      } else {
-        // if singup info is not legit
-        setErrors(result)
-      }
+export default withFormik({
+  validationSchema: signupSchema,
+  validateOnChange: false,
+  validateOnBlur: false,
+  mapPropsToValues: () => ({
+    username: "",
+    email: "",
+    password: "",
+    "password confirmation": "",
+    timezone: ""
+  }),
+  handleSubmit: async (values, {props, setErrors}) => {
+    const result = await props.submit(values)
+    const onComplete = () => {
+      history.push("/a/confirm-email", {
+        announcement: "Please check your email to confirm your address."
+      })
     }
-  })(SignupForm)
-)
+
+    // if signup info is legit
+    if (typeof result === "string") {
+      localStorage.setItem("AUTH_TOKEN", result)
+      onComplete()
+      props.addFlashMessage({
+        type: "success",
+        text: "Welcome to Utterzone"
+      })
+    } else {
+      // if singup info is not legit
+      setErrors(result)
+    }
+  }
+})(withStyles(styles)(SignupForm))

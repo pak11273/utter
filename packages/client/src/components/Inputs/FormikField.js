@@ -22,7 +22,7 @@ export const FormikInput = ({
     />
     {errors[field.name] &&
       touched[field.name] && (
-        <Message className="error-msg" error content={errors[field.name]} />
+        <div style={{color: "#f44336"}}>{errors[field.name]}</div>
       )}
   </div>
 )
