@@ -180,11 +180,8 @@ class CoursesCreatedContainer extends PureComponent {
             <Spacer margin="100px 0 0 0" />
             <div align="center">
               <Spacer margin="40px 0 0 0" />
-              <Link
-                component={RouterLink}
-                onClick={this.refreshPage}
-                to="/courses/create">
-                Created a Course
+              <Link component={RouterLink} to="/courses/create">
+                Create a Course
               </Link>
             </div>
           </Drawer>
@@ -220,6 +217,7 @@ class CoursesCreatedContainer extends PureComponent {
               {/* End hero unit */}
               <Query
                 query={getCreatedCourses}
+                fetchPolicy="network-only"
                 variables={{
                   cursor: ""
                 }}>

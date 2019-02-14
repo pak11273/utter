@@ -29,7 +29,7 @@ import {Masthead} from "../../../containers"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {fetchCourseName} from "../actions.js"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
-import CourseRef from "../components/CourseRef"
+import CourseRef from "../components/course-ref"
 import Teaching from "./Teaching"
 import Using from "./Using"
 

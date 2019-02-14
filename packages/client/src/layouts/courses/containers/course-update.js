@@ -4,7 +4,7 @@ import {Route, NavLink} from "react-router-dom"
 
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
-import Grid from "@material-ui/core/Grid"
+/* import Grid from "@material-ui/core/Grid" */
 import Link from "@material-ui/core/Link"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
@@ -54,7 +54,8 @@ const styles = theme => ({
     margin: "0 auto"
   },
   root: {
-    display: "flex"
+    display: "flex",
+    width: "100%"
   }
 })
 
@@ -135,10 +136,7 @@ class CourseUpdate extends Component {
           <Divider />
           <Spacer margin="40px 0 0 0" />
           <div align="center">
-            <Link
-              component={NavLink}
-              onClick={this.refreshPage}
-              to="/courses/created">
+            <Link component={NavLink} to="/courses/created">
               My Created Courses
             </Link>
           </div>
@@ -158,12 +156,10 @@ class CourseUpdate extends Component {
             <title>Utterzone | Courses</title>
             <link rel="canonical" href="https://utter.zone/courses" />
           </Helmet>
-        </main>
-        <Grid container justify="center" direction="column">
           {routes.map(route => (
             <SubRoutes key={route.path} {...route} />
           ))}
-        </Grid>
+        </main>
       </div>
     )
   }
