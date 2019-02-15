@@ -238,7 +238,7 @@ class ZoneCreate extends Component {
                   gutterBottom>
                   Zone Name
                   <StyledSpan display640="inline-block">
-                    (10-100 chars.)
+                    (10-30 chars.)
                   </StyledSpan>
                   <DisplayCount>{zoneName.length}</DisplayCount>
                 </Typography>
@@ -341,23 +341,18 @@ class ZoneCreate extends Component {
                   or vulgar behaviour.
                 </p>
                 <Field name="ageGroup" component="select" onClick={this.addAge}>
-                  <option>Any age</option>
-                  <option>Safe for ages 0-2</option>
-                  <option>Safe for ages 3+</option>
-                  <option>Safe for ages 7+</option>
-                  <option>Safe for ages 12+</option>
-                  <option>Safe for ages 16+</option>
-                  <option>Safe for ages 18+</option>
-                  <option>Kindergarten</option>
-                  <option>Elementary</option>
-                  <option>Middle School</option>
-                  <option>High School</option>
-                  <option>College</option>
-                  <option>Only 18+</option>
-                  <option>Only 30+</option>
-                  <option>Only 40+</option>
-                  <option>Only 50+</option>
-                  <option>Only 60+</option>
+                  <option>any age</option>
+                  <option>ages 0-2</option>
+                  <option>ages 3+</option>
+                  <option>ages 7+</option>
+                  <option>ages 12+</option>
+                  <option>ages 16+</option>
+                  <option>ages 18+</option>
+                  <option>ages 18+</option>
+                  <option>ages 30+</option>
+                  <option>ages 40+</option>
+                  <option>ages 50+</option>
+                  <option>ages 60+</option>
                 </Field>
               </Grid>
               <Grid item style={{display: "flex", justifyContent: "center"}}>

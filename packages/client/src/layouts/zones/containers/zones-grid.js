@@ -2,7 +2,6 @@ import React, {PureComponent} from "react"
 import Waypoint from "react-waypoint"
 
 import classNames from "classnames"
-/* import {history} from "@utterzone/connector" */
 import isEmpty from "lodash/isEmpty"
 import update from "immutability-helper"
 import cloneDeep from "lodash/cloneDeep"
@@ -10,21 +9,13 @@ import cloneDeep from "lodash/cloneDeep"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
-import CardMedia from "@material-ui/core/CardMedia"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
-/* import PersonIcon from "@material-ui/icons/Person" */
 import Typography from "@material-ui/core/Typography"
 
-/* import styled from "styled-components" */
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
-
-/* import {store} from "../../../store.js" */
-
-// actions
-/* import {loadData} from "../../../api/actions.js" */
 
 const getZones = gql`
   query getZones(
@@ -73,14 +64,16 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "flex-end"
   },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
   card: {
-    height: "385px",
-    minHeight: "240px",
+    minHeight: "340px",
     display: "flex",
     flexDirection: "column"
+  },
+  cardDescription: {
+    height: "80px",
+    lineHeight: "1em",
+    overflow: "hidden"
+    /* whiteSpace: "nowrap" */
   },
   cardGrid: {
     padding: `${theme.spacing.unit * 8}px 0`
@@ -92,13 +85,13 @@ const styles = theme => ({
     }
   },
   cardContent: {
-    flexGrow: 1
+    /* flexGrow: 1 */
   },
   cardTitle: {
-    height: "54px",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
+    height: "52px",
+    lineHeight: "1.2em",
+    overflow: "hidden"
+    /* whiteSpace: "nowrap" */
   },
   cardUsername: {
     whiteSpace: "nowrap",
@@ -106,20 +99,9 @@ const styles = theme => ({
     overflow: "hidden",
     textOverflow: "ellipsis"
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3
-  },
   drawer: {
     width: drawerWidth,
     flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
   },
   heroUnit: {
     backgroundColor: theme.palette.background.paper
@@ -128,9 +110,6 @@ const styles = theme => ({
     maxWidth: 600,
     margin: "0 auto",
     padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
-  },
-  heroButtons: {
-    marginTop: theme.spacing.unit * 4
   },
   layout: {
     width: "auto",
@@ -141,15 +120,6 @@ const styles = theme => ({
       marginLeft: "auto",
       marginRight: "auto"
     }
-  },
-  root: {
-    display: "flex"
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
-  },
-  searchField: {
-    marginTop: "7px"
   }
 })
 
@@ -195,7 +165,7 @@ class ZonesGrid extends PureComponent {
 
   ageRestrictionNotice = () => {
     alert(
-      "AGE GROUPS: \nAny age \n0-2 Babies \nAppropriate for ages 3+ \nAppropriate for ages 7+ \nAppropriate for ages 12+ \nAppropriate for ages 16+ \nAppropriate for ages 18+ \nKindergarten \nElementary \nMiddle School \nHigh School \nCollege \nOnly 18+ \nOnly 30+ \nOnly 40+ \nOnly 50+ \nOnly 60+"
+      "AGE GROUPS: \nAny age \nages 0-2 \nages 3+ \nages 7+ \nages 12+ \nages 16+ \nages 18+ \nages 30+ \nages 40+ \nages 50+ \nages 60+"
     )
   }
 
@@ -320,17 +290,10 @@ class ZonesGrid extends PureComponent {
           return (
             <div>
               <div className={classNames(classes.layout, classes.cardGrid)}>
-                {/* End hero unit */}
                 <Grid container spacing={8}>
                   {data.getZones.zones.map(card => (
-                    <Grid item key={card.id} xs={12} sm={6} md={3} lg={2}>
+                    <Grid item key={card.id} xs={12} sm={6} md={3} lg={3}>
                       <Card className={classes.card}>
-                        <CardMedia
-                          onClick={this.props.onEnterZone(card)}
-                          className={classes.cardMedia}
-                          image={`${card.zoneImage}`}
-                          title={`${card.zoneName}`}
-                        />
                         <CardContent className={classes.cardContent}>
                           <Typography
                             className={classes.cardTitle}
@@ -340,12 +303,21 @@ class ZonesGrid extends PureComponent {
                             {card.zoneName}
                           </Typography>
                           <Typography
+                            className={classes.cardDescription}
+                            gutterBottom
+                            component="p">
+                            {card.zoneDescription}
+                          </Typography>
+                          <Typography
                             className={classes.cardUsername}
                             gutterBottom
                             variant="caption">
                             {card.owner.username}
                           </Typography>
                         </CardContent>
+                        <div style={{padding: "0 0 0 20px"}}>
+                          App: {card.app}
+                        </div>
                         <div style={{padding: "0 0 0 20px"}}>
                           Course: {card.zoneRef}
                         </div>
@@ -360,14 +332,14 @@ class ZonesGrid extends PureComponent {
                           <PersonIcon />
                           <span>14</span>
                         </div> */}
-                        <Button
-                          color="secondary"
-                          size="small"
-                          onClick={this.ageRestrictionNotice}
-                          style={{margin: "20px 0 10px 0"}}>
-                          {card.ageGroup}
-                        </Button>
                         <CardActions className={classes.actions}>
+                          <Button
+                            color="secondary"
+                            size="small"
+                            onClick={this.ageRestrictionNotice}
+                            style={{margin: "10px 0"}}>
+                            {card.ageGroup}
+                          </Button>
                           <Button
                             onClick={this.props.onEnterZone(card)}
                             size="large"
