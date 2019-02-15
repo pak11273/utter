@@ -4,7 +4,7 @@ import Select from "react-select"
 import {Box} from "../../../components"
 import "../../styles.css"
 
-class Games extends Component {
+class Apps extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -33,7 +33,7 @@ class Games extends Component {
     return (
       <Box width="250px">
         <Select
-          id="game-select"
+          id="app-select"
           ref={ref => {
             this.select = ref
           }}
@@ -68,12 +68,12 @@ class Games extends Component {
   }
 }
 
-Games.propTypes = {
+Apps.propTypes = {
   searchable: PropTypes.bool
 }
 
-Games.defaultProps = {
+Apps.defaultProps = {
   searchable: false
 }
 
-export default Games
+export default Apps

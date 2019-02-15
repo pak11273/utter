@@ -294,11 +294,11 @@ class CourseCreate extends Component {
             />
             <meta
               name="description"
-              content="Make direct contact with our team through our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
+              content="Design your own course and help others learn the language you love!"
             />
             <meta name="author" content="Isaac Pak" />
-            <title>Utterzone | Contacts</title>
-            <link rel="canonical" href="https://utter.zone/contact" />
+            <title>Utterzone | Create a Course</title>
+            <link rel="canonical" href="https://utterzone.com/course/create" />
           </Helmet>
           {/* Hero unit */}
           <div className={classes.heroUnit}>
@@ -360,7 +360,7 @@ class CourseCreate extends Component {
                   Course Description
                   <StyledSpan display640="inline-block">
                     {" "}
-                    (10-100 chars.)
+                    (100-350 chars.)
                   </StyledSpan>
                   <DisplayCount>{courseDescription.length}</DisplayCount>
                 </Typography>

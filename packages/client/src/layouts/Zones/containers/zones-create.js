@@ -19,7 +19,7 @@ import {zoneCreateSchema} from "@utterzone/common"
 import Apps from "./apps"
 import appData from "../../../data/appData.js"
 import {history} from "@utterzone/connector"
-import {Box, Flex, FormikInput, FormikTextArea, Span} from "../../../components"
+import {Flex, FormikInput, FormikTextArea, Span} from "../../../components"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
@@ -92,13 +92,16 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3
   },
+  heading: {
+    color: "white"
+  },
   heroUnit: {
     backgroundColor: "#502bae"
   },
   heroContent: {
     maxWidth: 960,
     margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 2}px ${theme
+    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 6}px ${theme
       .spacing.unit * 6}px`
   },
   heroButtons: {
@@ -113,10 +116,13 @@ const styles = theme => ({
     }
   },
   root: {
-    height: "400px"
+    maxWidth: 960,
+    margin: "0 auto"
   },
-  text: {
-    color: "white"
+  subHeading: {
+    color: "black",
+    marginTop: "40px",
+    position: "relative"
   }
 })
 
@@ -180,163 +186,195 @@ class ZoneCreate extends Component {
   render() {
     const {classes, handleSubmit} = this.props
     const {zoneName, zoneDescription} = this.props.values
+
     return (
       <React.Fragment>
-        <Helmet>
-          <meta charset="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <meta
-            name="description"
-            content="Make direct contact with our team through our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
-          />
-          <meta name="author" content="Isaac Pak" />
-          <title>Utterzone | Contacts</title>
-          <link rel="canonical" href="https://utter.zone/contact" />
-        </Helmet>
-        <div className={classes.heroUnit}>
-          <div className={classes.heroContent}>
-            <Grid container justify="center" direction="column">
-              <Typography
-                align="center"
-                variant="h4"
-                className={classes.text}
-                gutterBottom>
-                Host a Zone
-              </Typography>
-              <Typography
-                align="center"
-                variant="h6"
-                className={classes.text}
-                gutterBottom>
-                Create a zone where you and others can practice speaking on
-                focused subjects that will help build your level of fluency in
-                speaking your new language.
-              </Typography>
-            </Grid>
+        <form className={classes.root} onSubmit={handleSubmit}>
+          <Helmet>
+            <meta charset="utf-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+            <meta
+              name="description"
+              content="Create a zone and practice speaking a new language!"
+            />
+            <meta name="author" content="Isaac Pak" />
+            <title>Utterzone | Create a Zone</title>
+            <link rel="canonical" href="https://utterzone.com/zone/create" />
+          </Helmet>
+          {/* Hero unit */}
+          <div className={classes.heroUnit}>
+            <div className={classes.heroContent}>
+              <Grid container justify="center" direction="column">
+                <Typography
+                  align="center"
+                  variant="h4"
+                  className={classes.heading}
+                  gutterBottom>
+                  Host a Zone
+                </Typography>
+                <Typography
+                  align="center"
+                  variant="h6"
+                  className={classes.heading}
+                  gutterBottom>
+                  Create a zone where you and others can practice speaking on
+                  focused subjects that will help build your level of fluency in
+                  speaking your new language.
+                </Typography>
+              </Grid>
+            </div>
           </div>
-        </div>
-        <main className={classes.content}>
-          <form onSubmit={handleSubmit}>
-            <Grid>
-              <Typography
-                variant="h4"
-                align="left"
-                className={classes.text}
-                gutterBottom>
-                Zone Name
-              </Typography>
-              <StyledSpan display640="inline-block">(10-100 chars.)</StyledSpan>
-              <DisplayCount>{zoneName.length}</DisplayCount>
-              <Field
-                name="zoneName"
-                placeholder="Provide a unique name for your zone."
-                component={FormikInput}
-                style={{width: "300px"}}
-              />
-            </Grid>
-            <Box margin="40px 0 0 0" position="relative">
-              <h6>
-                Zone Description
-                <StyledSpan display640="inline-block">
-                  {" "}
-                  (10-100 chars.)
-                </StyledSpan>
-              </h6>
-              <DisplayCount>{zoneDescription.length}</DisplayCount>
-              <Field
-                name="zoneDescription"
-                placeholder="Provide a brief description of your zone."
-                component={FormikTextArea}
-                style={{width: "500px"}}
-              />
-            </Box>
-            <Grid>
-              <Flex
-                gridarea="apps"
-                margin="40px 0 0 0"
-                overflow="initial"
-                position="relative">
-                <h6>Apps</h6>
+          {/* End hero unit */}
+          <main className={classes.content}>
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Zone Name
+                  <StyledSpan display640="inline-block">
+                    (10-100 chars.)
+                  </StyledSpan>
+                  <DisplayCount>{zoneName.length}</DisplayCount>
+                </Typography>
+                <Field
+                  fullWidth
+                  id="outlined-search"
+                  name="zoneName"
+                  label="Zone Name"
+                  type="text"
+                  className={classes.searchField}
+                  component={FormikInput}
+                  margin="normal"
+                  variant="outlined"
+                  disabled={this.state.disabled}
+                />
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Zone Description
+                  <StyledSpan display640="inline-block">
+                    {" "}
+                    (100-350 chars.)
+                  </StyledSpan>
+                  <DisplayCount>{zoneDescription.length}</DisplayCount>
+                </Typography>
+                <Field
+                  fullWidth
+                  id="outlined-search"
+                  name="zoneDescription"
+                  label="Zone Description"
+                  type="text"
+                  className={classes.searchField}
+                  component={FormikTextArea}
+                  margin="normal"
+                  variant="outlined"
+                  disabled={this.state.disabled}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Apps
+                </Typography>
                 <Field
                   name="app"
                   component={Apps}
                   addApp={this.addApp}
                   options={appData}
                 />
-              </Flex>
-              <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-                <Flex gridarea="courses" overflow="initial" position="relative">
-                  <h6>Subscribed Courses</h6>
-                  <Field
-                    name="course"
-                    component="select"
-                    onClick={this.addCourse}>
-                    <option>first</option>
-                    <option>second</option>
-                    <option>third</option>
-                  </Field>
-                </Flex>
-              </StyledFlex>
-              <StyledFlex gridarea="levels" margin1080="40px 0 0 0">
-                <Flex overflow="initial" position="relative">
-                  <h6>Set Levels</h6>
-                  <p>The minimum level a user has to be to enter this zone.</p>
-                  <Field
-                    name="courseLevel"
-                    component="select"
-                    onClick={this.addLevel}>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                  </Field>
-                </Flex>
-              </StyledFlex>
-              <StyledFlex gridarea="ageGroup" margin1080="40px 0 0 0">
-                <Flex overflow="initial" position="relative">
-                  <h6>Age Restrictions</h6>
-                  <p>
-                    Pick an appropriate age setting or a specific age
-                    demographic. Conversations are still not to involve any
-                    sexual misconduct or vulgar behaviour.
-                  </p>
-                  <Field
-                    name="ageGroup"
-                    component="select"
-                    onClick={this.addAge}>
-                    <option>Any age</option>
-                    <option>Safe for ages 0-2</option>
-                    <option>Safe for ages 3+</option>
-                    <option>Safe for ages 7+</option>
-                    <option>Safe for ages 12+</option>
-                    <option>Safe for ages 16+</option>
-                    <option>Safe for ages 18+</option>
-                    <option>Kindergarten</option>
-                    <option>Elementary</option>
-                    <option>Middle School</option>
-                    <option>High School</option>
-                    <option>College</option>
-                    <option>Only 18+</option>
-                    <option>Only 30+</option>
-                    <option>Only 40+</option>
-                    <option>Only 50+</option>
-                    <option>Only 60+</option>
-                  </Field>
-                </Flex>
-              </StyledFlex>
-              <StyledFlex margin1080="40px 0">
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Subscribed Courses
+                </Typography>
+                <Field
+                  name="course"
+                  component="select"
+                  onClick={this.addCourse}>
+                  <option>first</option>
+                  <option>second</option>
+                  <option>third</option>
+                </Field>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Set Levels
+                </Typography>
+                <p>The minimum level a user has to be to enter this zone.</p>
+                <Field
+                  name="courseLevel"
+                  component="select"
+                  onClick={this.addLevel}>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                </Field>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Age Restrictions
+                </Typography>
+                <p>
+                  Pick an appropriate age setting or a specific age demographic.
+                  Conversations are still not to involve any sexual misconduct
+                  or vulgar behaviour.
+                </p>
+                <Field name="ageGroup" component="select" onClick={this.addAge}>
+                  <option>Any age</option>
+                  <option>Safe for ages 0-2</option>
+                  <option>Safe for ages 3+</option>
+                  <option>Safe for ages 7+</option>
+                  <option>Safe for ages 12+</option>
+                  <option>Safe for ages 16+</option>
+                  <option>Safe for ages 18+</option>
+                  <option>Kindergarten</option>
+                  <option>Elementary</option>
+                  <option>Middle School</option>
+                  <option>High School</option>
+                  <option>College</option>
+                  <option>Only 18+</option>
+                  <option>Only 30+</option>
+                  <option>Only 40+</option>
+                  <option>Only 50+</option>
+                  <option>Only 60+</option>
+                </Field>
+              </Grid>
+              <Grid item style={{display: "flex", justifyContent: "center"}}>
                 <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
                   type="submit"
-                  color="inherit"
+                  onClick={this.onButtonClick}
+                  size="large"
                   disabled={this.state.disabled}>
                   Create Zone
                 </Button>
-              </StyledFlex>
+              </Grid>
             </Grid>
-          </form>
-        </main>
+          </main>
+        </form>
       </React.Fragment>
     )
   }
