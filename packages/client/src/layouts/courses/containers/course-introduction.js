@@ -13,10 +13,30 @@ import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import {withStyles} from "@material-ui/core/styles"
 
+import gql from "graphql-tag"
+import {graphql} from "react-apollo"
 import {Can, Img} from "../../../components"
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
+
+const subscribeMutation = gql`
+  mutation subscribe($input: String) {
+    subscribe(input: $input)
+  }
+`
+
+/* const getCourse = gql` */
+/*   query getCourse($courseId: String!) { */
+/*     getCourse(courseId: $courseId) { */
+/*       courseName */
+/*       levels { */
+/*         id */
+/*         title */
+/*       } */
+/*     } */
+/*   } */
+/* ` */
 
 const styles = theme => ({
   content: {
@@ -48,7 +68,8 @@ class CourseIntroduction extends Component {
     submittedEmail: "",
     courseName: "",
     courseDescription: "",
-    disabled: true
+    disabled: true,
+    subscribeState: "subscribe"
   }
 
   componentDidMount() {
@@ -71,7 +92,26 @@ class CourseIntroduction extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  handleSubmit = () => {
+  handleSubscribe = async () => {
+    try {
+      const {data} = await this.props.mutate({
+        variables: {
+          input: this.props.course.id
+        }
+      })
+      const {subscribe} = data
+      if (subscribe) {
+        this.setState({
+          subscribeState: "unsubscribe"
+        })
+      }
+    } catch (err) {
+      return err
+    }
+  }
+
+  handleSubmit = e => {
+    e.preventDefault()
     const {name, email} = this.state
 
     this.setState({submittedName: name, submittedEmail: email})
@@ -79,6 +119,7 @@ class CourseIntroduction extends Component {
 
   render() {
     const {classes, course, user} = this.props
+    console.log("course: ", course)
     return (
       <form className={classes.root} onSubmit={this.handleSubmit}>
         <Helmet>
@@ -134,6 +175,19 @@ class CourseIntroduction extends Component {
               )}
               no={() => null}
             />
+            <Grid item xs={12} align="center">
+              <Button
+                variant="contained"
+                color={
+                  this.state.subscribeState === "subscribe"
+                    ? "primary"
+                    : "secondary"
+                }
+                onClick={this.handleSubscribe}
+                size="large">
+                {this.state.subscribeState}
+              </Button>
+            </Grid>
             <Grid item xs={12}>
               <Typography
                 variant="h4"
@@ -180,10 +234,30 @@ class CourseIntroduction extends Component {
                 gutterBottom>
                 Meta
               </Typography>
-              <div>
+              <Typography
+                variant="h6"
+                align="left"
+                className={classes.text}
+                gutterBottom>
                 Course Author:{" "}
-                <em style={{fontWeight: 900}}>{course.owner.username}</em>
-              </div>
+                <span style={{fontWeight: 900}}>{course.owner.username}</span>
+              </Typography>
+              <Typography
+                variant="h6"
+                align="left"
+                className={classes.text}
+                gutterBottom>
+                Using Language:{" "}
+                <span style={{fontWeight: 900}}>{course.usingLang}</span>
+              </Typography>
+              <Typography
+                variant="h6"
+                align="left"
+                className={classes.text}
+                gutterBottom>
+                Teaching Language:{" "}
+                <span style={{fontWeight: 900}}>{course.teachingLang}</span>
+              </Typography>
             </Grid>
             <Grid container style={{margin: "50px auto"}}>
               <Can
@@ -192,7 +266,7 @@ class CourseIntroduction extends Component {
                 id={user.username}
                 matchingID={course.owner.username}
                 yes={() => (
-                  <Grid item xs={6}>
+                  <Grid item xs={12} align="center">
                     <Button type="submit" color="inherit" variant="outlined">
                       Save Changes
                     </Button>
@@ -200,9 +274,6 @@ class CourseIntroduction extends Component {
                 )}
                 no={() => null}
               />
-              <Grid item xs={6}>
-                <Button color="inherit">Subscribe</Button>
-              </Grid>
             </Grid>
           </Grid>
         </main>
@@ -233,25 +304,27 @@ export default connect(
   mapStateToProps,
   actions
 )(
-  withFormik({
-    validationSchema: courseSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      "username or email": "",
-      password: ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const errors = await props.submit(values)
-      if (errors) {
-        if (errors.identifier) {
-          errors["username or email"] = errors.identifier
+  graphql(subscribeMutation)(
+    withFormik({
+      validationSchema: courseSchema,
+      validateOnChange: false,
+      validateOnBlur: false,
+      mapPropsToValues: () => ({
+        "username or email": "",
+        password: ""
+      }),
+      handleSubmit: async (values, {props, setErrors}) => {
+        const errors = await props.submit(values)
+        if (errors) {
+          if (errors.identifier) {
+            errors["username or email"] = errors.identifier
+          }
+          setErrors(errors)
         }
-        setErrors(errors)
+        if (!errors) {
+          history.push("/")
+        }
       }
-      if (!errors) {
-        history.push("/")
-      }
-    }
-  })(withStyles(styles)(CourseIntroduction))
+    })(withStyles(styles)(CourseIntroduction))
+  )
 )

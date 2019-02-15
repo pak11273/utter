@@ -47,6 +47,8 @@ const getCourses = gql`
         courseImage
         courseName
         courseDescription
+        usingLang
+        teachingLang
         owner {
           username
         }

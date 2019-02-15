@@ -39,11 +39,11 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: yellow,
-    secondary: green,
+    secondary: green
   },
   status: {
     danger: "red",
-		warning: "orange"
+    warning: "orange"
   }
 })
 

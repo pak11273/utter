@@ -221,9 +221,9 @@ class CoursesContainer extends PureComponent {
         break
       }
 
-      case "reference": {
+      case "resources": {
         // set resources
-        const newRef = update(this.state, {
+        const newResource = update(this.state, {
           owner: {
             $set: ""
           },
@@ -238,7 +238,7 @@ class CoursesContainer extends PureComponent {
           }
         })
 
-        this.setState(newRef)
+        this.setState(newResource)
 
         break
       }
@@ -385,7 +385,7 @@ class CoursesContainer extends PureComponent {
                         <em>None</em>
                       </MenuItem>
                       <MenuItem value="title">Title</MenuItem>
-                      <MenuItem value="reference">Reference</MenuItem>
+                      <MenuItem value="reference">Resource</MenuItem>
                       <MenuItem value="author">Author</MenuItem>
                     </Select>
                   </FormControl>

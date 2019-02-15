@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import {Helmet} from "react-helmet"
 import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -25,6 +24,9 @@ import {
   FormikTextArea,
   Span
 } from "../../../components"
+
+// actions
+import {loadData} from "../../../api/actions.js"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
@@ -111,6 +113,9 @@ const styles = theme => ({
     maxWidth: 960,
     margin: "0 auto"
   },
+  saveButton: {
+    margin: "50px"
+  },
   subHeading: {
     color: "black",
     marginTop: "40px",
@@ -125,14 +130,14 @@ class ZoneCreate extends Component {
   }
 
   componentDidMount() {
-    this.props.actions.toggleFooter(false)
+    this.props.toggleFooter(false)
 
     // clear state
     this.setState(initialState)
   }
 
   componentWillUnmount() {
-    this.props.actions.toggleFooter(true)
+    this.props.toggleFooter(true)
   }
 
   onChange = e => {
@@ -411,11 +416,11 @@ class ZoneCreate extends Component {
                   ]}
                 />
               </Grid>
-              <Grid item style={{display: "flex", justifyContent: "center"}}>
+              <Grid item xs={12} align="center">
                 <Button
                   variant="contained"
                   color="primary"
-                  className={classes.button}
+                  className={classes.saveButton}
                   type="submit"
                   onClick={this.onButtonClick}
                   size="large">
@@ -440,19 +445,13 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    {
-      addFlashMessage,
-      toggleFooter
-    },
-    dispatch
-  )
-})
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  {
+    addFlashMessage,
+    loadData,
+    toggleFooter
+  }
 )(
   withFormik({
     validationSchema: zoneCreateSchema,
@@ -465,6 +464,7 @@ export default connect(
       course: "",
       courseLevel: "",
       owner: props.user.id,
+      resources: "",
       zoneName: "",
       zoneImage:
         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
@@ -478,18 +478,20 @@ export default connect(
           pathname: `/zone/${result.zoneCreate.id}`,
           state: {chatHistory, zoneId: result.zoneCreate.id}
         })
+        console.log("result: ", result.zoneCreate)
+        props.loadData({zone: result.zoneCreate})
       }
 
       // if create is legit
       if (result) {
         onComplete(result)
-        props.actions.addFlashMessage({
+        props.addFlashMessage({
           type: "success",
           text: "Zone successfully created!"
         })
       } else {
         setErrors(result.zoneCreate.errors)
-        props.actions.addFlashMessage({
+        props.addFlashMessage({
           type: "error",
           text: "Could not create a zone. Please contact technical support."
         })

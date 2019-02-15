@@ -54,13 +54,15 @@ const getZoneLevels = async (_, args, ctx, info) => {
 const getZones = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  var zoneName, zoneRef, owner, usingLang, teachingLang, app, appLevel
+  var zoneName, resources, owner, usingLang, teachingLang, app, appLevel
 
   args.zoneName
     ? (query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi"))
     : null
 
-  args.ref ? (query.zoneRef = new RegExp(escapeRegex(args.ref), "gi")) : null
+  args.resources
+    ? (query.resources = new RegExp(escapeRegex(args.resources), "gi"))
+    : null
 
   if (args.owner) {
     var owner = await Zone.findByUsername(args.owner, (err, docs) => {

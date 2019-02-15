@@ -40,18 +40,19 @@ const getZones = gql`
     ) {
       cursor
       zones {
-        id
+        ageGroup
         app
         courseLevel
-        ageGroup
+        id
+        owner {
+          username
+        }
+        resources
         teachingLang
         usingLang
         zoneDescription
         zoneImage
         zoneName
-        owner {
-          username
-        }
       }
     }
   }
@@ -290,10 +291,10 @@ class ZonesGrid extends PureComponent {
           }
           return (
             <div>
-              <div className={classNames(classes.layout, classes.cardGrid)}>
-                <Grid container spacing={8}>
+              <div className={classNames(classes.layout)}>
+                <Grid container spacing={24}>
                   {data.getZones.zones.map(card => (
-                    <Grid item key={card.id} xs={12} sm={6} md={3} lg={3}>
+                    <Grid item key={card.id} xs={12} sm={12} md={3} lg={2}>
                       {console.log("card: ", card)}
                       <Card className={classes.card}>
                         <CardContent className={classes.cardContent}>
@@ -314,7 +315,7 @@ class ZonesGrid extends PureComponent {
                             className={classes.cardUsername}
                             gutterBottom
                             variant="caption">
-                            {card.owner.username}
+                            by: {card.owner.username}
                           </Typography>
                         </CardContent>
                         <div style={{padding: "0 0 0 20px"}}>

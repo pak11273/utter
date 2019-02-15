@@ -1,18 +1,19 @@
 
 type Zone {
-  id: ID!
 	ageGroup: String
 	app: String
 	courseLevel: Int
-	members: Int
-  zoneName: String!
-  owner: User
-  zoneDescription: String
-  zoneImage: String
+  createdAt: Int
+  id: ID!
   levels: [Level]
+	members: Int
+  owner: User
+	resources: String
   teachingLang: String
   usingLang: String
-  createdAt: Int
+  zoneDescription: String
+  zoneImage: String
+  zoneName: String!
 }
 
 input ZoneUpdated {
@@ -29,6 +30,7 @@ input ZoneCreateInput {
 	ageGroup: String
 	members: Int
 	owner: String!
+	resources: String
   zoneId: String
 	zoneImage: String
   zoneName: String!
@@ -46,14 +48,14 @@ extend type Query {
   getZone(zoneId: String!): Zone!
 	getZoneLevels(zoneId: String!): Zone!
   getZones(
-    cursor: String
 		app: String
 		courseLevel: Int
-    zoneName: String!
-    ref: String!
+    cursor: String
     owner: String!
+    resources: String!
     usingLang: String!
     teachingLang: String!
+    zoneName: String!
   ): PaginatedZones  
   getZoneCount: Int
 }

@@ -19,6 +19,8 @@ import {forgotPasswordPrefix} from "../../constants"
 import {formatYupError} from "../../utils/format-yup-error.js"
 import {sendConfirmEmail, sendForgotPasswordEmail} from "../../mail/mail"
 import User from "./user-model.js"
+import {userByToken} from "../shared/resolver-functions.js"
+
 import {
   signupSchema,
   PasswordValidation,
@@ -182,20 +184,6 @@ const login = async (parent, args, ctx, info) => {
   }
 }
 
-function isAsync(func) {
-  const string = func.toString().trim()
-
-  return !!// native
-  (
-    string.match(/^async /) ||
-    // babel (this may change, but hey...)
-    string.match(/return _ref[^\.]*\.apply/)
-  )
-  // insert your other dirty transpiler check
-
-  // there are other more complex situations that maybe require you to check the return line for a *promise*
-}
-
 const getUserByToken = (_, args, ctx, info) => {
   var token = ctx.req.headers.authorization || null
   console.log("token: ", token)
@@ -241,6 +229,21 @@ const forgotPassword = async (_, {email}, {redis, url}) => {
   return true
 }
 
+const subscribe = async (_, {input}, {redis, url, req}, info) => {
+  var token = req.headers.authorization || null
+  var user = await userByToken(token, (err, data) => {
+    if (err) return err
+    if (data) return data
+  })
+
+  // TODO if user already has courseID in subscriptions array then return false
+
+  /* return false */
+
+  // if not add the course and return true
+  return true
+}
+
 const updateMe = (_, {input}, {user}) => {
   merge(user, input)
   return user.save()
@@ -266,6 +269,7 @@ export const userResolvers = {
     changePassword,
     forgotPassword,
     signup,
+    subscribe,
     login,
     updateMe
   }

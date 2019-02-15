@@ -13,6 +13,7 @@ type User {
 	scopes: [String]
   contacts: [String]
 	blocked: [String]
+	subscriptions: [Course]
   username: String!
   createdAt: String
   updatedAt: String
@@ -74,5 +75,6 @@ type Mutation {
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
+	subscribe(input: String): Boolean
   updateMe(input: UpdatedUserInput!): User!
 }

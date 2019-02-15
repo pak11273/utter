@@ -15,6 +15,7 @@ export class Z extends PureComponent {
           courseLevel: values.courseLeve,
           ageGroup: values.ageGroup,
           owner: values.owner,
+          resources: values.resources,
           zoneName: values.zoneName,
           zoneDescription: values.zoneDescription,
           zoneImage: values.zoneImage,
@@ -46,6 +47,7 @@ const ZoneCreateMutation = gql`
     $courseLevel: Int
     $ageGroup: String!
     $owner: String!
+    $resources: String
     $zoneName: String!
     $zoneImage: String
     $zoneDescription: String
@@ -58,6 +60,7 @@ const ZoneCreateMutation = gql`
         courseLevel: $courseLevel
         ageGroup: $ageGroup
         owner: $owner
+        resources: $resources
         zoneName: $zoneName
         zoneImage: $zoneImage
         zoneDescription: $zoneDescription
@@ -69,6 +72,7 @@ const ZoneCreateMutation = gql`
       app
       courseLevel
       ageGroup
+      resources
       zoneName
       zoneDescription
       owner {

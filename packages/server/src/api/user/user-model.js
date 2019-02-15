@@ -74,6 +74,12 @@ export const UserSchema = new mongoose.Schema(
       type: [String],
       default: "registeredUser"
     },
+    subscriptions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Course"
+      }
+    ],
     password: {
       default: "",
       required: [true, "can't be blank"],
