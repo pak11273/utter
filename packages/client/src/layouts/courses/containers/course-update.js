@@ -14,7 +14,7 @@ import {withStyles} from "@material-ui/core/styles"
 
 import schema from "../../../core/schema.js"
 /* import Select from "react-select" */
-import {cloneDeep} from "lodash"
+import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
 import {Can, Spacer} from "../../../components"
 

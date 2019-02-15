@@ -1,48 +1,48 @@
-import React, {Component} from 'react'
-import {bindActionCreators} from 'redux'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import styled from 'styled-components'
-import { isEmpty } from 'lodash'
-import axios from 'axios'
-import superagent from 'superagent'
-import {Box, Button, Input, Text} from '../../components'
-import RoomCreator from './RoomCreator.js'
+import React, {Component} from "react"
+import {bindActionCreators} from "redux"
+import {connect} from "react-redux"
+import {Link} from "react-router-dom"
+import styled from "styled-components"
+import isEmpty from "lodash/isEmpty"
+import axios from "axios"
+import superagent from "superagent"
+import {Box, Button, Input, Text} from "../../components"
+import RoomCreator from "./RoomCreator.js"
 
 // actions
-import {updateRoomLevel} from './actions.js'
-import {loadWordList, updateOriginalWordList} from '../Pictures/actions.js'
-import {updateCurrentRoom, updateListType} from '../Rooms/actions.js'
-import {getRooms, joinRoom} from '../../services/socketio/actions.js'
+import {updateRoomLevel} from "./actions.js"
+import {loadWordList, updateOriginalWordList} from "../Pictures/actions.js"
+import {updateCurrentRoom, updateListType} from "../Rooms/actions.js"
+import {getRooms, joinRoom} from "../../services/socketio/actions.js"
 
 function Members(props) {
   const {currentRoom} = props
   return (
-    <div style={{textAlign: 'left'}}>
+    <div style={{textAlign: "left"}}>
       <Text color="blue" fontsize="2rem" padding="20px 0 10px 0">
         {currentRoom}
       </Text>
       <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
-        Members{' '}
+        Members{" "}
       </Text>
       <div>
-        Joe <span style={{color: 'red'}}>offline</span>
+        Joe <span style={{color: "red"}}>offline</span>
       </div>
       <div>
-        Martha <span style={{color: 'red'}}>online</span>
+        Martha <span style={{color: "red"}}>online</span>
       </div>
       <Text color="blue" fontsize="1rem" padding="20px 0 10px 0">
-        Spectators{' '}
+        Spectators{" "}
       </Text>
       <div>
-        Martha <span style={{color: 'orange'}}>afk</span>
+        Martha <span style={{color: "orange"}}>afk</span>
       </div>
     </div>
   )
 }
 
 const StyledRoom = styled.div`
-  color: ${props => (props.selected ? 'red' : 'black')};
+  color: ${props => (props.selected ? "red" : "black")};
   cursor: pointer;
   font-size: 1rem;
   padding: 10px 0 0 0;
@@ -58,21 +58,27 @@ const Room = ({
   people,
   title
 }) => {
-  if (title !== 'Lobby') {
+  if (title !== "Lobby") {
     var room = (
       <StyledRoom selected={isSelected}>
         <Text fontsize="20px" onClick={joinRoom}>
-          {title} <span style={{fontSize: '15px'}}>( {people} )</span>
+          {title} <span style={{fontSize: "15px"}}>( {people} )</span>
         </Text>
-        <Text>level:{level}</Text>
-        <Text>creator:{creator}</Text>
+        <Text>
+          level:
+          {level}
+        </Text>
+        <Text>
+          creator:
+          {creator}
+        </Text>
       </StyledRoom>
     )
   } else {
     var room = (
       <StyledRoom selected={isSelected}>
         <Text fontsize="20px" onClick={joinRoom}>
-          {title} <span style={{fontSize: '15px'}}>( {people} )</span>
+          {title} <span style={{fontSize: "15px"}}>( {people} )</span>
         </Text>
       </StyledRoom>
     )
@@ -98,7 +104,7 @@ function RoomList(props) {
   } else {
     // grab lobby and make it the first component
     var renderLobby = Object.keys(list).map((item, i) => {
-      if (item === 'Lobby') {
+      if (item === "Lobby") {
         return (
           <Room
             joinRoom={() => joinRoom(item)}
@@ -109,9 +115,9 @@ function RoomList(props) {
       }
     })
     // remove lobby from list
-    delete list['Lobby']
+    delete list["Lobby"]
     var renderList = Object.keys(list).map((item, i) => {
-      if (item.indexOf('/') !== -1) {
+      if (item.indexOf("/") !== -1) {
         return <div />
       } else {
         return (
@@ -263,4 +269,7 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoomsContainer)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RoomsContainer)

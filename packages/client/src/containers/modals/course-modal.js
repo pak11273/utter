@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {withFormik} from "formik"
-import {Form, Modal, Button} from "semantic-ui-react"
+import Button from "@material-ui/core/Button"
 import {graphql} from "react-apollo"
 import {history} from "@utterzone/connector"
 import gql from "graphql-tag"
@@ -30,7 +30,9 @@ export class ModalContainer extends Component {
     /* const {closeModal, deleteCourse} = this.props */
     const {closeModal, handleSubmit} = this.props
     return (
-      <Modal closeIcon="close" open={true} onClose={closeModal}>
+      <div>wip</div>
+
+      /* <Modal closeIcon="close" open={true} onClose={closeModal}>
         <Modal.Header>Delete Course</Modal.Header>
         <Modal.Content image>
           <Modal.Description>
@@ -38,16 +40,16 @@ export class ModalContainer extends Component {
               Deleting this course is irreversible. Click &apos;Delete&apos; to
               permanently remove this course from the database.
             </h3>
-            <Form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <Button color="red" type="Submit">
                 Delete
               </Button>
               <Button onClick={closeModal}>Cancel</Button>
-            </Form>
+            </form>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions />
-      </Modal>
+      </Modal> */
     )
   }
 }

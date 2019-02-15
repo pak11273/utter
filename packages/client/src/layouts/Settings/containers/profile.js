@@ -1,34 +1,19 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
-import {Form, Dropdown, Segment} from "semantic-ui-react"
 import orm from "../../../core/schema.js"
 
 // import {selectUserInfo} from '../../../../api/user/selectors.js'
 
 class Profile extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
-    let user = this.props.user
+    /* const {user} = this.props */
     return (
-      <Segment attached="bottom">
-        <Form size="large">
-          <Form.Field name="avatar" width={6}>
-            <label>Avatar</label>
-            <input
-              placeholder="Avatar"
-              defaultValue="username changem"
-              disabled
-            />
-          </Form.Field>
-          <Form.Field name="followers" width={6}>
-            <label>Followers</label>
-            <input placeholder="Followers" defaultValue={1} readOnly />
-          </Form.Field>
-        </Form>
-      </Segment>
+      <form size="large">
+        <div>Avatar</div>
+        <input placeholder="Avatar" defaultValue="username changem" disabled />
+        <div>Followers</div>
+        <input placeholder="Followers" defaultValue={1} readOnly />
+      </form>
     )
   }
 }
@@ -51,7 +36,7 @@ const mapStateToProps = state => {
   // The toRefArray() method will give us an array of the
   // plain JS objects for each item in the QuerySet.
 
-  let user = User.first()
+  const user = User.first()
 
   // Now that we have an array of all pilot objects, return it as a prop
   // return {users}

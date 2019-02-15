@@ -1,5 +1,6 @@
 import rules from "@utterzone/common/dist/auth/roles-schema"
-import {flatten, uniq} from "lodash"
+import flatten from "lodash/flatten"
+import uniq from "lodash/uniq"
 
 const check = (rules, roles, action, id, matchingID) => {
   if (!roles) roles = ["guest"]

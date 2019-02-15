@@ -5,7 +5,7 @@ import {Redirect} from "react-router-dom"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
-import {cloneDeep} from "lodash"
+import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
 import socket from "../../../services/socketio"
 import {history} from "@utterzone/connector"

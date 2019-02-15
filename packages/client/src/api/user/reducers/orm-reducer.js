@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash"
+import isEmpty from "lodash/isEmpty"
 import {createReducer} from "../../utils/redux-utils.js"
 import {
   LOGIN_ASYNC,

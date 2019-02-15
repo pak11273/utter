@@ -59,7 +59,9 @@ var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
 var _normalizeErrors = require("../utils/normalize-errors.js");
 
-var _lodash = require("lodash");
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

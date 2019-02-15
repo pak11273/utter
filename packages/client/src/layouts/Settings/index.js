@@ -6,12 +6,9 @@ import {connect} from "react-redux"
 import {Flex, Title} from "../../components"
 import {TabBarContainer} from "../../containers"
 
-import {Container} from "semantic-ui-react"
-
 import Account from "./containers/account/account.js"
 import Profile from "./containers/profile.js"
 import Notifications from "./containers/notifications.js"
-import "semantic-ui-css/semantic.min.css"
 
 // actions
 import {toggleFooter} from "../../core/actions/toggle-footer-action.js"
@@ -42,9 +39,9 @@ class Settings extends Component {
         <div>
           <Title padding="20px">Edit Your Settings</Title>
           <div className="App">
-            <Container>
+            <div>
               <TabBarContainer tabs={tabs} size="massive" />
-            </Container>
+            </div>
           </div>
         </div>
       </Flex>

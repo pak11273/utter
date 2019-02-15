@@ -68,7 +68,9 @@ var _graphqlTag2 = _interopRequireDefault(_graphqlTag);
 
 var _normalizeErrors = require("../utils/normalize-errors");
 
-var _lodash = require("lodash");
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
 var _actions = require("../../../client/src/api/actions.js");
 
@@ -111,7 +113,7 @@ var D = exports.D = function (_Component) {
                 errors = response.data.login.error;
                 token = response.data.login.token;
 
-                if ((0, _lodash.isEmpty)(errors)) {
+                if ((0, _isEmpty2.default)(errors)) {
                   _context.next = 8;
                   break;
                 }

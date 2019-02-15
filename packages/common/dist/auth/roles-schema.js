@@ -1,20 +1,20 @@
-"use strict"
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
-})
+});
 
-;(function() {
-  var enterModule = require("react-hot-loader").enterModule
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
 
-  enterModule && enterModule(module)
-})()
+  enterModule && enterModule(module);
+})();
 
-;(function() {
-  var enterModule = require("react-hot-loader").enterModule
+(function () {
+  var enterModule = require('react-hot-loader').enterModule;
 
-  enterModule && enterModule(module)
-})()
+  enterModule && enterModule(module);
+})();
 
 /* @Static scopes are those scopes which don't need any data apart from the user role. */
 
@@ -25,9 +25,9 @@ Object.defineProperty(exports, "__esModule", {
 /*  Use hierarchy system: Ensure that no dynamic functions have the same permission functions, otherwise if a user has that roles with same functions, they will be run with @hasScope which will make multiple database calls */
 
 var matchID = function matchID(id, matchingID) {
-  if (!id || !matchingID) return false
-  return id === matchingID
-}
+  if (!id || !matchingID) return false;
+  return id === matchingID;
+};
 
 var roles = {
   guest: {
@@ -35,82 +35,77 @@ var roles = {
   },
   test: {
     static: [""],
-    dynamic: [
-      {
-        "test:read": function testRead(id, matchingID) {
-          if (!id || !matchingID) return false
-          return id === matchingID
-        }
-      },
-      {
-        "test:trash": function testTrash(id, matchingID) {
-          if (!id || !matchingID) return false
-          return id === matchingID
-        }
+    dynamic: [{
+      "test:read": function testRead(id, matchingID) {
+        if (!id || !matchingID) return false;
+        return id === matchingID;
       }
-    ]
+    }, {
+      "test:trash": function testTrash(id, matchingID) {
+        if (!id || !matchingID) return false;
+        return id === matchingID;
+      }
+    }]
   },
   registeredUser: {
     static: [""],
-    dynamic: [
-      {
-        "course:update": matchID
-      },
-      {
-        "course:read-settings": matchID
-      },
-      {
-        "course:update-settings": matchID
-      },
-      {
-        "course:delete": matchID
-      }
-    ]
+    dynamic: [{
+      "course:read-settings": matchID
+    }, {
+      "course:update": matchID
+    }, {
+      "course:delete": matchID
+    }]
   },
   paidUser: {
     static: [""]
   },
   admin: {
-    static: [
-      {
-        "admin:test": matchID
-      }
-    ]
+    static: [{
+      "admin:test": matchID
+    }]
   },
   superAdmin: {
     static: [""]
   }
-}
+};
 
-var _default = roles
-var _default2 = _default
-exports.default = _default2
-;(function() {
-  var reactHotLoader = require("react-hot-loader").default
+var _default = roles;
+var _default2 = _default;
+exports.default = _default2;
+;
 
-  var leaveModule = require("react-hot-loader").leaveModule
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
 
-  if (!reactHotLoader) {
-    return
-  }
-
-  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js")
-  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js")
-  reactHotLoader.register(_default, "default", "src/auth/roles-schema.js")
-  leaveModule(module)
-})()
-
-;(function() {
-  var reactHotLoader = require("react-hot-loader").default
-
-  var leaveModule = require("react-hot-loader").leaveModule
+  var leaveModule = require('react-hot-loader').leaveModule;
 
   if (!reactHotLoader) {
-    return
+    return;
   }
 
-  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js")
-  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js")
-  reactHotLoader.register(_default2, "default", "src/auth/roles-schema.js")
-  leaveModule(module)
-})()
+  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js");
+  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
+  reactHotLoader.register(_default, "default", "src/auth/roles-schema.js");
+  leaveModule(module);
+})();
+
+;
+;
+
+(function () {
+  var reactHotLoader = require('react-hot-loader').default;
+
+  var leaveModule = require('react-hot-loader').leaveModule;
+
+  if (!reactHotLoader) {
+    return;
+  }
+
+  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js");
+  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
+  reactHotLoader.register(_default2, "default", "src/auth/roles-schema.js");
+  leaveModule(module);
+})();
+
+;

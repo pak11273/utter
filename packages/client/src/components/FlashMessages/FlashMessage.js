@@ -11,7 +11,7 @@ const StyledMessage = styled.div`
   justify-content: center;
   margin: ${props => props.margin};
   width: 100%;
-  z-index: 99;
+  z-index: 1400;
 `
 class FlashMessage extends Component {
   componentDidMount() {

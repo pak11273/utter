@@ -1,6 +1,7 @@
-import {Grid, Header} from "semantic-ui-react"
-import {Helmet} from "react-helmet"
 import React, {PureComponent} from "react"
+import {Helmet} from "react-helmet"
+
+import Grid from "@material-ui/core/Grid"
 
 export default class Announcement extends PureComponent {
   render() {
@@ -26,9 +27,7 @@ export default class Announcement extends PureComponent {
           <link rel="canonical" href="https://utterzone.com/a" />
         </Helmet>
         <Grid.Row centered style={{background: "black", padding: "100px"}}>
-          <Header as="h3" color="yellow" textAlign="left">
-            {announcement}
-          </Header>
+          <h6>{announcement}</h6>
         </Grid.Row>
       </Grid>
     )

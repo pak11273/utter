@@ -1,6 +1,6 @@
-import {size} from "lodash"
+import size from "lodash/size"
 
-var Rand = class Rand {
+const Rand = class Rand {
   constructor(thing) {
     if (Array.isArray(thing)) {
       this.array = thing
@@ -11,9 +11,9 @@ var Rand = class Rand {
 
   // function to get random object
   get obj() {
-    let max = size(this.objectList)
-    let x = this.getRandIntInclusive(0, max - 1)
-    let objKeys = Object.keys(this.objectList)
+    const max = size(this.objectList)
+    const x = this.getRandIntInclusive(0, max - 1)
+    const objKeys = Object.keys(this.objectList)
     const keyName = objKeys[x]
     const objValue = this.objectList[keyName]
     return {
@@ -23,15 +23,15 @@ var Rand = class Rand {
 
   // from an array
   get word() {
-    let max = this.array.length - 1
-    let x = this.getRandIntInclusive(0, max)
+    const max = this.array.length - 1
+    const x = this.getRandIntInclusive(0, max)
     return this.array[x]
   }
 
-  getRandIntInclusive(min, max) {
+  getRandIntInclusive = (min, max) => {
     min = Math.ceil(min)
     max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1)) + min //The maximum is inclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min + 1)) + min // The maximum is inclusive and the minimum is inclusive
   }
 }
 

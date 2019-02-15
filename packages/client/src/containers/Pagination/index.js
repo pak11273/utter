@@ -1,20 +1,19 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import PropTypes from 'prop-types'
-import {bindActionCreators} from 'redux'
-import styled from 'styled-components'
-import {Grid, Form, Pagination, Segment} from 'semantic-ui-react'
-import {Flex, Box, Text} from '../../components'
+import React, {Component} from "react"
+import {connect} from "react-redux"
+
+import Grid from "@material-ui/core/Grid"
+
+/* import {Flex, Box, Text} from "../../components" */
 
 // selectors
-import {selectCourseProp} from './selectors.js'
+/* import {selectCourseProp} from "./selectors.js" */
 
 // actions
-import {paginateRequest} from './actions.js'
+/* import {paginateRequest} from "./actions.js" */
 
 class PaginationContainer extends Component {
   state = {
-    collection: '',
+    collection: "",
     activePage: 1,
     boundaryRange: 1,
     siblingRange: 1,
@@ -30,27 +29,27 @@ class PaginationContainer extends Component {
   handleInputChange = (e, {name, value}) => this.setState({[name]: value})
 
   handlePaginationChange = (e, {activePage}) => {
-    this.setState({activePage}, () => console.log('active: ', this.state))
-    console.log('props: ', this.props)
+    this.setState({activePage}, () => console.log("active: ", this.state))
+    console.log("props: ", this.props)
   }
 
   render() {
-    const {
-      activePage,
-      boundaryRange,
-      siblingRange,
-      showEllipsis,
-      showFirstAndLastNav,
-      showPreviousAndNextNav,
-      totalPages
-    } = this.state
+    /* const { */
+    /* activePage */
+    /* boundaryRange, */
+    /* siblingRange, */
+    /* showEllipsis, */
+    /* showFirstAndLastNav, */
+    /* showPreviousAndNextNav, */
+    /* totalPages */
+    /* } = this.state */
 
-    const parentState = this.props
+    /* const parentState = this.props */
 
     return (
-      <Grid columns={1}>
-        <Grid.Column>
-          <Pagination
+      <Grid>
+        <Grid>
+          {/* <Pagination
             activePage={activePage}
             boundaryRange={boundaryRange}
             onPageChange={this.handlePaginationChange}
@@ -64,8 +63,8 @@ class PaginationContainer extends Component {
             prevItem={showPreviousAndNextNav ? undefined : null}
             nextItem={showPreviousAndNextNav ? undefined : null}
             state={parentState}
-          />
-        </Grid.Column>
+          /> */}
+        </Grid>
       </Grid>
     )
   }

@@ -1,7 +1,10 @@
 import React, {Component} from "react"
 import PropTypes from "prop-types"
 
-import {noop, debounce, defaults, values} from "lodash"
+import noop from "lodash/noop"
+import debounce from "lodash/debounce"
+import defaults from "lodash/defaults"
+import values from "lodash/values"
 
 import {getValueFromEvent} from "../../utils/clientUtils"
 

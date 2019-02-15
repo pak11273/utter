@@ -1,5 +1,4 @@
 import styled from "styled-components"
-import {Grid} from "semantic-ui-react"
 
 const StaticSidebar = styled.div`
   background: ${props => props.background};

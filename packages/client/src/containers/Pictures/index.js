@@ -5,11 +5,11 @@ import styled from "styled-components"
 import secrets from "../../config/secrets.js"
 import superagent from "superagent"
 import Rand from "../../utils/randomGenerator.js"
-import PicturesMgr from "../../utils/PicturesMgr.js"
+/* import PicturesMgr from "../../utils/PicturesMgr.js" */
 import {Ad, Box, Button, Img, Text} from "../../components"
 import PlayImg from "../../assets/images/play.svg"
-import {isEmpty, omit} from "lodash"
-import {speechStart} from "../../services/speech"
+import isEmpty from "lodash/isEmpty"
+/* import speechStart from "../../services/speech" */
 
 import {
   loadAudioUrl,
@@ -25,11 +25,11 @@ import {
 } from "./actions.js"
 
 import {sendRoomMeta} from "../../services/socketio/actions.js"
+
 // import {loadQuestion} from '../../containers/Challenge/actions.js'
 
 // audio
-import cdnUrl from "../../../src/config/secrets.js"
-const cdn = cdnUrl.cdn
+const {cdn} = secrets
 
 const Wrap = styled.section`
   align-items: ${props => props.alignitems};
@@ -94,27 +94,26 @@ class Pictures extends Component {
   changePicture = () => {
     // load challenge
     const lang = this.props.roomReducer.language
-    const roomLevel = this.props.roomReducer.roomLevel
-    var questions = require(`../../data/${lang}/level${roomLevel}/questions`)
-      .default.questions
-    var questions = new Rand(questions)
+    const {roomLevel} = this.props.roomReducer
+    var questions = import(`../../data/${lang}/level${roomLevel}/questions`)
+    /* var questions = new Rand(questions) */
     const question = questions.word
     this.props.actions.loadQuestion(question)
 
-    let list = this.props.pictureReducer.wordList
+    const list = this.props.pictureReducer.wordList
     const review = this.props.pictureReducer.reviewList
-    let randList = new Rand(list)
-    let randObj = randList.word
+    const randList = new Rand(list)
+    const randObj = randList.word
     this.props.actions.loadAudioUrl(randObj.audioUrl)
-    let updatedList = this.props.pictureReducer.updatedList
+    /* const {updatedList} = this.props.pictureReducer */
 
     // get room language
-    const language = this.props.roomReducer.language
-    let translated = randObj.word
+    /* const { language } = this.props.roomReducer */
+    const translated = randObj.word
     this.props.actions.sendTranslated(translated)
 
-    let query = randObj.word
-    let romanizedQuery = randObj.roman
+    const query = randObj.word
+    const romanizedQuery = randObj.roman
     this.props.actions.sendRomanized(romanizedQuery)
 
     this.props.actions.loadQuery(query)
@@ -144,7 +143,7 @@ class Pictures extends Component {
             return Math.floor(Math.random() * (max - min + 1)) + min // The maximum is inclusive and the minimum is inclusive
           }
 
-          let num = getRandIntInclusive(min, max)
+          const num = getRandIntInclusive(min, max)
 
           const results = res.body.hits[num].previewURL
           this.props.actions.loadQuery(query)
@@ -164,10 +163,10 @@ class Pictures extends Component {
 
           // Remove query from wordList and review
           // let updatedList = _.omit(list, query)
-          let updatedList = list.filter(o => o.word !== query)
+          const updatedList = list.filter(o => o.word !== query)
           this.props.actions.updateWordList(updatedList)
 
-          //TODO: review feature
+          // TODO: review feature
           // if (review) {
           //   let updatedReviewList = _.omit(review, query)
           //   this.props.actions.updateReviewList(updatedReviewList)
@@ -175,7 +174,7 @@ class Pictures extends Component {
         })
     } else {
       // Remove query from wordList and review
-      let updatedList = list.filter(o => o.word !== query)
+      const updatedList = list.filter(o => o.word !== query)
       this.props.actions.updateWordList(updatedList)
 
       if (list.length === 1 && (isEmpty(review) || !review)) {
@@ -193,7 +192,7 @@ class Pictures extends Component {
         // this.props.actions.updateWordList(this.props.pictureReducer.reviewList)
       }
 
-      //TODO: review cont.
+      // TODO: review cont.
       // if (review) {
       //   console.log('review: ', review)
       //   let updatedReviewList = review.filter(o => o.word !== query)
@@ -223,21 +222,23 @@ class Pictures extends Component {
     }
 
     const wordSound = this.props.query
-    const language = this.props.roomReducer.language
+    /* const {language} = this.props.roomReducer */
     if (typeof wordSound !== "undefined") {
-      let audioUrl = this.props.pictureReducer.audioUrl
+      const {audioUrl} = this.props.pictureReducer
       var wordAudio = audioUrl
     } else {
-      var wordAudio = ""
+      wordAudio = ""
     }
     if (this.props.roomReducer.creator) {
-      //show controls
+      // show controls
       var controls = (
         <Box>
           <Button color="black" margin="20px" onClick={this.changePicture}>
             Change Picture
           </Button>
-          <audio id={this.props.query} src={`${cdn + wordAudio}`} />
+          <audio id={this.props.query} src={`${cdn + wordAudio}`}>
+            <track kind="captions" />
+          </audio>
           <Img
             display="inline"
             name={this.props.query}
@@ -267,7 +268,7 @@ class Pictures extends Component {
       )
     } else {
       // no controls
-      var controls = <div />
+      controls = <div />
     }
 
     return (

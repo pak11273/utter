@@ -1,7 +1,14 @@
-import "../../styles.css"
-import {Button, Container, Form, Grid, Header, Image} from "semantic-ui-react"
+import {Helmet} from "react-helmet"
+
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+/* import TextField from "@material-ui/core/TextField" */
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core/styles"
+
 import {Field, withFormik} from "formik"
-import {isEmpty, cloneDeep} from "lodash"
+import isEmpty from "lodash/isEmpty"
+import cloneDeep from "lodash/cloneDeep"
 import Dropzone from "react-dropzone"
 import {bindActionCreators} from "redux"
 import update from "immutability-helper"
@@ -14,18 +21,7 @@ import {courseCreateSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
 import CryptoJS from "crypto-js"
 import languageData from "../../../data/languageData.js"
-import {
-  Box,
-  Flex,
-  FormikInput,
-  FormikTextArea,
-  /* Input, */
-  MastheadTitle,
-  MastheadSubtitle,
-  /* Searching, */
-  Span
-} from "../../../components"
-import {Masthead} from "../../../containers"
+import {Flex, FormikInput, FormikTextArea, Img, Span} from "../../../components"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {fetchCourseName} from "../actions.js"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
@@ -38,24 +34,6 @@ const DisplayCount = styled.div`
   position: absolute;
   right: 2%;
   top: 6px;
-
-  @media (min-width: 330px) {
-    right: 10%;
-  }
-
-  @media (min-width: 640px) {
-    right: 2%;
-  }
-
-  @media (min-width: 740px) {
-    right: 10%;
-  }
-`
-const StyledForm = styled(Form)`
-  height: 1000px;
-  margin: 0 auto;
-  min-width: 250px;
-  width: 70%;
 `
 const StyledFlex = styled(Flex)`
   grid-area: ${props => props.gridarea};
@@ -100,6 +78,45 @@ const initialState = {
   url: "",
   usingLang: ""
 }
+
+const styles = theme => ({
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3
+  },
+  heading: {
+    color: "white"
+  },
+  heroUnit: {
+    backgroundColor: "#2b59ae"
+  },
+  heroContent: {
+    maxWidth: 960,
+    margin: "0 auto",
+    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 6}px ${theme
+      .spacing.unit * 6}px`
+  },
+  heroButtons: {
+    marginTop: theme.spacing.unit * 4
+  },
+  masthead: {
+    padding: theme.spacing.unit * 1,
+    margin: "auto",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column"
+    }
+  },
+  root: {
+    maxWidth: 960,
+    margin: "0 auto"
+  },
+  subHeading: {
+    color: "black",
+    marginTop: "40px",
+    position: "relative"
+  }
+})
 
 class CourseCreate extends Component {
   constructor(props) {
@@ -263,137 +280,201 @@ class CourseCreate extends Component {
   }
 
   render() {
-    const {handleSubmit} = this.props
+    const {classes, handleSubmit} = this.props
     const {courseName, courseDescription} = this.props.values
 
     return (
-      <Grid>
-        <Grid.Row centered>
-          <Masthead background="#000 url(http://www.focusondrives.com/wp-content/uploads/Danfoss-application-software-development-2-1024x657.jpg) no-repeat left top">
-            <MastheadTitle color="#F6D155">Create a Course</MastheadTitle>
-            <MastheadSubtitle color="#F6D155">
-              Use material from current resources you are learning from or
-              formulate your own teaching strategy!
-            </MastheadSubtitle>
-          </Masthead>
-        </Grid.Row>
-        <Grid.Row centered>
-          <Container>
-            <Grid.Column textAlign="center">
-              <StyledForm error onSubmit={handleSubmit}>
-                <Box margin="40px 0 0 0" position="relative">
-                  <Header>
-                    Course Name
-                    <StyledSpan display640="inline-block">
-                      {" "}
-                      (10-100 chars.)
-                    </StyledSpan>
-                  </Header>
+      <React.Fragment>
+        <form className={classes.root} onSubmit={handleSubmit}>
+          <Helmet>
+            <meta charset="utf-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+            <meta
+              name="description"
+              content="Make direct contact with our team through our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
+            />
+            <meta name="author" content="Isaac Pak" />
+            <title>Utterzone | Contacts</title>
+            <link rel="canonical" href="https://utter.zone/contact" />
+          </Helmet>
+          {/* Hero unit */}
+          <div className={classes.heroUnit}>
+            <div className={classes.heroContent}>
+              <Grid container justify="center" direction="column">
+                <Typography
+                  align="center"
+                  variant="h4"
+                  className={classes.heading}
+                  gutterBottom>
+                  Create a Course
+                </Typography>
+                <Typography
+                  align="center"
+                  variant="h6"
+                  className={classes.heading}
+                  gutterBottom>
+                  This is where you can build a course from current resources
+                  like a school textbook or another language course. Other
+                  people can subscribe to your course and practice speaking from
+                  it!
+                </Typography>
+              </Grid>
+            </div>
+          </div>
+          {/* End hero unit */}
+          <main className={classes.content}>
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Course Name
+                  <StyledSpan display640="inline-block">
+                    {" "}
+                    (10-100 chars.)
+                  </StyledSpan>
                   <DisplayCount>{courseName.length}</DisplayCount>
-                  <Field
-                    name="courseName"
-                    placeholder="Provide a unique name for your course."
-                    component={FormikInput}
-                    style={{width: "300px"}}
-                  />
-                </Box>
-                <Box margin="40px 0 0 0" position="relative">
-                  <Header>
-                    Course Description
-                    <StyledSpan display640="inline-block">
-                      {" "}
-                      (10-100 chars.)
-                    </StyledSpan>
-                  </Header>
+                </Typography>
+                <Field
+                  fullWidth
+                  id="outlined-search"
+                  name="courseName"
+                  label="Course Name"
+                  type="text"
+                  className={classes.searchField}
+                  component={FormikInput}
+                  margin="normal"
+                  variant="outlined"
+                  disabled={this.state.disabled}
+                />
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Course Description
+                  <StyledSpan display640="inline-block">
+                    {" "}
+                    (10-100 chars.)
+                  </StyledSpan>
                   <DisplayCount>{courseDescription.length}</DisplayCount>
-                  <Field
-                    name="courseDescription"
-                    placeholder="Provide a brief description of your course."
-                    component={FormikTextArea}
-                    style={{width: "500px"}}
-                  />
-                </Box>
-                <Grid>
-                  <StyledFlex gridarea="using" margin1080="40px 0 0 0">
-                    <Header>Using</Header>
-                    <Field
-                      name="usingLang"
-                      component={Using}
-                      addUsingLang={this.addUsingLang}
-                      options={languageData}
-                    />
-                  </StyledFlex>
-                  <Flex
-                    gridarea="teaching"
-                    margin="40px 0 0 0"
-                    overflow="initial"
-                    position="relative">
-                    <Header>Teaching</Header>
-                    <Field
-                      name="teachingLang"
-                      component={Teaching}
-                      addTeachingLang={this.addTeachingLang}
-                      options={languageData}
-                    />
-                  </Flex>
-                  <StyledFlex gridarea="ref" margin1080="40px 0 0 0">
-                    <Header>Course Reference</Header>
-                    <p>ie. Book, Classroom, Online Course</p>
-                    <CourseRef addRef={this.addRef} />
-                  </StyledFlex>
-                  <StyledFlex gridarea="thumbnail" margin1080="40px 0 0 0">
-                    <Header>Course Thumbnail</Header>
-                    <p>
-                      Format: png or jpg, Dimensions: ~300pxx300px, Maximum size
-                      limit: 500kb
-                    </p>
-                    <div style={{margin: "50px"}}>
-                      {this.state.courseImage === "" ? (
-                        <p>Thumbnail Preview</p>
-                      ) : (
-                        <Form.Field
-                          label="Course Thumbnail Preview"
-                          name="image"
-                          control={Image}
-                          src={this.state.courseImage}
-                          size="small"
-                        />
-                      )}
-                    </div>
-                    <Dropzone
-                      style={{
-                        padding: "3px",
-                        position: "relative",
-                        width: "200px",
-                        height: "100px",
-                        borderWidth: "2px",
-                        borderColor: "rgb(102, 102, 102)",
-                        borderStyle: "dashed",
-                        borderRadius: "5px"
-                      }}
-                      maxSize={500000}
-                      multiple={false}
-                      accept="image/*"
-                      onDrop={this.onImageDrop}>
-                      <p>Drop an image or click to select a file to upload.</p>
-                    </Dropzone>
-                    <p>{this.state.uploadedFile.name}</p>
-                  </StyledFlex>
-                  <StyledFlex margin1080="40px 0">
-                    <Button
-                      type="submit"
-                      color="yellow"
-                      loading={this.state.loading}
-                      disabled={this.state.disabled}>
-                      Create Course
-                    </Button>
-                  </StyledFlex>
+                </Typography>
+                <Field
+                  fullWidth
+                  id="outlined-search"
+                  name="courseDescription"
+                  label="Course Description"
+                  type="text"
+                  className={classes.searchField}
+                  component={FormikTextArea}
+                  margin="normal"
+                  variant="outlined"
+                  disabled={this.state.disabled}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Using Language
+                </Typography>
+                <Field
+                  name="usingLang"
+                  component={Using}
+                  addUsingLang={this.addUsingLang}
+                  options={languageData}
+                />
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Teaching Language
+                </Typography>
+                <Field
+                  name="teachingLang"
+                  component={Teaching}
+                  addTeachingLang={this.addTeachingLang}
+                  options={languageData}
+                />
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Course Reference
+                </Typography>
+                <p>ie. Book, Classroom, Online Course</p>
+                <CourseRef addRef={this.addRef} />
+                <Typography
+                  align="left"
+                  variant="h6"
+                  className={classes.subHeading}
+                  gutterBottom>
+                  Course Thumbnail
+                </Typography>
+                <p>
+                  Format: png or jpg, Dimensions: ~300pxx300px, Maximum size
+                  limit: 500kb
+                </p>
+                <Grid item xs={12}>
+                  <div style={{margin: "50px"}}>
+                    {this.state.courseImage === "" ? (
+                      <p>Thumbnail Preview</p>
+                    ) : (
+                      <Field
+                        label="Course Thumbnail Preview"
+                        name="image"
+                        control={Img}
+                        src={this.state.courseImage}
+                        size="small"
+                      />
+                    )}
+                  </div>
+                  <Dropzone
+                    style={{
+                      margin: "50px",
+                      padding: "3px",
+                      position: "relative",
+                      width: "200px",
+                      height: "100px",
+                      borderWidth: "2px",
+                      borderColor: "rgb(102, 102, 102)",
+                      borderStyle: "dashed",
+                      borderRadius: "5px"
+                    }}
+                    maxSize={500000}
+                    multiple={false}
+                    accept="image/*"
+                    onDrop={this.onImageDrop}>
+                    <p>Drop an image or click to select a file to upload.</p>
+                  </Dropzone>
+                  <p>{this.state.uploadedFile.name}</p>
                 </Grid>
-              </StyledForm>
-            </Grid.Column>
-          </Container>
-        </Grid.Row>
-      </Grid>
+                <Grid item style={{display: "flex", justifyContent: "center"}}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    type="submit"
+                    onClick={this.onButtonClick}
+                    size="large"
+                    disabled={this.state.disabled}>
+                    Create Course
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+          </main>
+        </form>
+      </React.Fragment>
     )
   }
 }
@@ -451,5 +532,5 @@ export default connect(
         })
       }
     }
-  })(CourseCreate)
+  })(withStyles(styles)(CourseCreate))
 )

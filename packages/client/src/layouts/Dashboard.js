@@ -3,7 +3,6 @@ import {BrowserRouter as Router, Link, Route} from "react-router-dom"
 import styled from "styled-components"
 import {Box, Button, Grid, Spacer, Text} from "../components"
 import {Sidebar} from "../containers"
-import {Icon} from "semantic-ui-react"
 
 import KoreanLevel1 from "./Korean/Level1"
 import KoreanLevel2 from "./Korean/Level2"
@@ -133,7 +132,6 @@ class Dashboard extends Component {
               </Link>
               <Dropdown color="white" name="spanish" onClick={this.DropFunc}>
                 Spanish Curriculum
-                <Icon name="caret down" />
               </Dropdown>
               <Box id="spanish" className="hide">
                 <Link to="/settings/spanish/1" className="dropButton">
@@ -146,7 +144,6 @@ class Dashboard extends Component {
               <Spacer margin="10px" />
               <Dropdown color="white" name="korean" onClick={this.DropFunc}>
                 Korean Curriculum
-                <Icon name="caret down" />
               </Dropdown>
               <Box id="korean" className="hide">
                 <Link to="/settings/korean/1" className="dropButton">

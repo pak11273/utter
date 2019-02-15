@@ -8,7 +8,6 @@ import Can from "./can"
 import Cant from "./cant"
 import Container from "./Container"
 import Column from "./Columns/index.js"
-import ColorPickerButton from "./ColorPicker/ColorPickerButton.js"
 import CreateMessge from "./CreateMessage.js"
 import Dictionary from "./Dictionary"
 import Dropdown from "./Dropdowns"
@@ -18,7 +17,7 @@ import Form from "./forms"
 import {FormikInput, FormikTextArea} from "./Inputs/FormikField.js"
 import Grid from "./Grids"
 import Hamburger from "./Buttons/Hamburger.js"
-import Hero from './hero.js'
+import Hero from "./hero.js"
 import Img from "./Img.js"
 import Input from "./Input.js"
 import InputLine from "./Inputs/InputLine.js"
@@ -53,7 +52,6 @@ import Select from "./Select.js"
 import Spacer from "./spacers"
 import Wrapper from "./Wrapper.js"
 import Zone from "./Zone.js"
-import ZoneCreate from "./ZoneCreate.js"
 
 export {
   AbsolutePosition,
@@ -65,7 +63,6 @@ export {
   Can,
   Cant,
   Column,
-  ColorPickerButton,
   Container,
   CreateMessge,
   Dictionary,
@@ -77,7 +74,7 @@ export {
   FormEditWrapper,
   Grid,
   Hamburger,
-	Hero,
+  Hero,
   Img,
   Input,
   InputLine,
@@ -111,6 +108,5 @@ export {
   TextArea,
   Title,
   Wrapper,
-  ZoneCreate,
   Zone
 }

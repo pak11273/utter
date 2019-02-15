@@ -1,9 +1,12 @@
 import React, {PureComponent} from "react"
 import {withFormik, Field} from "formik"
 import {connect} from "react-redux"
-import {Grid, Button, Form, Header, Image, Container} from "semantic-ui-react"
+
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+
 import {changePasswordSchema} from "@utterzone/common"
-import {FormikInput, Spacer} from "../../components"
+import {FormikInput, Img, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
 // actions
@@ -16,24 +19,24 @@ class ChangePasswordForm extends PureComponent {
       <Grid columns={4} centered padded stackable>
         <Grid.Column textAlign="center" width={8}>
           <Spacer margin="65px" />
-          <Image
+          <Img
             centered
             alt=""
             src="https://media.swncdn.com/cms/CW/faith/31429-speaking-in-front-of-crowd-1200.jpg"
           />
-          <Header as="h2">Education increases life opportunities.</Header>
-          <Header as="h3">
+          <h6>Education increases life opportunities.</h6>
+          <h6>
             &quot;The great aim of education is not knowledge but action.&quot;
             &mdash;Herbert Spencer
-          </Header>
+          </h6>
           <Spacer margin="100px" />
         </Grid.Column>
         <Grid.Column width={1} />
         <Grid.Column width={6}>
-          <Container>
-            <Form error onSubmit={handleSubmit} style={{position: "relative"}}>
+          <div>
+            <form error onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
-              <Header as="h1">Change Password</Header>
+              <h6>Change Password</h6>
               <Field
                 name="password"
                 placeholder="password"
@@ -55,8 +58,8 @@ class ChangePasswordForm extends PureComponent {
                 type="submit">
                 Submit
               </Button>
-            </Form>
-          </Container>
+            </form>
+          </div>
         </Grid.Column>
         <Grid.Column width={1} />
       </Grid>

@@ -1,4 +1,4 @@
-import {capitalize} from "lodash"
+import capitalize from "lodash/capitalize"
 import {PAGINATE_ASYNC} from "./types.js"
 import {createAction} from "../../utils/redux-utils.js"
 import {selectCourseProp} from "./selectors.js"

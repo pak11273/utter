@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash"
+import isEmpty from "lodash/isEmpty"
 import mongoose from "mongoose"
 import Zone from "../api/zone/zone-model"
 

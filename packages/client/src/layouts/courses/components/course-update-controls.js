@@ -1,12 +1,12 @@
 import React from "react"
-import {Button, Segment} from "semantic-ui-react"
+import Button from "@material-ui/core/Button"
 
 export default ({editClick}) => (
-  <Segment textAlign="right" attached>
-    <Button onClick={editClick} color="red">
+  <div>
+    <Button onClick={editClick} color="inherit">
       Edit
     </Button>
-    <Button color="orange">Cancel</Button>
-    <Button color="yellow">Save</Button>
-  </Segment>
+    <Button color="secondary">Cancel</Button>
+    <Button color="primary">Save</Button>
+  </div>
 )
