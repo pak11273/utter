@@ -107,12 +107,14 @@ const getCourses = async (_, args, ctx, info) => {
   console.log("course args: ", args)
   // build query object
   const query = {}
-  var courseName, courseRef, owner
+  var courseName, resources, owner
   args.courseName
     ? (query.courseName = new RegExp(escapeRegex(args.courseName), "gi"))
     : null
 
-  args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
+  args.resources
+    ? (query.resources = new RegExp(escapeRegex(args.resources), "gi"))
+    : null
 
   if (args.owner) {
     var owner = await Course.findByUsername(args.owner, (err, docs) => {

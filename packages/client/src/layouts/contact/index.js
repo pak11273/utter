@@ -2,11 +2,11 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 import ContactForm from "../../containers/forms/contact_form/contact-form"
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import {Container, MastheadTitle, MastheadSubtitle} from "../../components"
+import {Container} from "../../components"
 /* import {Masthead} from "../../containers" */
 
 // actions
@@ -14,28 +14,20 @@ import {contactmail} from "../../core/actions/contact-mail-actions"
 import {toggleFooter} from "../../core/actions/toggle-footer-action.js"
 
 const styles = theme => ({
-	root: {
+  root: {
     backgroundColor: "rgb(27,28,29)",
-		height: '600px'
-	},
+    height: "600px"
+  },
   text: {
     color: "white"
   },
-	layout: {
-		margin: "80px 0 200px 0"
-	},
+  layout: {
+    margin: "80px 0 200px 0"
+  },
   masthead: {
     backgroundColor: "rgb(27,28,29)",
     padding: theme.spacing.unit * 1,
     margin: "auto",
-    maxWidth: 900,
-    [`@media (max-width:770px)`]: {
-      flexDirection: "column"
-    }
-  },
-  section: {
-    padding: theme.spacing.unit * 1,
-    margin: "0 auto 100px",
     maxWidth: 900,
     [`@media (max-width:770px)`]: {
       flexDirection: "column"
@@ -67,24 +59,34 @@ class Contact extends Component {
             <title>Utterzone | Contacts</title>
             <link rel="canonical" href="https://utter.zone/contact" />
           </Helmet>
-			<Grid container className={classes.masthead} justify="center">
-            <MastheadTitle color="white" lineheight="4rem"  >
+          <Grid container className={classes.masthead} justify="center">
+            <Typography
+              variant="h4"
+              align="center"
+              className={classes.text}
+              component="p"
+              gutterBottom>
               Contact Us
-            </MastheadTitle>
-            <MastheadSubtitle color="white" fontsize="1.5rem" textalign="center" maxwidth="900px">
+            </Typography>
+            <Typography
+              variant="h6"
+              align="center"
+              className={classes.text}
+              component="p"
+              gutterBottom>
               Make direct contact with our team through our contact information
               form. We will do our best to respond in a timely manner. If you
               are a business or educational institution, this would be a good
               place to shoot a short inquiry.
-            </MastheadSubtitle>
-			</Grid>
-			</ Container>
-          <main className={classes.layout}>
-            <Typography component="h1" variant="h4" align="center">
-              Request Information
             </Typography>
-            <ContactForm contactmail={contactmail} />
-          </main>
+          </Grid>
+        </Container>
+        <main className={classes.layout}>
+          <Typography component="h1" variant="h4" align="center">
+            Request Information
+          </Typography>
+          <ContactForm contactmail={contactmail} />
+        </main>
       </React.Fragment>
     )
   }

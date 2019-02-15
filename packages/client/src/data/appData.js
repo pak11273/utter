@@ -1,14 +1,14 @@
 export default [
   {
-    value: "recall",
-    label: "Total Recall",
-    className: "gameHeader",
+    value: "Brain Storm",
+    label: "Brain Storm",
+    className: "appHeader",
     disabled: false
   },
   {
-    value: "chat",
+    value: "Chat",
     label: "General Chat",
-    className: "gameHeader",
+    className: "appHeader",
     disabled: false
   }
 ]

@@ -23,7 +23,7 @@ const getZones = gql`
     $courseLevel: Int
     $cursor: String
     $owner: String!
-    $ref: String!
+    $resources: String!
     $teachingLang: String!
     $usingLang: String!
     $zoneName: String!
@@ -33,7 +33,7 @@ const getZones = gql`
       courseLevel: $courseLevel
       cursor: $cursor
       owner: $owner
-      ref: $ref
+      resources: $resources
       teachingLang: $teachingLang
       usingLang: $usingLang
       zoneName: $zoneName
@@ -65,15 +65,16 @@ const styles = theme => ({
     justifyContent: "flex-end"
   },
   card: {
-    minHeight: "340px",
+    height: "340px",
+    maxWidth: "300px",
     display: "flex",
     flexDirection: "column"
   },
   cardDescription: {
     height: "80px",
     lineHeight: "1em",
-    overflow: "hidden"
-    /* whiteSpace: "nowrap" */
+    overflow: "auto",
+    wordBreak: "break-all"
   },
   cardGrid: {
     padding: `${theme.spacing.unit * 8}px 0`
@@ -90,8 +91,8 @@ const styles = theme => ({
   cardTitle: {
     height: "52px",
     lineHeight: "1.2em",
-    overflow: "hidden"
-    /* whiteSpace: "nowrap" */
+    overflow: "hidden",
+    wordBreak: "break-all"
   },
   cardUsername: {
     whiteSpace: "nowrap",
@@ -131,7 +132,7 @@ const initialState = {
   app: "",
   courseLevel: "",
   courseInput: "",
-  courseRef: "",
+  resources: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -175,7 +176,7 @@ class ZonesGrid extends PureComponent {
       courseLevel,
       classes,
       zoneName,
-      courseRef,
+      resources,
       owner,
       usingLang,
       teachingLang
@@ -189,7 +190,7 @@ class ZonesGrid extends PureComponent {
           courseLevel,
           cursor: "",
           zoneName,
-          ref: courseRef,
+          resources,
           owner,
           usingLang,
           teachingLang
@@ -293,6 +294,7 @@ class ZonesGrid extends PureComponent {
                 <Grid container spacing={8}>
                   {data.getZones.zones.map(card => (
                     <Grid item key={card.id} xs={12} sm={6} md={3} lg={3}>
+                      {console.log("card: ", card)}
                       <Card className={classes.card}>
                         <CardContent className={classes.cardContent}>
                           <Typography

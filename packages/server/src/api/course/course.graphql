@@ -43,7 +43,7 @@ extend type Query {
   getCourses(
     cursor: String
     courseName: String!
-    ref: String!
+    resources: String!
     owner: String!
     usingLang: String!
     teachingLang: String!

@@ -14,7 +14,11 @@ import Dropdown from "./Dropdowns"
 import Flex from "./Flex"
 import FormEditWrapper from "./FormEditWrapper"
 import Form from "./forms"
-import {FormikInput, FormikTextArea} from "./Inputs/FormikField.js"
+import {
+  FormikInput,
+  FormikSelect,
+  FormikTextArea
+} from "./Inputs/FormikField.js"
 import Grid from "./Grids"
 import Hamburger from "./Buttons/Hamburger.js"
 import Hero from "./hero.js"
@@ -70,6 +74,7 @@ export {
   Flex,
   Form,
   FormikInput,
+  FormikSelect,
   FormikTextArea,
   FormEditWrapper,
   Grid,

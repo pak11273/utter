@@ -16,8 +16,8 @@ export default {
     if (req.query.courseName) {
       query.courseName = new RegExp(`${req.query.courseName}`, "i")
     }
-    if (req.query.courseRef) {
-      query.courseRef = new RegExp(`${req.query.courseRef}`, "i")
+    if (req.query.resources) {
+      query.resources = new RegExp(`${req.query.courseRef}`, "i")
     }
     if (req.query.owner) {
       query.owner = req.query.owner
@@ -357,10 +357,7 @@ export default {
     const offset = (pg - 1) * limit
     // const pageStart = 1
     // const numPages = 10
-    Course.paginate(
-      {owner: req.params.owner},
-      {offset, limit, lean: true}
-    )
+    Course.paginate({owner: req.params.owner}, {offset, limit, lean: true})
       .then(function(result) {
         res.json({
           result

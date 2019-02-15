@@ -60,7 +60,7 @@ const styles = theme => ({
 })
 
 const initialCoursesContainerState = {
-  courseRef: ""
+  resources: ""
 }
 
 class CourseUpdate extends Component {

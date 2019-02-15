@@ -1,3 +1,3 @@
-export * from "./yupSchemas/userSchemas.js"
-export * from "./yupSchemas/courseSchemas.js"
-export * from "./yupSchemas/zoneSchemas.js"
+export * from "./yup_schemas/user-schemas.js"
+export * from "./yup_schemas/course-schemas.js"
+export * from "./yup_schemas/zone-schemas.js"

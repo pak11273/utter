@@ -26,7 +26,7 @@ const CourseSchema = mongoose.Schema(
       type: Number,
       default: -1
     },
-    courseRef: [
+    resources: [
       {
         type: Schema.Types.Mixed,
         default: {}

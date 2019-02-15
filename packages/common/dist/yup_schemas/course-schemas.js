@@ -46,11 +46,11 @@ var courseCreateSchema = exports.courseCreateSchema = yup.object().shape({
     return;
   }
 
-  reactHotLoader.register(nameNotLongEnough, "nameNotLongEnough", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(descriptionNotLongEnough, "descriptionNotLongEnough", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(descriptionTooLong, "descriptionTooLong", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(nameTooLong, "nameTooLong", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(courseCreateSchema, "courseCreateSchema", "src/yupSchemas/courseSchemas.js");
+  reactHotLoader.register(nameNotLongEnough, "nameNotLongEnough", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(descriptionNotLongEnough, "descriptionNotLongEnough", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(descriptionTooLong, "descriptionTooLong", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(nameTooLong, "nameTooLong", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(courseCreateSchema, "courseCreateSchema", "src/yup_schemas/course-schemas.js");
   leaveModule(module);
 })();
 
@@ -66,11 +66,11 @@ var courseCreateSchema = exports.courseCreateSchema = yup.object().shape({
     return;
   }
 
-  reactHotLoader.register(nameNotLongEnough, "nameNotLongEnough", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(descriptionNotLongEnough, "descriptionNotLongEnough", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(descriptionTooLong, "descriptionTooLong", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(nameTooLong, "nameTooLong", "src/yupSchemas/courseSchemas.js");
-  reactHotLoader.register(courseCreateSchema, "courseCreateSchema", "src/yupSchemas/courseSchemas.js");
+  reactHotLoader.register(nameNotLongEnough, "nameNotLongEnough", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(descriptionNotLongEnough, "descriptionNotLongEnough", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(descriptionTooLong, "descriptionTooLong", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(nameTooLong, "nameTooLong", "src/yup_schemas/course-schemas.js");
+  reactHotLoader.register(courseCreateSchema, "courseCreateSchema", "src/yup_schemas/course-schemas.js");
   leaveModule(module);
 })();
 

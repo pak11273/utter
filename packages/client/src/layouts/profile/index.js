@@ -47,7 +47,7 @@ const styles = theme => ({
 })
 
 const initialState = {
-  courseRef: ""
+  resources: ""
 }
 
 const getUserByUsername = gql`

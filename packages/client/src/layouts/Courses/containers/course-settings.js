@@ -216,7 +216,7 @@ class CourseSettings extends Component {
 /*         <Segment> */
 /*           <Label>Course Reference</Label> */
 /*           <Select.Creatable */
-/*             id="courseRef" */
+/*             id="resources" */
 /*             wrapperStyle={{ */
 /*               margin: "20px 0 0 0", */
 /*               width: "100%" */

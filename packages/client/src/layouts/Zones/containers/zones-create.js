@@ -16,10 +16,15 @@ import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"
-import Apps from "./apps"
 import appData from "../../../data/appData.js"
 import {history} from "@utterzone/connector"
-import {Flex, FormikInput, FormikTextArea, Span} from "../../../components"
+import {
+  Flex,
+  FormikInput,
+  FormikSelect,
+  FormikTextArea,
+  Span
+} from "../../../components"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
@@ -72,10 +77,8 @@ const initialState = {
   zoneId: cuid(),
   zoneImage: "",
   zoneRef: "",
-  disabled: false,
   displayName: "",
   errors: {},
-  app: "Total Recall",
   levels: [{level: 1, cuid: cuid()}],
   appLevel: "",
   loading: false,
@@ -103,17 +106,6 @@ const styles = theme => ({
     margin: "0 auto",
     padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 6}px ${theme
       .spacing.unit * 6}px`
-  },
-  heroButtons: {
-    marginTop: theme.spacing.unit * 4
-  },
-  masthead: {
-    padding: theme.spacing.unit * 1,
-    margin: "auto",
-    maxWidth: 900,
-    [`@media (max-width:770px)`]: {
-      flexDirection: "column"
-    }
   },
   root: {
     maxWidth: 960,
@@ -143,43 +135,9 @@ class ZoneCreate extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  addAge = value => {
-    this.setState({
-      ageGroup: value
-    })
-  }
-
-  onBlur = () => {
-    this.props.actions.fetchZoneName(this.state.zoneName)
-  }
-
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
-    })
-  }
-
-  addCourse = value => {
-    this.setState({
-      course: value
-    })
-  }
-
-  addApp = value => {
-    this.setState({
-      app: value
-    })
-  }
-
-  addLevel = value => {
-    this.setState({
-      courseLevel: value
-    })
-  }
-
-  addRef = value => {
-    this.setState({
-      zoneRef: value
     })
   }
 
@@ -238,7 +196,7 @@ class ZoneCreate extends Component {
                   gutterBottom>
                   Zone Name
                   <StyledSpan display640="inline-block">
-                    (10-30 chars.)
+                    (6-20 chars.)
                   </StyledSpan>
                   <DisplayCount>{zoneName.length}</DisplayCount>
                 </Typography>
@@ -252,7 +210,6 @@ class ZoneCreate extends Component {
                   component={FormikInput}
                   margin="normal"
                   variant="outlined"
-                  disabled={this.state.disabled}
                 />
                 <Typography
                   align="left"
@@ -262,7 +219,7 @@ class ZoneCreate extends Component {
                   Zone Description
                   <StyledSpan display640="inline-block">
                     {" "}
-                    (100-350 chars.)
+                    (30-110 chars.)
                   </StyledSpan>
                   <DisplayCount>{zoneDescription.length}</DisplayCount>
                 </Typography>
@@ -276,7 +233,6 @@ class ZoneCreate extends Component {
                   component={FormikTextArea}
                   margin="normal"
                   variant="outlined"
-                  disabled={this.state.disabled}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -289,9 +245,9 @@ class ZoneCreate extends Component {
                 </Typography>
                 <Field
                   name="app"
-                  component={Apps}
-                  addApp={this.addApp}
+                  type="text"
                   options={appData}
+                  component={FormikSelect}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -304,12 +260,29 @@ class ZoneCreate extends Component {
                 </Typography>
                 <Field
                   name="course"
-                  component="select"
-                  onClick={this.addCourse}>
-                  <option>first</option>
-                  <option>second</option>
-                  <option>third</option>
-                </Field>
+                  type="text"
+                  component={FormikSelect}
+                  options={[
+                    {
+                      value: "label 1",
+                      label: "label 1",
+                      className: "courseHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "label 2",
+                      label: "label 2",
+                      className: "courseHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "label 3",
+                      label: "label 3",
+                      className: "courseHeader",
+                      disabled: false
+                    }
+                  ]}
+                />
                 <Typography
                   align="left"
                   variant="h6"
@@ -317,15 +290,32 @@ class ZoneCreate extends Component {
                   gutterBottom>
                   Set Levels
                 </Typography>
-                <p>The minimum level a user has to be to enter this zone.</p>
+                <p>Apps will use the course information from this level.</p>
                 <Field
                   name="courseLevel"
-                  component="select"
-                  onClick={this.addLevel}>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                </Field>
+                  type="text"
+                  component={FormikSelect}
+                  options={[
+                    {
+                      value: "some course 1",
+                      label: "1",
+                      className: "courseHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "some course 2",
+                      label: "2",
+                      className: "courseHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "some course 3",
+                      label: "3",
+                      className: "courseHeader",
+                      disabled: false
+                    }
+                  ]}
+                />
               </Grid>
               <Grid item xs={12}>
                 <Typography
@@ -338,22 +328,88 @@ class ZoneCreate extends Component {
                 <p>
                   Pick an appropriate age setting or a specific age demographic.
                   Conversations are still not to involve any sexual misconduct
-                  or vulgar behaviour.
+                  or vulgar behaviour. Account bans/suspensions are duly
+                  enforced.
                 </p>
-                <Field name="ageGroup" component="select" onClick={this.addAge}>
-                  <option>any age</option>
-                  <option>ages 0-2</option>
-                  <option>ages 3+</option>
-                  <option>ages 7+</option>
-                  <option>ages 12+</option>
-                  <option>ages 16+</option>
-                  <option>ages 18+</option>
-                  <option>ages 18+</option>
-                  <option>ages 30+</option>
-                  <option>ages 40+</option>
-                  <option>ages 50+</option>
-                  <option>ages 60+</option>
-                </Field>
+                <Field
+                  name="ageGroup"
+                  type="text"
+                  component={FormikSelect}
+                  options={[
+                    {
+                      value: "any age",
+                      label: "any age",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 0-2",
+                      label: "ages 0-2",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 3+",
+                      label: "ages 3+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 7+",
+                      label: "ages 7+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 12+",
+                      label: "ages 12+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 16+",
+                      label: "ages 16+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 18+",
+                      label: "ages 18+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 18+",
+                      label: "ages 18+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 30+",
+                      label: "ages 30+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 40+",
+                      label: "ages 40+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 50+",
+                      label: "ages 50+",
+                      className: "ageHeader",
+                      disabled: false
+                    },
+                    {
+                      value: "ages 60+",
+                      label: "ages 60+",
+                      className: "ageHeader",
+                      disabled: false
+                    }
+                  ]}
+                />
               </Grid>
               <Grid item style={{display: "flex", justifyContent: "center"}}>
                 <Button
@@ -362,8 +418,7 @@ class ZoneCreate extends Component {
                   className={classes.button}
                   type="submit"
                   onClick={this.onButtonClick}
-                  size="large"
-                  disabled={this.state.disabled}>
+                  size="large">
                   Create Zone
                 </Button>
               </Grid>
@@ -407,13 +462,13 @@ export default connect(
       ageGroup: "",
       app: "",
       appLevel: 1,
+      course: "",
+      courseLevel: "",
       owner: props.user.id,
       zoneName: "",
       zoneImage:
         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
-      zoneDescription: "",
-      course: "",
-      courseLevel: ""
+      zoneDescription: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.submit(values)
@@ -436,23 +491,9 @@ export default connect(
         setErrors(result.zoneCreate.errors)
         props.actions.addFlashMessage({
           type: "error",
-          text: "Something went wrong. Could not create a zone."
+          text: "Could not create a zone. Please contact technical support."
         })
       }
     }
   })(withStyles(styles)(ZoneCreate))
 )
-/* <TextField
-                fullWidth
-                name="owner"
-                component={FormikInput}
-                value={this.props.user.id}
-                id="outlined-search"
-                label="Zone Name"
-                onChange={this.handleChange}
-                type="text"
-                className={classes.searchField}
-                margin="normal"
-                variant="outlined"
-              />
-*/

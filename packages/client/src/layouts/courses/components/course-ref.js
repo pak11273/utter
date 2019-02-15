@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import Select from "react-select"
 import {Box} from "../../../components"
-import "../../styles.css"
 
 class CourseRef extends Component {
   constructor(props) {

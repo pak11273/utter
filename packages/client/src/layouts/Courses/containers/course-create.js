@@ -63,7 +63,7 @@ const initialState = {
   charCount: 0,
   courseId: cuid(),
   courseImage: "",
-  courseRef: "",
+  resources: "",
   disabled: false,
   displayName: "",
   errors: {},
@@ -147,7 +147,7 @@ class CourseCreate extends Component {
 
   addRef = value => {
     this.setState({
-      courseRef: value
+      resources: value
     })
   }
 
@@ -409,7 +409,7 @@ class CourseCreate extends Component {
                   variant="h6"
                   className={classes.subHeading}
                   gutterBottom>
-                  Course Reference
+                  Resources
                 </Typography>
                 <p>ie. Book, Classroom, Online Course</p>
                 <CourseRef addRef={this.addRef} />

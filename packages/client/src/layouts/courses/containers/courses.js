@@ -115,7 +115,7 @@ const styles = theme => ({
 const initialState = {
   courseInput: "",
   courseName: "",
-  courseRef: "",
+  resources: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -208,7 +208,7 @@ class CoursesContainer extends PureComponent {
           courseName: {
             $set: courseInput
           },
-          courseRef: {
+          resources: {
             $set: ""
           },
           next: {
@@ -222,7 +222,7 @@ class CoursesContainer extends PureComponent {
       }
 
       case "reference": {
-        // set courseRef
+        // set resources
         const newRef = update(this.state, {
           owner: {
             $set: ""
@@ -230,7 +230,7 @@ class CoursesContainer extends PureComponent {
           courseName: {
             $set: ""
           },
-          courseRef: {
+          resources: {
             $set: courseInput
           },
           next: {
@@ -252,7 +252,7 @@ class CoursesContainer extends PureComponent {
           courseName: {
             $set: ""
           },
-          courseRef: {
+          resources: {
             $set: ""
           },
           next: {
@@ -404,7 +404,7 @@ class CoursesContainer extends PureComponent {
             {
               <CoursesGrid
                 courseName={this.state.courseName}
-                courseRef={this.state.courseRef}
+                resources={this.state.resources}
                 owner={this.state.owner}
                 teachingLang={this.state.teachingLang}
                 usingLang={this.state.usingLang}

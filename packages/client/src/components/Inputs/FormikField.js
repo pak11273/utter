@@ -1,4 +1,5 @@
-import React from "react"
+import React, {PureComponent} from "react"
+import Select from "react-select"
 
 import TextField from "@material-ui/core/TextField"
 
@@ -50,3 +51,64 @@ export const FormikTextArea = ({
       )}
   </div>
 )
+
+export class FormikSelect extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+      searchable: props.searchable,
+      selectValue: "",
+      clearable: true,
+      rtl: false
+    }
+  }
+
+  clearValue = () => {
+    this.select.setInputValue("")
+  }
+
+  updateValue = newValue => {
+    this.setState({
+      selectValue: newValue
+    })
+    this.props.form.setFieldValue(this.props.field.name, newValue)
+  }
+
+  render() {
+    const {field, options} = this.props
+    return (
+      <Select
+        id="select"
+        ref={ref => {
+          this.select = ref
+        }}
+        onBlurResetsInput={false}
+        onSelectResetsInput={false}
+        required
+        simpleValue
+        clearable={this.state.clearable}
+        wrapperStyle={{
+          margin: "20px 0 0 0",
+          width: "100%"
+        }}
+        style={{
+          width: "100%"
+        }}
+        menuContainerStyle={{
+          width: "100%"
+        }}
+        menuStyle={{
+          width: "100%"
+        }}
+        name={field.name}
+        options={options}
+        disabled={this.state.disabled}
+        value={this.state.selectValue}
+        onChange={this.updateValue}
+        rtl={this.state.rtl}
+        searchable={this.state.searchable}
+      />
+    )
+  }
+}

@@ -29,14 +29,14 @@ const getCourses = gql`
     $cursor: String
     $courseName: String!
     $owner: String!
-    $ref: String!
+    $resources: String!
     $usingLang: String!
     $teachingLang: String!
   ) {
     getCourses(
       cursor: $cursor
       courseName: $courseName
-      ref: $ref
+      resources: $resources
       owner: $owner
       usingLang: $usingLang
       teachingLang: $teachingLang
@@ -143,7 +143,7 @@ const styles = theme => ({
 const initialState = {
   courseInput: "",
   courseName: "",
-  courseRef: "",
+  resources: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -181,7 +181,7 @@ class CoursesGrid extends PureComponent {
     const {
       classes,
       courseName,
-      courseRef,
+      resources,
       owner,
       usingLang,
       teachingLang
@@ -193,7 +193,7 @@ class CoursesGrid extends PureComponent {
         variables={{
           cursor: "",
           courseName,
-          ref: courseRef,
+          resources,
           owner,
           usingLang,
           teachingLang

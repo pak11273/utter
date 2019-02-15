@@ -16,8 +16,8 @@ export default {
     if (req.query.courseName) {
       query.courseName = new RegExp(`${req.query.courseName}`, "i")
     }
-    if (req.query.courseRef) {
-      query.courseRef = new RegExp(`${req.query.courseRef}`, "i")
+    if (req.query.resources) {
+      query.resources = new RegExp(`${req.query.resources}`, "i")
     }
     if (req.query.owner) {
       query.owner = req.query.owner
@@ -56,7 +56,7 @@ export default {
             $project: {
               courseName: 1,
               courseDescription: 1,
-              courseRef: 1,
+              resources: 1,
               owner: 1,
               courseImage: 1,
               subscribers: {$size: "$subscribers"}
@@ -97,7 +97,7 @@ export default {
             $project: {
               courseName: 1,
               courseDescription: 1,
-              courseRef: 1,
+              resources: 1,
               owner: 1,
               courseImage: 1,
               subscribers: {$size: "$subscribers"}
@@ -208,7 +208,7 @@ export default {
       var id3 = mongoose.Types.ObjectId()
       var id4 = mongoose.Types.ObjectId()
       course.category = faker.commerce.department()
-      course.courseRef = faker.random.arrayElement([
+      course.resources = faker.random.arrayElement([
         "TTMIK",
         "Topik Level 1",
         "How to study Korean"

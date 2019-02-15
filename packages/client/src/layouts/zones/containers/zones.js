@@ -39,7 +39,9 @@ const styles = theme => ({
     zIndex: theme.zIndex.drawer + 1
   },
   card: {
+    backgroundColor: "red",
     minHeight: "240px",
+    maxHeight: "240px",
     display: "flex",
     flexDirection: "column"
   },
@@ -116,7 +118,7 @@ const styles = theme => ({
 
 const initialState = {
   courseLevel: "",
-  courseRef: "",
+  resources: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -192,7 +194,7 @@ class ZonesContainer extends Component {
           zoneName: {
             $set: zoneInput
           },
-          courseRef: {
+          resources: {
             $set: ""
           },
           next: {
@@ -206,7 +208,7 @@ class ZonesContainer extends Component {
       }
 
       case "reference": {
-        // set courseRef
+        // set resources
         const newRef = update(this.state, {
           owner: {
             $set: ""
@@ -214,7 +216,7 @@ class ZonesContainer extends Component {
           zoneName: {
             $set: ""
           },
-          courseRef: {
+          resources: {
             $set: zoneInput
           },
           next: {
@@ -236,7 +238,7 @@ class ZonesContainer extends Component {
           zoneName: {
             $set: ""
           },
-          courseRef: {
+          resources: {
             $set: ""
           },
           next: {
@@ -490,7 +492,7 @@ class ZonesContainer extends Component {
             {
               <ZonesGrid
                 zoneName={this.state.zoneName}
-                courseRef={this.state.courseRef}
+                resources={this.state.resources}
                 owner={this.state.owner}
                 teachingLang={this.state.teachingLang}
                 usingLang={this.state.usingLang}

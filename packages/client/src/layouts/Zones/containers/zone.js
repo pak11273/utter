@@ -50,7 +50,7 @@ const styles = theme => ({
 const Loader = () => <div>Loading...</div>
 
 const initialState = {
-  courseRef: "",
+  resources: "",
   receiveMsg: "",
   user: {name: "beef"},
   usersList: [],

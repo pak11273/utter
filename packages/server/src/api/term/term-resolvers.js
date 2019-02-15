@@ -83,13 +83,13 @@ const getCreatedTerms = async (_, args, ctx, info) => {
 const getTerms = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  var courseName, courseRef, owner
+  var courseName, resources, owner
 
   args.title
     ? (query.courseName = new RegExp(escapeRegex(args.title), "gi"))
     : null
 
-  args.ref ? (query.courseRef = new RegExp(escapeRegex(args.ref), "gi")) : null
+  args.ref ? (query.resources = new RegExp(escapeRegex(args.ref), "gi")) : null
 
   if (args.author) {
     var owner = await Term.findByUsername(args.author, (err, docs) => {
