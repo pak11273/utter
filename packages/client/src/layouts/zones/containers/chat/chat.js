@@ -14,10 +14,8 @@ import ceoImg from "../../../../assets/images/ceo.jpg"
 import TextField from "@material-ui/core/TextField"
 /* import FloatingActionButton from "@material-ui/core/Fab" */
 import {withStyles} from "@material-ui/core/styles"
-import IconButton from "@material-ui/core/IconButton"
 /* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" */
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
-import CloseIcon from "@material-ui/icons/Close"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -46,7 +44,6 @@ const ChatWindow = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   height: 100%;
-  width: 420px;
   box-sizing: border-box;
 `
 
@@ -61,15 +58,15 @@ const ChatPanel = styled.div`
   z-index: 1;
 `
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 20px;
-  z-index: 1;
-  color: #fafafa !important;
-  border-bottom: 1px solid;
-`
+/* const Header = styled.div` */
+/*   display: flex; */
+/*   align-items: center; */
+/*   justify-content: space-between; */
+/*   margin: 0 20px; */
+/*   z-index: 1; */
+/*   color: #fafafa !important; */
+/*   border-bottom: 1px solid; */
+/* ` */
 
 /* const Title = styled.p` */
 /*   text-align: center; */
@@ -88,11 +85,12 @@ const InputPanel = styled.div`
   height: 38px;
   align-items: center;
   align-self: center;
-  width: 80%;
+  width: 90%;
 `
 
 const Scrollable = styled.div`
-  height: 700px;
+  height: 640px;
+  margin-bottom: 10px;
   overflow: auto;
 `
 
@@ -102,9 +100,6 @@ const styles = theme => ({
   },
   leftIcon: {
     marginRight: theme.spacing.unit
-  },
-  inputBox: {
-    /* width: "100%" */
   },
   more: {
     color: "black",
@@ -201,13 +196,17 @@ class Chat extends PureComponent {
             clipContainer.classList.add("clip")
             clipContainer.setAttribute(
               "style",
-              "display: flex; justify-content: center"
+              "display: flex; justify-content: center; padding-top: 20px; width: 270px"
             )
             audio.setAttribute("controls", "")
-            deleteButton.innerHTML = "Delete"
+            deleteButton.innerHTML = "DEL"
 
             clipContainer.appendChild(audio)
             clipContainer.appendChild(deleteButton)
+            deleteButton.setAttribute(
+              "style",
+              "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
+            )
             soundClips.appendChild(clipContainer)
 
             deleteButton.onclick = e => {
@@ -314,12 +313,18 @@ class Chat extends PureComponent {
           justifyContent: "center"
         }}>
         <ChatWindow>
-          <Header>
-            {this.props.zone.zoneName} ({this.props.usersList.length})
-            <IconButton color="primary" onClick={this.props.onLeave}>
-              <CloseIcon />
-            </IconButton>
-          </Header>
+          <div style={{display: "flex", flexDirection: "row"}}>
+            <div style={{padding: "13px", minWidth: "250px"}}>
+              <Typography className={classes.outputText}>
+                ({this.props.usersList.length}) {this.props.zone.zoneName}
+              </Typography>
+            </div>
+            <div style={{paddingTop: "20px"}}>
+              <Button color="secondary" onClick={this.props.onLeave}>
+                Leave Zone
+              </Button>
+            </div>
+          </div>
           <ChatPanel>
             <Scrollable
               innerRef={panel => {
@@ -351,7 +356,6 @@ class Chat extends PureComponent {
             <InputPanel>
               <TextField
                 fullWidth
-                className={classes.inputBox}
                 multiline
                 rows={2}
                 rowsMax={2}
@@ -362,13 +366,22 @@ class Chat extends PureComponent {
                 }
               />
             </InputPanel>
-            <div className="sound-clips" />
+            <div
+              className="sound-clips"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            />
             <Box flexdirection="row" margin="20px 0 0 0">
               <Button variant="contained" className="record" color="secondary">
                 <FiberSmartRecordIcon className={classes.leftIcon} />
                 Rec
               </Button>
-              <Button className="stop" color="primary">
+              <Button
+                className="stop"
+                style={{color: "black", marginLeft: "8px"}}>
                 stop
               </Button>
               <Button

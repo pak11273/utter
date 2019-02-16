@@ -13,7 +13,6 @@ const styles = theme => ({
   root: {
     backgroundColor: "orange",
     height: "100%",
-    minHeight: "305px",
     width: "100%"
   },
   paper: {

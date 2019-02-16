@@ -10,11 +10,12 @@ import {Helmet} from "react-helmet"
 import socket from "../../../services/socketio"
 import {history} from "@utterzone/connector"
 
-import Members from "./members"
 import {Spacer} from "../../../components"
 import AppContainer from "../../../apps/app-container"
 import schema from "../../../core/schema.js"
-import Chat from "./chat/index.js"
+import Chat from "./chat/chat.js"
+import Members from "./members/members.js"
+import Notebook from "./notebook/notebook.js"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 
 // actions
@@ -145,8 +146,9 @@ class Zone extends Component {
         </Helmet>
         <Spacer margin="8px" />
         <Grid container className={classes.root}>
-          <Grid item xs={12} sm={12} md={8} lg={9} className={classes.app}>
+          <Grid item xs={12} sm={12} md={6} lg={8} className={classes.app}>
             <AppContainer />
+            <Members usersList={this.state.usersList} />
           </Grid>
           <Grid
             style={{
@@ -155,8 +157,8 @@ class Zone extends Component {
             item
             xs={12}
             sm={12}
-            md={4}
-            lg={3}>
+            md={6}
+            lg={4}>
             <Chat
               usersList={this.state.usersList}
               user={this.state.user}
@@ -171,19 +173,8 @@ class Zone extends Component {
               unregisterHandler={this.state.client.unregisterHandler}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={8} lg={9} style={{padding: 0}}>
-            <Members usersList={this.state.usersList} />
-          </Grid>
-          <Grid
-            style={{
-              background: "LightGray"
-            }}
-            item
-            xs={12}
-            sm={12}
-            md={4}
-            lg={3}>
-            <div style={{background: "LightGray"}} />
+          <Grid item xs={12}>
+            <Notebook />
           </Grid>
         </Grid>
       </React.Fragment>

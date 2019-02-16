@@ -2,6 +2,7 @@ import React, {PureComponent} from "react"
 import BrainStorm from "../brainstorm"
 
 import Grid from "@material-ui/core/Grid"
+/* import {withStyles} from "@material-ui/core/styles" */
 
 // TODO implement loadable for apps
 /* import Loadable from "react-loadable" */

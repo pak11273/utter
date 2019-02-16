@@ -29,9 +29,8 @@ const styles = () => ({
   },
   card: {
     alignItems: "center",
-    height: "400px",
-    width: "500px",
-    marginBottom: "50px",
+    height: "100%",
+    width: "100%",
     flexDirection: "column"
   },
   cardActions: {
@@ -39,7 +38,8 @@ const styles = () => ({
     justifyContent: "center"
   },
   cardMedia: {
-    paddingTop: "56.25%", // 16:9
+    /* paddingTop: "56.25%", // 16:9 */
+    paddingTop: "46.25%",
     "&:hover": {
       cursor: "pointer"
     }
@@ -49,12 +49,12 @@ const styles = () => ({
   },
   cardTitle: {
     height: "100%"
-  },
-  img: {
-    height: "70%",
-    margin: "auto",
-    display: "block"
   }
+  /* img: { */
+  /*   height: "70%", */
+  /*   margin: "auto", */
+  /*   display: "block" */
+  /* } */
 })
 
 class BrainStorm extends PureComponent {
