@@ -273,10 +273,6 @@ class CoursesContainer extends PureComponent {
     }
   }
 
-  refreshPage = () => {
-    this.forceUpdate()
-  }
-
   render() {
     const {classes} = this.props
     return (
@@ -322,10 +318,7 @@ class CoursesContainer extends PureComponent {
             <Spacer margin="40px 0 0 0" />
             <Divider />
             <Spacer margin="40px 0 0 0" />
-            <Link
-              component={RouterLink}
-              onClick={this.refreshPage}
-              to="/courses/created">
+            <Link component={RouterLink} to="/courses/created">
               <Typography align="center" gutterBottom>
                 My Created Courses
               </Typography>
@@ -352,7 +345,7 @@ class CoursesContainer extends PureComponent {
             <div className={classes.heroContent}>
               <Grid container justify="center" direction="column">
                 <Typography variant="h4" align="center" gutterBottom>
-                  Subscribe to a Course
+                  Find a Course
                 </Typography>
                 <Grid container alignItems="center" justify="center">
                   <TextField

@@ -329,9 +329,15 @@ class CoursesCreatedContainer extends PureComponent {
                           classes.cardGrid
                         )}>
                         {/* End hero unit */}
-                        <Grid container spacing={40}>
+                        <Grid container spacing={8}>
                           {data.getCreatedCourses.courses.map(card => (
-                            <Grid item key={card.id} sm={6} md={4} lg={3}>
+                            <Grid
+                              item
+                              key={card.id}
+                              xs={12}
+                              sm={12}
+                              md={4}
+                              lg={3}>
                               <Card className={classes.card}>
                                 <CardMedia
                                   onClick={() => this.handleImageClick(card)}
