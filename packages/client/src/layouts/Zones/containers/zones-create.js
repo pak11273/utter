@@ -201,7 +201,7 @@ class ZoneCreate extends Component {
                   gutterBottom>
                   Zone Name
                   <StyledSpan display640="inline-block">
-                    (6-20 chars.)
+                    (3-40 chars.)
                   </StyledSpan>
                   <DisplayCount>{zoneName.length}</DisplayCount>
                 </Typography>

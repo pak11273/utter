@@ -25,6 +25,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import SendIcon from "@material-ui/icons/Send"
+import Typography from "@material-ui/core/Typography"
 
 /* import Overlay from './Overlay'; */
 
@@ -81,24 +82,17 @@ const NoDots = styled.div`
   }
 `
 
-const OutputText = styled.span`
-  white-space: normal !important;
-  word-break: break-all !important;
-  overflow: initial !important;
-  width: 100%;
-  height: auto !important;
-  color: #fafafa !important;
-`
-
 const InputPanel = styled.div`
+  background-color: #a1a1a1;
   display: flex;
+  height: 38px;
   align-items: center;
-  padding: 20px;
   align-self: center;
+  width: 80%;
 `
 
 const Scrollable = styled.div`
-  height: 100%;
+  height: 700px;
   overflow: auto;
 `
 
@@ -109,11 +103,29 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit
   },
+  inputBox: {
+    /* width: "100%" */
+  },
+  more: {
+    color: "black",
+    "&:hover": {
+      color: "black" // not working
+    }
+  },
   rightIcon: {
     marginLeft: theme.spacing.unit
   },
   iconSmall: {
     fontSize: 20
+  },
+  outputText: {
+    fontSize: "1rem",
+    whiteSpace: "normal",
+    wordBreak: "break-all",
+    overflow: "initial",
+    width: "100%",
+    height: "auto",
+    color: "#3e3e3e"
   }
 })
 
@@ -312,32 +324,37 @@ class Chat extends PureComponent {
             <Scrollable
               innerRef={panel => {
                 this.panel = panel
-              }}
-            />
-            <List dense>
-              {/* {[{username: 'bye', message: 'hi', event: null}].map(({username, message, event}, i) => [ */}
-              {this.state.chatHistory.map(({username, message, event}, i) => [
-                <NoDots key={i}>
-                  <ListItem button style={{color: "#fafafa"}}>
-                    <ListItemAvatar>
-                      <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`${username} ${event}`}
-                      secondary={<OutputText>{message}</OutputText>}
-                    />
-                    <ListItemSecondaryAction>
-                      <div>:</div>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </NoDots>
-              ])}
-            </List>
+              }}>
+              <List>
+                {this.state.chatHistory.map(({username, message, event}, i) => [
+                  <NoDots key={i}>
+                    <ListItem button style={{color: "#fafafa"}}>
+                      <ListItemAvatar>
+                        <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${username} ${event}`}
+                        secondary={
+                          <Typography className={classes.outputText}>
+                            {message}
+                          </Typography>
+                        }
+                      />
+                      <ListItemSecondaryAction>
+                        <div className={classes.more}>:</div>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  </NoDots>
+                ])}
+              </List>
+            </Scrollable>
             <InputPanel>
               <TextField
+                fullWidth
+                className={classes.inputBox}
                 multiline
-                rows={4}
-                rowsMax={4}
+                rows={2}
+                rowsMax={2}
                 onChange={this.onInput}
                 value={this.state.input}
                 onKeyPress={e =>
@@ -346,7 +363,7 @@ class Chat extends PureComponent {
               />
             </InputPanel>
             <div className="sound-clips" />
-            <Box flexdirection="row">
+            <Box flexdirection="row" margin="20px 0 0 0">
               <Button variant="contained" className="record" color="secondary">
                 <FiberSmartRecordIcon className={classes.leftIcon} />
                 Rec

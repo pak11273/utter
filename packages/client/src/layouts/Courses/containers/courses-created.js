@@ -181,7 +181,9 @@ class CoursesCreatedContainer extends PureComponent {
             <div align="center">
               <Spacer margin="40px 0 0 0" />
               <Link component={RouterLink} to="/courses/create">
-                Create a Course
+                <Typography align="center" gutterBottom>
+                  Create a Course
+                </Typography>
               </Link>
             </div>
           </Drawer>

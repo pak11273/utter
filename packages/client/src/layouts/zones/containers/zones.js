@@ -106,7 +106,12 @@ const styles = theme => ({
     }
   },
   root: {
-    display: "flex"
+    display: "flex",
+    flexGrow: 1
+  },
+  select: {
+    width: "80% !important",
+    margin: "10px auto !important"
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
@@ -346,6 +351,7 @@ class ZonesContainer extends Component {
               I speak:
             </Typography>
             <ReactSelect
+              className={classes.select}
               name="form-field-name"
               value={this.state.usingLang}
               onChange={this.handleSpeakingChange}
@@ -364,6 +370,7 @@ class ZonesContainer extends Component {
               I want to learn:
             </Typography>
             <ReactSelect
+              className={classes.select}
               name="form-field-name"
               value={this.state.teachingLang}
               onChange={this.handleTeachingChange}
@@ -383,6 +390,7 @@ class ZonesContainer extends Component {
               Choose An App
             </Typography>
             <ReactSelect
+              className={classes.select}
               name="form-field-name"
               value={this.state.app}
               onChange={this.handleAppChange}
@@ -400,6 +408,7 @@ class ZonesContainer extends Component {
               Course Level:
             </Typography>
             <ReactSelect
+              className={classes.select}
               name="form-field-name"
               value={this.state.courseLevel}
               onChange={this.handleLevelChange}
@@ -416,7 +425,9 @@ class ZonesContainer extends Component {
               component={RouterLink}
               onClick={this.refreshPage}
               to="/zones/create">
-              Host A Zone
+              <Typography align="center" gutterBottom>
+                Host A Zone
+              </Typography>
             </Link>
           </div>
         </Drawer>
@@ -427,10 +438,7 @@ class ZonesContainer extends Component {
               name="viewport"
               content="width=device-width, initial-scale=1, shrink-to-fit=no"
             />
-            <meta
-              name="description"
-              content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
-            />
+            <meta name="description" content="Find a zone.  Start uttering!" />
             <meta name="author" content="Isaac Pak" />
             <title>Utterzone | Courses</title>
             <link rel="canonical" href="https://utter.zone/courses" />

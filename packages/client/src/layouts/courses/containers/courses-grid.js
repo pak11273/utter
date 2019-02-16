@@ -84,10 +84,11 @@ const styles = theme => ({
     flexGrow: 1
   },
   cardTitle: {
-    height: "54px",
+    height: "40px",
+    lineHeight: "1em",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
+    wordBreak: "break-all"
   },
   cardUsername: {
     whiteSpace: "nowrap",

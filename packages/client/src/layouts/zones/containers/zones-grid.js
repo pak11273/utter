@@ -67,7 +67,7 @@ const styles = theme => ({
   },
   card: {
     height: "340px",
-    maxWidth: "300px",
+    /* maxWidth: "300px", */
     display: "flex",
     flexDirection: "column"
   },
@@ -291,8 +291,8 @@ class ZonesGrid extends PureComponent {
           }
           return (
             <div>
-              <div className={classNames(classes.layout)}>
-                <Grid container spacing={24}>
+              <div className={classNames(classes.layout, classes.cardGrid)}>
+                <Grid container spacing={8}>
                   {data.getZones.zones.map(card => (
                     <Grid item key={card.id} xs={12} sm={12} md={3} lg={2}>
                       <Card className={classes.card}>

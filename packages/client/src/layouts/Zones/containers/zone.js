@@ -87,6 +87,10 @@ class Zone extends Component {
     this.props.toggleFooter(false)
   }
 
+  componentWillUnmount() {
+    // TODO memory link in console.  Kill socket.io connection??
+  }
+
   onLeaveZone = (zoneId, onLeaveSuccess) => {
     this.state.client.leave(zoneId, err => {
       if (err) return console.error(err)

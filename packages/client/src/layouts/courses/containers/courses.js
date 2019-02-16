@@ -104,6 +104,10 @@ const styles = theme => ({
   root: {
     display: "flex"
   },
+  select: {
+    width: "80% !important",
+    margin: "10px auto !important"
+  },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
   },
@@ -285,14 +289,11 @@ class CoursesContainer extends PureComponent {
           }}>
           <Spacer margin="100px 0 0 0" />
           <div align="center">
-            <Typography
-              variant="h6"
-              align="center"
-              className={classes.text}
-              gutterBottom>
+            <Typography variant="h6" align="center" gutterBottom>
               I speak:
             </Typography>
             <ReactSelect
+              className={classes.select}
               name="form-field-name"
               value={this.state.usingLang}
               onChange={this.handleSpeakingChange}
@@ -303,14 +304,11 @@ class CoursesContainer extends PureComponent {
               ]}
             />
             <Spacer margin="40px 0 0 0" />
-            <Typography
-              variant="h6"
-              align="center"
-              className={classes.text}
-              gutterBottom>
+            <Typography variant="h6" align="center" gutterBottom>
               I want to learn:
             </Typography>
             <ReactSelect
+              className={classes.select}
               name="form-field-name"
               value={this.state.teachingLang}
               onChange={this.handleTeachingChange}
@@ -328,7 +326,9 @@ class CoursesContainer extends PureComponent {
               component={RouterLink}
               onClick={this.refreshPage}
               to="/courses/created">
-              My Created Courses
+              <Typography align="center" gutterBottom>
+                My Created Courses
+              </Typography>
             </Link>
           </div>
         </Drawer>
@@ -341,7 +341,7 @@ class CoursesContainer extends PureComponent {
             />
             <meta
               name="description"
-              content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
+              content="Find a course.  Then find a zone.  Then start uttering!"
             />
             <meta name="author" content="Isaac Pak" />
             <title>Utterzone | Courses</title>
@@ -351,11 +351,7 @@ class CoursesContainer extends PureComponent {
           <div className={classes.heroUnit}>
             <div className={classes.heroContent}>
               <Grid container justify="center" direction="column">
-                <Typography
-                  variant="h4"
-                  align="center"
-                  className={classes.text}
-                  gutterBottom>
+                <Typography variant="h4" align="center" gutterBottom>
                   Subscribe to a Course
                 </Typography>
                 <Grid container alignItems="center" justify="center">

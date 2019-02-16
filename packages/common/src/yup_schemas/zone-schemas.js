@@ -14,8 +14,8 @@ export const zoneCreateSchema = yup.object().shape({
   ageGroup: yup.string().required("Age restrictions are required"),
   zoneName: yup
     .string()
-    .min(6, zoneNotLongEnough)
-    .max(20, zoneTooLong)
+    .min(3, zoneNotLongEnough)
+    .max(40, zoneTooLong)
     .required("A zone name is required"),
   zoneDescription: yup
     .string()
