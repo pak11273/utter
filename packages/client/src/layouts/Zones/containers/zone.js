@@ -11,7 +11,8 @@ import socket from "../../../services/socketio"
 import {history} from "@utterzone/connector"
 
 import Members from "./members"
-import AppsContainer from "../../../apps/apps-container"
+import {Spacer} from "../../../components"
+import AppContainer from "../../../apps/app-container"
 import schema from "../../../core/schema.js"
 import Chat from "./chat/index.js"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
@@ -36,15 +37,19 @@ import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 /* ` */
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
+const styles = () => ({
+  app: {
+    /* height: "300px" */
   },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: "center",
-    color: theme.palette.text.secondary
+  root: {
+    backgroundColor: "#3e3e3e",
+    flexGrow: 1
   }
+  /* paper: { */
+  /*   padding: theme.spacing.unit * 2, */
+  /*   textAlign: "center", */
+  /*   color: theme.palette.text.secondary */
+  /* } */
 })
 
 const Loader = () => <div>Loading...</div>
@@ -97,7 +102,7 @@ class Zone extends Component {
 
   register = name => {
     const onRegisterResponse = user =>
-      this.setState({isRegisterInProcess: false, user})
+      this.sejState({isRegisterInProcess: false, user})
     this.setState({isRegisterInProcess: true})
     this.state.client.register(name, (err, user) => {
       if (err) return onRegisterResponse(null)
@@ -134,10 +139,10 @@ class Zone extends Component {
           <title>Utterzone | Course Edit</title>
           <link rel="canonical" href="https://utter.zone/course/:id" />
         </Helmet>
-
-        <Grid container spacing={24} className={classes.root}>
-          <Grid item xs={12} sm={12} md={8} lg={9}>
-            <AppsContainer />
+        <Spacer margin="8px" />
+        <Grid container className={classes.root}>
+          <Grid item xs={12} sm={12} md={8} lg={9} className={classes.app}>
+            <AppContainer />
           </Grid>
           <Grid
             style={{
@@ -162,7 +167,7 @@ class Zone extends Component {
               unregisterHandler={this.state.client.unregisterHandler}
             />
           </Grid>
-          <Grid item xs={12} sm={12} md={8} lg={9}>
+          <Grid item xs={12} sm={12} md={8} lg={9} style={{padding: 0}}>
             <Members usersList={this.state.usersList} />
           </Grid>
           <Grid

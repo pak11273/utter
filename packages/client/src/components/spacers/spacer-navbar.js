@@ -11,7 +11,7 @@ const NavbarSpacer = styled.div`
   }
 `
 NavbarSpacer.defaultProps = {
-  height: "64px"
+  height: "48px"
 }
 
 export default NavbarSpacer

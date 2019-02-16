@@ -56,12 +56,6 @@ const styles = theme => ({
     width: 128,
     height: 128
   },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%"
-  },
   text: {
     color: "white"
   }

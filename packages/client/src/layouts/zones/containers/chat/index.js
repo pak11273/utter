@@ -345,13 +345,15 @@ class Chat extends PureComponent {
                 }
               />
             </InputPanel>
-            {/* <Article className="sound-clips" /> */}
+            <div className="sound-clips" />
             <Box flexdirection="row">
               <Button variant="contained" className="record" color="secondary">
                 <FiberSmartRecordIcon className={classes.leftIcon} />
                 Rec
               </Button>
-              <Button color="primary">stop</Button>
+              <Button className="stop" color="primary">
+                stop
+              </Button>
               <Button
                 variant="contained"
                 color="primary"

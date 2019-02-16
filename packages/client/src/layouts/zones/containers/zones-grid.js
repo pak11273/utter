@@ -295,7 +295,6 @@ class ZonesGrid extends PureComponent {
                 <Grid container spacing={24}>
                   {data.getZones.zones.map(card => (
                     <Grid item key={card.id} xs={12} sm={12} md={3} lg={2}>
-                      {console.log("card: ", card)}
                       <Card className={classes.card}>
                         <CardContent className={classes.cardContent}>
                           <Typography

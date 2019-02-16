@@ -13,10 +13,10 @@ const styles = theme => ({
   root: {
     backgroundColor: "orange",
     height: "100%",
+    minHeight: "305px",
     width: "100%"
   },
   paper: {
-    padding: theme.spacing.unit * 1,
     textAlign: "left",
     color: theme.palette.text.primary
   }
@@ -28,9 +28,9 @@ class Members extends PureComponent {
     const {classes} = this.props
     return (
       <div className={classes.root}>
-        <Grid container spacing={0}>
+        <Grid container>
           {this.props.usersList.map((user, i) => [
-            <Grid key={i} item xs={12} sm={2} lg={1}>
+            <Grid item key={i} xs={12} sm={2} lg={1}>
               <Paper className={classes.paper}>
                 <a href="/pak11273" target="_blank">
                   <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
