@@ -69,11 +69,32 @@ class CourseIntroduction extends Component {
     courseName: "",
     courseDescription: "",
     disabled: true,
-    subscribeState: "subscribe"
+    subscribed: true
   }
 
   componentDidMount() {
     this.props.toggleFooter(false)
+
+    // TODO do a  subscribe gql call then setstate
+    /* try { */
+    /*   const {data} = await this.props.mutate({ */
+    /*     variables: { */
+    /*       input: this.props.course.id */
+    /*     } */
+    /*   }) */
+    /*   const {subscribe} = data */
+    /*   if (subscribe) { */
+    /*     this.setState({ */
+    /*       subscribed: true */
+    /*     }) */
+    /*   } */
+    /* } catch (err) { */
+    /*   return err */
+    /* } */
+    /* this.setState({ */
+    /* 	subscribed: true */
+    /* }) */
+
     const newData = update(this.state, {
       courseName: {$set: this.props.course.courseName},
       courseDescription: {$set: this.props.course.courseDescription}
@@ -93,20 +114,40 @@ class CourseIntroduction extends Component {
   }
 
   handleSubscribe = async () => {
-    try {
-      const {data} = await this.props.mutate({
-        variables: {
-          input: this.props.course.id
-        }
-      })
-      const {subscribe} = data
-      if (subscribe) {
-        this.setState({
-          subscribeState: "unsubscribe"
+    if (this.state.subscribed) {
+      /* make unsub xhr call */
+      try {
+        const {data} = await this.props.mutate({
+          variables: {
+            input: this.props.course.id
+          }
         })
+        const {subscribe} = data
+        if (subscribe) {
+          this.setState({
+            subscribed: true
+          })
+        }
+      } catch (err) {
+        return err
       }
-    } catch (err) {
-      return err
+    } else {
+      /* make sub xhr call */
+      try {
+        const {data} = await this.props.mutate({
+          variables: {
+            input: this.props.course.id
+          }
+        })
+        const {subscribe} = data
+        if (subscribe) {
+          this.setState({
+            subscribed: false
+          })
+        }
+      } catch (err) {
+        return err
+      }
     }
   }
 
@@ -185,7 +226,7 @@ class CourseIntroduction extends Component {
                 }
                 onClick={this.handleSubscribe}
                 size="large">
-                {this.state.subscribeState}
+                {this.state.subscribed ? "unsubscribe" : "subscribe"}
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -241,6 +282,13 @@ class CourseIntroduction extends Component {
                 gutterBottom>
                 Course Author:{" "}
                 <span style={{fontWeight: 900}}>{course.owner.username}</span>
+              </Typography>
+              <Typography
+                variant="h6"
+                align="left"
+                className={classes.text}
+                gutterBottom>
+                Resources: <span style={{fontWeight: 900}}>pending</span>
               </Typography>
               <Typography
                 variant="h6"

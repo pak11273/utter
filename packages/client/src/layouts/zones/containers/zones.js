@@ -24,6 +24,7 @@ import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
 import {history} from "@utterzone/connector"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
+import languageData from "../../../data/languageData.js"
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
@@ -88,7 +89,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   heroContent: {
-    maxWidth: 600,
     margin: "0 auto",
     padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
   },
@@ -355,11 +355,7 @@ class ZonesContainer extends Component {
               name="form-field-name"
               value={this.state.usingLang}
               onChange={this.handleSpeakingChange}
-              options={[
-                {value: "english", label: "English"},
-                {value: "spanish", label: "Spanish"},
-                {value: "french", label: "French"}
-              ]}
+              options={languageData}
             />
             <Spacer margin="40px 0 0 0" />
             <Typography
@@ -374,12 +370,7 @@ class ZonesContainer extends Component {
               name="form-field-name"
               value={this.state.teachingLang}
               onChange={this.handleTeachingChange}
-              options={[
-                {value: "korean", label: "Korean"},
-                {value: "english", label: "English"},
-                {value: "spanish", label: "Spanish"},
-                {value: "french", label: "French"}
-              ]}
+              options={languageData}
             />
             <Spacer margin="40px 0 0 0" />
             <Typography

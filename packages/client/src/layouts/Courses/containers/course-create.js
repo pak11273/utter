@@ -25,9 +25,9 @@ import {Flex, FormikInput, FormikTextArea, Img, Span} from "../../../components"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {fetchCourseName} from "../actions.js"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
-import CourseRef from "../components/course-ref"
-import Teaching from "./Teaching"
-import Using from "./Using"
+import CourseResources from "../components/course-resources"
+import Teaching from "./teaching"
+import Using from "./using"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;
@@ -145,10 +145,13 @@ class CourseCreate extends Component {
     })
   }
 
-  addRef = value => {
-    this.setState({
-      resources: value
-    })
+  addResources = value => {
+    this.setState(
+      {
+        resources: value
+      },
+      () => console.log("state: ", this.state)
+    )
   }
 
   addTeachingLang = value => {
@@ -412,7 +415,7 @@ class CourseCreate extends Component {
                   Resources
                 </Typography>
                 <p>ie. Book, Classroom, Online Course</p>
-                <CourseRef addRef={this.addRef} />
+                <CourseResources addResources={this.addResources} />
                 <Typography
                   align="left"
                   variant="h6"

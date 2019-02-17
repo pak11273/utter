@@ -1,4 +1,4 @@
-import {isEmpty} from "lodash"
+import isEmpty from "lodash/isEmpty"
 import config from "../../config"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
@@ -104,7 +104,6 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  console.log("course args: ", args)
   // build query object
   const query = {}
   var courseName, resources, owner
@@ -112,10 +111,16 @@ const getCourses = async (_, args, ctx, info) => {
     ? (query.courseName = new RegExp(escapeRegex(args.courseName), "gi"))
     : null
 
-  args.resources
-    ? (query.resources = new RegExp(escapeRegex(args.resources), "gi"))
-    : null
-
+  if (!isEmpty(args.resources)) {
+    var newArray = []
+    args.resources.map(item => {
+      const escapedStr = new RegExp(escapeRegex(item), "gi")
+      newArray.push(escapedStr)
+    })
+    query.resources = newArray
+  } else {
+    null
+  }
   if (args.owner) {
     var owner = await Course.findByUsername(args.owner, (err, docs) => {
       if (err) {
@@ -137,14 +142,12 @@ const getCourses = async (_, args, ctx, info) => {
     : null
   // end query object
 
-  if (args.cursor) {
+  if (args.cursor && args.cursor !== "done") {
     // type cast id, $lt is not the same in aggregate vs query
     var cursor = mongoose.Types.ObjectId(args.cursor)
     // add to query object
     query._id = {$lt: cursor}
   }
-
-  console.log("query: ", query)
 
   let result = await Course.find(query)
     .limit(3)

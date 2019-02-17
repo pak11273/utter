@@ -33,7 +33,7 @@ class Teaching extends Component {
     return (
       <Box width="250px">
         <Select
-          id="language-select"
+          id="teaching-select"
           ref={ref => {
             this.select = ref
           }}
@@ -59,7 +59,6 @@ class Teaching extends Component {
           options={options}
           disabled={this.state.disabled}
           value={this.state.selectValue}
-          onBlur={field.onBlur}
           onChange={this.updateValue}
           rtl={this.state.rtl}
           searchable={this.state.searchable}

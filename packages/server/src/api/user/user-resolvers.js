@@ -235,12 +235,29 @@ const subscribe = async (_, {input}, {redis, url, req}, info) => {
     if (err) return err
     if (data) return data
   })
+  console.log("input: ", input)
 
-  // TODO if user already has courseID in subscriptions array then return false
+  // TODO
+  /* x) see if user has the course in his subscriptions array */
+  /* x) if user does have it then return true*/
+  /* x) if user doesnt have it then add the it to his subscription then return true */
 
-  /* return false */
+  return false
+}
 
-  // if not add the course and return true
+const unsubscribe = async (_, {input}, {redis, url, req}, info) => {
+  var token = req.headers.authorization || null
+  var user = await userByToken(token, (err, data) => {
+    if (err) return err
+    if (data) return data
+  })
+  console.log("input: ", input)
+
+  // TODO
+  /* x) see if user has the course in his subscriptions array */
+  /* x) if user does have it then remove the course from subscriptions and return false*/
+  /* x) if the user doesn't have it then just return false */
+
   return true
 }
 
@@ -270,6 +287,7 @@ export const userResolvers = {
     forgotPassword,
     signup,
     subscribe,
+    unsubscribe,
     login,
     updateMe
   }

@@ -9,6 +9,7 @@ type Course {
   courseImage: String
   courseMode: String!
   levels: [Level]
+	resources: [String]
   teachingLang: String
   usingLang: String
   createdAt: Int
@@ -43,7 +44,7 @@ extend type Query {
   getCourses(
     cursor: String
     courseName: String!
-    resources: String!
+    resources: [String]
     owner: String!
     usingLang: String!
     teachingLang: String!

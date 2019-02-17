@@ -76,5 +76,6 @@ type Mutation {
 	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
 	subscribe(input: String): Boolean
+	unsubscribe(input: String): Boolean
   updateMe(input: UpdatedUserInput!): User!
 }

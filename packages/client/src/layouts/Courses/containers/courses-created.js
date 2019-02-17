@@ -69,7 +69,8 @@ const styles = theme => ({
     }
   },
   root: {
-    display: "flex"
+    display: "flex",
+    flexGrow: 1
   },
   drawer: {
     width: drawerWidth,

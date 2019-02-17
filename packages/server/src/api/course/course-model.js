@@ -28,8 +28,7 @@ const CourseSchema = mongoose.Schema(
     },
     resources: [
       {
-        type: Schema.Types.Mixed,
-        default: {}
+        type: String
       }
     ],
     teachingLang: {

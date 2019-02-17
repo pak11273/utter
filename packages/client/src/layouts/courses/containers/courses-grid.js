@@ -29,7 +29,7 @@ const getCourses = gql`
     $cursor: String
     $courseName: String!
     $owner: String!
-    $resources: String!
+    $resources: [String]
     $usingLang: String!
     $teachingLang: String!
   ) {
@@ -146,7 +146,7 @@ const styles = theme => ({
 const initialState = {
   courseInput: "",
   courseName: "",
-  resources: "",
+  resources: [],
   items: "",
   labelWidth: 0,
   mobileOpen: false,

@@ -22,6 +22,7 @@ import CoursesGrid from "./courses-grid.js"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
+import languageData from "../../../data/languageData.js"
 import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 
 // actions
@@ -84,7 +85,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper
   },
   heroContent: {
-    maxWidth: 600,
     margin: "0 auto",
     padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
   },
@@ -102,7 +102,8 @@ const styles = theme => ({
     }
   },
   root: {
-    display: "flex"
+    display: "flex",
+    flexGrow: 1
   },
   select: {
     width: "80% !important",
@@ -119,7 +120,7 @@ const styles = theme => ({
 const initialState = {
   courseInput: "",
   courseName: "",
-  resources: "",
+  resources: [],
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -202,6 +203,8 @@ class CoursesContainer extends PureComponent {
     e.preventDefault()
     // change state props based on selectionBox
     const {courseInput, selectionBox} = this.state
+    console.log("course input: ", courseInput)
+    console.log("selection box", selectionBox)
     switch (selectionBox) {
       case "title": {
         // set courseName
@@ -213,7 +216,7 @@ class CoursesContainer extends PureComponent {
             $set: courseInput
           },
           resources: {
-            $set: ""
+            $set: []
           },
           next: {
             $set: ""
@@ -235,7 +238,7 @@ class CoursesContainer extends PureComponent {
             $set: ""
           },
           resources: {
-            $set: courseInput
+            $set: [courseInput]
           },
           next: {
             $set: ""
@@ -257,7 +260,7 @@ class CoursesContainer extends PureComponent {
             $set: ""
           },
           resources: {
-            $set: ""
+            $set: []
           },
           next: {
             $set: ""
@@ -293,11 +296,7 @@ class CoursesContainer extends PureComponent {
               name="form-field-name"
               value={this.state.usingLang}
               onChange={this.handleSpeakingChange}
-              options={[
-                {value: "english", label: "English"},
-                {value: "spanish", label: "Spanish"},
-                {value: "french", label: "French"}
-              ]}
+              options={languageData}
             />
             <Spacer margin="40px 0 0 0" />
             <Typography variant="h6" align="center" gutterBottom>
@@ -308,12 +307,7 @@ class CoursesContainer extends PureComponent {
               name="form-field-name"
               value={this.state.teachingLang}
               onChange={this.handleTeachingChange}
-              options={[
-                {value: "korean", label: "Korean"},
-                {value: "english", label: "English"},
-                {value: "spanish", label: "Spanish"},
-                {value: "french", label: "French"}
-              ]}
+              options={languageData}
             />
             <Spacer margin="40px 0 0 0" />
             <Divider />
@@ -374,7 +368,7 @@ class CoursesContainer extends PureComponent {
                         <em>None</em>
                       </MenuItem>
                       <MenuItem value="title">Title</MenuItem>
-                      <MenuItem value="reference">Resource</MenuItem>
+                      <MenuItem value="resources">Resource</MenuItem>
                       <MenuItem value="author">Author</MenuItem>
                     </Select>
                   </FormControl>
