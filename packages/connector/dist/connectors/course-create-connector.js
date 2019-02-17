@@ -33,7 +33,7 @@ var _inherits2 = require("babel-runtime/helpers/inherits");
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      courseName\n      owner {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      courseName\n      owner {\n        username\n      }\n      courseDescription\n      courseMode\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $resources: [ResourceInput]\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        resources: $resources\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      courseName\n      owner {\n        username\n      }\n      courseDescription\n      courseMode\n      resources {\n        value\n        label\n      }\n      teachingLang\n      usingLang\n    }\n  }\n"], ["\n  mutation courseCreate(\n    $courseName: String!\n    $courseImage: String\n    $courseDescription: String\n    $courseMode: String\n    $resources: [ResourceInput]\n    $teachingLang: String\n    $usingLang: String\n  ) {\n    courseCreate(\n      input: {\n        courseName: $courseName\n        courseImage: $courseImage\n        courseDescription: $courseDescription\n        courseMode: $courseMode\n        resources: $resources\n        teachingLang: $teachingLang\n        usingLang: $usingLang\n      }\n    ) {\n      id\n      courseName\n      owner {\n        username\n      }\n      courseDescription\n      courseMode\n      resources {\n        value\n        label\n      }\n      teachingLang\n      usingLang\n    }\n  }\n"]); /* eslint no-unused-vars: 0 */
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -101,6 +101,7 @@ var CC = exports.CC = function (_PureComponent) {
                     courseDescription: values.courseDescription,
                     courseImage: values.courseImage,
                     courseMode: values.courseMode,
+                    resources: values.resources,
                     teachingLang: values.teachingLang,
                     usingLang: values.usingLang
                   }
@@ -153,15 +154,6 @@ var CC = exports.CC = function (_PureComponent) {
 }(_react.PureComponent);
 
 var CourseCreateMutation = (0, _graphqlTag2.default)(_templateObject);
-
-/* const mapStateToProps = state => { */
-/*   const session = schema.session(state.apiReducer) */
-/*   const {Course} = session */
-/*   const course = Course.first().ref */
-/*   return { */
-/*     course */
-/*   } */
-/* } */
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {

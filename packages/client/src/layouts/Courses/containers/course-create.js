@@ -63,7 +63,7 @@ const initialState = {
   charCount: 0,
   courseId: cuid(),
   courseImage: "",
-  resources: "",
+  resources: [],
   disabled: false,
   displayName: "",
   errors: {},
@@ -507,6 +507,7 @@ export default connect(
         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/course-thumbnails/fa-image_kzo6kn.jpg",
       courseDescription: "",
       courseMode: "draft",
+      resources: [],
       teachingLang: "",
       usingLang: ""
     }),

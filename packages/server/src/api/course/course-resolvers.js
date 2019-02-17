@@ -44,6 +44,7 @@ const courseUpdate = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   const token = ctx.req.headers.authorization
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -82,7 +83,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
   query.owner = user._id
   // end query object
 
-  if (args.cursor) {
+  if (args.cursor && args.cursor !== "done") {
     // type cast id, $lt is not the same in aggregate vs query
     var cursorObj = mongoose.Types.ObjectId(args.cursor)
     // add to query object

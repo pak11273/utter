@@ -18,6 +18,7 @@ export class CC extends PureComponent {
           courseDescription: values.courseDescription,
           courseImage: values.courseImage,
           courseMode: values.courseMode,
+          resources: values.resources,
           teachingLang: values.teachingLang,
           usingLang: values.usingLang
         }
@@ -48,6 +49,7 @@ const CourseCreateMutation = gql`
     $courseImage: String
     $courseDescription: String
     $courseMode: String
+    $resources: [ResourceInput]
     $teachingLang: String
     $usingLang: String
   ) {
@@ -57,6 +59,7 @@ const CourseCreateMutation = gql`
         courseImage: $courseImage
         courseDescription: $courseDescription
         courseMode: $courseMode
+        resources: $resources
         teachingLang: $teachingLang
         usingLang: $usingLang
       }
@@ -68,18 +71,15 @@ const CourseCreateMutation = gql`
       }
       courseDescription
       courseMode
+      resources {
+        value
+        label
+      }
+      teachingLang
+      usingLang
     }
   }
 `
-
-/* const mapStateToProps = state => { */
-/*   const session = schema.session(state.apiReducer) */
-/*   const {Course} = session */
-/*   const course = Course.first().ref */
-/*   return { */
-/*     course */
-/*   } */
-/* } */
 
 const mapDispatchToProps = dispatch => {
   return {

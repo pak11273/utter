@@ -29,7 +29,7 @@ const getCourses = gql`
     $cursor: String
     $courseName: String!
     $owner: String!
-    $resources: [String]
+    $resources: [ResourceInput]
     $usingLang: String!
     $teachingLang: String!
   ) {

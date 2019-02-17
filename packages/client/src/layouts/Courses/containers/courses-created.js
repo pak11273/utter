@@ -140,7 +140,7 @@ const initialState = {
   courseInput: "",
   courseName: "",
   selectionBox: "title",
-  resources: "",
+  resources: [],
   teachingLang: "",
   usingLang: "",
   items: "",
