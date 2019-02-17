@@ -1,28 +1,58 @@
+type  Vocabulary {
+		word: String
+		translation: String
+		audioUrl: String
+  }
+
+type Grammar {
+      rule: String
+      example: String
+      translation: String
+      audioUrl: String
+    }
+
+type Examples {
+      example: String
+      translation: String
+      audioUrl: String
+    }
+
+type Phrases {
+      type: String
+      formality: String
+      phrase: String
+      translation: String
+      audioUrl: String
+    }
+
+type Notes {
+    note: String
+  }
 
 type Level {
-  id: ID!
-  title: String!
-  levelAuthor: User
+	courseId: String
   createdAt: Int
-}
-
-input UpdatedLevel {
+	exmaples: [Examples]
+	grammar: [Grammar]
   id: ID!
-  levelId: String
-  levelName: String
-  leveldescription: String
-  levelMode: String
-  favorite: Boolean
+	level: Int!
+	notes: [Notes]
+	phrases: [Phrases]
+  updatedAt: String
+  title: String!
+	vocabulary: [Vocabulary]
 }
 
-input CreateLevelInput {
-  levelId: String
-	levelImage: String
-  levelName: String!
-  levelDescription: String
-  levelMode: String
-	teachingLang: String
-  usingLang: String
+input LevelUpdated {
+  id: ID!
+  level: Int 
+  title: String
+}
+
+input LevelCreateInput {
+  id: ID!
+  level: Int 
+  title: String
 }
 
 type PaginatedLevels {
@@ -31,19 +61,20 @@ type PaginatedLevels {
 }
 
 extend type Query {
+  getLevel(levelId: String!): Level!
   getLevels(
-    courseId: String!
-  ): Level 
-	getCreatedLevels(
     cursor: String
-    author: String!
-	): PaginatedLevels 
+    levelName: String!
+    owner: String!
+		resources: [ResourceInput] 
+    usingLang: String!
+    teachingLang: String!
+  ): PaginatedLevels 
   getLevelCount: Int
 }
 
 extend type Mutation {
-  levelCreate(input: CreateLevelInput!): Level! 
-	deleteLevel(id: String!): Boolean
-  updateLevel(input: UpdatedLevel!): Level!
-  removeLevel(id: ID!): Boolean
+  levelCreate(input: LevelCreateInput!): Level! 
+	levelDelete(resourceID: String!): Boolean @hasScope(scope: "level:delete")
+  levelUpdate(input: LevelUpdated!): Level!
 }

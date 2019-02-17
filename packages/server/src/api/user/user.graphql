@@ -6,17 +6,18 @@ type Error {
 }
 
 type User {
-	id: ID
+	blocked: [String]
+  contacts: [String]
+	createdCourses: [Course]
+  createdAt: String
   email: String 
+	id: ID
   password: String
 	roles: [ String ]
 	scopes: [String]
-  contacts: [String]
-	blocked: [String]
 	subscriptions: [Course]
-  username: String!
-  createdAt: String
   updatedAt: String
+  username: String!
 }
 
 type AuthPayload {

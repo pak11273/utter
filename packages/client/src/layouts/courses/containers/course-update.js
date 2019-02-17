@@ -8,11 +8,12 @@ import Drawer from "@material-ui/core/Drawer"
 import Link from "@material-ui/core/Link"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
-import ListItemText from "@material-ui/core/ListItemText"
-
+/* import ListItemText from "@material-ui/core/ListItemText" */
+import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import schema from "../../../core/schema.js"
+import styled from "styled-components"
 /* import Select from "react-select" */
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
@@ -36,6 +37,15 @@ import "react-select/dist/react-select.css" // comment out exclude node_modules 
 /*   } */
 
 /* ` */
+
+const StyledNavLink = styled(NavLink)`
+  grid-area: ${props => props.gridarea};
+  color: #003478;
+  &:hover {
+    color: red;
+    text-decoration: underline;
+  }
+`
 const drawerWidth = 240
 
 const styles = theme => ({
@@ -115,10 +125,16 @@ class CourseUpdate extends Component {
                     id={user.username}
                     matchingID={course.owner.username}
                     yes={() => (
-                      <ListItem button key={index}>
-                        <Link component={NavLink} to="/course/course-settings">
-                          <ListItemText primary={text} />
-                        </Link>
+                      <ListItem
+                        button
+                        component={StyledNavLink}
+                        exact
+                        activeStyle={{
+                          color: "yellow"
+                        }}
+                        to="/course/course-settings"
+                        key={index}>
+                        <Typography>{text}</Typography>
                       </ListItem>
                     )}
                     no={() => null}
@@ -126,10 +142,16 @@ class CourseUpdate extends Component {
                 )
               }
               return (
-                <ListItem button key={index}>
-                  <Link component={NavLink} to={`/course/course-${text}`}>
-                    <ListItemText primary={text} />
-                  </Link>
+                <ListItem
+                  button
+                  component={StyledNavLink}
+                  exact
+                  activeStyle={{
+                    color: "yellow"
+                  }}
+                  to={`/course/course-${text}`}
+                  key={index}>
+                  <Typography>{text}</Typography>
                 </ListItem>
               )
             })}

@@ -4,14 +4,52 @@ import Course from "../course/course-model.js"
 import {TermSchema} from "../term/term-model.js"
 
 export const LevelSchema = new Schema({
-  level: Number,
+  level: {
+    type: Number,
+    required: [true, "can't be blank"]
+  },
   title: {
     type: String,
-    default: "Change me"
+    required: [true, "can't be blank"]
   },
-  Course: {
+  courseId: {
     type: Schema.Types.ObjectId,
-    ref: "Course"
+    ref: "Course",
+    required: [true, "can't be blank"]
+  },
+  vocabulary: [
+    {
+      word: {type: String},
+      translation: {type: String},
+      audioUrl: String
+    }
+  ],
+  grammar: [
+    {
+      rule: {type: String},
+      example: {type: String},
+      translation: {type: String},
+      audioUrl: {type: String}
+    }
+  ],
+  examples: [
+    {
+      example: {type: String},
+      translation: {type: String},
+      audioUrl: {type: String}
+    }
+  ],
+  phrases: [
+    {
+      type: {type: String},
+      formality: {type: String},
+      phrase: {type: String},
+      translation: {type: String},
+      audioUrl: {type: String}
+    }
+  ],
+  notes: {
+    type: String
   }
 })
 

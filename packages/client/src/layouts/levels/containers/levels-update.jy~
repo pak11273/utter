@@ -132,7 +132,8 @@ class Levels extends Component {
 
     const columns = [
       {
-        Header: () => <div>Level</div>,
+        Header: () => <span style={{display: "flex"
+				}}>Level</span>,
         accessor: "level",
         Cell: row => (
           <div
@@ -140,8 +141,6 @@ class Levels extends Component {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              width: `100px`,
-              height: "100%"
             }}>
             {row.value}
           </div>

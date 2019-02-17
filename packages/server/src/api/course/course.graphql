@@ -14,17 +14,18 @@ input ResourceInput {
 }
 
 type Course {
-  id: ID!
-  courseName: String!
-  owner: User
   courseDescription: String
   courseImage: String
   courseMode: String!
+  courseName: String!
+  createdAt: String 
+  id: ID!
   levels: [Level]
+  owner: User
 	resources: [Resource]
   teachingLang: String
   usingLang: String
-  createdAt: Int
+  updatedAt: String
 }
 
 input CourseUpdated {

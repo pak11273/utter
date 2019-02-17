@@ -125,7 +125,7 @@ class CourseSettings extends Component {
                       color: "white",
                       margin: "12px"
                     }}>
-                    Delete Course
+                    Delete Course {/* TODO: delete all related entities */}
                   </Button>
                 </Grid>
                 <Grid item xs={12}>

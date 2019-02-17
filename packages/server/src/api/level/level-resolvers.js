@@ -1,69 +1,110 @@
-import {isEmpty} from "lodash"
+import isEmpty from "lodash/isEmpty"
+import config from "../../config"
+import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import Level from "./level-model"
+import {userByToken} from "../shared/resolver-functions.js"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
-/* const getLevel = async (_, {id}, {user}) => { */
-/*   const level = await Level.findById(id).exec() */
-/*   if (!level) { */
-/*     throw new Error("Cannot find level with id") */
-/*   } */
-
-/*   return level */
-/* } */
-
-const deleteLevel = async (_, {id}, ctx) => {
-  console.log("id: ", id)
-  const level = await Level.findById(id).exec()
-  /* Level.findOneAndDelete({levelAuthor: user._id && id: id}) { */
-  /* } */
-
+const getLevel = async (_, {levelId}, {user}) => {
+  const level = await Level.findById(levelId).exec()
   if (!level) {
-    throw new Error("No level found.")
-  }
-
-  if (level.levelAuthor === id) {
-    // TODO: delete level
+    throw new Error("Cannot find level with id")
   }
 
   return level
 }
 
-const updateLevel = (_, {input}) => {
+const levelDelete = async (_, {id}, ctx) => {
+  if (token === "null") {
+    return new Error("You need to be registered to view this resource.")
+  }
+  const token = ctx.req.headers.authorization
+  const user = await userByToken(token, (err, res) => {
+    if (err) return err
+    return res
+  })
+
+  const level = await Level.findOneAndDelete({owner: user._id})
+  if (!level) {
+    throw new Error("No level found by this owner.")
+  }
+
+  if (level) {
+    return true
+  }
+}
+
+const levelUpdate = (_, {input}) => {
   const {id, ...update} = input
   return Level.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
 const levelCreate = async (_, args, ctx, info) => {
   console.log("args: ", args)
-  console.log("ctx: ", ctx.user)
+  const token = ctx.req.headers.authorization
+  if (token === "null") {
+    return new Error("You need to be registered to view this resource.")
+  }
+  const user = await userByToken(token, (err, res) => {
+    if (err) return err
+    return res
+  })
+
   //TODO can't have duplicate level names
   const {input} = args
-  input.levelAuthor = ctx.user
+  input.owner = user._id
   const level = await Level.create(input)
   level.id = level._id
-  console.log("level: ", typeof level)
   return level
 }
 
-const getCreatedLevels = async (_, args, ctx, info) => {
+const getLevels = async (_, args, ctx, info) => {
   // build query object
   const query = {}
-  query.levelAuthor = ctx.user
+  var levelName, resources, owner
+  args.levelName
+    ? (query.levelName = new RegExp(escapeRegex(args.levelName), "gi"))
+    : null
+
+  if (!isEmpty(args.resources)) {
+    var newArray = []
+    args.resources.map(item => {
+      const escapedStr = new RegExp(escapeRegex(item), "gi")
+      newArray.push(escapedStr)
+    })
+    query.resources = newArray
+  } else {
+    null
+  }
+  if (args.owner) {
+    var owner = await Level.findByUsername(args.owner, (err, docs) => {
+      if (err) {
+        // console.log doesn't work here
+      }
+      if (!isEmpty(docs)) {
+        var owner = docs._id
+        query.owner = owner
+      }
+    })
+  }
+
+  args.usingLang
+    ? (query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi"))
+    : null
+
+  args.teachingLang
+    ? (query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi"))
+    : null
   // end query object
 
-  /* // TODO: HOTFIX, using a fake levelAuthor, delete this after testing */
-  /* query.levelAuthor = "5b9012f043aa4329f187f01a" */
-  /* end */
-
-  if (args.cursor) {
+  if (args.cursor && args.cursor !== "done") {
     // type cast id, $lt is not the same in aggregate vs query
-    var cursorObj = mongoose.Types.ObjectId(args.cursor)
+    var cursor = mongoose.Types.ObjectId(args.cursor)
     // add to query object
-    var cursor = cursorObj
     query._id = {$lt: cursor}
   }
 
@@ -82,19 +123,19 @@ const getCreatedLevels = async (_, args, ctx, info) => {
 
 export const levelResolvers = {
   Query: {
-    getCreatedLevels
-    /* getLevel */
+    getLevels,
+    getLevel
   },
   Mutation: {
-    deleteLevel,
-    updateLevel,
+    levelDelete,
+    levelUpdate,
     levelCreate
   },
   Level: {
-    async levelAuthor(level) {
-      const populated = await level.populate("levelAuthor").execPopulate()
+    async owner(level) {
+      const populated = await level.populate("owner").execPopulate()
 
-      return populated.levelAuthor
+      return populated.owner
     }
   }
 }

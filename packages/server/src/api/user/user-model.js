@@ -24,10 +24,12 @@ export const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    courses: {
-      type: Schema.Types.ObjectId,
-      ref: "Course"
-    },
+    createdCourses: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Course"
+      }
+    ],
     forgotPasswordLocked: {
       type: Boolean,
       default: false
