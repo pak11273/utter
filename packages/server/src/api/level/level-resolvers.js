@@ -54,7 +54,7 @@ const levelCreate = async (_, args, ctx, info) => {
     return res
   })
 
-  //TODO can't have duplicate level names
+  //TODO can't have duplicate level numbers 
   const {input} = args
   const level = await Level.create(input)
   level.id = level._id

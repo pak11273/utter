@@ -9,7 +9,8 @@ import {HttpLink} from "apollo-link-http"
 const defaults = {}
 
 const cache = new InMemoryCache({
-  dataIdFromObject: object => object.key || null
+  dataIdFromObject: object => object.key || null,
+  addTypename: false
 })
 
 const stateLink = withClientState({

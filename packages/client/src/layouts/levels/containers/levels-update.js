@@ -12,8 +12,9 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import {Query} from "react-apollo"
+import {graphql, Mutation, Query} from "react-apollo"
 import gql from "graphql-tag"
+import {withFormik} from "formik"
 
 import schema from "../../../core/schema.js"
 import {Hero, LoaderCircle} from "../../../components"
@@ -26,35 +27,19 @@ const getLevels = gql`
   query getLevels($courseId: String!) {
     getLevels(courseId: $courseId) {
       levels {
-        courseId
-        exmaples {
-          example
-          translation
-          audioUrl
-        }
-        grammar {
-          rule
-          example
-          translation
-          audioUrl
-        }
-        id
         level
-        notes
-        phrases {
-          type
-          formality
-          phrase
-          translation
-          audioUrl
-        }
         title
-        vocabulary {
-          word
-          translation
-          audioUrl
-        }
       }
+    }
+  }
+`
+
+const levelCreate = gql`
+  mutation levelCreate($input: LevelCreateInput!) {
+    levelCreate(input: $input) {
+      courseId
+      level
+      title
     }
   }
 `
@@ -123,6 +108,7 @@ class Levels extends Component {
     super(props)
 
     this.state = {
+      newTitle: ""
       /* columnDefs: [ */
       /*   { */
       /*     rowDrag: true, */
@@ -146,10 +132,25 @@ class Levels extends Component {
     /* .then(rowData => this.setState({rowData})) */
   }
 
-  addLevel = () => {
-    console.log("helo")
+  addLevel = levelCreate => e => {
+    levelCreate({
+      variables: {
+        input: {
+          id: this.props.course.id,
+          courseId: this.props.level.courseId,
+          level: 2,
+          title: this.state.newTitle
+        }
+      }
+    })
     // add level to db
     // after add query list again
+  }
+
+  onChange = e => {
+    this.setState({
+      newTitle: e.target.value
+    })
   }
 
   /* onButtonClick = () => { */
@@ -167,7 +168,7 @@ class Levels extends Component {
       {
         Header: () => (
           <Typography className={classes.editHeader}>
-            {this.props.level.level + 1}
+            {this.props.level.level + 2}
           </Typography>
         ),
         columns: [
@@ -188,6 +189,7 @@ class Levels extends Component {
           <TextField
             id="outlined-bare"
             className={classes.inputHeader}
+            onChange={this.onChange}
             margin="normal"
             variant="outlined"
           />
@@ -205,10 +207,44 @@ class Levels extends Component {
         ]
       },
       {
-        Header: () => (
-          <Button className={classes.addButton} onClick={this.addLevel}>
-            Add Level
-          </Button>
+        Header: row => (
+          <div>
+            <Mutation
+              mutation={levelCreate}
+              update={(cache, {data: {levelCreate}}) => {
+                console.log("DATA: ", levelCreate)
+                try {
+                  var gotLevels = cache.readQuery({
+                    query: getLevels,
+                    variables: {courseId: this.props.level.courseId}
+                  })
+                  var {levels} = gotLevels.getLevels
+                  console.log("levels: ", levels)
+                  cache.writeQuery({
+                    query: getLevels,
+                    variables: {courseId: this.props.level.courseId},
+                    /* data.getLevels.levels[0] */
+                    data: {
+                      getLevels: {
+                        levels: levels.concat([levelCreate])
+                      }
+                    }
+                  })
+                } catch (err) {
+                  console.log("err: ", err)
+                }
+              }}>
+              {(levelCreate, {data}) => (
+                <div>
+                  <Button
+                    className={classes.addButton}
+                    onClick={this.addLevel(levelCreate)}>
+                    Add Level
+                  </Button>
+                </div>
+              )}
+            </Mutation>
+          </div>
         ),
         columns: [
           {
@@ -265,8 +301,10 @@ class Levels extends Component {
               </Grid>
             )
 
-          const level = data.getLevels.levels[0]
-          this.props.loadData({level})
+          if (data.getLevels.levels[0]) {
+            const level = data.getLevels.levels[0]
+            this.props.loadData({level})
+          }
 
           return (
             <Grid container direction="column">
@@ -318,4 +356,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {toggleFooter, loadData}
-)(withStyles(styles)(Levels))
+)(withFormik({})(withStyles(styles)(Levels)))
