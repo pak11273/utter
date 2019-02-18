@@ -11,7 +11,7 @@ type Grammar {
       audioUrl: String
     }
 
-type Examples {
+type Example {
       example: String
       translation: String
       audioUrl: String
@@ -28,7 +28,7 @@ type Phrases {
 type Level {
 	courseId: String
   createdAt: Int
-	exmaples: [Examples]
+	examples: [Example]
 	grammar: [Grammar]
   id: ID!
 	level: Int!
@@ -46,6 +46,7 @@ input LevelUpdated {
 }
 
 input LevelCreateInput {
+	courseId: String
   id: ID!
   level: Int 
   title: String

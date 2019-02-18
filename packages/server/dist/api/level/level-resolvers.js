@@ -190,7 +190,7 @@ var levelCreate = function () {
             user = _context3.sent;
 
 
-            //TODO can't have duplicate level names
+            //TODO can't have duplicate level numbers 
             input = args.input;
             _context3.next = 10;
             return _levelModel2.default.create(input);
