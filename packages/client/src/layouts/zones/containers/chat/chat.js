@@ -45,6 +45,7 @@ const ChatWindow = styled.div`
   justify-content: flex-end;
   height: 100%;
   box-sizing: border-box;
+  width: 100%;
 `
 
 const ChatPanel = styled.div`

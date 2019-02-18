@@ -14,6 +14,7 @@ import {withStyles} from "@material-ui/core/styles"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
+import classnames from "classnames"
 
 import schema from "../../../core/schema.js"
 import {Hero, LoaderCircle} from "../../../components"
@@ -62,27 +63,13 @@ const getLevels = gql`
 const styles = theme => ({
   actions: {
     display: "flex",
-    justifyContent: "center",
-    height: "100%",
-    width: "100%"
-  },
-  addButton: {
     alignItems: "center",
+    justifyContent: "center",
     height: "100%"
   },
   button: {
     marginBottom: theme.spacing.unit * 4
     /* right: theme.spacing.unit * 2 */
-  },
-  editHeader: {
-    alignItems: "center",
-    display: "flex",
-    fontSize: theme.spacing.unit * 2,
-    fontWeight: 400,
-    height: "100%",
-    justifyContent: "center",
-    minHeight: "40px",
-    width: "100%"
   },
   level: {
     display: "flex",
@@ -100,14 +87,11 @@ const styles = theme => ({
   header: {
     fontSize: theme.spacing.unit * 3,
     fontWeight: 400,
-    height: "100%",
     minHeight: "40px",
     width: "100%"
   },
-  inputHeader: {
-    background: "white",
-    minHeight: "40px",
-    width: "100%"
+  inputFont: {
+    background: "white"
   },
   root: {
     maxWidth: 900,
@@ -165,11 +149,6 @@ class Levels extends Component {
     const {classes, course, level} = this.props
     const columns = [
       {
-        Header: () => (
-          <Typography className={classes.editHeader}>
-            {this.props.level.level + 1}
-          </Typography>
-        ),
         columns: [
           {
             Header: () => (
@@ -187,7 +166,8 @@ class Levels extends Component {
         Header: () => (
           <TextField
             id="outlined-bare"
-            className={classes.inputHeader}
+            className={classes.header}
+            defaultValue="Title"
             margin="normal"
             variant="outlined"
           />
@@ -205,15 +185,13 @@ class Levels extends Component {
         ]
       },
       {
-        Header: () => (
-          <Button className={classes.addButton} onClick={this.addLevel}>
-            Add Level
-          </Button>
-        ),
+        Header: () => <Button onClick={this.addLevel}>Add</Button>,
         columns: [
           {
             Header: () => (
-              <Typography className={classes.header}>Edit</Typography>
+              <Typography classnames={(classes.header, classes.inputFont)}>
+                Edit
+              </Typography>
             ),
             id: "123",
             accessor: props => (

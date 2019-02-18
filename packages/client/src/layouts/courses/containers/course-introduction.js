@@ -160,7 +160,6 @@ class CourseIntroduction extends Component {
 
   render() {
     const {classes, course, user} = this.props
-    console.log("course: ", course)
     return (
       <form className={classes.root} onSubmit={this.handleSubmit}>
         <Helmet>

@@ -14,12 +14,9 @@ import {withStyles} from "@material-ui/core/styles"
 
 import schema from "../../../core/schema.js"
 import styled from "styled-components"
-/* import Select from "react-select" */
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
 import {Can, Spacer} from "../../../components"
-
-import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 
 /* const getCourse = gql` */
 /*   query getCourse($courseId: String) { */
@@ -50,7 +47,10 @@ const drawerWidth = 240
 
 const styles = theme => ({
   content: {
+    alignItems: "center",
+    display: "flex",
     flexGrow: 1,
+    justifyContent: "center",
     padding: theme.spacing.unit * 3
   },
   drawer: {

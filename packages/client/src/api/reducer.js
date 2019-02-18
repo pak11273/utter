@@ -37,8 +37,9 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
+  console.log("payload: ", payload)
   const session = orm.session(state)
-  const entities = ["user", "course", "zone"]
+  const entities = ["course", "level", "user", "zone"]
   const payloadKeys = Object.keys(payload)
   payloadKeys.map(key => {
     const upperCaseKey = key.charAt(0).toUpperCase() + key.slice(1)
