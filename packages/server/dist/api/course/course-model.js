@@ -54,7 +54,7 @@ var CourseSchema = _mongoose2.default.Schema({
     type: Number,
     default: -1
   },
-  courseRef: [{
+  resources: [{
     type: _mongoose.Schema.Types.Mixed,
     default: {}
   }],

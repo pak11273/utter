@@ -195,7 +195,7 @@ var getZoneLevels = function () {
 
 var getZones = function () {
   var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var query, zoneName, zoneRef, owner, usingLang, teachingLang, app, appLevel, cursor, result;
+    var query, zoneName, resources, owner, usingLang, teachingLang, app, appLevel, cursor, result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -206,7 +206,7 @@ var getZones = function () {
 
             args.zoneName ? query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi") : null;
 
-            args.ref ? query.zoneRef = new RegExp(escapeRegex(args.ref), "gi") : null;
+            args.resources ? query.resources = new RegExp(escapeRegex(args.resources), "gi") : null;
 
             if (!args.owner) {
               _context5.next = 7;

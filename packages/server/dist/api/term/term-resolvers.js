@@ -233,7 +233,7 @@ var getCreatedTerms = function () {
 
 var getTerms = function () {
   var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var query, courseName, courseRef, owner, cursor, result;
+    var query, courseName, resources, owner, cursor, result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -244,7 +244,7 @@ var getTerms = function () {
 
             args.title ? query.courseName = new RegExp(escapeRegex(args.title), "gi") : null;
 
-            args.ref ? query.courseRef = new RegExp(escapeRegex(args.ref), "gi") : null;
+            args.ref ? query.resources = new RegExp(escapeRegex(args.ref), "gi") : null;
 
             if (!args.author) {
               _context5.next = 7;

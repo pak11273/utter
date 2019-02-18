@@ -67,8 +67,8 @@ var _default = {
               if (req.query.courseName) {
                 query.courseName = new RegExp("" + req.query.courseName, "i");
               }
-              if (req.query.courseRef) {
-                query.courseRef = new RegExp("" + req.query.courseRef, "i");
+              if (req.query.resources) {
+                query.resources = new RegExp("" + req.query.resources, "i");
               }
               if (req.query.owner) {
                 query.owner = req.query.owner;
@@ -113,7 +113,7 @@ var _default = {
                 $project: {
                   courseName: 1,
                   courseDescription: 1,
-                  courseRef: 1,
+                  resources: 1,
                   owner: 1,
                   courseImage: 1,
                   subscribers: { $size: "$subscribers" }
@@ -163,7 +163,7 @@ var _default = {
                 $project: {
                   courseName: 1,
                   courseDescription: 1,
-                  courseRef: 1,
+                  resources: 1,
                   owner: 1,
                   courseImage: 1,
                   subscribers: { $size: "$subscribers" }
@@ -285,7 +285,7 @@ var _default = {
       var id3 = _mongoose2.default.Types.ObjectId();
       var id4 = _mongoose2.default.Types.ObjectId();
       course.category = _faker3.default.commerce.department();
-      course.courseRef = _faker3.default.random.arrayElement(["TTMIK", "Topik Level 1", "How to study Korean"]);
+      course.resources = _faker3.default.random.arrayElement(["TTMIK", "Topik Level 1", "How to study Korean"]);
       course.teachingLang = _faker3.default.random.arrayElement(["korean", "french", "spanish"]);
       course.usingLang = _faker3.default.random.arrayElement(["english", "french", "spanish"]);
       // TODO: change ids to ones in the db

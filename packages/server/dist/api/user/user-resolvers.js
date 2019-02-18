@@ -61,13 +61,14 @@ var _userModel = require("./user-model.js");
 
 var _userModel2 = _interopRequireDefault(_userModel);
 
+var _resolverFunctions = require("../shared/resolver-functions.js");
+
 var _common = require("@utterzone/common");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* eslint-enable no-unused-vars */
 var changePassword = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, args, _ref2) {
     var redis = _ref2.redis,
@@ -167,7 +168,8 @@ var changePassword = function () {
   return function changePassword(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
-}();
+}(); /* eslint-enable no-unused-vars */
+
 
 var signup = function () {
   var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, _ref4, info) {
@@ -379,18 +381,6 @@ var login = function () {
   };
 }();
 
-function isAsync(func) {
-  var string = func.toString().trim();
-
-  return !!( // native
-  string.match(/^async /) ||
-  // babel (this may change, but hey...)
-  string.match(/return _ref[^\.]*\.apply/));
-  // insert your other dirty transpiler check
-
-  // there are other more complex situations that maybe require you to check the return line for a *promise*
-}
-
 var getUserByToken = function getUserByToken(_, args, ctx, info) {
   var token = ctx.req.headers.authorization || null;
   console.log("token: ", token);
@@ -510,9 +500,95 @@ var forgotPassword = function () {
   };
 }();
 
-var updateMe = function updateMe(_, _ref11, _ref12) {
-  var input = _ref11.input;
-  var user = _ref12.user;
+var subscribe = function () {
+  var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, _ref12, _ref13, info) {
+    var input = _ref12.input;
+    var redis = _ref13.redis,
+        url = _ref13.url,
+        req = _ref13.req;
+    var token, user;
+    return _regenerator2.default.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            token = req.headers.authorization || null;
+            _context7.next = 3;
+            return (0, _resolverFunctions.userByToken)(token, function (err, data) {
+              if (err) return err;
+              if (data) return data;
+            });
+
+          case 3:
+            user = _context7.sent;
+
+            console.log("input: ", input);
+
+            // TODO
+            /* x) see if user has the course in his subscriptions array */
+            /* x) if user does have it then return true*/
+            /* x) if user doesnt have it then add the it to his subscription then return true */
+
+            return _context7.abrupt("return", false);
+
+          case 6:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, undefined);
+  }));
+
+  return function subscribe(_x23, _x24, _x25, _x26) {
+    return _ref11.apply(this, arguments);
+  };
+}();
+
+var unsubscribe = function () {
+  var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_, _ref15, _ref16, info) {
+    var input = _ref15.input;
+    var redis = _ref16.redis,
+        url = _ref16.url,
+        req = _ref16.req;
+    var token, user;
+    return _regenerator2.default.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            token = req.headers.authorization || null;
+            _context8.next = 3;
+            return (0, _resolverFunctions.userByToken)(token, function (err, data) {
+              if (err) return err;
+              if (data) return data;
+            });
+
+          case 3:
+            user = _context8.sent;
+
+            console.log("input: ", input);
+
+            // TODO
+            /* x) see if user has the course in his subscriptions array */
+            /* x) if user does have it then remove the course from subscriptions and return false*/
+            /* x) if the user doesn't have it then just return false */
+
+            return _context8.abrupt("return", true);
+
+          case 6:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, undefined);
+  }));
+
+  return function unsubscribe(_x27, _x28, _x29, _x30) {
+    return _ref14.apply(this, arguments);
+  };
+}();
+
+var updateMe = function updateMe(_, _ref17, _ref18) {
+  var input = _ref17.input;
+  var user = _ref18.user;
 
   merge(user, input);
   return user.save();
@@ -523,8 +599,8 @@ var userResolvers = exports.userResolvers = {
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref13) {
-      var name = _ref13.name;
+    hello: function hello(_, _ref19) {
+      var name = _ref19.name;
       return "Hello " + (name || "World");
     }
   },
@@ -541,6 +617,8 @@ var userResolvers = exports.userResolvers = {
     changePassword: changePassword,
     forgotPassword: forgotPassword,
     signup: signup,
+    subscribe: subscribe,
+    unsubscribe: unsubscribe,
     login: login,
     updateMe: updateMe
   }
@@ -556,7 +634,6 @@ var userResolvers = exports.userResolvers = {
     return;
   }
 
-  reactHotLoader.register(isAsync, "isAsync", "src/api/user/user-resolvers.js");
   reactHotLoader.register(userResolvers, "userResolvers", "src/api/user/user-resolvers.js");
   reactHotLoader.register(changePassword, "changePassword", "src/api/user/user-resolvers.js");
   reactHotLoader.register(signup, "signup", "src/api/user/user-resolvers.js");
@@ -565,6 +642,8 @@ var userResolvers = exports.userResolvers = {
   reactHotLoader.register(getUserById, "getUserById", "src/api/user/user-resolvers.js");
   reactHotLoader.register(getUserByUsername, "getUserByUsername", "src/api/user/user-resolvers.js");
   reactHotLoader.register(forgotPassword, "forgotPassword", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(subscribe, "subscribe", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(unsubscribe, "unsubscribe", "src/api/user/user-resolvers.js");
   reactHotLoader.register(updateMe, "updateMe", "src/api/user/user-resolvers.js");
   leaveModule(module);
 })();
@@ -581,7 +660,6 @@ var userResolvers = exports.userResolvers = {
     return;
   }
 
-  reactHotLoader.register(isAsync, "isAsync", "src/api/user/user-resolvers.js");
   reactHotLoader.register(userResolvers, "userResolvers", "src/api/user/user-resolvers.js");
   reactHotLoader.register(changePassword, "changePassword", "src/api/user/user-resolvers.js");
   reactHotLoader.register(signup, "signup", "src/api/user/user-resolvers.js");
@@ -590,6 +668,8 @@ var userResolvers = exports.userResolvers = {
   reactHotLoader.register(getUserById, "getUserById", "src/api/user/user-resolvers.js");
   reactHotLoader.register(getUserByUsername, "getUserByUsername", "src/api/user/user-resolvers.js");
   reactHotLoader.register(forgotPassword, "forgotPassword", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(subscribe, "subscribe", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(unsubscribe, "unsubscribe", "src/api/user/user-resolvers.js");
   reactHotLoader.register(updateMe, "updateMe", "src/api/user/user-resolvers.js");
   leaveModule(module);
 })();

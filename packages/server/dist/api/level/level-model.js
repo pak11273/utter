@@ -34,14 +34,44 @@ var _termModel = require("../term/term-model.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LevelSchema = exports.LevelSchema = new _mongoose.Schema({
-  level: Number,
+  level: {
+    type: Number,
+    required: [true, "can't be blank"]
+  },
   title: {
     type: String,
-    default: "Change me"
+    required: [true, "can't be blank"]
   },
-  Course: {
+  courseId: {
     type: _mongoose.Schema.Types.ObjectId,
-    ref: "Course"
+    ref: "Course",
+    required: [true, "can't be blank"]
+  },
+  vocabulary: [{
+    word: { type: String },
+    translation: { type: String },
+    audioUrl: String
+  }],
+  grammar: [{
+    rule: { type: String },
+    example: { type: String },
+    translation: { type: String },
+    audioUrl: { type: String }
+  }],
+  examples: [{
+    example: { type: String },
+    translation: { type: String },
+    audioUrl: { type: String }
+  }],
+  phrases: [{
+    type: { type: String },
+    formality: { type: String },
+    phrase: { type: String },
+    translation: { type: String },
+    audioUrl: { type: String }
+  }],
+  notes: {
+    type: String
   }
 });
 

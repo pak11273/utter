@@ -102,10 +102,20 @@ var _default = function () {
 
               socket.on("join", function (zone, username, cb) {
                 socket.join(zone.id);
-                users.addUserData(zone.id, zone.zoneName, username);
-                io.to(zone.id).emit('usersList', users.getUsersList(zone.id));
-
+                users.addUserData(socket.id, zone.id, zone.zoneName, username);
+                io.to(zone.id).emit("usersList", users.getUsersList(zone.id));
                 cb();
+              });
+
+              socket.on("disconnect", function () {
+                console.log("users: ", users);
+                console.log("SOCKET: ", socket.id);
+                var user = users.removeUserId(socket.id);
+                if (user) {
+                  io.to(user.zoneId).emit("usersList", users.getUsersList(user.zoneId));
+                }
+                console.log("socket disconnect...", socket.id);
+                handleDisconnect();
               });
 
               // TODO: NEW API BELOW
@@ -122,20 +132,20 @@ var _default = function () {
 
               socket.on("availableUsers", handleGetAvailableUsers);
 
-              socket.on("disconnect", function () {
-                console.log("socket disconnect...", socket.id);
-                handleDisconnect();
-              });
+              /* socket.on("disconnect", () => { */
+              /*   console.log("socket disconnect...", socket.id) */
+              /*   handleDisconnect() */
+              /* }) */
 
               socket.on("error", function (err) {
                 console.log("received error from socket:", socket.id);
                 console.log(err);
               });
 
-              socket.on("disconnect", function (socket) {
-                console.log("user disconnected");
-                io.emit("disconnect", { status: "disconnected" });
-              });
+              /* socket.on("disconnect", socket => { */
+              /*   console.log("user disconnected") */
+              /*   io.emit("disconnect", {status: "disconnected"}) */
+              /* }) */
             });
 
           case 7:

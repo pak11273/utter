@@ -43,6 +43,10 @@ var ZoneSchema = _mongoose2.default.Schema({
     type: Number,
     default: 1
   },
+  members: {
+    type: Number,
+    default: 0
+  },
   zoneName: {
     type: String,
     default: "",

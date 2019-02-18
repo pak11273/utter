@@ -51,10 +51,10 @@ var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
     type: Boolean,
     default: false
   },
-  courses: {
+  createdCourses: [{
     type: _mongoose.Schema.Types.ObjectId,
     ref: "Course"
-  },
+  }],
   forgotPasswordLocked: {
     type: Boolean,
     default: false
@@ -101,6 +101,10 @@ var UserSchema = exports.UserSchema = new _mongoose2.default.Schema({
     type: [String],
     default: "registeredUser"
   },
+  subscriptions: [{
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "Course"
+  }],
   password: {
     default: "",
     required: [true, "can't be blank"],

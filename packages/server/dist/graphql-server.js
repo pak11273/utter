@@ -22,7 +22,9 @@ var _graphqlImport = require("graphql-import");
 
 var _apolloServer = require("apollo-server");
 
-var _lodash = require("lodash");
+var _merge = require("lodash/merge");
+
+var _merge2 = _interopRequireDefault(_merge);
 
 var _mongoose = require("mongoose");
 
@@ -98,7 +100,7 @@ var schema = (0, _apolloServer.makeExecutableSchema)({
     auth: _authDirective.AuthDirective,
     hasScope: _authHasScope.hasScopeDirective
   },
-  resolvers: (0, _lodash.merge)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)
+  resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)
 });
 
 var ObjectId = _mongoose2.default.Types.ObjectId;

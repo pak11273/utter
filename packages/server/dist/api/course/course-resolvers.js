@@ -29,7 +29,9 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
   enterModule && enterModule(module);
 })();
 
-var _lodash = require("lodash");
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
 var _config = require("../../config");
 
@@ -167,23 +169,24 @@ var courseCreate = function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
+            console.log("args: ", args);
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context3.next = 3;
+              _context3.next = 4;
               break;
             }
 
             return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 3:
-            _context3.next = 5;
+          case 4:
+            _context3.next = 6;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 5:
+          case 6:
             user = _context3.sent;
 
 
@@ -191,16 +194,16 @@ var courseCreate = function () {
             input = args.input;
 
             input.owner = user._id;
-            _context3.next = 10;
+            _context3.next = 11;
             return _courseModel2.default.create(input);
 
-          case 10:
+          case 11:
             course = _context3.sent;
 
             course.id = course._id;
             return _context3.abrupt("return", course);
 
-          case 13:
+          case 14:
           case "end":
             return _context3.stop();
         }
@@ -270,7 +273,7 @@ var getCreatedCourses = function () {
             query.owner = user._id;
             // end query object
 
-            if (args.cursor) {
+            if (args.cursor && args.cursor !== "done") {
               // type cast id, $lt is not the same in aggregate vs query
               cursorObj = _mongoose2.default.Types.ObjectId(args.cursor);
               // add to query object
@@ -286,7 +289,7 @@ var getCreatedCourses = function () {
           case 11:
             result = _context5.sent;
 
-            if (!(0, _lodash.isEmpty)(result)) {
+            if (!(0, _isEmpty2.default)(result)) {
               _context5.next = 16;
               break;
             }
@@ -312,46 +315,55 @@ var getCreatedCourses = function () {
 
 var getCourses = function () {
   var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
-    var query, courseName, courseRef, owner, cursor, result;
+    var query, courseName, resources, owner, newArray, cursor, result;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            console.log("course args: ", args);
             // build query object
             query = {};
 
             args.courseName ? query.courseName = new RegExp(escapeRegex(args.courseName), "gi") : null;
 
-            args.ref ? query.courseRef = new RegExp(escapeRegex(args.ref), "gi") : null;
+            if (!(0, _isEmpty2.default)(args.resources)) {
+              newArray = [];
+
+              args.resources.map(function (item) {
+                var escapedStr = new RegExp(escapeRegex(item), "gi");
+                newArray.push(escapedStr);
+              });
+              query.resources = newArray;
+            } else {
+              null;
+            }
 
             if (!args.owner) {
-              _context6.next = 8;
+              _context6.next = 7;
               break;
             }
 
-            _context6.next = 7;
+            _context6.next = 6;
             return _courseModel2.default.findByUsername(args.owner, function (err, docs) {
               if (err) {
                 // console.log doesn't work here
               }
-              if (!(0, _lodash.isEmpty)(docs)) {
+              if (!(0, _isEmpty2.default)(docs)) {
                 var owner = docs._id;
                 query.owner = owner;
               }
             });
 
-          case 7:
+          case 6:
             owner = _context6.sent;
 
-          case 8:
+          case 7:
 
             args.usingLang ? query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi") : null;
 
             args.teachingLang ? query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi") : null;
             // end query object
 
-            if (args.cursor) {
+            if (args.cursor && args.cursor !== "done") {
               // type cast id, $lt is not the same in aggregate vs query
               cursor = _mongoose2.default.Types.ObjectId(args.cursor);
               // add to query object
@@ -359,26 +371,24 @@ var getCourses = function () {
               query._id = { $lt: cursor };
             }
 
-            console.log("query: ", query);
-
-            _context6.next = 14;
+            _context6.next = 12;
             return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
 
-          case 14:
+          case 12:
             result = _context6.sent;
 
-            if (!(0, _lodash.isEmpty)(result)) {
-              _context6.next = 19;
+            if (!(0, _isEmpty2.default)(result)) {
+              _context6.next = 17;
               break;
             }
 
             return _context6.abrupt("return", { courses: [], cursor: "done" });
 
-          case 19:
+          case 17:
             cursor = result[result.length - 1]._id;
             return _context6.abrupt("return", { courses: result, cursor: cursor });
 
-          case 21:
+          case 19:
           case "end":
             return _context6.stop();
         }

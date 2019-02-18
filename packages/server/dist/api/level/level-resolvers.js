@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.levelResolvers = undefined;
 
-var _typeof2 = require("babel-runtime/helpers/typeof");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -33,7 +29,17 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
   enterModule && enterModule(module);
 })();
 
-var _lodash = require("lodash");
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
+
+var _config = require("../../config");
+
+var _config2 = _interopRequireDefault(_config);
+
+var _jsonwebtoken = require("jsonwebtoken");
+
+var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
 var _mongoose = require("mongoose");
 
@@ -43,52 +49,40 @@ var _levelModel = require("./level-model");
 
 var _levelModel2 = _interopRequireDefault(_levelModel);
 
+var _resolverFunctions = require("../shared/resolver-functions.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var escapeRegex = function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-/* const getLevel = async (_, {id}, {user}) => { */
-/*   const level = await Level.findById(id).exec() */
-/*   if (!level) { */
-/*     throw new Error("Cannot find level with id") */
-/*   } */
-
-/*   return level */
-/* } */
-
-var deleteLevel = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, ctx) {
-    var id = _ref2.id;
+var getLevel = function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, _ref3) {
+    var levelId = _ref2.levelId;
+    var user = _ref3.user;
     var level;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log("id: ", id);
-            _context.next = 3;
-            return _levelModel2.default.findById(id).exec();
+            _context.next = 2;
+            return _levelModel2.default.findById(levelId).exec();
 
-          case 3:
+          case 2:
             level = _context.sent;
 
             if (level) {
-              _context.next = 6;
+              _context.next = 5;
               break;
             }
 
-            throw new Error("No level found.");
+            throw new Error("Cannot find level with id");
 
-          case 6:
-
-            if (level.levelAuthor === id) {
-              // TODO: delete level
-            }
-
+          case 5:
             return _context.abrupt("return", level);
 
-          case 8:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -96,43 +90,58 @@ var deleteLevel = function () {
     }, _callee, undefined);
   }));
 
-  return function deleteLevel(_x, _x2, _x3) {
+  return function getLevel(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
 
-var updateLevel = function updateLevel(_, _ref3) {
-  var input = _ref3.input;
-  var id = input.id,
-      update = (0, _objectWithoutProperties3.default)(input, ["id"]);
-
-  return _levelModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
-};
-
-var levelCreate = function () {
-  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, ctx, info) {
-    var input, level;
+var levelDelete = function () {
+  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
+    var id = _ref5.id;
+    var token, user, level;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log("args: ", args);
-            console.log("ctx: ", ctx.user);
-            //TODO can't have duplicate level names
-            input = args.input;
+            if (!(token === "null")) {
+              _context2.next = 2;
+              break;
+            }
 
-            input.levelAuthor = ctx.user;
-            _context2.next = 6;
-            return _levelModel2.default.create(input);
+            return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 6:
+          case 2:
+            token = ctx.req.headers.authorization;
+            _context2.next = 5;
+            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 5:
+            user = _context2.sent;
+            _context2.next = 8;
+            return _levelModel2.default.findOneAndDelete({ owner: user._id });
+
+          case 8:
             level = _context2.sent;
 
-            level.id = level._id;
-            console.log("level: ", typeof level === "undefined" ? "undefined" : (0, _typeof3.default)(level));
-            return _context2.abrupt("return", level);
+            if (level) {
+              _context2.next = 11;
+              break;
+            }
 
-          case 10:
+            throw new Error("No level found by this owner.");
+
+          case 11:
+            if (!level) {
+              _context2.next = 13;
+              break;
+            }
+
+            return _context2.abrupt("return", true);
+
+          case 13:
           case "end":
             return _context2.stop();
         }
@@ -140,56 +149,59 @@ var levelCreate = function () {
     }, _callee2, undefined);
   }));
 
-  return function levelCreate(_x4, _x5, _x6, _x7) {
+  return function levelDelete(_x4, _x5, _x6) {
     return _ref4.apply(this, arguments);
   };
 }();
 
-var getCreatedLevels = function () {
-  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var query, cursorObj, cursor, result;
+var levelUpdate = function levelUpdate(_, _ref6) {
+  var input = _ref6.input;
+  var id = input.id,
+      update = (0, _objectWithoutProperties3.default)(input, ["id"]);
+
+  return _levelModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
+};
+
+var levelCreate = function () {
+  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
+    var token, user, input, level;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            // build query object
-            query = {};
+            console.log("args: ", args);
+            token = ctx.req.headers.authorization;
 
-            query.levelAuthor = ctx.user;
-            // end query object
-
-            /* // TODO: HOTFIX, using a fake levelAuthor, delete this after testing */
-            /* query.levelAuthor = "5b9012f043aa4329f187f01a" */
-            /* end */
-
-            if (args.cursor) {
-              // type cast id, $lt is not the same in aggregate vs query
-              cursorObj = _mongoose2.default.Types.ObjectId(args.cursor);
-              // add to query object
-
-              cursor = cursorObj;
-
-              query._id = { $lt: cursor };
-            }
-
-            _context3.next = 5;
-            return _levelModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
-
-          case 5:
-            result = _context3.sent;
-
-            if (!(0, _lodash.isEmpty)(result)) {
-              _context3.next = 10;
+            if (!(token === "null")) {
+              _context3.next = 4;
               break;
             }
 
-            return _context3.abrupt("return", { levels: [], cursor: "done" });
+            return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
+
+          case 4:
+            _context3.next = 6;
+            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 6:
+            user = _context3.sent;
+
+
+            //TODO can't have duplicate level names
+            input = args.input;
+            _context3.next = 10;
+            return _levelModel2.default.create(input);
 
           case 10:
-            cursor = result[result.length - 1]._id;
-            return _context3.abrupt("return", { levels: result, cursor: cursor });
+            level = _context3.sent;
 
-          case 12:
+            level.id = level._id;
+            return _context3.abrupt("return", level);
+
+          case 13:
           case "end":
             return _context3.stop();
         }
@@ -197,48 +209,67 @@ var getCreatedLevels = function () {
     }, _callee3, undefined);
   }));
 
-  return function getCreatedLevels(_x8, _x9, _x10, _x11) {
-    return _ref5.apply(this, arguments);
+  return function levelCreate(_x7, _x8, _x9, _x10) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+var getLevels = function () {
+  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
+    var result;
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            console.log("args", args);
+
+            _context4.next = 3;
+            return _levelModel2.default.find({ courseId: args.courseId }).sort({ _id: -1 }).exec();
+
+          case 3:
+            result = _context4.sent;
+
+            if (!(0, _isEmpty2.default)(result)) {
+              _context4.next = 8;
+              break;
+            }
+
+            return _context4.abrupt("return", { levels: [] });
+
+          case 8:
+            console.log("result: ", result);
+            return _context4.abrupt("return", { levels: result });
+
+          case 10:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined);
+  }));
+
+  return function getLevels(_x11, _x12, _x13, _x14) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 var levelResolvers = exports.levelResolvers = {
   Query: {
-    getCreatedLevels: getCreatedLevels
-    /* getLevel */
+    getLevels: getLevels,
+    getLevel: getLevel
   },
   Mutation: {
-    deleteLevel: deleteLevel,
-    updateLevel: updateLevel,
+    levelDelete: levelDelete,
+    levelUpdate: levelUpdate,
     levelCreate: levelCreate
-  },
-  Level: {
-    levelAuthor: function levelAuthor(level) {
-      var _this = this;
+    /* Level: { */
+    /*   async course(level) { */
+    /*     const populated = await level.populate("course").execPopulate() */
 
-      return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-        var populated;
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                _context4.next = 2;
-                return level.populate("levelAuthor").execPopulate();
-
-              case 2:
-                populated = _context4.sent;
-                return _context4.abrupt("return", populated.levelAuthor);
-
-              case 4:
-              case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4, _this);
-      }))();
-    }
-  }
-};
+    /*     return populated.course */
+    /*   } */
+    /* } */
+  } };
 ;
 
 (function () {
@@ -252,10 +283,11 @@ var levelResolvers = exports.levelResolvers = {
 
   reactHotLoader.register(levelResolvers, "levelResolvers", "src/api/level/level-resolvers.js");
   reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(deleteLevel, "deleteLevel", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(updateLevel, "updateLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(getLevel, "getLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(levelDelete, "levelDelete", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(levelUpdate, "levelUpdate", "src/api/level/level-resolvers.js");
   reactHotLoader.register(levelCreate, "levelCreate", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(getCreatedLevels, "getCreatedLevels", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(getLevels, "getLevels", "src/api/level/level-resolvers.js");
   leaveModule(module);
 })();
 
@@ -273,10 +305,11 @@ var levelResolvers = exports.levelResolvers = {
 
   reactHotLoader.register(levelResolvers, "levelResolvers", "src/api/level/level-resolvers.js");
   reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(deleteLevel, "deleteLevel", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(updateLevel, "updateLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(getLevel, "getLevel", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(levelDelete, "levelDelete", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(levelUpdate, "levelUpdate", "src/api/level/level-resolvers.js");
   reactHotLoader.register(levelCreate, "levelCreate", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(getCreatedLevels, "getCreatedLevels", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(getLevels, "getLevels", "src/api/level/level-resolvers.js");
   leaveModule(module);
 })();
 

@@ -16,7 +16,9 @@ Object.defineProperty(exports, "__esModule", {
   enterModule && enterModule(module);
 })();
 
-var _lodash = require("lodash");
+var _isEmpty = require("lodash/isEmpty");
+
+var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
 var _mongoose = require("mongoose");
 

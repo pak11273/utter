@@ -1,17 +1,31 @@
 directive @auth on OBJECT | FIELD_DEFINITION
 directive @hasScope(scope: String) on FIELD_DEFINITION
 
+type Resource {
+	value: String,
+	label: String,
+	className: String
+}
+
+input ResourceInput {
+	value: String,
+	label: String,
+	className: String
+}
+
 type Course {
-  id: ID!
-  courseName: String!
-  owner: User
   courseDescription: String
   courseImage: String
   courseMode: String!
+  courseName: String!
+  createdAt: String 
+  id: ID!
   levels: [Level]
+  owner: User
+	resources: [Resource]
   teachingLang: String
   usingLang: String
-  createdAt: Int
+  updatedAt: String
 }
 
 input CourseUpdated {
@@ -28,6 +42,7 @@ input CourseCreateInput {
   courseName: String!
   courseDescription: String
   courseMode: String
+	resources: [ResourceInput]
 	teachingLang: String
   usingLang: String
 }
@@ -43,8 +58,8 @@ extend type Query {
   getCourses(
     cursor: String
     courseName: String!
-    ref: String!
     owner: String!
+		resources: [ResourceInput] 
     usingLang: String!
     teachingLang: String!
   ): PaginatedCourses 
