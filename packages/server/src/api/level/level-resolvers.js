@@ -56,68 +56,23 @@ const levelCreate = async (_, args, ctx, info) => {
 
   //TODO can't have duplicate level names
   const {input} = args
-  input.owner = user._id
   const level = await Level.create(input)
   level.id = level._id
   return level
 }
 
 const getLevels = async (_, args, ctx, info) => {
-  // build query object
-  const query = {}
-  var levelName, resources, owner
-  args.levelName
-    ? (query.levelName = new RegExp(escapeRegex(args.levelName), "gi"))
-    : null
+  console.log("args", args)
 
-  if (!isEmpty(args.resources)) {
-    var newArray = []
-    args.resources.map(item => {
-      const escapedStr = new RegExp(escapeRegex(item), "gi")
-      newArray.push(escapedStr)
-    })
-    query.resources = newArray
-  } else {
-    null
-  }
-  if (args.owner) {
-    var owner = await Level.findByUsername(args.owner, (err, docs) => {
-      if (err) {
-        // console.log doesn't work here
-      }
-      if (!isEmpty(docs)) {
-        var owner = docs._id
-        query.owner = owner
-      }
-    })
-  }
-
-  args.usingLang
-    ? (query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi"))
-    : null
-
-  args.teachingLang
-    ? (query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi"))
-    : null
-  // end query object
-
-  if (args.cursor && args.cursor !== "done") {
-    // type cast id, $lt is not the same in aggregate vs query
-    var cursor = mongoose.Types.ObjectId(args.cursor)
-    // add to query object
-    query._id = {$lt: cursor}
-  }
-
-  let result = await Level.find(query)
-    .limit(3)
+  let result = await Level.find({courseId: args.courseId})
     .sort({_id: -1})
     .exec()
 
   if (isEmpty(result)) {
-    return {levels: [], cursor: "done"}
+    return {levels: []}
   } else {
-    cursor = result[result.length - 1]._id
-    return {levels: result, cursor}
+    console.log("result: ", result)
+    return {levels: result}
   }
 }
 
@@ -130,12 +85,12 @@ export const levelResolvers = {
     levelDelete,
     levelUpdate,
     levelCreate
-  },
-  Level: {
-    async owner(level) {
-      const populated = await level.populate("owner").execPopulate()
-
-      return populated.owner
-    }
   }
+  /* Level: { */
+  /*   async course(level) { */
+  /*     const populated = await level.populate("course").execPopulate() */
+
+  /*     return populated.course */
+  /*   } */
+  /* } */
 }

@@ -45,6 +45,7 @@ const getCourses = gql`
       courses {
         id
         courseImage
+				courseMode
         courseName
         courseDescription
         levels {

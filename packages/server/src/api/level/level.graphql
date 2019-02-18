@@ -25,10 +25,6 @@ type Phrases {
       audioUrl: String
     }
 
-type Notes {
-    note: String
-  }
-
 type Level {
 	courseId: String
   createdAt: Int
@@ -36,7 +32,7 @@ type Level {
 	grammar: [Grammar]
   id: ID!
 	level: Int!
-	notes: [Notes]
+	notes: String 
 	phrases: [Phrases]
   updatedAt: String
   title: String!
@@ -57,18 +53,12 @@ input LevelCreateInput {
 
 type PaginatedLevels {
   levels: [Level]
-  cursor: String
 }
 
 extend type Query {
   getLevel(levelId: String!): Level!
   getLevels(
-    cursor: String
-    levelName: String!
-    owner: String!
-		resources: [ResourceInput] 
-    usingLang: String!
-    teachingLang: String!
+		courseId: String!
   ): PaginatedLevels 
   getLevelCount: Int
 }

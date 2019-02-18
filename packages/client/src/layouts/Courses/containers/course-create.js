@@ -467,7 +467,6 @@ class CourseCreate extends Component {
                     color="primary"
                     className={classes.button}
                     type="submit"
-                    onClick={this.onButtonClick}
                     size="large"
                     disabled={this.state.disabled}>
                     Create Course

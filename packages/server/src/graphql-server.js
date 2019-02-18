@@ -35,6 +35,7 @@ const zoneTypeDefs = fs.readFileSync(zoneSchema, "utf8")
 // resolver imports
 import {appResolvers} from "./api/app/app-resolvers.js"
 import {courseResolvers} from "./api/course/course-resolvers.js"
+import {levelResolvers} from "./api/level/level-resolvers.js"
 import {termResolvers} from "./api/term/term-resolvers.js"
 import {testResolvers} from "./api/test/test-resolvers.js"
 import {userResolvers} from "./api/user/user-resolvers.js"
@@ -67,6 +68,7 @@ const schema = makeExecutableSchema({
     {},
     userResolvers,
     courseResolvers,
+    levelResolvers,
     termResolvers,
     testResolvers,
     zoneResolvers

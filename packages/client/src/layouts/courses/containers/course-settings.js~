@@ -32,14 +32,13 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3
   },
   courseMode: {
+    display: "inline-block",
     fontSize: theme.spacing.unit * 3,
-    marginRight: "20px",
     paddingLeft: "20px",
     color: "orange"
   },
   dangerZone: {
-    color: "red",
-    padding: "16px"
+    color: "red"
   },
   heroUnit: {
     backgroundColor: theme.palette.background.paper
@@ -70,7 +69,7 @@ class CourseSettings extends Component {
   handlePublish = async () => {
     // publish updates course mode to live
     const result = await this.props.mutate({
-      input: "live"
+      courseMode: "live"
     })
     console.log("result: ", result)
   }
@@ -112,7 +111,11 @@ class CourseSettings extends Component {
             <div className={classes.heroUnit}>
               <div className={classes.heroContent}>
                 <Grid container justify="center" direction="column">
-                  <Typography variant="h4" align="center" gutterBottom>
+                  <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.text}
+                    gutterBottom>
                     Settings
                   </Typography>
                 </Grid>
@@ -122,30 +125,36 @@ class CourseSettings extends Component {
             <main className={classes.content}>
               <Grid container spacing={24}>
                 {/*  <ModalMgr /> */}
-                <Grid item xs={12}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      margin: "100px 0"
-                    }}>
-                    <Typography variant="h5" align="left" noWrap>
+                <div
+                  style={{
+                    margin: "40px"
+                  }}>
+                  <Grid item xs={12}>
+                    <Typography
+                      variant="h5"
+                      align="left"
+                      className={classes.text}>
                       Course Mode:
                     </Typography>
-                    <Typography align="center" className={classes.courseMode}>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography align="left" className={classes.courseMode}>
                       {this.props.course.courseMode}
                     </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
                     <Button
                       variant="outlined"
                       style={{
                         backgroundColor: "orange",
-                        color: "white"
+                        color: "white",
+                        margin: "0 0 0 40px"
                       }}
                       onClick={this.handlePublish}>
                       {this.props.courseMode === "draft" ? "edit" : "publish"}
                     </Button>
-                  </div>
-                </Grid>
+                  </Grid>
+                </div>
                 <Grid item xs={12} style={{backgroundColor: "#3e3e3e"}}>
                   <Typography
                     variant="h6"

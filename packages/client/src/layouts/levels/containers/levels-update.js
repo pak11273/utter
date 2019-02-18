@@ -18,13 +18,38 @@ import {Hero} from "../../../components"
 
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
-const getCourse = gql`
-  query getCourse($courseId: String!) {
-    getCourse(courseId: $courseId) {
-      courseName
+const getLevels = gql`
+  query getLevels($courseId: String!) {
+    getLevels(courseId: $courseId) {
       levels {
+        courseId
+        exmaples {
+          example
+          translation
+          audioUrl
+        }
+        grammar {
+          rule
+          example
+          translation
+          audioUrl
+        }
         id
+        level
+        notes
+        phrases {
+          type
+          formality
+          phrase
+          translation
+          audioUrl
+        }
         title
+        vocabulary {
+          word
+          translation
+          audioUrl
+        }
       }
     }
   }
@@ -52,42 +77,41 @@ class Levels extends Component {
     super(props)
 
     this.state = {
-      columnDefs: [
-        {
-          rowDrag: true,
-          headerName: ""
-        },
-        {headerName: "Level", field: "level"},
-        {headerName: "Title", field: "title"},
-        {headerName: "Action", field: ""}
-      ],
-      rowData: [
-        {level: "1", model: "Celica", price: 35000},
-        {level: "2", model: "Mondeo", price: 32000},
-        {level: "3", model: "Boxter", price: 72000}
-      ]
+      /* columnDefs: [ */
+      /*   { */
+      /*     rowDrag: true, */
+      /*     headerName: "" */
+      /*   }, */
+      /*   {headerName: "Level", field: "level"}, */
+      /*   {headerName: "Title", field: "title"}, */
+      /*   {headerName: "Action", field: ""} */
+      /* ], */
+      /* rowData: [ */
+      /*   {level: "1", model: "Celica", price: 35000}, */
+      /*   {level: "2", model: "Mondeo", price: 32000}, */
+      /*   {level: "3", model: "Boxter", price: 72000} */
+      /* ] */
     }
   }
 
   componentDidMount() {
     this.props.toggleFooter(true)
-    fetch("https://api.myjson.com/bins/15psn9")
-      .then(result => result.json())
-      .then(rowData => this.setState({rowData}))
+    /* .then(result => result.json()) */
+    /* .then(rowData => this.setState({rowData})) */
   }
 
-  onButtonClick = () => {
-    const selectedNodes = this.gridApi.getSelectedNodes()
-    const selectedData = selectedNodes.map(node => node.data)
-    const selectedDataStringPresentation = selectedData
-      .map(node => node.make + " " + node.model)
-      .join(", ")
-    alert(`Selected nodes: ${selectedDataStringPresentation}`)
-  }
+  /* onButtonClick = () => { */
+  /*   const selectedNodes = this.gridApi.getSelectedNodes() */
+  /*   const selectedData = selectedNodes.map(node => node.data) */
+  /*   const selectedDataStringPresentation = selectedData */
+  /*     .map(node => node.make + " " + node.model) */
+  /*     .join(", ") */
+  /*   alert(`Selected nodes: ${selectedDataStringPresentation}`) */
+  /* } */
 
   render() {
     const {classes, course, level} = this.props
-    const data = [
+    const rdata = [
       {
         level: 1,
         title: "alphabet"
@@ -150,7 +174,18 @@ class Levels extends Component {
       {
         Header: "Title",
         accessor: "title",
-        Cell: props => <span className="number">{props.value}</span> // Custom cell components!
+        Cell: props => (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: `100px`,
+              height: "100%"
+            }}>
+            {props.value}
+          </div>
+        )
       },
       /* reference only */
       /* { */
@@ -174,11 +209,11 @@ class Levels extends Component {
     ]
     return (
       <Query
-        query={getCourse}
+        query={getLevels}
         variables={{
           courseId: course.id
         }}>
-        {({loading, error}) => {
+        {({loading, error, data}) => {
           if (loading) {
             return <div>Loading...</div>
           }
@@ -206,12 +241,10 @@ class Levels extends Component {
             <Grid container direction="column">
               <Hero title="Levels" />
               <Grid item>
-                {/* {data.getCourse.levels.map(level => { 
-              return ( */}
-                <ReactTable data={data} columns={columns} />
+                <ReactTable data={data.getLevels.levels} columns={columns} />
               </Grid>
               <Grid item style={{display: "flex", justifyContent: "center"}}>
-                <Button
+                {/*  <Button
                   variant="contained"
                   color="primary"
                   className={classes.button}
@@ -219,7 +252,7 @@ class Levels extends Component {
                   onClick={this.onButtonClick}
                   size="large">
                   Save
-                </Button>
+                </Button> */}
               </Grid>
             </Grid>
           )
