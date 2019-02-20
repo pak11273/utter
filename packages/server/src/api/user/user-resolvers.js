@@ -162,12 +162,6 @@ const login = async (parent, args, ctx, info) => {
     // use authenticate() on user.doc, pass in the posted password, hash it and check
     arrayOfErrors.push({path: "password", message: "Invalid Password"})
   } else if (user.forgotPasswordLocked) {
-    /* else if (!user.confirmed) { */
-    /*   arrayOfErrors.push({ */
-    /*     path: "identifier", */
-    /*     message: confirmEmail */
-    /*   }) */
-    /* } */
     arrayOfErrors.push({
       path: "identifier",
       message: passwordLocked

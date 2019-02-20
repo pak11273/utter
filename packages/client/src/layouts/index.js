@@ -4,7 +4,6 @@ import Home from "./Home"
 import GettingStarted from "./GettingStarted.js"
 import noAuth from "../utils/noAuth.js"
 import Sponsorship from "./Sponsorship.js"
-import MyCourses from "./courses/MyCourses.js"
 import NotFound from "../components/misc/not-found.js"
 import requireAuth from "../utils/requireAuth.js"
 import requireAdmin from "../utils/requireAdmin.js"
@@ -27,7 +26,6 @@ export {
   French1,
   Home,
   GettingStarted,
-  MyCourses,
   noAuth,
   NotFound,
   requireAuth,

@@ -5,8 +5,6 @@ import {
   Home,
   /* GettingStarted, */
   /* Sponsorship, */
-  /* CourseDetails, */
-  /* MyCourses, */
   /* NotFound, */
   noAuth,
   requireAuth,
@@ -252,22 +250,6 @@ export const routes = [
     path: "/contact",
     component: getContact
   },
-  // {
-  //   path: '/CourseDetails/:name',
-  //   component: props => {
-  //     const one = language.languages.filter(
-  //       language => props.match.params.name === language.name
-  //     )
-  //     return (
-  //       <CourseDetails
-  //         languages={language.languages}
-  //         language={one[0]}
-  //         {...props}
-  //       />
-  //     )
-  //   },
-  //   loadData: () => getSomeData()
-  // },
   {
     component: getCourses,
     exact: true,

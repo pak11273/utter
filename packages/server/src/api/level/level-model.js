@@ -6,6 +6,7 @@ import {TermSchema} from "../term/term-model.js"
 export const LevelSchema = new Schema({
   level: {
     type: Number,
+    uniuqe: true,
     required: [true, "can't be blank"]
   },
   title: {
@@ -52,6 +53,8 @@ export const LevelSchema = new Schema({
     type: String
   }
 })
+
+LevelSchema.index({level: 1}, {unique: true})
 
 LevelSchema.virtual("id").get(function() {
   return this._id.toHexString()

@@ -5,14 +5,21 @@ scalar Date
 type Test {
 	id: ID 
 	owner: String
-	testName: String!  
+	testName: String  
   testDescription: String 
   testSubject: String
 }
 
 extend type Query {
 	getTest(resourceID: String): Test! @hasScope(scope: "test:")
+	getTests: [Test]
 	today: Date @formattableDate  
 	beef: String 
+}
+
+extend type Mutation {
+	addTest(name: String): Test 
+	deleteTest(id: String): Test
+	updateTest(id: String, name: String): Test 
 }
 

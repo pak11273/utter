@@ -44,6 +44,7 @@ const levelUpdate = (_, {input}) => {
 }
 
 const levelCreate = async (_, args, ctx, info) => {
+  let arrayOfErrors = []
   console.log("args: ", args)
   const token = ctx.req.headers.authorization
   if (token === "null") {
@@ -54,11 +55,26 @@ const levelCreate = async (_, args, ctx, info) => {
     return res
   })
 
-  //TODO can't have duplicate level numbers 
   const {input} = args
   const level = await Level.create(input)
+  console.log("level: ", level)
   level.id = level._id
-  return level
+  if (!isEmpty(level.errors)) {
+    arrayOfErrors.push({
+      path: "level",
+      message: "No duplicate levels allowed."
+    })
+    return {
+      error: arrayOfErrors
+    }
+  }
+  arrayOfErrors.push({
+    path: "level",
+    message: "No duplicate levels allowed."
+  })
+  return {
+    errors: arrayOfErrors
+  }
 }
 
 const getLevels = async (_, args, ctx, info) => {

@@ -1,0 +1,534 @@
+/* eslint no-plusplus: 0, react/no-danger: 0, no-unused-vars: 0 */
+
+import React, {Component} from "react"
+/* import {Query} from "react-apollo" */
+/* import gql from "graphql-tag" */
+import namor from "namor"
+import JSONTree from "react-json-tree"
+import matchSorter from "match-sorter"
+import "./styles.css"
+
+// Import React Table
+import ReactTable from "react-table"
+import "react-table/react-table.css"
+
+const range = len => {
+  const arr = []
+  for (let i = 0; i < len; i++) {
+    arr.push(i)
+  }
+  return arr
+}
+
+const JSONtheme = {
+  scheme: "monokai",
+  author: "wimer hazenberg (http://www.monokai.nl)",
+  base00: "#272822",
+  base01: "#383830",
+  base02: "#49483e",
+  base03: "#75715e",
+  base04: "#a59f85",
+  base05: "#f8f8f2",
+  base06: "#f5f4f1",
+  base07: "#f9f8f5",
+  base08: "#f92672",
+  base09: "#fd971f",
+  base0A: "#f4bf75",
+  base0B: "#a6e22e",
+  base0C: "#a1efe4",
+  base0D: "#66d9ef",
+  base0E: "#ae81ff",
+  base0F: "#cc6633"
+}
+
+const newPerson = () => {
+  const statusChance = Math.random()
+  return {
+    firstName: namor.generate({words: 1, numbers: 0}),
+    lastName: namor.generate({words: 1, numbers: 0}),
+    age: Math.floor(Math.random() * 30),
+    visits: Math.floor(Math.random() * 100),
+    progress: Math.floor(Math.random() * 100),
+    status:
+      statusChance > 0.66
+        ? "relationship"
+        : statusChance > 0.33
+          ? "complicated"
+          : "single"
+  }
+}
+
+export function makeData(len = 5553) {
+  return range(len).map(() => {
+    return {
+      ...newPerson(),
+      children: range(10).map(newPerson)
+    }
+  })
+}
+
+export const Logo = () => (
+  <div
+    style={{
+      margin: "1rem auto",
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "center"
+    }}>
+    For more examples, visit {""}
+    <br />
+    <a
+      rel="noopener noreferrer"
+      href="https://github.com/react-tools/react-table"
+      target="_blank">
+      <img
+        alt="funny stuff"
+        src="https://github.com/react-tools/media/raw/master/logo-react-table.png"
+        style={{width: `150px`, margin: ".5em auto .3em"}}
+      />
+    </a>
+  </div>
+)
+
+export const Tips = () => (
+  <div style={{textAlign: "center"}}>
+    <em>Tip: Hold shift when sorting to multi-sort!</em>
+  </div>
+)
+
+class Editable extends Component {
+  constructor() {
+    super()
+    this.state = {
+      data: makeData()
+    }
+
+    this.renderEditable = this.renderEditable.bind(this)
+  }
+
+  renderEditable(cellInfo) {
+    return (
+      <div
+        style={{backgroundColor: "#fafafa"}}
+        contentEditable
+        suppressContentEditableWarning
+        onBlur={e => {
+          const data = [...this.state.data]
+          data[cellInfo.index][cellInfo.column.id] = e.target.innerHTML
+          this.setState({data})
+        }}
+        dangerouslySetInnerHTML={{
+          __html: this.state.data[cellInfo.index][cellInfo.column.id]
+        }}
+      />
+    )
+  }
+
+  render() {
+    const {data} = this.state
+    return (
+      <div>
+        <ReactTable
+          data={data}
+          columns={[
+            {
+              Header: "First Name",
+              accessor: "firstName",
+              Cell: this.renderEditable
+            },
+            {
+              Header: "Last Name",
+              accessor: "lastName",
+              Cell: this.renderEditable
+            },
+            {
+              Header: "Full Name",
+              id: "full",
+              accessor: d => (
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: d.firstName + " " + d.lastName
+                  }}
+                />
+              )
+            }
+          ]}
+        />
+        <br />
+        <Tips />
+        <Logo />
+      </div>
+    )
+  }
+}
+
+class Filter extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      data: makeData()
+    }
+  }
+
+  render() {
+    const {data} = this.state
+    return (
+      <div>
+        <ReactTable
+          data={data}
+          filterable
+          defaultFilterMethod={(filter, row) =>
+            String(row[filter.id]) === filter.value
+          }
+          columns={[
+            {
+              Header: "Name",
+              columns: [
+                {
+                  Header: "First Name",
+                  accessor: "firstName",
+                  filterMethod: (filter, row) =>
+                    row[filter.id].startsWith(filter.value) &&
+                    row[filter.id].endsWith(filter.value)
+                },
+                {
+                  Header: "Last Name",
+                  id: "lastName",
+                  accessor: d => d.lastName,
+                  filterMethod: (filter, rows) =>
+                    matchSorter(rows, filter.value, {keys: ["lastName"]}),
+                  filterAll: true
+                }
+              ]
+            },
+            {
+              Header: "Info",
+              columns: [
+                {
+                  Header: "Age",
+                  accessor: "age"
+                },
+                {
+                  Header: "Over 21",
+                  accessor: "age",
+                  id: "over",
+                  Cell: ({value}) => (value >= 21 ? "Yes" : "No"),
+                  filterMethod: (filter, row) => {
+                    if (filter.value === "all") {
+                      return true
+                    }
+                    if (filter.value === "true") {
+                      return row[filter.id] >= 21
+                    }
+                    return row[filter.id] < 21
+                  },
+                  Filter: ({filter, onChange}) => (
+                    <select
+                      onChange={event => onChange(event.target.value)}
+                      style={{width: "100%"}}
+                      value={filter ? filter.value : "all"}>
+                      <option value="all">Show All</option>
+                      <option value="true">Can Drink</option>
+                      <option value="false">Cant Drink</option>
+                    </select>
+                  )
+                }
+              ]
+            }
+          ]}
+          defaultPageSize={10}
+          className="-striped -highlight"
+        />
+        <br />
+        <Tips />
+        <Logo />
+      </div>
+    )
+  }
+}
+
+const columns = [
+  {
+    Header: "Name",
+    columns: [
+      {
+        Header: "First Name",
+        accessor: "firstName"
+      },
+      {
+        Header: "Last Name",
+        id: "lastName",
+        accessor: d => d.lastName
+      }
+    ]
+  },
+  {
+    Header: "Info",
+    columns: [
+      {
+        Header: "Age",
+        accessor: "age"
+      },
+      {
+        Header: "Status",
+        accessor: "status"
+      }
+    ]
+  },
+  {
+    Header: "Stats",
+    columns: [
+      {
+        Header: "Visits",
+        accessor: "visits"
+      }
+    ]
+  }
+]
+
+class Functional extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      data: makeData()
+    }
+  }
+
+  render() {
+    const {data} = this.state
+    return (
+      <div>
+        <strong>Functional rendering</strong> simply means that you have access
+        to the entire internal state of your table before you render the markup.
+        This allows you to use the table state to build even more sophisticated
+        UI for your table.
+        <br />
+        <br />
+        <ReactTable
+          data={data}
+          columns={[
+            {
+              Header: "Name",
+              columns: [
+                {
+                  Header: "First Name",
+                  accessor: "firstName"
+                },
+                {
+                  Header: "Last Name",
+                  id: "lastName",
+                  accessor: d => d.lastName
+                }
+              ]
+            },
+            {
+              Header: "Info",
+              columns: [
+                {
+                  Header: "Age",
+                  accessor: "age"
+                },
+                {
+                  Header: "Status",
+                  accessor: "status"
+                }
+              ]
+            },
+            {
+              Header: "Stats",
+              columns: [
+                {
+                  Header: "Visits",
+                  accessor: "visits"
+                }
+              ]
+            }
+          ]}
+          defaultPageSize={10}
+          className="-striped -highlight">
+          {(state, makeTable, instance) => {
+            return (
+              <div>
+                <JSONTree
+                  data={Object.assign({}, state, {
+                    children: "function () {...}"
+                  })}
+                  theme={JSONtheme}
+                  invertTheme
+                />
+                {makeTable()}
+              </div>
+            )
+          }}
+        </ReactTable>
+        <br />
+        <Tips />
+        <Logo />
+      </div>
+    )
+  }
+}
+
+class Sub extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      data: makeData()
+    }
+  }
+
+  render() {
+    const {data} = this.state
+    return (
+      <div>
+        <ReactTable
+          data={data}
+          columns={columns}
+          defaultPageSize={10}
+          className="-striped -highlight"
+          SubComponent={row => {
+            return (
+              <div style={{padding: "20px"}}>
+                <em>
+                  You can put any component you want here, even another React
+                  Table!
+                </em>
+                <br />
+                <br />
+                <ReactTable
+                  data={data}
+                  columns={columns}
+                  defaultPageSize={3}
+                  showPagination={false}
+                  SubComponent={row => {
+                    return (
+                      <div style={{padding: "20px"}}>
+                        Another Sub Component!
+                      </div>
+                    )
+                  }}
+                />
+              </div>
+            )
+          }}
+        />
+        <br />
+        <Tips />
+        <Logo />
+      </div>
+    )
+  }
+}
+
+class Test extends Component {
+  render() {
+    console.log(Editable)
+    console.log(Filter)
+    return (
+      <div>
+        <div>
+          <h1>THIS IS A TEST</h1>
+          <Sub />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Test
+
+// example queries
+/* <Query */
+/*   query={gql` */
+/*     query todayDate { */
+/*       today(format: "mmmm dd, yyyy") */
+/*     } */
+/*   `}> */
+/*   {({loading, error, data}) => { */
+/*     if (loading) return <p>Loading...</p> */
+/*     if (error) return 
+/* <pre> */
+/*   {error.graphQLErrors.map(({message}, i) => ( */
+/*     <p */
+/*       style={{ */
+/*         fontSize: "2em", */
+/*         color: "red", */
+/*         margin: "30px", */
+/*         padding: "30px", */
+/*         textAlign: "center" */
+/*       }} */
+/*       key={i}> */
+/*       {message} */
+/*     </p> */
+/*   ))} */
+/* </pre> */
+
+/*     return ( */
+/*       <div> */
+/*         <p>{data.today}</p> */
+/*       </div> */
+/*     ) */
+/*   }} */
+/* </Query> */
+
+/* <Query */
+/*   query={gql` */
+/*     query beef { */
+/*       beef */
+/*     } */
+/*   `}> */
+/*   {({loading, error, data}) => { */
+/*     if (loading) return <p>Loading...</p> */
+/*     if (error) return <p>{error.message}</p> */
+
+/*     return ( */
+/*       <div> */
+/*         <h1>THIS IS A TEST</h1> */
+/*         <p>{data.beef}</p> */
+/*       </div> */
+/*     ) */
+/*   }} */
+/* </Query> */
+/* <Query */
+/*   query={gql` */
+/* query={gql` */
+/*   query getTest { */
+/*     getTest { */
+/*       testName */
+/*     } */
+/*   } */
+/*   `}> */
+/*   {({loading, error, data}) => { */
+/*     if (loading) return <p>Loading...</p> */
+/*     if (error) return 
+/* <pre> */
+/*   {error.graphQLErrors.map(({message}, i) => ( */
+/*     <p */
+/*       style={{ */
+/*         fontSize: "2em", */
+/*         color: "red", */
+/*         margin: "30px", */
+/*         padding: "30px", */
+/*         textAlign: "center" */
+/*       }} */
+/*       key={i}> */
+/*       {message} */
+/*     </p> */
+/*   ))} */
+/* </pre> */
+
+/*     return ( */
+/*       <div> */
+/*         <h1>THIS IS A TEST</h1> */
+/*         <p>{data.getTest.testName}</p> */
+/*       </div> */
+/*     ) */
+/*   }} */
+/* </Query> */
+
+// error handling
+/* <pre>{error.graphQLErrors.map(({ message }, i) => ( */
+/* <p  style={{fontSize: "2em", color: "red", margin: "30px", padding: "30px", textAlign: "center"}} key={i}>{message}</p> *1/ */
+/* 	          ))} */
+/* </pre> */

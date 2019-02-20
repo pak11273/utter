@@ -1,7 +1,6 @@
 /* eslint no-unused-vars: 0 */
 import React, {Component} from "react"
 import ReactTable from "react-table"
-import update from "immutability-helper"
 import "react-table/react-table.css"
 import {connect} from "react-redux"
 
@@ -9,32 +8,15 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import DeleteIcon from "@material-ui/icons/Delete"
 import IconButton from "@material-ui/core/IconButton"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import {graphql, Mutation, Query} from "react-apollo"
 import gql from "graphql-tag"
-import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
 import schema from "../../../core/schema.js"
 import {Hero, LoaderCircle} from "../../../components"
-import * as yup from "yup"
-
-var levelSchema = yup.object().shape({
-  level: yup
-    .number()
-    .typeError("Levels must be whole numbers.")
-    .max(1000, "Courses are limited to 1000 levels.")
-    .required("A level is required."),
-  title: yup
-    .string()
-    .typeError("Titles must be letters.")
-    .max(100, "Titles are limited to 100 characters.")
-    .required()
-})
 
 // actions
 /* import {loadData} from "../../../api/actions.js" */
@@ -90,12 +72,6 @@ const styles = theme => ({
     minHeight: "40px",
     width: "100%"
   },
-  errorClass: {
-    backgroundColor: "red"
-  },
-  errors: {
-    color: "red"
-  },
   level: {
     display: "flex",
     alignItems: "center",
@@ -118,7 +94,8 @@ const styles = theme => ({
   },
   inputHeader: {
     background: "white",
-    minHeight: "40px"
+    minHeight: "40px",
+    width: "100%"
   },
   root: {
     maxWidth: 900,
@@ -134,11 +111,22 @@ class Levels extends Component {
     super(props)
 
     this.state = {
-      formErrors: {
-        errors: []
-      },
       title: "",
       level: null
+      /* columnDefs: [ */
+      /*   { */
+      /*     rowDrag: true, */
+      /*     headerName: "" */
+      /*   }, */
+      /*   {headerName: "Level", field: "level"}, */
+      /*   {headerName: "Title", field: "title"}, */
+      /*   {headerName: "Action", field: ""} */
+      /* ], */
+      /* rowData: [ */
+      /*   {level: "1", model: "Celica", price: 35000}, */
+      /*   {level: "2", model: "Mondeo", price: 32000}, */
+      /*   {level: "3", model: "Boxter", price: 72000} */
+      /* ] */
     }
   }
 
@@ -148,36 +136,21 @@ class Levels extends Component {
     /* .then(rowData => this.setState({rowData})) */
   }
 
-  addLevel = levelCreate => async e => {
+  addLevel = levelCreate => e => {
     e.preventDefault()
-
-    const newState = update(this.state, {
-      formErrors: {errors: {$set: []}}
-    })
-    this.setState(newState)
-
-    levelSchema.validate(this.state).catch(e => {
-      if (e) {
-        console.log("e: ", e)
-
-        const newState = update(this.state, {
-          formErrors: {$set: e}
-        })
-        this.setState(newState)
+    const levelConverted = Number(this.state.level)
+    levelCreate({
+      variables: {
+        input: {
+          /* id: this.props.course.id, */
+          courseId: this.props.course.id,
+          level: levelConverted,
+          title: this.state.title
+        }
       }
     })
-
-    /* const levelConverted = Number(this.state.level) */
-    /* levelCreate({ */
-    /*   variables: { */
-    /*     input: { */
-    /*       /1* id: this.props.course.id, *1/ */
-    /*       courseId: this.props.course.id, */
-    /*       level: levelConverted, */
-    /*       title: this.state.title */
-    /*     } */
-    /*   } */
-    /* }) */
+    // add level to db
+    // after add query list again
   }
 
   onChange = e => {
@@ -197,29 +170,15 @@ class Levels extends Component {
 
   render() {
     const {classes, course, level} = this.props
-
-    const errorCheck = classNames({
-      errorClass: this.state.formErrors.path === "title"
-    })
-
-    const formErrors = this.state.formErrors.errors.map((error, i) => {
-      return (
-        <ListItem key={i}>
-          <Typography className={classes.errors}>{error}</Typography>
-        </ListItem>
-      )
-    })
     const columns = [
       {
         Header: () => (
           <TextField
-            align="center"
-            className={classes.inputHeader}
-            fullWidth
             id="outlined-bare"
-            margin="normal"
+            className={classes.inputHeader}
             name="level"
             onChange={this.onChange}
+            margin="normal"
             variant="outlined"
           />
         ),
@@ -239,12 +198,11 @@ class Levels extends Component {
       {
         Header: () => (
           <TextField
-            className={classes[errorCheck]}
-            fullWidth
             id="outlined-bare"
-            margin="normal"
             name="title"
+            className={classes.inputHeader}
             onChange={this.onChange}
+            margin="normal"
             variant="outlined"
           />
         ),
@@ -368,7 +326,6 @@ class Levels extends Component {
           return (
             <Grid container direction="column">
               <Hero title="Levels" />
-              <List>{formErrors}</List>
               <Grid item>
                 <ReactTable
                   getTheadThProps={() => {
