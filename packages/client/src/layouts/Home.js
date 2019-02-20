@@ -34,7 +34,7 @@ const styles = theme => ({
     flexDirection: "row",
     justifyContent: "center",
     padding: theme.spacing.unit * 2,
-    margin: "50px auto 0",
+    margin: "10px auto 50px",
     maxWidth: 900,
     [`@media (max-width:770px)`]: {
       flexDirection: "column-reverse",
@@ -45,7 +45,7 @@ const styles = theme => ({
     flexDirection: "row",
     justifyContent: "center",
     padding: theme.spacing.unit * 2,
-    margin: "100px auto 50px",
+    margin: "10px auto 50px",
     maxWidth: 900,
     [`@media (max-width:770px)`]: {
       flexDirection: "column",
@@ -95,7 +95,7 @@ class Home extends Component {
           </Button>
         </Masthead>
         <Container className={classes.root}>
-          <Section className={classes.section}>
+          <Section className={classes.section} style={{marginTop: "100px"}}>
             <Grid item xs={12}>
               <Img src={`${busyPeopleImg}`} />
             </Grid>
@@ -213,13 +213,18 @@ class Home extends Component {
               <Typography align="left" gutterBottom variant="h4" component="h2">
                 Latest News
               </Typography>
-              <p style={{fontSize: "1.33em"}}>
+              <p style={{fontSize: "1.33em", marginBottom: "20px"}}>
                 We will be adding Spanish, French and other popular languages in
-                the very near future. Please check out our blog to discover more
-                about learning a new language!
+                the very near future. Learn more about how we think about
+                language and what influences Utterzone&apos;s architecture.
               </p>
               <Button size="medium" variant="outlined">
-                <NavLink to="https://medium.com">Articles</NavLink>
+                <a
+                  rel="noopener noreferrer"
+                  href="https://medium.com/speak-a-language"
+                  target="_blank">
+                  Articles
+                </a>
               </Button>
             </Grid>
           </Section>
