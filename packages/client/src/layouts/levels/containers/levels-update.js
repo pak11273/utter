@@ -147,12 +147,18 @@ class Levels extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    /* .then(result => result.json()) */
-    /* .then(rowData => this.setState({rowData})) */
   }
 
   addLevel = levelCreate => async e => {
     e.preventDefault()
+
+    // reset errors
+    const resetErrors = update(this.state, {
+      formErrors: {
+        errors: {$set: []}
+      }
+    })
+    this.setState(resetErrors)
 
     await levelSchema.validate(this.state).catch(e => {
       if (e) {
@@ -165,31 +171,47 @@ class Levels extends Component {
 
     // mutate if no errors
     if (isEmpty(this.state.formErrors.errors)) {
-      console.log("waht is error: ", this.state.formErrors.errors)
-      const levelConverted = Number(this.state.level)
+      /* const levelConverted = Number(this.state.level) */
       levelCreate({
         variables: {
           input: {
             /* id: this.props.course.id, */
             courseId: this.props.course.id,
-            level: levelConverted,
+            /* level: levelConverted, */
+            level: this.state.level,
             title: this.state.title
           }
         }
       })
     }
+
     // reset state
-    const labelState = update(this.state, {
-      title: {$set: ""},
-      level: {$set: ""}
-    })
-    this.setState(labelState)
+    /* const labelState = update(this.state, { */
+    /*   formErrors: { */
+    /*     errors: {$set: []} */
+    /*   }, */
+    /*   title: {$set: ""}, */
+    /*   level: {$set: ""} */
+    /* }) */
+    /* this.setState(labelState) */
   }
 
   onChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
+    if (e.target.name === "level") {
+      this.setState(
+        {
+          [e.target.name]: Number(e.target.value)
+        },
+        () => console.log("state: ", this.state)
+      )
+    } else {
+      this.setState(
+        {
+          [e.target.name]: e.target.value
+        },
+        () => console.log("state: ", this.state)
+      )
+    }
   }
 
   /* onButtonClick = () => { */
