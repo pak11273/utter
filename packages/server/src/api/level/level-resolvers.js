@@ -73,6 +73,9 @@ const levelCreate = async (_, args, ctx, info) => {
     message: "No duplicate levels allowed."
   })
   return {
+		data: {
+			level: level.level
+		},
     errors: arrayOfErrors
   }
 }

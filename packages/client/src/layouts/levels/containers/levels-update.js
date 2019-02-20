@@ -6,6 +6,7 @@ import "react-table/react-table.css"
 import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import Grid from "@material-ui/core/Grid"
 import DeleteIcon from "@material-ui/icons/Delete"
 import IconButton from "@material-ui/core/IconButton"
@@ -28,6 +29,7 @@ var levelSchema = yup.object().shape({
     .number()
     .typeError("Levels must be whole numbers.")
     .max(1000, "Courses are limited to 1000 levels.")
+    .moreThan(0, "Levels need to be more than 0")
     .required("A level is required."),
   title: yup
     .string()
@@ -91,7 +93,8 @@ const styles = theme => ({
     width: "100%"
   },
   errorClass: {
-    backgroundColor: "red"
+    boxShadow: "0px 0px 2px 1px red",
+    backgroundColor: "white"
   },
   errors: {
     color: "red"
@@ -138,7 +141,7 @@ class Levels extends Component {
         errors: []
       },
       title: "",
-      level: null
+      level: ""
     }
   }
 
@@ -151,15 +154,8 @@ class Levels extends Component {
   addLevel = levelCreate => async e => {
     e.preventDefault()
 
-    const newState = update(this.state, {
-      formErrors: {errors: {$set: []}}
-    })
-    this.setState(newState)
-
-    levelSchema.validate(this.state).catch(e => {
+    await levelSchema.validate(this.state).catch(e => {
       if (e) {
-        console.log("e: ", e)
-
         const newState = update(this.state, {
           formErrors: {$set: e}
         })
@@ -167,17 +163,27 @@ class Levels extends Component {
       }
     })
 
-    /* const levelConverted = Number(this.state.level) */
-    /* levelCreate({ */
-    /*   variables: { */
-    /*     input: { */
-    /*       /1* id: this.props.course.id, *1/ */
-    /*       courseId: this.props.course.id, */
-    /*       level: levelConverted, */
-    /*       title: this.state.title */
-    /*     } */
-    /*   } */
-    /* }) */
+    // mutate if no errors
+    if (isEmpty(this.state.formErrors.errors)) {
+      console.log("waht is error: ", this.state.formErrors.errors)
+      const levelConverted = Number(this.state.level)
+      levelCreate({
+        variables: {
+          input: {
+            /* id: this.props.course.id, */
+            courseId: this.props.course.id,
+            level: levelConverted,
+            title: this.state.title
+          }
+        }
+      })
+    }
+    // reset state
+    const labelState = update(this.state, {
+      title: {$set: ""},
+      level: {$set: ""}
+    })
+    this.setState(labelState)
   }
 
   onChange = e => {
@@ -197,9 +203,15 @@ class Levels extends Component {
 
   render() {
     const {classes, course, level} = this.props
-
-    const errorCheck = classNames({
-      errorClass: this.state.formErrors.path === "title"
+    const levelError = classNames({
+      errorClass:
+        this.state.formErrors.path === "level" &&
+        !isEmpty(this.state.formErrors.errors)
+    })
+    const titleError = classNames({
+      errorClass:
+        this.state.formErrors.path === "title" &&
+        !isEmpty(this.state.formErrors.errors)
     })
 
     const formErrors = this.state.formErrors.errors.map((error, i) => {
@@ -214,12 +226,13 @@ class Levels extends Component {
         Header: () => (
           <TextField
             align="center"
-            className={classes.inputHeader}
+            className={`${classes[levelError]} ${classes.inputHeader}`}
             fullWidth
             id="outlined-bare"
             margin="normal"
             name="level"
             onChange={this.onChange}
+            value={this.state.level}
             variant="outlined"
           />
         ),
@@ -239,12 +252,13 @@ class Levels extends Component {
       {
         Header: () => (
           <TextField
-            className={classes[errorCheck]}
+            className={`${classes[titleError]} ${classes.inputHeader}`}
             fullWidth
             id="outlined-bare"
             margin="normal"
             name="title"
             onChange={this.onChange}
+            value={this.state.title}
             variant="outlined"
           />
         ),
@@ -290,9 +304,13 @@ class Levels extends Component {
             >
               {(levelCreate, {loading, error, data}) => (
                 <div>
-                  <Button type="submit" onClick={this.addLevel(levelCreate)}>
-                    Add Level
-                  </Button>
+                  {loading ? (
+                    <CircularProgress />
+                  ) : (
+                    <Button type="submit" onClick={this.addLevel(levelCreate)}>
+                      Add Level
+                    </Button>
+                  )}
                 </div>
               )}
             </Mutation>
