@@ -336,12 +336,6 @@ var login = function () {
               break;
             }
 
-            /* else if (!user.confirmed) { */
-            /*   arrayOfErrors.push({ */
-            /*     path: "identifier", */
-            /*     message: confirmEmail */
-            /*   }) */
-            /* } */
             arrayOfErrors.push({
               path: "identifier",
               message: _errorMessages.passwordLocked

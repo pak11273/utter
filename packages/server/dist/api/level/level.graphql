@@ -30,7 +30,7 @@ type Level {
   createdAt: Int
 	examples: [Example]
 	grammar: [Grammar]
-  id: ID!
+  id: ID
 	level: Int!
 	notes: String 
 	phrases: [Phrases]
@@ -40,14 +40,14 @@ type Level {
 }
 
 input LevelUpdated {
-  id: ID!
+  id: ID
   level: Int 
   title: String
 }
 
 input LevelCreateInput {
 	courseId: String
-  id: ID!
+  id: ID
   level: Int 
   title: String
 }

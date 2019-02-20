@@ -164,44 +164,65 @@ var levelUpdate = function levelUpdate(_, _ref6) {
 
 var levelCreate = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var token, user, input, level;
+    var arrayOfErrors, token, user, input, level;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
+            arrayOfErrors = [];
+
             console.log("args: ", args);
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context3.next = 4;
+              _context3.next = 5;
               break;
             }
 
             return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 4:
-            _context3.next = 6;
+          case 5:
+            _context3.next = 7;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context3.sent;
-
-
-            //TODO can't have duplicate level numbers 
             input = args.input;
-            _context3.next = 10;
+            _context3.next = 11;
             return _levelModel2.default.create(input);
 
-          case 10:
+          case 11:
             level = _context3.sent;
 
+            console.log("level: ", level);
             level.id = level._id;
-            return _context3.abrupt("return", level);
 
-          case 13:
+            if ((0, _isEmpty2.default)(level.errors)) {
+              _context3.next = 17;
+              break;
+            }
+
+            arrayOfErrors.push({
+              path: "level",
+              message: "No duplicate levels allowed."
+            });
+            return _context3.abrupt("return", {
+              error: arrayOfErrors
+            });
+
+          case 17:
+            arrayOfErrors.push({
+              path: "level",
+              message: "No duplicate levels allowed."
+            });
+            return _context3.abrupt("return", {
+              errors: arrayOfErrors
+            });
+
+          case 19:
           case "end":
             return _context3.stop();
         }

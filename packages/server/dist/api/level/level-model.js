@@ -36,6 +36,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var LevelSchema = exports.LevelSchema = new _mongoose.Schema({
   level: {
     type: Number,
+    uniuqe: true,
     required: [true, "can't be blank"]
   },
   title: {
@@ -74,6 +75,8 @@ var LevelSchema = exports.LevelSchema = new _mongoose.Schema({
     type: String
   }
 });
+
+LevelSchema.index({ level: 1 }, { unique: true });
 
 LevelSchema.virtual("id").get(function () {
   return this._id.toHexString();
