@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: 0 */
-import React, {Component} from "react"
+import React, {PureComponent} from "react"
 import ReactTable from "react-table"
 import update from "immutability-helper"
 import "react-table/react-table.css"
@@ -132,7 +132,7 @@ const styles = theme => ({
   }
 })
 
-class Levels extends Component {
+class Levels extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -171,13 +171,10 @@ class Levels extends Component {
 
     // mutate if no errors
     if (isEmpty(this.state.formErrors.errors)) {
-      /* const levelConverted = Number(this.state.level) */
       levelCreate({
         variables: {
           input: {
-            /* id: this.props.course.id, */
             courseId: this.props.course.id,
-            /* level: levelConverted, */
             level: this.state.level,
             title: this.state.title
           }
@@ -186,14 +183,11 @@ class Levels extends Component {
     }
 
     // reset state
-    /* const labelState = update(this.state, { */
-    /*   formErrors: { */
-    /*     errors: {$set: []} */
-    /*   }, */
-    /*   title: {$set: ""}, */
-    /*   level: {$set: ""} */
-    /* }) */
-    /* this.setState(labelState) */
+    const labelState = update(this.state, {
+      title: {$set: ""},
+      level: {$set: ""}
+    })
+    this.setState(labelState)
   }
 
   onChange = e => {
@@ -324,17 +318,15 @@ class Levels extends Component {
               /*   } */
               /* }} */
             >
-              {(levelCreate, {loading, error, data}) => (
-                <div>
-                  {loading ? (
-                    <CircularProgress />
-                  ) : (
-                    <Button type="submit" onClick={this.addLevel(levelCreate)}>
-                      Add Level
-                    </Button>
-                  )}
-                </div>
-              )}
+              {(levelCreate, {loading, error, data}) => {
+                return loading ? (
+                  <CircularProgress />
+                ) : (
+                  <Button type="submit" onClick={this.addLevel(levelCreate)}>
+                    Add Level
+                  </Button>
+                )
+              }}
             </Mutation>
           </div>
         ),
@@ -417,7 +409,7 @@ class Levels extends Component {
                   className="-striped -highlight"
                   data={data.getLevels.levels}
                   columns={columns}
-                  pageSize={10}
+                  defaultPageSize={10}
                   defaultSorted={[
                     {
                       id: "level",
