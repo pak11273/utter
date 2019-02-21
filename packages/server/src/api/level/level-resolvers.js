@@ -59,7 +59,7 @@ const levelCreate = async (_, args, ctx, info) => {
 
   console.log("input: ", input)
 
-  const level = await Course.update(
+  const level = await Course.findOneAndUpdate(
     {
       _id: input.courseId,
       "levels.level": {
@@ -73,27 +73,23 @@ const levelCreate = async (_, args, ctx, info) => {
           title: input.title
         }
       }
-    }
+    },
+    {new: true}
   )
-
-  /* const level = await Course.findOneAndUpdate( */
-  /*   {push: {levels: {level: input.level, title: input.title}}}, */
-  /*   {new: true} */
-  /* ) */
 
   console.log("LEVELVELVELVLELVELVELEL: ", level)
 
   if (!level) {
     arrayOfErrors.push({
       path: "level",
-      message: "Invalid level"
+      message: "Courses cannot have duplicate level numbers."
     })
   }
 
   console.log("array of errors: ", arrayOfErrors)
 
   return {
-    level: level,
+    level: level.levels[level.levels.length - 1],
     errors: arrayOfErrors
   }
 }
