@@ -45,6 +45,10 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
+var _courseModel = require("../course/course-model");
+
+var _courseModel2 = _interopRequireDefault(_courseModel);
+
 var _levelModel = require("./level-model");
 
 var _levelModel2 = _interopRequireDefault(_levelModel);
@@ -170,59 +174,65 @@ var levelCreate = function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             arrayOfErrors = [];
-
-            console.log("args: ", args);
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context3.next = 5;
+              _context3.next = 4;
               break;
             }
 
             return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 5:
-            _context3.next = 7;
+          case 4:
+            _context3.next = 6;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
+          case 6:
             user = _context3.sent;
             input = args.input;
+
+
+            console.log("input: ", input);
+
             _context3.next = 11;
-            return _levelModel2.default.create(input);
+            return _courseModel2.default.findOneAndUpdate({
+              _id: input.courseId,
+              "levels.level": {
+                $ne: input.level
+              }
+            }, {
+              $push: {
+                levels: {
+                  level: input.level,
+                  title: input.title
+                }
+              }
+            }, { new: true });
 
           case 11:
             level = _context3.sent;
 
-            console.log("level: ", level);
-            level.id = level._id;
 
-            if ((0, _isEmpty2.default)(level.errors)) {
-              _context3.next = 17;
-              break;
+            console.log("LEVELVELVELVLELVELVELEL: ", level);
+
+            if (!level) {
+              arrayOfErrors.push({
+                path: "level",
+                message: "Courses cannot have duplicate level numbers."
+              });
             }
 
-            arrayOfErrors.push({
-              path: "level",
-              message: "No duplicate levels allowed."
-            });
-            return _context3.abrupt("return", {
-              error: arrayOfErrors
-            });
+            console.log("array of errors: ", arrayOfErrors);
 
-          case 17:
-            arrayOfErrors.push({
-              path: "level",
-              message: "No duplicate levels allowed."
-            });
             return _context3.abrupt("return", {
+              level: level.levels[level.levels.length - 1],
               errors: arrayOfErrors
             });
 
-          case 19:
+          case 16:
           case "end":
             return _context3.stop();
         }
@@ -242,26 +252,23 @@ var getLevels = function () {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            console.log("args", args);
+            _context4.next = 2;
+            return _courseModel2.default.find({ _id: args.courseId }).sort({ _id: -1 }).exec();
 
-            _context4.next = 3;
-            return _levelModel2.default.find({ courseId: args.courseId }).sort({ _id: -1 }).exec();
-
-          case 3:
+          case 2:
             result = _context4.sent;
 
             if (!(0, _isEmpty2.default)(result)) {
-              _context4.next = 8;
+              _context4.next = 7;
               break;
             }
 
             return _context4.abrupt("return", { levels: [] });
 
-          case 8:
-            console.log("result: ", result);
-            return _context4.abrupt("return", { levels: result });
+          case 7:
+            return _context4.abrupt("return", { levels: result[0].levels });
 
-          case 10:
+          case 8:
           case "end":
             return _context4.stop();
         }
