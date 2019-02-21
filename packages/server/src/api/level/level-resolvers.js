@@ -2,6 +2,7 @@ import isEmpty from "lodash/isEmpty"
 import config from "../../config"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
+import Course from "../course/course-model"
 import Level from "./level-model"
 import {userByToken} from "../shared/resolver-functions.js"
 
@@ -45,7 +46,6 @@ const levelUpdate = (_, {input}) => {
 
 const levelCreate = async (_, args, ctx, info) => {
   let arrayOfErrors = []
-  console.log("args: ", args)
   const token = ctx.req.headers.authorization
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -56,42 +56,57 @@ const levelCreate = async (_, args, ctx, info) => {
   })
 
   const {input} = args
-  const level = await Level.create(input)
-  console.log("level: ", level)
-  level.id = level._id
-  if (!isEmpty(level.errors)) {
+
+  console.log("input: ", input)
+
+  const level = await Course.update(
+    {
+      _id: input.courseId,
+      "levels.level": {
+        $ne: input.level
+      }
+    },
+    {
+      $push: {
+        levels: {
+          level: input.level,
+          title: input.title
+        }
+      }
+    }
+  )
+
+  /* const level = await Course.findOneAndUpdate( */
+  /*   {push: {levels: {level: input.level, title: input.title}}}, */
+  /*   {new: true} */
+  /* ) */
+
+  console.log("LEVELVELVELVLELVELVELEL: ", level)
+
+  if (!level) {
     arrayOfErrors.push({
       path: "level",
-      message: "No duplicate levels allowed."
+      message: "Invalid level"
     })
-    return {
-      error: arrayOfErrors
-    }
   }
-  arrayOfErrors.push({
-    path: "level",
-    message: "No duplicate levels allowed."
-  })
+
+  console.log("array of errors: ", arrayOfErrors)
+
   return {
-		data: {
-			level: level.level
-		},
+    level: level,
     errors: arrayOfErrors
   }
 }
 
 const getLevels = async (_, args, ctx, info) => {
-  console.log("args", args)
-
-  let result = await Level.find({courseId: args.courseId})
+  let result = await Course.find({_id: args.courseId})
     .sort({_id: -1})
     .exec()
 
   if (isEmpty(result)) {
     return {levels: []}
   } else {
-    console.log("result: ", result)
-    return {levels: result}
+    return {levels: result[0].levels}
   }
 }
 

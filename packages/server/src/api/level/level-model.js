@@ -6,7 +6,6 @@ import {TermSchema} from "../term/term-model.js"
 export const LevelSchema = new Schema({
   level: {
     type: Number,
-    uniuqe: true,
     required: [true, "can't be blank"]
   },
   title: {
@@ -54,33 +53,6 @@ export const LevelSchema = new Schema({
   }
 })
 
-LevelSchema.index({level: 1}, {unique: true})
-
-LevelSchema.virtual("id").get(function() {
-  return this._id.toHexString()
-})
-
-LevelSchema.set("toJSON", {
-  virtuals: true
-})
-
 mongoose.model("Level", LevelSchema)
-
-/* LevelSchema.index({levelTitle: "text"}) */
-
-LevelSchema.statics.findByUsername = function(username, callback) {
-  var query = this.findOne()
-
-  User.findOne({username}).exec(callback)
-  return query
-}
-
-LevelSchema.virtual("id").get(function() {
-  return this._id.toHexString()
-})
-
-LevelSchema.set("toJSON", {
-  virtuals: true
-})
 
 export default mongoose.model("Level", LevelSchema)

@@ -1,3 +1,4 @@
+
 type  Vocabulary {
 		word: String
 		translation: String
@@ -31,11 +32,11 @@ type Level {
 	examples: [Example]
 	grammar: [Grammar]
   id: ID
-	level: Int!
+	level: Int
 	notes: String 
 	phrases: [Phrases]
   updatedAt: String
-  title: String!
+  title: String
 	vocabulary: [Vocabulary]
 }
 
@@ -47,13 +48,17 @@ input LevelUpdated {
 
 input LevelCreateInput {
 	courseId: String
-  id: ID
   level: Int 
   title: String
 }
 
 type PaginatedLevels {
   levels: [Level]
+}
+
+type Payload {
+	level: Level
+  errors: [Error]
 }
 
 extend type Query {
@@ -65,7 +70,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  levelCreate(input: LevelCreateInput!): Level! 
+  levelCreate(input: LevelCreateInput!): Payload! 
 	levelDelete(resourceID: String!): Boolean @hasScope(scope: "level:delete")
   levelUpdate(input: LevelUpdated!): Level!
 }

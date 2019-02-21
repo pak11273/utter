@@ -58,9 +58,15 @@ const getLevels = gql`
 const levelCreate = gql`
   mutation levelCreate($input: LevelCreateInput!) {
     levelCreate(input: $input) {
-      courseId
-      level
-      title
+      level {
+        courseId
+        id
+        level
+        title
+      }
+      errors {
+        message
+      }
     }
   }
 `
@@ -192,19 +198,13 @@ class Levels extends PureComponent {
 
   onChange = e => {
     if (e.target.name === "level") {
-      this.setState(
-        {
-          [e.target.name]: Number(e.target.value)
-        },
-        () => console.log("state: ", this.state)
-      )
+      this.setState({
+        [e.target.name]: Number(e.target.value)
+      })
     } else {
-      this.setState(
-        {
-          [e.target.name]: e.target.value
-        },
-        () => console.log("state: ", this.state)
-      )
+      this.setState({
+        [e.target.name]: e.target.value
+      })
     }
   }
 
@@ -295,29 +295,28 @@ class Levels extends PureComponent {
           <div className={classes.addButton}>
             <Mutation
               mutation={levelCreate}
-              /* update={(cache, {data: {levelCreate}}) => { */
-              /*   console.log("DATA: ", levelCreate) */
-              /*   try { */
-              /*     var gotLevels = cache.readQuery({ */
-              /*       query: getLevels, */
-              /*       variables: {courseId: this.props.course.id} */
-              /*     }) */
-              /*     var {levels} = gotLevels.getLevels */
-              /*     console.log("levels: ", levels) */
-              /*     cache.writeQuery({ */
-              /*       query: getLevels, */
-              /*       variables: {courseId: this.props.course.id}, */
-              /*       data: { */
-              /*         getLevels: { */
-              /*           levels: levels.concat([levelCreate]) */
-              /*         } */
-              /*       } */
-              /*     }) */
-              /*   } catch (err) { */
-              /*     console.log("err: ", err) */
-              /*   } */
-              /* }} */
-            >
+              update={(cache, {data: {levelCreate}}) => {
+                try {
+                  var gotLevels = cache.readQuery({
+                    query: getLevels,
+                    variables: {courseId: this.props.course.id}
+                  })
+                  var {levels} = gotLevels.getLevels
+                  cache.writeQuery({
+                    query: getLevels,
+                    variables: {
+                      courseId: this.props.course.id
+                    },
+                    data: {
+                      getLevels: {
+                        levels: levels.concat([levelCreate.level])
+                      }
+                    }
+                  })
+                } catch (err) {
+                  console.log("err: ", err)
+                }
+              }}>
               {(levelCreate, {loading, error, data}) => {
                 return loading ? (
                   <CircularProgress />
