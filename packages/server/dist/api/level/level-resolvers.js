@@ -102,7 +102,9 @@ var getLevel = function () {
 var levelDelete = function () {
   var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
     var id = _ref5.id;
-    var token, user, level;
+
+    var token, user, _args2, input;
+
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -124,28 +126,53 @@ var levelDelete = function () {
 
           case 5:
             user = _context2.sent;
-            _context2.next = 8;
-            return _levelModel2.default.findOneAndDelete({ owner: user._id });
+            _args2 = args, input = _args2.input;
 
-          case 8:
-            level = _context2.sent;
 
-            if (level) {
-              _context2.next = 11;
-              break;
-            }
+            console.log("input: ", input);
 
-            throw new Error("No level found by this owner.");
+            /* const level = await Course.findOneAndUpdate( */
+            /*   { */
+            /*     _id: input.courseId, */
+            /*     "levels.level": { */
+            /*       $ne: input.level */
+            /*     } */
+            /*   }, */
+            /*   { */
+            /*     $push: { */
+            /*       levels: { */
+            /*         level: input.level, */
+            /*         title: input.title */
+            /*       } */
+            /*     } */
+            /*   }, */
+            /*   {new: true} */
+            /* ) */
 
-          case 11:
+            /* console.log("LEVELVELVELVLELVELVELEL: ", level) */
+
+            /* if (!level) { */
+            /*   arrayOfErrors.push({ */
+            /*     path: "level", */
+            /*     message: "Courses cannot have duplicate level numbers." */
+            /*   }) */
+            /* } */
+
+            /* console.log("array of errors: ", arrayOfErrors) */
+
+            /* return { */
+            /*   level: level.levels[level.levels.length - 1], */
+            /*   errors: arrayOfErrors */
+            /* } */
+
             if (!level) {
-              _context2.next = 13;
+              _context2.next = 10;
               break;
             }
 
             return _context2.abrupt("return", true);
 
-          case 13:
+          case 10:
           case "end":
             return _context2.stop();
         }

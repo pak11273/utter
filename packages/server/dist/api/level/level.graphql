@@ -71,6 +71,6 @@ extend type Query {
 
 extend type Mutation {
   levelCreate(input: LevelCreateInput!): Payload! 
-	levelDelete(resourceID: String!): Boolean @hasScope(scope: "level:delete")
+	levelDelete(courseId: String, level: String): Boolean
   levelUpdate(input: LevelUpdated!): Level!
 }
