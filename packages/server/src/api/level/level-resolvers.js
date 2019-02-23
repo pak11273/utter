@@ -29,10 +29,43 @@ const levelDelete = async (_, {id}, ctx) => {
     return res
   })
 
-  const level = await Level.findOneAndDelete({owner: user._id})
-  if (!level) {
-    throw new Error("No level found by this owner.")
-  }
+  const {input} = args
+
+  console.log("input: ", input)
+
+  /* const level = await Course.findOneAndUpdate( */
+  /*   { */
+  /*     _id: input.courseId, */
+  /*     "levels.level": { */
+  /*       $ne: input.level */
+  /*     } */
+  /*   }, */
+  /*   { */
+  /*     $push: { */
+  /*       levels: { */
+  /*         level: input.level, */
+  /*         title: input.title */
+  /*       } */
+  /*     } */
+  /*   }, */
+  /*   {new: true} */
+  /* ) */
+
+  /* console.log("LEVELVELVELVLELVELVELEL: ", level) */
+
+  /* if (!level) { */
+  /*   arrayOfErrors.push({ */
+  /*     path: "level", */
+  /*     message: "Courses cannot have duplicate level numbers." */
+  /*   }) */
+  /* } */
+
+  /* console.log("array of errors: ", arrayOfErrors) */
+
+  /* return { */
+  /*   level: level.levels[level.levels.length - 1], */
+  /*   errors: arrayOfErrors */
+  /* } */
 
   if (level) {
     return true

@@ -106,7 +106,7 @@ const getForgotPassword = Loadable({
 })
 
 const getLevels = Loadable({
-  loader: () => import("./layouts/levels/containers/levels-controller.js"),
+  loader: () => import("./layouts/levels/containers/levels-update.js"),
   loading: Loading
 })
 

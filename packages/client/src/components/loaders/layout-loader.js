@@ -1,6 +1,7 @@
 import React from "react"
-// TODO: change to material ui loader
+import LoaderCircle from "./loader-circle.js"
 
-const LayoutLoader = () => <div>Loading...</div>
+const LayoutLoader = () => <LoaderCircle />
+/* <div>Loading...</div> */
 
 export default LayoutLoader

@@ -21,10 +21,6 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-/* components */
-import {LevelDelete} from "../components"
-
-/* import LevelsCtrl from "./levels-controller.js" */
 import {graphql, Mutation, Query} from "react-apollo"
 import gql from "graphql-tag"
 import classNames from "classnames"
@@ -108,11 +104,11 @@ const styles = theme => ({
     width: "100%"
   },
   errorClass: {
-    boxShadow: `0px 0px 2px 1px ${theme.palette.error.main}`,
+    boxShadow: "0px 0px 2px 1px red",
     backgroundColor: "white"
   },
   errors: {
-    color: theme.palette.error.main
+    color: "red"
   },
   level: {
     display: "flex",
@@ -152,7 +148,6 @@ class Levels extends PureComponent {
     super(props)
 
     this.state = {
-      courseId: this.props.course.id,
       formErrors: {
         errors: []
       },
@@ -224,7 +219,7 @@ class Levels extends PureComponent {
     this.setState({
       openDeleteModal: true,
       modalLevel: row.original.level
-    })
+    }, () => console.log('level: ', level))
   }
 
   closeDeleteModal = () => {
@@ -233,6 +228,18 @@ class Levels extends PureComponent {
     })
   }
 
+  deleteLevel = row => e => {
+    console.log("row: ", row)
+  }
+
+  /* onButtonClick = () => { */
+  /*   const selectedNodes = this.gridApi.getSelectedNodes() */
+  /*   const selectedData = selectedNodes.map(node => node.data) */
+  /*   const selectedDataStringPresentation = selectedData */
+  /*     .map(node => node.make + " " + node.model) */
+  /*     .join(", ") */
+  /*   alert(`Selected nodes: ${selectedDataStringPresentation}`) */
+  /* } */
 
   render() {
     const {classes, course, level} = this.props
@@ -241,14 +248,11 @@ class Levels extends PureComponent {
         this.state.formErrors.path === "level" &&
         !isEmpty(this.state.formErrors.errors)
     })
-
     const titleError = classNames({
       errorClass:
         this.state.formErrors.path === "title" &&
         !isEmpty(this.state.formErrors.errors)
     })
-
-    console.log("this state: ", this.state)
 
     const formErrors = this.state.formErrors.errors.map((error, i) => {
       return (
@@ -356,13 +360,75 @@ class Levels extends PureComponent {
               <Typography className={classes.header}>Edit</Typography>
             ),
             Cell: row => (
-              <LevelDelete
-                row={row}
-                {...this.state}
-                closeDeleteModal={this.closeDeleteModal}
-                handleDelete={this.handleDelete}
-              />
+              <Typography className={classes.title}>
+                <IconButton status="danger" onClick={this.handleDelete(row)}>
+                  <DeleteIcon />
+                </IconButton>
+                <Dialog
+                  open={this.state.openDeleteModal}
+                  onClose={this.closeDeleteModal}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description">
+                  <DialogTitle id="alert-dialog-title">
+                    Are you sure?
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      By deleting this level you will also be deleting
+                      everything associated with this level ie. vocabulary,
+                      grammar, examples, phrases and notes. This delete is
+                      unrecoverable.
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button color="primary" autoFocus>
+                      Delete
+                    </Button>
+                    <Button onClick={this.closeDeleteModal} color="primary">
+                      Cancel
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Typography>
             ),
+            /* Cell: row => (
+              <Typography className={classes.title}>
+                <span className={classes.actions}>
+                  <IconButton status="danger" onClick={this.handleDelete}>
+                    <DeleteIcon />
+                  </IconButton>
+                  <Dialog
+                    open={this.state.openDeleteModal}
+                    onClose={this.closeDeleteModal}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description">
+                    <DialogTitle id="alert-dialog-title">
+                      Are you sure?
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-description">
+                        By deleting this level you will also be deleting
+                        everything associated with this level ie. vocabulary,
+                        grammar, examples, phrases and notes. This delete is
+                        unrecoverable.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        onClick={this.deleteLevel(row)}
+                        color="primary"
+                        autoFocus>
+                        Delete
+                      </Button>
+                      <Button onClick={this.closeDeleteModal} color="primary">
+                        Cancel
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </span>
+              </Typography>
+							*/
+
             minWidth: 20
           }
         ],

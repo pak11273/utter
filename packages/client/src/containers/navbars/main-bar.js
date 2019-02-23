@@ -61,6 +61,7 @@ const styles = theme => ({
     width: "100%"
   },
   appBar: {
+    backgroundColor: theme.palette.error.red,
     zIndex: theme.zIndex.drawer + 1
   },
   grow: {

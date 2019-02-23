@@ -10,8 +10,9 @@ import {ApolloProvider} from "react-apollo"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
+import blue from "@material-ui/core/colors/blue"
 import yellow from "@material-ui/core/colors/yellow"
-import green from "@material-ui/core/colors/green"
+import red from "@material-ui/core/colors/red"
 
 import client from "./apollo.js"
 
@@ -39,10 +40,11 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: yellow,
-    secondary: green
+    secondary: blue,
+    error: red
   },
   status: {
-    danger: "red",
+    danger: red,
     warning: "orange"
   }
 })

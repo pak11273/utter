@@ -178,7 +178,6 @@ class CoursesGrid extends PureComponent {
   handleImageClick = data => {
     const payload = {}
     payload.course = data
-    console.log("payload: ", payload)
     store.dispatch(loadData(payload))
 
     history.push({
