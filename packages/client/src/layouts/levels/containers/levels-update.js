@@ -23,13 +23,13 @@ import {withStyles} from "@material-ui/core/styles"
 
 /* components */
 import {LevelDeleteModal} from "../components"
+import {Can, Hero, LoaderCircle} from "../../../components"
 
 import {graphql, Mutation, Query} from "react-apollo"
 import gql from "graphql-tag"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
 import schema from "../../../core/schema.js"
-import {Hero, LoaderCircle} from "../../../components"
 import * as yup from "yup"
 
 import {levelSchema} from "@utterzone/common"
@@ -153,7 +153,7 @@ class Levels extends PureComponent {
   }
 
   render() {
-    const {classes, course, level} = this.props
+    const {classes, course, level, user} = this.props
     const levelError = classNames({
       errorClass:
         this.state.formErrors.path === "level" &&
@@ -177,16 +177,25 @@ class Levels extends PureComponent {
     const columns = [
       {
         Header: () => (
-          <TextField
-            align="center"
-            className={`${classes[levelError]} ${classes.inputHeader}`}
-            fullWidth
-            id="outlined-bare"
-            margin="normal"
-            name="level"
-            onChange={this.onChange}
-            value={this.state.level}
-            variant="outlined"
+          <Can
+            roles={user.roles}
+            perform="course:update-levels"
+            id={user.username}
+            matchingID={course.owner.username}
+            yes={() => (
+              <TextField
+                align="center"
+                className={`${classes[levelError]} ${classes.inputHeader}`}
+                fullWidth
+                id="outlined-bare"
+                margin="normal"
+                name="level"
+                onChange={this.onChange}
+                value={this.state.level}
+                variant="outlined"
+              />
+            )}
+            no={() => null}
           />
         ),
         columns: [
@@ -204,15 +213,24 @@ class Levels extends PureComponent {
       },
       {
         Header: () => (
-          <TextField
-            className={`${classes[titleError]} ${classes.inputHeader}`}
-            fullWidth
-            id="outlined-bare"
-            margin="normal"
-            name="title"
-            onChange={this.onChange}
-            value={this.state.title}
-            variant="outlined"
+          <Can
+            roles={user.roles}
+            perform="course:update-levels"
+            id={user.username}
+            matchingID={course.owner.username}
+            yes={() => (
+              <TextField
+                className={`${classes[titleError]} ${classes.inputHeader}`}
+                fullWidth
+                id="outlined-bare"
+                margin="normal"
+                name="title"
+                onChange={this.onChange}
+                value={this.state.title}
+                variant="outlined"
+              />
+            )}
+            no={() => null}
           />
         ),
         columns: [
@@ -258,9 +276,20 @@ class Levels extends PureComponent {
                 return loading ? (
                   <CircularProgress />
                 ) : (
-                  <Button type="submit" onClick={this.addLevel(levelCreate)}>
-                    Add Level
-                  </Button>
+                  <Can
+                    roles={user.roles}
+                    perform="course:update-levels"
+                    id={user.username}
+                    matchingID={course.owner.username}
+                    yes={() => (
+                      <Button
+                        type="submit"
+                        onClick={this.addLevel(levelCreate)}>
+                        Add Level
+                      </Button>
+                    )}
+                    no={() => null}
+                  />
                 )
               }}
             </Mutation>
@@ -269,14 +298,32 @@ class Levels extends PureComponent {
         columns: [
           {
             Header: () => (
-              <Typography className={classes.header}>Edit</Typography>
+              <Can
+                roles={user.roles}
+                perform="course:update-levels"
+                id={user.username}
+                matchingID={course.owner.username}
+                yes={() => (
+                  <Typography className={classes.header}>Edit</Typography>
+                )}
+                no={() => null}
+              />
             ),
             Cell: row => (
-              <LevelDeleteModal
-                row={row}
-                {...this.state}
-                closeDeleteModal={this.closeDeleteModal}
-                handleDelete={this.handleDelete}
+              <Can
+                roles={user.roles}
+                perform="course:update-levels"
+                id={user.username}
+                matchingID={course.owner.username}
+                yes={() => (
+                  <LevelDeleteModal
+                    row={row}
+                    {...this.state}
+                    closeDeleteModal={this.closeDeleteModal}
+                    handleDelete={this.handleDelete}
+                  />
+                )}
+                no={() => null}
               />
             ),
             minWidth: 20

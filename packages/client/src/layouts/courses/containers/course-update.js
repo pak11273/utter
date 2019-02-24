@@ -122,7 +122,7 @@ class CourseUpdate extends Component {
                   <Can
                     key={text}
                     roles={user.roles}
-                    perform="course:update"
+                    perform="course:read-settings"
                     id={user.username}
                     matchingID={course.owner.username}
                     yes={() => (

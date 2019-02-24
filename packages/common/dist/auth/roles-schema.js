@@ -52,7 +52,7 @@ var roles = {
     dynamic: [{
       "course:read-settings": matchID
     }, {
-      "course:update": matchID
+      "course:update-levels": matchID
     }, {
       "course:delete": matchID
     }]
