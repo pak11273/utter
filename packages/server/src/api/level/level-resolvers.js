@@ -115,14 +115,16 @@ const levelCreate = async (_, args, ctx, info) => {
 }
 
 const getLevels = async (_, args, ctx, info) => {
-  let result = await Course.find({_id: args.courseId})
-    .sort({_id: -1})
-    .exec()
+  let result = await Course.find({_id: args.courseId}).exec()
+
+  const sortedLevels = result[0].levels.sort((a, b) => {
+    return a.level - b.level
+  })
 
   if (isEmpty(result)) {
     return {levels: []}
   } else {
-    return {levels: result[0].levels}
+    return {levels: sortedLevels}
   }
 }
 

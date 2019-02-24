@@ -18,9 +18,6 @@ const levelDelete = ({render}) => (
           variables: {courseId}
         })
         var {levels} = gotLevels.getLevels
-        console.log("levels; ", levels)
-
-        console.log("levelDelete: ", levelDelete.level)
 
         cache.writeQuery({
           query: getLevels,

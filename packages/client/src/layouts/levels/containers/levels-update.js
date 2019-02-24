@@ -386,12 +386,6 @@ class Levels extends PureComponent {
                   data={data.getLevels.levels}
                   columns={columns}
                   defaultPageSize={10}
-                  sorted={[
-                    {
-                      id: "level",
-                      desc: false
-                    }
-                  ]}
                 />
               </Grid>
               <Grid item style={{display: "flex", justifyContent: "center"}}>

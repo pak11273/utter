@@ -33,9 +33,12 @@ class LevelDeleteModal extends Component {
       <Composed>
         {({container: {levelDelete}}) => {
           const xhrDeleteLevel = async () => {
-            await levelDelete.mutation({
+            const finished = await levelDelete.mutation({
               variables: {courseId, level: modalLevel, title: modalTitle}
             })
+            if (finished.data.levelDelete.level.level) {
+              closeDeleteModal()
+            }
           }
 
           return (
