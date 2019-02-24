@@ -100,79 +100,67 @@ var getLevel = function () {
 }();
 
 var levelDelete = function () {
-  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
-    var id = _ref5.id;
-
-    var token, user, _args2, input;
-
+  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, ctx) {
+    var arrayOfErrors, token, user, level;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
+            arrayOfErrors = [];
+
             if (!(token === "null")) {
-              _context2.next = 2;
+              _context2.next = 3;
               break;
             }
 
             return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 2:
+          case 3:
             token = ctx.req.headers.authorization;
-            _context2.next = 5;
+            _context2.next = 6;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 5:
+          case 6:
             user = _context2.sent;
-            _args2 = args, input = _args2.input;
 
 
-            console.log("input: ", input);
+            console.log("args: ", args);
 
-            /* const level = await Course.findOneAndUpdate( */
-            /*   { */
-            /*     _id: input.courseId, */
-            /*     "levels.level": { */
-            /*       $ne: input.level */
-            /*     } */
-            /*   }, */
-            /*   { */
-            /*     $push: { */
-            /*       levels: { */
-            /*         level: input.level, */
-            /*         title: input.title */
-            /*       } */
-            /*     } */
-            /*   }, */
-            /*   {new: true} */
-            /* ) */
-
-            /* console.log("LEVELVELVELVLELVELVELEL: ", level) */
-
-            /* if (!level) { */
-            /*   arrayOfErrors.push({ */
-            /*     path: "level", */
-            /*     message: "Courses cannot have duplicate level numbers." */
-            /*   }) */
-            /* } */
-
-            /* console.log("array of errors: ", arrayOfErrors) */
-
-            /* return { */
-            /*   level: level.levels[level.levels.length - 1], */
-            /*   errors: arrayOfErrors */
-            /* } */
-
-            if (!level) {
-              _context2.next = 10;
-              break;
-            }
-
-            return _context2.abrupt("return", true);
+            _context2.next = 10;
+            return _courseModel2.default.findOneAndUpdate({
+              _id: args.courseId
+            }, {
+              $pull: {
+                levels: {
+                  level: args.level
+                }
+              }
+            }, { new: true });
 
           case 10:
+            level = _context2.sent;
+
+
+            console.log("LEVELVELVELVLELVELVELEL: ", level);
+
+            if (!level) {
+              arrayOfErrors.push({
+                path: "level",
+                message: "An Error has occured.  Please contact technical support."
+              });
+            }
+
+            console.log("array of errors: ", arrayOfErrors);
+
+            return _context2.abrupt("return", {
+              level: args,
+              errors: arrayOfErrors
+            });
+
+          case 15:
           case "end":
             return _context2.stop();
         }
@@ -185,8 +173,8 @@ var levelDelete = function () {
   };
 }();
 
-var levelUpdate = function levelUpdate(_, _ref6) {
-  var input = _ref6.input;
+var levelUpdate = function levelUpdate(_, _ref5) {
+  var input = _ref5.input;
   var id = input.id,
       update = (0, _objectWithoutProperties3.default)(input, ["id"]);
 
@@ -194,7 +182,7 @@ var levelUpdate = function levelUpdate(_, _ref6) {
 };
 
 var levelCreate = function () {
-  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
+  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
     var arrayOfErrors, token, user, input, level;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
@@ -243,8 +231,6 @@ var levelCreate = function () {
             level = _context3.sent;
 
 
-            console.log("LEVELVELVELVLELVELVELEL: ", level);
-
             if (!level) {
               arrayOfErrors.push({
                 path: "level",
@@ -252,14 +238,12 @@ var levelCreate = function () {
               });
             }
 
-            console.log("array of errors: ", arrayOfErrors);
-
             return _context3.abrupt("return", {
               level: level.levels[level.levels.length - 1],
               errors: arrayOfErrors
             });
 
-          case 16:
+          case 14:
           case "end":
             return _context3.stop();
         }
@@ -268,12 +252,12 @@ var levelCreate = function () {
   }));
 
   return function levelCreate(_x7, _x8, _x9, _x10) {
-    return _ref7.apply(this, arguments);
+    return _ref6.apply(this, arguments);
   };
 }();
 
 var getLevels = function () {
-  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
+  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
     var result;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
@@ -304,7 +288,7 @@ var getLevels = function () {
   }));
 
   return function getLevels(_x11, _x12, _x13, _x14) {
-    return _ref8.apply(this, arguments);
+    return _ref7.apply(this, arguments);
   };
 }();
 

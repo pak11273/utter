@@ -19,7 +19,8 @@ const getLevel = async (_, {levelId}, {user}) => {
   return level
 }
 
-const levelDelete = async (_, {id}, ctx) => {
+const levelDelete = async (_, args, ctx) => {
+  const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
   }
@@ -29,46 +30,36 @@ const levelDelete = async (_, {id}, ctx) => {
     return res
   })
 
-  const {input} = args
+  console.log("args: ", args)
 
-  console.log("input: ", input)
+  const level = await Course.findOneAndUpdate(
+    {
+      _id: args.courseId
+    },
+    {
+      $pull: {
+        levels: {
+          level: args.level
+        }
+      }
+    },
+    {new: true}
+  )
 
-  /* const level = await Course.findOneAndUpdate( */
-  /*   { */
-  /*     _id: input.courseId, */
-  /*     "levels.level": { */
-  /*       $ne: input.level */
-  /*     } */
-  /*   }, */
-  /*   { */
-  /*     $push: { */
-  /*       levels: { */
-  /*         level: input.level, */
-  /*         title: input.title */
-  /*       } */
-  /*     } */
-  /*   }, */
-  /*   {new: true} */
-  /* ) */
+  console.log("LEVELVELVELVLELVELVELEL: ", level)
 
-  /* console.log("LEVELVELVELVLELVELVELEL: ", level) */
+  if (!level) {
+    arrayOfErrors.push({
+      path: "level",
+      message: "An Error has occured.  Please contact technical support."
+    })
+  }
 
-  /* if (!level) { */
-  /*   arrayOfErrors.push({ */
-  /*     path: "level", */
-  /*     message: "Courses cannot have duplicate level numbers." */
-  /*   }) */
-  /* } */
+  console.log("array of errors: ", arrayOfErrors)
 
-  /* console.log("array of errors: ", arrayOfErrors) */
-
-  /* return { */
-  /*   level: level.levels[level.levels.length - 1], */
-  /*   errors: arrayOfErrors */
-  /* } */
-
-  if (level) {
-    return true
+  return {
+    level: args,
+    errors: arrayOfErrors
   }
 }
 
@@ -110,16 +101,12 @@ const levelCreate = async (_, args, ctx, info) => {
     {new: true}
   )
 
-  console.log("LEVELVELVELVLELVELVELEL: ", level)
-
   if (!level) {
     arrayOfErrors.push({
       path: "level",
       message: "Courses cannot have duplicate level numbers."
     })
   }
-
-  console.log("array of errors: ", arrayOfErrors)
 
   return {
     level: level.levels[level.levels.length - 1],

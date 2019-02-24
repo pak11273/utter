@@ -1,3 +1,3 @@
-import LevelDelete from "./level-delete.js"
+import LevelDeleteModal from "./level-delete-modal.js"
 
-export {LevelDelete}
+export {LevelDeleteModal}

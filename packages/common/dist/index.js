@@ -28,6 +28,18 @@ Object.keys(_courseSchemas).forEach(function (key) {
   });
 });
 
+var _levelSchemas = require("./yup_schemas/level-schemas.js");
+
+Object.keys(_levelSchemas).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _levelSchemas[key];
+    }
+  });
+});
+
 var _zoneSchemas = require("./yup_schemas/zone-schemas.js");
 
 Object.keys(_zoneSchemas).forEach(function (key) {

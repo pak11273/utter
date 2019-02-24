@@ -22,9 +22,8 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 /* components */
-import {LevelDelete} from "../components"
+import {LevelDeleteModal} from "../components"
 
-/* import LevelsCtrl from "./levels-controller.js" */
 import {graphql, Mutation, Query} from "react-apollo"
 import gql from "graphql-tag"
 import classNames from "classnames"
@@ -33,119 +32,14 @@ import schema from "../../../core/schema.js"
 import {Hero, LoaderCircle} from "../../../components"
 import * as yup from "yup"
 
-var levelSchema = yup.object().shape({
-  level: yup
-    .number()
-    .typeError("Levels must be whole numbers.")
-    .max(1000, "Courses are limited to 1000 levels.")
-    .moreThan(0, "Levels need to be more than 0")
-    .required("A level is required."),
-  title: yup
-    .string()
-    .typeError("Titles must be letters.")
-    .max(100, "Titles are limited to 100 characters.")
-    .required()
-})
+import {levelSchema} from "@utterzone/common"
+import {styles} from "../styles.js"
+
+import {getLevels, levelCreate} from "../xhr.js"
 
 // actions
 /* import {loadData} from "../../../api/actions.js" */
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
-
-const getLevels = gql`
-  query getLevels($courseId: String!) {
-    getLevels(courseId: $courseId) {
-      levels {
-        id
-        courseId
-        level
-        title
-      }
-    }
-  }
-`
-
-const levelCreate = gql`
-  mutation levelCreate($input: LevelCreateInput!) {
-    levelCreate(input: $input) {
-      level {
-        courseId
-        id
-        level
-        title
-      }
-      errors {
-        message
-      }
-    }
-  }
-`
-
-const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "center",
-    height: "100%",
-    width: "100%"
-  },
-  addButton: {
-    alignItems: "center",
-    display: "flex",
-    height: "100%",
-    justifyContent: "center"
-  },
-  button: {
-    marginBottom: theme.spacing.unit * 4
-    /* right: theme.spacing.unit * 2 */
-  },
-  editHeader: {
-    alignItems: "center",
-    display: "flex",
-    fontSize: theme.spacing.unit * 2,
-    fontWeight: 400,
-    height: "100%",
-    justifyContent: "center",
-    minHeight: "40px",
-    width: "100%"
-  },
-  errorClass: {
-    boxShadow: `0px 0px 2px 1px ${theme.palette.error.main}`,
-    backgroundColor: "white"
-  },
-  errors: {
-    color: theme.palette.error.main
-  },
-  level: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%"
-  },
-  title: {
-    alignItems: "center",
-    display: "flex",
-    height: "100%",
-    paddingLeft: "10px",
-    width: "100%"
-  },
-  header: {
-    fontSize: theme.spacing.unit * 3,
-    fontWeight: 400,
-    height: "100%",
-    minHeight: "40px",
-    width: "100%"
-  },
-  inputHeader: {
-    background: "white",
-    minHeight: "40px"
-  },
-  root: {
-    maxWidth: 900,
-    margin: "0 auto"
-  },
-  text: {
-    color: "white"
-  }
-})
 
 class Levels extends PureComponent {
   constructor(props) {
@@ -157,6 +51,7 @@ class Levels extends PureComponent {
         errors: []
       },
       modalLevel: "",
+      modalTitle: "",
       openDeleteModal: false,
       title: "",
       level: ""
@@ -202,6 +97,7 @@ class Levels extends PureComponent {
 
     // reset state
     const labelState = update(this.state, {
+      openDeleteModal: {$set: false},
       title: {$set: ""},
       level: {$set: ""}
     })
@@ -223,7 +119,8 @@ class Levels extends PureComponent {
   handleDelete = row => () => {
     this.setState({
       openDeleteModal: true,
-      modalLevel: row.original.level
+      modalLevel: row.original.level,
+      modalTitle: row.original.title
     })
   }
 
@@ -233,6 +130,27 @@ class Levels extends PureComponent {
     })
   }
 
+  deleteLevel = DELETE_LEVEL => e => {
+    e.preventDefault()
+
+    if (isEmpty(this.state.formErrors.errors)) {
+      DELETE_LEVEL({
+        variables: {
+          input: {
+            courseId: this.props.course.id,
+            level: this.state.level
+          }
+        }
+      })
+    }
+
+    // reset state
+    const labelState = update(this.state, {
+      title: {$set: ""},
+      level: {$set: ""}
+    })
+    this.setState(labelState)
+  }
 
   render() {
     const {classes, course, level} = this.props
@@ -247,8 +165,6 @@ class Levels extends PureComponent {
         this.state.formErrors.path === "title" &&
         !isEmpty(this.state.formErrors.errors)
     })
-
-    console.log("this state: ", this.state)
 
     const formErrors = this.state.formErrors.errors.map((error, i) => {
       return (
@@ -356,7 +272,7 @@ class Levels extends PureComponent {
               <Typography className={classes.header}>Edit</Typography>
             ),
             Cell: row => (
-              <LevelDelete
+              <LevelDeleteModal
                 row={row}
                 {...this.state}
                 closeDeleteModal={this.closeDeleteModal}
@@ -408,8 +324,6 @@ class Levels extends PureComponent {
             typeof data.getLevels !== "undefined"
           ) {
             const level = data.getLevels.levels
-          } else {
-            console.log("data: ", data)
           }
 
           return (

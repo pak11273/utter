@@ -52,6 +52,7 @@ input LevelCreateInput {
   title: String
 }
 
+
 type PaginatedLevels {
   levels: [Level]
 }
@@ -71,6 +72,6 @@ extend type Query {
 
 extend type Mutation {
   levelCreate(input: LevelCreateInput!): Payload! 
-	levelDelete(courseId: String, level: String): Boolean
+	levelDelete(courseId: String, level: Int, title: String): Payload 
   levelUpdate(input: LevelUpdated!): Level!
 }
