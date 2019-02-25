@@ -18,18 +18,25 @@ import {hasScopeDirective} from "./directives/auth/auth-has-scope.js"
 const appSchema = path.join(__dirname, "./api/app/app.graphql")
 const courseSchema = path.join(__dirname, "./api/course/course.graphql")
 const levelSchema = path.join(__dirname, "./api/level/level.graphql")
+const sharedSchema = path.join(__dirname, "./api/shared/shared.graphql")
 const termSchema = path.join(__dirname, "./api/term/term.graphql")
 const testSchema = path.join(__dirname, "./api/test/test.graphql")
 const userSchema = path.join(__dirname, "./api/user/user.graphql")
+const vocabularySchema = path.join(
+  __dirname,
+  "./api/vocabulary/vocabulary.graphql"
+)
 const zoneSchema = path.join(__dirname, "./api/zone/zone.graphql")
 
 // type defs
 const appTypeDefs = fs.readFileSync(appSchema, "utf8")
 const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
 const levelTypeDefs = fs.readFileSync(levelSchema, "utf8")
+const sharedTypeDefs = fs.readFileSync(sharedSchema, "utf8")
 const termTypeDefs = fs.readFileSync(termSchema, "utf8")
 const testTypeDefs = fs.readFileSync(testSchema, "utf8")
 const userTypeDefs = fs.readFileSync(userSchema, "utf8")
+const vocabularyTypeDefs = fs.readFileSync(vocabularySchema, "utf8")
 const zoneTypeDefs = fs.readFileSync(zoneSchema, "utf8")
 
 // resolver imports
@@ -39,6 +46,7 @@ import {levelResolvers} from "./api/level/level-resolvers.js"
 import {termResolvers} from "./api/term/term-resolvers.js"
 import {testResolvers} from "./api/test/test-resolvers.js"
 import {userResolvers} from "./api/user/user-resolvers.js"
+import {vocabularyResolvers} from "./api/vocabulary/vocabulary-resolvers.js"
 import {zoneResolvers} from "./api/zone/zone-resolvers.js"
 
 // baseSchema minimum requirement is a property query: Query
@@ -54,8 +62,10 @@ const schema = makeExecutableSchema({
     userTypeDefs,
     courseTypeDefs,
     levelTypeDefs,
+		sharedTypeDefs,
     termTypeDefs,
     testTypeDefs,
+    vocabularyTypeDefs,
     zoneTypeDefs
   ],
   schemaDirectives: {
@@ -71,6 +81,7 @@ const schema = makeExecutableSchema({
     levelResolvers,
     termResolvers,
     testResolvers,
+    vocabularyResolvers,
     zoneResolvers
   )
 })

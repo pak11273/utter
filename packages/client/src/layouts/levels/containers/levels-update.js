@@ -153,6 +153,7 @@ class Levels extends PureComponent {
   }
 
   render() {
+    console.log("props: ", this.props)
     const {classes, course, level, user} = this.props
     const levelError = classNames({
       errorClass:

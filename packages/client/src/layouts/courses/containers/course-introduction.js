@@ -195,7 +195,7 @@ class CourseIntroduction extends Component {
           <Grid container spacing={24}>
             <Can
               roles={user.roles}
-              perform="course:update"
+              perform="course:update-introduction"
               id={user.username}
               matchingID={course.owner.username}
               yes={() => (
@@ -309,7 +309,7 @@ class CourseIntroduction extends Component {
             <Grid container style={{margin: "50px auto"}}>
               <Can
                 roles={user.roles}
-                perform="course:update"
+                perform="course:update-introduction"
                 id={user.username}
                 matchingID={course.owner.username}
                 yes={() => (

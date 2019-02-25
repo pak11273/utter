@@ -30,7 +30,7 @@ import isEmpty from "lodash/isEmpty"
 import {Can, Hero, LoaderCircle} from "../../../components"
 import {VocabularyDeleteModal} from "../components"
 
-import {loadData, resetGlobalLevel} from "../../../api/actions.js"
+import {loadData} from "../../../api/actions.js"
 import {getVocabularies, vocabularyCreate} from "../xhr.js"
 import {getLevels} from "../../levels/xhr.js"
 import {styles} from "../styles.js"
@@ -47,14 +47,33 @@ class Vocabulary extends Component {
         errors: []
       },
       labelWidth: 0,
-      globalLevel: 0,
-      globalLevels: [],
-      value: "level"
+      globalLevel: 1,
+      value: "level",
+      columnDefs: [
+        {
+          rowDrag: true,
+          headerName: ""
+        },
+        {headerName: "Level", field: "level"},
+        {headerName: "Word", field: "word"},
+        {headerName: "Translation", field: "translation"},
+        {headerName: "Audio", field: "audio"},
+        {headerName: "Action", field: ""}
+      ],
+      rowData: [
+        {level: "1", model: "Celica", price: 35000},
+        {level: "2", model: "Mondeo", price: 32000},
+        {level: "3", model: "Boxter", price: 72000}
+      ]
     }
   }
 
   componentDidMount() {
-    this.props.toggleFooter(false)
+    this.props.toggleFooter(true)
+		// fetch level from glboabl Level
+		
+    // use redux loadData
+    this.props.loadData({level: this.state.globalLevel})
   }
 
   onButtonClick = () => {
@@ -66,26 +85,11 @@ class Vocabulary extends Component {
     alert(`Selected nodes: ${selectedDataStringPresentation}`)
   }
 
-  handleGlobalLevelChg = payload => e => {
+  handleChg = name => e => {
     e.preventDefault()
-
-    this.props.resetGlobalLevel()
-
-    this.setState(
-      {
-        globalLevels: payload,
-        globalLevel: e.target.value
-      },
-      () => {
-        const selectedLevel = payload.filter(level => {
-          return level.level === this.state.globalLevel
-        })
-
-        this.props.loadData({level: selectedLevel[0]})
-
-        console.log("selected: ", selectedLevel[0].level)
-      }
-    )
+    this.setState({
+      [name]: e.target.value
+    })
   }
 
   render() {
@@ -112,7 +116,28 @@ class Vocabulary extends Component {
 
     const columns = [
       {
-        Header: () => null,
+        Header: () => (
+          <Can
+            roles={user.roles}
+            perform="course:update-levels"
+            id={user.username}
+            matchingID={course.owner.username}
+            yes={() => (
+              <TextField
+                align="center"
+                className={`${classes[levelError]} ${classes.inputHeader}`}
+                fullWidth
+                id="outlined-bare"
+                margin="normal"
+                name="level"
+                onChange={this.onChange}
+                value={this.state.level}
+                variant="outlined"
+              />
+            )}
+            no={() => null}
+          />
+        ),
         columns: [
           {
             Header: () => (
@@ -141,7 +166,6 @@ class Vocabulary extends Component {
                 margin="normal"
                 name="title"
                 onChange={this.onChange}
-                placeholder="Add a new word here."
                 value={this.state.title}
                 variant="outlined"
               />
@@ -152,44 +176,9 @@ class Vocabulary extends Component {
         columns: [
           {
             Header: () => (
-              <Typography className={classes.header}>Word</Typography>
+              <Typography className={classes.header}>Title</Typography>
             ),
-            accessor: "word",
-            Cell: props => (
-              <Typography className={classes.title}>{props.value}</Typography>
-            )
-          }
-        ]
-      },
-      {
-        Header: () => (
-          <Can
-            roles={user.roles}
-            perform="course:update-levels"
-            id={user.username}
-            matchingID={course.owner.username}
-            yes={() => (
-              <TextField
-                className={`${classes[titleError]} ${classes.inputHeader}`}
-                fullWidth
-                id="outlined-bare"
-                margin="normal"
-                name="title"
-                onChange={this.onChange}
-                placeholder="And the translation to that word here."
-                value={this.state.title}
-                variant="outlined"
-              />
-            )}
-            no={() => null}
-          />
-        ),
-        columns: [
-          {
-            Header: () => (
-              <Typography className={classes.header}>Translation</Typography>
-            ),
-            accessor: "translation",
+            accessor: "title",
             Cell: props => (
               <Typography className={classes.title}>{props.value}</Typography>
             )
@@ -292,7 +281,9 @@ class Vocabulary extends Component {
 
           const {levels} = data.getLevels
 
-          var {globalLevel} = this.state
+					this.props.loadData(levels[0])
+
+          console.log("levels: ", levels)
 
           return (
             <Grid container direction="column">
@@ -305,7 +296,7 @@ class Vocabulary extends Component {
                     <Select
                       value={this.state.globalLevel}
                       className={classes.formControl}
-                      onChange={this.handleGlobalLevelChg(levels)}>
+                      onChange={this.handleChg("globalLevel")}>
                       {levels.map(item => {
                         return (
                           <MenuItem key={item.level} value={item.level}>
@@ -315,6 +306,15 @@ class Vocabulary extends Component {
                       })}
                     </Select>
                   </FormControl>
+                  <Button
+                    color="primary"
+                    onClick={this.handleSubmit}
+                    size="small"
+                    style={{margin: "20px"}}
+                    type="submit"
+                    variant="contained">
+                    Submit
+                  </Button>
                 </Grid>
               </Hero>
               <List>{formErrors}</List>
@@ -365,13 +365,14 @@ const mapStateToProps = state => {
   }
 }
 
-const actions = {
-  loadData,
-  resetGlobalLevel,
-  toggleFooter
+const mapDispatchToProps = dispatch => {
+  return {
+		loadData,
+    toggleFooter: () => dispatch(toggleFooter())
+  }
 }
 
 export default connect(
   mapStateToProps,
-  actions
+  mapDispatchToProps
 )(withStyles(styles)(Vocabulary))

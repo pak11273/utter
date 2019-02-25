@@ -11,6 +11,10 @@ export const styles = theme => ({
     height: "100%",
     justifyContent: "center"
   },
+  button: {
+    marginBottom: theme.spacing.unit * 4
+    /* right: theme.spacing.unit * 2 */
+  },
   editHeader: {
     alignItems: "center",
     display: "flex",
@@ -29,8 +33,7 @@ export const styles = theme => ({
     color: theme.palette.error.main
   },
   formControl: {
-    fontSize: "30px",
-    textAlign: "center"
+    fontSize: 30
   },
   level: {
     display: "flex",

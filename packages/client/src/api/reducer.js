@@ -37,6 +37,7 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
+  console.log("payload: ", payload)
   const session = orm.session(state)
   const entities = ["course", "level", "user", "zone"]
   const payloadKeys = Object.keys(payload)
@@ -46,6 +47,13 @@ export function loadData(state, payload) {
       session[upperCaseKey].parse(payload[key])
     }
   })
+  return session.state
+}
+
+export function resetGlobalLevel(state) {
+  const session = orm.session(state)
+  console.log("session: ", session.Level)
+  session.Level.reset()
   return session.state
 }
 
@@ -132,6 +140,7 @@ export function deleteData(state, payload) {
 
 export default createReducer(initialState, {
   [sharedTypes.LOAD_DATA_ASYNC.LOAD]: loadData,
+  [sharedTypes.RESET_GLOBAL_LEVEL_ASYNC.RESET]: resetGlobalLevel,
   [sharedTypes.DELETE_DATA]: deleteData
   /* [courseTypes.COURSE_ASYNC.SUCCESS]: loadCourse */
   /* [coursesTypes.COURSES_ASYNC.SUCCESS]: loadCourses, */
