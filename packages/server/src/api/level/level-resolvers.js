@@ -81,8 +81,6 @@ const levelCreate = async (_, args, ctx, info) => {
 
   const {input} = args
 
-  console.log("input: ", input)
-
   const level = await Course.findOneAndUpdate(
     {
       _id: input.courseId,
@@ -93,6 +91,7 @@ const levelCreate = async (_, args, ctx, info) => {
     {
       $push: {
         levels: {
+          courseId: input.courseId,
           level: input.level,
           title: input.title
         }

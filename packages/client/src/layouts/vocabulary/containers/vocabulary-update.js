@@ -151,7 +151,8 @@ class Vocabulary extends Component {
             Cell: row => (
               <Typography className={classes.level}>{row.value}</Typography>
             ),
-            minWidth: 20
+            minWidth: 60,
+            maxWidth: 80
           }
         ]
       },
@@ -288,11 +289,7 @@ class Vocabulary extends Component {
                     perform="course:update-levels"
                     id={user.username}
                     matchingID={course.owner.username}
-                    yes={() => (
-                      <Button type="submit" style={{minWidth: "65px", wordBreak: "break-word"}}>
-                        Add Word
-                      </Button>
-                    )}
+                    yes={() => <Button type="submit">Add Word</Button>}
                     no={() => null}
                   />
                 )
@@ -331,10 +328,10 @@ class Vocabulary extends Component {
                 no={() => null}
               />
             ),
-            minWidth: 20
+            minWidth: 90,
+            maxWidth: 100
           }
-        ],
-        minWidth: 30
+        ]
       }
     ]
     return (

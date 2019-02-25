@@ -153,7 +153,6 @@ class Levels extends PureComponent {
   }
 
   render() {
-    console.log("props: ", this.props)
     const {classes, course, level, user} = this.props
     const levelError = classNames({
       errorClass:
@@ -209,7 +208,8 @@ class Levels extends PureComponent {
             Cell: row => (
               <Typography className={classes.level}>{row.value}</Typography>
             ),
-            minWidth: 20
+            minWidth: 60,
+            maxWidth: 80
           }
         ]
       },
@@ -329,7 +329,8 @@ class Levels extends PureComponent {
                 no={() => null}
               />
             ),
-            minWidth: 20
+            minWidth: 90,
+            maxWidth: 100
           }
         ],
         minWidth: 30
@@ -382,6 +383,17 @@ class Levels extends PureComponent {
               <List>{formErrors}</List>
               <Grid item>
                 <ReactTable
+                  getTheadGroupThProps={() => {
+                    return {
+                      style: {
+                        alignItems: "center",
+                        display: "flex",
+                        justifyContent: "center",
+                        outline: 0,
+                        whiteSpace: "inherit"
+                      }
+                    }
+                  }}
                   getTheadThProps={() => {
                     return {style: {outline: 0}}
                   }}
