@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.levelResolvers = undefined;
+exports.vocabularyResolvers = undefined;
 
 var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
 
@@ -49,9 +49,13 @@ var _courseModel = require("../course/course-model");
 
 var _courseModel2 = _interopRequireDefault(_courseModel);
 
-var _levelModel = require("./level-model");
+var _levelModel = require("../level/level-model.js");
 
 var _levelModel2 = _interopRequireDefault(_levelModel);
+
+var _vocabularyModel = require("./vocabulary-model");
+
+var _vocabularyModel2 = _interopRequireDefault(_vocabularyModel);
 
 var _resolverFunctions = require("../shared/resolver-functions.js");
 
@@ -61,30 +65,30 @@ var escapeRegex = function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-var getLevel = function () {
+var getVocabulary = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, _ref3) {
-    var levelId = _ref2.levelId;
+    var vocabularyId = _ref2.vocabularyId;
     var user = _ref3.user;
-    var level;
+    var vocabulary;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _levelModel2.default.findById(levelId).exec();
+            return _vocabularyModel2.default.findById(vocabularyId).exec();
 
           case 2:
-            level = _context.sent;
+            vocabulary = _context.sent;
 
-            if (level) {
+            if (vocabulary) {
               _context.next = 5;
               break;
             }
 
-            throw new Error("Cannot find level with id");
+            throw new Error("Cannot find vocabulary with id");
 
           case 5:
-            return _context.abrupt("return", level);
+            return _context.abrupt("return", vocabulary);
 
           case 6:
           case "end":
@@ -94,14 +98,14 @@ var getLevel = function () {
     }, _callee, undefined);
   }));
 
-  return function getLevel(_x, _x2, _x3) {
+  return function getVocabulary(_x, _x2, _x3) {
     return _ref.apply(this, arguments);
   };
 }();
 
-var levelDelete = function () {
+var vocabularyDelete = function () {
   var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, ctx) {
-    var arrayOfErrors, token, user, level;
+    var arrayOfErrors, token, user, vocabulary;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -134,21 +138,21 @@ var levelDelete = function () {
               _id: args.courseId
             }, {
               $pull: {
-                levels: {
-                  level: args.level
+                vocabulary: {
+                  vocabulary: args.vocabulary
                 }
               }
             }, { new: true });
 
           case 10:
-            level = _context2.sent;
+            vocabulary = _context2.sent;
 
 
-            console.log("LEVELVELVELVLELVELVELEL: ", level);
+            console.log("LEVELVELVELVLELVELVELEL: ", vocabulary);
 
-            if (!level) {
+            if (!vocabulary) {
               arrayOfErrors.push({
-                path: "level",
+                path: "vocabulary",
                 message: "An Error has occured.  Please contact technical support."
               });
             }
@@ -156,7 +160,7 @@ var levelDelete = function () {
             console.log("array of errors: ", arrayOfErrors);
 
             return _context2.abrupt("return", {
-              level: args,
+              vocabulary: args,
               errors: arrayOfErrors
             });
 
@@ -168,22 +172,22 @@ var levelDelete = function () {
     }, _callee2, undefined);
   }));
 
-  return function levelDelete(_x4, _x5, _x6) {
+  return function vocabularyDelete(_x4, _x5, _x6) {
     return _ref4.apply(this, arguments);
   };
 }();
 
-var levelUpdate = function levelUpdate(_, _ref5) {
+var vocabularyUpdate = function vocabularyUpdate(_, _ref5) {
   var input = _ref5.input;
   var id = input.id,
       update = (0, _objectWithoutProperties3.default)(input, ["id"]);
 
-  return _levelModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
+  return _vocabularyModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
 };
 
-var levelCreate = function () {
+var vocabularyCreate = function () {
   var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input, level;
+    var arrayOfErrors, token, user, input, vocabulary;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -215,31 +219,31 @@ var levelCreate = function () {
             _context3.next = 11;
             return _courseModel2.default.findOneAndUpdate({
               _id: input.courseId,
-              "levels.level": {
-                $ne: input.level
+              "vocabulary.vocabulary": {
+                $ne: input.vocabulary
               }
             }, {
               $push: {
-                levels: {
-                  level: input.level,
+                vocabulary: {
+                  vocabulary: input.vocabulary,
                   title: input.title
                 }
               }
             }, { new: true });
 
           case 11:
-            level = _context3.sent;
+            vocabulary = _context3.sent;
 
 
-            if (!level) {
+            if (!vocabulary) {
               arrayOfErrors.push({
-                path: "level",
-                message: "Courses cannot have duplicate level numbers."
+                path: "vocabulary",
+                message: "Courses cannot have duplicate vocabulary numbers."
               });
             }
 
             return _context3.abrupt("return", {
-              level: level.levels[level.levels.length - 1],
+              vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1],
               errors: arrayOfErrors
             });
 
@@ -251,38 +255,51 @@ var levelCreate = function () {
     }, _callee3, undefined);
   }));
 
-  return function levelCreate(_x7, _x8, _x9, _x10) {
+  return function vocabularyCreate(_x7, _x8, _x9, _x10) {
     return _ref6.apply(this, arguments);
   };
 }();
 
-var getLevels = function () {
+var getVocabularies = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
-    var result, sortedLevels;
+    var result, sortedVocabulary;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            _context4.next = 2;
-            return _courseModel2.default.find({ _id: args.courseId }).exec();
+            console.log("args: ", args);
+            _context4.next = 3;
+            return _levelModel2.default.find({ _id: args.levelId }).exec();
 
-          case 2:
+          case 3:
             result = _context4.sent;
-            sortedLevels = result[0].levels.sort(function (a, b) {
-              return a.level - b.level;
-            });
 
-            if (!(0, _isEmpty2.default)(result)) {
-              _context4.next = 8;
+
+            console.log("result: ", result);
+
+            if (!(!result || (0, _isEmpty2.default)(result))) {
+              _context4.next = 7;
               break;
             }
 
-            return _context4.abrupt("return", { levels: [] });
+            return _context4.abrupt("return", { vocabulary: [] });
 
-          case 8:
-            return _context4.abrupt("return", { levels: sortedLevels });
+          case 7:
+            sortedVocabulary = result[0].vocabulary.sort(function (a, b) {
+              return a.vocabulary - b.vocabulary;
+            });
 
-          case 9:
+            if (!(0, _isEmpty2.default)(result)) {
+              _context4.next = 12;
+              break;
+            }
+
+            return _context4.abrupt("return", { vocabulary: [] });
+
+          case 12:
+            return _context4.abrupt("return", { vocabulary: sortedVocabulary });
+
+          case 13:
           case "end":
             return _context4.stop();
         }
@@ -290,23 +307,23 @@ var getLevels = function () {
     }, _callee4, undefined);
   }));
 
-  return function getLevels(_x11, _x12, _x13, _x14) {
+  return function getVocabularies(_x11, _x12, _x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }();
 
-var levelResolvers = exports.levelResolvers = {
+var vocabularyResolvers = exports.vocabularyResolvers = {
   Query: {
-    getLevels: getLevels,
-    getLevel: getLevel
+    getVocabulary: getVocabulary,
+    getVocabularies: getVocabularies
   },
   Mutation: {
-    levelDelete: levelDelete,
-    levelUpdate: levelUpdate,
-    levelCreate: levelCreate
-    /* Level: { */
-    /*   async course(level) { */
-    /*     const populated = await level.populate("course").execPopulate() */
+    vocabularyDelete: vocabularyDelete,
+    vocabularyUpdate: vocabularyUpdate,
+    vocabularyCreate: vocabularyCreate
+    /* Vocabulary: { */
+    /*   async course(vocabulary) { */
+    /*     const populated = await vocabulary.populate("course").execPopulate() */
 
     /*     return populated.course */
     /*   } */
@@ -323,13 +340,13 @@ var levelResolvers = exports.levelResolvers = {
     return;
   }
 
-  reactHotLoader.register(levelResolvers, "levelResolvers", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(getLevel, "getLevel", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(levelDelete, "levelDelete", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(levelUpdate, "levelUpdate", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(levelCreate, "levelCreate", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(getLevels, "getLevels", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(vocabularyResolvers, "vocabularyResolvers", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(getVocabulary, "getVocabulary", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(vocabularyDelete, "vocabularyDelete", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(vocabularyUpdate, "vocabularyUpdate", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(vocabularyCreate, "vocabularyCreate", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(getVocabularies, "getVocabularies", "src/api/vocabulary/vocabulary-resolvers.js");
   leaveModule(module);
 })();
 
@@ -345,13 +362,13 @@ var levelResolvers = exports.levelResolvers = {
     return;
   }
 
-  reactHotLoader.register(levelResolvers, "levelResolvers", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(getLevel, "getLevel", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(levelDelete, "levelDelete", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(levelUpdate, "levelUpdate", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(levelCreate, "levelCreate", "src/api/level/level-resolvers.js");
-  reactHotLoader.register(getLevels, "getLevels", "src/api/level/level-resolvers.js");
+  reactHotLoader.register(vocabularyResolvers, "vocabularyResolvers", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(getVocabulary, "getVocabulary", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(vocabularyDelete, "vocabularyDelete", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(vocabularyUpdate, "vocabularyUpdate", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(vocabularyCreate, "vocabularyCreate", "src/api/vocabulary/vocabulary-resolvers.js");
+  reactHotLoader.register(getVocabularies, "getVocabularies", "src/api/vocabulary/vocabulary-resolvers.js");
   leaveModule(module);
 })();
 

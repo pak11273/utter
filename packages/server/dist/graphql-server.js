@@ -62,6 +62,8 @@ var _testResolvers = require("./api/test/test-resolvers.js");
 
 var _userResolvers = require("./api/user/user-resolvers.js");
 
+var _vocabularyResolvers = require("./api/vocabulary/vocabulary-resolvers.js");
+
 var _zoneResolvers = require("./api/zone/zone-resolvers.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -73,18 +75,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var appSchema = _path2.default.join(__dirname, "./api/app/app.graphql");
 var courseSchema = _path2.default.join(__dirname, "./api/course/course.graphql");
 var levelSchema = _path2.default.join(__dirname, "./api/level/level.graphql");
+var sharedSchema = _path2.default.join(__dirname, "./api/shared/shared.graphql");
 var termSchema = _path2.default.join(__dirname, "./api/term/term.graphql");
 var testSchema = _path2.default.join(__dirname, "./api/test/test.graphql");
 var userSchema = _path2.default.join(__dirname, "./api/user/user.graphql");
+var vocabularySchema = _path2.default.join(__dirname, "./api/vocabulary/vocabulary.graphql");
 var zoneSchema = _path2.default.join(__dirname, "./api/zone/zone.graphql");
 
 // type defs
 var appTypeDefs = _fs2.default.readFileSync(appSchema, "utf8");
 var courseTypeDefs = _fs2.default.readFileSync(courseSchema, "utf8");
 var levelTypeDefs = _fs2.default.readFileSync(levelSchema, "utf8");
+var sharedTypeDefs = _fs2.default.readFileSync(sharedSchema, "utf8");
 var termTypeDefs = _fs2.default.readFileSync(termSchema, "utf8");
 var testTypeDefs = _fs2.default.readFileSync(testSchema, "utf8");
 var userTypeDefs = _fs2.default.readFileSync(userSchema, "utf8");
+var vocabularyTypeDefs = _fs2.default.readFileSync(vocabularySchema, "utf8");
 var zoneTypeDefs = _fs2.default.readFileSync(zoneSchema, "utf8");
 
 // resolver imports
@@ -93,14 +99,14 @@ var zoneTypeDefs = _fs2.default.readFileSync(zoneSchema, "utf8");
 // baseSchema minimum requirement is a property query: Query
 var baseSchema = "\n  schema {\n    query: Query,\n    mutation: Mutation\n  }\n";
 var schema = (0, _apolloServer.makeExecutableSchema)({
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, termTypeDefs, testTypeDefs, zoneTypeDefs],
+  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
   schemaDirectives: {
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.AuthDirective,
     hasScope: _authHasScope.hasScopeDirective
   },
-  resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _zoneResolvers.zoneResolvers)
+  resolvers: (0, _merge2.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
 });
 
 var ObjectId = _mongoose2.default.Types.ObjectId;
@@ -148,16 +154,20 @@ exports.default = _default2;
   reactHotLoader.register(appSchema, "appSchema", "src/graphql-server.js");
   reactHotLoader.register(courseSchema, "courseSchema", "src/graphql-server.js");
   reactHotLoader.register(levelSchema, "levelSchema", "src/graphql-server.js");
+  reactHotLoader.register(sharedSchema, "sharedSchema", "src/graphql-server.js");
   reactHotLoader.register(termSchema, "termSchema", "src/graphql-server.js");
   reactHotLoader.register(testSchema, "testSchema", "src/graphql-server.js");
   reactHotLoader.register(userSchema, "userSchema", "src/graphql-server.js");
+  reactHotLoader.register(vocabularySchema, "vocabularySchema", "src/graphql-server.js");
   reactHotLoader.register(zoneSchema, "zoneSchema", "src/graphql-server.js");
   reactHotLoader.register(appTypeDefs, "appTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(courseTypeDefs, "courseTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(levelTypeDefs, "levelTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(sharedTypeDefs, "sharedTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(termTypeDefs, "termTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(testTypeDefs, "testTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(userTypeDefs, "userTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(vocabularyTypeDefs, "vocabularyTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(zoneTypeDefs, "zoneTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(baseSchema, "baseSchema", "src/graphql-server.js");
   reactHotLoader.register(schema, "schema", "src/graphql-server.js");
@@ -181,16 +191,20 @@ exports.default = _default2;
   reactHotLoader.register(appSchema, "appSchema", "src/graphql-server.js");
   reactHotLoader.register(courseSchema, "courseSchema", "src/graphql-server.js");
   reactHotLoader.register(levelSchema, "levelSchema", "src/graphql-server.js");
+  reactHotLoader.register(sharedSchema, "sharedSchema", "src/graphql-server.js");
   reactHotLoader.register(termSchema, "termSchema", "src/graphql-server.js");
   reactHotLoader.register(testSchema, "testSchema", "src/graphql-server.js");
   reactHotLoader.register(userSchema, "userSchema", "src/graphql-server.js");
+  reactHotLoader.register(vocabularySchema, "vocabularySchema", "src/graphql-server.js");
   reactHotLoader.register(zoneSchema, "zoneSchema", "src/graphql-server.js");
   reactHotLoader.register(appTypeDefs, "appTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(courseTypeDefs, "courseTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(levelTypeDefs, "levelTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(sharedTypeDefs, "sharedTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(termTypeDefs, "termTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(testTypeDefs, "testTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(userTypeDefs, "userTypeDefs", "src/graphql-server.js");
+  reactHotLoader.register(vocabularyTypeDefs, "vocabularyTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(zoneTypeDefs, "zoneTypeDefs", "src/graphql-server.js");
   reactHotLoader.register(baseSchema, "baseSchema", "src/graphql-server.js");
   reactHotLoader.register(schema, "schema", "src/graphql-server.js");
