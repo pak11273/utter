@@ -35,6 +35,9 @@ export const styles = theme => ({
   formControl: {
     fontSize: 30
   },
+  genderHeader: {
+    justifyContent: "center"
+  },
   level: {
     display: "flex",
     alignItems: "center",

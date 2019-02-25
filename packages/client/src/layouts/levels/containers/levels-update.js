@@ -192,6 +192,7 @@ class Levels extends PureComponent {
                 margin="normal"
                 name="level"
                 onChange={this.onChange}
+                placeholder="Add a level number here."
                 value={this.state.level}
                 variant="outlined"
               />
@@ -227,6 +228,7 @@ class Levels extends PureComponent {
                 margin="normal"
                 name="title"
                 onChange={this.onChange}
+                placeholder="And it's title here."
                 value={this.state.title}
                 variant="outlined"
               />
