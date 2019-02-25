@@ -1,5 +1,6 @@
 type  Vocabulary {
 		id: ID
+		gender: String
 		levelId: String
 		word: String
 		translation: String
@@ -14,8 +15,19 @@ input VocabularyUpdated {
 }
 
 input VocabularyCreateInput {
-		word: String
+		id: ID
+		levelId: String!
+		gender: String
 		translation: String
+		word: String
+		audioUrl: String
+}
+
+type VocabularyPayload {
+		id: ID
+		gender: String
+		translation: String
+		word: String
 		audioUrl: String
 }
 
@@ -32,7 +44,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  vocabularyCreate(input: VocabularyCreateInput!): Payload! 
+  vocabularyCreate(input: VocabularyCreateInput!): VocabularyPayload
 	vocabularyDelete(levelId: String, word: String, translation: String): Payload 
   vocabularyUpdate(input: VocabularyUpdated!): Vocabulary!
 }

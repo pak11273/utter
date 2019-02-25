@@ -36,6 +36,8 @@ import {Mutation, Query} from "react-apollo"
 import gql from "graphql-tag"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
+import {vocabularySchema} from "@utterzone/common"
+import update from "immutability-helper"
 
 import {Can, Hero, LoaderCircle} from "../../../components"
 import {VocabularyDeleteModal} from "../components"
@@ -60,14 +62,60 @@ class Vocabulary extends Component {
       gender: null,
       globalLevel: 0,
       globalLevels: [],
-      male: false,
       labelWidth: 0,
-      value: "level"
+      level: null,
+      male: false,
+      value: "level",
+      word: "",
+      translation: ""
     }
   }
 
   componentDidMount() {
     this.props.toggleFooter(false)
+  }
+
+  addWord = vocabularyCreate => async e => {
+    e.preventDefault()
+
+    // reset errors
+    const resetErrors = update(this.state, {
+      formErrors: {
+        errors: {$set: []}
+      }
+    })
+
+    this.setState(resetErrors)
+
+    await vocabularySchema.validate(this.state).catch(e => {
+      if (e) {
+        const newState = update(this.state, {
+          formErrors: {$set: e}
+        })
+        this.setState(newState)
+      }
+    })
+
+    /* // mutate if no errors */
+    /* if (isEmpty(this.state.formErrors.errors)) { */
+    /*   levelCreate({ */
+    /*     variables: { */
+    /*       input: { */
+    /*         courseId: this.props.course.id, */
+    /*         level: this.state.level, */
+    /*         title: this.state.title */
+    /*       } */
+    /*     } */
+    /*   }) */
+    /* } */
+
+    /* // reset state */
+    /* const labelState = update(this.state, { */
+    /*   openDeleteModal: {$set: false}, */
+    /*   title: {$set: ""}, */
+    /*   level: {$set: ""} */
+    /* }) */
+    /* this.setState(labelState) */
   }
 
   onButtonClick = () => {
@@ -79,6 +127,12 @@ class Vocabulary extends Component {
     alert(`Selected nodes: ${selectedDataStringPresentation}`)
   }
 
+  onChange = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   handleGlobalLevelChg = payload => e => {
     e.preventDefault()
 
@@ -87,7 +141,8 @@ class Vocabulary extends Component {
     this.setState(
       {
         globalLevels: payload,
-        globalLevel: e.target.value
+        globalLevel: e.target.value,
+        level: e.target.value
       },
       () => {
         const selectedLevel = payload.filter(level => {
@@ -119,15 +174,34 @@ class Vocabulary extends Component {
 
   render() {
     const {classes, course, level, user} = this.props
+
+    const audioError = classNames({
+      errorClass:
+        this.state.formErrors.path === "audio" &&
+        !isEmpty(this.state.formErrors.errors)
+    })
+
     const levelError = classNames({
       errorClass:
         this.state.formErrors.path === "level" &&
         !isEmpty(this.state.formErrors.errors)
     })
 
-    const titleError = classNames({
+    const wordError = classNames({
       errorClass:
-        this.state.formErrors.path === "title" &&
+        this.state.formErrors.path === "word" &&
+        !isEmpty(this.state.formErrors.errors)
+    })
+
+    const translationError = classNames({
+      errorClass:
+        this.state.formErrors.path === "translation" &&
+        !isEmpty(this.state.formErrors.errors)
+    })
+
+    const genderError = classNames({
+      errorClass:
+        this.state.formErrors.path === "gender" &&
         !isEmpty(this.state.formErrors.errors)
     })
 
@@ -160,16 +234,16 @@ class Vocabulary extends Component {
         Header: () => (
           <Can
             roles={user.roles}
-            perform="course:update-levels"
+            perform="course:update-vocabulary"
             id={user.username}
             matchingID={course.owner.username}
             yes={() => (
               <TextField
-                className={`${classes[titleError]} ${classes.inputHeader}`}
+                className={`${classes[wordError]} ${classes.inputHeader}`}
                 fullWidth
                 id="outlined-bare"
                 margin="normal"
-                name="title"
+                name="word"
                 onChange={this.onChange}
                 placeholder="Add a new word here."
                 value={this.state.title}
@@ -195,19 +269,21 @@ class Vocabulary extends Component {
         Header: () => (
           <Can
             roles={user.roles}
-            perform="course:update-levels"
+            perform="course:update-vocabulary"
             id={user.username}
             matchingID={course.owner.username}
             yes={() => (
               <TextField
-                className={`${classes[titleError]} ${classes.inputHeader}`}
+                className={`${classes[translationError]} ${
+                  classes.inputHeader
+                }`}
                 fullWidth
                 id="outlined-bare"
                 margin="normal"
-                name="title"
+                name="translation"
                 onChange={this.onChange}
                 placeholder="And the translation to that word here."
-                value={this.state.title}
+                value={this.state.translation}
                 variant="outlined"
               />
             )}
@@ -230,13 +306,13 @@ class Vocabulary extends Component {
         Header: () => (
           <Can
             roles={user.roles}
-            perform="course:update-levels"
+            perform="course:update-vocabulary"
             id={user.username}
             matchingID={course.owner.username}
             yes={() => (
               <FormGroup
                 row
-                className={`${classes[titleError]} ${classes.genderHeader}`}>
+                className={`${classes[genderError]} ${classes.genderHeader}`}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -277,6 +353,38 @@ class Vocabulary extends Component {
         ]
       },
       {
+        Header: () => (
+          <Can
+            roles={user.roles}
+            perform="course:update-vocabulary"
+            id={user.username}
+            matchingID={course.owner.username}
+            yes={() => (
+              <IconButton
+                status="danger"
+                className={`${classes[audioError]}`}
+                onClick={() => console.log("Pending Modal!")}>
+                <SpeakerIcon />
+              </IconButton>
+            )}
+            no={() => null}
+          />
+        ),
+        columns: [
+          {
+            Header: () => (
+              <Typography className={classes.header}>Audio</Typography>
+            ),
+            accessor: "audio",
+            Cell: props => (
+              <Typography className={classes.title}>{props.value}</Typography>
+            ),
+            minWidth: 100,
+            maxWidth: 100
+          }
+        ]
+      },
+      {
         Header: row => (
           <div className={classes.addButton}>
             <Mutation mutation={vocabularyCreate}>
@@ -286,10 +394,16 @@ class Vocabulary extends Component {
                 ) : (
                   <Can
                     roles={user.roles}
-                    perform="course:update-levels"
+                    perform="course:update-vocabulary"
                     id={user.username}
                     matchingID={course.owner.username}
-                    yes={() => <Button type="submit">Add Word</Button>}
+                    yes={() => (
+                      <Button
+                        type="submit"
+                        onClick={this.addWord(vocabularyCreate)}>
+                        Add Word
+                      </Button>
+                    )}
                     no={() => null}
                   />
                 )
@@ -302,7 +416,7 @@ class Vocabulary extends Component {
             Header: () => (
               <Can
                 roles={user.roles}
-                perform="course:update-levels"
+                perform="course:update-vocabulary"
                 id={user.username}
                 matchingID={course.owner.username}
                 yes={() => (
@@ -314,7 +428,7 @@ class Vocabulary extends Component {
             Cell: row => (
               <Can
                 roles={user.roles}
-                perform="course:update-levels"
+                perform="course:update-vocabulary"
                 id={user.username}
                 matchingID={course.owner.username}
                 yes={() => (
@@ -377,7 +491,9 @@ class Vocabulary extends Component {
                   <Typography variant="h6" style={{paddingRight: "20px"}}>
                     Choose a level
                   </Typography>
-                  <FormControl variant="outlined">
+                  <FormControl
+                    className={`${classes[levelError]}`}
+                    variant="outlined">
                     <Select
                       value={this.state.globalLevel}
                       className={classes.formControl}
@@ -405,6 +521,7 @@ class Vocabulary extends Component {
                         alignItems: "center",
                         display: "flex",
                         justifyContent: "center",
+                        margin: "30px auto",
                         outline: 0,
                         whiteSpace: "inherit"
                       }

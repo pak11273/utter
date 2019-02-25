@@ -56,6 +56,8 @@ var roles = {
     }, {
       "course:update-levels": matchID
     }, {
+      "course:update-vocabulary": matchID
+    }, {
       "course:delete": matchID
     }]
   },

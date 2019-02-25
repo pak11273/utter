@@ -40,6 +40,18 @@ Object.keys(_levelSchemas).forEach(function (key) {
   });
 });
 
+var _vocabularySchemas = require("./yup_schemas/vocabulary-schemas.js");
+
+Object.keys(_vocabularySchemas).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _vocabularySchemas[key];
+    }
+  });
+});
+
 var _zoneSchemas = require("./yup_schemas/zone-schemas.js");
 
 Object.keys(_zoneSchemas).forEach(function (key) {

@@ -30,7 +30,6 @@ import gql from "graphql-tag"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
 import schema from "../../../core/schema.js"
-import * as yup from "yup"
 
 import {levelSchema} from "@utterzone/common"
 import {styles} from "../styles.js"
@@ -389,6 +388,7 @@ class Levels extends PureComponent {
                         alignItems: "center",
                         display: "flex",
                         justifyContent: "center",
+                        margin: "30px auto",
                         outline: 0,
                         whiteSpace: "inherit"
                       }

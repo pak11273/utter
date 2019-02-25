@@ -12,6 +12,9 @@ export const VocabularySchema = new Schema({
     ref: "Course",
     required: [true, "can't be blank"]
   },
+  gender: {
+    types: String
+  },
   levelId: {
     type: Schema.Types.ObjectId,
     ref: "Level",

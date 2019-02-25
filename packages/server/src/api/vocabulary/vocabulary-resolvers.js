@@ -81,59 +81,55 @@ const vocabularyCreate = async (_, args, ctx, info) => {
   })
 
   const {input} = args
-
   console.log("input: ", input)
-
-  const vocabulary = await Course.findOneAndUpdate(
-    {
-      _id: input.courseId,
-      "vocabulary.vocabulary": {
-        $ne: input.vocabulary
-      }
-    },
-    {
-      $push: {
-        vocabulary: {
-          vocabulary: input.vocabulary,
-          title: input.title
-        }
-      }
-    },
-    {new: true}
-  )
-
-  if (!vocabulary) {
-    arrayOfErrors.push({
-      path: "vocabulary",
-      message: "Courses cannot have duplicate vocabulary numbers."
-    })
-  }
-
-  return {
-    vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1],
-    errors: arrayOfErrors
-  }
+  /* const vocabulary = await Course.findOneAndUpdate( */
+  /*   { */
+  /*     _id: input.courseId, */
+  /*     "vocabulary.vocabulary": { */
+  /*       $ne: input.vocabulary */
+  /*     } */
+  /*   }, */
+  /*   { */
+  /*     $push: { */
+  /*       vocabulary: { */
+  /*         vocabulary: input.vocabulary, */
+  /*         title: input.title */
+  /*       } */
+  /*     } */
+  /*   }, */
+  /*   {new: true} */
+  /* ) */
+  /* if (!vocabulary) { */
+  /*   arrayOfErrors.push({ */
+  /*     path: "vocabulary", */
+  /*     message: "Courses cannot have duplicate vocabulary numbers." */
+  /*   }) */
+  /* } */
+  /* return { */
+  /*   vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1], */
+  /*   errors: arrayOfErrors */
+  /* } */
 }
 
 const getVocabularies = async (_, args, ctx, info) => {
   console.log("args: ", args)
-  let result = await Level.find({_id: args.levelId}).exec()
+  let result = await Course.find({_id: args.courseId}).exec()
 
   console.log("result: ", result)
 
-  if (!result || isEmpty(result)) {
-    return {vocabulary: []}
-  }
+  /* if (!result || isEmpty(result)) { */
+  /*   return {vocabulary: []} */
+  /* } */
 
-  const sortedVocabulary = result[0].vocabulary.sort((a, b) => {
-    return a.vocabulary - b.vocabulary
-  })
+  /* const sortedVocabulary = result[0].vocabulary.sort((a, b) => { */
+  /*   return a.vocabulary - b.vocabulary */
+  /* }) */
 
-  if (isEmpty(result)) {
-    return {vocabulary: []}
-  } else {
-    return {vocabulary: sortedVocabulary}
-  }
+  /* if (isEmpty(result)) { */
+  /*   return {vocabulary: []} */
+  /* } else { */
+  /*   return {vocabulary: sortedVocabulary} */
+  /* } */
 }
 
 export const vocabularyResolvers = {

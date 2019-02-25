@@ -16,6 +16,7 @@ export const vocabularyCreate = gql`
   mutation vocabularyCreate($input: VocabularyCreateInput!) {
     vocabularyCreate(input: $input) {
       vocabulary {
+        audioUrl
         id
         word
         translation
