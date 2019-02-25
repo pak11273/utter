@@ -1,3 +1,4 @@
+import VocabularyAudioModal from "./vocabulary-audio-modal.js"
 import VocabularyDeleteModal from "./vocabulary-delete-modal.js"
 
-export {VocabularyDeleteModal}
+export {VocabularyAudioModal, VocabularyDeleteModal}

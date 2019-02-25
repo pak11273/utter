@@ -27,7 +27,6 @@ import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled"
 import Radio from "@material-ui/core/Radio"
 import RadioGroup from "@material-ui/core/RadioGroup"
 import Select from "@material-ui/core/Select"
-import SpeakerIcon from "@material-ui/icons/RecordVoiceOver"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
@@ -40,7 +39,7 @@ import {vocabularySchema} from "@utterzone/common"
 import update from "immutability-helper"
 
 import {Can, Hero, LoaderCircle} from "../../../components"
-import {VocabularyDeleteModal} from "../components"
+import {VocabularyAudioModal, VocabularyDeleteModal} from "../components"
 
 import {loadData, resetGlobalLevel} from "../../../api/actions.js"
 import {getVocabularies, vocabularyCreate} from "../xhr.js"
@@ -65,6 +64,12 @@ class Vocabulary extends Component {
       labelWidth: 0,
       level: null,
       male: false,
+      modalGender: "",
+      modalLevel: "",
+      modalWord: "",
+      modalTranslation: "",
+      modalAudio: "",
+      openAudioModal: false,
       value: "level",
       word: "",
       translation: ""
@@ -118,6 +123,12 @@ class Vocabulary extends Component {
     /* this.setState(labelState) */
   }
 
+  closeAudioModal = () => {
+    this.setState({
+      openAudioModal: false
+    })
+  }
+
   onButtonClick = () => {
     const selectedNodes = this.gridApi.getSelectedNodes()
     const selectedData = selectedNodes.map(node => node.data)
@@ -130,6 +141,18 @@ class Vocabulary extends Component {
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
+    })
+  }
+
+  handleAudio = row => () => {
+    console.log("row: ", row)
+    this.setState({
+      openAudioModal: true
+      /* modalGender: row.original.gender, */
+      /* modalLevel: row.original.level, */
+      /* modalWord: row.original.word, */
+      /* modalTranslation: row.original.translation, */
+      /* modalAudio: row.original.audio */
     })
   }
 
@@ -359,13 +382,13 @@ class Vocabulary extends Component {
             perform="course:update-vocabulary"
             id={user.username}
             matchingID={course.owner.username}
-            yes={() => (
-              <IconButton
-                status="danger"
-                className={`${classes[audioError]}`}
-                onClick={() => console.log("Pending Modal!")}>
-                <SpeakerIcon />
-              </IconButton>
+            yes={row => (
+              <VocabularyAudioModal
+                row={row}
+                {...this.state}
+                closeAudioModal={this.closeAudioModal}
+                handleAudio={this.handleAudio}
+              />
             )}
             no={() => null}
           />
