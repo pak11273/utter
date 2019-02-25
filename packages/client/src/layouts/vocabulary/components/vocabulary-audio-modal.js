@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {adopt} from "react-adopt"
+import update from "immutability-helper"
 
 import Button from "@material-ui/core/Button"
 /* import DeleteIcon from "@material-ui/icons/Delete" */
@@ -14,6 +15,10 @@ import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import CloudUploadIcon from "@material-ui/icons/CloudUpload"
 import Typography from "@material-ui/core/Typography"
 
+import axios from "axios"
+import {bytesToSize} from "../../../utils/helpers.js"
+import CryptoJS from "crypto-js"
+import isEmpty from "lodash/isEmpty"
 import RecordRTC from "recordrtc"
 import VocabularyCtrl from "../containers/vocabulary-controller.js"
 import {withStyles} from "@material-ui/core/styles"
@@ -30,7 +35,9 @@ const styles = theme => ({
 
 class VocabularyAudioModal extends Component {
   state = {
-    record: false
+    audioBlob: null,
+    record: false,
+    recordedBlobSize: 0
   }
 
   disableStop = () => {
@@ -46,16 +53,113 @@ class VocabularyAudioModal extends Component {
   }
 
   saveAudioModal = () => {
-    this.setState({
-      record: false
+    // save to cdn
+    // close modal after saving to cdn
+  }
+
+  handleAudioDelete = async state => {
+    const timestamp = await (Date.now() / 1000 || 0).toString()
+    const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
+    const hashString = `public_id=${
+      state.public_id
+    }&timestamp=${timestamp}${apiSecret}`
+    const signature = CryptoJS.SHA1(hashString).toString()
+    axios({
+      method: "post",
+      url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
+      data: {
+        api_key: "225688292439754",
+        public_id: state.public_id,
+        resource_type: "image",
+        signature,
+        timestamp
+      }
     })
-    // close modal
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        throw err.response.data.error
+      })
+  }
+
+  handleAudioUpload(files) {
+    // remove previous files from cdn
+    if (!isEmpty(this.state.uploadedFile)) {
+      console.log("file: ", this.state.uploadedFile)
+      this.handleAudioDelete(this.state)
+    }
+    // Push all the axios request promise into a single array
+    const uploaders = files.map(file => {
+      // Initial FormData
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("tags", `course-name`)
+      formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own
+      formData.append("folder", "course-thumbnails") // Folder to place image in
+      formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
+      formData.append("timestamp", Date.now() / 1000 || 0)
+
+      // set loading and disable submit
+      const newState = update(this.state, {
+        loading: {$set: true},
+        disable: {$set: true}
+      })
+
+      this.setState(newState)
+
+      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+      return axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/",
+        data: formData
+      })
+        .then(res => {
+          const {data} = res
+
+          const newState = update(this.state, {
+            public_id: {$set: data.public_id},
+            secure_url: {$set: data.secure_url},
+            signature: {$set: data.signature},
+            url: {$set: data.url}
+          })
+
+          this.setState(newState)
+
+          this.props.setFieldValue("courseImage", data.secure_url)
+
+          return data
+        })
+        .catch(err => {
+          console.log("upload error: ", err)
+        })
+    })
+
+    // Once all the files are uploaded
+    axios.all(uploaders).then(values => {
+      /* const {id} = this.props.course */
+      /* const newCdn = {cdn: values[0]} */
+      const courseImage = values[0].secure_url
+
+      const newState = update(this.state, {
+        courseImage: {$set: courseImage},
+        loading: {$set: false},
+        disable: {$set: false}
+      })
+
+      this.setState(newState)
+
+      /* this.setState({}) */
+
+      // TODO: update Course on server
+      /* this.props.updateSettings(this.props.course) */
+    })
   }
 
   render() {
     var {props} = this
+    console.log("props: ", props)
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      console.log("getUserMedia supported.")
       navigator.mediaDevices
         .getUserMedia({audio: true})
         // Success callback
@@ -64,7 +168,6 @@ class VocabularyAudioModal extends Component {
           var record = document.querySelector(".record")
           var stop = document.querySelector(".stop")
           var soundClips = document.querySelector(".sound-clips")
-          console.log("record: ", record)
           record.onclick = () => {
             if (soundClips.childNodes.length === 1) {
               record.disabled = true
@@ -73,44 +176,56 @@ class VocabularyAudioModal extends Component {
               )
             } else {
               recorder.startRecording()
-              console.log("recorder started")
               record.style.background = "green"
               record.style.color = "black"
             }
           }
 
-          stop.onclick = () => {
+          stop.onclick = async () => {
             var audio = document.createElement("audio")
             var clipContainer = document.createElement("Article")
             var deleteButton = document.createElement("button")
+            var audioSize = document.createElement("span")
 
             recorder.stopRecording(audioURL => {
               audio.src = audioURL
 
-              /* var recordedBlob = recorder.getBlob() */
+              var recordedBlob = recorder.getBlob()
+              this.setState(
+                {
+                  recordedBlobSize: recordedBlob.size
+                },
+                () => {
+                  var recordedBlobSize = bytesToSize(
+                    this.state.recordedBlobSize
+                  )
+                  console.log("size: ", recordedBlobSize)
+                  audioSize.innerHTML = recordedBlobSize
+                }
+              )
+
               recorder.getDataURL(dataUrl => {
                 var files = {
                   audio: {
-                    /* author: props.userReducer.userProfile.username, */
-                    author: "chino",
-                    /* room: props.socketReducer.joined_room, */
-                    /* name: "file" + fileCounter++ + ".wav", */
+                    author: "utterzone",
                     type: "audio/wav",
                     dataUrl
                   }
                 }
-                // add blob to redux
-                props.actions.loadAudioBlob(files)
+                this.setState({
+                  audioBlob: dataUrl
+                })
+                console.log("files: ", files)
               })
             })
-            console.log("recorder stopped")
+
             record.style.background = ""
             record.style.color = ""
 
             clipContainer.classList.add("clip")
             clipContainer.setAttribute(
               "style",
-              "display: flex; justify-content: center; padding-top: 20px; width: 270px"
+              "display: flex; justify-content: center; padding-top: 20px; width: 390px"
             )
             audio.setAttribute("controls", "")
             deleteButton.innerHTML = "DEL"
@@ -120,6 +235,11 @@ class VocabularyAudioModal extends Component {
             deleteButton.setAttribute(
               "style",
               "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
+            )
+            clipContainer.appendChild(audioSize)
+            audioSize.setAttribute(
+              "style",
+              "display: inline-block,font-size: 18px; width: 200px; height: 30px; padding: 3px; margin: 12px; "
             )
             soundClips.appendChild(clipContainer)
 
@@ -173,6 +293,7 @@ class VocabularyAudioModal extends Component {
               <Dialog
                 open={openAudioModal}
                 onClose={closeAudioModal}
+                onBackdropClick={this.enableStop}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
@@ -181,7 +302,8 @@ class VocabularyAudioModal extends Component {
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
                     You can either record your own or upload an audio file.
-                    Files should be in mp3 format and under 300kbs.
+                    Vocabulary audio files should be in .wav, webm, or mp3
+                    format and under 400 KB.
                   </DialogContentText>
                   <div
                     className="sound-clips"
@@ -202,8 +324,7 @@ class VocabularyAudioModal extends Component {
                   <Button
                     variant="contained"
                     className="record"
-                    color="secondary"
-                    onClick={() => console.log("LOVE YOU")}>
+                    color="secondary">
                     <FiberSmartRecordIcon className={classes.leftIcon} />
                     Rec
                   </Button>
@@ -214,10 +335,13 @@ class VocabularyAudioModal extends Component {
                     style={{color: "black", marginLeft: "8px"}}>
                     stop
                   </Button>
-                  <Button onClick={this.saveAudioModal} color="secondary">
+                  <Button
+                    disabled={!this.state.record}
+                    onClick={this.saveAudioModal}
+                    color="secondary">
                     Save
                   </Button>
-                  <IconButton alt="upload" style={{paddingLeft: "20px"}}>
+                  <IconButton alt="upload" style={{marginLeft: "20px"}}>
                     <CloudUploadIcon />
                   </IconButton>
                 </DialogActions>
