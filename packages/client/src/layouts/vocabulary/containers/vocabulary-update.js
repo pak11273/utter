@@ -102,17 +102,20 @@ class Vocabulary extends Component {
     })
 
     /* // mutate if no errors */
-    /* if (isEmpty(this.state.formErrors.errors)) { */
-    /*   levelCreate({ */
-    /*     variables: { */
-    /*       input: { */
-    /*         courseId: this.props.course.id, */
-    /*         level: this.state.level, */
-    /*         title: this.state.title */
-    /*       } */
-    /*     } */
-    /*   }) */
-    /* } */
+    if (isEmpty(this.state.formErrors.errors)) {
+      vocabularyCreate({
+        variables: {
+          input: {
+            audioUrl: this.state.audioUrl,
+            courseId: this.props.course.id,
+            gender: this.state.gender,
+            level: this.state.level,
+            translation: this.state.translation,
+            word: this.state.word
+          }
+        }
+      })
+    }
 
     /* // reset state */
     /* const labelState = update(this.state, { */
@@ -142,6 +145,15 @@ class Vocabulary extends Component {
     this.setState({
       [e.target.name]: e.target.value
     })
+  }
+
+  chgGender = gender => () => {
+    this.setState(
+      {
+        gender
+      },
+      () => console.log("gender: ", this.state)
+    )
   }
 
   handleAudio = row => () => {
@@ -341,6 +353,7 @@ class Vocabulary extends Component {
                     <Checkbox
                       checked={this.state.male}
                       onChange={this.handleMaleChg}
+                      onClick={this.chgGender("male")}
                       value="male"
                     />
                   }
@@ -351,6 +364,7 @@ class Vocabulary extends Component {
                     <Checkbox
                       checked={this.state.female}
                       onChange={this.handleFemaleChg}
+                      onClick={this.chgGender("female")}
                       value="female"
                     />
                   }
@@ -556,17 +570,7 @@ class Vocabulary extends Component {
                   defaultPageSize={10}
                 />
               </Grid>
-              <Grid item style={{display: "flex", justifyContent: "center"}}>
-                {/*  <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  type="submit"
-                  onClick={this.onButtonClick}
-                  size="large">
-                  Save
-                </Button> */}
-              </Grid>
+              <Grid item style={{display: "flex", justifyContent: "center"}} />
             </Grid>
           )
         }}

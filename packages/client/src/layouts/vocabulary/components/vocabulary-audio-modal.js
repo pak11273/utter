@@ -37,7 +37,8 @@ const initialState = {
   audioBlob: null,
   audioFileName: "Click here to upload or just drop an audio file.",
   record: false,
-  recordedBlobSize: 0
+  recordedBlobSize: 0,
+  saveDisabled: false
 }
 
 class VocabularyAudioModal extends Component {
@@ -60,6 +61,9 @@ class VocabularyAudioModal extends Component {
   }
 
   saveAudioModal = closeAudioModal => () => {
+    if (this.state.audioBlob) {
+      this.handleAudioUpload(this.state.audioBlob)
+    }
     this.enableStop()
     closeAudioModal()
   }
@@ -79,13 +83,10 @@ class VocabularyAudioModal extends Component {
     }
 
     if (!isEmpty(files)) {
-      this.setState(
-        {
-          audioBlob: files[0],
-          audioFileName: files[0].name
-        },
-        console.log("file: ", this.state.audioBlob)
-      )
+      this.setState({
+        audioBlob: files[0],
+        audioFileName: files[0].name
+      })
 
       /* this.handleImageUpload(files) */
     }
@@ -117,27 +118,22 @@ class VocabularyAudioModal extends Component {
       })
   }
 
-  handleAudioUpload(files) {
-    // remove previous files from cdn
-    if (!isEmpty(this.state.uploadedFile)) {
-      console.log("file: ", this.state.uploadedFile)
-      this.handleAudioDelete(this.state)
-    }
+  handleAudioUpload = file => {
+    console.log("file: ", file)
     // Push all the axios request promise into a single array
-    const uploaders = files.map(file => {
+    const uploader = file => {
       // Initial FormData
       const formData = new FormData()
       formData.append("file", file)
       formData.append("tags", `course-name`)
       formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own
-      formData.append("folder", "course-thumbnails") // Folder to place image in
+      formData.append("folder", "vocabulary-audio") // Folder to place image in
       formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
       formData.append("timestamp", Date.now() / 1000 || 0)
 
-      // set loading and disable submit
+      // set loading and disable save
       const newState = update(this.state, {
-        loading: {$set: true},
-        disable: {$set: true}
+        saveDisabled: {$set: true}
       })
 
       this.setState(newState)
@@ -160,34 +156,36 @@ class VocabularyAudioModal extends Component {
 
           this.setState(newState)
 
-          this.props.setFieldValue("courseImage", data.secure_url)
+          this.props.setFieldValue("audioUrl", data.secure_url)
 
           return data
         })
         .catch(err => {
           console.log("upload error: ", err)
         })
-    })
+    }
 
-    // Once all the files are uploaded
-    axios.all(uploaders).then(values => {
-      /* const {id} = this.props.course */
-      /* const newCdn = {cdn: values[0]} */
-      const courseImage = values[0].secure_url
+    console.log("uploader: ", uploader)
 
-      const newState = update(this.state, {
-        courseImage: {$set: courseImage},
-        loading: {$set: false},
-        disable: {$set: false}
-      })
+    /* // Once all the files are uploaded */
+    /* axios.all(uploader).then(values => { */
+    /*   /1* const {id} = this.props.course *1/ */
+    /*   /1* const newCdn = {cdn: values[0]} *1/ */
+    /*   const courseImage = values[0].secure_url */
 
-      this.setState(newState)
+    /*   const newState = update(this.state, { */
+    /*     courseImage: {$set: courseImage}, */
+    /*     loading: {$set: false}, */
+    /*     disable: {$set: false} */
+    /*   }) */
 
-      /* this.setState({}) */
+    /*   this.setState(newState) */
 
-      // TODO: update Course on server
-      /* this.props.updateSettings(this.props.course) */
-    })
+    /*   /1* this.setState({}) *1/ */
+
+    /*   // TODO: update Course on server */
+    /*   /1* this.props.updateSettings(this.props.course) *1/ */
+    /* }) */
   }
 
   render() {
@@ -196,7 +194,7 @@ class VocabularyAudioModal extends Component {
         .getUserMedia({audio: true})
         // Success callback
         .then(stream => {
-          const recorder = RecordRTC(stream, {type: "audio"})
+          const recorder = RecordRTC(stream, {type: "audio", disableLogs: true})
           var record = document.querySelector(".record")
           var stop = document.querySelector(".stop")
           var soundClips = document.querySelector(".sound-clips")
@@ -231,7 +229,6 @@ class VocabularyAudioModal extends Component {
                   var recordedBlobSize = bytesToSize(
                     this.state.recordedBlobSize
                   )
-                  console.log("size: ", recordedBlobSize)
                   audioSize.innerHTML = recordedBlobSize
                 }
               )
@@ -244,13 +241,10 @@ class VocabularyAudioModal extends Component {
                 /*     dataUrl */
                 /*   } */
                 /* } */
-                this.setState(
-                  {
-                    audioFileName: "recorded.webm",
-                    audioBlob: dataUrl
-                  },
-                  () => console.log("files: ", this.state)
-                )
+                this.setState({
+                  audioFileName: "recorded.webm",
+                  audioBlob: dataUrl
+                })
               })
             })
 
@@ -294,7 +288,7 @@ class VocabularyAudioModal extends Component {
     } else {
       console.log("getUserMedia not supported on your browser!")
     }
-    const {classes} = this.props
+    /* const {classes} = this.props */
     const {
       handleAudio,
       /* handleDelete, */
@@ -386,8 +380,8 @@ class VocabularyAudioModal extends Component {
                     variant="contained"
                     className="record"
                     color="secondary">
-                    <FiberSmartRecordIcon className={classes.leftIcon} />
-                    Rec
+                    <FiberSmartRecordIcon />
+                    <span style={{paddingLeft: "10px"}}>Rec</span>
                   </Button>
                   <Button
                     className="stop"
@@ -397,6 +391,7 @@ class VocabularyAudioModal extends Component {
                     stop
                   </Button>
                   <Button
+                    disabled={this.state.saveDisabled}
                     onClick={this.saveAudioModal(closeAudioModal)}
                     style={{position: "absolute", right: "20px"}}
                     color="secondary">

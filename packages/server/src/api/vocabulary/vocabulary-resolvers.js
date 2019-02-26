@@ -82,23 +82,29 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 
   const {input} = args
   console.log("input: ", input)
-  /* const vocabulary = await Course.findOneAndUpdate( */
-  /*   { */
-  /*     _id: input.courseId, */
-  /*     "vocabulary.vocabulary": { */
-  /*       $ne: input.vocabulary */
-  /*     } */
-  /*   }, */
-  /*   { */
-  /*     $push: { */
-  /*       vocabulary: { */
-  /*         vocabulary: input.vocabulary, */
-  /*         title: input.title */
-  /*       } */
-  /*     } */
-  /*   }, */
-  /*   {new: true} */
-  /* ) */
+  const vocabulary = await Course.findOneAndUpdate(
+    {
+      _id: input.courseId,
+      "levels.level": {
+        $eq: input.level
+      }
+    },
+    {
+      $push: {
+        "levels.$.vocabulary": {
+          /* audioUrl: input.audioUrl, */
+          gender: input.gender,
+          word: input.word,
+          translation: input.translation
+          /* courseId: String */
+          /* id: ID */
+          /* level: Int */
+        }
+      }
+    },
+    {new: true}
+  )
+
   /* if (!vocabulary) { */
   /*   arrayOfErrors.push({ */
   /*     path: "vocabulary", */

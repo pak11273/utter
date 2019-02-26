@@ -1,13 +1,11 @@
 import gql from "graphql-tag"
 
 export const getVocabularies = gql`
-  query getVocabularies($levelId: String!) {
-    getVocabularies(levelId: $levelId) {
-      vocabulary {
-        id
-        word
-        translation
-      }
+  query getVocabularies($level: Int) {
+    getVocabularies(level: $level) {
+      id
+      word
+      translation
     }
   }
 `
@@ -17,9 +15,11 @@ export const vocabularyCreate = gql`
     vocabularyCreate(input: $input) {
       vocabulary {
         audioUrl
-        id
-        word
+        courseId
+        gender
+        level
         translation
+        word
       }
       errors {
         message

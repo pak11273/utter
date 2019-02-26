@@ -1,18 +1,6 @@
 directive @auth on OBJECT | FIELD_DEFINITION
 directive @hasScope(scope: String) on FIELD_DEFINITION
 
-type Resource {
-	value: String,
-	label: String,
-	className: String
-}
-
-input ResourceInput {
-	value: String,
-	label: String,
-	className: String
-}
-
 type Course {
   courseDescription: String
   courseImage: String
@@ -27,6 +15,19 @@ type Course {
   usingLang: String
   updatedAt: String
 }
+
+type Resource {
+	value: String,
+	label: String,
+	className: String
+}
+
+input ResourceInput {
+	value: String,
+	label: String,
+	className: String
+}
+
 
 input CourseUpdated {
   id: ID!

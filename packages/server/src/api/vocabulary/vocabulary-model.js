@@ -13,7 +13,10 @@ export const VocabularySchema = new Schema({
     required: [true, "can't be blank"]
   },
   gender: {
-    types: String
+    type: String
+  },
+  level: {
+    type: Number
   },
   levelId: {
     type: Schema.Types.ObjectId,
