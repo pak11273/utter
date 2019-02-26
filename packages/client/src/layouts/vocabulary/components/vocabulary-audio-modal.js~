@@ -1,0 +1,406 @@
+import React, {Component} from "react"
+import {adopt} from "react-adopt"
+import Dropzone from "react-dropzone"
+import update from "immutability-helper"
+
+import Button from "@material-ui/core/Button"
+/* import DeleteIcon from "@material-ui/icons/Delete" */
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import IconButton from "@material-ui/core/IconButton"
+import SpeakerIcon from "@material-ui/icons/RecordVoiceOver"
+import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
+import Typography from "@material-ui/core/Typography"
+
+import axios from "axios"
+import {bytesToSize} from "../../../utils/helpers.js"
+import CryptoJS from "crypto-js"
+import isEmpty from "lodash/isEmpty"
+import RecordRTC from "recordrtc"
+import VocabularyCtrl from "../containers/vocabulary-controller.js"
+import {withStyles} from "@material-ui/core/styles"
+
+const Composed = adopt({
+  container: <VocabularyCtrl />
+})
+
+const styles = theme => ({
+  record: {
+    backgroundColor: theme.palette.error
+  }
+})
+
+class VocabularyAudioModal extends Component {
+  state = {
+    audioBlob: null,
+    record: false,
+    recordedBlobSize: 0
+  }
+
+  disableStop = () => {
+    this.setState({
+      record: true
+    })
+  }
+
+	deleteTempAudio =() => {
+    this.setState({
+			audioBlob: null,
+      record: false
+    })
+	}
+
+  enableStop = () => {
+    this.setState({
+      record: false
+    })
+  }
+
+  saveAudioModal = () => {
+    // save to cdn
+    // close modal after saving to cdn
+  }
+
+  onDrop = (files, rejected) => {
+    if (!isEmpty(rejected)) {
+      alert("Please decrease the audio size to less than 500kb.")
+    }
+
+    /* if (!isEmpty(files)) { */
+    /*   this.setState( */
+    /*     { */
+    /*       uploadedFile: files[0] */
+    /*     }, */
+    /*     console.log("fiel: ", this.state.uploadedFile) */
+    /*   ) */
+
+    /*   this.handleImageUpload(files) */
+    /* } */
+  }
+
+  handleAudioDelete = async state => {
+    const timestamp = await (Date.now() / 1000 || 0).toString()
+    const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
+    const hashString = `public_id=${
+      state.public_id
+    }&timestamp=${timestamp}${apiSecret}`
+    const signature = CryptoJS.SHA1(hashString).toString()
+    axios({
+      method: "post",
+      url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
+      data: {
+        api_key: "225688292439754",
+        public_id: state.public_id,
+        resource_type: "image",
+        signature,
+        timestamp
+      }
+    })
+      .then(res => {
+        return res
+      })
+      .catch(err => {
+        throw err.response.data.error
+      })
+  }
+
+  handleAudioUpload(files) {
+    // remove previous files from cdn
+    if (!isEmpty(this.state.uploadedFile)) {
+      console.log("file: ", this.state.uploadedFile)
+      this.handleAudioDelete(this.state)
+    }
+    // Push all the axios request promise into a single array
+    const uploaders = files.map(file => {
+      // Initial FormData
+      const formData = new FormData()
+      formData.append("file", file)
+      formData.append("tags", `course-name`)
+      formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own
+      formData.append("folder", "course-thumbnails") // Folder to place image in
+      formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
+      formData.append("timestamp", Date.now() / 1000 || 0)
+
+      // set loading and disable submit
+      const newState = update(this.state, {
+        loading: {$set: true},
+        disable: {$set: true}
+      })
+
+      this.setState(newState)
+
+      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
+      return axios({
+        method: "POST",
+        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/",
+        data: formData
+      })
+        .then(res => {
+          const {data} = res
+
+          const newState = update(this.state, {
+            public_id: {$set: data.public_id},
+            secure_url: {$set: data.secure_url},
+            signature: {$set: data.signature},
+            url: {$set: data.url}
+          })
+
+          this.setState(newState)
+
+          this.props.setFieldValue("courseImage", data.secure_url)
+
+          return data
+        })
+        .catch(err => {
+          console.log("upload error: ", err)
+        })
+    })
+
+    // Once all the files are uploaded
+    axios.all(uploaders).then(values => {
+      /* const {id} = this.props.course */
+      /* const newCdn = {cdn: values[0]} */
+      const courseImage = values[0].secure_url
+
+      const newState = update(this.state, {
+        courseImage: {$set: courseImage},
+        loading: {$set: false},
+        disable: {$set: false}
+      })
+
+      this.setState(newState)
+
+      /* this.setState({}) */
+
+      // TODO: update Course on server
+      /* this.props.updateSettings(this.props.course) */
+    })
+  }
+
+  render() {
+    var {props} = this
+
+    console.log("props: ", props)
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({audio: true})
+        // Success callback
+        .then(stream => {
+          const recorder = RecordRTC(stream, {type: "audio"})
+          var record = document.querySelector(".record")
+          var stop = document.querySelector(".stop")
+          var soundClips = document.querySelector(".sound-clips")
+          record.onclick = () => {
+            if (soundClips.childNodes.length === 1) {
+              record.disabled = true
+              alert(
+                "You can only record 1 audio clip at a time.  Delete your audio clip to record another."
+              )
+            } else {
+              recorder.startRecording()
+              record.style.background = "green"
+              record.style.color = "black"
+            }
+          }
+
+          stop.onclick = async () => {
+            var audio = document.createElement("audio")
+            var clipContainer = document.createElement("Article")
+            var deleteButton = document.createElement("button")
+            var audioSize = document.createElement("span")
+
+            recorder.stopRecording(audioURL => {
+              audio.src = audioURL
+
+              var recordedBlob = recorder.getBlob()
+              this.setState(
+                {
+                  recordedBlobSize: recordedBlob.size
+                },
+                () => {
+                  var recordedBlobSize = bytesToSize(
+                    this.state.recordedBlobSize
+                  )
+                  console.log("size: ", recordedBlobSize)
+                  audioSize.innerHTML = recordedBlobSize
+                }
+              )
+
+              recorder.getDataURL(dataUrl => {
+                var files = {
+                  audio: {
+                    author: "utterzone",
+                    type: "audio/wav",
+                    dataUrl
+                  }
+                }
+                this.setState({
+                  audioBlob: dataUrl
+                })
+                console.log("files: ", files)
+              })
+            })
+
+            record.style.background = ""
+            record.style.color = ""
+
+            clipContainer.classList.add("clip")
+            clipContainer.setAttribute(
+              "style",
+              "display: flex; justify-content: center; padding-top: 20px; width: 390px"
+            )
+            audio.setAttribute("controls", "")
+            deleteButton.innerHTML = "DEL"
+
+            clipContainer.appendChild(audio)
+            clipContainer.appendChild(deleteButton)
+            deleteButton.setAttribute(
+              "style",
+              "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
+            )
+            clipContainer.appendChild(audioSize)
+            audioSize.setAttribute(
+              "style",
+              "display: inline-block,font-size: 18px; width: 200px; height: 30px; padding: 3px; margin: 12px; "
+            )
+            soundClips.appendChild(clipContainer)
+
+            deleteButton.onclick = e => {
+              this.deleteTempAudio()
+              var evtTgt = e.target
+              evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
+              record.disabled = false
+            }
+          }
+        })
+        // Error callback
+        .catch(err => {
+          console.log("The following gUM error occured: " + err)
+        })
+    } else {
+      console.log("getUserMedia not supported on your browser!")
+    }
+    const {classes} = this.props
+    const {
+      handleAudio,
+      /* handleDelete, */
+      /* openDeleteModal, */
+      openAudioModal,
+      closeAudioModal,
+      /* closeDeleteModal, */
+      /* courseId, */
+      /* modalLevel, */
+      /* modalTitle, */
+      row
+    } = this.props
+
+    return (
+      <Composed>
+        {() => {
+          /* {({container: {levelDelete}}) => { */
+          /* const xhrDeleteLevel = async () => { */
+          /*   const finished = await levelDelete.mutation({ */
+          /*     variables: {courseId, level: modalLevel, title: modalTitle} */
+          /*   }) */
+          /*   if (finished.data.levelDelete.level.level) { */
+          /*     closeAudioModal() */
+          /*   } */
+          /* } */
+
+          return (
+            <Typography>
+              <IconButton onClick={handleAudio(row)}>
+                <SpeakerIcon />
+              </IconButton>
+              <Dialog
+                open={openAudioModal}
+                onClose={closeAudioModal}
+                onBackdropClick={this.enableStop}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">
+                  Record your translation
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    You can either record your own or upload an audio file.
+                    Vocabulary audio files should be in .wav, webm, or mp3
+                    format and under 500 KB.
+                  </DialogContentText>
+                  {!this.state.audioBlob && (
+                    <Dropzone
+                      style={{
+                        margin: "20px auto 0",
+                        padding: "25px",
+                        width: "200px",
+                        height: "100px",
+                        borderWidth: "2px",
+                        borderColor: "rgb(102, 102, 102)",
+                        borderStyle: "dashed",
+                        borderRadius: "5px"
+                      }}
+                      maxSize={500000}
+                      multiple={false}
+                      accept="image/*"
+                      onDrop={this.onDrop}>
+                      <p>
+                        Drop an audio file or click to select a file to upload.
+                      </p>
+                    </Dropzone>
+                  )}
+                  <div
+                    className="sound-clips"
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center"
+                    }}
+                  />
+                </DialogContent>
+                <DialogActions
+                  className="sound-clips"
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                  }}>
+                  <Button
+                    variant="contained"
+                    className="record"
+                    color="secondary">
+                    <FiberSmartRecordIcon className={classes.leftIcon} />
+                    Rec
+                  </Button>
+                  <Button
+                    className="stop"
+                    onClick={this.disableStop}
+                    disabled={this.state.record}
+                    style={{color: "black", marginLeft: "8px"}}>
+                    stop
+                  </Button>
+                  <Button
+                    disabled={!this.state.record}
+                    onClick={this.saveAudioModal}
+                    color="secondary"
+										style={{
+											position: "absolute",
+											right: 10px
+										}
+										}
+										>
+                    Save
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Typography>
+          )
+        }}
+      </Composed>
+    )
+  }
+}
+
+export default withStyles(styles)(VocabularyAudioModal)
