@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {adopt} from "react-adopt"
-import update from "immutability-helper"
+/* import update from "immutability-helper" */
 
 import Button from "@material-ui/core/Button"
 /* import DeleteIcon from "@material-ui/icons/Delete" */
@@ -36,9 +36,13 @@ const styles = theme => ({
 const initialState = {
   audioBlob: null,
   audioFileName: "Click here to upload or just drop an audio file.",
+  public_id: "",
   record: false,
   recordedBlobSize: 0,
-  saveDisabled: false
+  saveDisabled: false,
+  secure_url: "",
+  signature: "",
+  url: ""
 }
 
 class VocabularyAudioModal extends Component {
@@ -60,12 +64,12 @@ class VocabularyAudioModal extends Component {
     })
   }
 
-  saveAudioModal = closeAudioModal => () => {
+  saveAudioModal = () => () => {
     if (this.state.audioBlob) {
       this.handleAudioUpload(this.state.audioBlob)
     }
-    this.enableStop()
-    closeAudioModal()
+    /* this.enableStop() */
+    /* closeAudioModal() */
   }
 
   resetState = () => {
@@ -119,73 +123,32 @@ class VocabularyAudioModal extends Component {
   }
 
   handleAudioUpload = file => {
-    console.log("file: ", file)
-    // Push all the axios request promise into a single array
-    const uploader = file => {
-      // Initial FormData
-      const formData = new FormData()
-      formData.append("file", file)
-      formData.append("tags", `course-name`)
-      formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own
-      formData.append("folder", "vocabulary-audio") // Folder to place image in
-      formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
-      formData.append("timestamp", Date.now() / 1000 || 0)
+    var formdata = new FormData()
 
-      // set loading and disable save
-      const newState = update(this.state, {
-        saveDisabled: {$set: true}
-      })
+    formdata.append("file", file)
+    formdata.append("cloud_name", "dgvw5b6pf")
+    formdata.append("upload_preset", "z28ks5gg")
+    formdata.append("api_key", "225688292439754")
 
-      this.setState(newState)
+    var xhr = new XMLHttpRequest()
+    xhr.open(
+      "POST",
+      "https://api.cloudinary.com/v1_1/cloud_name/video/upload",
+      true
+    )
 
-      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-      return axios({
-        method: "POST",
-        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/",
-        data: formData
-      })
-        .then(res => {
-          const {data} = res
-
-          const newState = update(this.state, {
-            public_id: {$set: data.public_id},
-            secure_url: {$set: data.secure_url},
-            signature: {$set: data.signature},
-            url: {$set: data.url}
-          })
-
-          this.setState(newState)
-
-          this.props.setFieldValue("audioUrl", data.secure_url)
-
-          return data
-        })
-        .catch(err => {
-          console.log("upload error: ", err)
-        })
+    xhr.onload = async () => {
+      var secureUrl = await JSON.parse(xhr.responseText).secure_url
+      console.log("secure: ", secureUrl)
+      this.setState(
+        {
+          secure_url: secureUrl
+        },
+        () => console.log("this.state: ", this.state)
+      )
     }
 
-    console.log("uploader: ", uploader)
-
-    /* // Once all the files are uploaded */
-    /* axios.all(uploader).then(values => { */
-    /*   /1* const {id} = this.props.course *1/ */
-    /*   /1* const newCdn = {cdn: values[0]} *1/ */
-    /*   const courseImage = values[0].secure_url */
-
-    /*   const newState = update(this.state, { */
-    /*     courseImage: {$set: courseImage}, */
-    /*     loading: {$set: false}, */
-    /*     disable: {$set: false} */
-    /*   }) */
-
-    /*   this.setState(newState) */
-
-    /*   /1* this.setState({}) *1/ */
-
-    /*   // TODO: update Course on server */
-    /*   /1* this.props.updateSettings(this.props.course) *1/ */
-    /* }) */
+    xhr.send(formdata)
   }
 
   render() {
