@@ -49,31 +49,35 @@ import {styles} from "../styles.js"
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
+const initialState = {
+  audioBlob: "",
+  female: false,
+  formErrors: {
+    errors: []
+  },
+  gender: null,
+  globalLevel: 0,
+  globalLevels: [],
+  labelWidth: 0,
+  level: null,
+  male: false,
+  modalGender: "",
+  modalLevel: "",
+  modalWord: "",
+  modalTranslation: "",
+  modalAudio: "",
+  openAudioModal: false,
+  secure_url: "",
+  value: "level",
+  word: "",
+  translation: ""
+}
+
 class Vocabulary extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      female: false,
-      formErrors: {
-        errors: []
-      },
-      gender: null,
-      globalLevel: 0,
-      globalLevels: [],
-      labelWidth: 0,
-      level: null,
-      male: false,
-      modalGender: "",
-      modalLevel: "",
-      modalWord: "",
-      modalTranslation: "",
-      modalAudio: "",
-      openAudioModal: false,
-      value: "level",
-      word: "",
-      translation: ""
-    }
+    this.state = initialState
   }
 
   componentDidMount() {
@@ -103,32 +107,14 @@ class Vocabulary extends Component {
 
     /* // mutate if no errors */
     if (isEmpty(this.state.formErrors.errors)) {
-      vocabularyCreate({
-        variables: {
-          input: {
-            audioUrl: this.state.audioUrl,
-            courseId: this.props.course.id,
-            gender: this.state.gender,
-            level: this.state.level,
-            translation: this.state.translation,
-            word: this.state.word
-          }
-        }
-      })
+      this.handleAudioUpload(this.state.audioBlob, vocabularyCreate)
     }
-
-    /* // reset state */
-    /* const labelState = update(this.state, { */
-    /*   openDeleteModal: {$set: false}, */
-    /*   title: {$set: ""}, */
-    /*   level: {$set: ""} */
-    /* }) */
-    /* this.setState(labelState) */
   }
 
-  closeAudioModal = () => {
+  closeAudioModal = state => {
     this.setState({
-      openAudioModal: false
+      openAudioModal: false,
+      audioBlob: state.audioBlob
     })
   }
 
@@ -148,16 +134,12 @@ class Vocabulary extends Component {
   }
 
   chgGender = gender => () => {
-    this.setState(
-      {
-        gender
-      },
-      () => console.log("gender: ", this.state)
-    )
+    this.setState({
+      gender
+    })
   }
 
   handleAudio = row => () => {
-    console.log("row: ", row)
     this.setState({
       openAudioModal: true
       /* modalGender: row.original.gender, */
@@ -166,6 +148,58 @@ class Vocabulary extends Component {
       /* modalTranslation: row.original.translation, */
       /* modalAudio: row.original.audio */
     })
+  }
+
+  handleAudioUpload = async (file, vocabularyCreate) => {
+    var formdata = new FormData()
+
+    formdata.append("file", file)
+    formdata.append("cloud_name", "dgvw5b6pf")
+    formdata.append("upload_preset", "z28ks5gg")
+    formdata.append("api_key", "225688292439754")
+
+    var xhr = new XMLHttpRequest()
+    xhr.open(
+      "POST",
+      "https://api.cloudinary.com/v1_1/cloud_name/video/upload",
+      true
+    )
+
+    xhr.onload = async () => {
+      const secureUrl = await JSON.parse(xhr.responseText).secure_url
+
+      this.setState(
+        {
+          secure_url: secureUrl
+        },
+        () => console.log("secureUrl: ", this.state)
+      )
+
+      console.log("STATE STAE STAET : ", this.state)
+
+      vocabularyCreate({
+        variables: {
+          input: {
+            audioUrl: this.state.secure_url,
+            courseId: this.props.course.id,
+            gender: this.state.gender,
+            level: this.state.level,
+            translation: this.state.translation,
+            word: this.state.word
+          }
+        }
+      })
+
+      // reset state
+      this.setState(
+        {
+          ...initialState
+        },
+        () => console.log("state: ", this.state)
+      )
+    }
+
+    xhr.send(formdata)
   }
 
   handleGlobalLevelChg = payload => e => {
@@ -281,7 +315,7 @@ class Vocabulary extends Component {
                 name="word"
                 onChange={this.onChange}
                 placeholder="Add a new word here."
-                value={this.state.title}
+                value={this.state.word}
                 variant="outlined"
               />
             )}

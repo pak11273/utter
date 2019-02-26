@@ -64,12 +64,10 @@ class VocabularyAudioModal extends Component {
     })
   }
 
-  saveAudioModal = () => () => {
+  saveAudioModal = closeAudioModal => () => {
     if (this.state.audioBlob) {
-      this.handleAudioUpload(this.state.audioBlob)
+      closeAudioModal(this.state)
     }
-    /* this.enableStop() */
-    /* closeAudioModal() */
   }
 
   resetState = () => {
@@ -122,34 +120,34 @@ class VocabularyAudioModal extends Component {
       })
   }
 
-  handleAudioUpload = file => {
-    var formdata = new FormData()
+  /* handleAudioUpload = file => { */
+  /*   var formdata = new FormData() */
 
-    formdata.append("file", file)
-    formdata.append("cloud_name", "dgvw5b6pf")
-    formdata.append("upload_preset", "z28ks5gg")
-    formdata.append("api_key", "225688292439754")
+  /*   formdata.append("file", file) */
+  /*   formdata.append("cloud_name", "dgvw5b6pf") */
+  /*   formdata.append("upload_preset", "z28ks5gg") */
+  /*   formdata.append("api_key", "225688292439754") */
 
-    var xhr = new XMLHttpRequest()
-    xhr.open(
-      "POST",
-      "https://api.cloudinary.com/v1_1/cloud_name/video/upload",
-      true
-    )
+  /*   var xhr = new XMLHttpRequest() */
+  /*   xhr.open( */
+  /*     "POST", */
+  /*     "https://api.cloudinary.com/v1_1/cloud_name/video/upload", */
+  /*     true */
+  /*   ) */
 
-    xhr.onload = async () => {
-      var secureUrl = await JSON.parse(xhr.responseText).secure_url
-      console.log("secure: ", secureUrl)
-      this.setState(
-        {
-          secure_url: secureUrl
-        },
-        () => console.log("this.state: ", this.state)
-      )
-    }
+  /*   xhr.onload = async () => { */
+  /*     var secureUrl = await JSON.parse(xhr.responseText).secure_url */
+  /*     console.log("secure: ", secureUrl) */
+  /*     this.setState( */
+  /*       { */
+  /*         secure_url: secureUrl */
+  /*       }, */
+  /*       () => console.log("this.state: ", this.state) */
+  /*     ) */
+  /*   } */
 
-    xhr.send(formdata)
-  }
+  /*   xhr.send(formdata) */
+  /* } */
 
   render() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {

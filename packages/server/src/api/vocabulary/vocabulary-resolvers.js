@@ -92,13 +92,13 @@ const vocabularyCreate = async (_, args, ctx, info) => {
     {
       $push: {
         "levels.$.vocabulary": {
-          /* audioUrl: input.audioUrl, */
+          audioUrl: input.audioUrl,
+          courseId: input.courseId,
           gender: input.gender,
-          word: input.word,
-          translation: input.translation
-          /* courseId: String */
+          level: input.level,
+          translation: input.translation,
+          word: input.word
           /* id: ID */
-          /* level: Int */
         }
       }
     },
