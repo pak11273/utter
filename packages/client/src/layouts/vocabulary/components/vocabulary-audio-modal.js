@@ -12,10 +12,10 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import IconButton from "@material-ui/core/IconButton"
 import SpeakerIcon from "@material-ui/icons/RecordVoiceOver"
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
-import CloudUploadIcon from "@material-ui/icons/CloudUpload"
 import Typography from "@material-ui/core/Typography"
 
 import axios from "axios"
+import Dropzone from "react-dropzone"
 import {bytesToSize} from "../../../utils/helpers.js"
 import CryptoJS from "crypto-js"
 import isEmpty from "lodash/isEmpty"
@@ -33,11 +33,18 @@ const styles = theme => ({
   }
 })
 
+const initialState = {
+  audioBlob: null,
+  audioFileName: "Click here to upload or just drop an audio file.",
+  record: false,
+  recordedBlobSize: 0
+}
+
 class VocabularyAudioModal extends Component {
-  state = {
-    audioBlob: null,
-    record: false,
-    recordedBlobSize: 0
+  constructor() {
+    super()
+
+    this.state = initialState
   }
 
   disableStop = () => {
@@ -52,9 +59,36 @@ class VocabularyAudioModal extends Component {
     })
   }
 
-  saveAudioModal = () => {
-    // save to cdn
-    // close modal after saving to cdn
+  saveAudioModal = closeAudioModal => () => {
+    this.enableStop()
+    closeAudioModal()
+  }
+
+  resetState = () => {
+    this.setState({
+      ...initialState
+    })
+  }
+
+  onAudioDrop = (files, rejected) => {
+    this.resetState()
+    if (!isEmpty(rejected)) {
+      alert(
+        "Please check the file format and/or decrease the file size to less than 500kb."
+      )
+    }
+
+    if (!isEmpty(files)) {
+      this.setState(
+        {
+          audioBlob: files[0],
+          audioFileName: files[0].name
+        },
+        console.log("file: ", this.state.audioBlob)
+      )
+
+      /* this.handleImageUpload(files) */
+    }
   }
 
   handleAudioDelete = async state => {
@@ -157,8 +191,6 @@ class VocabularyAudioModal extends Component {
   }
 
   render() {
-    var {props} = this
-    console.log("props: ", props)
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices
         .getUserMedia({audio: true})
@@ -205,17 +237,20 @@ class VocabularyAudioModal extends Component {
               )
 
               recorder.getDataURL(dataUrl => {
-                var files = {
-                  audio: {
-                    author: "utterzone",
-                    type: "audio/wav",
-                    dataUrl
-                  }
-                }
-                this.setState({
-                  audioBlob: dataUrl
-                })
-                console.log("files: ", files)
+                /* var files = { */
+                /*   audio: { */
+                /*     author: "utterzone", */
+                /*     type: "audio/wav", */
+                /*     dataUrl */
+                /*   } */
+                /* } */
+                this.setState(
+                  {
+                    audioFileName: "recorded.webm",
+                    audioBlob: dataUrl
+                  },
+                  () => console.log("files: ", this.state)
+                )
               })
             })
 
@@ -244,6 +279,7 @@ class VocabularyAudioModal extends Component {
             soundClips.appendChild(clipContainer)
 
             deleteButton.onclick = e => {
+              this.resetState()
               this.enableStop()
               var evtTgt = e.target
               evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
@@ -293,7 +329,7 @@ class VocabularyAudioModal extends Component {
               <Dialog
                 open={openAudioModal}
                 onClose={closeAudioModal}
-                onBackdropClick={this.enableStop}
+                onBackdropClick={this.resetState}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
                 <DialogTitle id="alert-dialog-title">
@@ -303,8 +339,32 @@ class VocabularyAudioModal extends Component {
                   <DialogContentText id="alert-dialog-description">
                     You can either record your own or upload an audio file.
                     Vocabulary audio files should be in .wav, webm, or mp3
-                    format and under 400 KB.
+                    format and under 500 KB. Click Save when done. Clicking
+                    outside the window will reset everything.
                   </DialogContentText>
+                  <Dropzone
+                    style={{
+                      alignItems: "center",
+                      borderWidth: "2px",
+                      borderColor: "rgb(102, 102, 102)",
+                      borderStyle: "dashed",
+                      borderRadius: "5px",
+                      display: "flex",
+                      height: "100px",
+                      justifyContent: "center",
+                      margin: "20px auto 0",
+                      padding: "3px",
+                      position: "relative",
+                      width: "200px"
+                    }}
+                    maxSize={500000}
+                    multiple={false}
+                    accept="audio/*"
+                    onDrop={this.onAudioDrop}>
+                    <div style={{padding: "30px", textAlign: "center"}}>
+                      {this.state.audioFileName}
+                    </div>
+                  </Dropzone>
                   <div
                     className="sound-clips"
                     style={{
@@ -317,9 +377,10 @@ class VocabularyAudioModal extends Component {
                 <DialogActions
                   className="sound-clips"
                   style={{
+                    alignItems: "center",
                     display: "flex",
                     justifyContent: "center",
-                    alignItems: "center"
+                    marginBottom: "30px"
                   }}>
                   <Button
                     variant="contained"
@@ -336,14 +397,11 @@ class VocabularyAudioModal extends Component {
                     stop
                   </Button>
                   <Button
-                    disabled={!this.state.record}
-                    onClick={this.saveAudioModal}
+                    onClick={this.saveAudioModal(closeAudioModal)}
+                    style={{position: "absolute", right: "20px"}}
                     color="secondary">
                     Save
                   </Button>
-                  <IconButton alt="upload" style={{marginLeft: "20px"}}>
-                    <CloudUploadIcon />
-                  </IconButton>
                 </DialogActions>
               </Dialog>
             </Typography>
