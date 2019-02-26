@@ -208,11 +208,7 @@ var levelCreate = function () {
           case 6:
             user = _context3.sent;
             input = args.input;
-
-
-            console.log("input: ", input);
-
-            _context3.next = 11;
+            _context3.next = 10;
             return _courseModel2.default.findOneAndUpdate({
               _id: input.courseId,
               "levels.level": {
@@ -221,13 +217,14 @@ var levelCreate = function () {
             }, {
               $push: {
                 levels: {
+                  courseId: input.courseId,
                   level: input.level,
                   title: input.title
                 }
               }
             }, { new: true });
 
-          case 11:
+          case 10:
             level = _context3.sent;
 
 
@@ -243,7 +240,7 @@ var levelCreate = function () {
               errors: arrayOfErrors
             });
 
-          case 14:
+          case 13:
           case "end":
             return _context3.stop();
         }

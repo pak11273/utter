@@ -1,23 +1,23 @@
 type Grammar {
-      rule: String
-      example: String
-      translation: String
-      audioUrl: String
-    }
+	rule: String
+	example: String
+	translation: String
+	audioUrl: String
+}
 
 type Example {
-      example: String
-      translation: String
-      audioUrl: String
-    }
+	example: String
+	translation: String
+	audioUrl: String
+}
 
 type Phrases {
-      type: String
-      formality: String
-      phrase: String
-      translation: String
-      audioUrl: String
-    }
+	type: String
+	formality: String
+	phrase: String
+	translation: String
+	audioUrl: String
+}
 
 type Level {
 	courseId: String

@@ -41,6 +41,9 @@ var VocabularySchema = exports.VocabularySchema = new _mongoose.Schema({
     ref: "Course",
     required: [true, "can't be blank"]
   },
+  gender: {
+    types: String
+  },
   levelId: {
     type: _mongoose.Schema.Types.ObjectId,
     ref: "Level",

@@ -187,7 +187,7 @@ var vocabularyUpdate = function vocabularyUpdate(_, _ref5) {
 
 var vocabularyCreate = function () {
   var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input, vocabulary;
+    var arrayOfErrors, token, user, input;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -213,41 +213,36 @@ var vocabularyCreate = function () {
             user = _context3.sent;
             input = args.input;
 
-
             console.log("input: ", input);
+            /* const vocabulary = await Course.findOneAndUpdate( */
+            /*   { */
+            /*     _id: input.courseId, */
+            /*     "vocabulary.vocabulary": { */
+            /*       $ne: input.vocabulary */
+            /*     } */
+            /*   }, */
+            /*   { */
+            /*     $push: { */
+            /*       vocabulary: { */
+            /*         vocabulary: input.vocabulary, */
+            /*         title: input.title */
+            /*       } */
+            /*     } */
+            /*   }, */
+            /*   {new: true} */
+            /* ) */
+            /* if (!vocabulary) { */
+            /*   arrayOfErrors.push({ */
+            /*     path: "vocabulary", */
+            /*     message: "Courses cannot have duplicate vocabulary numbers." */
+            /*   }) */
+            /* } */
+            /* return { */
+            /*   vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1], */
+            /*   errors: arrayOfErrors */
+            /* } */
 
-            _context3.next = 11;
-            return _courseModel2.default.findOneAndUpdate({
-              _id: input.courseId,
-              "vocabulary.vocabulary": {
-                $ne: input.vocabulary
-              }
-            }, {
-              $push: {
-                vocabulary: {
-                  vocabulary: input.vocabulary,
-                  title: input.title
-                }
-              }
-            }, { new: true });
-
-          case 11:
-            vocabulary = _context3.sent;
-
-
-            if (!vocabulary) {
-              arrayOfErrors.push({
-                path: "vocabulary",
-                message: "Courses cannot have duplicate vocabulary numbers."
-              });
-            }
-
-            return _context3.abrupt("return", {
-              vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1],
-              errors: arrayOfErrors
-            });
-
-          case 14:
+          case 9:
           case "end":
             return _context3.stop();
         }
@@ -262,14 +257,14 @@ var vocabularyCreate = function () {
 
 var getVocabularies = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
-    var result, sortedVocabulary;
+    var result;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             console.log("args: ", args);
             _context4.next = 3;
-            return _levelModel2.default.find({ _id: args.levelId }).exec();
+            return _courseModel2.default.find({ _id: args.courseId }).exec();
 
           case 3:
             result = _context4.sent;
@@ -277,29 +272,21 @@ var getVocabularies = function () {
 
             console.log("result: ", result);
 
-            if (!(!result || (0, _isEmpty2.default)(result))) {
-              _context4.next = 7;
-              break;
-            }
+            /* if (!result || isEmpty(result)) { */
+            /*   return {vocabulary: []} */
+            /* } */
 
-            return _context4.abrupt("return", { vocabulary: [] });
+            /* const sortedVocabulary = result[0].vocabulary.sort((a, b) => { */
+            /*   return a.vocabulary - b.vocabulary */
+            /* }) */
 
-          case 7:
-            sortedVocabulary = result[0].vocabulary.sort(function (a, b) {
-              return a.vocabulary - b.vocabulary;
-            });
+            /* if (isEmpty(result)) { */
+            /*   return {vocabulary: []} */
+            /* } else { */
+            /*   return {vocabulary: sortedVocabulary} */
+            /* } */
 
-            if (!(0, _isEmpty2.default)(result)) {
-              _context4.next = 12;
-              break;
-            }
-
-            return _context4.abrupt("return", { vocabulary: [] });
-
-          case 12:
-            return _context4.abrupt("return", { vocabulary: sortedVocabulary });
-
-          case 13:
+          case 5:
           case "end":
             return _context4.stop();
         }
