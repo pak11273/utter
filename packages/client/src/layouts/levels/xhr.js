@@ -8,6 +8,15 @@ export const getLevels = gql`
         courseId
         level
         title
+        vocabulary {
+          audioUrl
+          courseId
+          id
+          gender
+          level
+          word
+          translation
+        }
       }
     }
   }
@@ -21,6 +30,15 @@ export const levelCreate = gql`
         id
         level
         title
+        vocabulary {
+          audioUrl
+          courseId
+          id
+          gender
+          level
+          word
+          translation
+        }
       }
       errors {
         message

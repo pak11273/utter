@@ -552,6 +552,7 @@ class Vocabulary extends Component {
             )
 
           const {levels} = data.getLevels
+          console.log("levels; ", levels)
 
           var {globalLevel} = this.state
 
@@ -599,7 +600,7 @@ class Vocabulary extends Component {
                     }
                   }}
                   className="-striped -highlight"
-                  data={[]}
+                  data={levels.vocabulary}
                   columns={columns}
                   defaultPageSize={10}
                 />
