@@ -38,8 +38,8 @@ import isEmpty from "lodash/isEmpty"
 import {vocabularySchema} from "@utterzone/common"
 import update from "immutability-helper"
 
-import {Can, Hero, LoaderCircle} from "../../../components"
-import {VocabularyAudioModal, VocabularyDeleteModal} from "../components"
+import {Can, Hero, LoaderCircle, TogglePlay} from "../../../components"
+import {VocabularyAudioModal} from "../components"
 
 import {loadData, resetGlobalLevel} from "../../../api/actions.js"
 import {getVocabularies, vocabularyCreate} from "../xhr.js"
@@ -284,22 +284,6 @@ class Vocabulary extends Component {
 
     const columns = [
       {
-        Header: () => null,
-        columns: [
-          {
-            Header: () => (
-              <Typography className={classes.header}>Level</Typography>
-            ),
-            accessor: "level",
-            Cell: row => (
-              <Typography className={classes.level}>{row.value}</Typography>
-            ),
-            minWidth: 60,
-            maxWidth: 80
-          }
-        ]
-      },
-      {
         Header: () => (
           <Can
             roles={user.roles}
@@ -446,10 +430,8 @@ class Vocabulary extends Component {
             Header: () => (
               <Typography className={classes.header}>Audio</Typography>
             ),
-            accessor: "audio",
-            Cell: props => (
-              <Typography className={classes.title}>{props.value}</Typography>
-            ),
+            accessor: "audioUrl",
+            Cell: props => <TogglePlay src={props.value} />,
             minWidth: 100,
             maxWidth: 100
           }
@@ -497,21 +479,22 @@ class Vocabulary extends Component {
               />
             ),
             Cell: row => (
-              <Can
-                roles={user.roles}
-                perform="course:update-vocabulary"
-                id={user.username}
-                matchingID={course.owner.username}
-                yes={() => (
-                  <VocabularyDeleteModal
-                    row={row}
-                    {...this.state}
-                    closeDeleteModal={this.closeDeleteModal}
-                    handleDelete={this.handleDelete}
-                  />
-                )}
-                no={() => null}
-              />
+              <div>hi</div>
+              /* <Can */
+              /*   roles={user.roles} */
+              /*   perform="course:update-vocabulary" */
+              /*   id={user.username} */
+              /*   matchingID={course.owner.username} */
+              /*   yes={() => ( */
+              /*     <VocabularyDeleteModal */
+              /*       row={row} */
+              /*       {...this.state} */
+              /*       closeDeleteModal={this.closeDeleteModal} */
+              /*       handleDelete={this.handleDelete} */
+              /*     /> */
+              /*   )} */
+              /*   no={() => null} */
+              /* /> */
             ),
             minWidth: 90,
             maxWidth: 100
@@ -552,9 +535,17 @@ class Vocabulary extends Component {
             )
 
           const {levels} = data.getLevels
-          console.log("levels; ", levels)
-
           var {globalLevel} = this.state
+          var tableData
+
+          const dataLevel = levels.filter(level => {
+            return level.level === globalLevel
+          })
+
+          if (dataLevel[0]) {
+            tableData = dataLevel[0].vocabulary
+            console.log("tableData: ", tableData)
+          }
 
           return (
             <Grid container direction="column">
@@ -585,7 +576,7 @@ class Vocabulary extends Component {
               <Grid item>
                 <ReactTable
                   getTheadThProps={() => {
-                    return {style: {outline: 0}}
+                    return {style: {outline: 0, textAlign: "left"}}
                   }}
                   getTheadGroupThProps={() => {
                     return {
@@ -600,7 +591,7 @@ class Vocabulary extends Component {
                     }
                   }}
                   className="-striped -highlight"
-                  data={levels.vocabulary}
+                  data={tableData}
                   columns={columns}
                   defaultPageSize={10}
                 />

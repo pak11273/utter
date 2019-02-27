@@ -82,6 +82,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 
   const {input} = args
   console.log("input: ", input)
+  console.log("tpeof : ", typeof input.level)
   const vocabulary = await Course.findOneAndUpdate(
     {
       _id: input.courseId,
@@ -95,10 +96,9 @@ const vocabularyCreate = async (_, args, ctx, info) => {
           audioUrl: input.audioUrl,
           courseId: input.courseId,
           gender: input.gender,
-          level: input.level,
+          level: 1,
           translation: input.translation,
           word: input.word
-          /* id: ID */
         }
       }
     },

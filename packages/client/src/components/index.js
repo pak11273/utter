@@ -49,6 +49,7 @@ import Td from "./Td.js"
 import Text from "./Text/Text.js"
 import Thead from "./Thead.js"
 import Th from "./Th.js"
+import TogglePlay from './Buttons/TogglePlay.js'
 import Tr from "./Tr.js"
 import TextArea from "./TextArea.js"
 import Title from "./Text/Title.js"
@@ -110,6 +111,7 @@ export {
   Td,
   Thead,
   Th,
+	TogglePlay,
   Tr,
   Text,
   TextArea,

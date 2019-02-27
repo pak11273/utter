@@ -120,35 +120,6 @@ class VocabularyAudioModal extends Component {
       })
   }
 
-  /* handleAudioUpload = file => { */
-  /*   var formdata = new FormData() */
-
-  /*   formdata.append("file", file) */
-  /*   formdata.append("cloud_name", "dgvw5b6pf") */
-  /*   formdata.append("upload_preset", "z28ks5gg") */
-  /*   formdata.append("api_key", "225688292439754") */
-
-  /*   var xhr = new XMLHttpRequest() */
-  /*   xhr.open( */
-  /*     "POST", */
-  /*     "https://api.cloudinary.com/v1_1/cloud_name/video/upload", */
-  /*     true */
-  /*   ) */
-
-  /*   xhr.onload = async () => { */
-  /*     var secureUrl = await JSON.parse(xhr.responseText).secure_url */
-  /*     console.log("secure: ", secureUrl) */
-  /*     this.setState( */
-  /*       { */
-  /*         secure_url: secureUrl */
-  /*       }, */
-  /*       () => console.log("this.state: ", this.state) */
-  /*     ) */
-  /*   } */
-
-  /*   xhr.send(formdata) */
-  /* } */
-
   render() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices

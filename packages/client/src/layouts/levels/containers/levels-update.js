@@ -382,6 +382,9 @@ class Levels extends PureComponent {
               <List>{formErrors}</List>
               <Grid item>
                 <ReactTable
+                  getTheadThProps={() => {
+                    return {style: {outline: 0, textAlign: "left"}}
+                  }}
                   getTheadGroupThProps={() => {
                     return {
                       style: {
@@ -393,9 +396,6 @@ class Levels extends PureComponent {
                         whiteSpace: "inherit"
                       }
                     }
-                  }}
-                  getTheadThProps={() => {
-                    return {style: {outline: 0}}
                   }}
                   className="-striped -highlight"
                   data={data.getLevels.levels}
