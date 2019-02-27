@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: 0 */
 import React, {Component} from "react"
 import ReactTable from "react-table"
 import "react-table/react-table.css"
@@ -7,42 +6,31 @@ import schema from "../../../core/schema.js"
 
 import FormGroup from "@material-ui/core/FormGroup"
 import Checkbox from "@material-ui/core/Checkbox"
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank"
-import CheckBoxIcon from "@material-ui/icons/CheckBox"
 
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
-import DeleteIcon from "@material-ui/icons/Delete"
 import FormControl from "@material-ui/core/FormControl"
-import FormHelperText from "@material-ui/core/FormHelperText"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import FormLabel from "@material-ui/core/FormLabel"
 import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import MenuItem from "@material-ui/core/MenuItem"
-import OutlinedInput from "@material-ui/core/OutlinedInput"
-import PlayCircleFilledIcon from "@material-ui/icons/PlayCircleFilled"
-import Radio from "@material-ui/core/Radio"
-import RadioGroup from "@material-ui/core/RadioGroup"
 import Select from "@material-ui/core/Select"
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import {Mutation, Query} from "react-apollo"
-import gql from "graphql-tag"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
 import {vocabularySchema} from "@utterzone/common"
 import update from "immutability-helper"
 
+import {VocabularyAudioModal, VocabularyDeleteModal} from "../components"
 import {Can, Hero, LoaderCircle, TogglePlay} from "../../../components"
-import {VocabularyAudioModal} from "../components"
 
 import {loadData, resetGlobalLevel} from "../../../api/actions.js"
-import {getVocabularies, vocabularyCreate} from "../xhr.js"
+import {vocabularyCreate} from "../xhr.js"
 import {getLevels} from "../../levels/xhr.js"
 import {styles} from "../styles.js"
 
@@ -56,10 +44,9 @@ const initialState = {
     errors: []
   },
   gender: null,
-  globalLevel: 0,
   globalLevels: [],
   labelWidth: 0,
-  level: null,
+  level: 0,
   male: false,
   modalGender: "",
   modalLevel: "",
@@ -67,6 +54,7 @@ const initialState = {
   modalTranslation: "",
   modalAudio: "",
   openAudioModal: false,
+  openDeleteModal: false,
   secure_url: "",
   value: "level",
   word: "",
@@ -81,6 +69,9 @@ class Vocabulary extends Component {
   }
 
   componentDidMount() {
+    this.setState({
+      level: this.props.level.level
+    })
     this.props.toggleFooter(false)
   }
 
@@ -139,7 +130,7 @@ class Vocabulary extends Component {
     })
   }
 
-  handleAudio = row => () => {
+  handleAudio = () => () => {
     this.setState({
       openAudioModal: true
       /* modalGender: row.original.gender, */
@@ -168,14 +159,9 @@ class Vocabulary extends Component {
     xhr.onload = async () => {
       const secureUrl = await JSON.parse(xhr.responseText).secure_url
 
-      this.setState(
-        {
-          secure_url: secureUrl
-        },
-        () => console.log("secureUrl: ", this.state)
-      )
-
-      console.log("STATE STAE STAET : ", this.state)
+      this.setState({
+        secure_url: secureUrl
+      })
 
       vocabularyCreate({
         variables: {
@@ -191,36 +177,55 @@ class Vocabulary extends Component {
       })
 
       // reset state
-      this.setState(
-        {
-          ...initialState
+      this.setState({
+        audioBlob: "",
+        female: false,
+        formErrors: {
+          errors: []
         },
-        () => console.log("state: ", this.state)
-      )
+        gender: null,
+        globalLevels: [],
+        labelWidth: 0,
+        male: false,
+        modalGender: "",
+        modalWord: "",
+        modalTranslation: "",
+        modalAudio: "",
+        openAudioModal: false,
+        secure_url: "",
+        value: "level",
+        word: "",
+        translation: ""
+      })
     }
 
     xhr.send(formdata)
   }
 
-  handleGlobalLevelChg = payload => e => {
+  handleDelete = row => () => {
+    this.setState({
+      openDeleteModal: true,
+      modalLevel: row.original.level,
+      modalTitle: row.original.title
+    })
+  }
+
+  handleGlobalLevelChg = levels => e => {
     e.preventDefault()
 
     this.props.resetGlobalLevel()
 
     this.setState(
       {
-        globalLevels: payload,
-        globalLevel: e.target.value,
+        globalLevels: levels,
         level: e.target.value
       },
       () => {
-        const selectedLevel = payload.filter(level => {
-          return level.level === this.state.globalLevel
+        const selectedLevel = levels.filter(level => {
+          return level.level === this.state.level
         })
 
         this.props.loadData({level: selectedLevel[0]})
-
-        console.log("selected: ", selectedLevel[0].level)
       }
     )
   }
@@ -242,13 +247,13 @@ class Vocabulary extends Component {
   }
 
   render() {
-    const {classes, course, level, user} = this.props
-
-    const audioError = classNames({
-      errorClass:
-        this.state.formErrors.path === "audio" &&
-        !isEmpty(this.state.formErrors.errors)
-    })
+    var {classes, course, level, user} = this.props
+    /* const audioError = classNames({ */
+    /*   errorClass: */
+    /*     this.state.formErrors.path === "audio" && */
+    /*     !isEmpty(this.state.formErrors.errors) */
+    /* }) */
+    !level ? (level = 0) : null
 
     const levelError = classNames({
       errorClass:
@@ -431,17 +436,44 @@ class Vocabulary extends Component {
               <Typography className={classes.header}>Audio</Typography>
             ),
             accessor: "audioUrl",
-            Cell: props => <TogglePlay src={props.value} />,
+            Cell: props => {
+              if (props.value) {
+                return <TogglePlay src={props.value} />
+              }
+            },
             minWidth: 100,
             maxWidth: 100
           }
         ]
       },
       {
-        Header: row => (
+        Header: () => (
           <div className={classes.addButton}>
-            <Mutation mutation={vocabularyCreate}>
-              {(vocabularyCreate, {loading, error, data}) => {
+            <Mutation
+              mutation={vocabularyCreate}
+              update={(cache, {data: {vocabularyCreate}}) => {
+                try {
+                  var getVocabulary = cache.readQuery({
+                    query: getLevels,
+                    variables: {courseId: this.props.course.id}
+                  })
+                  var {levels} = getVocabulary.getLevels
+                  cache.writeQuery({
+                    query: getLevels,
+                    variables: {
+                      courseId: this.props.course.id
+                    },
+                    data: {
+                      getLevels: {
+                        levels: levels.concat([vocabularyCreate.level])
+                      }
+                    }
+                  })
+                } catch (err) {
+                  console.log("err: ", err)
+                }
+              }}>
+              {(vocabularyCreate, {loading}) => {
                 return loading ? (
                   <CircularProgress />
                 ) : (
@@ -479,22 +511,21 @@ class Vocabulary extends Component {
               />
             ),
             Cell: row => (
-              <div>hi</div>
-              /* <Can */
-              /*   roles={user.roles} */
-              /*   perform="course:update-vocabulary" */
-              /*   id={user.username} */
-              /*   matchingID={course.owner.username} */
-              /*   yes={() => ( */
-              /*     <VocabularyDeleteModal */
-              /*       row={row} */
-              /*       {...this.state} */
-              /*       closeDeleteModal={this.closeDeleteModal} */
-              /*       handleDelete={this.handleDelete} */
-              /*     /> */
-              /*   )} */
-              /*   no={() => null} */
-              /* /> */
+              <Can
+                roles={user.roles}
+                perform="course:update-vocabulary"
+                id={user.username}
+                matchingID={course.owner.username}
+                yes={() => (
+                  <VocabularyDeleteModal
+                    row={row}
+                    {...this.state}
+                    closeDeleteModal={this.closeDeleteModal}
+                    handleDelete={this.handleDelete}
+                  />
+                )}
+                no={() => null}
+              />
             ),
             minWidth: 90,
             maxWidth: 100
@@ -535,16 +566,14 @@ class Vocabulary extends Component {
             )
 
           const {levels} = data.getLevels
-          var {globalLevel} = this.state
           var tableData
 
-          const dataLevel = levels.filter(level => {
-            return level.level === globalLevel
+          const dataLevel = levels.filter(item => {
+            return item.level === level.level
           })
 
           if (dataLevel[0]) {
             tableData = dataLevel[0].vocabulary
-            console.log("tableData: ", tableData)
           }
 
           return (
@@ -558,7 +587,7 @@ class Vocabulary extends Component {
                     className={`${classes[levelError]}`}
                     variant="outlined">
                     <Select
-                      value={this.state.globalLevel}
+                      value={level ? level.level : 0}
                       className={classes.formControl}
                       onChange={this.handleGlobalLevelChg(levels)}>
                       {levels.map(item => {

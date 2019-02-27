@@ -37,7 +37,6 @@ const initialState = orm.getEmptyState()
 /* } */
 
 export function loadData(state, payload) {
-  console.log("payload: ", payload)
   const session = orm.session(state)
   const entities = ["course", "level", "user", "zone"]
   const payloadKeys = Object.keys(payload)
@@ -52,7 +51,6 @@ export function loadData(state, payload) {
 
 export function resetGlobalLevel(state) {
   const session = orm.session(state)
-  console.log("session: ", session.Level)
   session.Level.reset()
   return session.state
 }

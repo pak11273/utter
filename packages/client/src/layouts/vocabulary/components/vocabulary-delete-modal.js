@@ -31,12 +31,12 @@ class VocabularyDeleteModal extends Component {
 
     return (
       <Composed>
-        {({container: {levelDelete}}) => {
-          const xhrDeleteLevel = async () => {
-            const finished = await levelDelete.mutation({
+        {({container: {vocabularyDelete}}) => {
+          const xhrDeleteVocabulary = async () => {
+            const finished = await vocabularyDelete.mutation({
               variables: {courseId, level: modalLevel, title: modalTitle}
             })
-            if (finished.data.levelDelete.level.level) {
+            if (finished.data.vocabularyDelete.level.level) {
               closeDeleteModal()
             }
           }
@@ -61,7 +61,7 @@ class VocabularyDeleteModal extends Component {
                 </DialogContent>
                 <DialogActions>
                   <Button
-                    onClick={xhrDeleteLevel}
+                    onClick={xhrDeleteVocabulary}
                     variant="outlined"
                     style={{
                       backgroundColor: "red",
@@ -70,7 +70,7 @@ class VocabularyDeleteModal extends Component {
                     }}>
                     Delete
                   </Button>
-                  <Button onClick={closeDeleteModal} color="primary">
+                  <Button onClick={closeDeleteModal} color="secondary">
                     Cancel
                   </Button>
                 </DialogActions>

@@ -6,7 +6,7 @@ import {LEVEL_SELECT} from "./types.js"
 const initialState = {
   currentLevel: {
     title: "",
-    level: "",
+    level: null,
     id: ""
   }
 }

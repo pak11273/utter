@@ -1,4 +1,3 @@
-/* eslint no-unused-vars: 0 */
 import React, {PureComponent} from "react"
 import ReactTable from "react-table"
 import update from "immutability-helper"
@@ -8,13 +7,6 @@ import {connect} from "react-redux"
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import Grid from "@material-ui/core/Grid"
-import DeleteIcon from "@material-ui/icons/Delete"
-import Dialog from "@material-ui/core/Dialog"
-import DialogActions from "@material-ui/core/DialogActions"
-import DialogContent from "@material-ui/core/DialogContent"
-import DialogContentText from "@material-ui/core/DialogContentText"
-import DialogTitle from "@material-ui/core/DialogTitle"
-import IconButton from "@material-ui/core/IconButton"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import TextField from "@material-ui/core/TextField"
@@ -25,8 +17,7 @@ import {withStyles} from "@material-ui/core/styles"
 import {LevelDeleteModal} from "../components"
 import {Can, Hero, LoaderCircle} from "../../../components"
 
-import {graphql, Mutation, Query} from "react-apollo"
-import gql from "graphql-tag"
+import {Mutation, Query} from "react-apollo"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
 import schema from "../../../core/schema.js"
@@ -152,7 +143,7 @@ class Levels extends PureComponent {
   }
 
   render() {
-    const {classes, course, level, user} = this.props
+    const {classes, course, user} = this.props
     const levelError = classNames({
       errorClass:
         this.state.formErrors.path === "level" &&
@@ -248,7 +239,7 @@ class Levels extends PureComponent {
         ]
       },
       {
-        Header: row => (
+        Header: () => (
           <div className={classes.addButton}>
             <Mutation
               mutation={levelCreate}
@@ -274,7 +265,7 @@ class Levels extends PureComponent {
                   console.log("err: ", err)
                 }
               }}>
-              {(levelCreate, {loading, error, data}) => {
+              {(levelCreate, {loading}) => {
                 return loading ? (
                   <CircularProgress />
                 ) : (
@@ -373,7 +364,7 @@ class Levels extends PureComponent {
             !isEmpty(data.getLevels.levels) &&
             typeof data.getLevels !== "undefined"
           ) {
-            const level = data.getLevels.levels
+            /* const level = data.getLevels.levels */
           }
 
           return (
@@ -402,17 +393,6 @@ class Levels extends PureComponent {
                   columns={columns}
                   defaultPageSize={10}
                 />
-              </Grid>
-              <Grid item style={{display: "flex", justifyContent: "center"}}>
-                {/*  <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  type="submit"
-                  onClick={this.onButtonClick}
-                  size="large">
-                  Save
-                </Button> */}
               </Grid>
             </Grid>
           )
