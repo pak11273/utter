@@ -42,7 +42,10 @@ var VocabularySchema = exports.VocabularySchema = new _mongoose.Schema({
     required: [true, "can't be blank"]
   },
   gender: {
-    types: String
+    type: String
+  },
+  level: {
+    type: Number
   },
   levelId: {
     type: _mongoose.Schema.Types.ObjectId,

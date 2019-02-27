@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.vocabularyResolvers = undefined;
 
+var _typeof2 = require("babel-runtime/helpers/typeof");
+
+var _typeof3 = _interopRequireDefault(_typeof2);
+
 var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -187,7 +191,7 @@ var vocabularyUpdate = function vocabularyUpdate(_, _ref5) {
 
 var vocabularyCreate = function () {
   var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input;
+    var arrayOfErrors, token, user, input, vocabulary;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -214,35 +218,30 @@ var vocabularyCreate = function () {
             input = args.input;
 
             console.log("input: ", input);
-            /* const vocabulary = await Course.findOneAndUpdate( */
-            /*   { */
-            /*     _id: input.courseId, */
-            /*     "vocabulary.vocabulary": { */
-            /*       $ne: input.vocabulary */
-            /*     } */
-            /*   }, */
-            /*   { */
-            /*     $push: { */
-            /*       vocabulary: { */
-            /*         vocabulary: input.vocabulary, */
-            /*         title: input.title */
-            /*       } */
-            /*     } */
-            /*   }, */
-            /*   {new: true} */
-            /* ) */
-            /* if (!vocabulary) { */
-            /*   arrayOfErrors.push({ */
-            /*     path: "vocabulary", */
-            /*     message: "Courses cannot have duplicate vocabulary numbers." */
-            /*   }) */
-            /* } */
-            /* return { */
-            /*   vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1], */
-            /*   errors: arrayOfErrors */
-            /* } */
+            console.log("tpeof : ", (0, _typeof3.default)(input.level));
+            _context3.next = 12;
+            return _courseModel2.default.findOneAndUpdate({
+              _id: input.courseId,
+              "levels.level": {
+                $eq: input.level
+              }
+            }, {
+              $push: {
+                "levels.$.vocabulary": {
+                  audioUrl: input.audioUrl,
+                  courseId: input.courseId,
+                  gender: input.gender,
+                  level: 1,
+                  translation: input.translation,
+                  word: input.word
+                }
+              }
+            }, { new: true });
 
-          case 9:
+          case 12:
+            vocabulary = _context3.sent;
+
+          case 13:
           case "end":
             return _context3.stop();
         }

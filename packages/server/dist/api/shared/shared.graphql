@@ -2,8 +2,3 @@ type Error {
   path: String!
   message: String!
 }
-
-type Payload {
-	level: Level
-  errors: [Error]
-}
