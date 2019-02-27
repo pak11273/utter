@@ -69,9 +69,9 @@ class Vocabulary extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      level: this.props.level.level
-    })
+    /* this.setState({ */
+    /*   level: this.props.level.level */
+    /* }) */
     this.props.toggleFooter(false)
   }
 
@@ -162,7 +162,6 @@ class Vocabulary extends Component {
       this.setState({
         secure_url: secureUrl
       })
-
       vocabularyCreate({
         variables: {
           input: {
@@ -199,7 +198,43 @@ class Vocabulary extends Component {
       })
     }
 
-    xhr.send(formdata)
+    if (this.state.audioBlob) {
+      xhr.send(formdata)
+    } else {
+      vocabularyCreate({
+        variables: {
+          input: {
+            courseId: this.props.course.id,
+            gender: this.state.gender,
+            level: this.state.level,
+            translation: this.state.translation,
+            word: this.state.word
+          }
+        }
+      })
+
+      // reset state
+      this.setState({
+        audioBlob: "",
+        female: false,
+        formErrors: {
+          errors: []
+        },
+        gender: null,
+        globalLevels: [],
+        labelWidth: 0,
+        male: false,
+        modalGender: "",
+        modalWord: "",
+        modalTranslation: "",
+        modalAudio: "",
+        openAudioModal: false,
+        secure_url: "",
+        value: "level",
+        word: "",
+        translation: ""
+      })
+    }
   }
 
   handleDelete = row => () => {

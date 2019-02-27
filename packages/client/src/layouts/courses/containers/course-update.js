@@ -17,6 +17,7 @@ import styled from "styled-components"
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
 import {Can, Spacer} from "../../../components"
+import {resetGlobalLevel} from "../../../api/actions.js"
 
 /* const getCourse = gql` */
 /*   query getCourse($courseId: String) { */
@@ -81,6 +82,10 @@ class CourseUpdate extends Component {
     super(props)
 
     this.state = cloneDeep(initialCoursesContainerState)
+  }
+
+  componentDidMount() {
+    this.props.resetGlobalLevel()
   }
 
   handleImageClick = e => {
@@ -204,7 +209,11 @@ const mapStateToProps = state => {
   }
 }
 
+const actions = {
+  resetGlobalLevel
+}
+
 export default connect(
   mapStateToProps,
-  null
+  actions
 )(withStyles(styles)(CourseUpdate))
