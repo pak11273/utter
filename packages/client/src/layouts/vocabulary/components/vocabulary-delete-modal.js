@@ -11,7 +11,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import IconButton from "@material-ui/core/IconButton"
 import Typography from "@material-ui/core/Typography"
 
-import VocabularyCtrl from "../containers/vocabulary-controller.js"
+import VocabularyCtrl from "../containers/vocabulary-ctrl.js"
 
 const Composed = adopt({
   container: <VocabularyCtrl />

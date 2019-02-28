@@ -35,7 +35,7 @@ type PaginatedVocabulary {
 }
 
 extend type Query {
-  getVocabulary(vocabularyId: String!): Vocabulary!
+  getVocabulary(levelId: String!): Vocabulary!
   getVocabularies(
 		level: Int
   ): PaginatedVocabulary 

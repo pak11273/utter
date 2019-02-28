@@ -7,21 +7,12 @@ export const VocabularySchema = new Schema({
     type: String,
     required: [true, "can't be blank"]
   },
-  courseId: {
-    type: Schema.Types.ObjectId,
-    ref: "Course",
-    required: [true, "can't be blank"]
-  },
   gender: {
     type: String
   },
   level: {
-    type: Number
-  },
-  levelId: {
-    type: Schema.Types.ObjectId,
-    ref: "Level",
-    required: [true, "can't be blank"]
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Level"
   },
   translation: [
     {

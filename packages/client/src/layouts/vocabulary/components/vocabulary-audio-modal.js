@@ -20,7 +20,7 @@ import {bytesToSize} from "../../../utils/helpers.js"
 import CryptoJS from "crypto-js"
 import isEmpty from "lodash/isEmpty"
 import RecordRTC from "recordrtc"
-import VocabularyCtrl from "../containers/vocabulary-controller.js"
+import VocabularyCtrl from "../containers/vocabulary-ctrl.js"
 import {withStyles} from "@material-ui/core/styles"
 
 const Composed = adopt({

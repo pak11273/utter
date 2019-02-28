@@ -8,7 +8,7 @@ import FormGroup from "@material-ui/core/FormGroup"
 import Checkbox from "@material-ui/core/Checkbox"
 
 import Button from "@material-ui/core/Button"
-import CircularProgress from "@material-ui/core/CircularProgress"
+/* import CircularProgress from "@material-ui/core/CircularProgress" */
 import FormControl from "@material-ui/core/FormControl"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
 import Grid from "@material-ui/core/Grid"
@@ -20,7 +20,7 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import {Mutation, Query} from "react-apollo"
+/* import {Mutation} from "react-apollo" */
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
 import {vocabularySchema} from "@utterzone/common"
@@ -29,9 +29,8 @@ import update from "immutability-helper"
 import {VocabularyAudioModal, VocabularyDeleteModal} from "../components"
 import {Can, Hero, LoaderCircle, TogglePlay} from "../../../components"
 
+import VocabularyCtrl from "./vocabulary-ctrl.js"
 import {loadData, resetGlobalLevel} from "../../../api/actions.js"
-import {vocabularyCreate} from "../xhr.js"
-import {getLevels} from "../../levels/xhr.js"
 import {styles} from "../styles.js"
 
 // actions
@@ -75,7 +74,7 @@ class Vocabulary extends Component {
     this.props.toggleFooter(false)
   }
 
-  addWord = vocabularyCreate => async e => {
+  addWord = handleVocabularyCreateMutation => async e => {
     e.preventDefault()
 
     // reset errors
@@ -98,7 +97,7 @@ class Vocabulary extends Component {
 
     /* // mutate if no errors */
     if (isEmpty(this.state.formErrors.errors)) {
-      this.handleAudioUpload(this.state.audioBlob, vocabularyCreate)
+      this.handleAudioUpload(this.state.audioBlob, handleVocabularyCreateMutation)
     }
   }
 
@@ -141,8 +140,9 @@ class Vocabulary extends Component {
     })
   }
 
-  handleAudioUpload = async (file, vocabularyCreate) => {
+  handleAudioUpload = async (file, handleVocabularyCreateMutation) => {
     var formdata = new FormData()
+		var levelId = "someString"
 
     formdata.append("file", file)
     formdata.append("cloud_name", "dgvw5b6pf")
@@ -162,18 +162,7 @@ class Vocabulary extends Component {
       this.setState({
         secure_url: secureUrl
       })
-      vocabularyCreate({
-        variables: {
-          input: {
-            audioUrl: this.state.secure_url,
-            courseId: this.props.course.id,
-            gender: this.state.gender,
-            level: this.state.level,
-            translation: this.state.translation,
-            word: this.state.word
-          }
-        }
-      })
+      handleVocabularyCreateMutation(levelId)
 
       // reset state
       this.setState({
@@ -201,17 +190,8 @@ class Vocabulary extends Component {
     if (this.state.audioBlob) {
       xhr.send(formdata)
     } else {
-      vocabularyCreate({
-        variables: {
-          input: {
-            courseId: this.props.course.id,
-            gender: this.state.gender,
-            level: this.state.level,
-            translation: this.state.translation,
-            word: this.state.word
-          }
-        }
-      })
+
+      handleVocabularyCreateMutation(levelId)
 
       // reset state
       this.setState({
@@ -484,51 +464,31 @@ class Vocabulary extends Component {
       {
         Header: () => (
           <div className={classes.addButton}>
-            <Mutation
-              mutation={vocabularyCreate}
-              update={(cache, {data: {vocabularyCreate}}) => {
-                try {
-                  var getVocabulary = cache.readQuery({
-                    query: getLevels,
-                    variables: {courseId: this.props.course.id}
-                  })
-                  var {levels} = getVocabulary.getLevels
-                  cache.writeQuery({
-                    query: getLevels,
-                    variables: {
-                      courseId: this.props.course.id
-                    },
-                    data: {
-                      getLevels: {
-                        levels: levels.concat([vocabularyCreate.level])
-                      }
-                    }
-                  })
-                } catch (err) {
-                  console.log("err: ", err)
-                }
-              }}>
-              {(vocabularyCreate, {loading}) => {
-                return loading ? (
-                  <CircularProgress />
-                ) : (
-                  <Can
+            <VocabularyCtrl>
+               {(vocabularyCreateMutation) => { 
+								 const handleVocabularyCreateMutation = async (levelId) => {
+									 await vocabularyCreateMutation.mutation({
+										 variables: { levelId }
+									 })
+								 }
+                /* return loading ? ( */
+                /*   <CircularProgress /> */
+                /* ) : ( */
+								 return <Can
                     roles={user.roles}
                     perform="course:update-vocabulary"
                     id={user.username}
                     matchingID={course.owner.username}
                     yes={() => (
-                      <Button
-                        type="submit"
-                        onClick={this.addWord(vocabularyCreate)}>
+                      <Button type="submit" onClick={this.addWord(handleVocabularyCreateMutation)}>
                         Add Word
                       </Button>
                     )}
                     no={() => null}
                   />
-                )
+                /* ) */
               }}
-            </Mutation>
+            </VocabularyCtrl>
           </div>
         ),
         columns: [
@@ -569,21 +529,18 @@ class Vocabulary extends Component {
       }
     ]
     return (
-      <Query
-        errorPolicy="all"
-        query={getLevels}
-        variables={{
-          courseId: course.id
-        }}>
-        {({loading, error, data}) => {
-          if (loading) {
+      <VocabularyCtrl>
+        {({getLevelsQuery}) => {
+
+          if (getLevelsQuery.loading) {
             return <LoaderCircle />
           }
-          if (error)
+
+          if (getLevelsQuery.error)
             return (
               <Grid>
                 <pre>
-                  {error.graphQLErrors.map(({message}, i) => (
+                  {getLevelsQuery.error.graphQLErrors.map(({message}, i) => (
                     <p
                       style={{
                         fontSize: "1em",
@@ -600,7 +557,9 @@ class Vocabulary extends Component {
               </Grid>
             )
 
-          const {levels} = data.getLevels
+          console.log("level.level: ", level.level)
+
+          const {levels} = getLevelsQuery.data.getLevels
           var tableData
 
           const dataLevel = levels.filter(item => {
@@ -610,6 +569,8 @@ class Vocabulary extends Component {
           if (dataLevel[0]) {
             tableData = dataLevel[0].vocabulary
           }
+
+          console.log("tableData: ", tableData)
 
           return (
             <Grid container direction="column">
@@ -664,7 +625,7 @@ class Vocabulary extends Component {
             </Grid>
           )
         }}
-      </Query>
+      </VocabularyCtrl>
     )
   }
 }

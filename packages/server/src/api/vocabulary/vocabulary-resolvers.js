@@ -11,8 +11,9 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
-const getVocabulary = async (_, {vocabularyId}, {user}) => {
-  const vocabulary = await Vocabulary.findById(vocabularyId).exec()
+const getVocabulary = async (_, {levelId}, {user}) => {
+  console.log("levelId: ", levelId)
+  const vocabulary = await Vocabulary.findById(levelId).exec()
   if (!vocabulary) {
     throw new Error("Cannot find vocabulary with id")
   }
@@ -70,6 +71,7 @@ const vocabularyUpdate = (_, {input}) => {
 }
 
 const vocabularyCreate = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   let arrayOfErrors = []
   const token = ctx.req.headers.authorization
   if (token === "null") {
@@ -81,8 +83,6 @@ const vocabularyCreate = async (_, args, ctx, info) => {
   })
 
   const {input} = args
-  console.log("input: ", input)
-  console.log("tpeof : ", typeof input.level)
   const vocabulary = await Course.findOneAndUpdate(
     {
       _id: input.courseId,
@@ -96,7 +96,6 @@ const vocabularyCreate = async (_, args, ctx, info) => {
           audioUrl: input.audioUrl,
           courseId: input.courseId,
           gender: input.gender,
-          level: 1,
           translation: input.translation,
           word: input.word
         }
@@ -105,16 +104,23 @@ const vocabularyCreate = async (_, args, ctx, info) => {
     {new: true}
   )
 
-  /* if (!vocabulary) { */
-  /*   arrayOfErrors.push({ */
-  /*     path: "vocabulary", */
-  /*     message: "Courses cannot have duplicate vocabulary numbers." */
-  /*   }) */
-  /* } */
-  /* return { */
-  /*   vocabulary: vocabulary.vocabulary[vocabulary.vocabulary.length - 1], */
-  /*   errors: arrayOfErrors */
-  /* } */
+  if (!vocabulary) {
+    arrayOfErrors.push({
+      path: "vocabulary",
+      message:
+        "Server Error: Could not save new vocabulary. Please contact technical support."
+    })
+  }
+
+  const vocabularyArr = vocabulary.levels[0].vocabulary
+  const vocabularyObj = vocabularyArr[vocabularyArr.length - 1]
+  vocabularyObj.toObject()
+  vocabularyObj.id = vocabularyObj._id
+  console.log("vocabularyObj; ", vocabularyObj)
+  return {
+    vocabulary: vocabularyObj,
+    errors: arrayOfErrors
+  }
 }
 
 const getVocabularies = async (_, args, ctx, info) => {

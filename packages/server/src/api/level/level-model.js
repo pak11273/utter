@@ -19,14 +19,8 @@ export const LevelSchema = new Schema({
   },
   vocabulary: [
     {
-      gender: {type: String},
-      levelId: {
-        type: Schema.Types.ObjectId,
-        ref: "Level"
-      },
-      word: {type: String},
-      translation: {type: String},
-      audioUrl: String
+      type: Schema.Types.ObjectId,
+      ref: "Vocabulary"
     }
   ],
   grammar: [
