@@ -1,4 +1,4 @@
-import React, {PureComponent} from "react"
+import React, {Component} from "react"
 import ReactTable from "react-table"
 import update from "immutability-helper"
 import "react-table/react-table.css"
@@ -28,10 +28,10 @@ import {styles} from "../styles.js"
 import {getLevels, levelCreate} from "../xhr.js"
 
 // actions
-/* import {loadData} from "../../../api/actions.js" */
+import {loadData} from "../../../api/actions.js"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
-class Levels extends PureComponent {
+class Levels extends Component {
   constructor(props) {
     super(props)
 
@@ -140,6 +140,10 @@ class Levels extends PureComponent {
       level: {$set: ""}
     })
     this.setState(labelState)
+  }
+
+  loadData = payload => {
+    this.props.loadData(payload)
   }
 
   render() {
@@ -358,14 +362,10 @@ class Levels extends PureComponent {
               </Grid>
             )
 
-          if (
-            data &&
-            !isEmpty(data) &&
-            !isEmpty(data.getLevels.levels) &&
-            typeof data.getLevels !== "undefined"
-          ) {
-            /* const level = data.getLevels.levels */
-          }
+          /* if (!isEmpty(data.getLevels.levels)) { */
+          /*   console.log("data: ", data.getLevels.levels) */
+          /*   this.loadData({level: data.getLevels.levels}) */
+          /* } */
 
           return (
             <Grid container direction="column">
@@ -421,5 +421,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  {toggleFooter}
+  {loadData, toggleFooter}
 )(withStyles(styles)(Levels))

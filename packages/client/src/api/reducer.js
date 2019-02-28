@@ -38,6 +38,7 @@ const initialState = orm.getEmptyState()
 
 export function loadData(state, payload) {
   const session = orm.session(state)
+  // DO NOT USE "type" as an entity
   const entities = ["course", "level", "user", "zone"]
   const payloadKeys = Object.keys(payload)
   payloadKeys.map(key => {
