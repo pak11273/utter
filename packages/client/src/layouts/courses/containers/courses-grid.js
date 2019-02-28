@@ -14,12 +14,14 @@ import CardMedia from "@material-ui/core/CardMedia"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
+import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
 import {store} from "../../../store.js"
+import {subsToSize} from "../../../utils/helpers.js"
 
 // actions
 import {loadData} from "../../../api/actions.js"
@@ -67,7 +69,7 @@ const drawerWidth = 240
 const styles = theme => ({
   actions: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "space-between"
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1
@@ -330,10 +332,17 @@ class CoursesGrid extends PureComponent {
                           </Typography>
                         </CardContent>
                         <CardActions className={classes.actions}>
+                          <PersonIcon />
+                          <Typography
+                            className={classes.cardUsername}
+                            gutterBottom>
+                            {subsToSize(card.subscribers)}
+                          </Typography>
                           <Button
                             onClick={() => this.handleImageClick(card)}
                             size="large"
                             className={classes.editButton}>
+                            {" "}
                             VIEW
                           </Button>
                         </CardActions>

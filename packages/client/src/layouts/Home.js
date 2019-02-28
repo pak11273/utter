@@ -68,6 +68,7 @@ class Home extends Component {
 
   render() {
     const {classes} = this.props
+    console.log("props: ", this.props)
     return (
       <React.Fragment>
         <Masthead

@@ -11,6 +11,7 @@ type Course {
   levels: [Level]
   owner: User
 	resources: [Resource]
+	subscribers: Int
   teachingLang: String
   usingLang: String
   updatedAt: String

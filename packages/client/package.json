@@ -18,7 +18,7 @@
     "@utterzone/connector": "^1.0.0",
     "apollo-boost": "^0.1.16",
     "apollo-cache-inmemory": "^1.3.9",
-    "apollo-client": "^2.4.5",
+    "apollo-client": "^2.5.1",
     "apollo-link": "^1.2.3",
     "apollo-link-context": "^1.0.9",
     "apollo-link-error": "^1.1.1",

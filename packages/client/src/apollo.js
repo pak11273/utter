@@ -1,21 +1,14 @@
 import {ApolloClient} from "apollo-client"
 import {ApolloLink} from "apollo-link"
 import {InMemoryCache} from "apollo-cache-inmemory"
-import {withClientState} from "apollo-link-state"
 import {createPersistedQueryLink} from "apollo-link-persisted-queries"
 import {HttpLink} from "apollo-link-http"
-import defaults from "./defaults.js"
+import typeDefs from "./typeDefs.js"
 import resolvers from "./resolvers.js"
 
 const cache = new InMemoryCache({
   dataIdFromObject: object => object.key || null,
   addTypename: false
-})
-
-const stateLink = withClientState({
-  cache,
-  defaults,
-  resolvers
 })
 
 const httpLink = new HttpLink({
@@ -33,5 +26,13 @@ const persistLink = createPersistedQueryLink()
 
 export default new ApolloClient({
   cache,
-  link: ApolloLink.from([stateLink, persistLink, httpLink])
+  link: ApolloLink.from([persistLink, httpLink]),
+  resolvers,
+  typeDefs
+})
+
+cache.writeData({
+  data: {
+    isLoggedIn: !!localStorage.getItem("AUTH_TOKEN")
+  }
 })
