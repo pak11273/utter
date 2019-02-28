@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[56],{YCHo:function(e,t){try{e.exports="undefined"!=typeof XMLHttpRequest&&"withCredentials"in new XMLHttpRequest}catch(t){e.exports=!1}}}]);
+//# sourceMappingURL=bundle.npm.has-cors.0865ee7bfe595e52bc41.js.map
