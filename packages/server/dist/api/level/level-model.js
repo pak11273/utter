@@ -48,14 +48,8 @@ var LevelSchema = exports.LevelSchema = new _mongoose.Schema({
     required: [true, "can't be blank"]
   },
   vocabulary: [{
-    gender: { type: String },
-    levelId: {
-      type: _mongoose.Schema.Types.ObjectId,
-      ref: "Level"
-    },
-    word: { type: String },
-    translation: { type: String },
-    audioUrl: String
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "Vocabulary"
   }],
   grammar: [{
     rule: { type: String },

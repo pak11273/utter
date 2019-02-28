@@ -36,21 +36,12 @@ var VocabularySchema = exports.VocabularySchema = new _mongoose.Schema({
     type: String,
     required: [true, "can't be blank"]
   },
-  courseId: {
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "Course",
-    required: [true, "can't be blank"]
-  },
   gender: {
     type: String
   },
   level: {
-    type: Number
-  },
-  levelId: {
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "Level",
-    required: [true, "can't be blank"]
+    type: _mongoose2.default.Schema.Types.ObjectId,
+    ref: "Level"
   },
   translation: [{
     type: String,

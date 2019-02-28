@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.vocabularyResolvers = undefined;
 
-var _typeof2 = require("babel-runtime/helpers/typeof");
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 var _objectWithoutProperties2 = require("babel-runtime/helpers/objectWithoutProperties");
 
 var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
@@ -71,30 +67,31 @@ var escapeRegex = function escapeRegex(text) {
 
 var getVocabulary = function () {
   var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, _ref3) {
-    var vocabularyId = _ref2.vocabularyId;
+    var levelId = _ref2.levelId;
     var user = _ref3.user;
     var vocabulary;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return _vocabularyModel2.default.findById(vocabularyId).exec();
+            console.log("levelId: ", levelId);
+            _context.next = 3;
+            return _vocabularyModel2.default.findById(levelId).exec();
 
-          case 2:
+          case 3:
             vocabulary = _context.sent;
 
             if (vocabulary) {
-              _context.next = 5;
+              _context.next = 6;
               break;
             }
 
             throw new Error("Cannot find vocabulary with id");
 
-          case 5:
+          case 6:
             return _context.abrupt("return", vocabulary);
 
-          case 6:
+          case 7:
           case "end":
             return _context.stop();
         }
@@ -191,35 +188,33 @@ var vocabularyUpdate = function vocabularyUpdate(_, _ref5) {
 
 var vocabularyCreate = function () {
   var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input, vocabulary;
+    var arrayOfErrors, token, user, input, vocabulary, vocabularyArr, vocabularyObj;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
+            console.log("args: ", args);
             arrayOfErrors = [];
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context3.next = 4;
+              _context3.next = 5;
               break;
             }
 
             return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 4:
-            _context3.next = 6;
+          case 5:
+            _context3.next = 7;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context3.sent;
             input = args.input;
-
-            console.log("input: ", input);
-            console.log("tpeof : ", (0, _typeof3.default)(input.level));
-            _context3.next = 12;
+            _context3.next = 11;
             return _courseModel2.default.findOneAndUpdate({
               _id: input.courseId,
               "levels.level": {
@@ -231,17 +226,35 @@ var vocabularyCreate = function () {
                   audioUrl: input.audioUrl,
                   courseId: input.courseId,
                   gender: input.gender,
-                  level: 1,
                   translation: input.translation,
                   word: input.word
                 }
               }
             }, { new: true });
 
-          case 12:
+          case 11:
             vocabulary = _context3.sent;
 
-          case 13:
+
+            if (!vocabulary) {
+              arrayOfErrors.push({
+                path: "vocabulary",
+                message: "Server Error: Could not save new vocabulary. Please contact technical support."
+              });
+            }
+
+            vocabularyArr = vocabulary.levels[0].vocabulary;
+            vocabularyObj = vocabularyArr[vocabularyArr.length - 1];
+
+            vocabularyObj.toObject();
+            vocabularyObj.id = vocabularyObj._id;
+            console.log("vocabularyObj; ", vocabularyObj);
+            return _context3.abrupt("return", {
+              vocabulary: vocabularyObj,
+              errors: arrayOfErrors
+            });
+
+          case 19:
           case "end":
             return _context3.stop();
         }
