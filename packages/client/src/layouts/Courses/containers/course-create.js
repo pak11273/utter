@@ -1,8 +1,6 @@
 import {Helmet} from "react-helmet"
 import {compose, graphql} from "react-apollo"
-import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
-/* import TextField from "@material-ui/core/TextField" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import gql from "graphql-tag"
@@ -21,7 +19,14 @@ import {courseCreateSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
 import CryptoJS from "crypto-js"
 import languageData from "../../../data/languageData.js"
-import {Flex, FormikInput, FormikTextArea, Img, Span} from "../../../components"
+import {
+  Flex,
+  FormikInput,
+  FormikTextArea,
+  Img,
+  LoadingButton,
+  Span
+} from "../../../components"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {fetchCourseName} from "../actions.js"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
@@ -246,96 +251,53 @@ class CourseCreate extends Component {
   handleImageUpload(files) {
     // remove previous files from cdn
     if (!isEmpty(this.state.uploadedFile)) {
-      console.log("file: ", this.state.uploadedFile)
       this.handleImageDelete(this.state)
     }
 
     var file = files[0]
     var formdata = new FormData()
-    var cloud_name = "dgvw5b6pf"
 
     formdata.append("file", file)
-    formdata.append("cloud_name", "dgvw5b6pf")
-    formdata.append("upload_preset", "z28ks5gg")
+    formdata.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME)
+    formdata.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET)
 
     var xhr = new XMLHttpRequest()
     xhr.open(
       "POST",
-      `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+      `https://api.cloudinary.com/v1_1/${
+        process.env.CLOUDINARY_CLOUD_NAME
+      }/image/upload`,
       true
     )
 
-    xhr.onload = () => {
-      // do something to response
-      console.log(this.responseText)
+    xhr.onprogress = () => {
+      this.setState({
+        loading: true,
+        disabled: true
+      })
     }
+
+    xhr.onload = () => {
+      this.setState({
+        loading: false,
+        disabled: false
+      })
+    }
+
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState === 4) {
+        const data = JSON.parse(xhr.response)
+        this.setState({
+          courseImage: data.secure_url,
+          public_id: data.public_id,
+          secure_url: data.secure_url,
+          signature: data.signature,
+          url: data.url
+        })
+      }
+    }
+
     xhr.send(formdata)
-
-    /* // Push all the axios request promise into a single array */
-    /* const uploaders = files.map(file => { */
-    /*   // Initial FormData */
-    /*   const formData = new FormData() */
-    /*   formData.append("file", file) */
-    /*   formData.append("tags", `course-name`) */
-    /*   formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own */
-    /*   formData.append("folder", "course-thumbnails") // Folder to place image in */
-    /*   formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key */
-    /*   formData.append("timestamp", Date.now() / 1000 || 0) */
-
-    /*   // set loading and disable submit */
-    /*   const newState = update( */
-    /*     this.state, */
-    /*     { */
-    /*       loading: {$set: true}, */
-    /*       disable: {$set: true} */
-    /*     }, */
-    /*     () => console.log("state: ", this.state) */
-    /*   ) */
-
-    /*   this.setState(newState) */
-
-    /*   // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own) */
-    /*   return axios({ */
-    /*     method: "POST", */
-    /*     url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/", */
-    /*     data: formData */
-    /*   }) */
-    /*     .then(res => { */
-    /*       const {data} = res */
-    /*       console.log("data: ", data) */
-
-    /*       const newState = update(this.state, { */
-    /*         public_id: {$set: data.public_id}, */
-    /*         secure_url: {$set: data.secure_url}, */
-    /*         signature: {$set: data.signature}, */
-    /*         url: {$set: data.url} */
-    /*       }) */
-
-    /*       this.setState(newState) */
-
-    /*       this.props.setFieldValue("courseImage", data.secure_url) */
-
-    /*       return data */
-    /*     }) */
-    /*     .catch(err => { */
-    /*       console.log("upload error: ", err) */
-    /*     }) */
-    /* }) */
-
-    /* // Once all the files are uploaded */
-    /* axios.all(uploaders).then(values => { */
-    /*   /1* const {id} = this.props.course *1/ */
-    /*   /1* const newCdn = {cdn: values[0]} *1/ */
-    /*   const courseImage = values[0].secure_url */
-
-    /*   const newState = update(this.state, { */
-    /*     courseImage: {$set: courseImage}, */
-    /*     loading: {$set: false}, */
-    /*     disable: {$set: false} */
-    /*   }) */
-
-    /*   this.setState(newState) */
-    /* }) */
   }
 
   render() {
@@ -386,6 +348,48 @@ class CourseCreate extends Component {
           {/* End hero unit */}
           <main className={classes.content}>
             <Grid container spacing={24}>
+              <Grid item>
+                <Typography align="left" variant="h6" gutterBottom>
+                  Course Thumbnail
+                </Typography>
+                <Typography align="left" variant="body1" gutterBottom>
+                  Format: png or jpg, Dimensions: ~300pxx300px, Maximum size
+                  limit: 500kb
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <div style={{margin: "50px", textAlign: "center"}}>
+                  {this.state.courseImage === "" ? (
+                    <p>Thumbnail Preview</p>
+                  ) : (
+                    <Img
+                      label="Course Thumbnail Preview"
+                      name="image"
+                      src={this.state.courseImage}
+                      size="small"
+                    />
+                  )}
+                  <p>{this.state.uploadedFile.name}</p>
+                  <Dropzone
+                    style={{
+                      margin: "50px auto",
+                      padding: "3px",
+                      position: "relative",
+                      width: "200px",
+                      height: "100px",
+                      borderWidth: "2px",
+                      borderColor: "rgb(102, 102, 102)",
+                      borderStyle: "dashed",
+                      borderRadius: "5px"
+                    }}
+                    maxSize={500000}
+                    multiple={false}
+                    accept="image/*"
+                    onDrop={this.onImageDrop}>
+                    <p>Drop an image or click to select a file to upload.</p>
+                  </Dropzone>
+                </div>
+              </Grid>
               <Grid item xs={12}>
                 <Typography
                   align="left"
@@ -409,7 +413,6 @@ class CourseCreate extends Component {
                   component={FormikInput}
                   margin="normal"
                   variant="outlined"
-                  disabled={this.state.disabled}
                 />
                 <Typography
                   align="left"
@@ -433,7 +436,6 @@ class CourseCreate extends Component {
                   component={FormikTextArea}
                   margin="normal"
                   variant="outlined"
-                  disabled={this.state.disabled}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -472,60 +474,22 @@ class CourseCreate extends Component {
                 </Typography>
                 <p>ie. Book, Classroom, Online Course</p>
                 <CourseResources addResources={this.addResources} />
-                <Typography
-                  align="left"
-                  variant="h6"
-                  className={classes.subHeading}
-                  gutterBottom>
-                  Course Thumbnail
-                </Typography>
-                <p>
-                  Format: png or jpg, Dimensions: ~300pxx300px, Maximum size
-                  limit: 500kb
-                </p>
-                <Grid item xs={12}>
-                  <div style={{margin: "50px"}}>
-                    {this.state.courseImage === "" ? (
-                      <p>Thumbnail Preview</p>
-                    ) : (
-                      <Img
-                        label="Course Thumbnail Preview"
-                        name="image"
-                        src={this.state.courseImage}
-                        size="small"
-                      />
-                    )}
-                  </div>
-                  <Dropzone
-                    style={{
-                      margin: "50px",
-                      padding: "3px",
-                      position: "relative",
-                      width: "200px",
-                      height: "100px",
-                      borderWidth: "2px",
-                      borderColor: "rgb(102, 102, 102)",
-                      borderStyle: "dashed",
-                      borderRadius: "5px"
-                    }}
-                    maxSize={500000}
-                    multiple={false}
-                    accept="image/*"
-                    onDrop={this.onImageDrop}>
-                    <p>Drop an image or click to select a file to upload.</p>
-                  </Dropzone>
-                  <p>{this.state.uploadedFile.name}</p>
-                </Grid>
-                <Grid item style={{display: "flex", justifyContent: "center"}}>
-                  <Button
+                <Grid
+                  item
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    margin: "60px"
+                  }}>
+                  <LoadingButton
                     variant="contained"
-                    color="primary"
-                    className={classes.button}
+                    color="secondary"
                     type="submit"
                     size="large"
-                    disabled={this.state.disabled}>
+                    loading={this.state.loading}
+                    disabled={this.state.loading}>
                     Create Course
-                  </Button>
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </Grid>

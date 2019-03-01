@@ -10,7 +10,11 @@ const styles = {
 }
 
 const SpinnerAdornment = withStyles(styles)(props => (
-  <CircularProgress className={props.classes.spinner} size={20} />
+  <CircularProgress
+    color="secondary"
+    className={props.classes.spinner}
+    size={20}
+  />
 ))
 
 export default props => {
