@@ -68,7 +68,8 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    width: "100%"
   },
   drawer: {
     width: drawerWidth,
@@ -288,37 +289,35 @@ class CoursesContainer extends PureComponent {
             paper: classes.drawerPaper
           }}>
           <Spacer margin="100px 0 0 0" />
-          <div align="center">
-            <Typography variant="h6" align="center" gutterBottom>
-              I speak:
+          <Typography variant="h6" align="center" gutterBottom>
+            I speak:
+          </Typography>
+          <ReactSelect
+            className={classes.select}
+            name="form-field-name"
+            value={this.state.usingLang}
+            onChange={this.handleSpeakingChange}
+            options={languageData}
+          />
+          <Spacer margin="40px 0 0 0" />
+          <Typography variant="h6" align="center" gutterBottom>
+            I want to learn:
+          </Typography>
+          <ReactSelect
+            className={classes.select}
+            name="form-field-name"
+            value={this.state.teachingLang}
+            onChange={this.handleTeachingChange}
+            options={languageData}
+          />
+          <Spacer margin="40px 0 0 0" />
+          <Divider />
+          <Spacer margin="40px 0 0 0" />
+          <Link component={RouterLink} to="/courses/created">
+            <Typography align="center" gutterBottom>
+              My Created Courses
             </Typography>
-            <ReactSelect
-              className={classes.select}
-              name="form-field-name"
-              value={this.state.usingLang}
-              onChange={this.handleSpeakingChange}
-              options={languageData}
-            />
-            <Spacer margin="40px 0 0 0" />
-            <Typography variant="h6" align="center" gutterBottom>
-              I want to learn:
-            </Typography>
-            <ReactSelect
-              className={classes.select}
-              name="form-field-name"
-              value={this.state.teachingLang}
-              onChange={this.handleTeachingChange}
-              options={languageData}
-            />
-            <Spacer margin="40px 0 0 0" />
-            <Divider />
-            <Spacer margin="40px 0 0 0" />
-            <Link component={RouterLink} to="/courses/created">
-              <Typography align="center" gutterBottom>
-                My Created Courses
-              </Typography>
-            </Link>
-          </div>
+          </Link>
         </Drawer>
         <main className={classes.content}>
           <Helmet>

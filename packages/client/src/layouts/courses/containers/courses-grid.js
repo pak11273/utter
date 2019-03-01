@@ -18,7 +18,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
 import {Query} from "react-apollo"
-import {getCourse} from "../../../state/queries.js"
+/* import {getCourse} from "../../../state/queries.js" */
 import gql from "graphql-tag"
 
 import {store} from "../../../store.js"
@@ -122,10 +122,6 @@ const styles = theme => ({
     width: "200px",
     overflow: "hidden",
     textOverflow: "ellipsis"
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3
   },
   drawer: {
     width: drawerWidth,
@@ -368,7 +364,7 @@ class CoursesGrid extends PureComponent {
                                 <Button
                                   onClick={this.handleImageClick(
                                     card,
-                                    getCourse,
+                                    /* getCourse, */
                                     data
                                   )}
                                   size="large"

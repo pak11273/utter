@@ -1,10 +1,11 @@
 import {Helmet} from "react-helmet"
-
+import {compose, graphql} from "react-apollo"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 /* import TextField from "@material-ui/core/TextField" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
+import gql from "graphql-tag"
 
 import {Field, withFormik} from "formik"
 import isEmpty from "lodash/isEmpty"
@@ -118,6 +119,44 @@ const styles = theme => ({
   }
 })
 
+const COURSE_CREATE = gql`
+  mutation courseCreate(
+    $courseName: String!
+    $courseImage: String
+    $courseDescription: String
+    $courseMode: String
+    $resources: [ResourceInput]
+    $teachingLang: String
+    $usingLang: String
+  ) {
+    courseCreate(
+      input: {
+        courseName: $courseName
+        courseImage: $courseImage
+        courseDescription: $courseDescription
+        courseMode: $courseMode
+        resources: $resources
+        teachingLang: $teachingLang
+        usingLang: $usingLang
+      }
+    ) {
+      id
+      courseName
+      owner {
+        username
+      }
+      courseDescription
+      courseMode
+      resources {
+        value
+        label
+      }
+      teachingLang
+      usingLang
+    }
+  }
+`
+
 class CourseCreate extends Component {
   constructor(props) {
     super(props)
@@ -172,12 +211,9 @@ class CourseCreate extends Component {
     }
 
     if (!isEmpty(files)) {
-      this.setState(
-        {
-          uploadedFile: files[0]
-        },
-        console.log("fiel: ", this.state.uploadedFile)
-      )
+      this.setState({
+        uploadedFile: files[0]
+      })
 
       this.handleImageUpload(files)
     }
@@ -432,10 +468,9 @@ class CourseCreate extends Component {
                     {this.state.courseImage === "" ? (
                       <p>Thumbnail Preview</p>
                     ) : (
-                      <Field
+                      <Img
                         label="Course Thumbnail Preview"
                         name="image"
-                        control={Img}
                         src={this.state.courseImage}
                         size="small"
                       />
@@ -496,44 +531,59 @@ export default connect(
   null,
   mapDispatchToProps
 )(
-  withFormik({
-    validationSchema: courseCreateSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      courseName: "",
-      courseImage:
-        "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/course-thumbnails/fa-image_kzo6kn.jpg",
-      courseDescription: "",
-      courseMode: "draft",
-      resources: [],
-      teachingLang: "",
-      usingLang: ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const result = await props.submit(values)
-      const onComplete = result => {
-        // TODO: push courseId to redux
-        history.push({
-          pathname: "/course/course-settings",
-          state: {courseId: result.course.id}
+  compose(graphql(COURSE_CREATE, {name: "courseCreate"}))(
+    withFormik({
+      validationSchema: courseCreateSchema,
+      validateOnChange: false,
+      validateOnBlur: false,
+      mapPropsToValues: () => ({
+        courseName: "",
+        courseImage:
+          "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/course-thumbnails/fa-image_kzo6kn.jpg",
+        courseDescription: "",
+        courseMode: "draft",
+        resources: [],
+        teachingLang: "",
+        usingLang: ""
+      }),
+      handleSubmit: async (values, {props, setErrors}) => {
+        /* const result = await props.submit(values) */
+        const result = await props.courseCreate({
+          variables: {
+            courseName: values.courseName,
+            courseDescription: values.courseDescription,
+            courseImage: values.courseImage,
+            courseMode: values.courseMode,
+            resources: values.resources,
+            teachingLang: values.teachingLang,
+            usingLang: values.usingLang
+          }
         })
-      }
+        console.log("result: ", result)
 
-      // if create is legit
-      if (result) {
-        onComplete(result)
-        props.actions.addFlashMessage({
-          type: "success",
-          text: "Start building your course."
-        })
-      } else {
-        setErrors(result.courseCreate.errors)
-        props.actions.addFlashMessage({
-          type: "error",
-          text: "Something went wrong. Could not create a course."
-        })
+        const onComplete = result => {
+          // TODO: push courseId to redux
+          history.push({
+            pathname: "/course/course-settings",
+            state: {courseId: result.course.id}
+          })
+        }
+
+        // if create is legit
+        if (result) {
+          onComplete(result)
+          props.actions.addFlashMessage({
+            type: "success",
+            text: "Start building your course."
+          })
+        } else {
+          setErrors(result.COURSE_CREATE.errors)
+          props.actions.addFlashMessage({
+            type: "error",
+            text: "Something went wrong. Could not create a course."
+          })
+        }
       }
-    }
-  })(withStyles(styles)(CourseCreate))
+    })(withStyles(styles)(CourseCreate))
+  )
 )

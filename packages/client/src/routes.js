@@ -61,7 +61,7 @@ const getCoursesCreated = Loadable({
 })
 
 const getCourseCtrl = Loadable({
-  loader: () => import("./layouts/courses/containers/course-controller.js"),
+  loader: () => import("./layouts/courses/containers/course-create.js"),
   loading: Loading
 })
 

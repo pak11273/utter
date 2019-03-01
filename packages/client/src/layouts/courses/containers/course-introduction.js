@@ -148,11 +148,7 @@ class CourseIntroduction extends Component {
         <div className={classes.heroUnit}>
           <div className={classes.heroContent}>
             <Grid container justify="center" direction="column">
-              <Typography
-                variant="h4"
-                align="center"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="h4" align="center" gutterBottom>
                 Introduction
               </Typography>
             </Grid>
@@ -168,11 +164,7 @@ class CourseIntroduction extends Component {
               matchingID={course.owner.username}
               yes={() => (
                 <Grid item xs={12}>
-                  <Typography
-                    variant="h4"
-                    align="left"
-                    className={classes.text}
-                    gutterBottom>
+                  <Typography variant="h6" align="center" gutterBottom>
                     Course Thumbnail
                   </Typography>
 
@@ -208,11 +200,7 @@ class CourseIntroduction extends Component {
               </Mutation>
             </Grid>
             <Grid item xs={12}>
-              <Typography
-                variant="h4"
-                align="left"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="h6" align="left" gutterBottom>
                 General Information
               </Typography>
               <TextField
@@ -246,41 +234,21 @@ class CourseIntroduction extends Component {
               />
             </Grid>
             <Grid item xs={12}>
-              <Typography
-                variant="h4"
-                align="left"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="h6" align="left" gutterBottom>
                 Meta
               </Typography>
-              <Typography
-                variant="h6"
-                align="left"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="body1" align="left" gutterBottom>
                 Course Author:{" "}
                 <span style={{fontWeight: 900}}>{course.owner.username}</span>
               </Typography>
-              <Typography
-                variant="h6"
-                align="left"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="body1" align="left" gutterBottom>
                 Resources: <span style={{fontWeight: 900}}>pending</span>
               </Typography>
-              <Typography
-                variant="h6"
-                align="left"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="body1" align="left" gutterBottom>
                 Using Language:{" "}
                 <span style={{fontWeight: 900}}>{course.usingLang}</span>
               </Typography>
-              <Typography
-                variant="h6"
-                align="left"
-                className={classes.text}
-                gutterBottom>
+              <Typography variant="body1" align="left" gutterBottom>
                 Teaching Language:{" "}
                 <span style={{fontWeight: 900}}>{course.teachingLang}</span>
               </Typography>
