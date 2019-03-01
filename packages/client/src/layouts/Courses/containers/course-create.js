@@ -12,7 +12,6 @@ import isEmpty from "lodash/isEmpty"
 import cloneDeep from "lodash/cloneDeep"
 import Dropzone from "react-dropzone"
 import {bindActionCreators} from "redux"
-import update from "immutability-helper"
 import {connect} from "react-redux"
 import axios from "axios"
 import React, {Component} from "react"
@@ -250,72 +249,93 @@ class CourseCreate extends Component {
       console.log("file: ", this.state.uploadedFile)
       this.handleImageDelete(this.state)
     }
-    // Push all the axios request promise into a single array
-    const uploaders = files.map(file => {
-      // Initial FormData
-      const formData = new FormData()
-      formData.append("file", file)
-      formData.append("tags", `course-name`)
-      formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own
-      formData.append("folder", "course-thumbnails") // Folder to place image in
-      formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key
-      formData.append("timestamp", Date.now() / 1000 || 0)
 
-      // set loading and disable submit
-      const newState = update(this.state, {
-        loading: {$set: true},
-        disable: {$set: true}
-      })
+    var file = files[0]
+    var formdata = new FormData()
+    var cloud_name = "dgvw5b6pf"
 
-      this.setState(newState)
+    formdata.append("file", file)
+    formdata.append("cloud_name", "dgvw5b6pf")
+    formdata.append("upload_preset", "z28ks5gg")
 
-      // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own)
-      return axios({
-        method: "POST",
-        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/",
-        data: formData
-      })
-        .then(res => {
-          const {data} = res
-          console.log("data: ", data)
+    var xhr = new XMLHttpRequest()
+    xhr.open(
+      "POST",
+      `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
+      true
+    )
 
-          const newState = update(this.state, {
-            public_id: {$set: data.public_id},
-            secure_url: {$set: data.secure_url},
-            signature: {$set: data.signature},
-            url: {$set: data.url}
-          })
+    xhr.onload = () => {
+      // do something to response
+      console.log(this.responseText)
+    }
+    xhr.send(formdata)
 
-          this.setState(newState)
+    /* // Push all the axios request promise into a single array */
+    /* const uploaders = files.map(file => { */
+    /*   // Initial FormData */
+    /*   const formData = new FormData() */
+    /*   formData.append("file", file) */
+    /*   formData.append("tags", `course-name`) */
+    /*   formData.append("upload_preset", "z28ks5gg") // Replace the preset name with your own */
+    /*   formData.append("folder", "course-thumbnails") // Folder to place image in */
+    /*   formData.append("api_key", "225688292439754") // Replace API key with your own Cloudinary key */
+    /*   formData.append("timestamp", Date.now() / 1000 || 0) */
 
-          this.props.setFieldValue("courseImage", data.secure_url)
+    /*   // set loading and disable submit */
+    /*   const newState = update( */
+    /*     this.state, */
+    /*     { */
+    /*       loading: {$set: true}, */
+    /*       disable: {$set: true} */
+    /*     }, */
+    /*     () => console.log("state: ", this.state) */
+    /*   ) */
 
-          return data
-        })
-        .catch(err => {
-          console.log("upload error: ", err)
-        })
-    })
+    /*   this.setState(newState) */
 
-    // Once all the files are uploaded
-    axios.all(uploaders).then(values => {
-      /* const {id} = this.props.course */
-      /* const newCdn = {cdn: values[0]} */
-      const courseImage = values[0].secure_url
+    /*   // Make an AJAX upload request using Axios (replace Cloudinary URL below with your own) */
+    /*   return axios({ */
+    /*     method: "POST", */
+    /*     url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/upload/", */
+    /*     data: formData */
+    /*   }) */
+    /*     .then(res => { */
+    /*       const {data} = res */
+    /*       console.log("data: ", data) */
 
-      const newState = update(this.state, {
-        courseImage: {$set: courseImage},
-        loading: {$set: false},
-        disable: {$set: false}
-      })
+    /*       const newState = update(this.state, { */
+    /*         public_id: {$set: data.public_id}, */
+    /*         secure_url: {$set: data.secure_url}, */
+    /*         signature: {$set: data.signature}, */
+    /*         url: {$set: data.url} */
+    /*       }) */
 
-      this.setState(newState)
+    /*       this.setState(newState) */
 
-      /* this.setState({}) */
+    /*       this.props.setFieldValue("courseImage", data.secure_url) */
 
-      // TODO: update Course on server
-      /* this.props.updateSettings(this.props.course) */
-    })
+    /*       return data */
+    /*     }) */
+    /*     .catch(err => { */
+    /*       console.log("upload error: ", err) */
+    /*     }) */
+    /* }) */
+
+    /* // Once all the files are uploaded */
+    /* axios.all(uploaders).then(values => { */
+    /*   /1* const {id} = this.props.course *1/ */
+    /*   /1* const newCdn = {cdn: values[0]} *1/ */
+    /*   const courseImage = values[0].secure_url */
+
+    /*   const newState = update(this.state, { */
+    /*     courseImage: {$set: courseImage}, */
+    /*     loading: {$set: false}, */
+    /*     disable: {$set: false} */
+    /*   }) */
+
+    /*   this.setState(newState) */
+    /* }) */
   }
 
   render() {
