@@ -185,12 +185,9 @@ class CourseCreate extends Component {
   }
 
   addResources = value => {
-    this.setState(
-      {
-        resources: value
-      },
-      () => console.log("state: ", this.state)
-    )
+    this.setState({
+      resources: value
+    })
   }
 
   addTeachingLang = value => {
@@ -220,29 +217,31 @@ class CourseCreate extends Component {
   }
 
   handleImageDelete = async state => {
-    const timestamp = await (Date.now() / 1000 || 0).toString()
-    const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
-    const hashString = `public_id=${
-      state.public_id
-    }&timestamp=${timestamp}${apiSecret}`
-    const signature = CryptoJS.SHA1(hashString).toString()
-    axios({
-      method: "post",
-      url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
-      data: {
-        api_key: "225688292439754",
-        public_id: state.public_id,
-        resource_type: "image",
-        signature,
-        timestamp
-      }
-    })
-      .then(res => {
-        return res
+    if (this.state.public_id) {
+      const timestamp = await (Date.now() / 1000 || 0).toString()
+      const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
+      const hashString = `public_id=${
+        state.public_id
+      }&timestamp=${timestamp}${apiSecret}`
+      const signature = CryptoJS.SHA1(hashString).toString()
+      axios({
+        method: "post",
+        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
+        data: {
+          api_key: "225688292439754",
+          public_id: state.public_id,
+          resource_type: "image",
+          signature,
+          timestamp
+        }
       })
-      .catch(err => {
-        throw err.response.data.error
-      })
+        .then(res => {
+          return res
+        })
+        .catch(err => {
+          throw err.response.data.error
+        })
+    }
   }
 
   handleImageUpload(files) {
@@ -278,6 +277,7 @@ class CourseCreate extends Component {
       })
         .then(res => {
           const {data} = res
+          console.log("data: ", data)
 
           const newState = update(this.state, {
             public_id: {$set: data.public_id},
@@ -559,7 +559,6 @@ export default connect(
             usingLang: values.usingLang
           }
         })
-        console.log("result: ", result)
 
         const onComplete = result => {
           // TODO: push courseId to redux
