@@ -107,7 +107,8 @@ const styles = theme => ({
   },
   root: {
     display: "flex",
-    flexGrow: 1
+    flexGrow: 1,
+    width: "100%"
   },
   select: {
     width: "80% !important",
@@ -343,11 +344,7 @@ class ZonesContainer extends Component {
           }}>
           <Spacer margin="100px 0 0 0" />
           <div align="center">
-            <Typography
-              variant="h6"
-              align="center"
-              className={classes.text}
-              gutterBottom>
+            <Typography variant="h6" align="center" gutterBottom>
               I speak:
             </Typography>
             <ReactSelect
@@ -358,11 +355,7 @@ class ZonesContainer extends Component {
               options={languageData}
             />
             <Spacer margin="40px 0 0 0" />
-            <Typography
-              variant="h6"
-              align="center"
-              className={classes.text}
-              gutterBottom>
+            <Typography variant="h6" align="center" gutterBottom>
               I want to learn:
             </Typography>
             <ReactSelect
@@ -373,11 +366,7 @@ class ZonesContainer extends Component {
               options={languageData}
             />
             <Spacer margin="40px 0 0 0" />
-            <Typography
-              variant="h6"
-              align="center"
-              className={classes.text}
-              gutterBottom>
+            <Typography variant="h6" align="center" gutterBottom>
               Choose An App
             </Typography>
             <ReactSelect
@@ -391,11 +380,7 @@ class ZonesContainer extends Component {
               ]}
             />
             <Spacer margin="40px 0 0 0" />
-            <Typography
-              variant="h6"
-              align="center"
-              className={classes.text}
-              gutterBottom>
+            <Typography variant="h6" align="center" gutterBottom>
               Course Level:
             </Typography>
             <ReactSelect
@@ -431,18 +416,14 @@ class ZonesContainer extends Component {
             />
             <meta name="description" content="Find a zone.  Start uttering!" />
             <meta name="author" content="Isaac Pak" />
-            <title>Utterzone | Courses</title>
-            <link rel="canonical" href="https://utter.zone/courses" />
+            <title>Utterzone | Zones</title>
+            <link rel="canonical" href="https://utterzone/zones" />
           </Helmet>
           {/* Hero unit */}
           <div className={classes.heroUnit}>
             <div className={classes.heroContent}>
               <Grid container justify="center" direction="column">
-                <Typography
-                  variant="h4"
-                  align="center"
-                  className={classes.text}
-                  gutterBottom>
+                <Typography variant="h4" align="center" gutterBottom>
                   Enter a Zone
                 </Typography>
                 <Grid container alignItems="center" justify="center">

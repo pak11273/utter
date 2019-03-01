@@ -18,6 +18,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
 import {Query} from "react-apollo"
+import {getCourse} from "../../../state/queries.js"
 import gql from "graphql-tag"
 
 import {store} from "../../../store.js"
@@ -64,6 +65,24 @@ const getCourses = gql`
     }
   }
 `
+
+const GET_COURSE = gql`
+  query getCourse($courseId: ID!) {
+    course(id: $courseId) {
+      id
+      courseImage
+      courseMode
+      courseName
+      courseDescription
+      usingLang
+      teachingLang
+      owner {
+        username
+      }
+    }
+  }
+`
+
 const drawerWidth = 240
 
 const styles = theme => ({
@@ -177,14 +196,15 @@ class CoursesGrid extends PureComponent {
     this.setState(newState)
   }
 
-  handleImageClick = data => {
+  handleImageClick = (card, data) => () => {
+    console.log("data; ", data)
     const payload = {}
-    payload.course = data
+    payload.course = card
     store.dispatch(loadData(payload))
 
     history.push({
       pathname: "/course/course-introduction",
-      state: {courseId: data.id}
+      state: {courseId: card.id}
     })
   }
 
@@ -308,7 +328,7 @@ class CoursesGrid extends PureComponent {
                 {/* End hero unit */}
                 <Grid container spacing={8}>
                   {data.getCourses.courses.map(card => (
-                    <Grid item key={card.id} xs={12} sm={6} md={3} lg={2}>
+                    <Grid item key={card.id} xs={12} sm={6} md={3} lg={3}>
                       <Card className={classes.card}>
                         <CardMedia
                           onClick={() => this.handleImageClick(card)}
@@ -338,13 +358,27 @@ class CoursesGrid extends PureComponent {
                             gutterBottom>
                             {subsToSize(card.subscribers)}
                           </Typography>
-                          <Button
-                            onClick={() => this.handleImageClick(card)}
-                            size="large"
-                            className={classes.editButton}>
-                            {" "}
-                            VIEW
-                          </Button>
+                          <Query
+                            query={GET_COURSE}
+                            variables={{courseId: "5c76df4cd440911a05be4e48"}}>
+                            {({loading, data, error}) => {
+                              if (loading) return <div>Loading...</div>
+                              if (error) console.log("ERROR: ", error.message)
+                              return (
+                                <Button
+                                  onClick={this.handleImageClick(
+                                    card,
+                                    getCourse,
+                                    data
+                                  )}
+                                  size="large"
+                                  className={classes.editButton}>
+                                  {" "}
+                                  VIEW
+                                </Button>
+                              )
+                            }}
+                          </Query>
                         </CardActions>
                       </Card>
                     </Grid>

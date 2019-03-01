@@ -103,7 +103,8 @@ const styles = theme => ({
   },
   root: {
     display: "flex",
-    flexGrow: 1
+    flexGrow: 1,
+    width: "100%"
   },
   select: {
     width: "80% !important",
@@ -332,7 +333,7 @@ class CoursesContainer extends PureComponent {
             />
             <meta name="author" content="Isaac Pak" />
             <title>Utterzone | Courses</title>
-            <link rel="canonical" href="https://utter.zone/courses" />
+            <link rel="canonical" href="https://utterzone/courses" />
           </Helmet>
           {/* Hero unit */}
           <div className={classes.heroUnit}>
