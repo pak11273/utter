@@ -96,7 +96,7 @@ const styles = theme => ({
     lineHeight: "1em",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    wordBreak: "break-all"
+    wordBreak: "break-word"
   },
   cardUsername: {
     whiteSpace: "nowrap",

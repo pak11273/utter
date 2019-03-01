@@ -36,6 +36,7 @@ import MastheadTitle from "./MastheadTitle.js"
 import List from "./Lists/List.js"
 import ListItem from "./Lists/ListItem.js"
 import LoaderCircle from "./loaders/loader-circle.js"
+import LoadingButton from "./Buttons/loadingButton.js"
 import PlayBox from "./Boxes/Playbox.js"
 import PlayButton from "./Buttons/PlayButton.js"
 import RememberSection from "./RememberSection.js"
@@ -49,7 +50,7 @@ import Td from "./Td.js"
 import Text from "./Text/Text.js"
 import Thead from "./Thead.js"
 import Th from "./Th.js"
-import TogglePlay from './Buttons/TogglePlay.js'
+import TogglePlay from "./Buttons/TogglePlay.js"
 import Tr from "./Tr.js"
 import TextArea from "./TextArea.js"
 import Title from "./Text/Title.js"
@@ -95,6 +96,7 @@ export {
   List,
   ListItem,
   LoaderCircle,
+  LoadingButton,
   PlayBox,
   PlayButton,
   RememberSection,
@@ -111,7 +113,7 @@ export {
   Td,
   Thead,
   Th,
-	TogglePlay,
+  TogglePlay,
   Tr,
   Text,
   TextArea,

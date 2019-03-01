@@ -14,8 +14,8 @@ import TextField from "@material-ui/core/TextField"
 import {withStyles} from "@material-ui/core/styles"
 
 import gql from "graphql-tag"
-import {graphql} from "react-apollo"
-import {Can, Img} from "../../../components"
+import {graphql, Mutation} from "react-apollo"
+import {Can, Img, LoadingButton} from "../../../components"
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
@@ -25,7 +25,6 @@ const subscribeMutation = gql`
     subscribe(input: $input)
   }
 `
-
 /* const getCourse = gql` */
 /*   query getCourse($courseId: String!) { */
 /*     getCourse(courseId: $courseId) { */
@@ -69,7 +68,7 @@ class CourseIntroduction extends Component {
     courseName: "",
     courseDescription: "",
     disabled: true,
-    subscribed: true
+    subscribed: false
   }
 
   componentDidMount() {
@@ -113,42 +112,11 @@ class CourseIntroduction extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  handleSubscribe = async () => {
-    if (this.state.subscribed) {
-      /* make unsub xhr call */
-      try {
-        const {data} = await this.props.mutate({
-          variables: {
-            input: this.props.course.id
-          }
-        })
-        const {subscribe} = data
-        if (subscribe) {
-          this.setState({
-            subscribed: true
-          })
-        }
-      } catch (err) {
-        return err
-      }
-    } else {
-      /* make sub xhr call */
-      try {
-        const {data} = await this.props.mutate({
-          variables: {
-            input: this.props.course.id
-          }
-        })
-        const {subscribe} = data
-        if (subscribe) {
-          this.setState({
-            subscribed: false
-          })
-        }
-      } catch (err) {
-        return err
-      }
-    }
+  handleSubscribeToggle = () => {
+    console.log("state: ", this.state.subscribed)
+    this.setState({
+      subscribed: !this.state.subscribed
+    })
   }
 
   handleSubmit = e => {
@@ -216,17 +184,28 @@ class CourseIntroduction extends Component {
               no={() => null}
             />
             <Grid item xs={12} align="center">
-              <Button
-                variant="contained"
-                color={
-                  this.state.subscribeState === "subscribe"
-                    ? "primary"
-                    : "secondary"
-                }
-                onClick={this.handleSubscribe}
-                size="large">
-                {this.state.subscribed ? "unsubscribe" : "subscribe"}
-              </Button>
+              <Mutation
+                mutation={subscribeMutation}
+                onCompleted={this.handleSubscribeToggle}>
+                {(subscribeMutation, {data, loading}) => {
+                  console.log("data: ", data)
+                  console.log("loading: ", loading)
+                  return (
+                    <LoadingButton
+                      loading={loading}
+                      color={
+                        this.state.subscribed === true ? "secondary" : "primary"
+                      }
+                      variant="contained"
+                      onClick={() => subscribeMutation(this.props.courseId)}
+                      size="large">
+                      <Typography>
+                        {this.state.subscribed ? "unsubscribe" : "subscribe"}
+                      </Typography>
+                    </LoadingButton>
+                  )
+                }}
+              </Mutation>
             </Grid>
             <Grid item xs={12}>
               <Typography

@@ -232,6 +232,7 @@ const subscribe = async (_, {input}, {redis, url, req}, info) => {
   console.log("input: ", input)
 
   // TODO
+
   /* x) see if user has the course in his subscriptions array */
   /* x) if user does have it then return true*/
   /* x) if user doesnt have it then add the it to his subscription then return true */

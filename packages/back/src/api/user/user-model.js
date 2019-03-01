@@ -65,6 +65,12 @@ export const UserSchema = new mongoose.Schema(
       type: [String],
       default: "registeredUser"
     },
+    subscriptions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Course"
+      }
+    ],
     utteredList: {
       type: Array,
       index: true
@@ -74,12 +80,6 @@ export const UserSchema = new mongoose.Schema(
       required: [true, "can't be blank"],
       default: ""
     },
-    subscriptions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Course"
-      }
-    ],
     bio: String,
     image: String,
     hash: String,
