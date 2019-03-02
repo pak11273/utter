@@ -11,7 +11,6 @@ import cloneDeep from "lodash/cloneDeep"
 import Dropzone from "react-dropzone"
 import {bindActionCreators} from "redux"
 import {connect} from "react-redux"
-import axios from "axios"
 import React, {Component} from "react"
 import cuid from "cuid"
 import styled from "styled-components"
@@ -28,7 +27,6 @@ import {
   Span
 } from "../../../components"
 import {addFlashMessage} from "../../../core/actions/flashMessages"
-import {fetchCourseName} from "../actions.js"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 import CourseResources from "../components/course-resources"
 import Teaching from "./teaching"
@@ -178,10 +176,6 @@ class CourseCreate extends Component {
     this.props.actions.toggleFooter(true)
   }
 
-  onBlur = () => {
-    this.props.actions.fetchCourseName(this.state.courseName)
-  }
-
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -223,28 +217,51 @@ class CourseCreate extends Component {
   handleImageDelete = async state => {
     if (this.state.public_id) {
       const timestamp = await (Date.now() / 1000 || 0).toString()
-      const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
+      const apiSecret = process.env.CLOUDINARY_SECRET
       const hashString = `public_id=${
         state.public_id
       }&timestamp=${timestamp}${apiSecret}`
       const signature = CryptoJS.SHA1(hashString).toString()
-      axios({
-        method: "post",
-        url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
-        data: {
-          api_key: "225688292439754",
-          public_id: state.public_id,
-          resource_type: "image",
-          signature,
-          timestamp
-        }
-      })
-        .then(res => {
-          return res
-        })
-        .catch(err => {
-          throw err.response.data.error
-        })
+
+      var formdata = new FormData()
+
+      formdata.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME)
+      formdata.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET)
+      formdata.append("api_key", apiSecret)
+      formdata.append("public_id", hashString)
+      formdata.append("resource_type", "image")
+      formdata.append("signature", signature)
+      formdata.append("timestamp", timestamp)
+
+      var xhr = new XMLHttpRequest()
+
+      xhr.open(
+        "POST",
+        `https://api.cloudinary.com/v1_1/${
+          process.env.CLOUDINARY_CLOUD_NAME
+        }/image/destroy`,
+        true
+      )
+
+      xhr.send(formdata)
+
+      /* axios({ */
+      /*   method: "post", */
+      /*   url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/", */
+      /*   data: { */
+      /*     api_key: "225688292439754", */
+      /*     public_id: state.public_id, */
+      /*     resource_type: "image", */
+      /*     signature, */
+      /*     timestamp */
+      /*   } */
+      /* }) */
+      /*   .then(res => { */
+      /*     return res */
+      /*   }) */
+      /*   .catch(err => { */
+      /*     throw err.response.data.error */
+      /*   }) */
     }
   }
 
@@ -261,7 +278,24 @@ class CourseCreate extends Component {
     formdata.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME)
     formdata.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET)
 
+    // NOTE: You need to add the event listeners before calling open() on the request. Otherwise the progress events will not fire.
+
     var xhr = new XMLHttpRequest()
+
+    xhr.addEventListener("progress", () => {
+      this.setState({
+        disabled: true,
+        loading: true
+      })
+    })
+
+    xhr.addEventListener("load", () => {
+      this.setState({
+        disabled: false,
+        loading: false
+      })
+    })
+
     xhr.open(
       "POST",
       `https://api.cloudinary.com/v1_1/${
@@ -269,20 +303,6 @@ class CourseCreate extends Component {
       }/image/upload`,
       true
     )
-
-    xhr.onprogress = () => {
-      this.setState({
-        loading: true,
-        disabled: true
-      })
-    }
-
-    xhr.onload = () => {
-      this.setState({
-        loading: false,
-        disabled: false
-      })
-    }
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
@@ -293,6 +313,10 @@ class CourseCreate extends Component {
           secure_url: data.secure_url,
           signature: data.signature,
           url: data.url
+        })
+        this.props.setValues({
+          ...this.props.values,
+          courseImage: data.secure_url
         })
       }
     }
@@ -370,24 +394,26 @@ class CourseCreate extends Component {
                     />
                   )}
                   <p>{this.state.uploadedFile.name}</p>
-                  <Dropzone
-                    style={{
-                      margin: "50px auto",
-                      padding: "3px",
-                      position: "relative",
-                      width: "200px",
-                      height: "100px",
-                      borderWidth: "2px",
-                      borderColor: "rgb(102, 102, 102)",
-                      borderStyle: "dashed",
-                      borderRadius: "5px"
-                    }}
-                    maxSize={500000}
-                    multiple={false}
-                    accept="image/*"
-                    onDrop={this.onImageDrop}>
-                    <p>Drop an image or click to select a file to upload.</p>
-                  </Dropzone>
+                  {!this.state.disabled && (
+                    <Dropzone
+                      style={{
+                        margin: "50px auto",
+                        padding: "3px",
+                        position: "relative",
+                        width: "200px",
+                        height: "100px",
+                        borderWidth: "2px",
+                        borderColor: "rgb(102, 102, 102)",
+                        borderStyle: "dashed",
+                        borderRadius: "5px"
+                      }}
+                      maxSize={500000}
+                      multiple={false}
+                      accept="image/*"
+                      onDrop={this.onImageDrop}>
+                      <p>Drop an image or click to select a file to upload.</p>
+                    </Dropzone>
+                  )}
                 </div>
               </Grid>
               <Grid item xs={12}>
@@ -504,7 +530,6 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
       addFlashMessage,
-      fetchCourseName,
       toggleFooter
     },
     dispatch
@@ -532,6 +557,7 @@ export default connect(
       }),
       handleSubmit: async (values, {props, setErrors}) => {
         /* const result = await props.submit(values) */
+        console.log("values: ", values)
         const result = await props.courseCreate({
           variables: {
             courseName: values.courseName,
@@ -543,12 +569,13 @@ export default connect(
             usingLang: values.usingLang
           }
         })
+        console.log("result: ", result)
 
         const onComplete = result => {
-          // TODO: push courseId to redux
+          // TODO: push courseId to apollo
           history.push({
             pathname: "/course/course-settings",
-            state: {courseId: result.course.id}
+            state: {courseId: result.data.courseCreate.id}
           })
         }
 

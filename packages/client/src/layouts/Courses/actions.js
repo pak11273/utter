@@ -120,10 +120,6 @@ import {createAction} from "../../utils/redux-utils.js"
 /*   } */
 /* } */
 
-const fetchCourseName = course => {
-  return {type: "FETCHED_COURSE_NAME", course}
-}
-
 /* const requestCourseNameSuccess = data => { */
 /*   return {type: "REQUESTED_COURSE_NAME_SUCCEEDED", data: data.msg} */
 /* } */
@@ -136,28 +132,25 @@ const fetchCourseName = course => {
 /*   return {type: "LOAD_CURRENT_TEACHING_COURSE", course} */
 /* } */
 
-export {
-  /*   addWord, */
-  /*   addCuidToLevels, */
-  /*   addLevel, */
-  /*   changeCoursePg, */
-  /*   changeCoursePgFail, */
-  /*   changeCoursePgSuccess, */
-  /*   deleteCourse, */
-  /*   deleteCourseFail, */
-  /*   deleteCourseSuccess, */
-  /*   deleteLevel, */
-  /*   deleteLevelFail, */
-  /*   deleteLevelSuccess, */
-  /*   fetchCourse, */
-  /*   fetchCourseSuccess, */
-  /*   fetchCourseFail, */
-  /*   chooseCourseLanguage, */
-  fetchCourseName
-  /*   requestCourseNameError, */
-  /*   requestCourseNameSuccess, */
-  /*   loadCurrentTeachingCourse */
-}
+export /*   addWord, */
+/*   addCuidToLevels, */
+/*   addLevel, */
+/*   changeCoursePg, */
+/*   changeCoursePgFail, */
+/*   changeCoursePgSuccess, */
+/*   deleteCourse, */
+/*   deleteCourseFail, */
+/*   deleteCourseSuccess, */
+/*   deleteLevel, */
+/*   deleteLevelFail, */
+/*   deleteLevelSuccess, */
+/*   fetchCourse, */
+/*   fetchCourseSuccess, */
+/*   fetchCourseFail, */
+/*   chooseCourseLanguage, */
+/*   requestCourseNameError, */
+/*   requestCourseNameSuccess, */
+/*   loadCurrentTeachingCourse */{}
 
 export default {
   update: state => createAction(COURSE_ASYNC.UPDATE, state),
