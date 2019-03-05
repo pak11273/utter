@@ -105,6 +105,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   // build query object
   const query = {}
   var courseName, resources, owner

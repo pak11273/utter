@@ -10,7 +10,7 @@ type Course {
   _id: ID!
   levels: [Level]
   owner: User
-	resources: [Resource]
+	resources: String
 	subscribers: Int
   teachingLang: String
   usingLang: String
@@ -22,13 +22,6 @@ type Resource {
 	label: String,
 	className: String
 }
-
-input ResourceInput {
-	value: String,
-	label: String,
-	className: String
-}
-
 
 input CourseUpdated {
   _id: ID!
@@ -44,7 +37,7 @@ input CourseCreateInput {
   courseName: String!
   courseDescription: String
   courseMode: String
-	resources: [ResourceInput]
+	resources: String
 	teachingLang: String
   usingLang: String
 }
@@ -61,7 +54,7 @@ extend type Query {
     cursor: String
     courseName: String!
     owner: String!
-		resources: [ResourceInput] 
+		resources: String 
     usingLang: String!
     teachingLang: String!
   ): PaginatedCourses 

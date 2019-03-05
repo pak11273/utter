@@ -77,6 +77,7 @@ export class FormikSelect extends PureComponent {
 
   render() {
     const {field, options} = this.props
+    console.log("prosp: ", this.props)
     return (
       <Select
         id="select"

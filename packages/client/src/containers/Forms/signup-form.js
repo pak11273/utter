@@ -9,7 +9,7 @@ import {withStyles} from "@material-ui/core/styles"
 import cloneDeep from "lodash/cloneDeep"
 
 import Terms from "../../documents/terms-and-conditions.js"
-import Timezones from "../../components/Selects/Timezones/Timezones.js"
+/* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
 import {signupSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
 import {FormikInput, Img, Section} from "../../components"
@@ -73,13 +73,13 @@ class SignupForm extends PureComponent {
   render() {
     const {
       classes,
-      errors,
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      Message,
-      touched,
-      values
+      /* errors, */
+      /* handleChange, */
+      /* handleBlur, */
+      handleSubmit
+      /* Message, */
+      /* touched */
+      /* values */
     } = this.props
     const {agreementChecked} = this.state
     return (
@@ -93,7 +93,6 @@ class SignupForm extends PureComponent {
             align="center"
             className={classes.leftSide}>
             <Img
-              centered
               alt="Join our Community"
               margin="0 0 40px 0"
               src={`${visitingImg}`}
@@ -158,22 +157,21 @@ class SignupForm extends PureComponent {
                     type="password"
                     component={FormikInput}
                   />
-                  <div>
-                    <Typography
+                  {/*  <div>
+			  <Typography
                       component="p"
                       color="inherit"
                       gutterBottom
                       noWrap>
                       timezone
                     </Typography>
-                    <Timezones
-                      label="Timezone"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.timezone}
-                      type="text"
+                    <Field
                       name="timezone"
-                    />
+                      type="text"
+                      component={FormikSelect}
+                      options={timezones}
+                    /> 
+
                     {errors.timezone &&
                       touched.timezone && (
                         <Message
@@ -181,8 +179,8 @@ class SignupForm extends PureComponent {
                           error
                           content={errors.timezone}
                         />
-                      )}
-                  </div>
+                      )} 
+                  </div> */}
                 </div>
                 <div className={classes.agreement}>
                   <input

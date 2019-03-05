@@ -33,7 +33,7 @@ const getCourses = gql`
     $cursor: String
     $courseName: String!
     $owner: String!
-    $resources: [ResourceInput]
+    $resources: String
     $usingLang: String!
     $teachingLang: String!
   ) {
@@ -47,13 +47,13 @@ const getCourses = gql`
     ) {
       cursor
       courses {
-        id
+        _id
         courseImage
         courseMode
         courseName
         courseDescription
         levels {
-          id
+          _id
           level
           title
         }
@@ -70,7 +70,7 @@ const getCourses = gql`
 const GET_COURSE = gql`
   query getCourse($courseId: ID!) {
     course(id: $courseId) {
-      id
+      _id
       courseImage
       courseMode
       courseName
@@ -334,7 +334,7 @@ class CoursesGrid extends PureComponent {
                 {/* End hero unit */}
                 <Grid container spacing={8}>
                   {data.getCourses.courses.map(card => (
-                    <Grid item key={card.id} xs={12} sm={6} md={3} lg={3}>
+                    <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
                       <Card className={classes.card}>
                         <CardMedia
                           onClick={() => this.handleImageClick(card)}

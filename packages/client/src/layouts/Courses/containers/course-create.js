@@ -145,7 +145,7 @@ const COURSE_CREATE = gql`
         usingLang: $usingLang
       }
     ) {
-      id
+      _id
       courseDescription
       courseImage
       courseMode

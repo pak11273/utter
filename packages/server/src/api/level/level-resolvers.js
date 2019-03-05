@@ -64,8 +64,8 @@ const levelDelete = async (_, args, ctx) => {
 }
 
 const levelUpdate = (_, {input}) => {
-  const {id, ...update} = input
-  return Level.findByIdAndUpdate(id, update, {new: true}).exec()
+  const {_id, ...update} = input
+  return Level.findByIdAndUpdate(_id, update, {new: true}).exec()
 }
 
 const levelCreate = async (_, args, ctx, info) => {
