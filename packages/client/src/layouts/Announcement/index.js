@@ -2,8 +2,9 @@ import React, {PureComponent} from "react"
 import {Helmet} from "react-helmet"
 
 import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
 
-export default class Announcement extends PureComponent {
+class Announcement extends PureComponent {
   render() {
     const {
       location: {
@@ -11,7 +12,7 @@ export default class Announcement extends PureComponent {
       }
     } = this.props
     return (
-      <Grid>
+      <div>
         <Helmet>
           <meta charset="utf-8" />
           <meta
@@ -26,10 +27,14 @@ export default class Announcement extends PureComponent {
           <title>Utterzone | Announcement</title>
           <link rel="canonical" href="https://utterzone.com/a" />
         </Helmet>
-        <Grid.Row centered style={{background: "black", padding: "100px"}}>
-          <h6>{announcement}</h6>
-        </Grid.Row>
-      </Grid>
+        <Grid centered style={{height: "600px", padding: "100px"}}>
+          <Typography variant="h6" color="inherit" gutterBottom noWrap>
+            {announcement}
+          </Typography>
+        </Grid>
+      </div>
     )
   }
 }
+
+export default Announcement

@@ -1,4 +1,4 @@
-import Announcement from "./Announcement"
+import Announcement from "./announcement"
 import French1 from "./French/Level1.js"
 import Home from "./Home"
 import GettingStarted from "./GettingStarted.js"

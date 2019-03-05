@@ -1,7 +1,6 @@
 import Loadable from "react-loadable"
 
 import {
-  Announcement,
   Home,
   /* GettingStarted, */
   /* Sponsorship, */
@@ -29,6 +28,12 @@ import {
 import Loading from "./components/loaders/layout-loader.js"
 
 // Code Splitting: lazy loaded routes
+const getAnnouncement = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'announcement' */ "./layouts/announcement"),
+  loading: Loading
+})
+
 const getAbout = Loadable({
   loader: () => import(/* webpackChunkName: 'about' */ "./layouts/about"),
   loading: Loading
@@ -204,7 +209,7 @@ export const routes = [
     path: "/about"
   },
   {
-    component: Announcement,
+    component: getAnnouncement,
     path: "/a"
   },
   {

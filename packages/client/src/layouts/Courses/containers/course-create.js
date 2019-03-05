@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import gql from "graphql-tag"
+/* import axios from "axios" */
 
 import {Field, withFormik} from "formik"
 import isEmpty from "lodash/isEmpty"
@@ -31,6 +32,8 @@ import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 import CourseResources from "../components/course-resources"
 import Teaching from "./teaching"
 import Using from "./using"
+
+import {handleCloudinaryUpload} from "../../../utils/cloudinary-upload.js"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;
@@ -143,12 +146,13 @@ const COURSE_CREATE = gql`
       }
     ) {
       id
+      courseDescription
+      courseImage
+      courseMode
       courseName
       owner {
         username
       }
-      courseDescription
-      courseMode
       resources {
         value
         label
@@ -174,6 +178,7 @@ class CourseCreate extends Component {
 
   componentWillUnmount() {
     this.props.actions.toggleFooter(true)
+    URL.revokeObjectURL(this.state.uploadedFilePreview)
   }
 
   onChange = e => {
@@ -206,11 +211,17 @@ class CourseCreate extends Component {
     }
 
     if (!isEmpty(files)) {
-      this.setState({
-        uploadedFile: files[0]
-      })
-
-      this.handleImageUpload(files)
+      this.setState(
+        {
+          uploadedFile: files[0],
+          uploadedFilePreview: URL.createObjectURL(files[0])
+        },
+        () =>
+          this.props.setValues({
+            ...this.props.values,
+            uploadedFile: files[0]
+          })
+      )
     }
   }
 
@@ -225,10 +236,8 @@ class CourseCreate extends Component {
 
       var formdata = new FormData()
 
-      formdata.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME)
-      formdata.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET)
-      formdata.append("api_key", apiSecret)
-      formdata.append("public_id", hashString)
+      formdata.append("api_key", process.env.CLOUDINARY_API_KEY)
+      formdata.append("public_id", state.public_id)
       formdata.append("resource_type", "image")
       formdata.append("signature", signature)
       formdata.append("timestamp", timestamp)
@@ -244,24 +253,6 @@ class CourseCreate extends Component {
       )
 
       xhr.send(formdata)
-
-      /* axios({ */
-      /*   method: "post", */
-      /*   url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/", */
-      /*   data: { */
-      /*     api_key: "225688292439754", */
-      /*     public_id: state.public_id, */
-      /*     resource_type: "image", */
-      /*     signature, */
-      /*     timestamp */
-      /*   } */
-      /* }) */
-      /*   .then(res => { */
-      /*     return res */
-      /*   }) */
-      /*   .catch(err => { */
-      /*     throw err.response.data.error */
-      /*   }) */
     }
   }
 
@@ -307,17 +298,22 @@ class CourseCreate extends Component {
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         const data = JSON.parse(xhr.response)
-        this.setState({
-          courseImage: data.secure_url,
-          public_id: data.public_id,
-          secure_url: data.secure_url,
-          signature: data.signature,
-          url: data.url
-        })
-        this.props.setValues({
-          ...this.props.values,
-          courseImage: data.secure_url
-        })
+        this.setState(
+          {
+            courseImage: data.secure_url,
+            public_id: data.public_id,
+            secure_url: data.secure_url,
+            signature: data.signature,
+            url: data.url
+          },
+          () => {
+            console.log("uri: ", data)
+            this.props.setValues({
+              ...this.props.values,
+              courseImage: data.secure_url
+            })
+          }
+        )
       }
     }
 
@@ -383,13 +379,14 @@ class CourseCreate extends Component {
               </Grid>
               <Grid item xs={12}>
                 <div style={{margin: "50px", textAlign: "center"}}>
-                  {this.state.courseImage === "" ? (
+                  {!this.state.uploadedFilePreview ? (
                     <p>Thumbnail Preview</p>
                   ) : (
                     <Img
+                      alt="thumbnail"
                       label="Course Thumbnail Preview"
                       name="image"
-                      src={this.state.courseImage}
+                      src={this.state.uploadedFilePreview}
                       size="small"
                     />
                   )}
@@ -556,19 +553,30 @@ export default connect(
         usingLang: ""
       }),
       handleSubmit: async (values, {props, setErrors}) => {
-        /* const result = await props.submit(values) */
-        console.log("values: ", values)
-        const result = await props.courseCreate({
-          variables: {
-            courseName: values.courseName,
-            courseDescription: values.courseDescription,
-            courseImage: values.courseImage,
-            courseMode: values.courseMode,
-            resources: values.resources,
-            teachingLang: values.teachingLang,
-            usingLang: values.usingLang
-          }
-        })
+        const merge = async data => {
+          console.log("data: ", data)
+          return {...values, ...data}
+        }
+
+        const xhrResult = async () => {
+          const data = await handleCloudinaryUpload(values.uploadedFile)
+          const merged = await merge(data)
+          console.log("mergerd: ", merged)
+          /* const course = await props.courseCreate({ */
+          /*   variables: { */
+          /*     courseName: merged.courseName, */
+          /*     courseDescription: merged.courseDescription, */
+          /*     courseImage: merged.secure_url, */
+          /*     courseMode: merged.courseMode, */
+          /*     resources: merged.resources, */
+          /*     teachingLang: merged.teachingLang, */
+          /*     usingLang: merged.usingLang */
+          /*   } */
+          /* }) */
+          /* return course */
+        }
+        const result = await xhrResult()
+
         console.log("result: ", result)
 
         const onComplete = result => {

@@ -32,11 +32,16 @@ export default app => {
   mongoose.Promise = Promise
   app.use(passport.initialize())
   app.use(passport.session())
-  mongoose.connect(
-    config.env.DB_HOST,
-    {
-      useCreateIndex: true,
-      useNewUrlParser: true
-    }
-  )
+  mongoose
+    .connect(
+      config.env.DB_HOST,
+      {
+        useCreateIndex: true,
+        useNewUrlParser: true
+      }
+    )
+    .then()
+    .catch(err => {
+      console.log("mongoose error: ", err)
+    })
 }
