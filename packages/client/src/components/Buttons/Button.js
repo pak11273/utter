@@ -1,5 +1,5 @@
-import {Component} from 'react'
-import styled from 'styled-components'
+import {Component} from "react"
+import styled from "styled-components"
 
 const Button = styled.button`
   align-self: ${props => props.alignself};
@@ -24,8 +24,8 @@ const Button = styled.button`
 
 Button.defaultProps = {
   background: props => props.theme.color,
-  color: 'black',
-  cursor: 'pointer'
+  color: "black",
+  cursor: "pointer"
 }
 
 export default Button

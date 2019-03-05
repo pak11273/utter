@@ -1,8 +1,8 @@
-import { Component } from 'react';
-import styled from 'styled-components'
+import {Component} from "react"
+import styled from "styled-components"
 
 const ButtonBrowse = styled.button`
-  background: ${props => (props.primary ? 'red' : 'yellow')};
+  background: ${props => (props.primary ? "red" : "yellow")};
   border-radius: ${props => props.borderradius};
   color: ${props => props.color};
   font-size: ${props => props.fontsize};
@@ -17,12 +17,12 @@ const ButtonBrowse = styled.button`
 `
 
 ButtonBrowse.defaultProps = {
-  color: 'black',
-  cursor: 'pointer',
-  fontsize: '1.4rem',
-  fontweight: '500',
-  height: '40px',
-  width: '140px'
+  color: "black",
+  cursor: "pointer",
+  fontsize: "1.4rem",
+  fontweight: "500",
+  height: "40px",
+  width: "140px"
 }
 
 export default ButtonBrowse

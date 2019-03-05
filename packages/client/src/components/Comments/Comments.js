@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import {Link} from 'react-router-dom'
-import styled from 'styled-components'
-import {CreateComment, Comment} from './'
-import Box from '../../components/Boxes/Box.js'
-import Button from '../../components/Buttons/Button.js'
-import superagent from 'superagent'
-import {ApiMgr} from '../../utils'
+import React, {Component} from "react"
+import {Link} from "react-router-dom"
+import styled from "styled-components"
+import {CreateComment, Comment} from "./"
+import Box from "../../components/Boxes/Box.js"
+import Button from "../../components/buttons/button.js"
+import superagent from "superagent"
+import {ApiMgr} from "../../utils"
 
 class Comments extends Component {
   constructor(props) {
@@ -17,9 +17,9 @@ class Comments extends Component {
 
   componentDidMount() {
     superagent
-      .get('/api/comments')
+      .get("/api/comments")
       .query(null)
-      .set('Accept', 'application/json')
+      .set("Accept", "application/json")
       .end((err, res) => {
         if (err) {
           alert(err)
@@ -35,7 +35,7 @@ class Comments extends Component {
 
   addComment = comment => {
     superagent
-      .post('/api/comments')
+      .post("/api/comments")
       .send(comment)
       .end((err, res) => {
         if (err) {

@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
-import styled from 'styled-components'
-import {} from '../../components'
+import React, {Component} from "react"
+import styled from "styled-components"
 
 const Button = styled.button`
   align-self: center;
@@ -16,10 +15,10 @@ const Button = styled.button`
     background: green;
   }
 `
-class State extends Component {
+export default class State extends Component {
   seeState = state => {
-    console.log('STATE: ', JSON.stringify(state, true, 2))
-  };
+    console.log("STATE: ", JSON.stringify(state, true, 2))
+  }
 
   render() {
     // signature of Component on parent:
@@ -28,5 +27,3 @@ class State extends Component {
     return <Button onClick={() => this.seeState(state)}>See State</Button>
   }
 }
-
-export default State

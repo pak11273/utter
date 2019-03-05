@@ -47,7 +47,7 @@ const courseCreate = async (_, args, ctx, info) => {
   console.log("args: ", args)
   const token = ctx.req.headers.authorization
   if (token === "null") {
-    return new Error("You need to be registered to view this resource.")
+    return new Error("You need to be registered to create a course.")
   }
   const user = await userByToken(token, (err, res) => {
     if (err) return err

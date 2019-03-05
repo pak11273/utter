@@ -7,7 +7,7 @@ type Course {
   courseMode: String!
   courseName: String!
   createdAt: String 
-  id: ID!
+  _id: ID!
   levels: [Level]
   owner: User
 	resources: [Resource]
@@ -31,7 +31,7 @@ input ResourceInput {
 
 
 input CourseUpdated {
-  id: ID!
+  _id: ID!
   courseId: String
   courseName: String
   coursedescription: String

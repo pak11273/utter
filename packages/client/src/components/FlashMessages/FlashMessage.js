@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import styled from "styled-components"
 import Text from "../Text/Text.js"
-import Button from "../Buttons/Button.js"
+import Button from "../buttons/button.js"
 
 const StyledMessage = styled.div`
   align-items: center;
