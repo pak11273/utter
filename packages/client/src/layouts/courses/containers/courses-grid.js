@@ -38,12 +38,14 @@ const getCourses = gql`
     $teachingLang: String!
   ) {
     getCourses(
-      cursor: $cursor
-      courseName: $courseName
-      resources: $resources
-      owner: $owner
-      usingLang: $usingLang
-      teachingLang: $teachingLang
+      input: {
+        cursor: $cursor
+        courseName: $courseName
+        resources: $resources
+        owner: $owner
+        usingLang: $usingLang
+        teachingLang: $teachingLang
+      }
     ) {
       cursor
       courses {

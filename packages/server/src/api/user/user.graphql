@@ -1,10 +1,10 @@
 type User {
 	blocked: [String]
   contacts: [String]
-	createdCourses: [Course]
+	createdCourses: [Course!]
   createdAt: String
-  email: String 
-	id: ID
+  email: String! 
+	_id: ID
   password: String
 	roles: [ String ]
 	scopes: [String]
@@ -37,12 +37,6 @@ input UpdatedUserInput {
   username: String
 }
 
-input CreateUserInput {
-  username: String!
-  email: String!
-  password: String!
-}
-
 input LoginInput {
   identifier: String!
   password: String!
@@ -64,7 +58,6 @@ type Query {
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User
 	changePassword(input: ChangePasswordInput): AuthPayload 
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 

@@ -9,7 +9,7 @@ type Course {
   createdAt: String 
   _id: ID!
   levels: [Level]
-  owner: User
+  owner: User!
 	resources: String
 	subscribers: Int
   teachingLang: String
@@ -25,14 +25,21 @@ type Resource {
 
 input CourseUpdated {
   _id: ID!
-  courseId: String
   courseName: String
   coursedescription: String
   courseMode: String
 }
 
+input GetCoursesInput {
+    cursor: String
+    courseName: String!
+    owner: String!
+		resources: String 
+    usingLang: String!
+    teachingLang: String!
+}
+
 input CourseCreateInput {
-  courseId: String
 	courseImage: String
   courseName: String!
   courseDescription: String
@@ -43,21 +50,15 @@ input CourseCreateInput {
 }
 
 type PaginatedCourses {
-  courses: [Course] 
+  courses: [Course!]! 
   cursor: String
 }
 
 extend type Query {
   getCourse(courseId: String!): Course!
 	getCourseLevels(courseId: String!): Course!
-  getCourses(
-    cursor: String
-    courseName: String!
-    owner: String!
-		resources: String 
-    usingLang: String!
-    teachingLang: String!
-  ): PaginatedCourses 
+  # getCourses: PaginatedCourses 
+  getCourses: [Course] 
 	getCreatedCourses(
     cursor: String
 	): PaginatedCourses @auth 

@@ -69,7 +69,6 @@ const changePassword = async (_, args, {redis, url}) => {
     $set: {forgotPasswordLocked: false, password: hashedPassword}
   })
   token = signToken(user._id)
-  console.log("token", token)
 
   const deleteKeyPromise = redis.del(redisKey)
 
@@ -83,6 +82,7 @@ const changePassword = async (_, args, {redis, url}) => {
 
 const signup = async (_, args, {redis, url}, info) => {
   args.input["password confirmation"] = args.input.passwordConfirmation
+
   let token = null
   var arrayOfErrors = []
   try {
@@ -115,18 +115,24 @@ const signup = async (_, args, {redis, url}, info) => {
   // Valid with unique email
   if (foundDupeEmail === null && isEmpty(arrayOfErrors)) {
     const newUser = new User(args.input)
-    newUser.save()
+    return newUser
+      .save()
+      .then(result => {
+        result.password = null
+        return {
+          token,
+          user: result,
+          error: arrayOfErrors
+        }
+      })
+      .catch(err => {
+        throw err
+      })
     token = signToken(newUser._id)
     await sendConfirmEmail(
       newUser.email,
       await createEmailConfirmLink(url, newUser._id, redis)
     )
-
-    return {
-      token,
-      user: newUser,
-      error: arrayOfErrors
-    }
   }
 
   return {
@@ -180,10 +186,8 @@ const login = async (parent, args, ctx, info) => {
 
 const getUserByToken = (_, args, ctx, info) => {
   var token = ctx.req.headers.authorization || null
-  console.log("token: ", token)
   if (token) {
     const result = jwt.verify(token, config.env.JWT, (err, decoded) => {
-      console.log("decoded: ", decoded)
       if (err) console.log("err: ", err)
       if (decoded) {
         const userID = decoded._id
@@ -199,12 +203,10 @@ const getUserByToken = (_, args, ctx, info) => {
 
 const getUserById = async (_, args, ctx, info) => {
   let result = await User.findById({id: args.input})
-  console.log("result: ", result)
   return result
 }
 
 const getUserByUsername = async (_, args, ctx, info) => {
-  console.log("userID: ", ctx)
   // const getUserByUsername = (_, __, {user}) => {
   let result = await User.findOne({username: args.input})
   return result
@@ -229,7 +231,6 @@ const subscribe = async (_, {input}, {redis, url, req}, info) => {
     if (err) return err
     if (data) return data
   })
-  console.log("input: ", input)
 
   // TODO
 
@@ -246,7 +247,6 @@ const unsubscribe = async (_, {input}, {redis, url, req}, info) => {
     if (err) return err
     if (data) return data
   })
-  console.log("input: ", input)
 
   // TODO
   /* x) see if user has the course in his subscriptions array */
@@ -271,7 +271,6 @@ export const userResolvers = {
 
   User: {
     contacts: user => {
-      console.log("friends")
       // TODO: Query db for contacts
       return ["Tom", "Bob", "Harry"]
     }
