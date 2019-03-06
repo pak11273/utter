@@ -227,46 +227,26 @@ const forgotPassword = async (_, {email}, {redis, url}) => {
   return true
 }
 
-const subscribe = async (_, {input}, {redis, url, req}, info) => {
-  var token = req.headers.authorization || null
-  var user = await userByToken(token, (err, data) => {
-    if (err) return err
-    if (data) return data
-  })
-  console.log("input: ", input)
-
-  // TODO
-
-  /* x) see if user has the course in his subscriptions array */
-  /* x) if user does have it then return true*/
-  /* x) if user doesnt have it then add the it to his subscription then return true */
-
-  return false
-}
-
-const unsubscribe = async (_, {input}, {redis, url, req}, info) => {
-  var token = req.headers.authorization || null
-  var user = await userByToken(token, (err, data) => {
-    if (err) return err
-    if (data) return data
-  })
-  console.log("input: ", input)
-
-  // TODO
-  /* x) see if user has the course in his subscriptions array */
-  /* x) if user does have it then remove the course from subscriptions and return false*/
-  /* x) if the user doesn't have it then just return false */
-
-  return true
-}
-
 const updateMe = (_, {input}, {user}) => {
   merge(user, input)
   return user.save()
 }
 
+const getSubscriptions = async (_, args, {user}) => {
+  console.log("args: ", args)
+  try {
+		const subscriptions = await User.findById(userId)
+
+		return { ...subscriptions._doc, _id: subscriptions.id } 
+
+  } catch (err) {
+    throw err
+  }
+}
+
 export const userResolvers = {
   Query: {
+    getSubscriptions,
     getUserById,
     getUserByToken,
     getUserByUsername,
@@ -285,8 +265,6 @@ export const userResolvers = {
     changePassword,
     forgotPassword,
     signup,
-    subscribe,
-    unsubscribe,
     login,
     updateMe
   }

@@ -55,7 +55,7 @@ type PaginatedCourses {
 }
 
 extend type Query {
-  getCourse(courseId: String!): Course!
+  getCourse(_id: ID!): Course!
 	getCourseLevels(courseId: String!): Course!
   # getCourses: PaginatedCourses 
   getCourses: [Course] 
@@ -69,4 +69,6 @@ extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
 	courseDelete(resourceID: String!): Boolean @hasScope(scope: "course:delete")
   courseUpdate(input: CourseUpdated!): Course!
+	subscribe(courseId: ID!): Boolean
+	unsubscribe(courseId: ID!): Boolean
 }

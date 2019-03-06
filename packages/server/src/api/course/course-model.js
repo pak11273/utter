@@ -40,12 +40,10 @@ const CourseSchema = mongoose.Schema(
       type: String,
       default: ""
     },
-    subscribers: [
-      {
-        type: Number,
-        default: 0
-      }
-    ],
+    subscribers: {
+      type: Number,
+      default: 0
+    },
     levels: [LevelSchema],
     courseDescription: {
       type: String,

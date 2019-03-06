@@ -22,8 +22,10 @@ const coursesById = async courseIds => {
 }
 
 const userById = async userId => {
+  console.log("userId: ", userId)
   try {
     const user = await User.findById(userId)
+    console.log("user: ", user)
     return {
       ...user._doc,
       _id: user.id,
@@ -84,7 +86,7 @@ const courseCreate = async (_, args, ctx, info) => {
     /*   return res */
     /* }) */
 
-    const id = "5c7eeb4ac949524d06977dcd"
+    const id = "5c7f4b717555c4301f5e93c8"
     const user = await User.findById(id, (err, res) => {
       if (err) return err
       return res
@@ -239,6 +241,50 @@ const getCourses = async (_, args, ctx, info) => {
   /*   } */
 }
 
+const subscribe = async (_, args, ctx, info) => {
+  const course = await Course.findOneAndUpdate(
+    {_id: args.courseId},
+    {$inc: {subscribers: 1}}
+  )
+  const UserId = "5c7f4b717555c4301f5e93c8"
+  try {
+    const user = await User.findById(UserId, (err, res) => {
+      if (err) return err
+      return res
+    })
+    user.subscriptions.push(course)
+
+    const result = await user.save()
+    if (result) {
+      return true
+    }
+  } catch (err) {
+    throw err
+  }
+}
+
+const unsubscribe = async (_, args, ctx, info) => {
+  const course = await Course.findOneAndUpdate(
+    {_id: args.courseId},
+    {$inc: {subscribers: -1}}
+  )
+  const UserId = "5c7f4b717555c4301f5e93c8"
+  try {
+    const user = await User.findById(UserId, (err, res) => {
+      if (err) return err
+      return res
+    })
+    user.subscriptions.pull(course)
+
+    const result = await user.save()
+    if (result) {
+      return true
+    }
+  } catch (err) {
+    throw err
+  }
+}
+
 export const courseResolvers = {
   Query: {
     getCreatedCourses,
@@ -249,7 +295,9 @@ export const courseResolvers = {
   Mutation: {
     courseDelete,
     courseUpdate,
-    courseCreate
+    courseCreate,
+    subscribe,
+    unsubscribe
   }
   /* Course: { */
   /*   async owner(course) { */

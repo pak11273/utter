@@ -51,6 +51,7 @@ input SignupInput {
 }
 
 type Query {
+	getSubscriptions(userId: ID!): User
   getUserById(id: ID!): User!
   getUserByUsername(input: String!): User
 	getUserByToken: User 
@@ -62,7 +63,5 @@ type Mutation {
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
-	subscribe(input: String): Boolean
-	unsubscribe(input: String): Boolean
   updateMe(input: UpdatedUserInput!): User!
 }

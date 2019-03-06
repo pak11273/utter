@@ -28,50 +28,72 @@ import {subsToSize} from "../../../utils/helpers.js"
 // actions
 import {loadData} from "../../../api/actions.js"
 
+/* const getCourses = gql` */
+/*   query getCourses( */
+/*     $cursor: String */
+/*     $courseName: String! */
+/*     $owner: String! */
+/*     $resources: String */
+/*     $usingLang: String! */
+/*     $teachingLang: String! */
+/*   ) { */
+/*     getCourses( */
+/*       input: { */
+/*         cursor: $cursor */
+/*         courseName: $courseName */
+/*         resources: $resources */
+/*         owner: $owner */
+/*         usingLang: $usingLang */
+/*         teachingLang: $teachingLang */
+/*       } */
+/*     ) { */
+/*       cursor */
+/*       courses { */
+/*         _id */
+/*         courseImage */
+/*         courseMode */
+/*         courseName */
+/*         courseDescription */
+/*         levels { */
+/*           _id */
+/*           level */
+/*           title */
+/*         } */
+/*         usingLang */
+/*         teachingLang */
+/*         owner { */
+/*           username */
+/*         } */
+/*       } */
+/*     } */
+/*   } */
+/* ` */
 const getCourses = gql`
-  query getCourses(
-    $cursor: String
-    $courseName: String!
-    $owner: String!
-    $resources: String
-    $usingLang: String!
-    $teachingLang: String!
-  ) {
-    getCourses(
-      input: {
-        cursor: $cursor
-        courseName: $courseName
-        resources: $resources
-        owner: $owner
-        usingLang: $usingLang
-        teachingLang: $teachingLang
-      }
-    ) {
-      cursor
-      courses {
+  query getCourses {
+    getCourses {
+      _id
+      courseImage
+      courseMode
+      courseName
+      courseDescription
+      levels {
         _id
-        courseImage
-        courseMode
-        courseName
-        courseDescription
-        levels {
-          _id
-          level
-          title
-        }
-        usingLang
-        teachingLang
-        owner {
-          username
-        }
+        level
+        title
+      }
+      usingLang
+      subscribers
+      teachingLang
+      owner {
+        username
       }
     }
   }
 `
 
 const GET_COURSE = gql`
-  query getCourse($courseId: ID!) {
-    course(id: $courseId) {
+  query getCourse($_id: ID!) {
+    getCourse(_id: $_id) {
       _id
       courseImage
       courseMode
@@ -324,9 +346,9 @@ class CoursesGrid extends PureComponent {
                     }
                   })
                 }}>
-                <div>
+                {/* <div>
                   <Button>Scroll down for more</Button>
-                </div>
+                </div> */}
               </Waypoint>
             )
           }
@@ -335,7 +357,7 @@ class CoursesGrid extends PureComponent {
               <div className={classNames(classes.layout, classes.cardGrid)}>
                 {/* End hero unit */}
                 <Grid container spacing={8}>
-                  {data.getCourses.courses.map(card => (
+                  {data.getCourses.map(card => (
                     <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
                       <Card className={classes.card}>
                         <CardMedia
@@ -368,7 +390,7 @@ class CoursesGrid extends PureComponent {
                           </Typography>
                           <Query
                             query={GET_COURSE}
-                            variables={{courseId: "5c76df4cd440911a05be4e48"}}>
+                            variables={{_id: "5c76df4cd440911a05be4e48"}}>
                             {({loading, data, error}) => {
                               if (loading) return <div>Loading...</div>
                               if (error) console.log("ERROR: ", error.message)
