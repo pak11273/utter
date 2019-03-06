@@ -6,34 +6,32 @@ import Course from "./course-model"
 import User from "../user/user-model.js"
 import {userByToken} from "../shared/resolver-functions.js"
 
-const coursesById = courseIds => {
-  return Course.find({_id: {$in: courseIds}})
-    .then(courses => {
-      return courses.map(course => {
-        return {
-          ...course._doc,
-          _id: course.id,
-          owner: userById.bind(this, course.owner)
-        }
-      })
-    })
-    .catch(err => {
-      throw err
-    })
-}
-
-const userById = userId => {
-  return User.findById(userId)
-    .then(user => {
+const coursesById = async courseIds => {
+  try {
+    const courses = await Course.find({_id: {$in: courseIds}})
+    return courses.map(course => {
       return {
-        ...user._doc,
-        _id: user.id,
-        createdCourses: coursesById.bind(this, user._doc.createdCourses)
+        ...course._doc,
+        _id: course.id,
+        owner: userById.bind(this, course.owner)
       }
     })
-    .catch(err => {
-      throw err
-    })
+  } catch (err) {
+    throw err
+  }
+}
+
+const userById = async userId => {
+  try {
+    const user = await User.findById(userId)
+    return {
+      ...user._doc,
+      _id: user.id,
+      createdCourses: coursesById.bind(this, user._doc.createdCourses)
+    }
+  } catch (err) {
+    throw err
+  }
 }
 
 const escapeRegex = text => {
@@ -75,62 +73,59 @@ const courseUpdate = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
-  /* const token = ctx.req.headers.authorization */
-  /* if (!token || token === "null") { */
-  /*   return new Error("You need to be registered to create a course.") */
-  /* } */
+  try {
+    /* const token = ctx.req.headers.authorization */
+    /* if (!token || token === "null") { */
+    /*   return new Error("You need to be registered to create a course.") */
+    /* } */
 
-  /* const user = await userByToken(token, (err, res) => { */
-  /*   if (err) return err */
-  /*   return res */
-  /* }) */
+    /* const user = await userByToken(token, (err, res) => { */
+    /*   if (err) return err */
+    /*   return res */
+    /* }) */
 
-  const id = "5c7eeb4ac949524d06977dcd"
-  const user = await User.findById(id, (err, res) => {
-    if (err) return err
-    return res
-  })
-
-  console.log("user: ", user)
-
-  const course = new Course({
-    courseImage: args.input.courseImage,
-    courseName: args.input.courseName,
-    courseDescription: args.input.courseDescription,
-    courseMode: args.input.courseMode,
-    resources: args.input.resources,
-    teachingLang: args.input.teachingLang,
-    usingLang: args.input.usingLang,
-    owner: user._id
-  })
-
-  let createdCourse
-
-  return course // return here so graphql waits til the promise finsishes.
-    .save()
-    .then(result => {
-      createdCourse = {
-        ...result._doc,
-        _id: result._doc._id.toString(),
-        owner: userById.bind(this, result._doc.owner)
-      } // _doc leaves out meta data so you get leaner object. Also we can use .id to bypass the long way of id conversion
-
-      return User.findById(id)
+    const id = "5c7eeb4ac949524d06977dcd"
+    const user = await User.findById(id, (err, res) => {
+      if (err) return err
+      return res
     })
-    .then(user => {
-      if (!user) {
-        throw new Error("User not found.")
-      }
-      user.createdCourses.push(course)
-      return user.save()
+
+    console.log("user: ", user)
+
+    const newCourse = new Course({
+      courseImage: args.input.courseImage,
+      courseName: args.input.courseName,
+      courseDescription: args.input.courseDescription,
+      courseMode: args.input.courseMode,
+      resources: args.input.resources,
+      teachingLang: args.input.teachingLang,
+      usingLang: args.input.usingLang,
+      owner: user._id
     })
-    .then(result => {
-      return createdCourse
-    })
-    .catch(err => {
-      console.log("err: ", err)
-      throw err
-    })
+
+    let createdCourse
+
+    const course = await newCourse.save()
+
+    createdCourse = {
+      ...course._doc,
+      _id: course._doc._id.toString(),
+      owner: userById.bind(this, course._doc.owner)
+    } // _doc leaves out meta data so you get leaner object. Also we can use .id to bypass the long way of id conversion
+
+    const owner = await User.findById(id)
+
+    if (!owner) {
+      throw new Error("User not found.")
+    }
+    owner.createdCourses.push(course)
+
+    await owner.save()
+
+    return createdCourse
+  } catch (err) {
+    throw err
+  }
 }
 
 const getCourseLevels = async (_, args, ctx, info) => {
@@ -176,19 +171,18 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  return Course.find()
-    .then(courses => {
-      return courses.map(course => {
-        return {
-          ...course._doc,
-          _id: course._doc._id.toString(),
-          owner: userById.bind(this, course._doc.owner)
-        }
-      })
+  try {
+    const courses = await Course.find()
+    return courses.map(course => {
+      return {
+        ...course._doc,
+        _id: course._doc._id.toString(),
+        owner: userById.bind(this, course._doc.owner)
+      }
     })
-    .catch(err => {
-      throw err
-    })
+  } catch (err) {
+    throw err
+  }
   /* // build query object */
   /* const query = {} */
   /* var courseName, resources, owner */

@@ -48,7 +48,6 @@ const changePassword = async (_, args, {redis, url}) => {
 
   try {
     console.log("args2: ", args)
-    args.input["password confirmation"] = args.input.passwordConfirmation
     await changePasswordSchema.validate(args.input, {
       abortEarly: false
     })
@@ -69,6 +68,7 @@ const changePassword = async (_, args, {redis, url}) => {
     $set: {forgotPasswordLocked: false, password: hashedPassword}
   })
   token = signToken(user._id)
+  console.log("token", token)
 
   const deleteKeyPromise = redis.del(redisKey)
 
@@ -118,6 +118,7 @@ const signup = async (_, args, {redis, url}, info) => {
     return newUser
       .save()
       .then(result => {
+        token = signToken(newUser._id)
         result.password = null
         return {
           token,
@@ -128,7 +129,6 @@ const signup = async (_, args, {redis, url}, info) => {
       .catch(err => {
         throw err
       })
-    token = signToken(newUser._id)
     await sendConfirmEmail(
       newUser.email,
       await createEmailConfirmLink(url, newUser._id, redis)
@@ -203,10 +203,12 @@ const getUserByToken = (_, args, ctx, info) => {
 
 const getUserById = async (_, args, ctx, info) => {
   let result = await User.findById({id: args.input})
+  console.log("result: ", result)
   return result
 }
 
 const getUserByUsername = async (_, args, ctx, info) => {
+  console.log("userID: ", ctx)
   // const getUserByUsername = (_, __, {user}) => {
   let result = await User.findOne({username: args.input})
   return result
@@ -231,6 +233,7 @@ const subscribe = async (_, {input}, {redis, url, req}, info) => {
     if (err) return err
     if (data) return data
   })
+  console.log("input: ", input)
 
   // TODO
 
@@ -247,6 +250,7 @@ const unsubscribe = async (_, {input}, {redis, url, req}, info) => {
     if (err) return err
     if (data) return data
   })
+  console.log("input: ", input)
 
   // TODO
   /* x) see if user has the course in his subscriptions array */
@@ -271,6 +275,7 @@ export const userResolvers = {
 
   User: {
     contacts: user => {
+      console.log("friends")
       // TODO: Query db for contacts
       return ["Tom", "Bob", "Harry"]
     }

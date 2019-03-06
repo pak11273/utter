@@ -64,18 +64,6 @@ Object.keys(_forgotPasswordConnector).forEach(function (key) {
   });
 });
 
-var _courseCreateConnector = require("./connectors/course-create-connector.js");
-
-Object.keys(_courseCreateConnector).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _courseCreateConnector[key];
-    }
-  });
-});
-
 var _zoneCreateConnector = require("./connectors/zone-create-connector.js");
 
 Object.keys(_zoneCreateConnector).forEach(function (key) {
