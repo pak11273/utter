@@ -22,19 +22,20 @@ const escapeRegex = text => {
 ** notes: 
 **
 */
-const coursesById = async courseIds => {
-  try {
-    const courses = await Course.find({_id: {$in: courseIds}})
-    return courses.map(course => {
-      return {
-        ...course._doc,
-        _id: course.id,
-        owner: userById.bind(this, course.owner)
-      }
+const coursesById = courseIds => {
+  return Course.find({_id: {$in: courseIds}})
+    .then(courses => {
+      return courses.map(course => {
+        return {
+          ...course._doc,
+          _id: course.id,
+          owner: userById.bind(this, course.owner)
+        }
+      })
     })
-  } catch (err) {
-    throw err
-  }
+    .catch(err => {
+      throw err
+    })
 }
 /* 
 ** 
@@ -74,7 +75,8 @@ const userById = userId => {
     .then(user => {
       return {
         ...user._doc,
-        _id: user.id
+        _id: user.id,
+        createdCourses: coursesById.bind(this, user._doc.createdCourses)
       }
     })
     .catch(err => {
