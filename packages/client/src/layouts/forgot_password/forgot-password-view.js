@@ -1,12 +1,13 @@
 import React from "react"
 import {Redirect} from "react-router-dom"
 import {connect} from "react-redux"
+import {local} from "brownies"
 
 import ForgotPasswordForm from "../../containers/forms/forgot-password-form.js"
 import {addFlashMessage} from "../../core/actions/flashMessages.js"
 
 function forgotPassword({submit, addFlashMessage}) {
-  const loggedIn = localStorage.getItem("AUTH_TOKEN")
+  const loggedIn = local.AUTH_TOKEN
   if (loggedIn) {
     var redirect = <Redirect to="/" />
   } else {

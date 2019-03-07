@@ -6,6 +6,7 @@ import config from "./config"
 import graphqlServer from "./graphql-server.js"
 import {decodeToken, hydrateUser} from "./auth"
 import socketServer from "./socketio/socket-server.js"
+import {isAuth} from "./auth"
 
 const server = http.createServer(app)
 
@@ -32,8 +33,8 @@ app.get("/", (req, res, next) => {
 })
 
 // Auth Middleware
-// TODO may remove, auth moved to auth-directive
-/* app.use(decodeToken(), hydrateUser()) */
+// TODO may remove, we are using auth-directive too
+app.use(isAuth)
 
 graphqlServer.applyMiddleware({
   app

@@ -4,14 +4,14 @@ export const getLevels = gql`
   query getLevels($courseId: String!) {
     getLevels(courseId: $courseId) {
       levels {
-        id
+        _id
         courseId
         level
         title
         vocabulary {
           audioUrl
           courseId
-          id
+          _id
           gender
           level
           word

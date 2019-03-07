@@ -62,7 +62,7 @@ const schema = makeExecutableSchema({
     userTypeDefs,
     courseTypeDefs,
     levelTypeDefs,
-		sharedTypeDefs,
+    sharedTypeDefs,
     termTypeDefs,
     testTypeDefs,
     vocabularyTypeDefs,
@@ -111,7 +111,6 @@ export default new ApolloServer({
         ? "https://" + process.env.SERVER_URL
         : req.protocol + "://" + req.get("host"),
     req,
-    user: req.user
-    /* userLoader: userLoader() */
+    isAuth: req.isAuth
   })
 })

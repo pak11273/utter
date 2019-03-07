@@ -4,12 +4,13 @@ import {addFlashMessage} from "../core/actions/flashMessages.js"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 import {history} from "@utterzone/connector"
+import {local} from "brownies"
 /* import {push} from "react-router-redux" */
 
 export default ComposedComponent => {
   class Authenticate extends Component {
     componentDidMount() {
-      const isAuthenticated = localStorage.getItem("AUTH_TOKEN")
+      const isAuthenticated = local.AUTH_TOKEN
       if (!isAuthenticated) {
         this.props.actions.addFlashMessage({
           type: "error",

@@ -5,6 +5,7 @@ import React, {PureComponent} from "react"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors.js"
 import isEmpty from "lodash/isEmpty"
+import {local} from "brownies"
 /* import history from "../index.js" */
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
@@ -21,7 +22,7 @@ export class N extends PureComponent {
       })
       const token = data.data.changePassword.token
       if (token) {
-        localStorage.setItem("AUTH_TOKEN", token)
+        local.AUTH_TOKEN = token
       }
       return null
     } catch (err) {

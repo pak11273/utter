@@ -63,6 +63,8 @@ var _isEmpty = require("lodash/isEmpty");
 
 var _isEmpty2 = _interopRequireDefault(_isEmpty);
 
+var _brownies = require("brownies");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* import history from "../index.js" */
@@ -106,7 +108,7 @@ var N = exports.N = function (_PureComponent) {
                 token = data.data.changePassword.token;
 
                 if (token) {
-                  localStorage.setItem("AUTH_TOKEN", token);
+                  _brownies.local.AUTH_TOKEN = token;
                 }
                 return _context.abrupt("return", null);
 

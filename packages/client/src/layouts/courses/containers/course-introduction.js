@@ -21,8 +21,8 @@ import {Can, Img, LoadingButton} from "../../../components"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 const subscribeMutation = gql`
-  mutation subscribe($input: String) {
-    subscribe(input: $input)
+  mutation subscribe($courseId: String!) {
+    subscribe(courseId: $courseId)
   }
 `
 /* const getCourse = gql` */
@@ -73,12 +73,14 @@ class CourseIntroduction extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
+    const parsedCourse = sessionStorage.getItem("course")
+    const course = JSON.parse(parsedCourse)
 
     // TODO do a  subscribe gql call then setstate
     /* try { */
     /*   const {data} = await this.props.mutate({ */
     /*     variables: { */
-    /*       input: this.props.course.id */
+    /*       input: course._id */
     /*     } */
     /*   }) */
     /*   const {subscribe} = data */
@@ -95,13 +97,13 @@ class CourseIntroduction extends Component {
     /* }) */
 
     const newData = update(this.state, {
-      courseName: {$set: this.props.course.courseName},
-      courseDescription: {$set: this.props.course.courseDescription}
+      courseName: {$set: course.courseName},
+      courseDescription: {$set: course.courseDescription}
     })
 
     this.setState(newData)
 
-    if (this.props.user.username === this.props.course.owner.username) {
+    if (this.props.user.username === course.owner.username) {
       this.setState({
         disabled: false
       })
@@ -127,7 +129,9 @@ class CourseIntroduction extends Component {
   }
 
   render() {
-    const {classes, course, user} = this.props
+    const {classes, user} = this.props
+    const parsedCourse = sessionStorage.getItem("course")
+    const course = JSON.parse(parsedCourse)
     return (
       <form className={classes.root} onSubmit={this.handleSubmit}>
         <Helmet>
@@ -182,6 +186,7 @@ class CourseIntroduction extends Component {
                 {(subscribeMutation, {data, loading}) => {
                   console.log("data: ", data)
                   console.log("loading: ", loading)
+                  console.log("course: ", course)
                   return (
                     <LoadingButton
                       loading={loading}
@@ -189,7 +194,13 @@ class CourseIntroduction extends Component {
                         this.state.subscribed === true ? "secondary" : "primary"
                       }
                       variant="contained"
-                      onClick={() => subscribeMutation(this.props.courseId)}
+                      onClick={() =>
+                        subscribeMutation({
+                          variables: {
+                            courseId: course._id
+                          }
+                        })
+                      }
                       size="large">
                       <Typography>
                         {this.state.subscribed ? "unsubscribe" : "subscribe"}
@@ -278,15 +289,12 @@ class CourseIntroduction extends Component {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {User, Course} = session
+  const {User} = session
   const userObj = User.all().toRefArray()
-  const courseObj = Course.all().toRefArray()
   var user = userObj[0]
-  var course = courseObj[0]
 
   return {
-    user,
-    course
+    user
   }
 }
 

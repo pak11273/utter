@@ -3,6 +3,7 @@ import {ApolloLink} from "apollo-link"
 import {InMemoryCache} from "apollo-cache-inmemory"
 import {createPersistedQueryLink} from "apollo-link-persisted-queries"
 import {HttpLink} from "apollo-link-http"
+import {local} from "brownies"
 import typeDefs from "./typeDefs.js"
 import resolvers from "./resolvers.js"
 
@@ -18,7 +19,7 @@ const httpLink = new HttpLink({
         "https://api.utterzone.com/graphql"
       : "/graphql",
   headers: {
-    authorization: localStorage.getItem("AUTH_TOKEN") || null
+    authorization: local.AUTH_TOKEN || null
   }
 })
 
@@ -33,6 +34,6 @@ export default new ApolloClient({
 
 cache.writeData({
   data: {
-    isLoggedIn: !!localStorage.getItem("AUTH_TOKEN")
+    isLoggedIn: !!local.AUTH_TOKEN
   }
 })

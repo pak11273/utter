@@ -32,27 +32,6 @@ import {
 //   }
 // }
 
-// get user
-// export function getUser(state) {
-//   const url = 'auth/signin'
-// return dispatch => {
-//   fetchData(url, state).then(res => {
-//     const token = res.data.token
-//     localStorage.setItem('jwtToken', token)
-//     setAuthorizationToken(token)
-//     const user = jwt.decode(token)
-//     // dispatch(setCurrentUser(user))
-//     // sample id; "59d2a7bb24a8b73675b527d7"
-//     return axios.get(`api/users/${user._id}`).then(res => {
-//       console.log('ge asyuct: ', LOGIN_ASYNC.REQUEST)
-//       // dispatch({type: LOGIN_ASYNC.REQUEST, payload: res.data})
-//       // dispatch({type: LOGIN_ASYNC.SUCCESS, payload: res.data})
-//       // dispatch(loadUserProfile(res.data))
-//     })
-//   })
-// }
-// }
-
 // export function loadUserSuccess(user) {
 //   return {type: LOGIN_ASYNC.SUCCESS, user}
 // }
@@ -124,13 +103,6 @@ import {
  */
 // export function clearError() {
 //   return {type: CLEAR_ERROR}
-// }
-
-// export function logout() {
-//   return dispatch => {
-//     localStorage.removeItem('jwtToken')
-//     dispatch(setCurrentUser({}))
-//   }
 // }
 
 export function setCurrentUser(user) {

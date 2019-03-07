@@ -7,6 +7,7 @@ import {connect} from "react-redux"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
 import isEmpty from "lodash/isEmpty"
+import {local} from "brownies"
 /* import history from "../index.js" */
 
 // actions
@@ -28,7 +29,8 @@ export class D extends Component {
         return normalizeErrors(errors)
       }
       if (token) {
-        localStorage.setItem("AUTH_TOKEN", token)
+        const auth = "AUTH_TOKEN"
+        local[auth] = token
         const payload = {}
         payload.user = response.data.login.user
         this.props.loadData(payload)
@@ -58,7 +60,7 @@ const loginMutation = gql`
     login(input: {identifier: $identifier, password: $password}) {
       token
       user {
-        id
+        _id
         username
         email
         roles

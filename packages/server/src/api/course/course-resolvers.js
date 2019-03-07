@@ -6,6 +6,22 @@ import Course from "./course-model"
 import User from "../user/user-model.js"
 import {userByToken} from "../shared/resolver-functions.js"
 
+const escapeRegex = text => {
+  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+}
+
+/* 
+** 
+** @coursesById
+**
+** usage: 
+** coursesById(courseIds) => {} 
+**
+** return: Given an array of course ids this will return an array of coureses that contain at least one of those ids.  
+**
+** notes: 
+**
+*/
 const coursesById = async courseIds => {
   try {
     const courses = await Course.find({_id: {$in: courseIds}})
@@ -20,24 +36,50 @@ const coursesById = async courseIds => {
     throw err
   }
 }
-
-const userById = async userId => {
-  console.log("userId: ", userId)
-  try {
-    const user = await User.findById(userId)
-    console.log("user: ", user)
-    return {
-      ...user._doc,
-      _id: user.id,
-      createdCourses: coursesById.bind(this, user._doc.createdCourses)
-    }
-  } catch (err) {
-    throw err
+/* 
+** 
+** @mongooseToJs
+**
+** usage: 
+** mongooseToJs(object) => {} 
+**
+** return: A new js object with a stringified _id and an owner Id.  The object to convert must have an owner property.
+**
+** notes: converts a mongoose object to a plain js object discarding mongoose meta data.   
+**
+*/
+const mongooseToJs = object => {
+  return {
+    ...object._doc,
+    _id: object._doc._id.toString(),
+    owner: userById.bind(this, object._doc.owner)
   }
 }
 
-const escapeRegex = text => {
-  return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+/* 
+** 
+** @userById
+**
+** usage: 
+** userById(userId) => {} 
+**
+** return: 
+**
+** notes: 
+**
+*/
+
+const userById = userId => {
+  return User.findById(userId)
+    .then(user => {
+      return {
+        ...user._doc,
+        _id: user.id
+      }
+    })
+    .catch(err => {
+      throw err
+    })
 }
 
 const getCourse = async (_, {courseId}, {user}) => {
@@ -75,19 +117,17 @@ const courseUpdate = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
+  console.log("token: ", ctx.userId)
+  const userId = ctx.userId
+  console.log("userId: ", userId)
   try {
-    /* const token = ctx.req.headers.authorization */
-    /* if (!token || token === "null") { */
-    /*   return new Error("You need to be registered to create a course.") */
-    /* } */
+    if (!ctx.isAuth) {
+      throw new Error("You need to be registered to create a course.")
+    }
 
-    /* const user = await userByToken(token, (err, res) => { */
-    /*   if (err) return err */
-    /*   return res */
-    /* }) */
+    const userId = ctx.userId
 
-    const id = "5c7f4b717555c4301f5e93c8"
-    const user = await User.findById(id, (err, res) => {
+    const user = await User.findById(userId, (err, res) => {
       if (err) return err
       return res
     })
@@ -109,13 +149,9 @@ const courseCreate = async (_, args, ctx, info) => {
 
     const course = await newCourse.save()
 
-    createdCourse = {
-      ...course._doc,
-      _id: course._doc._id.toString(),
-      owner: userById.bind(this, course._doc.owner)
-    } // _doc leaves out meta data so you get leaner object. Also we can use .id to bypass the long way of id conversion
+    createdCourse = mongooseToJs(course)
 
-    const owner = await User.findById(id)
+    const owner = await User.findById(userId)
 
     if (!owner) {
       throw new Error("User not found.")
@@ -172,19 +208,22 @@ const getCreatedCourses = async (_, args, ctx, info) => {
   }
 }
 
-const getCourses = async (_, args, ctx, info) => {
-  try {
-    const courses = await Course.find()
-    return courses.map(course => {
-      return {
-        ...course._doc,
-        _id: course._doc._id.toString(),
-        owner: userById.bind(this, course._doc.owner)
-      }
+const getCourses = (_, args, ctx, info) => {
+  return Course.find()
+    .then(courses => {
+      const convertedCourses = courses.map(course => {
+        /* return mongooseToJs(course) */
+        return {
+          ...course._doc,
+          _id: course.id,
+          owner: userById.bind(this, course._doc.owner)
+        }
+      })
+      return {courses: convertedCourses, cursor: ""}
     })
-  } catch (err) {
-    throw err
-  }
+    .catch(err => {
+      throw err
+    })
   /* // build query object */
   /* const query = {} */
   /* var courseName, resources, owner */

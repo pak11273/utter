@@ -18,7 +18,7 @@ import client from "./apollo.js"
 
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
-import {Footer, MainNavbar, ModalMgr} from "./containers"
+import {Footer, MainNavbar} from "./containers"
 import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {store, persistor} from "./store.js"
@@ -75,7 +75,6 @@ class App extends Component {
             <PersistGate loading={null} persistor={persistor}>
               <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                <ModalMgr />
                 <Router history={history}>
                   <StyledGrid style={{minHeight: "100vh"}}>
                     <MainNavbar

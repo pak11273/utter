@@ -136,3 +136,30 @@ export const authenticate = (req, res, next) => {
 export const signToken = id => {
   return jwt.sign({_id: id}, config.env.JWT)
 }
+
+export const isAuth = (req, res, next) => {
+  const authHeader = req.get("Authorization")
+  if (!authHeader) {
+    req.isAuth = false
+    return next()
+  }
+
+  let decodedToken
+
+  try {
+    decodedToken = jwt.verify(authHeader, config.env.JWT)
+  } catch (err) {
+    req.isAuth = false
+    return next()
+  }
+
+  if (!decodedToken) {
+    req.isAuth = false
+    return next()
+  }
+
+  req.isAuth = true
+  /* req.userId = decodedToken.userId */
+  req.token = decodedToken
+  next()
+}

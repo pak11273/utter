@@ -94,6 +94,8 @@ class CourseUpdate extends Component {
   }
 
   render() {
+    const parsedCourse = sessionStorage.getItem("course")
+    const course = JSON.parse(parsedCourse)
     const {classes} = this.props
     const SubRoutes = route => (
       <Route
@@ -101,7 +103,7 @@ class CourseUpdate extends Component {
         render={props => <route.component {...props} routes={route.routes} />}
       />
     )
-    const {course, routes, user} = this.props
+    const {routes, user} = this.props
     return (
       <div className={classes.root}>
         <Drawer

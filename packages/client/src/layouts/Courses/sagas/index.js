@@ -5,7 +5,6 @@ import {ADD_FLASH_MESSAGE} from "../../../core/types.js"
 
 // types
 import * as types from "../types"
-import {MODAL_RESET} from "../../../containers/modals/types.js"
 
 // actions
 // import {resetModal} from '../../../containers/modals/actions.js'
@@ -61,55 +60,6 @@ function* createCourseThumbnail(action) {
   /*       }) */
   /* }) */
   yield put(push(`/courses/created`))
-}
-
-function* deleteTeachingCourse(state) {
-  const {owner, courseId, courseName} = state
-  const getAuthId = state => state.apiReducer.User.items[0]
-  const authId = yield select(getAuthId)
-  const url = `/api/courses/${authId}/${owner}/${courseId}/${courseName}`
-  const htmlReadyUrl = encodeURI(url)
-  try {
-    const url = htmlReadyUrl
-    const method = "delete"
-    const data = {}
-    const cb = null
-    const params = null
-
-    const res = yield call(fetchData, {url, method, data, params, cb})
-
-    if (res.status >= 200 && res.status < 300) {
-      yield put({
-        type: types.COURSE_ASYNC.SUCCESS,
-        payload: res.data
-      })
-
-      // TODO reset modalReducer
-      yield put({
-        type: MODAL_RESET
-      })
-
-      yield put(push(`/courses/created`))
-    } else {
-      throw res
-    }
-  } catch (error) {
-    if (!error.response) {
-      yield put({
-        type: types.COURSE_ASYNC.ERROR,
-        payload: error.message || "Something went wrong."
-      })
-    } else {
-      console.log("error: ", error.response.statusText)
-      const err = error.response.statusText
-      yield put({
-        type: types.COURSE_ASYNC.ERROR,
-        payload: err
-      })
-    }
-  } finally {
-    // no op
-  }
 }
 
 export function* fetchTeachingCourse(state) {
@@ -222,7 +172,6 @@ function* watchCourse() {
   yield all([
     takeLatest(types.COURSE_ASYNC.CREATE, createCourseThumbnail),
     takeLatest(types.LEVELS_ASYNC.FETCH, fetchLevels),
-    takeLatest(types.COURSE_ASYNC.DELETE, deleteTeachingCourse),
     takeLatest(types.COURSE_ASYNC.REQUEST, fetchTeachingCourse),
     takeLatest(types.COURSE_ASYNC.UPDATE, updateTeachingCourse)
   ])

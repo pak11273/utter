@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
 import {Can} from "../../../components"
+import {CourseModal} from "../../../containers"
 import schema from "../../../core/schema"
 
 import Button from "@material-ui/core/Button"
@@ -11,7 +12,6 @@ import {withStyles} from "@material-ui/core/styles"
 
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
-/* import ModalMgr from "../../../containers/modals/modal-mgr.js" */
 
 const courseUpdate = gql`
   mutation courseUpdate($input: CourseUpdated!) {
@@ -24,7 +24,6 @@ const courseUpdate = gql`
 
 // actions
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
-import {openModal} from "../../../containers/modals/actions.js"
 
 const styles = theme => ({
   content: {
@@ -59,7 +58,13 @@ const styles = theme => ({
 })
 
 class CourseSettings extends Component {
-  state = {name: "", email: "", submittedName: "", submittedEmail: ""}
+  state = {
+    name: "",
+    email: "",
+    open: false,
+    submittedName: "",
+    submittedEmail: ""
+  }
 
   componentDidMount() {
     this.props.toggleFooter(false)
@@ -75,20 +80,27 @@ class CourseSettings extends Component {
     console.log("result: ", result)
   }
 
+  handleDeleteModalOpen = () => {
+    this.setState({
+      open: true
+    })
+  }
+
+  handleDeleteModalClose = () => {
+    this.setState({open: false})
+  }
+
   handleSubmit = () => {
     const {name, email} = this.state
 
     this.setState({submittedName: name, submittedEmail: email})
   }
 
-  openModalClicked = e => {
-    e.preventDefault()
-    this.props.openModal("courseModal", null)
-  }
-
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
-    const {classes, user, course} = this.props
+    const {classes, user} = this.props
+    const parsedCourse = sessionStorage.getItem("course")
+    const course = JSON.parse(parsedCourse)
     return (
       <Can
         roles={user.roles}
@@ -121,7 +133,6 @@ class CourseSettings extends Component {
             {/* End hero unit */}
             <main className={classes.content}>
               <Grid container spacing={24}>
-                {/*  <ModalMgr /> */}
                 <Grid item xs={12}>
                   <div
                     style={{
@@ -133,7 +144,7 @@ class CourseSettings extends Component {
                       Course Mode:
                     </Typography>
                     <Typography align="center" className={classes.courseMode}>
-                      {this.props.course.courseMode}
+                      {course.courseMode}
                     </Typography>
                     <Button
                       variant="outlined"
@@ -142,7 +153,7 @@ class CourseSettings extends Component {
                         color: "white"
                       }}
                       onClick={this.handlePublish}>
-                      {this.props.courseMode === "draft" ? "edit" : "publish"}
+                      {course.courseMode === "draft" ? "edit" : "publish"}
                     </Button>
                   </div>
                 </Grid>
@@ -156,13 +167,19 @@ class CourseSettings extends Component {
                   </Typography>
                   <Button
                     variant="outlined"
+                    onClick={this.handleDeleteModalOpen}
                     style={{
                       backgroundColor: "red",
                       color: "white",
                       margin: "12px"
                     }}>
-                    Delete Course {/* TODO: delete all related entities */}
+                    Delete Course
                   </Button>
+                  <CourseModal
+                    course={course}
+                    open={this.state.open}
+                    onClose={this.handleDeleteModalClose}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <div
@@ -185,18 +202,15 @@ class CourseSettings extends Component {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {User, Course} = session
-  const course = Course.first().ref
+  const {User} = session
   const userObj = User.all().toRefArray()
   var user = userObj[0]
   return {
-    user,
-    course
+    user
   }
 }
 
 const actions = {
-  openModal,
   toggleFooter
 }
 

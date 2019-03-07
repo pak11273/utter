@@ -2,13 +2,14 @@ import React, {Component} from "react"
 import {addFlashMessage} from "../core/actions/flashMessages.js"
 import {connect} from "react-redux"
 import {history} from "@utterzone/connector"
+import {local} from "brownies"
 
 const requireAuth = WrappedComponent => {
   class Wrap extends Component {
     componentDidMount() {}
 
     render() {
-      const isAuthenticated = localStorage.getItem("AUTH_TOKEN")
+      const isAuthenticated = local.AUTH_TOKEN
       if (!isAuthenticated) {
         this.props.addFlashMessage({
           type: "error",

@@ -2,12 +2,12 @@ import ChatPanel from "./ChatPanel"
 import Challenge from "./Challenge"
 import Channels from "./Channels"
 import Container from "./Container"
+import CourseModal from "./modals/course-modal.js"
 import Footer from "./Footers/Footer"
 import KnowledgeBase from "./KnowledgeBase"
 import Login from "./Logins"
 import Masthead from "./Mastheads/Masthead.js"
 import MainNavbar from "./navbars/main-bar.js"
-import ModalMgr from "./modals/modal-mgr.js"
 import testModal from "./modals/test-modal.js"
 import Pagination from "./Pagination"
 import Pictures from "./Pictures"
@@ -25,12 +25,12 @@ export {
   Channels,
   ChatPanel,
   Container,
+  CourseModal,
   Footer,
   KnowledgeBase,
   Login,
   Masthead,
   MainNavbar,
-  ModalMgr,
   testModal,
   Pagination,
   Pictures,

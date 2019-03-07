@@ -36,7 +36,7 @@ class Levels extends Component {
     super(props)
 
     this.state = {
-      courseId: this.props.course.id,
+      courseId: "",
       formErrors: {
         errors: []
       },
@@ -50,6 +50,11 @@ class Levels extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
+    const parsedCourse = sessionStorage.getItem("course")
+    const course = JSON.parse(parsedCourse)
+    this.setState({
+      courseId: course._id
+    })
   }
 
   addLevel = levelCreate => async e => {
@@ -77,7 +82,6 @@ class Levels extends Component {
       levelCreate({
         variables: {
           input: {
-            courseId: this.props.course.id,
             level: this.state.level,
             title: this.state.title
           }
@@ -127,7 +131,6 @@ class Levels extends Component {
       DELETE_LEVEL({
         variables: {
           input: {
-            courseId: this.props.course.id,
             level: this.state.level
           }
         }
@@ -147,7 +150,10 @@ class Levels extends Component {
   }
 
   render() {
-    const {classes, course, user} = this.props
+    const parsedCourse = sessionStorage.getItem("course")
+    const course = JSON.parse(parsedCourse)
+
+    const {classes, user} = this.props
     const levelError = classNames({
       errorClass:
         this.state.formErrors.path === "level" &&
@@ -251,13 +257,13 @@ class Levels extends Component {
                 try {
                   var gotLevels = cache.readQuery({
                     query: getLevels,
-                    variables: {courseId: this.props.course.id}
+                    variables: {courseId: course._id}
                   })
                   var {levels} = gotLevels.getLevels
                   cache.writeQuery({
                     query: getLevels,
                     variables: {
-                      courseId: this.props.course.id
+                      courseId: course._id
                     },
                     data: {
                       getLevels: {
@@ -335,7 +341,7 @@ class Levels extends Component {
         errorPolicy="all"
         query={getLevels}
         variables={{
-          courseId: course.id
+          courseId: course._id
         }}>
         {({loading, error, data}) => {
           if (loading) {
@@ -404,17 +410,14 @@ class Levels extends Component {
 
 const mapStateToProps = state => {
   const session = schema.session(state.apiReducer)
-  const {User, Course, Level} = session
+  const {User, Level} = session
   const userObj = User.all().toRefArray()
-  const courseObj = Course.all().toRefArray()
   const levelObj = Level.all().toRefArray()
   var user = userObj[0]
-  var course = courseObj[0]
   var levels = levelObj
 
   return {
     user,
-    course,
     levels
   }
 }

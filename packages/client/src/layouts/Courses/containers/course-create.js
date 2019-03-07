@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import gql from "graphql-tag"
-/* import axios from "axios" */
+import {local} from "brownies"
 
 import {Field, withFormik} from "formik"
 import isEmpty from "lodash/isEmpty"
@@ -130,7 +130,6 @@ const COURSE_CREATE = gql`
     $courseImage: String
     $courseDescription: String
     $courseMode: String
-    $resources: [ResourceInput]
     $teachingLang: String
     $usingLang: String
   ) {
@@ -140,7 +139,6 @@ const COURSE_CREATE = gql`
         courseImage: $courseImage
         courseDescription: $courseDescription
         courseMode: $courseMode
-        resources: $resources
         teachingLang: $teachingLang
         usingLang: $usingLang
       }
@@ -152,10 +150,6 @@ const COURSE_CREATE = gql`
       courseName
       owner {
         username
-      }
-      resources {
-        value
-        label
       }
       teachingLang
       usingLang
@@ -307,7 +301,6 @@ class CourseCreate extends Component {
             url: data.url
           },
           () => {
-            console.log("uri: ", data)
             this.props.setValues({
               ...this.props.values,
               courseImage: data.secure_url
@@ -553,49 +546,47 @@ export default connect(
         usingLang: ""
       }),
       handleSubmit: async (values, {props, setErrors}) => {
-        const merge = async data => {
-          console.log("data: ", data)
-          return {...values, ...data}
+        const cdnUpload = await handleCloudinaryUpload(
+          values.uploadedFile,
+          "image",
+          "course-thumbnails"
+        )
+
+        const merge = cdnUpload => {
+          return {...values, secure_url: cdnUpload.secure_url}
         }
 
-        const xhrResult = async () => {
-          const data = await handleCloudinaryUpload(values.uploadedFile)
-          const merged = await merge(data)
-          console.log("mergerd: ", merged)
-          /* const course = await props.courseCreate({ */
-          /*   variables: { */
-          /*     courseName: merged.courseName, */
-          /*     courseDescription: merged.courseDescription, */
-          /*     courseImage: merged.secure_url, */
-          /*     courseMode: merged.courseMode, */
-          /*     resources: merged.resources, */
-          /*     teachingLang: merged.teachingLang, */
-          /*     usingLang: merged.usingLang */
-          /*   } */
-          /* }) */
-          /* return course */
-        }
-        const result = await xhrResult()
+        const result = merge(cdnUpload)
 
-        console.log("result: ", result)
+        const course = await props.courseCreate({
+          variables: {
+            courseName: result.courseName,
+            courseDescription: result.courseDescription,
+            courseImage: result.secure_url,
+            courseMode: result.courseMode,
+            teachingLang: result.teachingLang,
+            usingLang: result.usingLang
+          }
+        })
 
-        const onComplete = result => {
-          // TODO: push courseId to apollo
+        const onComplete = course => {
+
+          local.course = course.data.courseCreate
           history.push({
             pathname: "/course/course-settings",
-            state: {courseId: result.data.courseCreate.id}
+            state: {courseId: course.data.courseCreate._id}
           })
         }
 
         // if create is legit
-        if (result) {
-          onComplete(result)
+        if (course) {
+          onComplete(course)
           props.actions.addFlashMessage({
             type: "success",
             text: "Start building your course."
           })
         } else {
-          setErrors(result.COURSE_CREATE.errors)
+          setErrors(course.COURSE_CREATE.errors)
           props.actions.addFlashMessage({
             type: "error",
             text: "Something went wrong. Could not create a course."

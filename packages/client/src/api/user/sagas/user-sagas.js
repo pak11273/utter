@@ -3,6 +3,7 @@ import {push} from "react-router-redux"
 import {all, call, put, take, takeLatest} from "redux-saga/effects"
 import axios from "axios"
 import jwt from "jsonwebtoken"
+import {local} from "brownies"
 import {actions} from "../actions/login-actions"
 
 // actions
@@ -14,14 +15,14 @@ import {fetchData} from "../../../utils/apiMgr"
 export function* authorize(token) {
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`
-    localStorage.setItem("AUTH_TOKEN", token)
+    local.AUTH_TOKEN = token
   } else {
     delete axios.defaults.headers.common["Authorization"]
   }
 }
 
 export function* deAuthorize() {
-  localStorage.setItem("AUTH_TOKEN", null)
+  delete local.AUTH_TOKEN
   delete axios.defaults.headers.common["Authorization"]
 }
 
@@ -82,8 +83,7 @@ export function* login(state) {
 }
 
 export function* logout() {
-  localStorage.removeItem("AUTH_TOKEN")
-  localStorage.setItem("AUTH_TOKEN", null)
+  delete local.AUTH_TOKEN
   yield put({type: types.DEAUTHORIZE})
   yield put(push("/login"))
   // dispatch(setCurrentUser({}))

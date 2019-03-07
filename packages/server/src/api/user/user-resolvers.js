@@ -235,10 +235,9 @@ const updateMe = (_, {input}, {user}) => {
 const getSubscriptions = async (_, args, {user}) => {
   console.log("args: ", args)
   try {
-		const subscriptions = await User.findById(userId)
+    const subscriptions = await User.findById(userId)
 
-		return { ...subscriptions._doc, _id: subscriptions.id } 
-
+    return {...subscriptions._doc, _id: subscriptions.id}
   } catch (err) {
     throw err
   }

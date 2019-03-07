@@ -7,6 +7,7 @@ import {NavLink} from "react-router-dom"
 import styled from "styled-components"
 import schema from "../../core/schema"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
+import {local} from "brownies"
 
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import AssignmentIcon from "@material-ui/icons/Assignment"
@@ -111,7 +112,7 @@ class MainNavbar extends Component {
 
   logout = e => {
     e.preventDefault()
-    localStorage.removeItem(AUTH_TOKEN)
+    delete local.AUTH_TOKEN
     this.props.deleteData("user")
     this.props.history.push("/login")
   }
@@ -165,7 +166,7 @@ class MainNavbar extends Component {
 
   render() {
     // handle login section
-    const isAuthenticated = localStorage.getItem(AUTH_TOKEN)
+    const isAuthenticated = local.AUTH_TOKEN
 
     /* const userLinks = ( */
     /*   <Menu> */

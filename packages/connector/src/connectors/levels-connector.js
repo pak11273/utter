@@ -56,7 +56,7 @@ const LevelCreateMutation = gql`
         usingLang: $usingLang
       }
     ) {
-      id
+      _id
       levelName
       levelAuthor {
         username

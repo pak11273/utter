@@ -1,10 +1,10 @@
 import React, {PureComponent} from "react"
-import Waypoint from "react-waypoint"
+/* import Waypoint from "react-waypoint" */
 
 import classNames from "classnames"
 import cloneDeep from "lodash/cloneDeep"
 import {history} from "@utterzone/connector"
-import isEmpty from "lodash/isEmpty"
+/* import isEmpty from "lodash/isEmpty" */
 import update from "immutability-helper"
 
 import Card from "@material-ui/core/Card"
@@ -71,22 +71,25 @@ import {loadData} from "../../../api/actions.js"
 const getCourses = gql`
   query getCourses {
     getCourses {
-      _id
-      courseImage
-      courseMode
-      courseName
-      courseDescription
-      levels {
+      courses {
         _id
-        level
-        title
+        courseImage
+        courseMode
+        courseName
+        courseDescription
+        levels {
+          _id
+          level
+          title
+        }
+        usingLang
+        subscribers
+        teachingLang
+        owner {
+          username
+        }
       }
-      usingLang
-      subscribers
-      teachingLang
-      owner {
-        username
-      }
+      cursor
     }
   }
 `
@@ -250,7 +253,7 @@ class CoursesGrid extends PureComponent {
           usingLang,
           teachingLang
         }}>
-        {({loading, error, data, fetchMore}) => {
+        {({loading, error, data}) => {
           if (loading)
             return (
               <Grid
@@ -284,80 +287,71 @@ class CoursesGrid extends PureComponent {
             )
           }
           if (this.state.cursor !== "done") {
-            var waypoint = (
-              <Waypoint
-                key={data.getCourses.cursor}
-                onEnter={() => {
-                  // set cursor state to first response
-                  const newState = update(this.state, {
-                    cursor: {$set: data.getCourses.cursor}
-                  })
-
-                  this.setState(newState)
-
-                  fetchMore({
-                    // note this is a different query than the one used in the
-                    variables: {
-                      cursor: this.state.cursor
-                    },
-                    updateQuery: (previousResult, {fetchMoreResult}) => {
-                      if (!fetchMoreResult) {
-                        // do something here
-                        console.log("prev: ", previousResult)
-                        console.log("fetch: ", fetchMoreResult)
-                      }
-                      const previousEntry = previousResult.getCourses.courses
-                      const newCourses = fetchMoreResult.getCourses.courses
-
-                      // display waypoint if a cursor exists
-                      const newState = update(this.state, {
-                        cursor: {
-                          $set: fetchMoreResult.getCourses.cursor
-                        }
-                      })
-
-                      this.setState(newState)
-
-                      if (isEmpty(newCourses)) {
-                        // hide waypoint
-                        const newState = update(this.state, {
-                          cursor: {
-                            $set: fetchMoreResult.getCourses.cursor
-                          }
-                        })
-
-                        this.setState(newState)
-
-                        return previousResult
-                      }
-                      var newCursor = newCourses[newCourses.length - 1].id
-
-                      if (!fetchMoreResult) return previousEntry
-
-                      return {
-                        // By returning `cursor` here, we update the `fetchMore` function
-                        // to the new cursor.
-                        getCourses: {
-                          cursor: newCursor,
-                          courses: [...previousEntry, ...newCourses],
-                          __typename: "PaginatedCourses"
-                        }
-                      }
-                    }
-                  })
-                }}>
-                {/* <div>
-                  <Button>Scroll down for more</Button>
-                </div> */}
-              </Waypoint>
-            )
+            /* var waypoint = ( */
+            /*   <Waypoint */
+            /*     key={data.getCourses.cursor} */
+            /*     onEnter={() => { */
+            /*       // set cursor state to first response */
+            /*       const newState = update(this.state, { */
+            /*         cursor: {$set: data.getCourses.cursor} */
+            /*       }) */
+            /*       this.setState(newState) */
+            /*       fetchMore({ */
+            /*         // note this is a different query than the one used in the */
+            /*         variables: { */
+            /*           cursor: this.state.cursor */
+            /*         }, */
+            /*         updateQuery: (previousResult, {fetchMoreResult}) => { */
+            /*           if (!fetchMoreResult) { */
+            /*             // do something here */
+            /*             console.log("prev: ", previousResult) */
+            /*             console.log("fetch: ", fetchMoreResult) */
+            /*           } */
+            /*           const previousEntry = previousResult.getCourses.courses */
+            /*           const newCourses = fetchMoreResult.getCourses.courses */
+            /*           // display waypoint if a cursor exists */
+            /*           const newState = update(this.state, { */
+            /*             cursor: { */
+            /*               $set: fetchMoreResult.getCourses.cursor */
+            /*             } */
+            /*           }) */
+            /*           this.setState(newState) */
+            /*           if (isEmpty(newCourses)) { */
+            /*             // hide waypoint */
+            /*             const newState = update(this.state, { */
+            /*               cursor: { */
+            /*                 $set: fetchMoreResult.getCourses.cursor */
+            /*               } */
+            /*             }) */
+            /*             this.setState(newState) */
+            /*             return previousResult */
+            /*           } */
+            /*           var newCursor = newCourses[newCourses.length - 1].id */
+            /*           if (!fetchMoreResult) return previousEntry */
+            /*           return { */
+            /*             // By returning `cursor` here, we update the `fetchMore` function */
+            /*             // to the new cursor. */
+            /*             getCourses: { */
+            /*               cursor: newCursor, */
+            /*               courses: [...previousEntry, ...newCourses], */
+            /*               __typename: "PaginatedCourses" */
+            /*             } */
+            /*           } */
+            /*         } */
+            /*       }) */
+            /*     }}> */
+            /*     {/1* <div> */
+            /*       <Button>Scroll down for more</Button> */
+            /*     </div> *1/} */
+            /*   </Waypoint> */
+            /* ) */
           }
           return (
             <div>
               <div className={classNames(classes.layout, classes.cardGrid)}>
                 {/* End hero unit */}
                 <Grid container spacing={8}>
-                  {data.getCourses.map(card => (
+                  {data.getCourses.courses.map(card => (
                     <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
                       <Card className={classes.card}>
                         <CardMedia
@@ -415,7 +409,7 @@ class CoursesGrid extends PureComponent {
                   ))}
                 </Grid>
               </div>
-              {waypoint}
+              {/* {waypoint} */}
             </div>
           )
         }}

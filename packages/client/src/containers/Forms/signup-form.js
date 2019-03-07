@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
+import {local} from "brownies"
 
 import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
@@ -233,7 +234,7 @@ export default withFormik({
 
     // if signup info is legit
     if (typeof result === "string") {
-      localStorage.setItem("AUTH_TOKEN", result)
+      local.AUTH_TOKEN
       onComplete()
       props.addFlashMessage({
         type: "success",

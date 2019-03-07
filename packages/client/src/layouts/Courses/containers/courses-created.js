@@ -121,7 +121,7 @@ const getCreatedCourses = gql`
   query getCreatedCourses($cursor: String) {
     getCreatedCourses(cursor: $cursor) {
       courses {
-        id
+        _id
         courseImage
         courseDescription
         courseName
