@@ -22,20 +22,19 @@ const escapeRegex = text => {
 ** notes: 
 **
 */
-const coursesById = courseIds => {
-  return Course.find({_id: {$in: courseIds}})
-    .then(courses => {
-      return courses.map(course => {
-        return {
-          ...course._doc,
-          _id: course.id,
-          owner: userById.bind(this, course.owner)
-        }
-      })
+const coursesById = async courseIds => {
+  try {
+    const courses = await Course.find({_id: {$in: courseIds}})
+    return courses.map(course => {
+      return {
+        ...course._doc,
+        _id: course.id,
+        owner: userById.bind(this, course.owner)
+      }
     })
-    .catch(err => {
-      throw err
-    })
+  } catch (err) {
+    throw err
+  }
 }
 /* 
 ** 
@@ -70,18 +69,17 @@ const mongooseToJs = object => {
 **
 */
 
-const userById = userId => {
-  return User.findById(userId)
-    .then(user => {
-      return {
-        ...user._doc,
-        _id: user.id,
-        createdCourses: coursesById.bind(this, user._doc.createdCourses)
-      }
-    })
-    .catch(err => {
-      throw err
-    })
+const userById = async userId => {
+  try {
+    const user = await User.findById(userId)
+    return {
+      ...user._doc,
+      _id: user.id,
+      createdCourses: coursesById.bind(this, user._doc.createdCourses)
+    }
+  } catch (err) {
+    throw err
+  }
 }
 
 const getCourse = async (_, {courseId}, {user}) => {
@@ -131,8 +129,6 @@ const courseCreate = async (_, args, ctx, info) => {
       return res
     })
 
-    console.log("user: ", user)
-
     const newCourse = new Course({
       courseImage: args.input.courseImage,
       courseName: args.input.courseName,
@@ -148,7 +144,13 @@ const courseCreate = async (_, args, ctx, info) => {
 
     const course = await newCourse.save()
 
-    createdCourse = mongooseToJs(course)
+    /* createdCourse = mongooseToJs(course) */
+
+    createdCourse = {
+      ...course._doc,
+      _id: course._doc._id.toString(),
+      owner: userById.bind(this, course._doc.owner)
+    }
 
     const owner = await User.findById(userId)
 
@@ -207,22 +209,20 @@ const getCreatedCourses = async (_, args, ctx, info) => {
   }
 }
 
-const getCourses = (_, args, ctx, info) => {
-  return Course.find()
-    .then(courses => {
-      const convertedCourses = courses.map(course => {
-        /* return mongooseToJs(course) */
-        return {
-          ...course._doc,
-          _id: course.id,
-          owner: userById.bind(this, course._doc.owner)
-        }
-      })
-      return {courses: convertedCourses, cursor: ""}
+const getCourses = async (_, args, ctx, info) => {
+  try {
+    const courses = await Course.find()
+    const convertedCourses = courses.map(course => {
+      return {
+        ...course._doc,
+        _id: course.id,
+        owner: userById.bind(this, course._doc.owner)
+      }
     })
-    .catch(err => {
-      throw err
-    })
+    return {courses: convertedCourses, cursor: ""}
+  } catch (err) {
+    throw err
+  }
   /* // build query object */
   /* const query = {} */
   /* var courseName, resources, owner */
