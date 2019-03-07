@@ -119,15 +119,12 @@ const courseUpdate = (_, {input}) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
-  console.log("token: ", ctx.userId)
-  const userId = ctx.userId
-  console.log("userId: ", userId)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
     }
 
-    const userId = ctx.userId
+    const userId = ctx.req.token._id
 
     const user = await User.findById(userId, (err, res) => {
       if (err) return err
