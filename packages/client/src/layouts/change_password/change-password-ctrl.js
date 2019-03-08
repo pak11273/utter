@@ -8,7 +8,6 @@ import ChangePasswordView from "./change-password-view.js"
 
 export default class ChangePasswordCtrl extends PureComponent {
   render() {
-    console.log("change props: ", this.props)
     return (
       <React.Fragment>
         <ChangePasswordConnector>

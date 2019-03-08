@@ -4,39 +4,72 @@ import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core/styles"
 
 import {changePasswordSchema} from "@utterzone/common"
-import {FormikInput, Img, Spacer} from "../../components"
+import {FormikInput, Img, Section, Spacer} from "../../components"
 import {history} from "@utterzone/connector"
 
-// actions
 import "./forms.css"
+
+const styles = () => ({
+  section: {
+    justifyContent: "center",
+    margin: "50px auto 100px",
+    maxWidth: 1240
+  }
+})
 
 class ChangePasswordForm extends PureComponent {
   render() {
-    const {handleSubmit} = this.props
+    const {classes, handleSubmit} = this.props
     return (
-      <Grid columns={4} centered padded stackable>
-        <Grid.Column textAlign="center" width={8}>
-          <Spacer margin="65px" />
-          <Img
-            centered
-            alt=""
-            src="https://media.swncdn.com/cms/CW/faith/31429-speaking-in-front-of-crowd-1200.jpg"
-          />
-          <h6>Education increases life opportunities.</h6>
-          <h6>
-            &quot;The great aim of education is not knowledge but action.&quot;
-            &mdash;Herbert Spencer
-          </h6>
-          <Spacer margin="100px" />
-        </Grid.Column>
-        <Grid.Column width={1} />
-        <Grid.Column width={6}>
-          <div>
-            <form error onSubmit={handleSubmit} style={{position: "relative"}}>
+      <Section className={classes.section}>
+        <Grid container>
+          <Grid item xs={12} sm={12} md={6} align="center">
+            <Img
+              alt="Visiting People"
+              margin="0 0 40px 0"
+              src="https://media.swncdn.com/cms/CW/faith/31429-speaking-in-front-of-crowd-1200.jpg"
+            />
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Education increases life opportunities.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              &quot;The great aim of education is not knowledge but
+              action.&quot;
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              &mdash;Herbert Spencer
+            </Typography>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} align="center">
+            <form onSubmit={handleSubmit} style={{position: "relative"}}>
               <Spacer margin="70px" />
-              <h6>Change Password</h6>
+              <Typography
+                align="center"
+                variant="h6"
+                color="inherit"
+                gutterBottom
+                noWrap>
+                Change Password
+              </Typography>
               <Field
                 name="password"
                 placeholder="password"
@@ -51,7 +84,7 @@ class ChangePasswordForm extends PureComponent {
                 component={FormikInput}
               />
               <Button
-                color="yellow"
+                color="inherit"
                 floated="right"
                 fontSize="1.5rem"
                 style={{margin: "30px 0 0 0"}}
@@ -59,10 +92,9 @@ class ChangePasswordForm extends PureComponent {
                 Submit
               </Button>
             </form>
-          </div>
-        </Grid.Column>
-        <Grid.Column width={1} />
-      </Grid>
+          </Grid>
+        </Grid>
+      </Section>
     )
   }
 }
@@ -92,5 +124,5 @@ export default connect(
         onComplete()
       }
     }
-  })(ChangePasswordForm)
+  })(withStyles(styles)(ChangePasswordForm))
 )

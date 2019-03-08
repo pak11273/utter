@@ -76,11 +76,7 @@ class ForgotPasswordForm extends PureComponent {
                 We need to confirm your account before changing your password.
               </Typography>
               <Field name="email" placeholder="email" component={FormikInput} />
-              <Button
-                style={{margin: "40px"}}
-                fontSize="1.5rem"
-                type="submit"
-                variant="solid">
+              <Button style={{margin: "40px"}} fontSize="1.5rem" type="submit">
                 Reset Password
               </Button>
             </form>
