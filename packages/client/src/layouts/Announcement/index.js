@@ -27,7 +27,7 @@ class Announcement extends PureComponent {
           <title>Utterzone | Announcement</title>
           <link rel="canonical" href="https://utterzone.com/a" />
         </Helmet>
-        <Grid centered style={{height: "600px", padding: "100px"}}>
+        <Grid style={{height: "600px", padding: "100px"}}>
           <Typography variant="h6" color="inherit" gutterBottom noWrap>
             {announcement}
           </Typography>

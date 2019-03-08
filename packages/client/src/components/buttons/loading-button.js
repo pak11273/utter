@@ -11,7 +11,7 @@ const styles = {
 
 const SpinnerAdornment = withStyles(styles)(props => (
   <CircularProgress
-    color="secondary"
+    style={{color: "white"}}
     className={props.classes.spinner}
     size={20}
   />

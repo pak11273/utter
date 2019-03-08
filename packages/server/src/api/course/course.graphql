@@ -68,6 +68,6 @@ extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
 	courseDelete(resourceId: String!): Boolean @hasScope(scope: "course:delete")
   courseUpdate(input: CourseUpdated!): Course!
-	subscribe(courseId: String!): Boolean
+	subscribe(courseId: String!): Course 
 	unsubscribe(courseId: String!): Boolean
 }

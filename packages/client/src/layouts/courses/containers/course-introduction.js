@@ -1,10 +1,9 @@
-import React, {PureComponent} from "react"
+import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
 import {withFormik} from "formik"
 import {courseSchema} from "@utterzone/common"
 import update from "immutability-helper"
-import schema from "../../../core/schema.js"
 import {history} from "@utterzone/connector"
 
 import Button from "@material-ui/core/Button"
@@ -15,7 +14,7 @@ import {withStyles} from "@material-ui/core/styles"
 
 import {session} from "brownies"
 import gql from "graphql-tag"
-import {graphql, Mutation} from "react-apollo"
+import {graphql, Mutation, withApollo} from "react-apollo"
 import {Can, Img, LoadingButton} from "../../../components"
 
 // actions
@@ -23,7 +22,14 @@ import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 const subscribeMutation = gql`
   mutation subscribe($courseId: String!) {
-    subscribe(courseId: $courseId)
+    subscribe(courseId: $courseId) {
+      _id
+    }
+  }
+`
+const UNSUBSCRIBE_MUTATION = gql`
+  mutation unsubscribe($courseId: String!) {
+    unsubscribe(courseId: $courseId)
   }
 `
 /* const getCourse = gql` */
@@ -60,7 +66,12 @@ const styles = theme => ({
   }
 })
 
-class CourseIntroduction extends PureComponent {
+const {course, user} = session
+const map = new Map(user.subscriptions.map(el => [el._id, el]))
+const courseSet = map.get(course._id) || {}
+console.log("courseSet: ", courseSet)
+
+class CourseIntroduction extends Component {
   state = {
     name: "",
     email: "",
@@ -74,17 +85,14 @@ class CourseIntroduction extends PureComponent {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    const {course, user} = session
-    const map = new Map(user.subscriptions.map(el => [el._id, el]))
-    const foo = map.get(course._id) || {}
 
-    if (foo._id) {
+    if (courseSet._id) {
       const newState = update(this.state, {
         subscribed: {$set: true},
         courseName: {$set: course.courseName},
         courseDescription: {$set: course.courseDescription}
       })
-      this.setState(newState)
+      this.setState(newState, () => console.log("this state: ", this.state))
     }
 
     if (user.username === course.owner.username) {
@@ -94,18 +102,15 @@ class CourseIntroduction extends PureComponent {
     }
   }
 
-  componentDidUpdate() {
-    console.log("state: ", this.state)
-  }
-
   handleChange = e => {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  handleSubscribeToggle = () => {
-    this.setState({
-      subscribed: !this.state.subscribed
-    })
+  sessionSubscribe = () => {
+    const tempUser = user
+    tempUser.subscriptions.push({_id: course._id})
+
+    session.user = tempUser
   }
 
   handleSubmit = e => {
@@ -115,9 +120,20 @@ class CourseIntroduction extends PureComponent {
     this.setState({submittedName: name, submittedEmail: email})
   }
 
+  sessionUnsubscribe = () => {
+    const updatedSubscriptions = user.subscriptions.filter(obj => {
+      return obj._id !== session.course._id
+    })
+
+    user.subscriptions = updatedSubscriptions
+
+    session.user = user
+  }
+
   render() {
-    const {classes, user} = this.props
-    const {course} = session
+    const {classes, client} = this.props
+    const {course, user} = session
+
     return (
       <form className={classes.root} onSubmit={this.handleSubmit}>
         <Helmet>
@@ -168,22 +184,42 @@ class CourseIntroduction extends PureComponent {
             <Grid item xs={12} align="center">
               <Mutation
                 mutation={subscribeMutation}
-                onCompleted={this.handleSubscribeToggle}>
+                onCompleted={this.sessionSubscribe}>
                 {(subscribeMutation, {loading}) => {
                   return (
                     <LoadingButton
                       loading={loading}
+                      disabled={loading}
                       color={
                         this.state.subscribed === true ? "secondary" : "primary"
                       }
                       variant="contained"
-                      onClick={() =>
-                        subscribeMutation({
-                          variables: {
-                            courseId: course._id
-                          }
-                        })
-                      }
+                      onClick={() => {
+                        if (this.state.subscribed) {
+                          client.mutate({
+                            mutation: UNSUBSCRIBE_MUTATION,
+                            variables: {
+                              courseId: course._id
+                            }
+                          })
+                          this.setState(
+                            {
+                              subscribed: false
+                            },
+                            () => this.sessionUnsubscribe()
+                          )
+                        }
+                        if (!this.state.subscribed) {
+                          subscribeMutation({
+                            variables: {
+                              courseId: course._id
+                            }
+                          })
+                          this.setState({
+                            subscribed: true
+                          })
+                        }
+                      }}
                       size="large">
                       <Typography>
                         {this.state.subscribed ? "unsubscribe" : "subscribe"}
@@ -208,7 +244,7 @@ class CourseIntroduction extends PureComponent {
                 margin="normal"
                 variant="outlined"
                 disabled={this.state.disabled}
-                value={this.state.courseName}
+                value={course.courseName}
               />
               <TextField
                 fullWidth
@@ -224,7 +260,7 @@ class CourseIntroduction extends PureComponent {
                 margin="normal"
                 variant="outlined"
                 disabled={this.state.disabled}
-                value={this.state.courseDescription}
+                value={course.courseDescription}
               />
             </Grid>
             <Grid item xs={12}>
@@ -270,23 +306,12 @@ class CourseIntroduction extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User} = session
-  const userObj = User.all().toRefArray()
-  var user = userObj[0]
-
-  return {
-    user
-  }
-}
-
 const actions = {
   toggleFooter
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   actions
 )(
   graphql(subscribeMutation)(
@@ -310,6 +335,6 @@ export default connect(
           history.push("/")
         }
       }
-    })(withStyles(styles)(CourseIntroduction))
+    })(withApollo(withStyles(styles)(CourseIntroduction)))
   )
 )

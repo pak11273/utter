@@ -294,7 +294,7 @@ const subscribe = async (_, args, ctx, info) => {
 
     const result = await user.save()
     if (result) {
-      return true
+      return course
     }
   } catch (err) {
     throw err
@@ -303,7 +303,10 @@ const subscribe = async (_, args, ctx, info) => {
 
 const unsubscribe = async (_, args, ctx, info) => {
   const course = await Course.findOneAndUpdate(
-    {_id: args.courseId},
+    {
+      _id: args.courseId,
+      subscribers: {$gte: 1}
+    },
     {$inc: {subscribers: -1}}
   )
   const userId = ctx.req.token._id

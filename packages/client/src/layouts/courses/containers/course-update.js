@@ -12,9 +12,7 @@ import ListItem from "@material-ui/core/ListItem"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import {withApollo} from "react-apollo"
-import gql from "graphql-tag"
-import {local, session} from "brownies"
+import {session} from "brownies"
 import schema from "../../../core/schema.js"
 import styled from "styled-components"
 import cloneDeep from "lodash/cloneDeep"
@@ -35,25 +33,6 @@ import {resetGlobalLevel} from "../../../api/actions.js"
 /*     } */
 /*   } */
 /* ` */
-const GET_USER_BY_TOKEN = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      _id
-      username
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      password
-      roles
-      scopes
-      subscriptions {
-        _id
-      }
-    }
-  }
-`
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -105,15 +84,6 @@ class CourseUpdate extends PureComponent {
 
   componentDidMount = async () => {
     this.props.resetGlobalLevel()
-    const token = local.AUTH_TOKEN
-    const {client} = this.props
-
-    const user = await client.query({
-      query: GET_USER_BY_TOKEN,
-      variables: {token}
-    })
-
-    session.user = user.data.getUserByToken
   }
 
   handleImageClick = e => {
@@ -182,7 +152,7 @@ class CourseUpdate extends PureComponent {
                   component={StyledNavLink}
                   exact
                   activeStyle={{
-                    color: "yellow"
+                    color: "primary"
                   }}
                   to={`/course/course-${text}`}
                   key={index}>
@@ -242,4 +212,4 @@ const actions = {
 export default connect(
   mapStateToProps,
   actions
-)(withApollo(withStyles(styles)(CourseUpdate)))
+)(withStyles(styles)(CourseUpdate))

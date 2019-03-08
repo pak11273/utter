@@ -7,7 +7,7 @@ import {NavLink} from "react-router-dom"
 import styled from "styled-components"
 import schema from "../../core/schema"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
-import {local} from "brownies"
+import {local, session} from "brownies"
 
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import AssignmentIcon from "@material-ui/icons/Assignment"
@@ -113,6 +113,7 @@ class MainNavbar extends Component {
   logout = e => {
     e.preventDefault()
     delete local.AUTH_TOKEN
+    delete session.user
     this.props.deleteData("user")
     this.props.history.push("/login")
   }

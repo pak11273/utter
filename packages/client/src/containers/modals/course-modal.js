@@ -30,7 +30,6 @@ export class ModalContainer extends Component {
   render() {
     const {handleSubmit} = this.props
     const {open, onClose} = this.props
-    console.log("course: ", this.props.course)
     const {course} = this.props
     return (
       <Mutation mutation={COURSE_DELETE}>
