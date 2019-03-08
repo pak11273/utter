@@ -10,10 +10,11 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
+import {session} from "brownies"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
 
-const courseUpdate = gql`
+const COURSE_UPDATE = gql`
   mutation courseUpdate($input: CourseUpdated!) {
     courseUpdate(input: $input) {
       id
@@ -99,8 +100,7 @@ class CourseSettings extends Component {
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
     const {classes, user} = this.props
-    const parsedCourse = sessionStorage.getItem("course")
-    const course = JSON.parse(parsedCourse)
+    const {course} = session
     return (
       <Can
         roles={user.roles}
@@ -201,8 +201,8 @@ class CourseSettings extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User} = session
+  const ormSession = schema.session(state.apiReducer)
+  const {User} = ormSession
   const userObj = User.all().toRefArray()
   var user = userObj[0]
   return {
@@ -214,7 +214,7 @@ const actions = {
   toggleFooter
 }
 
-const withGraphql = graphql(courseUpdate)(CourseSettings)
+const withGraphql = graphql(COURSE_UPDATE)(CourseSettings)
 
 export default connect(
   mapStateToProps,

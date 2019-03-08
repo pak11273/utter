@@ -17,6 +17,7 @@ import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
+import {session} from "brownies"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
@@ -100,7 +101,8 @@ class Grammar extends Component {
   }
 
   render() {
-    const {classes, course, level} = this.props
+    const {course} = session
+    const {classes, level} = this.props
     const data = [
       {
         level: 1,
@@ -230,18 +232,15 @@ class Grammar extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User, Course, Level} = session
+  const ormSession = schema.session(state.apiReducer)
+  const {User, Level} = ormSession
   const userObj = User.all().toRefArray()
-  const courseObj = Course.all().toRefArray()
   const levelObj = Level.all().toRefArray()
   var user = userObj[0]
-  var course = courseObj[0]
   var level = levelObj[0]
 
   return {
     user,
-    course,
     level
   }
 }

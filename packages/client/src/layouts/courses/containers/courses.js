@@ -18,6 +18,7 @@ import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 
+import {session} from "brownies"
 import CoursesGrid from "./courses-grid.js"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
@@ -139,6 +140,7 @@ class CoursesContainer extends PureComponent {
   state = cloneDeep(initialState)
 
   componentDidMount() {
+    delete session.course
     this.props.toggleFooter(false)
   }
 

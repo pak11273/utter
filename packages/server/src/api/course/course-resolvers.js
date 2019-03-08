@@ -284,9 +284,9 @@ const subscribe = async (_, args, ctx, info) => {
     {_id: args.courseId},
     {$inc: {subscribers: 1}}
   )
-  const UserId = "5c7f4b717555c4301f5e93c8"
+  const userId = ctx.req.token._id
   try {
-    const user = await User.findById(UserId, (err, res) => {
+    const user = await User.findById(userId, (err, res) => {
       if (err) return err
       return res
     })
@@ -306,9 +306,10 @@ const unsubscribe = async (_, args, ctx, info) => {
     {_id: args.courseId},
     {$inc: {subscribers: -1}}
   )
-  const UserId = "5c7f4b717555c4301f5e93c8"
+  const userId = ctx.req.token._id
+
   try {
-    const user = await User.findById(UserId, (err, res) => {
+    const user = await User.findById(userId, (err, res) => {
       if (err) return err
       return res
     })

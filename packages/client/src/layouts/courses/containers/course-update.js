@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {PureComponent} from "react"
 import {connect} from "react-redux"
 import {Route, NavLink} from "react-router-dom"
 
@@ -12,6 +12,9 @@ import ListItem from "@material-ui/core/ListItem"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
+import {withApollo} from "react-apollo"
+import gql from "graphql-tag"
+import {local, session} from "brownies"
 import schema from "../../../core/schema.js"
 import styled from "styled-components"
 import cloneDeep from "lodash/cloneDeep"
@@ -20,21 +23,37 @@ import {Can, Spacer} from "../../../components"
 import {resetGlobalLevel} from "../../../api/actions.js"
 
 /* const getCourse = gql` */
-/*   query getCourse($courseId: String) { */
-/*     getCourse(courseId: $courseId) { */
-/*       course { */
-/*         id */
-/*         courseImage */
-/*         courseName */
-/*         courseMode */
-/*         owner { */
-/*           username */
-/*         } */
+/*   query getCourse($_id: ID!) { */
+/*     getCourse(_id: $_id) { */
+/*       _id */
+/*       courseImage */
+/*       courseName */
+/*       courseMode */
+/*       owner { */
+/*         username */
 /*       } */
 /*     } */
 /*   } */
-
 /* ` */
+const GET_USER_BY_TOKEN = gql`
+  query getUserByToken($token: String!) {
+    getUserByToken(token: $token) {
+      _id
+      username
+      blocked
+      contacts
+      createdCourses {
+        _id
+      }
+      password
+      roles
+      scopes
+      subscriptions {
+        _id
+      }
+    }
+  }
+`
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -75,7 +94,7 @@ const initialCoursesContainerState = {
   resources: ""
 }
 
-class CourseUpdate extends Component {
+class CourseUpdate extends PureComponent {
   locationName = this.props.path
 
   constructor(props) {
@@ -84,8 +103,17 @@ class CourseUpdate extends Component {
     this.state = cloneDeep(initialCoursesContainerState)
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     this.props.resetGlobalLevel()
+    const token = local.AUTH_TOKEN
+    const {client} = this.props
+
+    const user = await client.query({
+      query: GET_USER_BY_TOKEN,
+      variables: {token}
+    })
+
+    session.user = user.data.getUserByToken
   }
 
   handleImageClick = e => {
@@ -94,8 +122,7 @@ class CourseUpdate extends Component {
   }
 
   render() {
-    const parsedCourse = sessionStorage.getItem("course")
-    const course = JSON.parse(parsedCourse)
+    const {course} = session
     const {classes} = this.props
     const SubRoutes = route => (
       <Route
@@ -198,16 +225,13 @@ class CourseUpdate extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User, Course} = session
+  const ormSession = schema.session(state.apiReducer)
+  const {User} = ormSession
   const userObj = User.all().toRefArray()
-  const courseObj = Course.all().toRefArray()
   var user = userObj[0]
-  var course = courseObj[0]
 
   return {
-    user,
-    course
+    user
   }
 }
 
@@ -218,4 +242,4 @@ const actions = {
 export default connect(
   mapStateToProps,
   actions
-)(withStyles(styles)(CourseUpdate))
+)(withApollo(withStyles(styles)(CourseUpdate)))

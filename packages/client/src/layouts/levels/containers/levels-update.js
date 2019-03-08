@@ -17,6 +17,7 @@ import {withStyles} from "@material-ui/core/styles"
 import {LevelDeleteModal} from "../components"
 import {Can, Hero, LoaderCircle} from "../../../components"
 
+import {session} from "brownies"
 import {Mutation, Query} from "react-apollo"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
@@ -50,8 +51,7 @@ class Levels extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    const parsedCourse = sessionStorage.getItem("course")
-    const course = JSON.parse(parsedCourse)
+    const {course} = session
     this.setState({
       courseId: course._id
     })
@@ -150,8 +150,7 @@ class Levels extends Component {
   }
 
   render() {
-    const parsedCourse = sessionStorage.getItem("course")
-    const course = JSON.parse(parsedCourse)
+    const {course} = session
 
     const {classes, user} = this.props
     const levelError = classNames({
@@ -409,8 +408,8 @@ class Levels extends Component {
 }
 
 const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User, Level} = session
+  const ormSession = schema.session(state.apiReducer)
+  const {User, Level} = ormSession
   const userObj = User.all().toRefArray()
   const levelObj = Level.all().toRefArray()
   var user = userObj[0]

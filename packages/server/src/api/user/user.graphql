@@ -15,22 +15,6 @@ input LoginInput {
   password: String!
 }
 
-type Mutation {
-	changePassword(input: ChangePasswordInput): AuthPayload 
-  login(input: LoginInput): AuthPayload
-	forgotPassword(email: String!): Boolean 
-  signup(input: SignupInput!): AuthPayload
-  updateMe(input: UpdatedUserInput!): User!
-}
-
-type Query {
-	getSubscriptions(userId: ID!): User
-  getUserById(id: ID!): User!
-  getUserByUsername(input: String!): User
-	getUserByToken: User 
-  hello(name: String): String!
-}
-
 input SignupInput {
   email: String!
   password: String!
@@ -66,3 +50,18 @@ type User {
   username: String!
 }
 
+type Query {
+	getSubscriptions(userId: ID!): User
+  getUserById(_id: ID!): User!
+  getUserByUsername(input: String!): User
+	getUserByToken(token: String!): User 
+  hello(name: String): String!
+}
+
+type Mutation {
+	changePassword(input: ChangePasswordInput): AuthPayload 
+  login(input: LoginInput): AuthPayload
+	forgotPassword(email: String!): Boolean 
+  signup(input: SignupInput!): AuthPayload
+  updateMe(input: UpdatedUserInput!): User!
+}

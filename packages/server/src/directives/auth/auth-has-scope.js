@@ -31,8 +31,8 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
     const {resolve = defaultFieldResolver} = field
 
     field.resolve = async (...args) => {
-      const resourceID = args[1].resourceID
-      console.log("RESOURCE ID: ", resourceID)
+      const resourceId = args[1].resourceId
+      console.log("RESOURCE ID: ", resourceId)
       const token = args[2].req.headers.authorization
       if (token === "null") {
         return new Error("You need to be registered to view this resource.")
@@ -51,7 +51,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
         var resource = await this.hasPermission(
           rules,
           user,
-          resourceID,
+          resourceId,
           expectedScope
         )
 
@@ -84,7 +84,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
     return true
   }
 
-  hasPermission = async (rules, user, resourceID, expectedScope) => {
+  hasPermission = async (rules, user, resourceId, expectedScope) => {
     try {
       var roles = user.roles
 
@@ -132,7 +132,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
           return Object.keys(obj)[0] === modelName
         })
         // make db call
-        const result = await Model[modelName].findById(resourceID)
+        const result = await Model[modelName].findById(resourceId)
         if (result) {
           return result
         } else {

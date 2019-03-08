@@ -185,7 +185,8 @@ const login = async (parent, args, ctx, info) => {
 }
 
 const getUserByToken = (_, args, ctx, info) => {
-  var token = ctx.req.headers.authorization || null
+  var token = args.token
+  /* var token = ctx.req.headers.authorization || null */
   if (token) {
     const result = jwt.verify(token, config.env.JWT, (err, decoded) => {
       if (err) console.log("err: ", err)
@@ -202,7 +203,7 @@ const getUserByToken = (_, args, ctx, info) => {
 }
 
 const getUserById = async (_, args, ctx, info) => {
-  let result = await User.findById({id: args.input})
+  let result = await User.findById({_id: args._id})
   console.log("result: ", result)
   return result
 }

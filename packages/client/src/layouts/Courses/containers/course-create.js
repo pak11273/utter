@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import gql from "graphql-tag"
-import {local} from "brownies"
+import {session} from "brownies"
 
 import {Field, withFormik} from "formik"
 import isEmpty from "lodash/isEmpty"
@@ -570,8 +570,7 @@ export default connect(
         })
 
         const onComplete = course => {
-
-          local.course = course.data.courseCreate
+          session.course = course.data.courseCreate
           history.push({
             pathname: "/course/course-settings",
             state: {courseId: course.data.courseCreate._id}

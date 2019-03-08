@@ -1,4 +1,4 @@
-import React, {Component} from "react"
+import React, {PureComponent} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
 import {withFormik} from "formik"
@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography"
 import TextField from "@material-ui/core/TextField"
 import {withStyles} from "@material-ui/core/styles"
 
+import {session} from "brownies"
 import gql from "graphql-tag"
 import {graphql, Mutation} from "react-apollo"
 import {Can, Img, LoadingButton} from "../../../components"
@@ -59,7 +60,7 @@ const styles = theme => ({
   }
 })
 
-class CourseIntroduction extends Component {
+class CourseIntroduction extends PureComponent {
   state = {
     name: "",
     email: "",
@@ -73,41 +74,28 @@ class CourseIntroduction extends Component {
 
   componentDidMount() {
     this.props.toggleFooter(false)
-    const parsedCourse = sessionStorage.getItem("course")
-    const course = JSON.parse(parsedCourse)
+    const {course, user} = session
+    const map = new Map(user.subscriptions.map(el => [el._id, el]))
+    const foo = map.get(course._id) || {}
 
-    // TODO do a  subscribe gql call then setstate
-    /* try { */
-    /*   const {data} = await this.props.mutate({ */
-    /*     variables: { */
-    /*       input: course._id */
-    /*     } */
-    /*   }) */
-    /*   const {subscribe} = data */
-    /*   if (subscribe) { */
-    /*     this.setState({ */
-    /*       subscribed: true */
-    /*     }) */
-    /*   } */
-    /* } catch (err) { */
-    /*   return err */
-    /* } */
-    /* this.setState({ */
-    /* 	subscribed: true */
-    /* }) */
+    if (foo._id) {
+      const newState = update(this.state, {
+        subscribed: {$set: true},
+        courseName: {$set: course.courseName},
+        courseDescription: {$set: course.courseDescription}
+      })
+      this.setState(newState)
+    }
 
-    const newData = update(this.state, {
-      courseName: {$set: course.courseName},
-      courseDescription: {$set: course.courseDescription}
-    })
-
-    this.setState(newData)
-
-    if (this.props.user.username === course.owner.username) {
+    if (user.username === course.owner.username) {
       this.setState({
         disabled: false
       })
     }
+  }
+
+  componentDidUpdate() {
+    console.log("state: ", this.state)
   }
 
   handleChange = e => {
@@ -115,7 +103,6 @@ class CourseIntroduction extends Component {
   }
 
   handleSubscribeToggle = () => {
-    console.log("state: ", this.state.subscribed)
     this.setState({
       subscribed: !this.state.subscribed
     })
@@ -130,8 +117,7 @@ class CourseIntroduction extends Component {
 
   render() {
     const {classes, user} = this.props
-    const parsedCourse = sessionStorage.getItem("course")
-    const course = JSON.parse(parsedCourse)
+    const {course} = session
     return (
       <form className={classes.root} onSubmit={this.handleSubmit}>
         <Helmet>
@@ -183,10 +169,7 @@ class CourseIntroduction extends Component {
               <Mutation
                 mutation={subscribeMutation}
                 onCompleted={this.handleSubscribeToggle}>
-                {(subscribeMutation, {data, loading}) => {
-                  console.log("data: ", data)
-                  console.log("loading: ", loading)
-                  console.log("course: ", course)
+                {(subscribeMutation, {loading}) => {
                   return (
                     <LoadingButton
                       loading={loading}
