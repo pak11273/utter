@@ -114,8 +114,7 @@ var N = exports.N = function (_PureComponent) {
               case 9:
                 _context.prev = 9;
                 _context.t0 = _context["catch"](0);
-
-                console.log("err: ", _context.t0);
+                return _context.abrupt("return", _context.t0);
 
               case 12:
               case "end":

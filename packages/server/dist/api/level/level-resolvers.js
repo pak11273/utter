@@ -175,10 +175,10 @@ var levelDelete = function () {
 
 var levelUpdate = function levelUpdate(_, _ref5) {
   var input = _ref5.input;
-  var id = input.id,
-      update = (0, _objectWithoutProperties3.default)(input, ["id"]);
+  var _id = input._id,
+      update = (0, _objectWithoutProperties3.default)(input, ["_id"]);
 
-  return _levelModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
+  return _levelModel2.default.findByIdAndUpdate(_id, update, { new: true }).exec();
 };
 
 var levelCreate = function () {

@@ -113,7 +113,7 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
       }
       return true;
     }, _this.hasPermission = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(rules, user, resourceID, expectedScope) {
+      var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(rules, user, resourceId, expectedScope) {
         var roles, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, key, modelSlice, modelName, Model, result;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -180,7 +180,7 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
                 // make db call
 
                 _context.next = 20;
-                return Model[modelName].findById(resourceID);
+                return Model[modelName].findById(resourceId);
 
               case 20:
                 result = _context.sent;
@@ -242,14 +242,14 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
             args[_key2] = arguments[_key2];
           }
 
-          var resourceID, token, user, resource;
+          var resourceId, token, user, resource;
           return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  resourceID = args[1].resourceID;
+                  resourceId = args[1].resourceId;
 
-                  console.log("RESOURCE ID: ", resourceID);
+                  console.log("RESOURCE ID: ", resourceId);
                   token = args[2].req.headers.authorization;
 
                   if (!(token === "null")) {
@@ -279,7 +279,7 @@ var hasScopeDirective = exports.hasScopeDirective = function (_SchemaDirectiveVi
 
                 case 11:
                   _context2.next = 13;
-                  return _this3.hasPermission(_rolesSchema2.default, user, resourceID, expectedScope);
+                  return _this3.hasPermission(_rolesSchema2.default, user, resourceId, expectedScope);
 
                 case 13:
                   resource = _context2.sent;

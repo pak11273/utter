@@ -41,9 +41,12 @@ var createEmailConfirmLink = exports.createEmailConfirmLink = function () {
             return redis.set(id, userId, "ex", 60 * 60 * 24);
 
           case 3:
-            return _context.abrupt("return", url + "/api/users/confirm/" + id);
+            if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
+              url = process.env.REACT_APP_CLIENT_URL;
+            }
+            return _context.abrupt("return", url + "/confirm-email/" + id);
 
-          case 4:
+          case 5:
           case "end":
             return _context.stop();
         }

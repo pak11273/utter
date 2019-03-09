@@ -7,10 +7,11 @@ type Course {
   courseMode: String!
   courseName: String!
   createdAt: String 
-  id: ID!
+  _id: ID!
   levels: [Level]
-  owner: User
-	resources: [Resource]
+  owner: User!
+	resources: String
+	subscribers: Int
   teachingLang: String
   usingLang: String
   updatedAt: String
@@ -22,48 +23,41 @@ type Resource {
 	className: String
 }
 
-input ResourceInput {
-	value: String,
-	label: String,
-	className: String
-}
-
-
 input CourseUpdated {
-  id: ID!
-  courseId: String
+  _id: ID!
   courseName: String
   coursedescription: String
   courseMode: String
 }
 
+input GetCoursesInput {
+    cursor: String
+    courseName: String!
+    owner: String!
+		resources: String 
+    usingLang: String!
+    teachingLang: String!
+}
+
 input CourseCreateInput {
-  courseId: String
 	courseImage: String
   courseName: String!
   courseDescription: String
   courseMode: String
-	resources: [ResourceInput]
+	resources: [String]
 	teachingLang: String
   usingLang: String
 }
 
 type PaginatedCourses {
-  courses: [Course] 
+  courses: [Course!]! 
   cursor: String
 }
 
 extend type Query {
-  getCourse(courseId: String!): Course!
+  getCourse(_id: ID!): Course!
 	getCourseLevels(courseId: String!): Course!
-  getCourses(
-    cursor: String
-    courseName: String!
-    owner: String!
-		resources: [ResourceInput] 
-    usingLang: String!
-    teachingLang: String!
-  ): PaginatedCourses 
+  getCourses: PaginatedCourses 
 	getCreatedCourses(
     cursor: String
 	): PaginatedCourses @auth 
@@ -72,6 +66,8 @@ extend type Query {
 
 extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
-	courseDelete(resourceID: String!): Boolean @hasScope(scope: "course:delete")
+	courseDelete(resourceId: String!): Boolean @hasScope(scope: "course:delete")
   courseUpdate(input: CourseUpdated!): Course!
+	subscribe(courseId: String!): Course 
+	unsubscribe(courseId: String!): Boolean
 }

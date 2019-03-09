@@ -32,10 +32,6 @@ var _api = require("./api");
 
 var _api2 = _interopRequireDefault(_api);
 
-var _mailRoutes = require("./mail/mail-routes");
-
-var _mailRoutes2 = _interopRequireDefault(_mailRoutes);
-
 var _config = require("./config");
 
 var _config2 = _interopRequireDefault(_config);
@@ -63,6 +59,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
 // if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
+
+/* import {redis} from "./graphql-server" */
 if (!["production", "prod"].includes(process.env.NODE_ENV)) {
   ;["log", "warn"].forEach(function (method) {
     var old = console[method];
@@ -78,8 +76,6 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
     };
   });
 }
-/* import {redis} from "./graphql-server" */
-
 
 var app = (0, _express2.default)();
 
@@ -103,7 +99,6 @@ var app = (0, _express2.default)();
 // Routers
 _mongoose2.default.connection.on("connected", function () {
   app.use("/api", _api2.default);
-  app.use("/mail", _mailRoutes2.default);
 });
 
 // handlebars setup

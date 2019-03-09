@@ -32,10 +32,6 @@ var _crypto = require("crypto");
 
 var _crypto2 = _interopRequireDefault(_crypto);
 
-var _mailRoutes = require("../mail/mail-routes.js");
-
-var _mailRoutes2 = _interopRequireDefault(_mailRoutes);
-
 var _path = require("path");
 
 var _path2 = _interopRequireDefault(_path);

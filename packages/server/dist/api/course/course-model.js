@@ -64,10 +64,10 @@ var CourseSchema = _mongoose2.default.Schema({
     type: String,
     default: ""
   },
-  subscribers: [{
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }],
+  subscribers: {
+    type: Number,
+    default: 0
+  },
   levels: [_levelModel.LevelSchema],
   courseDescription: {
     type: String,

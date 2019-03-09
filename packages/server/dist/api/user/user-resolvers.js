@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.userResolvers = undefined;
 
+var _extends2 = require("babel-runtime/helpers/extends");
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -106,38 +110,36 @@ var changePassword = function () {
           case 11:
             _context.prev = 11;
 
-            console.log("args2: ", args);
             args.input["password confirmation"] = args.input.passwordConfirmation;
-            _context.next = 16;
+            _context.next = 15;
             return _common.changePasswordSchema.validate(args.input, {
               abortEarly: false
             });
 
-          case 16:
-            _context.next = 24;
+          case 15:
+            _context.next = 22;
             break;
 
-          case 18:
-            _context.prev = 18;
+          case 17:
+            _context.prev = 17;
             _context.t0 = _context["catch"](11);
 
             if (!_context.t0) {
-              _context.next = 24;
+              _context.next = 22;
               break;
             }
 
-            console.log("invalid");
             arrayOfErrors = (0, _formatYupError.formatYupError)(_context.t0);
+
             return _context.abrupt("return", {
-              token: null,
               error: arrayOfErrors
             });
 
-          case 24:
-            _context.next = 26;
+          case 22:
+            _context.next = 24;
             return _userModel2.default.findById(userId).exec();
 
-          case 26:
+          case 24:
             user = _context.sent;
             hashedPassword = user.encryptPassword(args.input.password);
             updatePromise = _userModel2.default.findByIdAndUpdate(userId, {
@@ -145,24 +147,23 @@ var changePassword = function () {
             });
 
             token = (0, _auth.signToken)(user._id);
-            console.log("token", token);
 
             deleteKeyPromise = redis.del(redisKey);
-            _context.next = 34;
+            _context.next = 31;
             return Promise.all([updatePromise, deleteKeyPromise]);
 
-          case 34:
+          case 31:
             return _context.abrupt("return", {
               token: token,
               error: []
             });
 
-          case 35:
+          case 32:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[11, 18]]);
+    }, _callee, undefined, [[11, 17]]);
   }));
 
   return function changePassword(_x, _x2, _x3) {
@@ -172,47 +173,48 @@ var changePassword = function () {
 
 
 var signup = function () {
-  var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, args, _ref4, info) {
+  var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, _ref4, info) {
     var redis = _ref4.redis,
         url = _ref4.url;
 
     var token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
 
-    return _regenerator2.default.wrap(function _callee2$(_context2) {
+    return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
             args.input["password confirmation"] = args.input.passwordConfirmation;
+
             token = null;
             arrayOfErrors = [];
-            _context2.prev = 3;
-            _context2.next = 6;
+            _context3.prev = 3;
+            _context3.next = 6;
             return _common.signupSchema.validate(args.input, { abortEarly: false });
 
           case 6:
-            _context2.next = 11;
+            _context3.next = 11;
             break;
 
           case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2["catch"](3);
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](3);
 
-            if (_context2.t0) {
-              arrayOfErrors = (0, _formatYupError.formatYupError)(_context2.t0);
+            if (_context3.t0) {
+              arrayOfErrors = (0, _formatYupError.formatYupError)(_context3.t0);
             }
 
           case 11:
             _args$input = args.input, username = _args$input.username, email = _args$input.email, password = _args$input.password;
-            _context2.next = 14;
+            _context3.next = 14;
             return _userModel2.default.findOne({ email: email }).exec();
 
           case 14:
-            foundDupeEmail = _context2.sent;
-            _context2.next = 17;
+            foundDupeEmail = _context3.sent;
+            _context3.next = 17;
             return _userModel2.default.findOne({ username: username }).exec();
 
           case 17:
-            foundDupeUsername = _context2.sent;
+            foundDupeUsername = _context3.sent;
 
 
             if (foundDupeUsername !== null) {
@@ -236,42 +238,60 @@ var signup = function () {
             // Valid with unique email
 
             if (!(foundDupeEmail === null && (0, _lodash.isEmpty)(arrayOfErrors))) {
-              _context2.next = 32;
+              _context3.next = 23;
               break;
             }
 
             newUser = new _userModel2.default(args.input);
+            return _context3.abrupt("return", newUser.save().then(function () {
+              var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(result) {
+                return _regenerator2.default.wrap(function _callee2$(_context2) {
+                  while (1) {
+                    switch (_context2.prev = _context2.next) {
+                      case 0:
+                        token = (0, _auth.signToken)(newUser._id);
+                        result.password = null;
 
-            newUser.save();
-            token = (0, _auth.signToken)(newUser._id);
-            _context2.t1 = _mail.sendConfirmEmail;
-            _context2.t2 = newUser.email;
-            _context2.next = 28;
-            return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
+                        _context2.t0 = _mail.sendConfirmEmail;
+                        _context2.t1 = newUser.email;
+                        _context2.next = 6;
+                        return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
 
-          case 28:
-            _context2.t3 = _context2.sent;
-            _context2.next = 31;
-            return (0, _context2.t1)(_context2.t2, _context2.t3);
+                      case 6:
+                        _context2.t2 = _context2.sent;
+                        (0, _context2.t0)(_context2.t1, _context2.t2);
+                        return _context2.abrupt("return", {
+                          token: token,
+                          user: result,
+                          error: arrayOfErrors
+                        });
 
-          case 31:
-            return _context2.abrupt("return", {
-              token: token,
-              user: newUser,
+                      case 9:
+                      case "end":
+                        return _context2.stop();
+                    }
+                  }
+                }, _callee2, undefined);
+              }));
+
+              return function (_x8) {
+                return _ref5.apply(this, arguments);
+              };
+            }()).catch(function (err) {
+              throw err;
+            }));
+
+          case 23:
+            return _context3.abrupt("return", {
               error: arrayOfErrors
             });
 
-          case 32:
-            return _context2.abrupt("return", {
-              error: arrayOfErrors
-            });
-
-          case 33:
+          case 24:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2, undefined, [[3, 8]]);
+    }, _callee3, undefined, [[3, 8]]);
   }));
 
   return function signup(_x4, _x5, _x6, _x7) {
@@ -280,12 +300,12 @@ var signup = function () {
 }();
 
 var login = function () {
-  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(parent, args, ctx, info) {
+  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(parent, args, ctx, info) {
     var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
 
-    return _regenerator2.default.wrap(function _callee3$(_context3) {
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context3.prev = _context3.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             // decipher identifier
             _args$input2 = args.input, identifier = _args$input2.identifier, password = _args$input2.password;
@@ -301,14 +321,14 @@ var login = function () {
               });
             }
             // check if passwords match
-            _context3.next = 8;
+            _context4.next = 8;
             return _userModel2.default.findOne(criteria).exec();
 
           case 8:
-            user = _context3.sent;
+            user = _context4.sent;
 
             if (user) {
-              _context3.next = 13;
+              _context4.next = 13;
               break;
             }
 
@@ -316,23 +336,23 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context3.next = 25;
+            _context4.next = 25;
             break;
 
           case 13:
             if (user.authenticate(password)) {
-              _context3.next = 17;
+              _context4.next = 17;
               break;
             }
 
             // use authenticate() on user.doc, pass in the posted password, hash it and check
             arrayOfErrors.push({ path: "password", message: "Invalid Password" });
-            _context3.next = 25;
+            _context4.next = 25;
             break;
 
           case 17:
             if (!user.forgotPasswordLocked) {
-              _context3.next = 21;
+              _context4.next = 21;
               break;
             }
 
@@ -340,23 +360,23 @@ var login = function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context3.next = 25;
+            _context4.next = 25;
             break;
 
           case 21:
             if (!user) {
-              _context3.next = 25;
+              _context4.next = 25;
               break;
             }
 
-            _context3.next = 24;
+            _context4.next = 24;
             return (0, _auth.signToken)(user._id);
 
           case 24:
-            token = _context3.sent;
+            token = _context4.sent;
 
           case 25:
-            return _context3.abrupt("return", {
+            return _context4.abrupt("return", {
               token: token,
               user: user,
               error: arrayOfErrors
@@ -364,23 +384,22 @@ var login = function () {
 
           case 26:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, undefined);
+    }, _callee4, undefined);
   }));
 
-  return function login(_x8, _x9, _x10, _x11) {
-    return _ref5.apply(this, arguments);
+  return function login(_x9, _x10, _x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
 var getUserByToken = function getUserByToken(_, args, ctx, info) {
-  var token = ctx.req.headers.authorization || null;
-  console.log("token: ", token);
+  var token = args.token;
+  /* var token = ctx.req.headers.authorization || null */
   if (token) {
     var result = _jsonwebtoken2.default.verify(token, _config2.default.env.JWT, function (err, decoded) {
-      console.log("decoded: ", decoded);
       if (err) console.log("err: ", err);
       if (decoded) {
         var userID = decoded._id;
@@ -395,48 +414,19 @@ var getUserByToken = function getUserByToken(_, args, ctx, info) {
 };
 
 var getUserById = function () {
-  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
-    var result;
-    return _regenerator2.default.wrap(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            _context4.next = 2;
-            return _userModel2.default.findById({ id: args.input });
-
-          case 2:
-            result = _context4.sent;
-
-            console.log("result: ", result);
-            return _context4.abrupt("return", result);
-
-          case 5:
-          case "end":
-            return _context4.stop();
-        }
-      }
-    }, _callee4, undefined);
-  }));
-
-  return function getUserById(_x12, _x13, _x14, _x15) {
-    return _ref6.apply(this, arguments);
-  };
-}();
-
-var getUserByUsername = function () {
   var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
     var result;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            console.log("userID: ", ctx);
-            // const getUserByUsername = (_, __, {user}) => {
-            _context5.next = 3;
-            return _userModel2.default.findOne({ username: args.input });
+            _context5.next = 2;
+            return _userModel2.default.findById({ _id: args._id });
 
-          case 3:
+          case 2:
             result = _context5.sent;
+
+            console.log("result: ", result);
             return _context5.abrupt("return", result);
 
           case 5:
@@ -447,41 +437,28 @@ var getUserByUsername = function () {
     }, _callee5, undefined);
   }));
 
-  return function getUserByUsername(_x16, _x17, _x18, _x19) {
+  return function getUserById(_x13, _x14, _x15, _x16) {
     return _ref7.apply(this, arguments);
   };
 }();
 
-var forgotPassword = function () {
-  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, _ref9, _ref10) {
-    var email = _ref9.email;
-    var redis = _ref10.redis,
-        url = _ref10.url;
-    var user, link;
+var getUserByUsername = function () {
+  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
+    var result;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.next = 2;
-            return _userModel2.default.findOne({ email: email });
+            console.log("userID: ", ctx);
+            // const getUserByUsername = (_, __, {user}) => {
+            _context6.next = 3;
+            return _userModel2.default.findOne({ username: args.input });
 
-          case 2:
-            user = _context6.sent;
-            _context6.t0 = _mail.sendForgotPasswordEmail;
-            _context6.t1 = user.email;
-            _context6.next = 7;
-            return (0, _createForgotPasswordLink.createForgotPasswordLink)(url, user._id, redis);
+          case 3:
+            result = _context6.sent;
+            return _context6.abrupt("return", result);
 
-          case 7:
-            _context6.t2 = _context6.sent;
-            _context6.next = 10;
-            return (0, _context6.t0)(_context6.t1, _context6.t2);
-
-          case 10:
-            link = _context6.sent;
-            return _context6.abrupt("return", true);
-
-          case 12:
+          case 5:
           case "end":
             return _context6.stop();
         }
@@ -489,42 +466,41 @@ var forgotPassword = function () {
     }, _callee6, undefined);
   }));
 
-  return function forgotPassword(_x20, _x21, _x22) {
+  return function getUserByUsername(_x17, _x18, _x19, _x20) {
     return _ref8.apply(this, arguments);
   };
 }();
 
-var subscribe = function () {
-  var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, _ref12, _ref13, info) {
-    var input = _ref12.input;
-    var redis = _ref13.redis,
-        url = _ref13.url,
-        req = _ref13.req;
-    var token, user;
+var forgotPassword = function () {
+  var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, _ref10, _ref11) {
+    var email = _ref10.email;
+    var redis = _ref11.redis,
+        url = _ref11.url;
+    var user, link;
     return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            token = req.headers.authorization || null;
-            _context7.next = 3;
-            return (0, _resolverFunctions.userByToken)(token, function (err, data) {
-              if (err) return err;
-              if (data) return data;
-            });
+            _context7.next = 2;
+            return _userModel2.default.findOne({ email: email });
 
-          case 3:
+          case 2:
             user = _context7.sent;
+            _context7.t0 = _mail.sendForgotPasswordEmail;
+            _context7.t1 = user.email;
+            _context7.next = 7;
+            return (0, _createForgotPasswordLink.createForgotPasswordLink)(url, user._id, redis);
 
-            console.log("input: ", input);
+          case 7:
+            _context7.t2 = _context7.sent;
+            _context7.next = 10;
+            return (0, _context7.t0)(_context7.t1, _context7.t2);
 
-            // TODO
-            /* x) see if user has the course in his subscriptions array */
-            /* x) if user does have it then return true*/
-            /* x) if user doesnt have it then add the it to his subscription then return true */
+          case 10:
+            link = _context7.sent;
+            return _context7.abrupt("return", true);
 
-            return _context7.abrupt("return", false);
-
-          case 6:
+          case 12:
           case "end":
             return _context7.stop();
         }
@@ -532,69 +508,62 @@ var subscribe = function () {
     }, _callee7, undefined);
   }));
 
-  return function subscribe(_x23, _x24, _x25, _x26) {
-    return _ref11.apply(this, arguments);
+  return function forgotPassword(_x21, _x22, _x23) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
-var unsubscribe = function () {
-  var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_, _ref15, _ref16, info) {
-    var input = _ref15.input;
-    var redis = _ref16.redis,
-        url = _ref16.url,
-        req = _ref16.req;
-    var token, user;
-    return _regenerator2.default.wrap(function _callee8$(_context8) {
-      while (1) {
-        switch (_context8.prev = _context8.next) {
-          case 0:
-            token = req.headers.authorization || null;
-            _context8.next = 3;
-            return (0, _resolverFunctions.userByToken)(token, function (err, data) {
-              if (err) return err;
-              if (data) return data;
-            });
-
-          case 3:
-            user = _context8.sent;
-
-            console.log("input: ", input);
-
-            // TODO
-            /* x) see if user has the course in his subscriptions array */
-            /* x) if user does have it then remove the course from subscriptions and return false*/
-            /* x) if the user doesn't have it then just return false */
-
-            return _context8.abrupt("return", true);
-
-          case 6:
-          case "end":
-            return _context8.stop();
-        }
-      }
-    }, _callee8, undefined);
-  }));
-
-  return function unsubscribe(_x27, _x28, _x29, _x30) {
-    return _ref14.apply(this, arguments);
-  };
-}();
-
-var updateMe = function updateMe(_, _ref17, _ref18) {
-  var input = _ref17.input;
-  var user = _ref18.user;
+var updateMe = function updateMe(_, _ref12, _ref13) {
+  var input = _ref12.input;
+  var user = _ref13.user;
 
   merge(user, input);
   return user.save();
 };
 
+var getSubscriptions = function () {
+  var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_, args, _ref15) {
+    var user = _ref15.user;
+    var subscriptions;
+    return _regenerator2.default.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            console.log("args: ", args);
+            _context8.prev = 1;
+            _context8.next = 4;
+            return _userModel2.default.findById(userId);
+
+          case 4:
+            subscriptions = _context8.sent;
+            return _context8.abrupt("return", (0, _extends3.default)({}, subscriptions._doc, { _id: subscriptions.id }));
+
+          case 8:
+            _context8.prev = 8;
+            _context8.t0 = _context8["catch"](1);
+            throw _context8.t0;
+
+          case 11:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, undefined, [[1, 8]]);
+  }));
+
+  return function getSubscriptions(_x24, _x25, _x26) {
+    return _ref14.apply(this, arguments);
+  };
+}();
+
 var userResolvers = exports.userResolvers = {
   Query: {
+    getSubscriptions: getSubscriptions,
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref19) {
-      var name = _ref19.name;
+    hello: function hello(_, _ref16) {
+      var name = _ref16.name;
       return "Hello " + (name || "World");
     }
   },
@@ -611,8 +580,6 @@ var userResolvers = exports.userResolvers = {
     changePassword: changePassword,
     forgotPassword: forgotPassword,
     signup: signup,
-    subscribe: subscribe,
-    unsubscribe: unsubscribe,
     login: login,
     updateMe: updateMe
   }
@@ -636,9 +603,8 @@ var userResolvers = exports.userResolvers = {
   reactHotLoader.register(getUserById, "getUserById", "src/api/user/user-resolvers.js");
   reactHotLoader.register(getUserByUsername, "getUserByUsername", "src/api/user/user-resolvers.js");
   reactHotLoader.register(forgotPassword, "forgotPassword", "src/api/user/user-resolvers.js");
-  reactHotLoader.register(subscribe, "subscribe", "src/api/user/user-resolvers.js");
-  reactHotLoader.register(unsubscribe, "unsubscribe", "src/api/user/user-resolvers.js");
   reactHotLoader.register(updateMe, "updateMe", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getSubscriptions, "getSubscriptions", "src/api/user/user-resolvers.js");
   leaveModule(module);
 })();
 
@@ -662,9 +628,8 @@ var userResolvers = exports.userResolvers = {
   reactHotLoader.register(getUserById, "getUserById", "src/api/user/user-resolvers.js");
   reactHotLoader.register(getUserByUsername, "getUserByUsername", "src/api/user/user-resolvers.js");
   reactHotLoader.register(forgotPassword, "forgotPassword", "src/api/user/user-resolvers.js");
-  reactHotLoader.register(subscribe, "subscribe", "src/api/user/user-resolvers.js");
-  reactHotLoader.register(unsubscribe, "unsubscribe", "src/api/user/user-resolvers.js");
   reactHotLoader.register(updateMe, "updateMe", "src/api/user/user-resolvers.js");
+  reactHotLoader.register(getSubscriptions, "getSubscriptions", "src/api/user/user-resolvers.js");
   leaveModule(module);
 })();
 
