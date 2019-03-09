@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
+import {Helmet} from "react-helmet"
 import React, {Component} from "react"
 
 import {withStyles} from "@material-ui/core/styles"
@@ -70,6 +71,31 @@ class Home extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="A place where people learn to speak a new language with other like minded learners."
+          />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utterzone | Create a Course</title>
+          <link rel="canonical" href="https://utterzone.com" />
+          <script id="mcjs">
+            !function(c,h,i,m,p)
+            {
+              ((m = c.createElement(h)),
+              (p = c.getElementsByTagName(h)[0]),
+              (m.async = 1),
+              (m.src = i),
+              p.parentNode.insertBefore(m, p))
+            }
+            (document,"script","https://chimpstatic.com/mcjs-connected/js/users/2e7f6db46493679bf949f61bf/07d2c8ad5bd62d696b4ae4331.js");
+          </script>
+        </Helmet>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
           height="760px"
