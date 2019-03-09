@@ -1,18 +1,3 @@
-type User {
-	blocked: [String]
-  contacts: [String]
-	createdCourses: [Course]
-  createdAt: String
-  email: String 
-	id: ID
-  password: String
-	roles: [ String ]
-	scopes: [String]
-	subscriptions: [Course]
-  updatedAt: String
-  username: String!
-}
-
 type AuthPayload {
   token: String
 	user: User
@@ -23,24 +8,6 @@ input ChangePasswordInput {
 	password: String!,
 	passwordConfirmation: String,
 	token: String!
-}
-
-input UpdatedUserInput {
-  age: Int
-  email: String
-  firstName: String
-  lastName: String
-  contacts: [String]
-	blocked: [String]
-  isDeleted: Boolean
-  roles: [String]
-  username: String
-}
-
-input CreateUserInput {
-  username: String!
-  email: String!
-  password: String!
 }
 
 input LoginInput {
@@ -56,20 +23,45 @@ input SignupInput {
 	timezone: String
 }
 
+input UpdatedUserInput {
+  age: Int
+  email: String
+  firstName: String
+  lastName: String
+  contacts: [String]
+	blocked: [String]
+  isDeleted: Boolean
+  roles: [String]
+  username: String
+}
+
+type User {
+	blocked: [String]
+  contacts: [String]
+	createdCourses: [Course!]
+  createdAt: String
+  email: String! 
+	_id: ID
+  password: String
+	roles: [ String ]
+	scopes: [String]
+	subscriptions: [Course]
+  updatedAt: String
+  username: String!
+}
+
 type Query {
-  getUserById(id: ID!): User!
+	getSubscriptions(userId: ID!): User
+  getUserById(_id: ID!): User!
   getUserByUsername(input: String!): User
-	getUserByToken: User 
+	getUserByToken(token: String!): User 
   hello(name: String): String!
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User
 	changePassword(input: ChangePasswordInput): AuthPayload 
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
-	subscribe(input: String): Boolean
-	unsubscribe(input: String): Boolean
   updateMe(input: UpdatedUserInput!): User!
 }

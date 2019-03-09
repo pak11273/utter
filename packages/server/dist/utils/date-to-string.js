@@ -16,17 +16,9 @@ Object.defineProperty(exports, "__esModule", {
   enterModule && enterModule(module);
 })();
 
-var _default = {
-  env: {
-    DB_HOST: "mongodb+srv://pak11273:N5vrTCrEH3n35oYD@utter-dev-zsuxf.mongodb.net/test?retryWrites=true",
-    JWT: process.env.JWT
-  },
-  host: "http://192.168.68.8:3010",
-  logging: true,
-  seed: true
+var dateToString = exports.dateToString = function dateToString(date) {
+  new Date(date).toISOString();
 };
-var _default2 = _default;
-exports.default = _default2;
 ;
 
 (function () {
@@ -38,7 +30,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(_default, "default", "src/config/testing.js");
+  reactHotLoader.register(dateToString, "dateToString", "src/utils/date-to-string.js");
   leaveModule(module);
 })();
 
@@ -54,7 +46,7 @@ exports.default = _default2;
     return;
   }
 
-  reactHotLoader.register(_default2, "default", "src/config/testing.js");
+  reactHotLoader.register(dateToString, "dateToString", "src/utils/date-to-string.js");
   leaveModule(module);
 })();
 
