@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isAuth = exports.signToken = exports.authenticate = exports.verifyUser = exports.getFreshUser = exports.hydrateUser = exports.decodeToken = exports.getUserFromJwt = undefined;
+exports.signToken = exports.authenticate = exports.verifyUser = exports.getFreshUser = exports.hydrateUser = exports.decodeToken = exports.getUserFromJwt = undefined;
 
 (function () {
   var enterModule = require('react-hot-loader').enterModule;
@@ -159,33 +159,6 @@ var authenticate = exports.authenticate = function authenticate(req, res, next) 
 var signToken = exports.signToken = function signToken(id) {
   return _jsonwebtoken2.default.sign({ _id: id }, _config2.default.env.JWT);
 };
-
-var isAuth = exports.isAuth = function isAuth(req, res, next) {
-  var authHeader = req.get("Authorization");
-  if (!authHeader) {
-    req.isAuth = false;
-    return next();
-  }
-
-  var decodedToken = void 0;
-
-  try {
-    decodedToken = _jsonwebtoken2.default.verify(authHeader, _config2.default.env.JWT);
-  } catch (err) {
-    req.isAuth = false;
-    return next();
-  }
-
-  if (!decodedToken) {
-    req.isAuth = false;
-    return next();
-  }
-
-  req.isAuth = true;
-  /* req.userId = decodedToken.userId */
-  req.token = decodedToken;
-  next();
-};
 ;
 
 (function () {
@@ -204,7 +177,6 @@ var isAuth = exports.isAuth = function isAuth(req, res, next) {
   reactHotLoader.register(verifyUser, "verifyUser", "src/auth/index.js");
   reactHotLoader.register(authenticate, "authenticate", "src/auth/index.js");
   reactHotLoader.register(signToken, "signToken", "src/auth/index.js");
-  reactHotLoader.register(isAuth, "isAuth", "src/auth/index.js");
   leaveModule(module);
 })();
 
@@ -227,7 +199,6 @@ var isAuth = exports.isAuth = function isAuth(req, res, next) {
   reactHotLoader.register(verifyUser, "verifyUser", "src/auth/index.js");
   reactHotLoader.register(authenticate, "authenticate", "src/auth/index.js");
   reactHotLoader.register(signToken, "signToken", "src/auth/index.js");
-  reactHotLoader.register(isAuth, "isAuth", "src/auth/index.js");
   leaveModule(module);
 })();
 

@@ -24,7 +24,7 @@ type Level {
   createdAt: Int
 	examples: [Example]
 	grammar: [Grammar]
-  _id: ID
+  id: ID
 	level: Int
 	notes: String 
 	phrases: [Phrases]
@@ -34,7 +34,7 @@ type Level {
 }
 
 input LevelUpdated {
-  _id: ID
+  id: ID
   level: Int 
   title: String
 }

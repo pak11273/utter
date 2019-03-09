@@ -13,10 +13,6 @@ var _regenerator = require("babel-runtime/regenerator");
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _extends2 = require("babel-runtime/helpers/extends");
-
-var _extends3 = _interopRequireDefault(_extends2);
-
 var _asyncToGenerator2 = require("babel-runtime/helpers/asyncToGenerator");
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
@@ -53,10 +49,6 @@ var _courseModel = require("./course-model");
 
 var _courseModel2 = _interopRequireDefault(_courseModel);
 
-var _userModel = require("../user/user-model.js");
-
-var _userModel2 = _interopRequireDefault(_userModel);
-
 var _resolverFunctions = require("../shared/resolver-functions.js");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -65,194 +57,77 @@ var escapeRegex = function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
 };
 
-/* 
-** 
-** @coursesById
-**
-** usage: 
-** coursesById(courseIds) => {} 
-**
-** return: Given an array of course ids this will return an array of coureses that contain at least one of those ids.  
-**
-** notes: 
-**
-*/
-var coursesById = function () {
-  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(courseIds) {
-    var courses;
+var getCourse = function () {
+  var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee(_, _ref2, _ref3) {
+    var courseId = _ref2.courseId;
+    var user = _ref3.user;
+    var course;
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
-            return _courseModel2.default.find({ _id: { $in: courseIds } });
-
-          case 3:
-            courses = _context.sent;
-            return _context.abrupt("return", courses.map(function (course) {
-              return (0, _extends3.default)({}, course._doc, {
-                _id: course.id,
-                owner: userById.bind(undefined, course.owner)
-              });
-            }));
-
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](0);
-            throw _context.t0;
-
-          case 10:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee, undefined, [[0, 7]]);
-  }));
-
-  return function coursesById(_x) {
-    return _ref.apply(this, arguments);
-  };
-}();
-/* 
-** 
-** @mongooseToJs
-**
-** usage: 
-** mongooseToJs(object) => {} 
-**
-** return: A new js object with a stringified _id and an owner Id.  The object to convert must have an owner property.
-**
-** notes: converts a mongoose object to a plain js object discarding mongoose meta data.   
-**
-*/
-var mongooseToJs = function mongooseToJs(object) {
-  return (0, _extends3.default)({}, object._doc, {
-    _id: object._doc._id.toString(),
-    owner: userById.bind(undefined, object._doc.owner)
-  });
-};
-
-/* 
-** 
-** @userById
-**
-** usage: 
-** userById(userId) => {} 
-**
-** return: 
-**
-** notes: 
-**
-*/
-
-var userById = function () {
-  var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(userId) {
-    var user;
-    return _regenerator2.default.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
-            return _userModel2.default.findById(userId);
-
-          case 3:
-            user = _context2.sent;
-            return _context2.abrupt("return", (0, _extends3.default)({}, user._doc, {
-              _id: user.id,
-              createdCourses: coursesById.bind(undefined, user._doc.createdCourses)
-            }));
-
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
-            throw _context2.t0;
-
-          case 10:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2, undefined, [[0, 7]]);
-  }));
-
-  return function userById(_x2) {
-    return _ref2.apply(this, arguments);
-  };
-}();
-
-var getCourse = function () {
-  var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, _ref4, _ref5) {
-    var courseId = _ref4.courseId;
-    var user = _ref5.user;
-    var course;
-    return _regenerator2.default.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            _context3.next = 2;
+            _context.next = 2;
             return _courseModel2.default.findById(courseId).exec();
 
           case 2:
-            course = _context3.sent;
+            course = _context.sent;
 
             if (course) {
-              _context3.next = 5;
+              _context.next = 5;
               break;
             }
 
             throw new Error("Cannot find course with id");
 
           case 5:
-            return _context3.abrupt("return", course);
+            return _context.abrupt("return", course);
 
           case 6:
           case "end":
-            return _context3.stop();
+            return _context.stop();
         }
       }
-    }, _callee3, undefined);
+    }, _callee, undefined);
   }));
 
-  return function getCourse(_x3, _x4, _x5) {
-    return _ref3.apply(this, arguments);
+  return function getCourse(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
   };
 }();
 
 var courseDelete = function () {
-  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, _ref7, ctx) {
-    var id = _ref7.id;
+  var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(_, _ref5, ctx) {
+    var id = _ref5.id;
     var token, user, course;
-    return _regenerator2.default.wrap(function _callee4$(_context4) {
+    return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context2.prev = _context2.next) {
           case 0:
             if (!(token === "null")) {
-              _context4.next = 2;
+              _context2.next = 2;
               break;
             }
 
-            return _context4.abrupt("return", new Error("You need to be registered to view this resource."));
+            return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
 
           case 2:
             token = ctx.req.headers.authorization;
-            _context4.next = 5;
+            _context2.next = 5;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
           case 5:
-            user = _context4.sent;
-            _context4.next = 8;
+            user = _context2.sent;
+            _context2.next = 8;
             return _courseModel2.default.findOneAndDelete({ owner: user._id });
 
           case 8:
-            course = _context4.sent;
+            course = _context2.sent;
 
             if (course) {
-              _context4.next = 11;
+              _context2.next = 11;
               break;
             }
 
@@ -260,27 +135,27 @@ var courseDelete = function () {
 
           case 11:
             if (!course) {
-              _context4.next = 13;
+              _context2.next = 13;
               break;
             }
 
-            return _context4.abrupt("return", true);
+            return _context2.abrupt("return", true);
 
           case 13:
           case "end":
-            return _context4.stop();
+            return _context2.stop();
         }
       }
-    }, _callee4, undefined);
+    }, _callee2, undefined);
   }));
 
-  return function courseDelete(_x6, _x7, _x8) {
-    return _ref6.apply(this, arguments);
+  return function courseDelete(_x4, _x5, _x6) {
+    return _ref4.apply(this, arguments);
   };
 }();
 
-var courseUpdate = function courseUpdate(_, _ref8) {
-  var input = _ref8.input;
+var courseUpdate = function courseUpdate(_, _ref6) {
+  var input = _ref6.input;
   var id = input.id,
       update = (0, _objectWithoutProperties3.default)(input, ["id"]);
 
@@ -288,102 +163,65 @@ var courseUpdate = function courseUpdate(_, _ref8) {
 };
 
 var courseCreate = function () {
-  var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var userId, user, newCourse, createdCourse, course, owner;
-    return _regenerator2.default.wrap(function _callee5$(_context5) {
+  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, ctx, info) {
+    var token, user, input, course;
+    return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            _context5.prev = 0;
+            console.log("args: ", args);
+            token = ctx.req.headers.authorization;
 
-            if (ctx.isAuth) {
-              _context5.next = 3;
+            if (!(token === "null")) {
+              _context3.next = 4;
               break;
             }
 
-            throw new Error("You need to be registered to create a course.");
+            return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 3:
-            userId = ctx.req.token._id;
-            _context5.next = 6;
-            return _userModel2.default.findById(userId, function (err, res) {
+          case 4:
+            _context3.next = 6;
+            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
           case 6:
-            user = _context5.sent;
-            newCourse = new _courseModel2.default({
-              courseImage: args.input.courseImage,
-              courseName: args.input.courseName,
-              courseDescription: args.input.courseDescription,
-              courseMode: args.input.courseMode,
-              resources: args.input.resources,
-              teachingLang: args.input.teachingLang,
-              usingLang: args.input.usingLang,
-              owner: user._id
-            });
-            createdCourse = void 0;
-            _context5.next = 11;
-            return newCourse.save();
+            user = _context3.sent;
+
+
+            //TODO can't have duplicate course names
+            input = args.input;
+
+            input.owner = user._id;
+            _context3.next = 11;
+            return _courseModel2.default.create(input);
 
           case 11:
-            course = _context5.sent;
+            course = _context3.sent;
 
+            course.id = course._id;
+            return _context3.abrupt("return", course);
 
-            /* createdCourse = mongooseToJs(course) */
-
-            createdCourse = (0, _extends3.default)({}, course._doc, {
-              _id: course._doc._id.toString(),
-              owner: userById.bind(undefined, course._doc.owner)
-            });
-
-            _context5.next = 15;
-            return _userModel2.default.findById(userId);
-
-          case 15:
-            owner = _context5.sent;
-
-            if (owner) {
-              _context5.next = 18;
-              break;
-            }
-
-            throw new Error("User not found.");
-
-          case 18:
-            owner.createdCourses.push(course);
-
-            _context5.next = 21;
-            return owner.save();
-
-          case 21:
-            return _context5.abrupt("return", createdCourse);
-
-          case 24:
-            _context5.prev = 24;
-            _context5.t0 = _context5["catch"](0);
-            throw _context5.t0;
-
-          case 27:
+          case 14:
           case "end":
-            return _context5.stop();
+            return _context3.stop();
         }
       }
-    }, _callee5, undefined, [[0, 24]]);
+    }, _callee3, undefined);
   }));
 
-  return function courseCreate(_x9, _x10, _x11, _x12) {
-    return _ref9.apply(this, arguments);
+  return function courseCreate(_x7, _x8, _x9, _x10) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 var getCourseLevels = function () {
-  var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
+  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, args, ctx, info) {
     var query;
-    return _regenerator2.default.wrap(function _callee6$(_context6) {
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             // build query object
             query = {};
@@ -392,41 +230,41 @@ var getCourseLevels = function () {
 
           case 2:
           case "end":
-            return _context6.stop();
+            return _context4.stop();
         }
       }
-    }, _callee6, undefined);
+    }, _callee4, undefined);
   }));
 
-  return function getCourseLevels(_x13, _x14, _x15, _x16) {
-    return _ref10.apply(this, arguments);
+  return function getCourseLevels(_x11, _x12, _x13, _x14) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 var getCreatedCourses = function () {
-  var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, args, ctx, info) {
+  var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
     var token, user, query, cursorObj, cursor, result;
-    return _regenerator2.default.wrap(function _callee7$(_context7) {
+    return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             if (!(token === "null")) {
-              _context7.next = 2;
+              _context5.next = 2;
               break;
             }
 
-            return _context7.abrupt("return", new Error("You need to be registered to view this resource."));
+            return _context5.abrupt("return", new Error("You need to be registered to view this resource."));
 
           case 2:
             token = ctx.req.headers.authorization;
-            _context7.next = 5;
+            _context5.next = 5;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
           case 5:
-            user = _context7.sent;
+            user = _context5.sent;
 
 
             // build query object
@@ -445,195 +283,121 @@ var getCreatedCourses = function () {
               query._id = { $lt: cursor };
             }
 
-            _context7.next = 11;
+            _context5.next = 11;
             return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
 
           case 11:
-            result = _context7.sent;
+            result = _context5.sent;
 
             if (!(0, _isEmpty2.default)(result)) {
-              _context7.next = 16;
+              _context5.next = 16;
               break;
             }
 
-            return _context7.abrupt("return", { courses: [], cursor: "done" });
+            return _context5.abrupt("return", { courses: [], cursor: "done" });
 
           case 16:
             cursor = result[result.length - 1]._id;
-            return _context7.abrupt("return", { courses: result, cursor: cursor });
+            return _context5.abrupt("return", { courses: result, cursor: cursor });
 
           case 18:
           case "end":
-            return _context7.stop();
+            return _context5.stop();
         }
       }
-    }, _callee7, undefined);
+    }, _callee5, undefined);
   }));
 
-  return function getCreatedCourses(_x17, _x18, _x19, _x20) {
-    return _ref11.apply(this, arguments);
+  return function getCreatedCourses(_x15, _x16, _x17, _x18) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
 var getCourses = function () {
-  var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_, args, ctx, info) {
-    var courses, convertedCourses;
-    return _regenerator2.default.wrap(function _callee8$(_context8) {
+  var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
+    var query, courseName, resources, owner, newArray, cursor, result;
+    return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
-            _context8.prev = 0;
-            _context8.next = 3;
-            return _courseModel2.default.find();
+            // build query object
+            query = {};
 
-          case 3:
-            courses = _context8.sent;
-            convertedCourses = courses.map(function (course) {
-              return (0, _extends3.default)({}, course._doc, {
-                _id: course.id,
-                owner: userById.bind(undefined, course._doc.owner)
+            args.courseName ? query.courseName = new RegExp(escapeRegex(args.courseName), "gi") : null;
+
+            if (!(0, _isEmpty2.default)(args.resources)) {
+              newArray = [];
+
+              args.resources.map(function (item) {
+                var escapedStr = new RegExp(escapeRegex(item), "gi");
+                newArray.push(escapedStr);
               });
-            });
-            return _context8.abrupt("return", { courses: convertedCourses, cursor: "" });
+              query.resources = newArray;
+            } else {
+              null;
+            }
 
-          case 8:
-            _context8.prev = 8;
-            _context8.t0 = _context8["catch"](0);
-            throw _context8.t0;
-
-          case 11:
-          case "end":
-            return _context8.stop();
-        }
-      }
-    }, _callee8, undefined, [[0, 8]]);
-  }));
-
-  return function getCourses(_x21, _x22, _x23, _x24) {
-    return _ref12.apply(this, arguments);
-  };
-}();
-
-var subscribe = function () {
-  var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(_, args, ctx, info) {
-    var course, userId, user, result;
-    return _regenerator2.default.wrap(function _callee9$(_context9) {
-      while (1) {
-        switch (_context9.prev = _context9.next) {
-          case 0:
-            _context9.next = 2;
-            return _courseModel2.default.findOneAndUpdate({ _id: args.courseId }, { $inc: { subscribers: 1 } });
-
-          case 2:
-            course = _context9.sent;
-            userId = ctx.req.token._id;
-            _context9.prev = 4;
-            _context9.next = 7;
-            return _userModel2.default.findById(userId, function (err, res) {
-              if (err) return err;
-              return res;
-            });
-
-          case 7:
-            user = _context9.sent;
-
-            user.subscriptions.push(course);
-
-            _context9.next = 11;
-            return user.save();
-
-          case 11:
-            result = _context9.sent;
-
-            if (!result) {
-              _context9.next = 14;
+            if (!args.owner) {
+              _context6.next = 7;
               break;
             }
 
-            return _context9.abrupt("return", course);
-
-          case 14:
-            _context9.next = 19;
-            break;
-
-          case 16:
-            _context9.prev = 16;
-            _context9.t0 = _context9["catch"](4);
-            throw _context9.t0;
-
-          case 19:
-          case "end":
-            return _context9.stop();
-        }
-      }
-    }, _callee9, undefined, [[4, 16]]);
-  }));
-
-  return function subscribe(_x25, _x26, _x27, _x28) {
-    return _ref13.apply(this, arguments);
-  };
-}();
-
-var unsubscribe = function () {
-  var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(_, args, ctx, info) {
-    var course, userId, user, result;
-    return _regenerator2.default.wrap(function _callee10$(_context10) {
-      while (1) {
-        switch (_context10.prev = _context10.next) {
-          case 0:
-            _context10.next = 2;
-            return _courseModel2.default.findOneAndUpdate({
-              _id: args.courseId,
-              subscribers: { $gte: 1 }
-            }, { $inc: { subscribers: -1 } });
-
-          case 2:
-            course = _context10.sent;
-            userId = ctx.req.token._id;
-            _context10.prev = 4;
-            _context10.next = 7;
-            return _userModel2.default.findById(userId, function (err, res) {
-              if (err) return err;
-              return res;
+            _context6.next = 6;
+            return _courseModel2.default.findByUsername(args.owner, function (err, docs) {
+              if (err) {
+                // console.log doesn't work here
+              }
+              if (!(0, _isEmpty2.default)(docs)) {
+                var owner = docs._id;
+                query.owner = owner;
+              }
             });
 
+          case 6:
+            owner = _context6.sent;
+
           case 7:
-            user = _context10.sent;
 
-            user.subscriptions.pull(course);
+            args.usingLang ? query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi") : null;
 
-            _context10.next = 11;
-            return user.save();
+            args.teachingLang ? query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi") : null;
+            // end query object
 
-          case 11:
-            result = _context10.sent;
+            if (args.cursor && args.cursor !== "done") {
+              // type cast id, $lt is not the same in aggregate vs query
+              cursor = _mongoose2.default.Types.ObjectId(args.cursor);
+              // add to query object
 
-            if (!result) {
-              _context10.next = 14;
+              query._id = { $lt: cursor };
+            }
+
+            _context6.next = 12;
+            return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
+
+          case 12:
+            result = _context6.sent;
+
+            if (!(0, _isEmpty2.default)(result)) {
+              _context6.next = 17;
               break;
             }
 
-            return _context10.abrupt("return", true);
+            return _context6.abrupt("return", { courses: [], cursor: "done" });
 
-          case 14:
-            _context10.next = 19;
-            break;
-
-          case 16:
-            _context10.prev = 16;
-            _context10.t0 = _context10["catch"](4);
-            throw _context10.t0;
+          case 17:
+            cursor = result[result.length - 1]._id;
+            return _context6.abrupt("return", { courses: result, cursor: cursor });
 
           case 19:
           case "end":
-            return _context10.stop();
+            return _context6.stop();
         }
       }
-    }, _callee10, undefined, [[4, 16]]);
+    }, _callee6, undefined);
   }));
 
-  return function unsubscribe(_x29, _x30, _x31, _x32) {
-    return _ref14.apply(this, arguments);
+  return function getCourses(_x19, _x20, _x21, _x22) {
+    return _ref10.apply(this, arguments);
   };
 }();
 
@@ -647,17 +411,35 @@ var courseResolvers = exports.courseResolvers = {
   Mutation: {
     courseDelete: courseDelete,
     courseUpdate: courseUpdate,
-    courseCreate: courseCreate,
-    subscribe: subscribe,
-    unsubscribe: unsubscribe
-    /* Course: { */
-    /*   async owner(course) { */
-    /*     const populated = await course.populate("owner").execPopulate() */
+    courseCreate: courseCreate
+  },
+  Course: {
+    owner: function owner(course) {
+      var _this = this;
 
-    /*     return populated.owner */
-    /*   } */
-    /* } */
-  } };
+      return (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7() {
+        var populated;
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                _context7.next = 2;
+                return course.populate("owner").execPopulate();
+
+              case 2:
+                populated = _context7.sent;
+                return _context7.abrupt("return", populated.owner);
+
+              case 4:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, _this);
+      }))();
+    }
+  }
+};
 ;
 
 (function () {
@@ -671,9 +453,6 @@ var courseResolvers = exports.courseResolvers = {
 
   reactHotLoader.register(courseResolvers, "courseResolvers", "src/api/course/course-resolvers.js");
   reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(coursesById, "coursesById", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(mongooseToJs, "mongooseToJs", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(userById, "userById", "src/api/course/course-resolvers.js");
   reactHotLoader.register(getCourse, "getCourse", "src/api/course/course-resolvers.js");
   reactHotLoader.register(courseDelete, "courseDelete", "src/api/course/course-resolvers.js");
   reactHotLoader.register(courseUpdate, "courseUpdate", "src/api/course/course-resolvers.js");
@@ -681,8 +460,6 @@ var courseResolvers = exports.courseResolvers = {
   reactHotLoader.register(getCourseLevels, "getCourseLevels", "src/api/course/course-resolvers.js");
   reactHotLoader.register(getCreatedCourses, "getCreatedCourses", "src/api/course/course-resolvers.js");
   reactHotLoader.register(getCourses, "getCourses", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(subscribe, "subscribe", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(unsubscribe, "unsubscribe", "src/api/course/course-resolvers.js");
   leaveModule(module);
 })();
 
@@ -700,9 +477,6 @@ var courseResolvers = exports.courseResolvers = {
 
   reactHotLoader.register(courseResolvers, "courseResolvers", "src/api/course/course-resolvers.js");
   reactHotLoader.register(escapeRegex, "escapeRegex", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(coursesById, "coursesById", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(mongooseToJs, "mongooseToJs", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(userById, "userById", "src/api/course/course-resolvers.js");
   reactHotLoader.register(getCourse, "getCourse", "src/api/course/course-resolvers.js");
   reactHotLoader.register(courseDelete, "courseDelete", "src/api/course/course-resolvers.js");
   reactHotLoader.register(courseUpdate, "courseUpdate", "src/api/course/course-resolvers.js");
@@ -710,8 +484,6 @@ var courseResolvers = exports.courseResolvers = {
   reactHotLoader.register(getCourseLevels, "getCourseLevels", "src/api/course/course-resolvers.js");
   reactHotLoader.register(getCreatedCourses, "getCreatedCourses", "src/api/course/course-resolvers.js");
   reactHotLoader.register(getCourses, "getCourses", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(subscribe, "subscribe", "src/api/course/course-resolvers.js");
-  reactHotLoader.register(unsubscribe, "unsubscribe", "src/api/course/course-resolvers.js");
   leaveModule(module);
 })();
 

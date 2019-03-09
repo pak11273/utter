@@ -1,7 +1,7 @@
 type  Vocabulary {
 	audioUrl: String
 	courseId: String
-	_id: ID
+	id: ID
 	gender: String
 	level: Int 
 	word: String
@@ -14,14 +14,14 @@ type VocabularyPayload {
 }
 
 input VocabularyUpdated {
-		_id: ID
+		id: ID
 		word: String
 		translation: String
 		audioUrl: String
 }
 
 input VocabularyCreateInput {
-		_id: ID
+		id: ID
 		audioUrl: String
 		courseId: String
 		gender: String

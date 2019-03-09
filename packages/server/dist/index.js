@@ -65,8 +65,8 @@ _server2.default.get("/", function (req, res, next) {
 });
 
 // Auth Middleware
-// TODO may remove, we are using auth-directive too
-_server2.default.use(_auth.isAuth);
+// TODO may remove, auth moved to auth-directive
+/* app.use(decodeToken(), hydrateUser()) */
 
 _graphqlServer2.default.applyMiddleware({
   app: _server2.default

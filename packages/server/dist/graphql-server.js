@@ -132,7 +132,8 @@ var _default = new _apolloServerExpress.ApolloServer({
       redis: _redis.redis,
       url: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? "https://" + process.env.SERVER_URL : req.protocol + "://" + req.get("host"),
       req: req,
-      isAuth: req.isAuth
+      user: req.user
+      /* userLoader: userLoader() */
     };
   }
 });

@@ -70,8 +70,6 @@ var _default = function _default(app) {
   _mongoose2.default.connect(_config2.default.env.DB_HOST, {
     useCreateIndex: true,
     useNewUrlParser: true
-  }).then().catch(function (err) {
-    console.log("mongoose error: ", err);
   });
 };
 
