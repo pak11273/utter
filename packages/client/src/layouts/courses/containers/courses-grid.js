@@ -19,7 +19,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
 import {Query, withApollo} from "react-apollo"
-import {local, session} from "brownies"
+import {session} from "brownies"
 /* import {getCourse} from "../../../state/queries.js" */
 import gql from "graphql-tag"
 
@@ -65,26 +65,6 @@ import {subsToSize} from "../../../utils/helpers.js"
 /*     } */
 /*   } */
 /* ` */
-
-const GET_USER_BY_TOKEN = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      _id
-      username
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      password
-      roles
-      scopes
-      subscriptions {
-        _id
-      }
-    }
-  }
-`
 
 const getCourses = gql`
   query getCourses {
@@ -217,17 +197,7 @@ const initialState = {
 class CoursesGrid extends PureComponent {
   state = cloneDeep(initialState)
 
-  componentDidMount = async () => {
-    const token = local.AUTH_TOKEN
-    const {client} = this.props
-
-    const userByToken = await client.query({
-      query: GET_USER_BY_TOKEN,
-      variables: {token}
-    })
-
-    session.user = userByToken.data.getUserByToken
-  }
+  componentDidMount = async () => {}
 
   componentWillReceiveProps() {
     const newState = update(this.state, {

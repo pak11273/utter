@@ -15,7 +15,6 @@ export function contactmail(data) {
   }
 
   return () => {
-    console.log("dat: ", data)
     return axios({
       method: "post",
       url,
@@ -25,7 +24,6 @@ export function contactmail(data) {
       }
     })
       .then(response => {
-        console.log("response: ", response)
         store.dispatch(contactMailReset())
         store.dispatch(
           addFlashMessage({

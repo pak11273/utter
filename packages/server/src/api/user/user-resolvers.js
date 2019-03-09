@@ -221,6 +221,7 @@ const getUserByUsername = async (_, args, ctx, info) => {
 }
 
 const forgotPassword = async (_, {email}, {redis, url}) => {
+  console.log("email: ", email)
   let user = await User.findOne({email})
 
   // TODO: may not implement this because anyone can lock someone's account

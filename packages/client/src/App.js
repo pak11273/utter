@@ -15,7 +15,9 @@ import yellow from "@material-ui/core/colors/yellow"
 import red from "@material-ui/core/colors/red"
 
 import client from "./apollo.js"
+import gql from "graphql-tag"
 
+import {local, session} from "brownies"
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
 import {Footer, MainNavbar} from "./containers"
@@ -59,6 +61,25 @@ const StyledGrid = styled(Grid)`
     "footer";
   margin: 0 auto;
 `
+const GET_USER_BY_TOKEN = gql`
+  query getUserByToken($token: String!) {
+    getUserByToken(token: $token) {
+      _id
+      username
+      blocked
+      contacts
+      createdCourses {
+        _id
+      }
+      password
+      roles
+      scopes
+      subscriptions {
+        _id
+      }
+    }
+  }
+`
 
 // google analytics
 ReactGA.initialize("UA-125119993-1")
@@ -66,6 +87,20 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
+  componentDidMount = async () => {
+    const token = local.AUTH_TOKEN
+    const {client} = this.props
+
+    if (token) {
+      const userByToken = await client.query({
+        query: GET_USER_BY_TOKEN,
+        variables: {token}
+      })
+
+      session.user = userByToken.data.getUserByToken
+    }
+  }
+
   render() {
     return (
       /* const toggleFooter = store.getState().toggleFooterReducer.toggle */

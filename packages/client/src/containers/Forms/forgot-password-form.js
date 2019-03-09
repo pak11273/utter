@@ -96,6 +96,7 @@ export default connect(
       email: ""
     }),
     handleSubmit: async (values, {props}) => {
+      console.log("values; ", values)
       const onComplete = () => {
         history.push("/a/reset-password", {
           announcement: "Please check your email to reset your password."
