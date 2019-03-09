@@ -92,9 +92,8 @@ var N = exports.N = function (_PureComponent) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("val: ", values);
-                _context.prev = 1;
-                _context.next = 4;
+                _context.prev = 0;
+                _context.next = 3;
                 return _this.props.mutate({
                   variables: {
                     password: values.password,
@@ -103,27 +102,27 @@ var N = exports.N = function (_PureComponent) {
                   }
                 });
 
-              case 4:
+              case 3:
                 data = _context.sent;
                 token = data.data.changePassword.token;
 
                 if (token) {
                   _brownies.local.AUTH_TOKEN = token;
                 }
-                return _context.abrupt("return", null);
+                return _context.abrupt("return", data);
 
-              case 10:
-                _context.prev = 10;
-                _context.t0 = _context["catch"](1);
+              case 9:
+                _context.prev = 9;
+                _context.t0 = _context["catch"](0);
 
                 console.log("err: ", _context.t0);
 
-              case 13:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, _this2, [[1, 10]]);
+        }, _callee, _this2, [[0, 9]]);
       }));
 
       return function (_x) {

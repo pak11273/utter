@@ -47,16 +47,15 @@ const changePassword = async (_, args, {redis, url}) => {
   }
 
   try {
-    console.log("args2: ", args)
+    args.input["password confirmation"] = args.input.passwordConfirmation
     await changePasswordSchema.validate(args.input, {
       abortEarly: false
     })
   } catch (err) {
     if (err) {
-      console.log("invalid")
       arrayOfErrors = formatYupError(err)
+
       return {
-        token: null,
         error: arrayOfErrors
       }
     }
@@ -68,7 +67,6 @@ const changePassword = async (_, args, {redis, url}) => {
     $set: {forgotPasswordLocked: false, password: hashedPassword}
   })
   token = signToken(user._id)
-  console.log("token", token)
 
   const deleteKeyPromise = redis.del(redisKey)
 
@@ -120,9 +118,6 @@ const signup = async (_, args, {redis, url}, info) => {
       .then(result => {
         token = signToken(newUser._id)
         result.password = null
-        console.log("url: ", url)
-        console.log("neqUser._id: ", newUser._id)
-        console.log("redis: ", redis)
 
         sendConfirmEmail(
           newUser.email,
@@ -221,7 +216,6 @@ const getUserByUsername = async (_, args, ctx, info) => {
 }
 
 const forgotPassword = async (_, {email}, {redis, url}) => {
-  console.log("email: ", email)
   let user = await User.findOne({email})
 
   // TODO: may not implement this because anyone can lock someone's account

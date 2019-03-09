@@ -116,11 +116,11 @@ export default connect(
       const onComplete = () => {
         history.push("/")
       }
-      const errors = await props.submit(values)
-      if (errors) {
-        setErrors(errors)
-      }
-      if (!errors) {
+      const data = await props.submit(values)
+      const errors = data.data.changePassword.error
+      if (errors[0]) {
+        setErrors(errors[0])
+      } else {
         onComplete()
       }
     }

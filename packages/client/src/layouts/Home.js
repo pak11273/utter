@@ -2,6 +2,7 @@
 import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
 import React, {Component} from "react"
+import {Helmet} from "react-helmet"
 
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
@@ -70,6 +71,20 @@ class Home extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="A place where you can practice speaking a new language with other like minded learners."
+          />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utterzone | Home</title>
+          <link rel="canonical" href="https://utterzone.com" />
+        </Helmet>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
           height="760px"

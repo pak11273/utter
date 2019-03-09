@@ -11,7 +11,6 @@ import {local} from "brownies"
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class N extends PureComponent {
   submit = async values => {
-    console.log("val: ", values)
     try {
       const data = await this.props.mutate({
         variables: {
@@ -24,9 +23,9 @@ export class N extends PureComponent {
       if (token) {
         local.AUTH_TOKEN = token
       }
-      return null
+      return data
     } catch (err) {
-      console.log("err: ", err)
+      return err
     }
   }
 

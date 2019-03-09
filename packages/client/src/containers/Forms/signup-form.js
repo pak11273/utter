@@ -248,7 +248,8 @@ export default withFormik({
         text: "Welcome to Utterzone"
       })
     } else {
-      // if singup info is not legit
+      // if signup info is not legit
+      console.log("signup: ", result)
       setErrors(result)
     }
   }

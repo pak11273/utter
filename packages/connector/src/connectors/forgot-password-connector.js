@@ -10,7 +10,6 @@ import isEmpty from "lodash/isEmpty"
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class F extends PureComponent {
   submit = async values => {
-    console.log("valesu at connector: ", values)
     try {
       const {
         data: {forgotPassword}
@@ -19,7 +18,6 @@ export class F extends PureComponent {
           email: values.email
         }
       })
-      console.log("response: ", forgotPassword)
       return null
     } catch (err) {
       console.log("err: ", err)
