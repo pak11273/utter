@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react"
 import {withFormik, Field} from "formik"
 
-import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
@@ -13,7 +12,7 @@ import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
 import {signupSchema} from "@utterzone/common"
 import {history} from "@utterzone/connector"
-import {FormikInput, Img, Section} from "../../components"
+import {FormikInput, Img, LoadingButton, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
 const styles = () => ({
@@ -141,6 +140,14 @@ class SignupForm extends PureComponent {
                   <Typography component="p" color="inherit" noWrap>
                     password
                   </Typography>
+                  <Typography
+                    style={{fontSize: "8px"}}
+                    component="p"
+                    color="inherit"
+                    noWrap>
+                    (Must contain 1 lowercase, 1 uppercase and 1 special)
+                    character
+                  </Typography>
                   <Field
                     name="password"
                     placeholder="password"
@@ -193,17 +200,17 @@ class SignupForm extends PureComponent {
                     <Terms />
                   </span>
                 </div>
-                <Button
-                  className={classes.button}
-                  color="primary"
-                  disabled={agreementChecked}
+                <LoadingButton
                   floated="right"
                   fontSize="1.5rem"
                   style={{margin: "30px 0 0 0"}}
-                  type="submit"
-                  variant="contained">
+                  className={classes.button}
+                  disabled={agreementChecked}
+                  color="primary"
+                  variant="contained"
+                  type="submit">
                   Join
-                </Button>
+                </LoadingButton>
               </form>
             </div>
           </Grid>

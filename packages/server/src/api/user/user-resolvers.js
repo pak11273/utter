@@ -120,6 +120,9 @@ const signup = async (_, args, {redis, url}, info) => {
       .then(result => {
         token = signToken(newUser._id)
         result.password = null
+        console.log("url: ", url)
+        console.log("neqUser._id: ", newUser._id)
+        console.log("redis: ", redis)
 
         sendConfirmEmail(
           newUser.email,

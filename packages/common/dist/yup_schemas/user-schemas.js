@@ -29,7 +29,7 @@ var invalidEmail = exports.invalidEmail = "email must be a valid email";
 var emailNotLongEnough = exports.emailNotLongEnough = "email must be at least 3 characters";
 var passwordNotLongEnough = exports.passwordNotLongEnough = "password must be at least 8 characters";
 
-var PasswordValidation = exports.PasswordValidation = yup.string().min(8, passwordNotLongEnough).max(255).required("Password is required");
+var PasswordValidation = exports.PasswordValidation = yup.string().min(8, passwordNotLongEnough).max(255).matches(/[a-z]/, "One lowercase character is required.").matches(/[A-Z]/, "One uppercase character is required.").matches(/[a-zA-Z]+[^a-zA-Z\s]+/, "A number or special char (@,!,#, etc) is required.").required("Password is required");
 
 var changePasswordSchema = exports.changePasswordSchema = yup.object().shape({
   password: PasswordValidation,

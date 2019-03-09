@@ -10,6 +10,12 @@ export const PasswordValidation = yup
   .string()
   .min(8, passwordNotLongEnough)
   .max(255)
+  .matches(/[a-z]/, "One lowercase character is required.")
+  .matches(/[A-Z]/, "One uppercase character is required.")
+  .matches(
+    /[a-zA-Z]+[^a-zA-Z\s]+/,
+    "A number or special char (@,!,#, etc) is required."
+  )
   .required("Password is required")
 
 export const changePasswordSchema = yup.object().shape({
