@@ -7,6 +7,7 @@ import {AppContainer} from "react-hot-loader"
 import {ConnectedRouter as Router} from "react-router-redux"
 import ReactGA from "react-ga"
 import {ApolloProvider} from "react-apollo"
+import {local, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -15,9 +16,7 @@ import yellow from "@material-ui/core/colors/yellow"
 import red from "@material-ui/core/colors/red"
 
 import client from "./apollo.js"
-import gql from "graphql-tag"
 
-import {local, session} from "brownies"
 import "./assets/css/global-styles.js"
 import {routes} from "./routes"
 import {Footer, MainNavbar} from "./containers"
@@ -27,6 +26,27 @@ import {store, persistor} from "./store.js"
 import FlashMessagesList from "./components/flashmessages/flashmessages-list"
 import {history} from "@utterzone/connector"
 import {PersistGate} from "redux-persist/integration/react"
+
+import gql from "graphql-tag"
+
+const GET_USER_BY_TOKEN = gql`
+  query getUserByToken($token: String!) {
+    getUserByToken(token: $token) {
+      _id
+      username
+      blocked
+      contacts
+      createdCourses {
+        _id
+      }
+      roles
+      scopes
+      subscriptions {
+        _id
+      }
+    }
+  }
+`
 
 const SubRoutes = route => (
   <Route
@@ -61,25 +81,6 @@ const StyledGrid = styled(Grid)`
     "footer";
   margin: 0 auto;
 `
-const GET_USER_BY_TOKEN = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      _id
-      username
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      password
-      roles
-      scopes
-      subscriptions {
-        _id
-      }
-    }
-  }
-`
 
 // google analytics
 ReactGA.initialize("UA-125119993-1")
@@ -89,7 +90,6 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 class App extends Component {
   componentDidMount = async () => {
     const token = local.AUTH_TOKEN
-    const {client} = this.props
 
     if (token) {
       const userByToken = await client.query({

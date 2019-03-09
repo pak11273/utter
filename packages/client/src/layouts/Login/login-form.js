@@ -160,7 +160,10 @@ export default connect(
         setErrors(errors)
       }
       if (!errors) {
-        history.push("/")
+        history.push({
+          pathname: "/",
+          state: "loadUserSession"
+        })
       }
     }
   })(withStyles(styles)(LoginForm))
