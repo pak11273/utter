@@ -3,7 +3,6 @@ import chalk from "chalk"
 import path from "path"
 /* import {redis} from "./graphql-server" */
 import apiRouter from "./api"
-import mailRouter from "./mail/mail-routes"
 import config from "./config"
 import express from "express"
 import middleware from "./middleware"
@@ -52,7 +51,6 @@ middleware(app)
 // Routers
 mongoose.connection.on("connected", function() {
   app.use("/api", apiRouter)
-  app.use("/mail", mailRouter)
 })
 
 // handlebars setup

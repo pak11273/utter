@@ -115,13 +115,13 @@ const signup = async (_, args, {redis, url}, info) => {
     const newUser = new User(args.input)
     return newUser
       .save()
-      .then(result => {
+      .then(async result => {
         token = signToken(newUser._id)
         result.password = null
 
         sendConfirmEmail(
           newUser.email,
-          createEmailConfirmLink(url, newUser._id, redis)
+          await createEmailConfirmLink(url, newUser._id, redis)
         )
 
         return {

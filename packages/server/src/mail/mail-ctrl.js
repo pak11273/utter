@@ -2,7 +2,6 @@ import User from "../api/user/user-model"
 import async from "async"
 import bcrypt from "bcrypt"
 import crypto from "crypto"
-import mailRouter from "../mail/mail-routes.js"
 import path from "path"
 import {transporter} from "./mail.js"
 
