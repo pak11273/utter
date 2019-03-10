@@ -66,10 +66,6 @@ const styles = theme => ({
   }
 })
 
-const {course, user} = session
-const map = new Map(user.subscriptions.map(el => [el._id, el]))
-const courseSet = map.get(course._id) || {}
-
 class CourseIntroduction extends Component {
   state = {
     name: "",
@@ -83,7 +79,9 @@ class CourseIntroduction extends Component {
   }
 
   componentDidMount() {
-    this.props.toggleFooter(false)
+    const {course, user} = session
+    const map = new Map(user.subscriptions.map(el => [el._id, el]))
+    const courseSet = map.get(course._id) || {}
 
     if (courseSet._id) {
       const newState = update(this.state, {
@@ -99,6 +97,7 @@ class CourseIntroduction extends Component {
         disabled: false
       })
     }
+    this.props.toggleFooter(false)
   }
 
   handleChange = e => {
@@ -106,6 +105,7 @@ class CourseIntroduction extends Component {
   }
 
   sessionSubscribe = () => {
+    const {course, user} = session
     const tempUser = user
     tempUser.subscriptions.push({_id: course._id})
 
@@ -120,6 +120,7 @@ class CourseIntroduction extends Component {
   }
 
   sessionUnsubscribe = () => {
+    const {user} = session
     const updatedSubscriptions = user.subscriptions.filter(obj => {
       return obj._id !== session.course._id
     })
