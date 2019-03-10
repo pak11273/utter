@@ -1,6 +1,7 @@
 import React, {PureComponent} from "react"
 import {connect} from "react-redux"
 import {Route, NavLink} from "react-router-dom"
+import {session} from "brownies"
 
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
@@ -12,8 +13,6 @@ import ListItem from "@material-ui/core/ListItem"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import {session} from "brownies"
-import schema from "../../../core/schema.js"
 import styled from "styled-components"
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
@@ -92,7 +91,7 @@ class CourseUpdate extends PureComponent {
   }
 
   render() {
-    const {course} = session
+    const {course, user} = session
     const {classes} = this.props
     const SubRoutes = route => (
       <Route
@@ -100,7 +99,7 @@ class CourseUpdate extends PureComponent {
         render={props => <route.component {...props} routes={route.routes} />}
       />
     )
-    const {routes, user} = this.props
+    const {routes} = this.props
     return (
       <div className={classes.root}>
         <Drawer
@@ -194,22 +193,11 @@ class CourseUpdate extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  const ormSession = schema.session(state.apiReducer)
-  const {User} = ormSession
-  const userObj = User.all().toRefArray()
-  var user = userObj[0]
-
-  return {
-    user
-  }
-}
-
 const actions = {
   resetGlobalLevel
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   actions
 )(withStyles(styles)(CourseUpdate))

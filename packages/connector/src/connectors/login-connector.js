@@ -1,17 +1,11 @@
 /* eslint no-unused-vars: 0 */
 
-import {compose, graphql} from "react-apollo"
+import {graphql} from "react-apollo"
 import React, {Component} from "react"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
 import isEmpty from "lodash/isEmpty"
 import {local} from "brownies"
-/* import history from "../index.js" */
-
-// actions
-import {loadData} from "../../../client/src/api/actions.js"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class D extends Component {
@@ -23,19 +17,16 @@ export class D extends Component {
           password: values.password
         }
       })
-      const errors = response.data.login.error
+      const error = response.data.login.error
       const token = response.data.login.token
-      if (!isEmpty(errors)) {
-        return normalizeErrors(errors)
+      if (!isEmpty(error)) {
+        return normalizeErrors(error)
       }
-      if (token) {
-        const auth = "AUTH_TOKEN"
-        local[auth] = token
-        const payload = {}
-        payload.user = response.data.login.user
-        this.props.loadData(payload)
+      return {
+        ...response.data.login,
+        token,
+        error
       }
-      return null
     } catch (err) {
       console.log("err: ", err)
     }
@@ -44,15 +35,6 @@ export class D extends Component {
   render() {
     return this.props.children({submit: this.submit})
   }
-}
-
-const mapDispatchToProps = dispatch => {
-  return bindActionCreators(
-    {
-      loadData
-    },
-    dispatch
-  )
 }
 
 const loginMutation = gql`
@@ -74,7 +56,4 @@ const loginMutation = gql`
   }
 `
 
-export const LoginConnector = connect(
-  null,
-  mapDispatchToProps
-)(graphql(loginMutation)(D))
+export const LoginConnector = graphql(loginMutation)(D)

@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
+import {local, session} from "brownies"
 
 import {loginSchema} from "@utterzone/common"
 import {FormikInput, Img, Section} from "../../components"
@@ -152,14 +153,16 @@ export default connect(
       password: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      const errors = await props.submit(values)
-      if (errors) {
-        if (errors.identifier) {
-          errors["username or email"] = errors.identifier
+      const data = await props.submit(values)
+      if (!data.token) {
+        if (data.identifier) {
+          data["username or email"] = data.identifier
         }
-        setErrors(errors)
+        setErrors(data)
       }
-      if (!errors) {
+      if (data.token) {
+        local.AUTH_TOKEN = data.token
+        session.user = data.user
         history.push({
           pathname: "/",
           state: "loadUserSession"

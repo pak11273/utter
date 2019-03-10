@@ -174,38 +174,49 @@ const getCourseLevels = async (_, args, ctx, info) => {
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
-  if (token === "null") {
-    return new Error("You need to be registered to view this resource.")
-  }
-  const token = ctx.req.headers.authorization
-  const user = await userByToken(token, (err, res) => {
-    if (err) return err
-    return res
-  })
+  try {
+    if (!ctx.isAuth) {
+      return new Error("You need to be registered to view this resource.")
+    }
+    const token = ctx.req.headers.authorization
+    const user = await userByToken(token, (err, res) => {
+      if (err) return err
+      return res
+    })
 
-  // build query object
-  const query = {}
-  query.owner = user._id
-  // end query object
+    // build query object
+    const query = {}
+    query.owner = user._id
+    // end query object
 
-  if (args.cursor && args.cursor !== "done") {
-    // type cast id, $lt is not the same in aggregate vs query
-    var cursorObj = mongoose.Types.ObjectId(args.cursor)
-    // add to query object
-    var cursor = cursorObj
-    query._id = {$lt: cursor}
-  }
+    if (args.cursor && args.cursor !== "done") {
+      // type cast id, $lt is not the same in aggregate vs query
+      var cursorObj = mongoose.Types.ObjectId(args.cursor)
+      // add to query object
+      var cursor = cursorObj
+      query._id = {$lt: cursor}
+    }
 
-  let result = await Course.find(query)
-    .limit(3)
-    .sort({_id: -1})
-    .exec()
+    const courses = await Course.find(query)
+      .limit(3)
+      .sort({_id: -1})
 
-  if (isEmpty(result)) {
-    return {courses: [], cursor: "done"}
-  } else {
-    cursor = result[result.length - 1]._id
-    return {courses: result, cursor}
+    const convertedCourses = courses.map(course => {
+      return {
+        ...course._doc,
+        _id: course.id,
+        owner: userById.bind(this, course._doc.owner)
+      }
+    })
+
+    if (isEmpty(convertedCourses)) {
+      return {courses: [], cursor: "done"}
+    } else {
+      cursor = convertedCourses[convertedCourses.length - 1]._id
+      return {courses: convertedCourses, cursor}
+    }
+  } catch (err) {
+    throw err
   }
 }
 

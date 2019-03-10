@@ -13,7 +13,7 @@ import CardMedia from "@material-ui/core/CardMedia"
 import Drawer from "@material-ui/core/Drawer"
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
-import {Spacer} from "../../../components"
+import {Spacer, LoaderCircle} from "../../../components"
 import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import cloneDeep from "lodash/cloneDeep"
@@ -22,14 +22,10 @@ import update from "immutability-helper"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
-import {store} from "../../../store.js"
 import {history} from "@utterzone/connector"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 import isEmpty from "lodash/isEmpty"
 import "react-select/dist/react-select.css"
-
-// actions
-import {loadData} from "../../../api/actions.js"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -159,7 +155,6 @@ class CoursesCreatedContainer extends PureComponent {
   handleImageClick = data => {
     const payload = {}
     payload.course = data
-    store.dispatch(loadData(payload))
 
     history.push({
       pathname: "/course/course-introduction",
@@ -219,6 +214,7 @@ class CoursesCreatedContainer extends PureComponent {
                 </div>
               </div>
               {/* End hero unit */}
+              {/* TODO: remove network only by writing new courses to the cache */}
               <Query
                 query={getCreatedCourses}
                 fetchPolicy="network-only"
@@ -226,7 +222,12 @@ class CoursesCreatedContainer extends PureComponent {
                   cursor: ""
                 }}>
                 {({loading, error, data, fetchMore}) => {
-                  if (loading) return <Grid>loading...</Grid>
+                  if (loading)
+                    return (
+                      <Grid style={{textAlign: "center", margin: "160px"}}>
+                        <LoaderCircle />
+                      </Grid>
+                    )
                   if (error) {
                     console.log("err: ", error)
                     return (
@@ -317,9 +318,9 @@ class CoursesCreatedContainer extends PureComponent {
                             }
                           })
                         }}>
-                        <div>
+                        <Grid style={{textAlign: "center", margin: "160px"}}>
                           <Button>Scroll down for more</Button>
-                        </div>
+                        </Grid>
                       </Waypoint>
                     )
                   }
@@ -381,9 +382,8 @@ class CoursesCreatedContainer extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {
-    loadData: payload => dispatch(loadData(payload)),
     toggleFooter
   }
 }

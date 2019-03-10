@@ -22,7 +22,7 @@ export class AuthDirective extends SchemaDirectiveVisitor {
           !ctx.req.headers.authorization ||
           ctx.req.headers.authorization === "null"
         ) {
-          throw new Error("You must be registered to view this resource.")
+          throw new Error("You must be registered to view this page.")
         }
 
         const token = ctx.req.headers.authorization
@@ -50,13 +50,14 @@ export class AuthDirective extends SchemaDirectiveVisitor {
 
     field.resolve = async function(...args) {
       const ctx = args[2]
+      console.log("ctx: ", ctx.req)
       if (
         !ctx ||
         !ctx.req.headers ||
         !ctx.req.headers.authorization ||
         ctx.req.headers.authorization === "null"
       ) {
-        throw new Error("You must be registered to view this resource.")
+        throw new Error("You must be registered to view this page.")
       }
 
       const token = ctx.req.headers.authorization

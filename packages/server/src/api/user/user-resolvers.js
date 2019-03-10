@@ -204,12 +204,10 @@ const getUserByToken = (_, args, ctx, info) => {
 
 const getUserById = async (_, args, ctx, info) => {
   let result = await User.findById({_id: args._id})
-  console.log("result: ", result)
   return result
 }
 
 const getUserByUsername = async (_, args, ctx, info) => {
-  console.log("userID: ", ctx)
   // const getUserByUsername = (_, __, {user}) => {
   let result = await User.findOne({username: args.input})
   return result
@@ -234,7 +232,6 @@ const updateMe = (_, {input}, {user}) => {
 }
 
 const getSubscriptions = async (_, args, {user}) => {
-  console.log("args: ", args)
   try {
     const subscriptions = await User.findById(userId)
 
