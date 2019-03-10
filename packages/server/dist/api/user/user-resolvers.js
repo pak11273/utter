@@ -425,11 +425,9 @@ var getUserById = function () {
 
           case 2:
             result = _context5.sent;
-
-            console.log("result: ", result);
             return _context5.abrupt("return", result);
 
-          case 5:
+          case 4:
           case "end":
             return _context5.stop();
         }
@@ -449,16 +447,14 @@ var getUserByUsername = function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            console.log("userID: ", ctx);
-            // const getUserByUsername = (_, __, {user}) => {
-            _context6.next = 3;
+            _context6.next = 2;
             return _userModel2.default.findOne({ username: args.input });
 
-          case 3:
+          case 2:
             result = _context6.sent;
             return _context6.abrupt("return", result);
 
-          case 5:
+          case 4:
           case "end":
             return _context6.stop();
         }
@@ -529,26 +525,25 @@ var getSubscriptions = function () {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
-            console.log("args: ", args);
-            _context8.prev = 1;
-            _context8.next = 4;
+            _context8.prev = 0;
+            _context8.next = 3;
             return _userModel2.default.findById(userId);
 
-          case 4:
+          case 3:
             subscriptions = _context8.sent;
             return _context8.abrupt("return", (0, _extends3.default)({}, subscriptions._doc, { _id: subscriptions.id }));
 
-          case 8:
-            _context8.prev = 8;
-            _context8.t0 = _context8["catch"](1);
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
             throw _context8.t0;
 
-          case 11:
+          case 10:
           case "end":
             return _context8.stop();
         }
       }
-    }, _callee8, undefined, [[1, 8]]);
+    }, _callee8, undefined, [[0, 7]]);
   }));
 
   return function getSubscriptions(_x24, _x25, _x26) {

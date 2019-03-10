@@ -405,27 +405,30 @@ var getCourseLevels = function () {
 
 var getCreatedCourses = function () {
   var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, args, ctx, info) {
-    var token, user, query, cursorObj, cursor, result;
+    var token, user, query, cursorObj, cursor, courses, convertedCourses;
     return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            if (!(token === "null")) {
-              _context7.next = 2;
+            console.log("ctx: ", ctx.req);
+            _context7.prev = 1;
+
+            if (ctx.isAuth) {
+              _context7.next = 4;
               break;
             }
 
             return _context7.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 2:
+          case 4:
             token = ctx.req.headers.authorization;
-            _context7.next = 5;
+            _context7.next = 7;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 5:
+          case 7:
             user = _context7.sent;
 
 
@@ -434,6 +437,8 @@ var getCreatedCourses = function () {
 
             query.owner = user._id;
             // end query object
+
+            console.log("cursor: ", args.cursor);
 
             if (args.cursor && args.cursor !== "done") {
               // type cast id, $lt is not the same in aggregate vs query
@@ -445,29 +450,45 @@ var getCreatedCourses = function () {
               query._id = { $lt: cursor };
             }
 
-            _context7.next = 11;
-            return _courseModel2.default.find(query).limit(3).sort({ _id: -1 }).exec();
+            _context7.next = 14;
+            return _courseModel2.default.find(query).limit(3).sort({ _id: -1 });
 
-          case 11:
-            result = _context7.sent;
+          case 14:
+            courses = _context7.sent;
+            convertedCourses = courses.map(function (course) {
+              return (0, _extends3.default)({}, course._doc, {
+                _id: course.id,
+                owner: userById.bind(undefined, course._doc.owner)
+              });
+            });
 
-            if (!(0, _isEmpty2.default)(result)) {
-              _context7.next = 16;
+            if (!(0, _isEmpty2.default)(convertedCourses)) {
+              _context7.next = 20;
               break;
             }
 
             return _context7.abrupt("return", { courses: [], cursor: "done" });
 
-          case 16:
-            cursor = result[result.length - 1]._id;
-            return _context7.abrupt("return", { courses: result, cursor: cursor });
+          case 20:
+            cursor = convertedCourses[convertedCourses.length - 1]._id;
+            console.log("next cursor: ", cursor);
+            return _context7.abrupt("return", { courses: convertedCourses, cursor: cursor });
 
-          case 18:
+          case 23:
+            _context7.next = 28;
+            break;
+
+          case 25:
+            _context7.prev = 25;
+            _context7.t0 = _context7["catch"](1);
+            throw _context7.t0;
+
+          case 28:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, undefined);
+    }, _callee7, undefined, [[1, 25]]);
   }));
 
   return function getCreatedCourses(_x17, _x18, _x19, _x20) {

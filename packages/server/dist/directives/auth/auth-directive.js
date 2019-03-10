@@ -85,7 +85,7 @@ var AuthDirective = exports.AuthDirective = function (_SchemaDirectiveVisit) {
                       break;
                     }
 
-                    throw new Error("You must be registered to view this resource.");
+                    throw new Error("You must be registered to view this page.");
 
                   case 2:
                     token = ctx.req.headers.authorization;
@@ -139,16 +139,18 @@ var AuthDirective = exports.AuthDirective = function (_SchemaDirectiveVisit) {
                 case 0:
                   ctx = args[2];
 
+                  console.log("ctx: ", ctx.req);
+
                   if (!(!ctx || !ctx.req.headers || !ctx.req.headers.authorization || ctx.req.headers.authorization === "null")) {
-                    _context2.next = 3;
+                    _context2.next = 4;
                     break;
                   }
 
-                  throw new Error("You must be registered to view this resource.");
+                  throw new Error("You must be registered to view this page.");
 
-                case 3:
+                case 4:
                   token = ctx.req.headers.authorization;
-                  _context2.prev = 4;
+                  _context2.prev = 5;
 
                   jwt.verify(token, _config2.default.env.JWT, function (err, decoded) {
                     if (err) {
@@ -159,17 +161,17 @@ var AuthDirective = exports.AuthDirective = function (_SchemaDirectiveVisit) {
                   });
                   return _context2.abrupt("return", resolve.apply(this, args));
 
-                case 9:
-                  _context2.prev = 9;
-                  _context2.t0 = _context2["catch"](4);
+                case 10:
+                  _context2.prev = 10;
+                  _context2.t0 = _context2["catch"](5);
                   return _context2.abrupt("return", _context2.t0);
 
-                case 12:
+                case 13:
                 case "end":
                   return _context2.stop();
               }
             }
-          }, _callee2, this, [[4, 9]]);
+          }, _callee2, this, [[5, 10]]);
         }));
 
         return function () {
