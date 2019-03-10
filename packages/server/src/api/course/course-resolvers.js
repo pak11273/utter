@@ -174,7 +174,6 @@ const getCourseLevels = async (_, args, ctx, info) => {
 }
 
 const getCreatedCourses = async (_, args, ctx, info) => {
-  console.log("ctx: ", ctx.req)
   try {
     if (!ctx.isAuth) {
       return new Error("You need to be registered to view this resource.")
@@ -189,8 +188,6 @@ const getCreatedCourses = async (_, args, ctx, info) => {
     const query = {}
     query.owner = user._id
     // end query object
-
-    console.log("cursor: ", args.cursor)
 
     if (args.cursor && args.cursor !== "done") {
       // type cast id, $lt is not the same in aggregate vs query
@@ -211,12 +208,15 @@ const getCreatedCourses = async (_, args, ctx, info) => {
         owner: userById.bind(this, course._doc.owner)
       }
     })
+    const lastCourse = await Course.findOne().sort({field: "asc", _id: 1}) //TODO: index?
+    cursor = convertedCourses[convertedCourses.length - 1]._id
 
-    if (isEmpty(convertedCourses)) {
-      return {courses: [], cursor: "done"}
+    if (
+      isEmpty(convertedCourses) ||
+      lastCourse._doc._id.toString() === cursor
+    ) {
+      return {courses: convertedCourses, cursor: "done"}
     } else {
-      cursor = convertedCourses[convertedCourses.length - 1]._id
-      console.log("next cursor: ", cursor)
       return {courses: convertedCourses, cursor}
     }
   } catch (err) {
