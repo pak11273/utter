@@ -2,6 +2,7 @@ import React, {PureComponent} from "react"
 import {connect} from "react-redux"
 import {Link as RouterLink} from "react-router-dom"
 import {Helmet} from "react-helmet"
+import {session} from "brownies"
 
 import classNames from "classnames"
 import Button from "@material-ui/core/Button"
@@ -151,13 +152,12 @@ class CoursesCreatedContainer extends PureComponent {
     this.props.toggleFooter(false)
   }
 
-  handleImageClick = data => {
-    const payload = {}
-    payload.course = data
+  handleImageClick = card => {
+    session.course = card
 
     history.push({
       pathname: "/course/course-introduction",
-      state: {courseId: data.id}
+      state: {courseId: card._id}
     })
   }
 
@@ -283,7 +283,6 @@ class CoursesCreatedContainer extends PureComponent {
                           ))}
                         </Grid>
                       </div>
-                      {console.log("data: ", data)}
                       {data.getCreatedCourses &&
                         data.getCreatedCourses.cursor !== "done" && (
                           <Button

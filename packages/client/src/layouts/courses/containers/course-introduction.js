@@ -69,7 +69,6 @@ const styles = theme => ({
 const {course, user} = session
 const map = new Map(user.subscriptions.map(el => [el._id, el]))
 const courseSet = map.get(course._id) || {}
-console.log("courseSet: ", courseSet)
 
 class CourseIntroduction extends Component {
   state = {
@@ -92,7 +91,7 @@ class CourseIntroduction extends Component {
         courseName: {$set: course.courseName},
         courseDescription: {$set: course.courseDescription}
       })
-      this.setState(newState, () => console.log("this state: ", this.state))
+      this.setState(newState)
     }
 
     if (user.username === course.owner.username) {

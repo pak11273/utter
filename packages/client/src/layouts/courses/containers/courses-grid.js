@@ -338,7 +338,7 @@ class CoursesGrid extends PureComponent {
                     <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
                       <Card className={classes.card}>
                         <CardMedia
-                          onClick={() => this.handleImageClick(card)}
+                          onClick={this.handleImageClick(card)}
                           className={classes.cardMedia}
                           image={`${card.courseImage}`}
                           title={`${card.courseName}`}

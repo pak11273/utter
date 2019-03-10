@@ -1,9 +1,8 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import Helmet from "react-helmet"
-import {Can} from "../../../components"
+/* import {Can} from "../../../components" */
 import {CourseModal} from "../../../containers"
-import schema from "../../../core/schema"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -54,7 +53,8 @@ const styles = theme => ({
   },
   root: {
     maxWidth: 900,
-    margin: "0 auto"
+    margin: "0 auto",
+    width: "100%"
   }
 })
 
@@ -99,40 +99,35 @@ class CourseSettings extends Component {
 
   render() {
     /* const {name, email, submittedName, submittedEmail} = this.state */
-    const {classes, user} = this.props
+    const {classes} = this.props
     const {course} = session
     return (
-      <Can
-        roles={user.roles}
-        perform="course:read-settings"
-        id={user.username}
-        matchingID={course.owner.username}
-        yes={() => (
-          <form className={classes.root} onSubmit={this.handleSubmit}>
-            <Helmet>
-              <meta charset="utf-8" />
-              <meta
-                name="viewport"
-                content="width=device-width, initial-scale=1, shrink-to-fit=no"
-              />
-              <meta name="description" content="Affordable language learning" />
-              <meta name="author" content="Isaac Pak" />
-              <title>Utterzone | Settings</title>
-              <link rel="canonical" href="https://utter.zone/settings" />
-            </Helmet>
-            {/* Hero unit */}
-            <div className={classes.heroUnit}>
-              <div className={classes.heroContent}>
-                <Grid container justify="center" direction="column">
-                  <Typography variant="h4" align="center" gutterBottom>
-                    Settings
-                  </Typography>
-                </Grid>
-              </div>
-            </div>
-            {/* End hero unit */}
-            <main className={classes.content}>
-              <Grid container spacing={24}>
+      <form className={classes.root} onSubmit={this.handleSubmit}>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="description" content="Affordable language learning" />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utterzone | Settings</title>
+          <link rel="canonical" href="https://utter.zone/settings" />
+        </Helmet>
+        {/* Hero unit */}
+        <div className={classes.heroUnit}>
+          <div className={classes.heroContent}>
+            <Grid container justify="center" direction="column">
+              <Typography variant="h4" align="center" gutterBottom>
+                Settings
+              </Typography>
+            </Grid>
+          </div>
+        </div>
+        {/* End hero unit */}
+        <main className={classes.content}>
+          <Grid container spacing={24}>
+            {/* TODO: Course mode feature
                 <Grid item xs={12}>
                   <div
                     style={{
@@ -157,56 +152,44 @@ class CourseSettings extends Component {
                     </Button>
                   </div>
                 </Grid>
-                <Grid item xs={12} style={{backgroundColor: "#3e3e3e"}}>
-                  <Typography
-                    variant="h6"
-                    align="left"
-                    className={classes.dangerZone}
-                    gutterBottom>
-                    Danger Zone
-                  </Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={this.handleDeleteModalOpen}
-                    style={{
-                      backgroundColor: "red",
-                      color: "white",
-                      margin: "12px"
-                    }}>
-                    Delete Course
-                  </Button>
-                  <CourseModal
-                    course={course}
-                    open={this.state.open}
-                    onClose={this.handleDeleteModalClose}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      margin: "50px 0"
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </main>
-          </form>
-        )}
-        no={() => <h1>wtf</h1>}
-      />
+								*/}
+            <Grid item xs={12} style={{backgroundColor: "#3e3e3e"}}>
+              <Typography
+                variant="h6"
+                align="left"
+                className={classes.dangerZone}
+                gutterBottom>
+                Danger Zone
+              </Typography>
+              <Button
+                variant="outlined"
+                onClick={this.handleDeleteModalOpen}
+                style={{
+                  backgroundColor: "red",
+                  color: "white",
+                  margin: "12px"
+                }}>
+                Delete Course
+              </Button>
+              <CourseModal
+                course={course}
+                open={this.state.open}
+                onClose={this.handleDeleteModalClose}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  margin: "50px 0"
+                }}
+              />
+            </Grid>
+          </Grid>
+        </main>
+      </form>
     )
-  }
-}
-
-const mapStateToProps = state => {
-  const ormSession = schema.session(state.apiReducer)
-  const {User} = ormSession
-  const userObj = User.all().toRefArray()
-  var user = userObj[0]
-  return {
-    user
   }
 }
 
@@ -217,6 +200,6 @@ const actions = {
 const withGraphql = graphql(COURSE_UPDATE)(CourseSettings)
 
 export default connect(
-  mapStateToProps,
+  null,
   actions
 )(withStyles(styles)(withGraphql))
