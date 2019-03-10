@@ -2,7 +2,6 @@ import React, {PureComponent} from "react"
 import {connect} from "react-redux"
 import {Link as RouterLink} from "react-router-dom"
 import {Helmet} from "react-helmet"
-import Waypoint from "react-waypoint"
 
 import classNames from "classnames"
 import Button from "@material-ui/core/Button"
@@ -13,18 +12,18 @@ import CardMedia from "@material-ui/core/CardMedia"
 import Drawer from "@material-ui/core/Drawer"
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
-import {Spacer, LoaderCircle} from "../../../components"
+import {GraphError, Spacer, LoaderCircle} from "../../../components"
 import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import cloneDeep from "lodash/cloneDeep"
-import update from "immutability-helper"
+/* import update from "immutability-helper" */
 
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
 import {history} from "@utterzone/connector"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
-import isEmpty from "lodash/isEmpty"
+/* import isEmpty from "lodash/isEmpty" */
 import "react-select/dist/react-select.css"
 
 const drawerWidth = 240
@@ -218,110 +217,25 @@ class CoursesCreatedContainer extends PureComponent {
               <Query
                 query={getCreatedCourses}
                 fetchPolicy="network-only"
+                errorPolicy="all"
                 variables={{
                   cursor: ""
                 }}>
-                {({loading, error, data, fetchMore}) => {
+                {({loading, data, error, fetchMore}) => {
                   if (loading)
                     return (
                       <Grid style={{textAlign: "center", margin: "160px"}}>
                         <LoaderCircle />
                       </Grid>
                     )
+
                   if (error) {
-                    console.log("err: ", error)
                     return (
                       <Grid>
-                        <p>
-                          {error.graphQLErrors.map(({message}, i) => (
-                            <p
-                              style={{
-                                fontSize: "1.3em",
-                                color: "red",
-                                margin: "30px",
-                                padding: "30px",
-                                textAlign: "center"
-                              }}
-                              key={i}>
-                              {message}
-                            </p>
-                          ))}
-                        </p>
+                        {error.graphQLErrors.map(({message}, i) => (
+                          <GraphError mappedKey={i}>{message}</GraphError>
+                        ))}
                       </Grid>
-                    )
-                  }
-                  if (this.state.cursor !== "done") {
-                    var waypoint = (
-                      <Waypoint
-                        key={data.getCreatedCourses.cursor}
-                        onEnter={() => {
-                          // set cursor state to first response
-                          const newState = update(this.state, {
-                            cursor: {$set: data.getCreatedCourses.cursor}
-                          })
-
-                          this.setState(newState)
-
-                          fetchMore({
-                            // note this is a different query than the one used in the
-                            variables: {
-                              cursor: this.state.cursor
-                            },
-                            updateQuery: (
-                              previousResult,
-                              {fetchMoreResult}
-                            ) => {
-                              if (!fetchMoreResult) {
-                                // do something here
-                              }
-                              const previousEntry =
-                                previousResult.getCreatedCourses.courses
-                              const newCourses =
-                                fetchMoreResult.getCreatedCourses.courses
-
-                              // display waypoint if a cursor exists
-                              const newState = update(this.state, {
-                                cursor: {
-                                  $set: fetchMoreResult.getCreatedCourses.cursor
-                                }
-                              })
-
-                              this.setState(newState)
-
-                              if (isEmpty(newCourses)) {
-                                // hide waypoint
-                                const newState = update(this.state, {
-                                  cursor: {
-                                    $set:
-                                      fetchMoreResult.getCreatedCourses.cursor
-                                  }
-                                })
-
-                                this.setState(newState)
-
-                                return previousResult
-                              }
-                              var newCursor =
-                                newCourses[newCourses.length - 1].id
-
-                              if (!fetchMoreResult) return previousEntry
-
-                              return {
-                                // By returning `cursor` here, we update the `fetchMore` function
-                                // to the new cursor.
-                                getCreatedCourses: {
-                                  cursor: newCursor,
-                                  courses: [...previousEntry, ...newCourses],
-                                  __typename: "PaginatedCourses"
-                                }
-                              }
-                            }
-                          })
-                        }}>
-                        <Grid style={{textAlign: "center", margin: "160px"}}>
-                          <Button>Scroll down for more</Button>
-                        </Grid>
-                      </Waypoint>
                     )
                   }
                   return (
@@ -336,7 +250,7 @@ class CoursesCreatedContainer extends PureComponent {
                           {data.getCreatedCourses.courses.map(card => (
                             <Grid
                               item
-                              key={card.id}
+                              key={card._id}
                               xs={12}
                               sm={12}
                               md={4}
@@ -369,7 +283,48 @@ class CoursesCreatedContainer extends PureComponent {
                           ))}
                         </Grid>
                       </div>
-                      {waypoint}
+                      {console.log("data: ", data)}
+                      {data.getCreatedCourses &&
+                        data.getCreatedCourses.cursor !== "done" && (
+                          <Button
+                            onClick={() =>
+                              fetchMore({
+                                variables: {
+                                  cursor: data.getCreatedCourses.cursor
+                                },
+                                updateQuery: (
+                                  previousResult,
+                                  {fetchMoreResult}
+                                ) => {
+                                  const newCourses =
+                                    fetchMoreResult.getCreatedCourses.courses
+                                  const {
+                                    cursor
+                                  } = fetchMoreResult.getCreatedCourses
+
+                                  return newCourses.length
+                                    ? {
+                                        // Put the new getCreatedCourses at the end of the list and update `cursor`
+                                        // so we have the new `endCursor` and `hasNextPage` values
+                                        getCreatedCourses: {
+                                          __typename:
+                                            previousResult.getCreatedCourses
+                                              .__typename,
+                                          courses: [
+                                            ...previousResult.getCreatedCourses
+                                              .courses,
+                                            ...newCourses
+                                          ],
+                                          cursor
+                                        }
+                                      }
+                                    : previousResult
+                                }
+                              })
+                            }>
+                            Load More
+                          </Button>
+                        )}
                     </div>
                   )
                 }}

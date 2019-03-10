@@ -20,6 +20,7 @@ import {
   FormikTextArea
 } from "./Inputs/FormikField.js"
 import Grid from "./Grids"
+import GraphError from "./errors/graph-error.js"
 import Hamburger from "./buttons/hamburger.js"
 import Hero from "./hero.js"
 import Img from "./Img.js"
@@ -81,6 +82,7 @@ export {
   FormikTextArea,
   FormEditWrapper,
   Grid,
+  GraphError,
   Hamburger,
   Hero,
   Img,

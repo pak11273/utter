@@ -73,6 +73,7 @@
     "react-ga": "^2.5.3",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "^4.3.6",
+    "react-infinite-scroll-component": "^4.5.1",
     "react-json-tree": "^0.11.2",
     "react-loadable": "^5.5.0",
     "react-portal": "^4.1.5",
