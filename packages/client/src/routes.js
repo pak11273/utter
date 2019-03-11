@@ -366,7 +366,7 @@ export const routes = [
   },
   {
     path: "/signup",
-    component: getSignupCtrl
+    component: noAuth(getSignupCtrl)
   },
   // {
   //   path: '/Sponsorship',
