@@ -208,11 +208,16 @@ class CoursesGrid extends PureComponent {
 
   handleImageClick = card => () => {
     session.course = card
-
-    history.push({
-      pathname: "/course/course-introduction",
-      state: {courseId: card.id}
-    })
+    if (!session.user) {
+      history.push({
+        pathname: "/login"
+      })
+    } else {
+      history.push({
+        pathname: "/course/course-introduction",
+        state: {courseId: card.id}
+      })
+    }
   }
 
   render() {
