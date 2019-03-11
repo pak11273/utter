@@ -262,7 +262,7 @@ class Home extends Component {
               className={classes.section}
               spacing={24}>
               <Typography align="left" gutterBottom variant="h4" component="h2">
-                Latest News
+                Get Informed
               </Typography>
               <p style={{fontSize: "1.33em", marginBottom: "20px"}}>
                 We will be adding Spanish, French and other popular languages in

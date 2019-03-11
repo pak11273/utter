@@ -1,22 +1,11 @@
-import {injectGlobal} from "styled-components"
-/* import OpenSans from '../../assets/css/fonts/OpenSans-Regular.ttf' */
-// box-sizing: border-box;
-// display: flex;
-// flex-direction: column;
-// box-sizing: border-box;
-// Global style
 // eslint-disable-next-line
-
-/* @font-face { */
-/*   font-family: 'Open Sans'; */
-/*   src: url(${OpenSans}); */
-/* } */
+import {injectGlobal} from "styled-components"
 
 injectGlobal`
 
   body, h1, h2, h3, h4, h6, div, p, li {
     box-sizing: border-box;
-    font-family: 'Open Sans';
+    font-family: 'Helvetica Arial sans-serif';
     color: #777;
   }
 
@@ -61,5 +50,21 @@ injectGlobal`
     border: 1px solid rgb(169,169,169);
     border-width: thin; 
   }
+
+	.toast-container {
+	  top: 5em !important;
+	}
+
+
+	.toasty {
+		font-family: Helvetica Arial sans-serif;
+		font-size: 1rem;
+	}
+
+	.toasty-body {
+		color: #344ba5;
+		font-family: Arial;
+		padding-left: 30px;
+	}
 
 `

@@ -111,7 +111,10 @@ class App extends Component {
             <PersistGate loading={null} persistor={persistor}>
               <MuiThemeProvider theme={theme}>
                 <CssBaseline />
-                <ToastContainer />
+                <ToastContainer
+                  position="top-left"
+                  className="toast-container"
+                />
                 <Router history={history}>
                   <StyledGrid style={{minHeight: "100vh"}}>
                     <MainNavbar

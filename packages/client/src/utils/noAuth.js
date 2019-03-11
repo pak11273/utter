@@ -1,34 +1,24 @@
 import React, {Component} from "react"
-import {addFlashMessage} from "../core/actions/flashMessages.js"
-import {connect} from "react-redux"
-import {history} from "@utterzone/connector"
 import {local} from "brownies"
 
 const noAuth = WrappedComponent => {
   class Wrap extends Component {
-    componentDidMount() {}
+    componentDidMount() {
+      const isAuthenticated = local.AUTH_TOKEN
+      if (isAuthenticated) {
+        this.props.history.push("/", {
+          notification: "You are already logged in.",
+          type: "warn"
+        })
+      }
+    }
 
     render() {
-      const isNotAuthenticated = local.AUTH_TOKEN
-      if (isNotAuthenticated) {
-        this.props.addFlashMessage({
-          type: "error",
-          text: "You are already logged in."
-        })
-        history.push("/")
-      }
       return <WrappedComponent {...this.props} />
     }
   }
 
-  const actions = {
-    addFlashMessage
-  }
-
-  return connect(
-    null,
-    actions
-  )(Wrap)
+  return Wrap
 }
 
 export default noAuth

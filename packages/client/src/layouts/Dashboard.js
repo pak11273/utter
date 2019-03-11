@@ -100,6 +100,10 @@ const Progress = () => (
 )
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.props.history.replace("/login", {notification: null})
+  }
+
   DropFunc = e => {
     const {name} = e.target
     const x = document.getElementById(name)

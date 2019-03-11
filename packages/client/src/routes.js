@@ -376,7 +376,7 @@ export const routes = [
   {
     exact: true,
     path: "/zones",
-    component: requireAuth(getZones)
+    component: noAuth(getZones)
   },
   {
     component: requireAuth(getZone),

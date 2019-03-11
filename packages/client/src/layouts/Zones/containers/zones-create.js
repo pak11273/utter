@@ -27,7 +27,6 @@ import {
 
 // actions
 import {loadData} from "../../../api/actions.js"
-import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
 const DisplayCount = styled.div`
@@ -448,7 +447,6 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    addFlashMessage,
     loadData,
     toggleFooter
   }
@@ -457,13 +455,13 @@ export default connect(
     validationSchema: zoneCreateSchema,
     validateOnChange: false,
     validateOnBlur: false,
-    mapPropsToValues: props => ({
+    mapPropsToValues: () => ({
       ageGroup: "",
       app: "",
       appLevel: 1,
       course: "",
       courseLevel: "",
-      owner: props.user.id,
+      owner: "",
       resources: "",
       zoneName: "",
       zoneImage:

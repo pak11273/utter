@@ -9,7 +9,8 @@ const requireAuth = WrappedComponent => {
       const isAuthenticated = local.AUTH_TOKEN
       if (!isAuthenticated) {
         this.props.history.push("/login", {
-          notification: "You need to login to access this page."
+          notification: "Please login to access this page.",
+          type: "warn"
         })
       }
       return <WrappedComponent {...this.props} />

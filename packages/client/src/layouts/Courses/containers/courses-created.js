@@ -286,6 +286,7 @@ class CoursesCreatedContainer extends PureComponent {
                       {data.getCreatedCourses &&
                         data.getCreatedCourses.cursor !== "done" && (
                           <Button
+                            style={{display: "flex", margin: "0 auto"}}
                             onClick={() =>
                               fetchMore({
                                 variables: {
