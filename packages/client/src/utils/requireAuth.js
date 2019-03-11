@@ -11,11 +11,13 @@ const requireAuth = WrappedComponent => {
     render() {
       const isAuthenticated = local.AUTH_TOKEN
       if (!isAuthenticated) {
-        this.props.addFlashMessage({
-          type: "error",
-          text: "You need to login to access this page"
+        /* this.props.addFlashMessage({ */
+        /*   type: "error", */
+        /*   text: "You need to login to access this page" */
+        /* }) */
+        history.push("/login", {
+          notification: "You need to login to access this page."
         })
-        history.push("/login")
       }
       return <WrappedComponent {...this.props} />
     }

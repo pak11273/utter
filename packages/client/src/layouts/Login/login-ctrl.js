@@ -11,7 +11,7 @@ export default class LoginCtrl extends PureComponent {
     return (
       <React.Fragment>
         <LoginConnector>
-          {({submit}) => <LoginView submit={submit} />}
+          {({submit}) => <LoginView submit={submit} {...this.props} />}
         </LoginConnector>
       </React.Fragment>
     )

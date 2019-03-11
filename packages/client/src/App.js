@@ -26,6 +26,7 @@ import {store, persistor} from "./store.js"
 import FlashMessagesList from "./components/flashmessages/flashmessages-list"
 import {history} from "@utterzone/connector"
 import {PersistGate} from "redux-persist/integration/react"
+import {ToastContainer} from "react-toastify"
 
 import gql from "graphql-tag"
 
@@ -110,6 +111,7 @@ class App extends Component {
             <PersistGate loading={null} persistor={persistor}>
               <MuiThemeProvider theme={theme}>
                 <CssBaseline />
+                <ToastContainer />
                 <Router history={history}>
                   <StyledGrid style={{minHeight: "100vh"}}>
                     <MainNavbar
