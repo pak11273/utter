@@ -9,6 +9,7 @@ import cloneDeep from "lodash/cloneDeep"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -197,7 +198,16 @@ class ZonesGrid extends PureComponent {
           teachingLang
         }}>
         {({loading, error, data, fetchMore}) => {
-          if (loading) return <Grid>loading...</Grid>
+          if (loading)
+            return (
+              <Grid
+                container
+                alignContent="center"
+                justify="center"
+                style={{height: "300px"}}>
+                <CircularProgress style={{color: "grey"}} />
+              </Grid>
+            )
           if (error) {
             console.log("err: ", error)
             return (

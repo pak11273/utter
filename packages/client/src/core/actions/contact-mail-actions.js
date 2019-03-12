@@ -1,9 +1,5 @@
 import axios from "axios"
-import {store} from "../../store.js"
-
-// actions
-import {addFlashMessage} from "./flashMessages.js"
-import {contactMailReset} from "../../layouts/contact/actions.js"
+import {toast} from "react-toastify"
 
 export function contactmail(data) {
   var url = "/mail/contactmail"
@@ -24,23 +20,20 @@ export function contactmail(data) {
       }
     })
       .then(response => {
-        store.dispatch(contactMailReset())
-        store.dispatch(
-          addFlashMessage({
-            type: "success",
-            text: response.data.message
-          })
-        )
+        console.log("RESPONSE: ", response)
+        toast.success(response.data.message, {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
       })
       .catch(err => {
         console.log("err: ", err)
-        store.dispatch(
-          addFlashMessage({
-            type: "error",
-            text: err
-          })
-        )
-        store.dispatch(contactMailReset())
+        toast.error(err, {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
       })
   }
 }

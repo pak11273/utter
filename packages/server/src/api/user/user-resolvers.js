@@ -184,21 +184,24 @@ const login = async (parent, args, ctx, info) => {
   }
 }
 
-const getUserByToken = (_, args, ctx, info) => {
-  var token = args.token
-  /* var token = ctx.req.headers.authorization || null */
-  if (token) {
-    const result = jwt.verify(token, config.env.JWT, (err, decoded) => {
-      if (err) console.log("err: ", err)
-      if (decoded) {
-        const userID = decoded._id
-        const user = User.findOne({_id: userID})
+const getUserByToken = async (_, args, ctx, info) => {
+  try {
+    var token = args.token
+    if (token) {
+      const result = await jwt.verify(token, config.env.JWT)
+      if (result) {
+        const userId = result._id
+        let user = await User.findById(userId)
+          .lean()
+          .exec()
         return user
       } else {
         return {username: ""}
       }
-    })
-    return result
+      return result
+    }
+  } catch (err) {
+    throw err
   }
 }
 

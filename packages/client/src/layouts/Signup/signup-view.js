@@ -1,20 +1,9 @@
 import React from "react"
-import {connect} from "react-redux"
 
 import SignupForm from "../../containers/forms/signup-form.js"
-import {addFlashMessage} from "../../core/actions/flashMessages.js"
 
-function Signup({submit, signupRequest, addFlashMessage}) {
-  return (
-    <SignupForm
-      signupRequest={signupRequest}
-      addFlashMessage={addFlashMessage}
-      submit={submit}
-    />
-  )
+function Signup({submit, signupRequest}) {
+  return <SignupForm signupRequest={signupRequest} submit={submit} />
 }
 
-export default connect(
-  null,
-  {addFlashMessage}
-)(Signup)
+export default Signup

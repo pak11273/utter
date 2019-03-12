@@ -2,10 +2,8 @@ import {combineReducers} from "redux"
 import {reduceReducers} from "./utils/redux-utils.js"
 
 import apiReducer from "./api/reducer.js"
-import flashMessages from "./core/reducers/flashMessages"
 import challengeReducer from "./containers/Challenge/reducer.js"
 import channelReducer from "./containers/Channels/reducer.js"
-import contactReducer from "./layouts/contact/reducers.js"
 import courseReducer from "./layouts/courses/reducers"
 import coursesReducer from "./api/courses/reducers/courses-reducer.js"
 import entitiesCrudReducer from "./api/entities/reducers/crudReducer.js"
@@ -29,13 +27,11 @@ const combinedReducers = combineReducers({
   apiReducer,
   challengeReducer,
   channelReducer,
-  contactReducer,
   chatReducer,
   chatPanelReducer,
   clubReducer,
   courseReducer,
   coursesReducer,
-  flashMessages,
   levelReducer,
   loaderReducer,
   paginateReducer,

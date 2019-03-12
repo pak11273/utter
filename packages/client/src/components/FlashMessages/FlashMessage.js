@@ -21,7 +21,7 @@ class FlashMessage extends Component {
       case "error":
         // setTimeout(this.props.deleteFlashMessage(this.props.message.id), 10000)
         window.setTimeout(() => {
-          this.props.deleteFlashMessage(this.props.message.id)
+          // TODO: delete the flash message
         }, 3000)
         break
       default:
@@ -30,7 +30,7 @@ class FlashMessage extends Component {
   }
 
   onClick = () => {
-    this.props.deleteFlashMessage(this.props.message.id)
+    // TODO: delete the flash message
   }
 
   render() {

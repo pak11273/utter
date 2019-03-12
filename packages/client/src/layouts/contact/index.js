@@ -41,7 +41,7 @@ class Contact extends Component {
   }
 
   render() {
-    const {classes, contactmail} = this.props
+    const {classes} = this.props
     return (
       <React.Fragment>
         <Container className={classes.root}>
@@ -93,7 +93,6 @@ class Contact extends Component {
 }
 
 const actions = {
-  contactmail,
   toggleFooter
 }
 

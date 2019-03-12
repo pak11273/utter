@@ -1,8 +1,7 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
-import SendIcon from '@material-ui/icons/Send'
+import SendIcon from "@material-ui/icons/Send"
 /* import Typography from "@material-ui/core/Typography" */
 import TextField from "@material-ui/core/TextField"
 import {withStyles} from "@material-ui/core/styles"
@@ -11,22 +10,18 @@ import Select from "react-select"
 import {Label, Section} from "../../../components"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
 import CallingCodes from "../../../assets/js/CallingCodes.js"
-import {bindActionCreators} from "redux"
 import "./select.css"
-
-// actions
-import {contactMailSend} from "../../../layouts/contact/actions.js"
 
 const styles = theme => ({
   root: {
     maxWidth: 900,
-		margin: "0 auto",
+    margin: "0 auto"
   },
-	button: {
-			    position: 'absolute',
-			    bottom: theme.spacing.unit * 4,
-			    right: theme.spacing.unit * 2,
-	},
+  button: {
+    position: "absolute",
+    bottom: theme.spacing.unit * 4,
+    right: theme.spacing.unit * 2
+  },
   text: {
     color: "white"
   },
@@ -38,9 +33,9 @@ const styles = theme => ({
       flexDirection: "column"
     }
   },
-	 rightIcon: {
-		     marginLeft: theme.spacing.unit,
-		   },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
+  },
   section: {
     padding: theme.spacing.unit * 1,
     margin: "0 auto 100px",
@@ -156,7 +151,7 @@ class ContactForm extends Component {
       country: "",
       subject: "",
       letter: "",
-      message: "",
+      message: ""
     }
   }
 
@@ -178,8 +173,9 @@ class ContactForm extends Component {
 
   onSubmit = e => {
     e.preventDefault()
+    console.log("state: ", this.state)
+    console.log("prosp", this.props)
     this.props.contactmail(this.state)
-    this.props.contactMailSend()
   }
 
   getValidNumber = phoneNumber => {
@@ -216,119 +212,109 @@ class ContactForm extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
-			<main className={classes.root}>
-        <Form onSubmit={this.onSubmit}>
-          <Section margin="80px 0 0 0" padding="0 0 100px 0" maxwidth="1024px">
-            <Grid container spacing={24}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="Name"
-                  name="name"
-                  label="Name"
-                  fullWidth
-                  onChange={this.onChange}
-                  autoComplete="name"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  id="email"
-                  name="email"
-                  label="Email"
-                  fullWidth
-                  onChange={this.onChange}
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  id="Subject"
-                  name="subject"
-                  label="Subject"
-                  fullWidth
-                  onChange={this.onChange}
-                  autoComplete="subject"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Phone>
-                  <Label
-                    textalign="left"
-                    padding="0 20px 0 0"
-                    fontsize="1rem"
-                    width="50px">
-                    Phone
-                  </Label>
-                  <Select
-                    clearable={false}
-                    name="country"
-                    autosize
-                    placeholder="country"
-                    value={this.state.country}
-                    onChange={this.onSelect2}
-                    options={CallingCodes}
-                    labelKey="country"
-                    valueKey="value"
-                    valueRenderer={country => country.value}
+        <main className={classes.root}>
+          <Form onSubmit={this.onSubmit}>
+            <Section
+              margin="80px 0 0 0"
+              padding="0 0 100px 0"
+              maxwidth="1024px">
+              <Grid container spacing={24}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    id="Name"
+                    name="name"
+                    label="Name"
+                    fullWidth
+                    onChange={this.onChange}
+                    autoComplete="name"
                   />
-                  <Grid item xs={12}>
-                    <TextField
-                      required
-                      id="number"
-                      name="number"
-                      fullWidth
-                      onChange={this.onChange}
-                      autoComplete="number"
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    required
+                    id="email"
+                    name="email"
+                    label="Email"
+                    fullWidth
+                    onChange={this.onChange}
+                    autoComplete="email"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    id="Subject"
+                    name="subject"
+                    label="Subject"
+                    fullWidth
+                    onChange={this.onChange}
+                    autoComplete="subject"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Phone>
+                    <Label
+                      textalign="left"
+                      padding="0 20px 0 0"
+                      fontsize="1rem"
+                      width="50px">
+                      Phone
+                    </Label>
+                    <Select
+                      clearable={false}
+                      name="country"
+                      autosize
+                      placeholder="country"
+                      value={this.state.country}
+                      onChange={this.onSelect2}
+                      options={CallingCodes}
+                      labelKey="country"
+                      valueKey="value"
+                      valueRenderer={country => country.value}
                     />
-                  </Grid>
-                </Phone>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        id="number"
+                        name="number"
+                        fullWidth
+                        onChange={this.onChange}
+                        autoComplete="number"
+                      />
+                    </Grid>
+                  </Phone>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="outlined-multiline-static"
+                    name="letter"
+                    required
+                    label="Message"
+                    multiline
+                    rows="8"
+                    onChange={this.onChange}
+                    className={classes.textField}
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    type="submit">
+                    Send
+                    <SendIcon className={classes.rightIcon}>send</SendIcon>
+                  </Button>
+                </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  id="outlined-multiline-static"
-                  name="letter"
-                  required
-                  label="Message"
-                  multiline
-                  rows="8"
-									onChange={this.onChange}
-                  className={classes.textField}
-                      fullWidth
-                  margin="normal"
-                  variant="outlined"
-                />
-					<Button variant="contained" color="primary" className={classes.button} type="submit">
-			        Send
-			        <SendIcon className={classes.rightIcon}>send</SendIcon>
-			      </Button>
-              </Grid>
-            </Grid>
-          </Section>
-        </Form>
-			</main>
+            </Section>
+          </Form>
+        </main>
       </React.Fragment>
     )
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    contactReducer: state.contactReducer
-  }
-}
-
-const mapDispatchToProps = dispatch =>
-  bindActionCreators(
-    {
-      contactMailSend
-    },
-    dispatch
-  )
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(ContactForm))
+export default withStyles(styles)(ContactForm)

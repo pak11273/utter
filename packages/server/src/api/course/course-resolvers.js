@@ -24,11 +24,10 @@ const escapeRegex = text => {
 */
 const coursesById = async courseIds => {
   try {
-    const courses = await Course.find({_id: {$in: courseIds}})
+    const courses = await Course.find({_id: {$in: courseIds}}).lean()
     return courses.map(course => {
       return {
-        ...course._doc,
-        _id: course.id,
+        ...course,
         owner: userById.bind(this, course.owner)
       }
     })
@@ -71,19 +70,21 @@ const mongooseToJs = object => {
 
 const userById = async userId => {
   try {
-    const user = await User.findById(userId)
+    const user = await User.findById(userId).lean()
     return {
-      ...user._doc,
-      _id: user.id,
-      createdCourses: coursesById.bind(this, user._doc.createdCourses)
+      ...user,
+      createdCourses: coursesById.bind(this, user.createdCourses)
     }
   } catch (err) {
     throw err
   }
 }
 
-const getCourse = async (_, {courseId}, {user}) => {
-  const course = await Course.findById(courseId).exec()
+const getCourse = async (_, args, {user}) => {
+  console.log("args: ", args)
+  const course = await Course.findById(args._id)
+    .lean()
+    .exec()
   if (!course) {
     throw new Error("Cannot find course with id")
   }
@@ -93,7 +94,7 @@ const getCourse = async (_, {courseId}, {user}) => {
 
 const courseDelete = async (_, {id}, ctx) => {
   if (token === "null") {
-    return new Error("You need to be registered to view this resource.")
+    return new Error("You need to be registered to delete this resource.")
   }
   const token = ctx.req.headers.authorization
   const user = await userByToken(token, (err, res) => {
@@ -111,9 +112,21 @@ const courseDelete = async (_, {id}, ctx) => {
   }
 }
 
-const courseUpdate = (_, {input}) => {
-  const {id, ...update} = input
-  return Course.findByIdAndUpdate(id, update, {new: true}).exec()
+const courseUpdate = async (_, args, ctx) => {
+  try {
+    if (!ctx.isAuth) {
+      return new Error("You need to be registered to edit this course.")
+    }
+    console.log("input: ", args)
+    const {_id, ...update} = args
+    const result = await Course.findByIdAndUpdate(_id, update, {
+      new: true
+    }).lean()
+    /* .exec() */
+    console.log("result: ", result)
+  } catch (err) {
+    throw err
+  }
 }
 
 const courseCreate = async (_, args, ctx, info) => {
@@ -176,7 +189,7 @@ const getCourseLevels = async (_, args, ctx, info) => {
 const getCreatedCourses = async (_, args, ctx, info) => {
   try {
     if (!ctx.isAuth) {
-      return new Error("You need to be registered to view this resource.")
+      return new Error("You need to be registered to create a course.")
     }
     const token = ctx.req.headers.authorization
     const user = await userByToken(token, (err, res) => {
@@ -226,12 +239,11 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 
 const getCourses = async (_, args, ctx, info) => {
   try {
-    const courses = await Course.find()
+    const courses = await Course.find().lean()
     const convertedCourses = courses.map(course => {
       return {
-        ...course._doc,
-        _id: course.id,
-        owner: userById.bind(this, course._doc.owner)
+        ...course,
+        owner: userById.bind(this, course.owner)
       }
     })
     return {courses: convertedCourses, cursor: ""}

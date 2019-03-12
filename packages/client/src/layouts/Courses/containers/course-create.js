@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import gql from "graphql-tag"
 import {session} from "brownies"
+import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
 import isEmpty from "lodash/isEmpty"
@@ -27,7 +28,6 @@ import {
   LoadingButton,
   Span
 } from "../../../components"
-import {addFlashMessage} from "../../../core/actions/flashMessages"
 import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 import CourseResources from "../components/course-resources"
 import Teaching from "./teaching"
@@ -425,7 +425,6 @@ class CourseCreate extends Component {
                   name="courseName"
                   label="Course Name"
                   type="text"
-                  className={classes.searchField}
                   component={FormikInput}
                   margin="normal"
                   variant="outlined"
@@ -448,7 +447,6 @@ class CourseCreate extends Component {
                   name="courseDescription"
                   label="Course Description"
                   type="text"
-                  className={classes.searchField}
                   component={FormikTextArea}
                   margin="normal"
                   variant="outlined"
@@ -519,7 +517,6 @@ class CourseCreate extends Component {
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(
     {
-      addFlashMessage,
       toggleFooter
     },
     dispatch
@@ -580,15 +577,17 @@ export default connect(
         // if create is legit
         if (course) {
           onComplete(course)
-          props.actions.addFlashMessage({
-            type: "success",
-            text: "Start building your course."
+          toast.success("Start building your course.", {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
           })
         } else {
           setErrors(course.COURSE_CREATE.errors)
-          props.actions.addFlashMessage({
-            type: "error",
-            text: "Something went wrong. Could not create a course."
+          toast.success("Something went wrong. Could not create a course.", {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
           })
         }
       }

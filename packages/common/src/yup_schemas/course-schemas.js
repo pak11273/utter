@@ -22,3 +22,16 @@ export const courseCreateSchema = yup.object().shape({
     .max(350, descriptionTooLong)
     .required("A course description is required")
 })
+
+export const courseSchema = yup.object().shape({
+  courseName: yup
+    .string()
+    .required("A course name is required")
+    .min(10, nameNotLongEnough)
+    .max(100, nameTooLong),
+  courseDescription: yup
+    .string()
+    .min(100, descriptionNotLongEnough)
+    .max(350, descriptionTooLong)
+    .required("A course description is required")
+})

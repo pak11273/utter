@@ -22,10 +22,9 @@ type Resource {
 	className: String
 }
 
-input CourseUpdated {
-  _id: ID!
+input CourseUpdateInput {
   courseName: String
-  coursedescription: String
+  courseDescription: String
   courseMode: String
 }
 
@@ -54,7 +53,7 @@ type PaginatedCourses {
 }
 
 extend type Query {
-  getCourse(_id: ID!): Course!
+  getCourse(_id: String!): Course!
 	getCourseLevels(courseId: String!): Course!
   getCourses: PaginatedCourses 
 	getCreatedCourses(
@@ -66,7 +65,7 @@ extend type Query {
 extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
 	courseDelete(resourceId: String!): Boolean @hasScope(scope: "course:delete")
-  courseUpdate(input: CourseUpdated!): Course!
+  courseUpdate(input: CourseUpdateInput!): Course!
 	subscribe(courseId: String!): Course 
 	unsubscribe(courseId: String!): Boolean
 }

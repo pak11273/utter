@@ -1,6 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
 import {withFormik} from "formik"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
@@ -12,9 +10,7 @@ import {graphql, Mutation} from "react-apollo"
 /* import {history} from "@utterzone/connector" */
 import {session} from "brownies"
 import gql from "graphql-tag"
-
-// actions
-import {addFlashMessage} from "../../core/actions/flashMessages.js"
+import {toast} from "react-toastify"
 
 const COURSE_DELETE = gql`
   mutation courseDeleteMutation($resourceId: String!) {
@@ -67,50 +63,39 @@ export class ModalContainer extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    {
-      addFlashMessage
-    },
-    dispatch
-  )
-})
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(
-  graphql(COURSE_DELETE)(
-    withFormik({
-      /* mapPropsToValues: () => ({ */
-      /*   resourceId: "" */
-      /* }), */
-      handleSubmit: async (values, {props}, setErrors) => {
-        const {course} = session
-        const result = await props.mutate({
-          variables: {
-            resourceId: course._id
-          }
-        })
-
-        const onComplete = () => {
-          console.log("props: ", props)
-          props.actions.closeModal()
-          history.push("/courses/created")
+export default graphql(COURSE_DELETE)(
+  withFormik({
+    /* mapPropsToValues: () => ({ */
+    /*   resourceId: "" */
+    /* }), */
+    handleSubmit: async (values, {props}, setErrors) => {
+      const {course} = session
+      const result = await props.mutate({
+        variables: {
+          resourceId: course._id
         }
+      })
 
-        // if delete was successfull
-        if (result.data.courseDelete) {
-          onComplete()
-          props.actions.addFlashMessage({
-            type: "success",
-            text: "Your Course was deleted."
-          })
-        } else {
-          console.log("result.data.errors: ", result.data.errors)
-          setErrors(result.data.errors)
-        }
+      const onComplete = () => {
+        console.log("props: ", props)
+        props.actions.closeModal()
+        history.push("/courses/created")
       }
-    })(ModalContainer)
-  )
+
+      // if delete was successfull
+      if (result.data.courseDelete) {
+        onComplete()
+
+        const text = "Your Course was deleted."
+        toast.success(text, {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      } else {
+        console.log("result.data.errors: ", result.data.errors)
+        setErrors(result.data.errors)
+      }
+    }
+  })(ModalContainer)
 )

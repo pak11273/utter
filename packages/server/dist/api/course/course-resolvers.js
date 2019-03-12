@@ -86,13 +86,12 @@ var coursesById = function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _courseModel2.default.find({ _id: { $in: courseIds } });
+            return _courseModel2.default.find({ _id: { $in: courseIds } }).lean();
 
           case 3:
             courses = _context.sent;
             return _context.abrupt("return", courses.map(function (course) {
-              return (0, _extends3.default)({}, course._doc, {
-                _id: course.id,
+              return (0, _extends3.default)({}, course, {
                 owner: userById.bind(undefined, course.owner)
               });
             }));
@@ -155,13 +154,12 @@ var userById = function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return _userModel2.default.findById(userId);
+            return _userModel2.default.findById(userId).lean();
 
           case 3:
             user = _context2.sent;
-            return _context2.abrupt("return", (0, _extends3.default)({}, user._doc, {
-              _id: user.id,
-              createdCourses: coursesById.bind(undefined, user._doc.createdCourses)
+            return _context2.abrupt("return", (0, _extends3.default)({}, user, {
+              createdCourses: coursesById.bind(undefined, user.createdCourses)
             }));
 
           case 7:
@@ -183,31 +181,31 @@ var userById = function () {
 }();
 
 var getCourse = function () {
-  var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, _ref4, _ref5) {
-    var courseId = _ref4.courseId;
-    var user = _ref5.user;
+  var _ref3 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee3(_, args, _ref4) {
+    var user = _ref4.user;
     var course;
     return _regenerator2.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            _context3.next = 2;
-            return _courseModel2.default.findById(courseId).exec();
+            console.log("args: ", args);
+            _context3.next = 3;
+            return _courseModel2.default.findById(args._id).lean().exec();
 
-          case 2:
+          case 3:
             course = _context3.sent;
 
             if (course) {
-              _context3.next = 5;
+              _context3.next = 6;
               break;
             }
 
             throw new Error("Cannot find course with id");
 
-          case 5:
+          case 6:
             return _context3.abrupt("return", course);
 
-          case 6:
+          case 7:
           case "end":
             return _context3.stop();
         }
@@ -221,8 +219,8 @@ var getCourse = function () {
 }();
 
 var courseDelete = function () {
-  var _ref6 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, _ref7, ctx) {
-    var id = _ref7.id;
+  var _ref5 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4(_, _ref6, ctx) {
+    var id = _ref6.id;
     var token, user, course;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
@@ -233,7 +231,7 @@ var courseDelete = function () {
               break;
             }
 
-            return _context4.abrupt("return", new Error("You need to be registered to view this resource."));
+            return _context4.abrupt("return", new Error("You need to be registered to delete this resource."));
 
           case 2:
             token = ctx.req.headers.authorization;
@@ -275,21 +273,14 @@ var courseDelete = function () {
   }));
 
   return function courseDelete(_x6, _x7, _x8) {
-    return _ref6.apply(this, arguments);
+    return _ref5.apply(this, arguments);
   };
 }();
 
-var courseUpdate = function courseUpdate(_, _ref8) {
-  var input = _ref8.input;
-  var id = input.id,
-      update = (0, _objectWithoutProperties3.default)(input, ["id"]);
+var courseUpdate = function () {
+  var _ref7 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx) {
+    var _id, update, result;
 
-  return _courseModel2.default.findByIdAndUpdate(id, update, { new: true }).exec();
-};
-
-var courseCreate = function () {
-  var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee5(_, args, ctx, info) {
-    var userId, user, newCourse, createdCourse, course, owner;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
@@ -301,18 +292,68 @@ var courseCreate = function () {
               break;
             }
 
+            return _context5.abrupt("return", new Error("You need to be registered to edit this course."));
+
+          case 3:
+            console.log("input: ", args);
+            _id = args._id, update = (0, _objectWithoutProperties3.default)(args, ["_id"]);
+            _context5.next = 7;
+            return _courseModel2.default.findByIdAndUpdate(_id, update, {
+              new: true
+            }).lean();
+
+          case 7:
+            result = _context5.sent;
+
+            /* .exec() */
+            console.log("result: ", result);
+            _context5.next = 14;
+            break;
+
+          case 11:
+            _context5.prev = 11;
+            _context5.t0 = _context5["catch"](0);
+            throw _context5.t0;
+
+          case 14:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5, undefined, [[0, 11]]);
+  }));
+
+  return function courseUpdate(_x9, _x10, _x11) {
+    return _ref7.apply(this, arguments);
+  };
+}();
+
+var courseCreate = function () {
+  var _ref8 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
+    var userId, user, newCourse, createdCourse, course, owner;
+    return _regenerator2.default.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
+            _context6.prev = 0;
+
+            if (ctx.isAuth) {
+              _context6.next = 3;
+              break;
+            }
+
             throw new Error("You need to be registered to create a course.");
 
           case 3:
             userId = ctx.req.token._id;
-            _context5.next = 6;
+            _context6.next = 6;
             return _userModel2.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
           case 6:
-            user = _context5.sent;
+            user = _context6.sent;
             newCourse = new _courseModel2.default({
               courseImage: args.input.courseImage,
               courseName: args.input.courseName,
@@ -324,11 +365,11 @@ var courseCreate = function () {
               owner: user._id
             });
             createdCourse = void 0;
-            _context5.next = 11;
+            _context6.next = 11;
             return newCourse.save();
 
           case 11:
-            course = _context5.sent;
+            course = _context6.sent;
 
 
             /* createdCourse = mongooseToJs(course) */
@@ -338,14 +379,14 @@ var courseCreate = function () {
               owner: userById.bind(undefined, course._doc.owner)
             });
 
-            _context5.next = 15;
+            _context6.next = 15;
             return _userModel2.default.findById(userId);
 
           case 15:
-            owner = _context5.sent;
+            owner = _context6.sent;
 
             if (owner) {
-              _context5.next = 18;
+              _context6.next = 18;
               break;
             }
 
@@ -354,36 +395,36 @@ var courseCreate = function () {
           case 18:
             owner.createdCourses.push(course);
 
-            _context5.next = 21;
+            _context6.next = 21;
             return owner.save();
 
           case 21:
-            return _context5.abrupt("return", createdCourse);
+            return _context6.abrupt("return", createdCourse);
 
           case 24:
-            _context5.prev = 24;
-            _context5.t0 = _context5["catch"](0);
-            throw _context5.t0;
+            _context6.prev = 24;
+            _context6.t0 = _context6["catch"](0);
+            throw _context6.t0;
 
           case 27:
           case "end":
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, undefined, [[0, 24]]);
+    }, _callee6, undefined, [[0, 24]]);
   }));
 
-  return function courseCreate(_x9, _x10, _x11, _x12) {
-    return _ref9.apply(this, arguments);
+  return function courseCreate(_x12, _x13, _x14, _x15) {
+    return _ref8.apply(this, arguments);
   };
 }();
 
 var getCourseLevels = function () {
-  var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee6(_, args, ctx, info) {
+  var _ref9 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, args, ctx, info) {
     var query;
-    return _regenerator2.default.wrap(function _callee6$(_context6) {
+    return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             // build query object
             query = {};
@@ -392,44 +433,43 @@ var getCourseLevels = function () {
 
           case 2:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, undefined);
+    }, _callee7, undefined);
   }));
 
-  return function getCourseLevels(_x13, _x14, _x15, _x16) {
-    return _ref10.apply(this, arguments);
+  return function getCourseLevels(_x16, _x17, _x18, _x19) {
+    return _ref9.apply(this, arguments);
   };
 }();
 
 var getCreatedCourses = function () {
-  var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee7(_, args, ctx, info) {
-    var token, user, query, cursorObj, cursor, courses, convertedCourses;
-    return _regenerator2.default.wrap(function _callee7$(_context7) {
+  var _ref10 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_, args, ctx, info) {
+    var token, user, query, cursorObj, cursor, courses, convertedCourses, lastCourse;
+    return _regenerator2.default.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            console.log("ctx: ", ctx.req);
-            _context7.prev = 1;
+            _context8.prev = 0;
 
             if (ctx.isAuth) {
-              _context7.next = 4;
+              _context8.next = 3;
               break;
             }
 
-            return _context7.abrupt("return", new Error("You need to be registered to view this resource."));
+            return _context8.abrupt("return", new Error("You need to be registered to create a course."));
 
-          case 4:
+          case 3:
             token = ctx.req.headers.authorization;
-            _context7.next = 7;
+            _context8.next = 6;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
-            user = _context7.sent;
+          case 6:
+            user = _context8.sent;
 
 
             // build query object
@@ -437,8 +477,6 @@ var getCreatedCourses = function () {
 
             query.owner = user._id;
             // end query object
-
-            console.log("cursor: ", args.cursor);
 
             if (args.cursor && args.cursor !== "done") {
               // type cast id, $lt is not the same in aggregate vs query
@@ -450,64 +488,10 @@ var getCreatedCourses = function () {
               query._id = { $lt: cursor };
             }
 
-            _context7.next = 14;
+            _context8.next = 12;
             return _courseModel2.default.find(query).limit(3).sort({ _id: -1 });
 
-          case 14:
-            courses = _context7.sent;
-            convertedCourses = courses.map(function (course) {
-              return (0, _extends3.default)({}, course._doc, {
-                _id: course.id,
-                owner: userById.bind(undefined, course._doc.owner)
-              });
-            });
-
-            if (!(0, _isEmpty2.default)(convertedCourses)) {
-              _context7.next = 20;
-              break;
-            }
-
-            return _context7.abrupt("return", { courses: [], cursor: "done" });
-
-          case 20:
-            cursor = convertedCourses[convertedCourses.length - 1]._id;
-            console.log("next cursor: ", cursor);
-            return _context7.abrupt("return", { courses: convertedCourses, cursor: cursor });
-
-          case 23:
-            _context7.next = 28;
-            break;
-
-          case 25:
-            _context7.prev = 25;
-            _context7.t0 = _context7["catch"](1);
-            throw _context7.t0;
-
-          case 28:
-          case "end":
-            return _context7.stop();
-        }
-      }
-    }, _callee7, undefined, [[1, 25]]);
-  }));
-
-  return function getCreatedCourses(_x17, _x18, _x19, _x20) {
-    return _ref11.apply(this, arguments);
-  };
-}();
-
-var getCourses = function () {
-  var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee8(_, args, ctx, info) {
-    var courses, convertedCourses;
-    return _regenerator2.default.wrap(function _callee8$(_context8) {
-      while (1) {
-        switch (_context8.prev = _context8.next) {
-          case 0:
-            _context8.prev = 0;
-            _context8.next = 3;
-            return _courseModel2.default.find();
-
-          case 3:
+          case 12:
             courses = _context8.sent;
             convertedCourses = courses.map(function (course) {
               return (0, _extends3.default)({}, course._doc, {
@@ -515,98 +499,93 @@ var getCourses = function () {
                 owner: userById.bind(undefined, course._doc.owner)
               });
             });
-            return _context8.abrupt("return", { courses: convertedCourses, cursor: "" });
+            _context8.next = 16;
+            return _courseModel2.default.findOne().sort({ field: "asc", _id: 1 });
 
-          case 8:
-            _context8.prev = 8;
+          case 16:
+            lastCourse = _context8.sent;
+            //TODO: index?
+            cursor = convertedCourses[convertedCourses.length - 1]._id;
+
+            if (!((0, _isEmpty2.default)(convertedCourses) || lastCourse._doc._id.toString() === cursor)) {
+              _context8.next = 22;
+              break;
+            }
+
+            return _context8.abrupt("return", { courses: convertedCourses, cursor: "done" });
+
+          case 22:
+            return _context8.abrupt("return", { courses: convertedCourses, cursor: cursor });
+
+          case 23:
+            _context8.next = 28;
+            break;
+
+          case 25:
+            _context8.prev = 25;
             _context8.t0 = _context8["catch"](0);
             throw _context8.t0;
 
-          case 11:
+          case 28:
           case "end":
             return _context8.stop();
         }
       }
-    }, _callee8, undefined, [[0, 8]]);
+    }, _callee8, undefined, [[0, 25]]);
   }));
 
-  return function getCourses(_x21, _x22, _x23, _x24) {
-    return _ref12.apply(this, arguments);
+  return function getCreatedCourses(_x20, _x21, _x22, _x23) {
+    return _ref10.apply(this, arguments);
   };
 }();
 
-var subscribe = function () {
-  var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(_, args, ctx, info) {
-    var course, userId, user, result;
+var getCourses = function () {
+  var _ref11 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee9(_, args, ctx, info) {
+    var courses, convertedCourses;
     return _regenerator2.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            _context9.next = 2;
-            return _courseModel2.default.findOneAndUpdate({ _id: args.courseId }, { $inc: { subscribers: 1 } });
+            _context9.prev = 0;
+            _context9.next = 3;
+            return _courseModel2.default.find().lean();
 
-          case 2:
-            course = _context9.sent;
-            userId = ctx.req.token._id;
-            _context9.prev = 4;
-            _context9.next = 7;
-            return _userModel2.default.findById(userId, function (err, res) {
-              if (err) return err;
-              return res;
+          case 3:
+            courses = _context9.sent;
+            convertedCourses = courses.map(function (course) {
+              return (0, _extends3.default)({}, course, {
+                owner: userById.bind(undefined, course.owner)
+              });
             });
+            return _context9.abrupt("return", { courses: convertedCourses, cursor: "" });
 
-          case 7:
-            user = _context9.sent;
-
-            user.subscriptions.push(course);
-
-            _context9.next = 11;
-            return user.save();
-
-          case 11:
-            result = _context9.sent;
-
-            if (!result) {
-              _context9.next = 14;
-              break;
-            }
-
-            return _context9.abrupt("return", course);
-
-          case 14:
-            _context9.next = 19;
-            break;
-
-          case 16:
-            _context9.prev = 16;
-            _context9.t0 = _context9["catch"](4);
+          case 8:
+            _context9.prev = 8;
+            _context9.t0 = _context9["catch"](0);
             throw _context9.t0;
 
-          case 19:
+          case 11:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, undefined, [[4, 16]]);
+    }, _callee9, undefined, [[0, 8]]);
   }));
 
-  return function subscribe(_x25, _x26, _x27, _x28) {
-    return _ref13.apply(this, arguments);
+  return function getCourses(_x24, _x25, _x26, _x27) {
+    return _ref11.apply(this, arguments);
   };
 }();
 
-var unsubscribe = function () {
-  var _ref14 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(_, args, ctx, info) {
+var subscribe = function () {
+  var _ref12 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee10(_, args, ctx, info) {
     var course, userId, user, result;
     return _regenerator2.default.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.next = 2;
-            return _courseModel2.default.findOneAndUpdate({
-              _id: args.courseId,
-              subscribers: { $gte: 1 }
-            }, { $inc: { subscribers: -1 } });
+            return _courseModel2.default.findOneAndUpdate({ _id: args.courseId }, { $inc: { subscribers: 1 } });
 
           case 2:
             course = _context10.sent;
@@ -621,7 +600,7 @@ var unsubscribe = function () {
           case 7:
             user = _context10.sent;
 
-            user.subscriptions.pull(course);
+            user.subscriptions.push(course);
 
             _context10.next = 11;
             return user.save();
@@ -634,7 +613,7 @@ var unsubscribe = function () {
               break;
             }
 
-            return _context10.abrupt("return", true);
+            return _context10.abrupt("return", course);
 
           case 14:
             _context10.next = 19;
@@ -653,8 +632,71 @@ var unsubscribe = function () {
     }, _callee10, undefined, [[4, 16]]);
   }));
 
-  return function unsubscribe(_x29, _x30, _x31, _x32) {
-    return _ref14.apply(this, arguments);
+  return function subscribe(_x28, _x29, _x30, _x31) {
+    return _ref12.apply(this, arguments);
+  };
+}();
+
+var unsubscribe = function () {
+  var _ref13 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee11(_, args, ctx, info) {
+    var course, userId, user, result;
+    return _regenerator2.default.wrap(function _callee11$(_context11) {
+      while (1) {
+        switch (_context11.prev = _context11.next) {
+          case 0:
+            _context11.next = 2;
+            return _courseModel2.default.findOneAndUpdate({
+              _id: args.courseId,
+              subscribers: { $gte: 1 }
+            }, { $inc: { subscribers: -1 } });
+
+          case 2:
+            course = _context11.sent;
+            userId = ctx.req.token._id;
+            _context11.prev = 4;
+            _context11.next = 7;
+            return _userModel2.default.findById(userId, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 7:
+            user = _context11.sent;
+
+            user.subscriptions.pull(course);
+
+            _context11.next = 11;
+            return user.save();
+
+          case 11:
+            result = _context11.sent;
+
+            if (!result) {
+              _context11.next = 14;
+              break;
+            }
+
+            return _context11.abrupt("return", true);
+
+          case 14:
+            _context11.next = 19;
+            break;
+
+          case 16:
+            _context11.prev = 16;
+            _context11.t0 = _context11["catch"](4);
+            throw _context11.t0;
+
+          case 19:
+          case "end":
+            return _context11.stop();
+        }
+      }
+    }, _callee11, undefined, [[4, 16]]);
+  }));
+
+  return function unsubscribe(_x32, _x33, _x34, _x35) {
+    return _ref13.apply(this, arguments);
   };
 }();
 

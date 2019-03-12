@@ -1,24 +1,17 @@
 import React from "react"
 import {Redirect} from "react-router-dom"
-import {connect} from "react-redux"
 import {local} from "brownies"
 
 import ForgotPasswordForm from "../../containers/forms/forgot-password-form.js"
-import {addFlashMessage} from "../../core/actions/flashMessages.js"
 
-function forgotPassword({submit, addFlashMessage}) {
+function forgotPassword({submit}) {
   const loggedIn = local.AUTH_TOKEN
   if (loggedIn) {
     var redirect = <Redirect to="/" />
   } else {
-    redirect = (
-      <ForgotPasswordForm addFlashMessage={addFlashMessage} submit={submit} />
-    )
+    redirect = <ForgotPasswordForm submit={submit} />
   }
   return <React.Fragment>{redirect}</React.Fragment>
 }
 
-export default connect(
-  null,
-  {addFlashMessage}
-)(forgotPassword)
+export default forgotPassword

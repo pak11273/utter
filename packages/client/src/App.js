@@ -23,7 +23,7 @@ import {Footer, MainNavbar} from "./containers"
 import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {store, persistor} from "./store.js"
-import FlashMessagesList from "./components/flashmessages/flashmessages-list"
+/* import FlashMessagesList from "./components/flashmessages/flashmessages-list" */
 import {history} from "@utterzone/connector"
 import {PersistGate} from "redux-persist/integration/react"
 import {ToastContainer} from "react-toastify"
@@ -126,7 +126,7 @@ class App extends Component {
                     />
                     <Section gridarea="flash">
                       <NavbarSpacer id="spacer" />
-                      <FlashMessagesList />
+                      {/*  <FlashMessagesList /> */}
                     </Section>
                     <Section gridarea="content">
                       <Switch>
