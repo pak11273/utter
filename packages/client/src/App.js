@@ -4,16 +4,16 @@ import {render} from "react-dom"
 /* import styled from "styled-components" */
 /* import {hot} from "react-hot-loader/root" */
 /* import ReactGA from "react-ga" */
-/* import {ApolloProvider} from "react-apollo" */
+import {ApolloProvider} from "react-apollo"
 /* import {local, session} from "brownies" */
 
-/* import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles" */
-/* import CssBaseline from "@material-ui/core/CssBaseline" */
-/* import blue from "@material-ui/core/colors/blue" */
-/* import yellow from "@material-ui/core/colors/yellow" */
-/* import red from "@material-ui/core/colors/red" */
+import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
+import CssBaseline from "@material-ui/core/CssBaseline"
+import blue from "@material-ui/core/colors/blue"
+import yellow from "@material-ui/core/colors/yellow"
+import red from "@material-ui/core/colors/red"
 
-/* import client from "./apollo.js" */
+import client from "./apollo.js"
 
 /* import "./assets/css/global-styles.js" */
 /* import {routes} from "./routes" */
@@ -52,21 +52,21 @@ import {render} from "react-dom"
 /*   /> */
 /* ) */
 
-/* // Material UI Theme */
-/* const theme = createMuiTheme({ */
-/*   typography: { */
-/*     useNextVariants: true */
-/*   }, */
-/*   palette: { */
-/*     primary: yellow, */
-/*     secondary: blue, */
-/*     error: red */
-/*   }, */
-/*   status: { */
-/*     danger: red, */
-/*     warning: "orange" */
-/*   } */
-/* }) */
+// Material UI Theme
+const theme = createMuiTheme({
+  typography: {
+    useNextVariants: true
+  },
+  palette: {
+    primary: yellow,
+    secondary: blue,
+    error: red
+  },
+  status: {
+    danger: red,
+    warning: "orange"
+  }
+})
 
 /* const StyledGrid = styled(Grid)` */
 /*   display: grid; */
@@ -100,35 +100,36 @@ class App extends Component {
 
   render() {
     return (
-      <div>hi</div>
-      /*       <ApolloProvider client={client}>
+      <ApolloProvider client={client}>
+        <MuiThemeProvider theme={theme}>
           <div>hi</div>
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-              <ToastContainer position="top-left" className="toast-container" />
-            <StyledGrid style={{minHeight: "100vh"}}>
-              <MainNavbar
-                gridarea="navBar"
-                list={["about", "contact", "courses", "pricing", "zones"]}
-                changeMenuOn="640px"
-                largeMenuClassName="large-menu"
-                smallMenuClassName="small-menu"
-              />
-              <Section gridarea="flash">
-                <NavbarSpacer id="spacer" />
-                <FlashMessagesList />
-              </Section>
-               <Section gridarea="content">
-                <Switch>
-                  {routes.map((route, i) => (
-                    <SubRoutes key={i} {...route} />
-                  ))}
-                </Switch>
-              </Section>  
-              <Footer gridarea="footer" />
-            </StyledGrid> 
-          </MuiThemeProvider>
-        </ApolloProvider> */
+          /*
+          <CssBaseline />
+          <ToastContainer position="top-left" className="toast-container" />
+          <StyledGrid style={{minHeight: "100vh"}}>
+            <MainNavbar
+              gridarea="navBar"
+              list={["about", "contact", "courses", "pricing", "zones"]}
+              changeMenuOn="640px"
+              largeMenuClassName="large-menu"
+              smallMenuClassName="small-menu"
+            />
+            <Section gridarea="flash">
+              <NavbarSpacer id="spacer" />
+              <FlashMessagesList />
+            </Section>
+            <Section gridarea="content">
+              <Switch>
+                {routes.map((route, i) => (
+                  <SubRoutes key={i} {...route} />
+                ))}
+              </Switch>
+            </Section>
+            <Footer gridarea="footer" />
+          </StyledGrid>
+          */
+        </MuiThemeProvider>
+      </ApolloProvider>
     )
   }
 }
