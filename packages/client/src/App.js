@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 /* import {Switch, Route} from "react-router-dom" */
 import {render} from "react-dom"
-/* import styled from "styled-components" */
+import styled from "styled-components"
 /* import {hot} from "react-hot-loader/root" */
 /* import ReactGA from "react-ga" */
 import {ApolloProvider} from "react-apollo"
@@ -18,11 +18,12 @@ import client from "./apollo.js"
 /* import "./assets/css/global-styles.js" */
 /* import {routes} from "./routes" */
 /* import {Footer, MainNavbar} from "./containers" */
+import {Grid} from "./components"
 /* import {Grid, Section} from "./components" */
 /* import NavbarSpacer from "./components/spacers/spacer-navbar.js" */
 /* import FlashMessagesList from "./components/flashmessages/flashmessages-list" */
 /* import {history} from "@utterzone/connector" */
-/* import {ToastContainer} from "react-toastify" */
+import {ToastContainer} from "react-toastify"
 
 /* import gql from "graphql-tag" */
 
@@ -68,16 +69,16 @@ const theme = createMuiTheme({
   }
 })
 
-/* const StyledGrid = styled(Grid)` */
-/*   display: grid; */
-/*   grid-template-rows: auto auto 1fr; */
-/*   grid-template-areas: */
-/*     "navBar" */
-/*     "flash" */
-/*     "content" */
-/*     "footer"; */
-/*   margin: 0 auto; */
-/* ` */
+const StyledGrid = styled(Grid)`
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    "navBar"
+    "flash"
+    "content"
+    "footer";
+  margin: 0 auto;
+`
 
 // google analytics
 /* ReactGA.initialize("UA-125119993-1") */
@@ -103,10 +104,10 @@ class App extends Component {
       <ApolloProvider client={client}>
         <MuiThemeProvider theme={theme}>
           <div>hi</div>
-          /*
           <CssBaseline />
           <ToastContainer position="top-left" className="toast-container" />
           <StyledGrid style={{minHeight: "100vh"}}>
+            /*
             <MainNavbar
               gridarea="navBar"
               list={["about", "contact", "courses", "pricing", "zones"]}
@@ -126,8 +127,8 @@ class App extends Component {
               </Switch>
             </Section>
             <Footer gridarea="footer" />
+            */
           </StyledGrid>
-          */
         </MuiThemeProvider>
       </ApolloProvider>
     )
