@@ -2,7 +2,6 @@ import React, {Component} from "react"
 /* import {NavLink} from "react-router-dom" */
 import Link from "@material-ui/core/Link"
 import {Link as RouterLink} from "react-router-dom"
-import {connect} from "react-redux"
 import classNames from "classnames"
 
 import {withStyles} from "@material-ui/core/styles"
@@ -195,13 +194,4 @@ class Footer extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    toggleFooterReducer: state.toggleFooterReducer
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  null
-)(withStyles(styles)(Footer))
+export default withStyles(styles)(Footer)

@@ -5,18 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = undefined;
 
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
 var _yup = require("yup");
 
 var yup = _interopRequireWildcard(_yup);
@@ -47,49 +35,3 @@ var signupSchema = exports.signupSchema = yup.object().shape({
   password: PasswordValidation,
   "password confirmation": yup.string().oneOf([yup.ref("password"), null], "Passwords do not match").required("Password confirmation is required")
 });
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(invalidEmail, "invalidEmail", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(emailNotLongEnough, "emailNotLongEnough", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(passwordNotLongEnough, "passwordNotLongEnough", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(PasswordValidation, "PasswordValidation", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(changePasswordSchema, "changePasswordSchema", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(loginSchema, "loginSchema", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(signupSchema, "signupSchema", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(invalidLogin, "invalidLogin", "src/yup_schemas/user-schemas.js");
-  leaveModule(module);
-})();
-
-;
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(invalidEmail, "invalidEmail", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(emailNotLongEnough, "emailNotLongEnough", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(passwordNotLongEnough, "passwordNotLongEnough", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(PasswordValidation, "PasswordValidation", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(changePasswordSchema, "changePasswordSchema", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(loginSchema, "loginSchema", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(signupSchema, "signupSchema", "src/yup_schemas/user-schemas.js");
-  reactHotLoader.register(invalidLogin, "invalidLogin", "src/yup_schemas/user-schemas.js");
-  leaveModule(module);
-})();
-
-;

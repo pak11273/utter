@@ -3,7 +3,6 @@
 /* import cuid from "cuid" */
 import RecordRTC from "recordrtc"
 import React, {PureComponent} from "react"
-import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 /* import filename from "../../../../assets/images/play.svg" */
 import schema from "../../../../core/schema.js"
@@ -29,13 +28,12 @@ import Typography from "@material-ui/core/Typography"
 
 // actions
 import {updateReviewList} from "../../../../containers/Pictures/actions.js"
-import {addAudio, addMsg, setCurrentMsg, updateMsg} from "./actions.js"
-import {
-  deleteAudioBlob,
-  loadAudioBlob,
-  sendAudioBlob,
-  sendMsg
-} from "../../../../services/socketio/actions.js"
+/* import {addAudio, addMsg, setCurrentMsg, updateMsg} from "./actions.js" */
+import /* deleteAudioBlob, */
+/* loadAudioBlob, */
+/* sendAudioBlob, */
+/* sendMsg */
+"../../../../services/socketio/actions.js"
 import "./styles.css"
 
 const ChatWindow = styled.div`
@@ -401,48 +399,45 @@ class Chat extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {Zone, User} = session
-  const zoneObj = Zone.all().toRefArray()
-  const userObj = User.all().toRefArray()
-  const zone = zoneObj[0]
-  const user = userObj[0]
+/* const mapStateToProps = state => { */
+/*   const session = schema.session(state.apiReducer) */
+/*   const {Zone, User} = session */
+/*   const zoneObj = Zone.all().toRefArray() */
+/*   const userObj = User.all().toRefArray() */
+/*   const zone = zoneObj[0] */
+/*   const user = userObj[0] */
 
-  return {
-    channelReducer: state.channelReducer,
-    chatReducer: state.chatReducer,
-    messages: state.messages,
-    pictureReducer: state.pictureReducer,
-    roomReducer: state.roomReducer,
-    socketReducer: state.socketReducer,
-    userReducer: state.userReducer,
-    utteredList: state.utteredReducer.utteredList,
-    user,
-    zone
-  }
-}
+/*   return { */
+/*     channelReducer: state.channelReducer, */
+/*     chatReducer: state.chatReducer, */
+/*     messages: state.messages, */
+/*     pictureReducer: state.pictureReducer, */
+/*     roomReducer: state.roomReducer, */
+/*     socketReducer: state.socketReducer, */
+/*     userReducer: state.userReducer, */
+/*     utteredList: state.utteredReducer.utteredList, */
+/*     user, */
+/*     zone */
+/* /1*   } *1/ */
+/* } */
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(
-      {
-        addAudio,
-        addMsg,
-        deleteAudioBlob,
-        loadAudioBlob,
-        sendAudioBlob,
-        sendMsg,
-        setCurrentMsg,
-        updateMsg,
-        updateReviewList
-      },
-      dispatch
-    )
-  }
-}
+/* const mapDispatchToProps = dispatch => { */
+/*   return { */
+/*     actions: bindActionCreators( */
+/*       { */
+/*         addAudio, */
+/*         addMsg, */
+/*         deleteAudioBlob, */
+/*         loadAudioBlob, */
+/*         sendAudioBlob, */
+/*         sendMsg, */
+/*         setCurrentMsg, */
+/*         updateMsg, */
+/*         updateReviewList */
+/*       }, */
+/*       dispatch */
+/*     ) */
+/*   } */
+/* } */
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Chat))
+export default withStyles(styles)(Chat)

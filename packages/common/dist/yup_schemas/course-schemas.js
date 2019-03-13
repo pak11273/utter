@@ -5,18 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.courseSchema = exports.courseCreateSchema = exports.nameTooLong = exports.descriptionTooLong = exports.descriptionNotLongEnough = exports.nameNotLongEnough = undefined;
 
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
 var _yup = require("yup");
 
 var yup = _interopRequireWildcard(_yup);
@@ -40,45 +28,3 @@ var courseSchema = exports.courseSchema = yup.object().shape({
   courseName: yup.string().required("A course name is required").min(10, nameNotLongEnough).max(100, nameTooLong),
   courseDescription: yup.string().min(100, descriptionNotLongEnough).max(350, descriptionTooLong).required("A course description is required")
 });
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(nameNotLongEnough, "nameNotLongEnough", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(descriptionNotLongEnough, "descriptionNotLongEnough", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(descriptionTooLong, "descriptionTooLong", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(nameTooLong, "nameTooLong", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(courseCreateSchema, "courseCreateSchema", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(courseSchema, "courseSchema", "src/yup_schemas/course-schemas.js");
-  leaveModule(module);
-})();
-
-;
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(nameNotLongEnough, "nameNotLongEnough", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(descriptionNotLongEnough, "descriptionNotLongEnough", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(descriptionTooLong, "descriptionTooLong", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(nameTooLong, "nameTooLong", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(courseCreateSchema, "courseCreateSchema", "src/yup_schemas/course-schemas.js");
-  reactHotLoader.register(courseSchema, "courseSchema", "src/yup_schemas/course-schemas.js");
-  leaveModule(module);
-})();
-
-;

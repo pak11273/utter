@@ -1,0 +1,24 @@
+
+> @utterzone/client@1.0.0 fserver /var/www/html/utter/packages/client
+> ../../node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack-frontend.config.babel.js --content-base dist --host 0.0.0.0 --inline --env.dev --mode development 
+
+[HPM] Proxy created: [ '/admin/uploadFile',
+  '/auth',
+  '/api',
+  '/api/users',
+  '/api/channels',
+  '/api/comments',
+  '/api/courses',
+  '/api/events',
+  '/api/vocab',
+  '/api/zones',
+  '/cdn',
+  '/graphql',
+  '/socket.io',
+  '/lions',
+  '/tigers',
+  '/mail' ]  ->  http://192.168.68.8:3010
+[34mℹ[39m [90m｢wds｣[39m: Project is running at http://0.0.0.0:8082/
+[34mℹ[39m [90m｢wds｣[39m: webpack output is served from /
+[34mℹ[39m [90m｢wds｣[39m: Content not from webpack is served from /var/www/html/utter/packages/client/dist
+[34mℹ[39m [90m｢wds｣[39m: 404s will fallback to /index.html

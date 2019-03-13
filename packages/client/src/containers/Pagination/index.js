@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 
 import Grid from "@material-ui/core/Grid"
 
@@ -70,10 +69,4 @@ class PaginationContainer extends Component {
   }
 }
 
-const mapStateToProps = () => {
-  // const getCourseProp = selectCourseProp()
-  // return (state, props) => getCourseProp(state, props)
-  return {}
-}
-
-export default connect(mapStateToProps)(PaginationContainer)
+export default PaginationContainer

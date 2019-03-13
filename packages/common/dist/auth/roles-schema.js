@@ -3,19 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
 /* @Static scopes are those scopes which don't need any data apart from the user role. */
 
 /* @Dynamic scopes are scopes which need additional data to determine access. */
@@ -74,42 +61,4 @@ var roles = {
   }
 };
 
-var _default = roles;
-var _default2 = _default;
-exports.default = _default2;
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js");
-  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
-  reactHotLoader.register(_default, "default", "src/auth/roles-schema.js");
-  leaveModule(module);
-})();
-
-;
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(matchID, "matchID", "src/auth/roles-schema.js");
-  reactHotLoader.register(roles, "roles", "src/auth/roles-schema.js");
-  reactHotLoader.register(_default2, "default", "src/auth/roles-schema.js");
-  leaveModule(module);
-})();
-
-;
+exports.default = roles;

@@ -1,11 +1,8 @@
 /* eslint no-unused-vars:0 */
 import React, {Component} from "react"
 import {withRouter} from "react-router"
-import {connect} from "react-redux"
 import {NavLink} from "react-router-dom"
-/* import PropTypes from "prop-types" */
 import styled from "styled-components"
-import schema from "../../core/schema"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
 import {local, session} from "brownies"
 
@@ -13,7 +10,6 @@ import AccountCircle from "@material-ui/icons/AccountCircle"
 import AssignmentIcon from "@material-ui/icons/Assignment"
 import AppBar from "@material-ui/core/AppBar"
 import Badge from "@material-ui/core/Badge"
-/* import Button from "@material-ui/core/Button" */
 import Divider from "@material-ui/core/Divider"
 import ExittoappIcon from "@material-ui/icons/ExitToApp"
 import HomeIcon from "@material-ui/icons/Home"
@@ -46,9 +42,6 @@ import {Logo} from "../../components"
 
 // images
 import Graphic from "../../assets/images/logo.svg"
-
-// actions
-import {deleteData} from "../../api/actions"
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -114,7 +107,6 @@ class MainNavbar extends Component {
     e.preventDefault()
     delete local.AUTH_TOKEN
     delete session.user
-    this.props.deleteData("user")
     this.props.history.push("/login")
   }
 
@@ -530,51 +522,4 @@ class MainNavbar extends Component {
   }
 }
 
-MainNavbar.propTypes = {
-  // menu: PropTypes.node.isRequired,
-  /* largeMenuClassName: PropTypes.string, */
-  /* smallMenuClassName: PropTypes.string, */
-  /* changeMenuOn: PropTypes.string.isRequired */
-  // menuOpenButton: PropTypes.node.isRequired,
-  // menuCloseButton: PropTypes.node.isRequired
-}
-
-MainNavbar.defaultProps = {
-  largeMenuClassName: "",
-  smallMenuClassName: ""
-}
-
-const mapStateToProps = state => {
-  // Create a Redux-ORM Session from our "entities" slice, which
-  // contains the "tables" for each model type
-  const session = schema.session(state.apiReducer)
-
-  // Retrieve the model class that we need.  Each Session
-  // specifically "binds" model classes to itself, so that
-  // updates to model instances are applied to that session.
-  // These "bound classes" are available as fields in the sesssion.
-  const {User} = session
-
-  // Query the session for all User instances.
-  // The QuerySet that is returned from all() can be used to
-  // retrieve instances of the User class, or retrieve the
-  // plain JS objects that are actually in the store.
-  // The toRefArray() method will give us an array of the
-  // plain JS objects for each item in the QuerySet.
-  const userObj = User.all().toRefArray()
-  const user = userObj[0]
-
-  return {
-    user,
-    userReducer: state.userReducer
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  {deleteData},
-  null,
-  {
-    pure: false
-  }
-)(withRouter(withStyles(styles)(MainNavbar))) // {pure:false} needed for NavLink: activeStyle
+export default withRouter(withStyles(styles)(MainNavbar))

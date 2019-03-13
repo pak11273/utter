@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 
 export class ModalContainer extends Component {
   onNextModalClick = () => {}
@@ -10,4 +9,4 @@ export class ModalContainer extends Component {
   }
 }
 
-export default connect(null)(ModalContainer)
+export default ModalContainer

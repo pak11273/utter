@@ -5,18 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.zoneCreateSchema = exports.zoneDescriptionTooLong = exports.zoneDescriptionNotLongEnough = exports.zoneTooLong = exports.zoneNotLongEnough = undefined;
 
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
-(function () {
-  var enterModule = require('react-hot-loader').enterModule;
-
-  enterModule && enterModule(module);
-})();
-
 var _yup = require("yup");
 
 var yup = _interopRequireWildcard(_yup);
@@ -36,43 +24,3 @@ var zoneCreateSchema = exports.zoneCreateSchema = yup.object().shape({
   zoneName: yup.string().min(3, zoneNotLongEnough).max(40, zoneTooLong).required("A zone name is required"),
   zoneDescription: yup.string().min(30, zoneDescriptionNotLongEnough).max(110, zoneDescriptionTooLong).required("A zone description is required")
 });
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(zoneNotLongEnough, "zoneNotLongEnough", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneTooLong, "zoneTooLong", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneDescriptionNotLongEnough, "zoneDescriptionNotLongEnough", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneDescriptionTooLong, "zoneDescriptionTooLong", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneCreateSchema, "zoneCreateSchema", "src/yup_schemas/zone-schemas.js");
-  leaveModule(module);
-})();
-
-;
-;
-
-(function () {
-  var reactHotLoader = require('react-hot-loader').default;
-
-  var leaveModule = require('react-hot-loader').leaveModule;
-
-  if (!reactHotLoader) {
-    return;
-  }
-
-  reactHotLoader.register(zoneNotLongEnough, "zoneNotLongEnough", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneTooLong, "zoneTooLong", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneDescriptionNotLongEnough, "zoneDescriptionNotLongEnough", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneDescriptionTooLong, "zoneDescriptionTooLong", "src/yup_schemas/zone-schemas.js");
-  reactHotLoader.register(zoneCreateSchema, "zoneCreateSchema", "src/yup_schemas/zone-schemas.js");
-  leaveModule(module);
-})();
-
-;
