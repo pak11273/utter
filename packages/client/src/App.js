@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
 import styled from "styled-components"
-/* import {hot} from "react-hot-loader/root" */
+import {hot} from "react-hot-loader/root"
 /* import ReactGA from "react-ga" */
 import {ApolloProvider} from "react-apollo"
 /* import {local, session} from "brownies" */
@@ -131,6 +131,6 @@ class App extends Component {
   }
 }
 
-/* const HotApp = hot(App) */
+const HotApp = hot(App)
 
 render(<App />, document.getElementById("app"))
