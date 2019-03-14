@@ -27,9 +27,6 @@ import embarrassedImg from "../assets/images/embarrassed.jpg"
 import visitingImg from "../assets/images/walking-around.jpg"
 import gql from "graphql-tag"
 
-// actions
-import {toggleFooter} from "../core/actions/toggle-footer-action.js"
-
 const GET_USER_BY_TOKEN = gql`
   query getUserByToken($token: String!) {
     getUserByToken(token: $token) {
@@ -303,11 +300,4 @@ class Home extends Component {
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(withApollo(Home)))
+export default withStyles(styles)(withApollo(Home))
