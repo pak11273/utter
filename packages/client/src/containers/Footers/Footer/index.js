@@ -140,56 +140,51 @@ const footers = [
 class Footer extends Component {
   render() {
     const {classes} = this.props
-    const {toggleFooterReducer} = this.props
-    if (toggleFooterReducer.toggle) {
-      var MainFooter = (
-        <StyledFooter {...this.props}>
-          <footer className={classNames(classes.footer, classes.layout)}>
-            <Grid container spacing={32} justify="space-evenly">
-              {footers.map(footer => (
-                <Grid item xs key={footer.title}>
-                  <Typography
-                    className={classes.fontPrimary}
-                    variant="h6"
-                    gutterBottom>
-                    {footer.title}
-                  </Typography>
-                  {footer.description.map(item => {
-                    var newStr = item.replace(/\s+/g, "-")
-                    var link = "/" + newStr.toLowerCase()
-                    switch (item) {
-                      case "About Us":
-                        link = "/about"
-                        break
-                      case "Blog":
-                        link = "https://medium.com"
-                        break
-                      default:
-                    }
-                    return (
-                      <Link
-                        component={RouterLink}
-                        key={item}
-                        className={classes.navHover}
-                        to={`${link}`}>
-                        <Typography
-                          key={link}
-                          variant="subtitle1"
-                          className={classes.fontSecondary}>
-                          {item}
-                        </Typography>
-                      </Link>
-                    )
-                  })}
-                </Grid>
-              ))}
-            </Grid>
-          </footer>
-        </StyledFooter>
-      )
-    } else {
-      MainFooter = <div />
-    }
+    var MainFooter = (
+      <StyledFooter {...this.props}>
+        <footer className={classNames(classes.footer, classes.layout)}>
+          <Grid container spacing={32} justify="space-evenly">
+            {footers.map(footer => (
+              <Grid item xs key={footer.title}>
+                <Typography
+                  className={classes.fontPrimary}
+                  variant="h6"
+                  gutterBottom>
+                  {footer.title}
+                </Typography>
+                {footer.description.map(item => {
+                  var newStr = item.replace(/\s+/g, "-")
+                  var link = "/" + newStr.toLowerCase()
+                  switch (item) {
+                    case "About Us":
+                      link = "/about"
+                      break
+                    case "Blog":
+                      link = "https://medium.com"
+                      break
+                    default:
+                  }
+                  return (
+                    <Link
+                      component={RouterLink}
+                      key={item}
+                      className={classes.navHover}
+                      to={`${link}`}>
+                      <Typography
+                        key={link}
+                        variant="subtitle1"
+                        className={classes.fontSecondary}>
+                        {item}
+                      </Typography>
+                    </Link>
+                  )
+                })}
+              </Grid>
+            ))}
+          </Grid>
+        </footer>
+      </StyledFooter>
+    )
     return MainFooter
   }
 }

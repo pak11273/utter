@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-/* import {Switch, Route} from "react-router-dom" */
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
 import styled from "styled-components"
 /* import {hot} from "react-hot-loader/root" */
@@ -16,12 +16,10 @@ import red from "@material-ui/core/colors/red"
 import client from "./apollo.js"
 
 /* import "./assets/css/global-styles.js" */
-/* import {routes} from "./routes" */
-/* import {Footer, MainNavbar} from "./containers" */
-import {Grid} from "./components"
-/* import {Grid, Section} from "./components" */
-/* import NavbarSpacer from "./components/spacers/spacer-navbar.js" */
-/* import FlashMessagesList from "./components/flashmessages/flashmessages-list" */
+import {routes} from "./routes"
+import {Footer, MainNavbar} from "./containers"
+import {Grid, Section} from "./components"
+import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 /* import {history} from "@utterzone/connector" */
 import {ToastContainer} from "react-toastify"
 
@@ -46,12 +44,12 @@ import {ToastContainer} from "react-toastify"
 /*   } */
 /* ` */
 
-/* const SubRoutes = route => ( */
-/*   <Route */
-/*     path={route.path} */
-/*     render={props => <route.component {...props} routes={route.routes} />} */
-/*   /> */
-/* ) */
+const SubRoutes = route => (
+  <Route
+    path={route.path}
+    render={props => <route.component {...props} routes={route.routes} />}
+  />
+)
 
 // Material UI Theme
 const theme = createMuiTheme({
@@ -103,32 +101,30 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <MuiThemeProvider theme={theme}>
-          <div>hi</div>
           <CssBaseline />
           <ToastContainer position="top-left" className="toast-container" />
-          <StyledGrid style={{minHeight: "100vh"}}>
-            /*
-            <MainNavbar
-              gridarea="navBar"
-              list={["about", "contact", "courses", "pricing", "zones"]}
-              changeMenuOn="640px"
-              largeMenuClassName="large-menu"
-              smallMenuClassName="small-menu"
-            />
-            <Section gridarea="flash">
-              <NavbarSpacer id="spacer" />
-              <FlashMessagesList />
-            </Section>
-            <Section gridarea="content">
-              <Switch>
-                {routes.map((route, i) => (
-                  <SubRoutes key={i} {...route} />
-                ))}
-              </Switch>
-            </Section>
-            <Footer gridarea="footer" />
-            */
-          </StyledGrid>
+          <Router>
+            <StyledGrid style={{minHeight: "100vh"}}>
+              <MainNavbar
+                gridarea="navBar"
+                list={["about", "contact", "courses", "pricing", "zones"]}
+                changeMenuOn="640px"
+                largeMenuClassName="large-menu"
+                smallMenuClassName="small-menu"
+              />
+              <Section gridarea="flash">
+                <NavbarSpacer id="spacer" />
+              </Section>
+              <Section gridarea="content">
+                <Switch>
+                  {routes.map((route, i) => (
+                    <SubRoutes key={i} {...route} />
+                  ))}
+                </Switch>
+              </Section>
+              <Footer gridarea="footer" />
+            </StyledGrid>
+          </Router>
         </MuiThemeProvider>
       </ApolloProvider>
     )
