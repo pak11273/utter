@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {hot} from "react-hot-loader/root"
 /* import ReactGA from "react-ga" */
 import {ApolloProvider} from "react-apollo"
-/* import {local, session} from "brownies" */
+import {local, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -23,7 +23,7 @@ import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 /* import {history} from "@utterzone/connector" */
 import {ToastContainer} from "react-toastify"
 
-/* import gql from "graphql-tag" */
+import gql from "graphql-tag"
 
 /* const GET_USER_BY_TOKEN = gql` */
 /*   query getUserByToken($token: String!) { */
@@ -84,18 +84,18 @@ const StyledGrid = styled(Grid)`
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
-  /* componentDidMount = async () => { */
-  /*   const token = local.AUTH_TOKEN */
+  componentDidMount = async () => {
+    const token = local.AUTH_TOKEN
 
-  /*   if (token) { */
-  /*     const userByToken = await client.query({ */
-  /*       query: GET_USER_BY_TOKEN, */
-  /*       variables: {token} */
-  /*     }) */
+    /*   if (token) { */
+    /*     const userByToken = await client.query({ */
+    /*       query: GET_USER_BY_TOKEN, */
+    /*       variables: {token} */
+    /*     }) */
 
-  /*     session.user = userByToken.data.getUserByToken */
-  /*   } */
-  /* } */
+    /*     session.user = userByToken.data.getUserByToken */
+    /*   } */
+  }
 
   render() {
     return (

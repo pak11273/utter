@@ -25,6 +25,7 @@
     "apollo-link-http": "^1.5.12",
     "apollo-link-persisted-queries": "^0.2.2",
     "brownies": "^3.0.0",
+    "graphql-tag": "^2.10.1",
     "react": "^16.8.4",
     "react-apollo": "^2.5.2",
     "react-dom": "^16.8.4",
