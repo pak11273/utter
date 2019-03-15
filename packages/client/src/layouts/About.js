@@ -1,13 +1,9 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {Container, Section} from "../components"
 import {Masthead} from "../containers"
-
-// actions
-import {toggleFooter} from "../core/actions/toggle-footer-action.js"
 
 const styles = theme => ({
   root: {
@@ -36,10 +32,6 @@ const styles = theme => ({
 })
 
 class About extends Component {
-  componentDidMount() {
-    this.props.toggleFooter(true)
-  }
-
   render() {
     const {classes} = this.props
     return (
@@ -72,7 +64,8 @@ class About extends Component {
               className={classes.text}
               component="p"
               gutterBottom>
-              We help you harness the greatest learning tool in the world! Our platform allows you to naturally learn a language.
+              We help you harness the greatest learning tool in the world! Our
+              platform allows you to naturally learn a language.
             </Typography>
             <Typography
               variant="h2"
@@ -104,11 +97,4 @@ class About extends Component {
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(About))
+export default withStyles(styles)(About)

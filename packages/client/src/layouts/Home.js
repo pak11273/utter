@@ -1,8 +1,7 @@
 /* eslint-disable react/no-multi-comp */
-import {connect} from "react-redux"
+
 import {NavLink} from "react-router-dom"
 import React, {Component} from "react"
-import {Helmet} from "react-helmet"
 import {local, session} from "brownies"
 import {withApollo} from "react-apollo"
 
@@ -11,13 +10,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 
-import {
-  /* Box, */
-  Container,
-  Img,
-  Line,
-  Section
-} from "../components"
+import {Container, Img, Line, Section} from "../components"
 import {Masthead} from "../containers"
 
 // images
@@ -83,7 +76,7 @@ const styles = theme => ({
 
 class Home extends Component {
   componentDidMount = async () => {
-    this.props.toggleFooter(true)
+    /*   this.props.toggleFooter(true) */
     if (this.props.location.state === "loadUserSession") {
       const {client} = this.props
 
@@ -104,20 +97,7 @@ class Home extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
-        <Helmet>
-          <meta charset="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <meta
-            name="description"
-            content="A place where you can practice speaking a new language with other like minded learners."
-          />
-          <meta name="author" content="Isaac Pak" />
-          <title>Utterzone | Home</title>
-          <link rel="canonical" href="https://utterzone.com" />
-        </Helmet>
+        <h1>HOME</h1>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
           height="760px"
@@ -276,7 +256,7 @@ class Home extends Component {
               </Button>
             </Grid>
           </Section>
-          {/*     <Section>
+          <Section>
             <Grid
               alignItems="center"
               container
@@ -293,7 +273,7 @@ class Home extends Component {
                 <NavLink to="/sponsorship">Find out more</NavLink>
               </Button>
             </Grid>
-          </Section> */}
+          </Section>
         </Container>
       </React.Fragment>
     )

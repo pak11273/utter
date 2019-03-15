@@ -1,5 +1,6 @@
 const path = require("path")
 const webpack = require("webpack")
+const ProgressBarPlugin = require("progress-bar-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 module.exports = env => {
@@ -12,7 +13,13 @@ module.exports = env => {
     },
     output: {
       path: path.join(__dirname, "dist"),
-      filename: "bundle.[name].[hash].js"
+      filename: "bundle.[name].[hash].js",
+      publicPath: "/" // use with historyApiFallback
+    },
+    devServer: {
+      stats: "minimal",
+      disableHostCheck: true,
+      historyApiFallback: true // redirects all browser requests to publicPath, then react router takes over.  prevents browser from grabbing assets from the server while using webdevserver.
     },
     module: {
       rules: [
@@ -41,7 +48,9 @@ module.exports = env => {
       new HtmlWebpackPlugin({
         template: "index.html"
       }),
-      new webpack.ProgressPlugin()
+      new ProgressBarPlugin(),
+      /* new webpack.ProgressPlugin() */
+      new webpack.HotModuleReplacementPlugin()
     ]
   }
 }

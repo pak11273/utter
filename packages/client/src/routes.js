@@ -1,7 +1,5 @@
-/* import {Home} from "./layouts" */
-import React from "react"
-
-/* import Loading from "./components/loaders/layout-loader.js" */
+import Loading from "./components/loaders/layout-loader.js"
+import Loadable from "react-loadable"
 
 // Code Splitting: lazy loaded routes
 /* const getAnnouncement = Loadable({ */
@@ -10,12 +8,22 @@ import React from "react"
 /*   loading: Loading */
 /* }) */
 
-const hello = () => <div>hello</div>
+const getAbout = Loadable({
+  loader: () => import(/* webpackChunkName: 'about' */ "./layouts/about"),
+  loading: Loading
+})
+
+import {Home} from "./layouts"
 
 export const routes = [
   {
+    component: Home,
     exact: true,
-    path: "/",
-    component: hello
+    path: "/"
+  },
+  {
+    component: getAbout,
+    exact: true,
+    path: "/about"
   }
 ]
