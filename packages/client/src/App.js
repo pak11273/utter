@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
-import styled from "styled-components"
+/* import styled from "styled-components" */
 /* import {hot} from "react-hot-loader/root" */
 /* import ReactGA from "react-ga" */
 import {ApolloProvider} from "react-apollo"
@@ -9,19 +9,21 @@ import {local, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
+import Grid from "@material-ui/core/Grid"
 import blue from "@material-ui/core/colors/blue"
 import yellow from "@material-ui/core/colors/yellow"
 import red from "@material-ui/core/colors/red"
 
 import client from "./apollo.js"
 
-/* import "./assets/css/global-styles.js" */
+import {GlobalStyle} from "./assets/css/global-styles.js"
 import {routes} from "./routes"
 import {Footer, MainNavbar} from "./containers"
-import {Grid, Section} from "./components"
+import {Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 /* import {history} from "@utterzone/connector" */
 import {ToastContainer} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import gql from "graphql-tag"
 
@@ -67,16 +69,16 @@ const theme = createMuiTheme({
   }
 })
 
-const StyledGrid = styled(Grid)`
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  grid-template-areas:
-    "navBar"
-    "flash"
-    "content"
-    "footer";
-  margin: 0 auto;
-`
+/* const StyledGrid = styled(Grid)` */
+/*   display: grid; */
+/*   grid-template-rows: auto auto 1fr; */
+/*   grid-template-areas: */
+/*     "navBar" */
+/*     "flash" */
+/*     "content" */
+/*     "footer"; */
+/*   margin: 0 auto; */
+/* ` */
 
 // google analytics
 /* ReactGA.initialize("UA-125119993-1") */
@@ -100,11 +102,12 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
+        <GlobalStyle />
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
           <ToastContainer position="top-left" className="toast-container" />
           <Router>
-            <StyledGrid style={{minHeight: "100vh"}}>
+            <Grid>
               <MainNavbar
                 gridarea="navBar"
                 list={["about", "contact", "courses", "pricing", "zones"]}
@@ -123,7 +126,7 @@ class App extends Component {
                 </Switch>
               </Section>
               <Footer gridarea="footer" />
-            </StyledGrid>
+            </Grid>
           </Router>
         </MuiThemeProvider>
       </ApolloProvider>

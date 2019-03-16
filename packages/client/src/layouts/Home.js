@@ -97,7 +97,6 @@ class Home extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
-        <h1>HOME</h1>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
           height="760px"

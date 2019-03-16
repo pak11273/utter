@@ -1,11 +1,10 @@
 import * as yup from "yup"
 
-export const zoneNotLongEnough = "Zone names must be at least 6 characters"
-export const zoneTooLong = "Zone names cannot exceed 20 characters"
-export const zoneDescriptionNotLongEnough =
+const zoneNotLongEnough = "Zone names must be at least 6 characters"
+const zoneTooLong = "Zone names cannot exceed 20 characters"
+const zoneDescriptionNotLongEnough =
   "Zone descriptions must be at least 30 characters"
-export const zoneDescriptionTooLong =
-  "Zone descriptions cannot exceed 110 characters"
+const zoneDescriptionTooLong = "Zone descriptions cannot exceed 110 characters"
 
 export const zoneCreateSchema = yup.object().shape({
   app: yup.string().required("An app is required"),

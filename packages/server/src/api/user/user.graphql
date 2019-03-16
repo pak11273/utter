@@ -10,6 +10,19 @@ input ChangePasswordInput {
 	token: String!
 }
 
+input ContactInput {
+  email: String!
+	message: String!
+  name: String!
+	phone: String!
+	subject: String!
+}
+
+type ContactOutput {
+	success: [String],
+	errors: [String]
+}
+
 input LoginInput {
   identifier: String!
   password: String!
@@ -60,6 +73,7 @@ type Query {
 
 type Mutation {
 	changePassword(input: ChangePasswordInput): AuthPayload 
+  contact(input: ContactInput!): ContactOutput
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
   signup(input: SignupInput!): AuthPayload

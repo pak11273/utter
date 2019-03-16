@@ -13,17 +13,27 @@ const getAbout = Loadable({
   loading: Loading
 })
 
+const getContact = Loadable({
+  loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/contact"),
+  loading: Loading
+})
+
 import {Home} from "./layouts"
 
 export const routes = [
   {
-    component: Home,
-    exact: true,
-    path: "/"
-  },
-  {
     component: getAbout,
     exact: true,
     path: "/about"
+  },
+  {
+    component: getContact,
+    exact: true,
+    path: "/contact"
+  },
+  {
+    component: Home,
+    exact: true,
+    path: "/"
   }
 ]

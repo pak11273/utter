@@ -1,11 +1,9 @@
 import React, {Component} from "react"
-import {Switch, Route} from "react-router-dom"
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
-import {Provider} from "react-redux"
 import styled from "styled-components"
-import {AppContainer} from "react-hot-loader"
-import {ConnectedRouter as Router} from "react-router-redux"
-import ReactGA from "react-ga"
+/* import {hot} from "react-hot-loader/root" */
+/* import ReactGA from "react-ga" */
 import {ApolloProvider} from "react-apollo"
 import {local, session} from "brownies"
 
@@ -17,15 +15,12 @@ import red from "@material-ui/core/colors/red"
 
 import client from "./apollo.js"
 
-import "./assets/css/global-styles.js"
+/* import "./assets/css/global-styles.js" */
 import {routes} from "./routes"
 import {Footer, MainNavbar} from "./containers"
 import {Grid, Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
-import {store, persistor} from "./store.js"
-/* import FlashMessagesList from "./components/flashmessages/flashmessages-list" */
-import {history} from "@utterzone/connector"
-import {PersistGate} from "redux-persist/integration/react"
+/* import {history} from "@utterzone/connector" */
 import {ToastContainer} from "react-toastify"
 
 import gql from "graphql-tag"
@@ -84,8 +79,8 @@ const StyledGrid = styled(Grid)`
 `
 
 // google analytics
-ReactGA.initialize("UA-125119993-1")
-ReactGA.pageview(window.location.pathname + window.location.search)
+/* ReactGA.initialize("UA-125119993-1") */
+/* ReactGA.pageview(window.location.pathname + window.location.search) */
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
@@ -104,53 +99,36 @@ class App extends Component {
 
   render() {
     return (
-      /* const toggleFooter = store.getState().toggleFooterReducer.toggle */
       <ApolloProvider client={client}>
-        <AppContainer>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <MuiThemeProvider theme={theme}>
-                <CssBaseline />
-                <ToastContainer
-                  position="top-left"
-                  className="toast-container"
-                />
-                <Router history={history}>
-                  <StyledGrid style={{minHeight: "100vh"}}>
-                    <MainNavbar
-                      gridarea="navBar"
-                      list={["about", "contact", "courses", "pricing", "zones"]}
-                      changeMenuOn="640px"
-                      largeMenuClassName="large-menu"
-                      smallMenuClassName="small-menu"
-                    />
-                    <Section gridarea="flash">
-                      <NavbarSpacer id="spacer" />
-                      {/*  <FlashMessagesList /> */}
-                    </Section>
-                    <Section gridarea="content">
-                      <Switch>
-                        {routes.map((route, i) => (
-                          <SubRoutes key={i} {...route} />
-                        ))}
-                      </Switch>
-                    </Section>
-                    <Footer gridarea="footer" />
-                  </StyledGrid>
-                </Router>
-              </MuiThemeProvider>
-            </PersistGate>
-          </Provider>
-        </AppContainer>
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <ToastContainer position="top-left" className="toast-container" />
+          <Router>
+            <StyledGrid style={{minHeight: "100vh"}}>
+              <MainNavbar
+                gridarea="navBar"
+                list={["about", "contact", "courses", "pricing", "zones"]}
+                changeMenuOn="640px"
+                largeMenuClassName="large-menu"
+                smallMenuClassName="small-menu"
+              />
+              <Section gridarea="flash">
+                <NavbarSpacer id="spacer" />
+              </Section>
+              <Section gridarea="content">
+                <Switch>
+                  {routes.map((route, i) => (
+                    <SubRoutes key={i} {...route} />
+                  ))}
+                </Switch>
+              </Section>
+              <Footer gridarea="footer" />
+            </StyledGrid>
+          </Router>
+        </MuiThemeProvider>
       </ApolloProvider>
     )
   }
 }
 
 render(<App />, document.getElementById("app"))
-
-if (module.hot) {
-  module.hot.accept("./App", () => {
-    render(App)
-  })
-}

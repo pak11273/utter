@@ -17,7 +17,11 @@ import {createEmailConfirmLink} from "../../utils/create-confirmation-email-link
 import {createForgotPasswordLink} from "../../utils/create-forgot-password-link.js"
 import {forgotPasswordPrefix} from "../../constants"
 import {formatYupError} from "../../utils/format-yup-error.js"
-import {sendConfirmEmail, sendForgotPasswordEmail} from "../../mail/mail"
+import {
+  sendContactEmail,
+  sendConfirmEmail,
+  sendForgotPasswordEmail
+} from "../../mail/mail"
 import User from "./user-model.js"
 import {userByToken} from "../shared/resolver-functions.js"
 
@@ -26,6 +30,14 @@ import {
   PasswordValidation,
   changePasswordSchema
 } from "@utterzone/common"
+
+const contact = async (_, args, {redis, url}) => {
+  const email = await sendContactEmail(args)
+  return {
+    success: email.accepted,
+    errors: email.rejected
+  }
+}
 
 const changePassword = async (_, args, {redis, url}) => {
   let token = null
@@ -263,6 +275,7 @@ export const userResolvers = {
 
   Mutation: {
     changePassword,
+    contact,
     forgotPassword,
     signup,
     login,

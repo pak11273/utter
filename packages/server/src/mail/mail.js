@@ -23,6 +23,31 @@ export const transporter = nodemailer.createTransport({
 
 transporter.use("compile", hbs(options))
 
+export const sendContactEmail = args => {
+  return new Promise((resolve, reject) => {
+    const data = {
+      from: "utterzone11273@gmail.com",
+      to: "pak11273@gmail.com",
+      template: "contact-email",
+      subject: args.input.subject,
+      context: {
+        name: args.input.name,
+        phone: args.input.phone,
+        email: args.input.email,
+        subject: args.input.subject,
+        message: args.input.message
+      }
+    }
+    return transporter.sendMail(data, (error, info) => {
+      if (error) {
+        reject(error)
+      } else {
+        resolve(info)
+      }
+    })
+  })
+}
+
 export const sendConfirmEmail = (recipient, link) => {
   const data = {
     from: process.env.APP_EMAIL,

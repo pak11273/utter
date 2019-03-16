@@ -1,7 +1,7 @@
 // eslint-disable-next-line
-import {injectGlobal} from "styled-components"
+import {createGlobalStyle} from "styled-components"
 
-injectGlobal`
+export const GlobalStyle = createGlobalStyle`
 
   body, h1, h2, h3, h4, h6, div, p, li {
     box-sizing: border-box;
@@ -54,7 +54,6 @@ injectGlobal`
 	.toast-container {
 	  top: 5em !important;
 	}
-
 
 	.toasty {
 		font-family: Helvetica Arial sans-serif;

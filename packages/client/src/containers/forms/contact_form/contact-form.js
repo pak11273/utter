@@ -1,16 +1,57 @@
+/* eslint no-unneeded-ternary: 0 */
 import React, {Component} from "react"
+import {compose, withApollo} from "react-apollo"
+import {toast} from "react-toastify"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import SendIcon from "@material-ui/icons/Send"
 /* import Typography from "@material-ui/core/Typography" */
-import TextField from "@material-ui/core/TextField"
+/* import TextField from "@material-ui/core/TextField" */
 import {withStyles} from "@material-ui/core/styles"
 import styled from "styled-components"
 import Select from "react-select"
-import {Label, Section} from "../../../components"
+import {FormikInput, Label, Section} from "../../../components"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
 import CallingCodes from "../../../assets/js/CallingCodes.js"
+import {contactSchema} from "@utterzone/common"
+import {withFormik, Field} from "formik"
+import gql from "graphql-tag"
 import "./select.css"
+
+const CONTACT_MUTATION = gql`
+  mutation contactMutation(
+    $name: String!
+    $email: String!
+    $message: String!
+    $phone: String!
+    $subject: String!
+  ) {
+    contact(
+      input: {
+        name: $name
+        email: $email
+        message: $message
+        phone: $phone
+        subject: $subject
+      }
+    ) {
+      success
+      errors
+    }
+  }
+`
+
+const customStyles = {
+  control: styles => ({
+    // none of react-select's styles are passed to <Control />
+    ...styles,
+    backgroundColor: "transparent",
+    height: 56,
+    marginRight: 20,
+    marginTop: 6,
+    width: 200
+  })
+}
 
 const styles = theme => ({
   root: {
@@ -67,6 +108,7 @@ Role.defaultProps = {
 const Phone = styled.div`
   align-items: baseline;
   display: flex;
+  justify-content: flex-end;
   width: 100%;
 `
 const Form = styled.form`
@@ -147,35 +189,43 @@ class ContactForm extends Component {
     this.state = {
       name: "",
       email: "",
+      errors: false,
       number: "",
       country: "",
       subject: "",
       letter: "",
-      message: ""
+      loading: false,
+      message: "",
+      validMsg: ""
     }
   }
 
+  componentDidMount() {
+    this.phoneUtil = PhoneNumberUtil.getInstance()
+  }
+
+  componentDidUpdate() {
+    console.log("statu: ", this.props.status)
+  }
+
   onChange = ({target}) => {
-    this.setState({
-      [target.name]: target.value
-    })
-    if (target.name === "number") {
-      this.validatePhoneNumber("+" + this.state.country + " " + target.value)
-    }
+    this.setState(
+      {
+        [target.name]: target.value
+      },
+      console.log("number: ", this.state)
+    )
+    /* if (target.name === "number") { */
+    /*   this.validatePhoneNumber("+" + this.state.country + " " + target.value) */
+    /* } */
   }
 
   onSelect2 = cntrObj => {
     this.setState({
-      country: cntrObj.value
+      country: cntrObj
     })
-    this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.number)
-  }
-
-  onSubmit = e => {
-    e.preventDefault()
-    console.log("state: ", this.state)
-    console.log("prosp", this.props)
-    this.props.contactmail(this.state)
+    console.log("phone: ", this.phoneUtil)
+    /* this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.number) */
   }
 
   getValidNumber = phoneNumber => {
@@ -197,111 +247,113 @@ class ContactForm extends Component {
     }
     if (valid) {
       this.setState({
-        message: `Phone number ${this.getValidNumber(phoneNumber)} is valid`,
+        validMsg: `Phone number ${this.getValidNumber(phoneNumber)} is valid`,
         color: "green"
       })
     } else {
       this.setState({
-        message: `Phone number ${phoneNumber} is not valid`,
+        validMsg: `Phone number ${phoneNumber} is not valid`,
         color: "red"
       })
     }
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, handleSubmit} = this.props
+    console.log("this.props: ", this.props)
     return (
       <React.Fragment>
         <main className={classes.root}>
-          <Form onSubmit={this.onSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Section
               margin="80px 0 0 0"
               padding="0 0 100px 0"
               maxwidth="1024px">
               <Grid container spacing={24}>
                 <Grid item xs={12} sm={6}>
-                  <TextField
+                  <Field
                     required
-                    id="Name"
                     name="name"
                     label="Name"
-                    fullWidth
-                    onChange={this.onChange}
                     autoComplete="name"
+                    component={FormikInput}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
+                  <Field
                     required
                     id="email"
                     name="email"
                     label="Email"
-                    fullWidth
-                    onChange={this.onChange}
                     autoComplete="email"
+                    component={FormikInput}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <Field
                     required
                     id="Subject"
                     name="subject"
                     label="Subject"
-                    fullWidth
-                    onChange={this.onChange}
                     autoComplete="subject"
+                    component={FormikInput}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Phone>
-                    <Label
-                      textalign="left"
-                      padding="0 20px 0 0"
-                      fontsize="1rem"
-                      width="50px">
-                      Phone
-                    </Label>
-                    <Select
-                      clearable={false}
-                      name="country"
-                      autosize
-                      placeholder="country"
-                      value={this.state.country}
-                      onChange={this.onSelect2}
-                      options={CallingCodes}
-                      labelKey="country"
-                      valueKey="value"
-                      valueRenderer={country => country.value}
-                    />
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        id="number"
-                        name="number"
-                        fullWidth
-                        onChange={this.onChange}
-                        autoComplete="number"
-                      />
+                  <Grid container direction="row" alignItems="center">
+                    <Grid item xs={12} md={6}>
+                      <Phone>
+                        <Label
+                          textalign="left"
+                          padding="0 20px 0 0"
+                          fontsize="1rem"
+                          width="50px">
+                          Phone
+                        </Label>
+                        <Select
+                          styles={customStyles}
+                          clearable={false}
+                          name="country"
+                          autosize
+                          placeholder="country"
+                          value={this.state.country}
+                          onChange={this.onSelect2}
+                          options={CallingCodes}
+                          labelKey="country"
+                          valueKey="value"
+                          valueRenderer={country => country.label}
+                        />
+                      </Phone>
                     </Grid>
-                  </Phone>
+                    <Grid item xs={12} md={6}>
+                      <Field
+                        required
+                        name="number"
+                        autoComplete="number"
+                        value="+ 1"
+                        component={FormikInput}
+                      />
+                      {this.state.validMsg}
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <Field
                     id="outlined-multiline-static"
-                    name="letter"
+                    name="message"
                     required
                     label="Message"
                     multiline
                     rows="8"
-                    onChange={this.onChange}
                     className={classes.textField}
-                    fullWidth
                     margin="normal"
                     variant="outlined"
+                    component={FormikInput}
                   />
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={this.props.status && this.props.status.loading}
                     className={classes.button}
                     type="submit">
                     Send
@@ -317,4 +369,53 @@ class ContactForm extends Component {
   }
 }
 
-export default withStyles(styles)(ContactForm)
+export default compose(
+  withApollo,
+  withFormik({
+    validationSchema: contactSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      name: "",
+      email: "",
+      subject: "",
+      phone: "",
+      message: ""
+    }),
+    handleSubmit: async (values, {props, setStatus, resetForm}) => {
+      console.log("values: ", values)
+      console.log("props: ", props)
+      setStatus({loading: true})
+      const result = await props.client.mutate({
+        mutation: CONTACT_MUTATION,
+        variables: {
+          email: values.email,
+          message: values.message,
+          name: values.name,
+          phone: values.phone,
+          subject: values.subject
+        }
+      })
+
+      console.log("result: ", result)
+      if (result) {
+        if (result.data.contact.success.length > 0) {
+          toast.success("Your message was sent!", {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+          resetForm()
+        } else {
+          toast.error(result.errors[0], {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        }
+        setStatus({loading: false})
+      }
+    }
+  }),
+  withStyles(styles)
+)(ContactForm)

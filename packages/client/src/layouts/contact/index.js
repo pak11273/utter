@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
 import ContactForm from "../../containers/forms/contact_form/contact-form"
 import Grid from "@material-ui/core/Grid"
@@ -7,11 +6,6 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import {Container} from "../../components"
-/* import {Masthead} from "../../containers" */
-
-// actions
-import {contactmail} from "../../core/actions/contact-mail-actions"
-import {toggleFooter} from "../../core/actions/toggle-footer-action.js"
 
 const styles = theme => ({
   root: {
@@ -36,10 +30,6 @@ const styles = theme => ({
 })
 
 class Contact extends Component {
-  componentDidMount() {
-    this.props.toggleFooter(true)
-  }
-
   render() {
     const {classes} = this.props
     return (
@@ -85,18 +75,11 @@ class Contact extends Component {
           <Typography component="h1" variant="h4" align="center">
             Request Information
           </Typography>
-          <ContactForm contactmail={contactmail} />
+          <ContactForm status="bitch" />
         </main>
       </React.Fragment>
     )
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(Contact))
+export default withStyles(styles)(Contact)
