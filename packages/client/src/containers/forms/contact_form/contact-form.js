@@ -43,11 +43,10 @@ const CONTACT_MUTATION = gql`
 
 const customStyles = {
   control: styles => ({
-    // none of react-select's styles are passed to <Control />
     ...styles,
     backgroundColor: "transparent",
     height: 56,
-    marginRight: 20,
+    marginRight: 25,
     marginTop: 6,
     width: 200
   })
@@ -188,9 +187,10 @@ class ContactForm extends Component {
     super(props)
     this.state = {
       name: "",
+      countryCode: 1,
       email: "",
       errors: false,
-      number: "",
+      phone: "",
       country: "",
       subject: "",
       letter: "",
@@ -213,9 +213,9 @@ class ContactForm extends Component {
       {
         [target.name]: target.value
       },
-      console.log("number: ", this.state)
+      console.log("phone: ", this.state)
     )
-    /* if (target.name === "number") { */
+    /* if (target.name === "phone") { */
     /*   this.validatePhoneNumber("+" + this.state.country + " " + target.value) */
     /* } */
   }
@@ -225,7 +225,7 @@ class ContactForm extends Component {
       country: cntrObj
     })
     console.log("phone: ", this.phoneUtil)
-    /* this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.number) */
+    /* this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.phone) */
   }
 
   getValidNumber = phoneNumber => {
@@ -256,6 +256,13 @@ class ContactForm extends Component {
         color: "red"
       })
     }
+  }
+
+  handlePhone = e => {
+    e.preventDefault()
+    this.setState({
+      phone: e.target.value
+    })
   }
 
   render() {
@@ -328,9 +335,8 @@ class ContactForm extends Component {
                     <Grid item xs={12} md={6}>
                       <Field
                         required
-                        name="number"
-                        autoComplete="number"
-                        value="+ 1"
+                        name="phone"
+                        autoComplete="phone"
                         component={FormikInput}
                       />
                       {this.state.validMsg}

@@ -44,6 +44,11 @@ module.exports = env => {
         }
       ]
     },
+    node: {
+      fs: "empty",
+      net: "empty",
+      dns: "empty"
+    },
     plugins: [
       new HtmlWebpackPlugin({
         template: "index.html"
