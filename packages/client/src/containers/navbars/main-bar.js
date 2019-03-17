@@ -1,6 +1,5 @@
 /* eslint no-unused-vars:0 */
 import React, {Component} from "react"
-import {withRouter} from "react-router"
 import {NavLink} from "react-router-dom"
 import styled from "styled-components"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
@@ -522,4 +521,4 @@ class MainNavbar extends Component {
   }
 }
 
-export default withRouter(withStyles(styles)(MainNavbar))
+export default withStyles(styles)(MainNavbar)

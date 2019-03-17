@@ -204,17 +204,10 @@ class ContactForm extends Component {
     this.phoneUtil = PhoneNumberUtil.getInstance()
   }
 
-  componentDidUpdate() {
-    console.log("statu: ", this.props.status)
-  }
-
   onChange = ({target}) => {
-    this.setState(
-      {
-        [target.name]: target.value
-      },
-      console.log("phone: ", this.state)
-    )
+    this.setState({
+      [target.name]: target.value
+    })
     /* if (target.name === "phone") { */
     /*   this.validatePhoneNumber("+" + this.state.country + " " + target.value) */
     /* } */
@@ -224,7 +217,6 @@ class ContactForm extends Component {
     this.setState({
       country: cntrObj
     })
-    console.log("phone: ", this.phoneUtil)
     /* this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.phone) */
   }
 
@@ -267,7 +259,6 @@ class ContactForm extends Component {
 
   render() {
     const {classes, handleSubmit} = this.props
-    console.log("this.props: ", this.props)
     return (
       <React.Fragment>
         <main className={classes.root}>
@@ -389,8 +380,6 @@ export default compose(
       message: ""
     }),
     handleSubmit: async (values, {props, setStatus, resetForm}) => {
-      console.log("values: ", values)
-      console.log("props: ", props)
       setStatus({loading: true})
       const result = await props.client.mutate({
         mutation: CONTACT_MUTATION,
@@ -403,7 +392,6 @@ export default compose(
         }
       })
 
-      console.log("result: ", result)
       if (result) {
         if (result.data.contact.success.length > 0) {
           toast.success("Your message was sent!", {
