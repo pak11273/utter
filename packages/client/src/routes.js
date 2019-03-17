@@ -23,6 +23,12 @@ const getPricing = Loadable({
   loading: Loading
 })
 
+const getSignup = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'signup' */ "./layouts/signup/signup-ctrl.js"),
+  loading: Loading
+})
+
 import {Home} from "./layouts"
 
 export const routes = [
@@ -40,6 +46,11 @@ export const routes = [
     component: getPricing,
     exact: true,
     path: "/pricing"
+  },
+  {
+    component: getSignup,
+    exact: true,
+    path: "/signup"
   },
   {
     component: Home,
