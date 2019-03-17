@@ -18,6 +18,11 @@ const getContact = Loadable({
   loading: Loading
 })
 
+const getPricing = Loadable({
+  loader: () => import(/* webpackChunkName: 'pricing' */ "./layouts/pricing"),
+  loading: Loading
+})
+
 import {Home} from "./layouts"
 
 export const routes = [
@@ -30,6 +35,11 @@ export const routes = [
     component: getContact,
     exact: true,
     path: "/contact"
+  },
+  {
+    component: getPricing,
+    exact: true,
+    path: "/pricing"
   },
   {
     component: Home,
