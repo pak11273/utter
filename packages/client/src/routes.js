@@ -10,26 +10,36 @@ import Loadable from "react-loadable"
 
 const getAbout = Loadable({
   loader: () => import(/* webpackChunkName: 'about' */ "./layouts/about"),
-  loading: Loading
+  loading: Loading,
+  delay: 200
 })
 
 const getContact = Loadable({
   loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/contact"),
-  loading: Loading
+  loading: Loading,
+  delay: 200
+})
+
+const getHome = Loadable({
+  loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/home"),
+  loading: Loading,
+  delay: 200
 })
 
 const getPricing = Loadable({
   loader: () => import(/* webpackChunkName: 'pricing' */ "./layouts/pricing"),
-  loading: Loading
+  loading: Loading,
+  delay: 200
 })
 
 const getSignup = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'signup' */ "./layouts/signup/signup-ctrl.js"),
-  loading: Loading
+  loading: Loading,
+  delay: 200
 })
 
-import {Home} from "./layouts"
+/* import {Home} from "./layouts" */
 
 export const routes = [
   {
@@ -53,7 +63,7 @@ export const routes = [
     path: "/signup"
   },
   {
-    component: Home,
+    component: getHome,
     exact: true,
     path: "/"
   }

@@ -109,23 +109,22 @@ class App extends Component {
           <Router>
             <Grid>
               <MainNavbar
-                gridarea="navBar"
                 list={["about", "contact", "courses", "pricing", "zones"]}
                 changeMenuOn="640px"
                 largeMenuClassName="large-menu"
                 smallMenuClassName="small-menu"
               />
-              <Section gridarea="flash">
+              <Section>
                 <NavbarSpacer id="spacer" />
               </Section>
-              <Section gridarea="content">
+              <Section>
                 <Switch>
                   {routes.map((route, i) => (
                     <SubRoutes key={i} {...route} />
                   ))}
                 </Switch>
               </Section>
-              <Footer gridarea="footer" />
+              <Footer />
             </Grid>
           </Router>
         </MuiThemeProvider>

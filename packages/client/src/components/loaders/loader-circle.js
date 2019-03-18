@@ -9,7 +9,9 @@ const styles = () => ({
 })
 
 const loaderCircle = ({classes}) => (
-  <CircularProgress className={classes.progress} />
+  <div style={{display: "flex"}}>
+    <CircularProgress className={classes.progress} />
+  </div>
 )
 
 export default withStyles(styles)(loaderCircle)
