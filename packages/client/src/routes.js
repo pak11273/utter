@@ -20,6 +20,12 @@ const getContact = Loadable({
   delay: 200
 })
 
+const getForgotPassword = Loadable({
+  loader: () => import("./layouts/forgot_password/forgot-password-ctrl.js"),
+  loading: Loading,
+  delay: 200
+})
+
 const getHome = Loadable({
   loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/home"),
   loading: Loading,
@@ -66,6 +72,11 @@ export const routes = [
     component: getSignup,
     exact: true,
     path: "/signup"
+  },
+  {
+    exact: true,
+    path: "/forgot-password",
+    component: getForgotPassword
   },
   {
     component: getHome,

@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react"
+import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 
 import Button from "@material-ui/core/Button"
@@ -9,7 +10,6 @@ import {local, session} from "brownies"
 
 import {loginSchema} from "@utterzone/common"
 import {FormikInput, Img, Section} from "../../components"
-import {history} from "@utterzone/connector"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
 // actions
@@ -135,29 +135,31 @@ class LoginForm extends PureComponent {
   }
 }
 
-export default withFormik({
-  validationSchema: loginSchema,
-  validateOnChange: false,
-  validateOnBlur: false,
-  mapPropsToValues: () => ({
-    "username or email": "",
-    password: ""
-  }),
-  handleSubmit: async (values, {props, setErrors}) => {
-    const data = await props.submit(values)
-    if (!data.token) {
-      if (data.identifier) {
-        data["username or email"] = data.identifier
+export default withRouter(
+  withFormik({
+    validationSchema: loginSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      "username or email": "",
+      password: ""
+    }),
+    handleSubmit: async (values, {props, setErrors}) => {
+      const data = await props.submit(values)
+      if (!data.token) {
+        if (data.identifier) {
+          data["username or email"] = data.identifier
+        }
+        setErrors(data)
       }
-      setErrors(data)
+      if (data.token) {
+        local.AUTH_TOKEN = data.token
+        session.user = data.user
+        props.history.push({
+          pathname: "/",
+          state: "loadUserSession"
+        })
+      }
     }
-    if (data.token) {
-      local.AUTH_TOKEN = data.token
-      session.user = data.user
-      history.push({
-        pathname: "/",
-        state: "loadUserSession"
-      })
-    }
-  }
-})(withStyles(styles)(LoginForm))
+  })(withStyles(styles)(LoginForm))
+)

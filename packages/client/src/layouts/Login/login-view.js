@@ -10,13 +10,15 @@ import LoginForm from "./login-form"
 class Login extends PureComponent {
   componentDidMount() {
     const {state} = this.props.location
-    const {notification} = state
-    if (state.notification) {
-      toast[state.type || "info"](notification, {
-        className: "toasty",
-        bodyClassName: "toasty-body",
-        hideProgressBar: true
-      })
+    if (state) {
+      const {notification} = state
+      if (notification) {
+        toast[state.type || "info"](notification, {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      }
     }
     this.props.history.replace("/login", {notification: null})
   }

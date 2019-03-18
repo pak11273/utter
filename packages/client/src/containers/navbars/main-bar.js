@@ -153,7 +153,6 @@ class MainNavbar extends Component {
 
   login = e => {
     e.preventDefault()
-    console.log("hisstory: ", this)
     this.props.history.push("/login", {notification: null})
   }
 

@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react"
 import {withFormik, Field} from "formik"
-import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -87,24 +86,19 @@ class ForgotPasswordForm extends PureComponent {
   }
 }
 
-export default connect(
-  null,
-  null
-)(
-  withFormik({
-    mapPropsToValues: () => ({
-      email: ""
-    }),
-    handleSubmit: async (values, {props}) => {
-      const onComplete = () => {
-        history.push("/a/reset-password", {
-          announcement: "Please check your email to reset your password."
-        })
-      }
-      const errors = await props.submit(values)
-      if (!errors) {
-        onComplete()
-      }
+export default withFormik({
+  mapPropsToValues: () => ({
+    email: ""
+  }),
+  handleSubmit: async (values, {props}) => {
+    const onComplete = () => {
+      history.push("/a/reset-password", {
+        announcement: "Please check your email to reset your password."
+      })
     }
-  })(withStyles(styles)(ForgotPasswordForm))
-)
+    const errors = await props.submit(values)
+    if (!errors) {
+      onComplete()
+    }
+  }
+})(withStyles(styles)(ForgotPasswordForm))
