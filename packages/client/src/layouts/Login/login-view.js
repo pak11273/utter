@@ -3,6 +3,7 @@ import {Redirect} from "react-router-dom"
 import {toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.min.css"
 import {local} from "brownies"
+import history from '@utterzone/common'
 import "./forms.css"
 
 import LoginForm from "./login-form"

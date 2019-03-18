@@ -1,6 +1,6 @@
 /* eslint no-unused-vars:0 */
 import React, {Component} from "react"
-import {NavLink} from "react-router-dom"
+import {NavLink, withRouter} from "react-router-dom"
 import styled from "styled-components"
 import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
 import {local, session} from "brownies"
@@ -97,11 +97,6 @@ class MainNavbar extends Component {
     right: false
   }
 
-  login = e => {
-    e.preventDefault()
-    this.props.history.push("/login", {notification: null})
-  }
-
   logout = e => {
     e.preventDefault()
     delete local.AUTH_TOKEN
@@ -154,6 +149,12 @@ class MainNavbar extends Component {
     this.setState({
       [side]: open
     })
+  }
+
+  login = e => {
+    e.preventDefault()
+    console.log("hisstory: ", this)
+    this.props.history.push("/login", {notification: null})
   }
 
   render() {
@@ -521,4 +522,4 @@ class MainNavbar extends Component {
   }
 }
 
-export default withStyles(styles)(MainNavbar)
+export default withRouter(withStyles(styles)(MainNavbar))

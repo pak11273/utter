@@ -21,7 +21,6 @@ import {routes} from "./routes"
 import {Footer, MainNavbar} from "./containers"
 import {Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
-/* import {history} from "@utterzone/connector" */
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
