@@ -7,7 +7,7 @@
   "scripts": {
     "debugFile": "node --inspect --inspect-brk ../server/src/server.js",
     "debug": "npm run webpack -- --inspect --debug-brk",
-		"prod": "rimraf ./dist && webpack --config ./webpack-frontend.config.js --env.prod -p --mode production",
+    "prod": "rimraf ./dist && webpack --config ./webpack-frontend.config.js --env.prod -p --mode production",
     "webpack-dev-server": "webpack-dev-server",
     "dev": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --env development --config webpack.config.js --host 0.0.0.0 --inline",
     "webpack": "webpack",
@@ -52,6 +52,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
+    "compression-webpack-plugin": "^2.0.0",
     "css-loader": "^2.1.1",
     "dotenv-webpack": "^1.7.0",
     "eslint": "^5.15.1",
