@@ -4,9 +4,10 @@
   "main": "dist/index.js",
   "license": "PROPIETARY",
   "scripts": {
-    "babel": "rm -rf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files --presets=es2015,react,es2016,stage-2,stage-0 "
+    "babel": "rm -rf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
