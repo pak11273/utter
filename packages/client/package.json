@@ -10,6 +10,7 @@
     "production": "rimraf ./dist && webpack --config ./webpack-frontend.config.js --env production -p ",
     "webpack-dev-server": "webpack-dev-server",
     "dev": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --env development --config webpack.config.js --host 0.0.0.0 --inline",
+    "webpack": "webpack",
     "prod": "npm run webpack -- --env production",
     "fserver": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --config webpack-frontend.config.js --content-base dist --host 0.0.0.0 --inline --env development "
   },
