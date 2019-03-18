@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "dependencies": {
+    "babel-loader": "^8.0.5",
     "react": "^16.6.3",
     "react-hot-loader": "^4.3.12",
     "rimraf": "^2.6.2",
@@ -12,6 +13,7 @@
     "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/plugin-proposal-class-properties": "^7.3.4",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
