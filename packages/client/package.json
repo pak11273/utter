@@ -27,6 +27,7 @@
     "apollo-link-http": "^1.5.12",
     "apollo-link-persisted-queries": "^0.2.2",
     "brownies": "^3.0.0",
+    "dotenv-webpack": "^1.7.0",
     "eslint-loader": "^2.1.2",
     "formik": "^1.5.1",
     "google-libphonenumber": "^3.2.2",
