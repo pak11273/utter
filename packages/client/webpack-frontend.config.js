@@ -163,9 +163,7 @@ module.exports = env => {
           analyzerHost: "0.0.0.0"
         })
       ),
-      new Dotenv({
-        path: path.resolve(__dirname, "..", ".env")
-      }),
+      new Dotenv(),
       new ProgressBarPlugin(),
       new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly:w
       ifProd(
