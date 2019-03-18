@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react"
+import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
-import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -9,7 +9,6 @@ import {withStyles} from "@material-ui/core/styles"
 
 import {changePasswordSchema} from "@utterzone/common"
 import {FormikInput, Img, Section, Spacer} from "../../components"
-import {history} from "@utterzone/connector"
 
 import "./forms.css"
 
@@ -99,10 +98,7 @@ class ChangePasswordForm extends PureComponent {
   }
 }
 
-export default connect(
-  null,
-  null
-)(
+export default withRouter(
   withFormik({
     validationSchema: changePasswordSchema,
     validateOnChange: false,
@@ -114,7 +110,7 @@ export default connect(
     handleSubmit: async (values, {props, setErrors}) => {
       values.token = props.token
       const onComplete = () => {
-        history.push("/")
+        props.history.push("/")
       }
       const data = await props.submit(values)
       const errors = data.data.changePassword.error

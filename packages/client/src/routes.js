@@ -1,17 +1,22 @@
 import Loading from "./components/loaders/layout-loader.js"
 import Loadable from "react-loadable"
-
-// Code Splitting: lazy loaded routes
-/* const getAnnouncement = Loadable({ */
-/*   loader: () => */
-/*     import(/1* webpackChunkName: 'announcement' *1/ "./layouts/announcement"), */
-/*   loading: Loading */
-/* }) */
+import noAuth from "./utils/noAuth.js"
 
 const getAbout = Loadable({
   loader: () => import(/* webpackChunkName: 'about' */ "./layouts/about"),
   loading: Loading,
   delay: 200
+})
+
+const getAnnouncement = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'announcement' */ "./layouts/announcement"),
+  loading: Loading
+})
+
+const getChangePassword = Loadable({
+  loader: () => import("./layouts/change_password/change-password-ctrl.js"),
+  loading: Loading
 })
 
 const getContact = Loadable({
@@ -52,11 +57,27 @@ const getSignup = Loadable({
   delay: 200
 })
 
+/* const getResetPassword = Loadable({ */
+/*   loader: () => */
+/*     import(/1* webpackChunkName: 'reset-password' *1/ "./layouts/reset-password.js"), */
+/*   loading: Loading, */
+/*   delay: 200 */
+/* }) */
+
 export const routes = [
   {
     component: getAbout,
     exact: true,
     path: "/about"
+  },
+  {
+    component: getAnnouncement,
+    path: "/a"
+  },
+  {
+    exact: true,
+    path: "/change-password/:token",
+    component: getChangePassword
   },
   {
     component: getContact,
@@ -69,7 +90,7 @@ export const routes = [
     path: "/pricing"
   },
   {
-    component: getSignup,
+    component: noAuth(getSignup),
     exact: true,
     path: "/signup"
   },
@@ -88,4 +109,8 @@ export const routes = [
     exact: true,
     path: "/login"
   }
+  /* { */
+  /*   path: "/reset-password", */
+  /*   component: getResetPassword */
+  /* } */
 ]

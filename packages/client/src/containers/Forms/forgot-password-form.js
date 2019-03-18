@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react"
+import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 
 import Button from "@material-ui/core/Button"
@@ -7,7 +8,6 @@ import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
 import {FormikInput, Img, Section, Spacer} from "../../components"
-import {history} from "@utterzone/connector"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
 const styles = () => ({
@@ -86,19 +86,21 @@ class ForgotPasswordForm extends PureComponent {
   }
 }
 
-export default withFormik({
-  mapPropsToValues: () => ({
-    email: ""
-  }),
-  handleSubmit: async (values, {props}) => {
-    const onComplete = () => {
-      history.push("/a/reset-password", {
-        announcement: "Please check your email to reset your password."
-      })
+export default withRouter(
+  withFormik({
+    mapPropsToValues: () => ({
+      email: ""
+    }),
+    handleSubmit: async (values, {props}) => {
+      const onComplete = () => {
+        props.history.push("/a/reset-password", {
+          announcement: "Please check your email to reset your password."
+        })
+      }
+      const errors = await props.submit(values)
+      if (!errors) {
+        onComplete()
+      }
     }
-    const errors = await props.submit(values)
-    if (!errors) {
-      onComplete()
-    }
-  }
-})(withStyles(styles)(ForgotPasswordForm))
+  })(withStyles(styles)(ForgotPasswordForm))
+)
