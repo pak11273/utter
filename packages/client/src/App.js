@@ -68,17 +68,6 @@ const theme = createMuiTheme({
   }
 })
 
-/* const StyledGrid = styled(Grid)` */
-/*   display: grid; */
-/*   grid-template-rows: auto auto 1fr; */
-/*   grid-template-areas: */
-/*     "navBar" */
-/*     "flash" */
-/*     "content" */
-/*     "footer"; */
-/*   margin: 0 auto; */
-/* ` */
-
 // google analytics
 /* ReactGA.initialize("UA-125119993-1") */
 /* ReactGA.pageview(window.location.pathname + window.location.search) */

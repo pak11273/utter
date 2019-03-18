@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react"
 import {withFormik, Field} from "formik"
-import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -136,38 +135,29 @@ class LoginForm extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  loginReducer: state.userReducer.login
-})
-
-export default connect(
-  mapStateToProps,
-  null
-)(
-  withFormik({
-    validationSchema: loginSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      "username or email": "",
-      password: ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const data = await props.submit(values)
-      if (!data.token) {
-        if (data.identifier) {
-          data["username or email"] = data.identifier
-        }
-        setErrors(data)
+export default withFormik({
+  validationSchema: loginSchema,
+  validateOnChange: false,
+  validateOnBlur: false,
+  mapPropsToValues: () => ({
+    "username or email": "",
+    password: ""
+  }),
+  handleSubmit: async (values, {props, setErrors}) => {
+    const data = await props.submit(values)
+    if (!data.token) {
+      if (data.identifier) {
+        data["username or email"] = data.identifier
       }
-      if (data.token) {
-        local.AUTH_TOKEN = data.token
-        session.user = data.user
-        history.push({
-          pathname: "/",
-          state: "loadUserSession"
-        })
-      }
+      setErrors(data)
     }
-  })(withStyles(styles)(LoginForm))
-)
+    if (data.token) {
+      local.AUTH_TOKEN = data.token
+      session.user = data.user
+      history.push({
+        pathname: "/",
+        state: "loadUserSession"
+      })
+    }
+  }
+})(withStyles(styles)(LoginForm))

@@ -26,6 +26,13 @@ const getHome = Loadable({
   delay: 200
 })
 
+const getLogin = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'contact' */ "./layouts/login/login-ctrl.js"),
+  loading: Loading,
+  delay: 200
+})
+
 const getPricing = Loadable({
   loader: () => import(/* webpackChunkName: 'pricing' */ "./layouts/pricing"),
   loading: Loading,
@@ -38,8 +45,6 @@ const getSignup = Loadable({
   loading: Loading,
   delay: 200
 })
-
-/* import {Home} from "./layouts" */
 
 export const routes = [
   {
@@ -66,5 +71,10 @@ export const routes = [
     component: getHome,
     exact: true,
     path: "/"
+  },
+  {
+    component: getLogin,
+    exact: true,
+    path: "/login"
   }
 ]
