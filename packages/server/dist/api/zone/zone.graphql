@@ -1,0 +1,68 @@
+
+type Zone {
+	ageGroup: String
+	app: String
+	courseLevel: Int
+  createdAt: Int
+  id: ID!
+  levels: [Level]
+	members: Int
+  owner: User
+	resources: String
+  teachingLang: String
+  usingLang: String
+  zoneDescription: String
+  zoneImage: String
+  zoneName: String!
+}
+
+input ZoneUpdated {
+  id: ID!
+  zoneId: String
+  zoneName: String
+  zonedescription: String
+  favorite: Boolean
+}
+
+input ZoneCreateInput {
+	app: String
+	courseLevel: Int
+	ageGroup: String
+	members: Int
+	owner: String!
+	resources: String
+  zoneId: String
+	zoneImage: String
+  zoneName: String!
+  zoneDescription: String
+	teachingLang: String
+  usingLang: String
+}
+
+type PaginatedZones {
+  zones: [Zone]
+  cursor: String
+}
+
+extend type Query {
+  getZone(zoneId: String!): Zone!
+	getZoneLevels(zoneId: String!): Zone!
+  getZones(
+		app: String
+		courseLevel: Int
+    cursor: String
+    owner: String!
+    resources: String!
+    usingLang: String!
+    teachingLang: String!
+    zoneName: String!
+  ): PaginatedZones  
+  getZoneCount: Int
+}
+
+extend type Mutation {
+  zoneCreate(input: ZoneCreateInput!): Zone! 
+	zoneDelete(id: String!): Boolean
+  zoneUpdate(input: ZoneUpdated!): Zone!
+  zoneRemove(id: ID!): Boolean
+}
