@@ -12,7 +12,7 @@ class Announcement extends PureComponent {
       }
     } = this.props
     return (
-      <div>
+      <React.Fragment>
         <Helmet>
           <meta charset="utf-8" />
           <meta
@@ -24,15 +24,25 @@ class Announcement extends PureComponent {
             content="Please follow the announcement on this page."
           />
           <meta name="author" content="Isaac Pak" />
-          <title>Utterzone | Announcement</title>
+          <title>Utterzone | Announcements</title>
           <link rel="canonical" href="https://utterzone.com/a" />
         </Helmet>
-        <Grid style={{height: "600px", padding: "100px"}}>
+        <Grid
+          alignItems="center"
+          container
+          justify="center"
+          style={{
+            background: "black",
+            color: "white",
+            display: "flex",
+            height: "100vh",
+            width: "100%"
+          }}>
           <Typography variant="h6" color="inherit" gutterBottom noWrap>
             {announcement}
           </Typography>
         </Grid>
-      </div>
+      </React.Fragment>
     )
   }
 }

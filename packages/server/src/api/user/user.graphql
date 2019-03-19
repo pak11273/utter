@@ -76,6 +76,7 @@ type Mutation {
   contact(input: ContactInput!): ContactOutput
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
+	confirmEmail(token: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
   updateMe(input: UpdatedUserInput!): User!
 }

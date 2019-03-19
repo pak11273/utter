@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react"
 import {Helmet} from "react-helmet"
+import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 
 import Checkbox from "@material-ui/core/Checkbox"
@@ -15,7 +16,6 @@ import {local} from "brownies"
 import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
 import {signupSchema} from "@utterzone/common"
-import {history} from "@utterzone/connector"
 import {FormikInput, Img, LoadingButton, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
@@ -254,32 +254,38 @@ class SignupForm extends PureComponent {
   }
 }
 
-export default withFormik({
-  validationSchema: signupSchema,
-  validateOnChange: false,
-  validateOnBlur: false,
-  mapPropsToValues: () => ({
-    username: "",
-    email: "",
-    password: "",
-    "password confirmation": "",
-    timezone: ""
-  }),
-  handleSubmit: async (values, {props, setErrors}) => {
-    const result = await props.submit(values)
-    const onComplete = () => {
-      history.push("/a/confirm-email", {
-        announcement: "Please check your email to confirm your address."
-      })
-    }
+export default withRouter(
+  withFormik({
+    validationSchema: signupSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      username: "",
+      email: "",
+      password: "",
+      "password confirmation": "",
+      timezone: ""
+    }),
+    handleSubmit: async (values, {props, setErrors}) => {
+      console.log("props: ", props)
+      const result = await props.submit(values)
+      const onComplete = () => {
+        props.history.push("/a/confirm-email", {
+          announcement: "Please check your email to confirm your address."
+        })
+      }
 
-    // if signup info is legit
-    if (typeof result === "string") {
-      local.AUTH_TOKEN
-      onComplete()
-    } else {
-      // if signup info is not legit
-      setErrors(result)
+      console.log("result: ", result)
+
+      // if signup info is legit
+      if (typeof result !== "object") {
+        console.log("hello")
+        local.AUTH_TOKEN = result
+        onComplete()
+      } else {
+        // if signup info is not legit
+        setErrors(result)
+      }
     }
-  }
-})(withStyles(styles)(SignupForm))
+  })(withStyles(styles)(SignupForm))
+)

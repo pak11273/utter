@@ -4,7 +4,6 @@ import React, {PureComponent} from "react"
 import {graphql} from "react-apollo"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
-import {local} from "brownies"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class C extends PureComponent {
@@ -29,7 +28,6 @@ export class C extends PureComponent {
       })
 
       if (token !== null) {
-        local.AUTH_TOKEN = token
         return token
       }
 

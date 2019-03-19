@@ -1,13 +1,18 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import {Helmet} from "react-helmet"
+import {compose, withApollo} from "react-apollo"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {Container, Section} from "../components"
-/* import {Masthead} from "../containers" */
 
-// actions
-import {toggleFooter} from "../core/actions/toggle-footer-action.js"
+/* import gql from "graphql-tag" */
+import {Container, Section} from "../components"
+
+/* const CONFIRM_EMAIL = gql` */
+/* 	mutation confirmEmail($token: String) { */
+/* 		confirmEmai(token: $token) { */
+/* 		} */
+/* 	} */
+/* ` */
 
 const styles = theme => ({
   root: {
@@ -27,7 +32,7 @@ const styles = theme => ({
   },
   section: {
     padding: theme.spacing.unit * 1,
-    margin: "0 auto 100px",
+    height: "100vh",
     maxWidth: 900,
     [`@media (max-width:770px)`]: {
       flexDirection: "column"
@@ -36,8 +41,18 @@ const styles = theme => ({
 })
 
 class ConfirmEmail extends Component {
-  componentDidMount() {
-    this.props.toggleFooter(true)
+  componentDidMount = async () => {
+    /* const result = await this.props.client.mutate({ */
+    /*   mutation: CONFIRM_EMAIL, */
+    /*   variables: { */
+    /*     token: this.props.match.params.token */
+    /*   } */
+    /* }) */
+    /* if (result) { */
+    /*   if (result.data.confirmEmail > 0) { */
+    /*     console.log("result: ", result) */
+    /*   } */
+    /* } */
   }
 
   render() {
@@ -52,15 +67,14 @@ class ConfirmEmail extends Component {
           />
           <meta name="author" content="Isaac Pak" />
           <title>Utterzone | Confirm Email</title>
-          <link rel="canonical" href="https://utter.zone/confirm-email" />
+          <link rel="canonical" href="https://utterzone/confirm-email" />
         </Helmet>
         <Container className={classes.root}>
           <Section className={classes.section}>
             <Typography
-              variant="h4"
+              variant="h6"
               align="center"
               className={classes.text}
-              component="p"
               gutterBottom>
               Your email account has been confirmed.
             </Typography>
@@ -71,11 +85,7 @@ class ConfirmEmail extends Component {
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(ConfirmEmail))
+export default compose(
+  withApollo,
+  withStyles(styles)
+)(ConfirmEmail)

@@ -6,8 +6,8 @@ import * as yup from "yup"
 import config from "../../config"
 import {authenticate, decodeToken, signToken} from "../../auth"
 import {
-  confirmEmail,
-  expiredKey,
+  confirmEmailError,
+  expiredKeyError,
   duplicateEmail,
   duplicateUsername,
   passwordLocked,
@@ -15,7 +15,7 @@ import {
 } from "../shared/error-messages.js"
 import {createEmailConfirmLink} from "../../utils/create-confirmation-email-link.js"
 import {createForgotPasswordLink} from "../../utils/create-forgot-password-link.js"
-import {forgotPasswordPrefix} from "../../constants"
+import {forgotPasswordPrefix, confirmEmailPrefix} from "../../constants"
 import {formatYupError} from "../../utils/format-yup-error.js"
 import {
   sendContactEmail,
@@ -30,6 +30,27 @@ import {
   PasswordValidation,
   changePasswordSchema
 } from "@utterzone/common"
+
+const confirmEmail = async (_, args, {redis, url}) => {
+  const redisToken = args.input.token
+  const redisKey = `${confirmEmailPrefix}${redisToken}`
+  const userId = await redis.get(redisKey)
+
+  if (!userId) {
+    console.log("no user")
+    arrayOfErrors.push({
+      path: "password",
+      message: expiredKeyError
+    })
+    return {
+      token: null,
+      error: arrayOfErrors
+    }
+  }
+  console.log("args: ", args)
+  // change confirm to true
+  /* User.updateOne(). */
+}
 
 const contact = async (_, args, {redis, url}) => {
   const email = await sendContactEmail(args)
@@ -50,7 +71,7 @@ const changePassword = async (_, args, {redis, url}) => {
     console.log("no user")
     arrayOfErrors.push({
       path: "password",
-      message: expiredKey
+      message: expiredKeyError
     })
     return {
       token: null,
@@ -275,6 +296,7 @@ export const userResolvers = {
 
   Mutation: {
     changePassword,
+    confirmEmail,
     contact,
     forgotPassword,
     signup,

@@ -37,8 +37,6 @@ var _graphqlTag = _interopRequireDefault(require("graphql-tag"));
 
 var _normalizeErrors = require("../utils/normalize-errors");
 
-var _brownies = require("brownies");
-
 function _templateObject() {
   var data = (0, _taggedTemplateLiteral2.default)(["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      user {\n        _id\n        username\n        email\n        roles\n        scopes\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]);
 
@@ -98,39 +96,38 @@ function (_PureComponent) {
                 signup = _ref2.data.signup;
 
                 if (!(token !== null)) {
-                  _context.next = 10;
+                  _context.next = 9;
                   break;
                 }
 
-                _brownies.local.AUTH_TOKEN = token;
                 return _context.abrupt("return", token);
 
-              case 10:
+              case 9:
                 if (!error) {
-                  _context.next = 12;
+                  _context.next = 11;
                   break;
                 }
 
                 return _context.abrupt("return", (0, _normalizeErrors.normalizeErrors)(error));
 
-              case 12:
-                _context.next = 17;
+              case 11:
+                _context.next = 16;
                 break;
 
-              case 14:
-                _context.prev = 14;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](0);
                 console.log("err: ", _context.t0);
 
-              case 17:
+              case 16:
                 return _context.abrupt("return", null);
 
-              case 18:
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 14]]);
+        }, _callee, null, [[0, 13]]);
       }));
 
       return function (_x) {

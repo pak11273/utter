@@ -19,6 +19,12 @@ const getChangePassword = Loadable({
   loading: Loading
 })
 
+const getConfirmEmail = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'confirm-email' */ "./layouts/confirm-email"),
+  loading: Loading
+})
+
 const getContact = Loadable({
   loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/contact"),
   loading: Loading,
@@ -78,6 +84,11 @@ export const routes = [
     exact: true,
     path: "/change-password/:token",
     component: getChangePassword
+  },
+  {
+    /* exact: true, */
+    path: "/confirm-email/:token",
+    component: getConfirmEmail
   },
   {
     component: getContact,
