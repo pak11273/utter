@@ -1,12 +1,16 @@
 import React, {PureComponent} from "react"
+import {Helmet} from "react-helmet"
 import {withFormik, Field} from "formik"
 
+import Checkbox from "@material-ui/core/Checkbox"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
 import {local} from "brownies"
+/* import {toast} from "react-toastify" */
+/* import "react-toastify/dist/ReactToastify.min.css" */
 
 import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
@@ -51,7 +55,7 @@ const styles = () => ({
 })
 
 const initialState = {
-  agreementChecked: true
+  agreementChecked: false
 }
 
 class SignupForm extends PureComponent {
@@ -60,7 +64,23 @@ class SignupForm extends PureComponent {
     this.state = cloneDeep(initialState)
   }
 
-  handleChange = e => {
+  agreeTerms = () => {
+    if (this.setState) {
+      this.setState({
+        agreementChecked: true
+      })
+    }
+  }
+
+  disagreeTerms = () => {
+    if (this.setState) {
+      this.setState({
+        agreementChecked: false
+      })
+    }
+  }
+
+  handleCheckbox = e => {
     e.preventDefault()
     const {agreementChecked} = this.state
     if (this.setState) {
@@ -74,16 +94,29 @@ class SignupForm extends PureComponent {
     const {
       classes,
       /* errors, */
-      /* handleChange, */
+      /* handleCheckbox, */
       /* handleBlur, */
       handleSubmit
       /* Message, */
       /* touched */
       /* values */
     } = this.props
+
     const {agreementChecked} = this.state
+
     return (
       <Section className={classes.section}>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta name="description" content="Affordable language learning" />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utterzone | Sign Up</title>
+          <link rel="canonical" href="https://utter.zone/signup" />
+        </Helmet>
         <Grid container>
           <Grid
             item
@@ -191,21 +224,22 @@ class SignupForm extends PureComponent {
                   </div> */}
                 </div>
                 <div className={classes.agreement}>
-                  <input
-                    type="checkbox"
-                    label="I agree to the"
-                    onChange={this.handleChange}
+                  <Checkbox
+                    checked={this.state.agreementChecked}
+                    onClick={this.handleCheckbox}
+                    value="I agree to the"
                   />
-                  <span>
-                    <Terms />
-                  </span>
+                  <Terms
+                    agree={() => this.agreeTerms()}
+                    disagree={() => this.disagreeTerms()}
+                  />
                 </div>
                 <LoadingButton
                   floated="right"
                   fontSize="1.5rem"
                   style={{margin: "30px 0 0 0"}}
                   className={classes.button}
-                  disabled={agreementChecked}
+                  disabled={!agreementChecked}
                   color="primary"
                   variant="contained"
                   type="submit">
@@ -243,13 +277,8 @@ export default withFormik({
     if (typeof result === "string") {
       local.AUTH_TOKEN
       onComplete()
-      props.addFlashMessage({
-        type: "success",
-        text: "Welcome to Utterzone"
-      })
     } else {
       // if signup info is not legit
-      console.log("signup: ", result)
       setErrors(result)
     }
   }

@@ -29,7 +29,7 @@ export class C extends PureComponent {
       })
 
       if (token !== null) {
-        local.user = data
+        local.AUTH_TOKEN = token
         return token
       }
 

@@ -102,7 +102,7 @@ function (_PureComponent) {
                   break;
                 }
 
-                _brownies.local.user = data;
+                _brownies.local.AUTH_TOKEN = token;
                 return _context.abrupt("return", token);
 
               case 10:
