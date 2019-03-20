@@ -1,6 +1,5 @@
 /* eslint react/no-did-update-set-state: 0 */
 import React, {PureComponent} from "react"
-import {connect} from "react-redux"
 import {Link as RouterLink} from "react-router-dom"
 import ReactSelect from "react-select"
 import {Helmet} from "react-helmet"
@@ -24,10 +23,6 @@ import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
 import languageData from "../../../data/languageData.js"
-import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-
-// actions
-import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -141,7 +136,6 @@ class CoursesContainer extends PureComponent {
 
   componentDidMount() {
     delete session.course
-    this.props.toggleFooter(false)
   }
 
   handleSpeakingChange = usingLang => {
@@ -402,11 +396,4 @@ class CoursesContainer extends PureComponent {
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(CoursesContainer))
+export default withStyles(styles)(CoursesContainer)

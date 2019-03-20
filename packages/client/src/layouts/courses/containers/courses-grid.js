@@ -25,47 +25,6 @@ import gql from "graphql-tag"
 
 import {subsToSize} from "../../../utils/helpers.js"
 
-/* const getCourses = gql` */
-/*   query getCourses( */
-/*     $cursor: String */
-/*     $courseName: String! */
-/*     $owner: String! */
-/*     $resources: String */
-/*     $usingLang: String! */
-/*     $teachingLang: String! */
-/*   ) { */
-/*     getCourses( */
-/*       input: { */
-/*         cursor: $cursor */
-/*         courseName: $courseName */
-/*         resources: $resources */
-/*         owner: $owner */
-/*         usingLang: $usingLang */
-/*         teachingLang: $teachingLang */
-/*       } */
-/*     ) { */
-/*       cursor */
-/*       courses { */
-/*         _id */
-/*         courseImage */
-/*         courseMode */
-/*         courseName */
-/*         courseDescription */
-/*         levels { */
-/*           _id */
-/*           level */
-/*           title */
-/*         } */
-/*         usingLang */
-/*         teachingLang */
-/*         owner { */
-/*           username */
-/*         } */
-/*       } */
-/*     } */
-/*   } */
-/* ` */
-
 const getCourses = gql`
   query getCourses {
     getCourses {

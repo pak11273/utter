@@ -71,9 +71,14 @@ const mongooseToJs = object => {
 const userById = async userId => {
   try {
     const user = await User.findById(userId).lean()
+    if (user) {
+      return {
+        ...user,
+        createdCourses: coursesById.bind(this, user.createdCourses)
+      }
+    }
     return {
-      ...user,
-      createdCourses: coursesById.bind(this, user.createdCourses)
+      username: ""
     }
   } catch (err) {
     throw err

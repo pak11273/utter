@@ -37,6 +37,12 @@ const getForgotPassword = Loadable({
   delay: 200
 })
 
+const getCourses = Loadable({
+  loader: () => import("./layouts/courses/containers/courses"),
+  loading: Loading,
+  delay: 200
+})
+
 const getHome = Loadable({
   loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/home"),
   loading: Loading,
@@ -94,6 +100,11 @@ export const routes = [
     component: getContact,
     exact: true,
     path: "/contact"
+  },
+  {
+    component: getCourses,
+    exact: true,
+    path: "/courses"
   },
   {
     component: getPricing,
