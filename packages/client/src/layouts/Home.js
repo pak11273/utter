@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography"
 import Button from "@material-ui/core/Button"
 
 import {Container, Img, Line, Section} from "../components"
-import {Masthead} from "../containers"
+import {Footer, Masthead} from "../containers"
 
 // images
 import busyPeopleImg from "../assets/images/busy-people.jpg"
@@ -273,6 +273,7 @@ class Home extends Component {
               </Button>
             </Grid>
           </Section>
+          <Footer />
         </Container>
       </React.Fragment>
     )

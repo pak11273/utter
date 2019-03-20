@@ -18,7 +18,7 @@ import client from "./apollo.js"
 
 import {GlobalStyle} from "./assets/css/global-styles.js"
 import {routes} from "./routes"
-import {Footer, MainNavbar} from "./containers"
+import {MainNavbar} from "./containers"
 import {Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {ToastContainer} from "react-toastify"
@@ -112,7 +112,6 @@ class App extends Component {
                   ))}
                 </Switch>
               </Section>
-              <Footer />
             </Grid>
           </Router>
         </MuiThemeProvider>

@@ -5,6 +5,7 @@ import React, {PureComponent} from "react"
 import {history, SignupConnector} from "@utterzone/connector"
 import {local} from "brownies"
 
+import {Footer} from "../../containers"
 import SignupView from "./signup-view.js"
 
 export default class SignupCtrl extends PureComponent {
@@ -21,6 +22,7 @@ export default class SignupCtrl extends PureComponent {
         <SignupConnector>
           {({submit}) => <SignupView submit={submit} />}
         </SignupConnector>
+        <Footer style={{width: "100%"}} />
       </React.Fragment>
     )
   }

@@ -3,7 +3,7 @@ import {Helmet} from "react-helmet"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {Container, Section} from "../components"
-import {Masthead} from "../containers"
+import {Footer, Masthead} from "../containers"
 
 const styles = theme => ({
   root: {
@@ -91,6 +91,7 @@ class About extends Component {
               efficient to learn.
             </Typography>
           </Section>
+          <Footer />
         </Container>
       </React.Fragment>
     )

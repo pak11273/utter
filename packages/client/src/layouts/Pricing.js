@@ -18,6 +18,8 @@ import StarIcon from "@material-ui/icons/StarBorder"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
+import {Footer} from "../containers"
+
 function Transition(props) {
   return <Slide direction="up" {...props} />
 }
@@ -181,6 +183,9 @@ class Pricing extends PureComponent {
                 </Card>
               </Grid>
             ))}
+            <Grid item style={{width: "100%"}}>
+              <Footer />
+            </Grid>
           </Grid>
         </main>
       </React.Fragment>

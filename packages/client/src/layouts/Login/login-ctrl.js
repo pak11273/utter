@@ -4,6 +4,7 @@
 import React, {PureComponent} from "react"
 import {LoginConnector} from "@utterzone/connector"
 
+import {Footer} from "../../containers"
 import LoginView from "./login-view.js"
 
 export default class LoginCtrl extends PureComponent {
@@ -13,6 +14,7 @@ export default class LoginCtrl extends PureComponent {
         <LoginConnector>
           {({submit}) => <LoginView submit={submit} {...this.props} />}
         </LoginConnector>
+        <Footer style={{width: "100%"}} />
       </React.Fragment>
     )
   }
