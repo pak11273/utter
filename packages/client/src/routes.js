@@ -1,5 +1,6 @@
 import Loading from "./components/loaders/layout-loader.js"
 import Loadable from "react-loadable"
+import requireAuth from "./utils/requireAuth.js"
 import noAuth from "./utils/noAuth.js"
 
 const getAbout = Loadable({
@@ -27,6 +28,12 @@ const getConfirmEmail = Loadable({
 
 const getContact = Loadable({
   loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/contact"),
+  loading: Loading,
+  delay: 200
+})
+
+const getCourseUpdate = Loadable({
+  loader: () => import("./layouts/courses/containers/course-update.js"),
   loading: Loading,
   delay: 200
 })
@@ -100,6 +107,11 @@ export const routes = [
     component: getContact,
     exact: true,
     path: "/contact"
+  },
+  {
+    component: requireAuth(getCourseUpdate),
+    exact: true,
+    path: "/course/:id"
   },
   {
     component: getCourses,

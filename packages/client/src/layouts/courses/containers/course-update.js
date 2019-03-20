@@ -1,5 +1,4 @@
 import React, {PureComponent} from "react"
-import {connect} from "react-redux"
 import {Route, NavLink} from "react-router-dom"
 import {session} from "brownies"
 
@@ -17,7 +16,6 @@ import styled from "styled-components"
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
 import {Can, Spacer} from "../../../components"
-import {resetGlobalLevel} from "../../../api/actions.js"
 
 /* const getCourse = gql` */
 /*   query getCourse($_id: ID!) { */
@@ -81,9 +79,7 @@ class CourseUpdate extends PureComponent {
     this.state = cloneDeep(initialCoursesContainerState)
   }
 
-  componentDidMount = async () => {
-    this.props.resetGlobalLevel()
-  }
+  componentDidMount = async () => {}
 
   handleImageClick = e => {
     e.preventDefault()
@@ -193,11 +189,4 @@ class CourseUpdate extends PureComponent {
   }
 }
 
-const actions = {
-  resetGlobalLevel
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(CourseUpdate))
+export default withStyles(styles)(CourseUpdate)
