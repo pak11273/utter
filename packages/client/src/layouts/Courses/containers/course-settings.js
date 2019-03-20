@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import Helmet from "react-helmet"
 /* import {Can} from "../../../components" */
 import {CourseModal} from "../../../containers"
@@ -21,9 +20,6 @@ const COURSE_UPDATE = gql`
     }
   }
 `
-
-// actions
-import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 const styles = theme => ({
   content: {
@@ -65,10 +61,6 @@ class CourseSettings extends Component {
     open: false,
     submittedName: "",
     submittedEmail: ""
-  }
-
-  componentDidMount() {
-    this.props.toggleFooter(false)
   }
 
   handleChange = (e, {name, value}) => this.setState({[name]: value})
@@ -193,13 +185,6 @@ class CourseSettings extends Component {
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
 const withGraphql = graphql(COURSE_UPDATE)(CourseSettings)
 
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(withGraphql))
+export default withStyles(styles)(withGraphql)

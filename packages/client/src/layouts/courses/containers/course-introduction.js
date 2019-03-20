@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import Helmet from "react-helmet"
 import {courseSchema} from "@utterzone/common"
 import update from "immutability-helper"
@@ -24,9 +23,6 @@ import /* Can, */
 /* LoadingButton */
 "../../../components"
 import {styles} from "../styles.js"
-
-// actions
-import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 /* const GET_COURSE = gql` */
 /*   query getCourse($_id: String!) { */
@@ -417,17 +413,8 @@ class CourseIntroduction extends Component {
   }
 }
 
-const actions = {
-  toggleFooter
-}
-
 export default compose(
   withStyles(styles),
-  withApollo,
-  /* graphql(COURSE_UPDATE, {name: "courseUpdate"}), */
+  withApollo /* graphql(COURSE_UPDATE, {name: "courseUpdate"}), */
   /* graphql(GET_COURSE, {name: "getCourse"}), */
-  connect(
-    null,
-    actions
-  )
 )(CourseIntroduction)

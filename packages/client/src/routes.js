@@ -32,6 +32,12 @@ const getContact = Loadable({
   delay: 200
 })
 
+/* const getCourseIntroduction = Loadable({ */
+/*   loader: () => import("./layouts/courses/containers/course-introduction.js"), */
+/*   loading: Loading, */
+/*   delay: 200 */
+/* }) */
+
 const getCourseUpdate = Loadable({
   loader: () => import("./layouts/courses/containers/course-update.js"),
   loading: Loading,
@@ -48,6 +54,11 @@ const getCourses = Loadable({
   loader: () => import("./layouts/courses/containers/courses"),
   loading: Loading,
   delay: 200
+})
+
+const getCourseSettings = Loadable({
+  loader: () => import("./layouts/courses/containers/course-settings.js"),
+  loading: Loading
 })
 
 const getHome = Loadable({
@@ -111,12 +122,26 @@ export const routes = [
   {
     component: requireAuth(getCourseUpdate),
     exact: true,
-    path: "/course/:id"
+    path: "/course/:id",
+    routes: [
+      {
+        component: getCourseSettings,
+        path: "/course/course-settings"
+      }
+    ]
   },
+  /* { */
+  /* component: requireAuth(getCourseIntroduction), */
+  /* path: "/course/course-introduction" */
+  /* }, */
   {
     component: getCourses,
     exact: true,
     path: "/courses"
+  },
+  {
+    component: getCourseSettings,
+    path: "/course/course-settings"
   },
   {
     component: getPricing,

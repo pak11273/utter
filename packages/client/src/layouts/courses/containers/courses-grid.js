@@ -1,9 +1,9 @@
 import React, {PureComponent} from "react"
+import {withRouter} from "react-router-dom"
 /* import Waypoint from "react-waypoint" */
 
 import classNames from "classnames"
 import cloneDeep from "lodash/cloneDeep"
-import {history} from "@utterzone/connector"
 /* import isEmpty from "lodash/isEmpty" */
 import update from "immutability-helper"
 
@@ -173,8 +173,8 @@ class CoursesGrid extends PureComponent {
     /* notification: "You must */
     /*   }) */
     /* } else { */
-    history.push({
-      pathname: "/course/course-introduction",
+    this.props.history.push({
+      pathname: "/course/course-settings",
       state: {courseId: card.id}
     })
   }
@@ -351,4 +351,4 @@ class CoursesGrid extends PureComponent {
   }
 }
 
-export default withApollo(withStyles(styles)(CoursesGrid))
+export default withRouter(withApollo(withStyles(styles)(CoursesGrid)))

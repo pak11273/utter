@@ -87,6 +87,7 @@ class CourseUpdate extends PureComponent {
   }
 
   render() {
+    console.log("route: ", this.props)
     const {course, user} = session
     const {classes} = this.props
     const SubRoutes = route => (
