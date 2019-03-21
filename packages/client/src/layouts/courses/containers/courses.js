@@ -22,7 +22,7 @@ import CoursesGrid from "./courses-grid.js"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
-import languageData from "../../../data/languageData.js"
+import {groupedOptions} from "../../../data/language-data.js"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -293,7 +293,7 @@ class CoursesContainer extends PureComponent {
             name="form-field-name"
             value={this.state.usingLang}
             onChange={this.handleSpeakingChange}
-            options={languageData}
+            options={groupedOptions}
           />
           <Spacer margin="40px 0 0 0" />
           <Typography variant="h6" align="center" gutterBottom>
@@ -304,7 +304,7 @@ class CoursesContainer extends PureComponent {
             name="form-field-name"
             value={this.state.teachingLang}
             onChange={this.handleTeachingChange}
-            options={languageData}
+            options={groupedOptions}
           />
           <Spacer margin="40px 0 0 0" />
           <Divider />

@@ -1,13 +1,27 @@
 import React, {Component} from "react"
-import Select from "react-select"
+/* import Select from "react-select" */
+import Creatable from "react-select/lib/Creatable"
 import {Box} from "../../../components"
 
-class CourseRef extends Component {
+const customStyles = {
+  control: styles => ({
+    ...styles,
+    margin: "20px auto",
+    padding: "3px",
+    position: "relative",
+    width: "200px",
+    height: "50px",
+    borderWidth: "1px",
+    borderColor: "rgba(0, 0, 0, 0.87)",
+    borderRadius: "5px"
+  })
+}
+
+class CourseResources extends Component {
   constructor(props) {
     super(props)
     this.state = {
       multi: true,
-      multiValue: [],
       options: [],
       value: undefined
     }
@@ -18,37 +32,19 @@ class CourseRef extends Component {
   }
 
   updateValue = newValue => {
-    const {multi} = this.state
-    if (multi) {
-      this.setState({multiValue: newValue})
-    } else {
-      this.setState({newValue})
-    }
+    this.setState({newValue})
     this.props.addResources(newValue)
   }
 
   render() {
-    const {multi, multiValue, options, value} = this.state
+    const {options, value} = this.state
     return (
-      <Box width="250px" width1080="74%">
-        <Select.Creatable
-          wrapperStyle={{
-            margin: "20px 0 0 0",
-            width: "100%"
-          }}
-          style={{
-            width: "100%"
-          }}
-          menuContainerStyle={{
-            width: "100%"
-          }}
-          menuStyle={{
-            width: "100%"
-          }}
-          multi={multi}
+      <Box width="250px">
+        <Creatable
+          styles={customStyles}
+          value={value}
           options={options}
           onChange={this.updateValue}
-          value={multi ? multiValue : value}
         />
         <div className="hint">{this.props.hint}</div>
       </Box>
@@ -56,4 +52,4 @@ class CourseRef extends Component {
   }
 }
 
-export default CourseRef
+export default CourseResources

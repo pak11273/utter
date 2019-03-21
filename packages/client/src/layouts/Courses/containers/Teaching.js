@@ -1,7 +1,20 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types"
 import Select from "react-select"
 import {Box} from "../../../components"
+
+const customStyles = {
+  control: styles => ({
+    ...styles,
+    margin: "20px auto",
+    padding: "3px",
+    position: "relative",
+    width: "200px",
+    height: "50px",
+    borderWidth: "1px",
+    borderColor: "rgba(0, 0, 0, 0.87)",
+    borderRadius: "5px"
+  })
+}
 
 class Teaching extends Component {
   constructor(props) {
@@ -9,7 +22,7 @@ class Teaching extends Component {
     this.state = {
       displayName: "TeachingField",
       disabled: false,
-      searchable: props.searchable,
+      searchable: true,
       selectValue: "",
       clearable: true,
       rtl: false
@@ -33,6 +46,7 @@ class Teaching extends Component {
     return (
       <Box width="250px">
         <Select
+          styles={customStyles}
           id="teaching-select"
           ref={ref => {
             this.select = ref
@@ -42,19 +56,6 @@ class Teaching extends Component {
           required
           simpleValue
           clearable={this.state.clearable}
-          wrapperStyle={{
-            margin: "20px 0 0 0",
-            width: "100%"
-          }}
-          style={{
-            width: "100%"
-          }}
-          menuContainerStyle={{
-            width: "100%"
-          }}
-          menuStyle={{
-            width: "100%"
-          }}
           name={field.name}
           options={options}
           disabled={this.state.disabled}
@@ -66,14 +67,6 @@ class Teaching extends Component {
       </Box>
     )
   }
-}
-
-Teaching.propTypes = {
-  searchable: PropTypes.bool
-}
-
-Teaching.defaultProps = {
-  searchable: true
 }
 
 export default Teaching

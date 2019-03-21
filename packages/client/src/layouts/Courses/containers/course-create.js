@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import {withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
 import {compose, graphql} from "react-apollo"
 import Grid from "@material-ui/core/Grid"
@@ -11,22 +12,20 @@ import {toast} from "react-toastify"
 import {Field, withFormik} from "formik"
 import isEmpty from "lodash/isEmpty"
 import cloneDeep from "lodash/cloneDeep"
-/* import Dropzone from "react-dropzone" */
+import Dropzone from "react-dropzone"
 import cuid from "cuid"
 import styled from "styled-components"
 import {courseCreateSchema} from "@utterzone/common"
-/* import {history} from "@utterzone/connector" */
 import CryptoJS from "crypto-js"
-import languageData from "../../../data/languageData.js"
+import {groupedOptions} from "../../../data/language-data.js"
 import {
-  /*   Flex, */
   FormikInput,
   FormikTextArea,
-  /*   Img, */
-  /*   LoadingButton, */
+  Img,
+  LoadingButton,
   Span
 } from "../../../components"
-/* import CourseResources from "../components/course-resources" */
+import CourseResources from "../components/course-resources"
 import Teaching from "./teaching"
 import Using from "./using"
 
@@ -38,20 +37,6 @@ const DisplayCount = styled.div`
   right: 2%;
   top: 6px;
 `
-/* const StyledFlex = styled(Flex)` */
-/*   grid-area: ${props => props.gridarea}; */
-/*   margin: ${props => props.margin}; */
-/*   overflow: initial; */
-/*   position: relative; */
-
-/*   @media (min-width: 1080px) { */
-/*     margin: ${props => props.margin1080}; */
-/*   } */
-/* ` */
-/* StyledFlex.defaultProps = { */
-/*   margin: "80px 0 0 0" */
-/* } */
-
 const StyledSpan = styled(Span)`
   display: none;
   font-size: 0.6rem;
@@ -364,7 +349,6 @@ class CourseCreate extends Component {
                   limit: 500kb
                 </Typography>
               </Grid>
-              {/*
               <Grid item xs={12}>
                 <div style={{margin: "50px", textAlign: "center"}}>
                   {!this.state.uploadedFilePreview ? (
@@ -381,24 +365,25 @@ class CourseCreate extends Component {
                   <p>{this.state.uploadedFile.name}</p>
                   {!this.state.disabled && <div />}
                   <Dropzone
-                    style={{
-                      margin: "50px auto",
-                      padding: "3px",
-                      position: "relative",
-                      width: "200px",
-                      height: "100px",
-                      borderWidth: "2px",
-                      borderColor: "rgb(102, 102, 102)",
-                      borderStyle: "dashed",
-                      borderRadius: "5px"
-                    }}
                     maxSize={500000}
                     multiple={false}
                     accept="image/*"
                     onDrop={this.onImageDrop}>
                     {({getRootProps, getInputProps}) => (
                       <section>
-                        <div {...getRootProps()}>
+                        <div
+                          style={{
+                            margin: "50px auto",
+                            padding: "3px",
+                            position: "relative",
+                            width: "200px",
+                            height: "100px",
+                            borderWidth: "2px",
+                            borderColor: "rgb(102, 102, 102)",
+                            borderStyle: "dashed",
+                            borderRadius: "5px"
+                          }}
+                          {...getRootProps()}>
                           <input {...getInputProps()} />
                           <p>
                             Drop an image or click to select a file to upload.
@@ -409,7 +394,6 @@ class CourseCreate extends Component {
                   </Dropzone>{" "}
                 </div>
               </Grid>
-							*/}
               <Grid item xs={12}>
                 <Typography
                   align="left"
@@ -468,7 +452,7 @@ class CourseCreate extends Component {
                   name="usingLang"
                   component={Using}
                   addUsingLang={this.addUsingLang}
-                  options={languageData}
+                  options={groupedOptions}
                 />
                 <Typography
                   align="left"
@@ -481,16 +465,15 @@ class CourseCreate extends Component {
                   name="teachingLang"
                   component={Teaching}
                   addTeachingLang={this.addTeachingLang}
-                  options={languageData}
+                  options={groupedOptions}
                 />
                 <Typography
                   align="left"
                   variant="h6"
                   className={classes.subHeading}
                   gutterBottom>
-                  Resources
+                  Resource
                 </Typography>
-                {/*
                 <p>ie. Book, Classroom, Online Course</p>
                 <CourseResources addResources={this.addResources} />
                 <Grid
@@ -510,7 +493,6 @@ class CourseCreate extends Component {
                     Create Course
                   </LoadingButton>
                 </Grid>
-								*/}
               </Grid>
             </Grid>
           </main>
@@ -520,7 +502,10 @@ class CourseCreate extends Component {
   }
 }
 
-export default compose(graphql(COURSE_CREATE, {name: "courseCreate"}))(
+export default compose(
+  graphql(COURSE_CREATE, {name: "courseCreate"}),
+  withRouter
+)(
   withFormik({
     validationSchema: courseCreateSchema,
     validateOnChange: false,
@@ -561,7 +546,7 @@ export default compose(graphql(COURSE_CREATE, {name: "courseCreate"}))(
 
       const onComplete = course => {
         session.course = course.data.courseCreate
-        history.push({
+        this.props.history.push({
           pathname: "/course/course-settings",
           state: {courseId: course.data.courseCreate._id}
         })
