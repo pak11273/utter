@@ -216,8 +216,13 @@ const getCreatedCourses = async (_, args, ctx, info) => {
     }
 
     const courses = await Course.find(query)
+      .lean()
       .limit(3)
       .sort({_id: -1})
+
+    if (isEmpty(courses)) {
+      return {courses: [], cursor: "done"}
+    }
 
     const convertedCourses = courses.map(course => {
       return {
@@ -226,6 +231,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
         owner: userById.bind(this, course._doc.owner)
       }
     })
+
     const lastCourse = await Course.findOne().sort({field: "asc", _id: 1}) //TODO: index?
     cursor = convertedCourses[convertedCourses.length - 1]._id
 
