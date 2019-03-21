@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react"
-import {connect} from "react-redux"
-import {Link as RouterLink} from "react-router-dom"
+import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
 import {session} from "brownies"
 
@@ -22,10 +21,7 @@ import cloneDeep from "lodash/cloneDeep"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
-import {history} from "@utterzone/connector"
-import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 /* import isEmpty from "lodash/isEmpty" */
-import "react-select/dist/react-select.css"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -148,15 +144,11 @@ const initialState = {
 class CoursesCreatedContainer extends PureComponent {
   state = cloneDeep(initialState)
 
-  componentDidMount() {
-    this.props.toggleFooter(false)
-  }
-
   handleImageClick = card => {
     session.course = card
 
-    history.push({
-      pathname: "/course/course-introduction",
+    this.props.history.push({
+      pathname: "/course/course-settings",
       state: {courseId: card._id}
     })
   }
@@ -208,7 +200,7 @@ class CoursesCreatedContainer extends PureComponent {
                     align="center"
                     color="textPrimary"
                     gutterBottom>
-                    Edit one of your Courses
+                    Edit one of your courses
                   </Typography>
                 </div>
               </div>
@@ -233,7 +225,9 @@ class CoursesCreatedContainer extends PureComponent {
                     return (
                       <Grid>
                         {error.graphQLErrors.map(({message}, i) => (
-                          <GraphError mappedKey={i}>{message}</GraphError>
+                          <GraphError key={i} mappedKey={i}>
+                            {message}
+                          </GraphError>
                         ))}
                       </Grid>
                     )
@@ -337,13 +331,4 @@ class CoursesCreatedContainer extends PureComponent {
   }
 }
 
-const mapDispatchToProps = () => {
-  return {
-    toggleFooter
-  }
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(withStyles(styles)(CoursesCreatedContainer))
+export default withRouter(withStyles(styles)(CoursesCreatedContainer))

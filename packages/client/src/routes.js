@@ -32,11 +32,21 @@ const getContact = Loadable({
   delay: 200
 })
 
+const getCourseCtrl = Loadable({
+  loader: () => import("./layouts/courses/containers/course-create.js"),
+  loading: Loading
+})
+
 /* const getCourseIntroduction = Loadable({ */
 /*   loader: () => import("./layouts/courses/containers/course-introduction.js"), */
 /*   loading: Loading, */
 /*   delay: 200 */
 /* }) */
+const getCoursesCreated = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'courses-created' */ "./layouts/courses/containers/courses-created.js"),
+  loading: Loading
+})
 
 const getCourseUpdate = Loadable({
   loader: () => import("./layouts/courses/containers/course-update.js"),
@@ -148,6 +158,16 @@ export const routes = [
     component: getCourses,
     exact: true,
     path: "/courses"
+  },
+  {
+    component: requireAuth(getCoursesCreated),
+    exact: true,
+    path: "/courses/created"
+  },
+  {
+    component: requireAuth(getCourseCtrl),
+    exact: true,
+    path: "/courses/create"
   },
   {
     component: getCourseSettings,
