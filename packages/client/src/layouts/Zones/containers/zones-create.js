@@ -1,6 +1,5 @@
 import React, {Component} from "react"
 import {Helmet} from "react-helmet"
-import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -10,7 +9,6 @@ import {withStyles} from "@material-ui/core/styles"
 
 import {Field, withFormik} from "formik"
 /* import update from "immutability-helper" */
-import schema from "../../../core/schema.js"
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled from "styled-components"
@@ -24,10 +22,6 @@ import {
   FormikTextArea,
   Span
 } from "../../../components"
-
-// actions
-import {loadData} from "../../../api/actions.js"
-import {toggleFooter} from "../../../core/actions/toggle-footer-action"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;
@@ -129,14 +123,8 @@ class ZoneCreate extends Component {
   }
 
   componentDidMount() {
-    this.props.toggleFooter(false)
-
     // clear state
     this.setState(initialState)
-  }
-
-  componentWillUnmount() {
-    this.props.toggleFooter(true)
   }
 
   onChange = e => {
@@ -434,66 +422,47 @@ class ZoneCreate extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User} = session
-  const userObj = User.all().toRefArray()
-  var user = userObj[0]
-  return {
-    user
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  {
-    loadData,
-    toggleFooter
-  }
-)(
-  withFormik({
-    validationSchema: zoneCreateSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      ageGroup: "",
-      app: "",
-      appLevel: 1,
-      course: "",
-      courseLevel: "",
-      owner: "",
-      resources: "",
-      zoneName: "",
-      zoneImage:
-        "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
-      zoneDescription: ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const result = await props.submit(values)
-      const chatHistory = []
-      const onComplete = result => {
-        history.push({
-          pathname: `/zone/${result.zoneCreate.id}`,
-          state: {chatHistory, zoneId: result.zoneCreate.id}
-        })
-        console.log("result: ", result.zoneCreate)
-        props.loadData({zone: result.zoneCreate})
-      }
-
-      // if create is legit
-      if (result) {
-        onComplete(result)
-        props.addFlashMessage({
-          type: "success",
-          text: "Zone successfully created!"
-        })
-      } else {
-        setErrors(result.zoneCreate.errors)
-        props.addFlashMessage({
-          type: "error",
-          text: "Could not create a zone. Please contact technical support."
-        })
-      }
+export default withFormik({
+  validationSchema: zoneCreateSchema,
+  validateOnChange: false,
+  validateOnBlur: false,
+  mapPropsToValues: () => ({
+    ageGroup: "",
+    app: "",
+    appLevel: 1,
+    course: "",
+    courseLevel: "",
+    owner: "",
+    resources: "",
+    zoneName: "",
+    zoneImage:
+      "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
+    zoneDescription: ""
+  }),
+  handleSubmit: async (values, {props, setErrors}) => {
+    const result = await props.submit(values)
+    const chatHistory = []
+    const onComplete = result => {
+      history.push({
+        pathname: `/zone/${result.zoneCreate.id}`,
+        state: {chatHistory, zoneId: result.zoneCreate.id}
+      })
+      console.log("result: ", result.zoneCreate)
     }
-  })(withStyles(styles)(ZoneCreate))
-)
+
+    // if create is legit
+    if (result) {
+      onComplete(result)
+      props.addFlashMessage({
+        type: "success",
+        text: "Zone successfully created!"
+      })
+    } else {
+      setErrors(result.zoneCreate.errors)
+      props.addFlashMessage({
+        type: "error",
+        text: "Could not create a zone. Please contact technical support."
+      })
+    }
+  }
+})(withStyles(styles)(ZoneCreate))

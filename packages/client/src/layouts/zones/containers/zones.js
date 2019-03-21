@@ -1,6 +1,5 @@
 /* eslint react/no-did-update-set-state: 0 */
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import {Link as RouterLink} from "react-router-dom"
 import ReactSelect from "react-select"
 import {Helmet} from "react-helmet"
@@ -22,13 +21,7 @@ import ZonesGrid from "./zones-grid.js"
 import update from "immutability-helper"
 import {Spacer} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
-import {history} from "@utterzone/connector"
-import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
 import languageData from "../../../data/languageData.js"
-
-// actions
-import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
-import {loadData} from "../../../api/actions.js"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -145,7 +138,6 @@ class ZonesContainer extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
-    this.props.toggleFooter(false)
     // TODO when we put zones to redis then redo this
     /* this.getZones() */
   }
@@ -155,7 +147,6 @@ class ZonesContainer extends Component {
       pathname: `/zone/${card.id}`,
       state: {zoneId: card.id}
     })
-    this.props.loadData({zone: card})
   }
 
   /* getZones = () => { */
@@ -486,12 +477,4 @@ class ZonesContainer extends Component {
   }
 }
 
-const actions = {
-  loadData,
-  toggleFooter
-}
-
-export default connect(
-  null,
-  actions
-)(withStyles(styles)(ZonesContainer))
+export default withStyles(styles)(ZonesContainer)

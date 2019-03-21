@@ -52,6 +52,7 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, args, ctx, info) => {
+  console.log("ARGS: ", args)
   // build query object
   const query = {}
   var zoneName, resources, owner, usingLang, teachingLang, app, appLevel

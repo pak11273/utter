@@ -87,6 +87,16 @@ const getSignup = Loadable({
   delay: 200
 })
 
+const getZoneCtrl = Loadable({
+  loader: () => import("./layouts/zones/containers/zone-controller.js"),
+  loading: Loading
+})
+
+const getZones = Loadable({
+  loader: () => import("./layouts/zones/containers/zones.js"),
+  loading: Loading
+})
+
 /* const getResetPassword = Loadable({ */
 /*   loader: () => */
 /*     import(/1* webpackChunkName: 'reset-password' *1/ "./layouts/reset-password.js"), */
@@ -167,6 +177,16 @@ export const routes = [
     component: getLogin,
     exact: true,
     path: "/login"
+  },
+  {
+    component: requireAuth(getZoneCtrl),
+    exact: true,
+    path: "/zones/create"
+  },
+  {
+    exact: true,
+    path: "/zones",
+    component: getZones
   }
   /* { */
   /*   path: "/reset-password", */

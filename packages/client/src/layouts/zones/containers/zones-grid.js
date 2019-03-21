@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react"
-import Waypoint from "react-waypoint"
+import {Waypoint} from "react-waypoint"
 
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
