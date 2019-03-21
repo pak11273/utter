@@ -35,10 +35,10 @@ class Teaching extends Component {
 
   updateValue = newValue => {
     this.setState({
-      selectValue: newValue
+      selectValue: newValue.value
     })
-    this.props.addTeachingLang(newValue)
-    this.props.form.setFieldValue(this.props.field.name, newValue)
+    this.props.addTeachingLang(newValue.value)
+    this.props.form.setFieldValue(this.props.field.name, newValue.value)
   }
 
   render() {

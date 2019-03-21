@@ -86,7 +86,6 @@ const userById = async userId => {
 }
 
 const getCourse = async (_, args, {user}) => {
-  console.log("args: ", args)
   const course = await Course.findById(args._id)
     .lean()
     .exec()
@@ -135,6 +134,7 @@ const courseUpdate = async (_, args, ctx) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
+  console.log("ARGS: ", args)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
