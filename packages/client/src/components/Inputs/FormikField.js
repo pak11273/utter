@@ -72,7 +72,7 @@ export class FormikSelect extends PureComponent {
     this.setState({
       selectValue: newValue
     })
-    this.props.form.setFieldValue(this.props.field.name, newValue)
+    this.props.form.setFieldValue(this.props.field.name, newValue.value)
   }
 
   render() {
