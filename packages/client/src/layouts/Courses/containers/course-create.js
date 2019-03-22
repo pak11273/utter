@@ -229,69 +229,6 @@ class CourseCreate extends Component {
     }
   }
 
-  handleImageUpload(files) {
-    // remove previous files from cdn
-    if (!isEmpty(this.state.uploadedFile)) {
-      this.handleImageDelete(this.state)
-    }
-
-    var file = files[0]
-    var formdata = new FormData()
-
-    formdata.append("file", file)
-    formdata.append("cloud_name", process.env.CLOUDINARY_CLOUD_NAME)
-    formdata.append("upload_preset", process.env.CLOUDINARY_UPLOAD_PRESET)
-
-    // NOTE: You need to add the event listeners before calling open() on the request. Otherwise the progress events will not fire.
-
-    var xhr = new XMLHttpRequest()
-
-    xhr.addEventListener("progress", () => {
-      this.setState({
-        disabled: true,
-        loading: true
-      })
-    })
-
-    xhr.addEventListener("load", () => {
-      this.setState({
-        disabled: false,
-        loading: false
-      })
-    })
-
-    xhr.open(
-      "POST",
-      `https://api.cloudinary.com/v1_1/${
-        process.env.CLOUDINARY_CLOUD_NAME
-      }/image/upload`,
-      true
-    )
-
-    xhr.onreadystatechange = () => {
-      if (xhr.readyState === 4) {
-        const data = JSON.parse(xhr.response)
-        this.setState(
-          {
-            courseImage: data.secure_url,
-            public_id: data.public_id,
-            secure_url: data.secure_url,
-            signature: data.signature,
-            url: data.url
-          },
-          () => {
-            this.props.setValues({
-              ...this.props.values,
-              courseImage: data.secure_url
-            })
-          }
-        )
-      }
-    }
-
-    xhr.send(formdata)
-  }
-
   render() {
     const {classes, handleSubmit} = this.props
     const {courseName, courseDescription} = this.props.values
@@ -345,7 +282,7 @@ class CourseCreate extends Component {
                   Course Thumbnail
                 </Typography>
                 <Typography align="left" variant="body1" gutterBottom>
-                  Format: png or jpg, Dimensions: ~300pxx300px, Maximum size
+                  Format: png or jpg, Dimensions: ~300px by 300px, Maximum size
                   limit: 500kb
                 </Typography>
               </Grid>
@@ -488,8 +425,8 @@ class CourseCreate extends Component {
                     color="secondary"
                     type="submit"
                     size="large"
-                    loading={this.state.loading}
-                    disabled={this.state.loading}>
+                    loading={this.props.status && this.props.status.loading}
+                    disabled={this.props.status && this.props.status.loading}>
                     Create Course
                   </LoadingButton>
                 </Grid>
@@ -520,7 +457,8 @@ export default compose(
       teachingLang: "",
       usingLang: ""
     }),
-    handleSubmit: async (values, {props, setErrors}) => {
+    handleSubmit: async (values, {props, setStatus, setErrors}) => {
+      setStatus({loading: true})
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,
         "image",
@@ -545,8 +483,9 @@ export default compose(
       })
 
       const onComplete = course => {
+        setStatus({loading: false})
         session.course = course.data.courseCreate
-        this.props.history.push({
+        props.history.push({
           pathname: "/course/course-settings",
           state: {courseId: course.data.courseCreate._id}
         })

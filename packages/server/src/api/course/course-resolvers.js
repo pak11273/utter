@@ -69,8 +69,10 @@ const mongooseToJs = object => {
 */
 
 const userById = async userId => {
+  console.log("userId: ", userId)
   try {
     const user = await User.findById(userId).lean()
+    console.log("user: ", user)
     if (user) {
       return {
         ...user,
@@ -134,7 +136,7 @@ const courseUpdate = async (_, args, ctx) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
-  console.log("ARGS: ", args)
+  console.log("args: ", args)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
@@ -217,7 +219,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 
     const courses = await Course.find(query)
       .lean()
-      .limit(3)
+      /* .limit(3) */
       .sort({_id: -1})
 
     if (isEmpty(courses)) {
@@ -226,9 +228,8 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 
     const convertedCourses = courses.map(course => {
       return {
-        ...course._doc,
-        _id: course.id,
-        owner: userById.bind(this, course._doc.owner)
+        ...course,
+        owner: userById.bind(this, course.owner)
       }
     })
 

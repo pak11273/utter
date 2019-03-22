@@ -9,10 +9,11 @@ import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
+import CircularProgress from "@material-ui/core/CircularProgress"
 import Drawer from "@material-ui/core/Drawer"
 import Grid from "@material-ui/core/Grid"
 import Link from "@material-ui/core/Link"
-import {GraphError, Spacer, LoaderCircle} from "../../../components"
+import {GraphError, Spacer} from "../../../components"
 import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 import cloneDeep from "lodash/cloneDeep"
@@ -213,14 +214,17 @@ class CoursesCreatedContainer extends PureComponent {
                 variables={{
                   cursor: ""
                 }}>
-                {({loading, data, error, fetchMore}) => {
+                {({loading, data, error}) => {
                   if (loading)
                     return (
-                      <Grid style={{textAlign: "center", margin: "160px"}}>
-                        <LoaderCircle />
+                      <Grid
+                        container
+                        alignContent="center"
+                        justify="center"
+                        style={{height: "300px"}}>
+                        <CircularProgress style={{color: "grey"}} />
                       </Grid>
                     )
-
                   if (error) {
                     return (
                       <Grid>
@@ -277,6 +281,7 @@ class CoursesCreatedContainer extends PureComponent {
                           ))}
                         </Grid>
                       </div>
+                      {/*
                       {data.getCreatedCourses &&
                         data.getCreatedCourses.cursor !== "done" && (
                           <Button
@@ -318,7 +323,7 @@ class CoursesCreatedContainer extends PureComponent {
                             }>
                             Load More
                           </Button>
-                        )}
+                        )} */}
                     </div>
                   )
                 }}
