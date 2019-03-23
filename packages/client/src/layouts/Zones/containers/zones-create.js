@@ -16,11 +16,11 @@ import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"
-/* import appData from "../../../data/appData.js" */
+import appData from "../../../data/appData.js"
 import {
   /*   Flex, */
   FormikInput,
-  /*   FormikSelect, */
+  FormikSelect,
   FormikTextArea,
   Span
 } from "../../../components"
@@ -267,7 +267,6 @@ class ZoneCreate extends Component {
                   variant="outlined"
                 />
               </Grid>
-              {/*
               <Grid item xs={12}>
                 <Typography
                   align="left"
@@ -444,6 +443,7 @@ class ZoneCreate extends Component {
                   ]}
                 />
               </Grid>
+              {/*
               <Grid item xs={12} align="center">
                 <Button
                   variant="contained"
