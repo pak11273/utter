@@ -6,43 +6,43 @@ import Grid from "@material-ui/core/Grid"
 /* /1* import TextField from "@material-ui/core/TextField" *1/ */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-/* import {compose, graphql} from "react-apollo" */
+import {compose} from "react-apollo"
 
-/* import {Field} from "formik" */
-/* import {withFormik} from "formik" */
+import {Field} from "formik"
+import {withFormik} from "formik"
 /* import gql from "graphql-tag" */
 /* /1* import update from "immutability-helper" *1/ */
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
-/* import styled from "styled-components" */
-/* import {zoneCreateSchema} from "@utterzone/common" */
+import styled from "styled-components"
+import {zoneCreateSchema} from "@utterzone/common"
 /* import appData from "../../../data/appData.js" */
-/* import { */
-/*   Flex, */
-/*   FormikInput, */
-/*   FormikSelect, */
-/*   FormikTextArea, */
-/*   Span */
-/* } from "../../../components" */
+import {
+  /*   Flex, */
+  FormikInput,
+  /*   FormikSelect, */
+  FormikTextArea,
+  Span
+} from "../../../components"
 
-/* const DisplayCount = styled.div` */
-/*   font-size: 0.8rem; */
-/*   position: absolute; */
-/*   right: 2%; */
-/*   top: 6px; */
+const DisplayCount = styled.div`
+  font-size: 0.8rem;
+  position: absolute;
+  right: 2%;
+  top: 6px;
 
-/*   @media (min-width: 330px) { */
-/*     right: 10%; */
-/*   } */
+  @media (min-width: 330px) {
+    right: 10%;
+  }
 
-/*   @media (min-width: 640px) { */
-/*     right: 2%; */
-/*   } */
+  @media (min-width: 640px) {
+    right: 2%;
+  }
 
-/*   @media (min-width: 740px) { */
-/*     right: 10%; */
-/*   } */
-/* ` */
+  @media (min-width: 740px) {
+    right: 10%;
+  }
+`
 /* const StyledFlex = styled(Flex)` */
 /*   grid-area: ${props => props.gridarea}; */
 /*   margin: ${props => props.margin}; */
@@ -57,15 +57,15 @@ import cuid from "cuid"
 /*   margin: "80px 0 0 0" */
 /* } */
 
-/* const StyledSpan = styled(Span)` */
-/*   display: none; */
-/*   font-size: 0.6rem; */
-/*   padding: 0 0 0 10px; */
+const StyledSpan = styled(Span)`
+  display: none;
+  font-size: 0.6rem;
+  padding: 0 0 0 10px;
 
-/*   @media (min-width: 640px) { */
-/*     display: ${props => props.display640}; */
-/*   } */
-/* ` */
+  @media (min-width: 640px) {
+    display: ${props => props.display640};
+  }
+`
 /* const ZONE_CREATE_MUTATION = gql` */
 /*   mutation zoneCreate( */
 /*     $app: String */
@@ -177,7 +177,7 @@ class ZoneCreate extends Component {
 
   render() {
     const {classes, handleSubmit} = this.props
-    /* const {zoneName, zoneDescription} = this.props.values */
+    const {zoneName, zoneDescription} = this.props.values
 
     return (
       <React.Fragment>
@@ -220,7 +220,6 @@ class ZoneCreate extends Component {
           </div>
           <main className={classes.content}>
             <Grid container spacing={24}>
-              {/*
               <Grid item xs={12}>
                 <Typography
                   align="left"
@@ -268,6 +267,7 @@ class ZoneCreate extends Component {
                   variant="outlined"
                 />
               </Grid>
+              {/*
               <Grid item xs={12}>
                 <Typography
                   align="left"
@@ -464,7 +464,27 @@ class ZoneCreate extends Component {
   }
 }
 
-export default withStyles(styles)(ZoneCreate)
+export default compose(
+  withFormik({
+    validationSchema: zoneCreateSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      ageGroup: "",
+      app: "",
+      appLevel: 1,
+      course: "",
+      courseLevel: "",
+      owner: "",
+      resources: "",
+      zoneName: "",
+      zoneImage:
+        "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
+      zoneDescription: ""
+    })
+  }),
+  withStyles(styles)
+)(ZoneCreate)
 
 /* export default compose( */
 /*   graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}), */
