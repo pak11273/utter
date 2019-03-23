@@ -1,69 +1,111 @@
 import React, {Component} from "react"
 import {Helmet} from "react-helmet"
 
-import Button from "@material-ui/core/Button"
+/* import Button from "@material-ui/core/Button" */
 import Grid from "@material-ui/core/Grid"
-/* import TextField from "@material-ui/core/TextField" */
+/* /1* import TextField from "@material-ui/core/TextField" *1/ */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
+/* import {compose, graphql} from "react-apollo" */
 
-import {Field, withFormik} from "formik"
-/* import update from "immutability-helper" */
+/* import {Field} from "formik" */
+/* import {withFormik} from "formik" */
+/* import gql from "graphql-tag" */
+/* /1* import update from "immutability-helper" *1/ */
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
-import styled from "styled-components"
-import {zoneCreateSchema} from "@utterzone/common"
-import appData from "../../../data/appData.js"
-import {history} from "@utterzone/connector"
-import {
-  Flex,
-  FormikInput,
-  FormikSelect,
-  FormikTextArea,
-  Span
-} from "../../../components"
+/* import styled from "styled-components" */
+/* import {zoneCreateSchema} from "@utterzone/common" */
+/* import appData from "../../../data/appData.js" */
+/* import { */
+/*   Flex, */
+/*   FormikInput, */
+/*   FormikSelect, */
+/*   FormikTextArea, */
+/*   Span */
+/* } from "../../../components" */
 
-const DisplayCount = styled.div`
-  font-size: 0.8rem;
-  position: absolute;
-  right: 2%;
-  top: 6px;
+/* const DisplayCount = styled.div` */
+/*   font-size: 0.8rem; */
+/*   position: absolute; */
+/*   right: 2%; */
+/*   top: 6px; */
 
-  @media (min-width: 330px) {
-    right: 10%;
-  }
+/*   @media (min-width: 330px) { */
+/*     right: 10%; */
+/*   } */
 
-  @media (min-width: 640px) {
-    right: 2%;
-  }
+/*   @media (min-width: 640px) { */
+/*     right: 2%; */
+/*   } */
 
-  @media (min-width: 740px) {
-    right: 10%;
-  }
-`
-const StyledFlex = styled(Flex)`
-  grid-area: ${props => props.gridarea};
-  margin: ${props => props.margin};
-  overflow: initial;
-  position: relative;
+/*   @media (min-width: 740px) { */
+/*     right: 10%; */
+/*   } */
+/* ` */
+/* const StyledFlex = styled(Flex)` */
+/*   grid-area: ${props => props.gridarea}; */
+/*   margin: ${props => props.margin}; */
+/*   overflow: initial; */
+/*   position: relative; */
 
-  @media (min-width: 1080px) {
-    margin: ${props => props.margin1080};
-  }
-`
-StyledFlex.defaultProps = {
-  margin: "80px 0 0 0"
-}
+/*   @media (min-width: 1080px) { */
+/*     margin: ${props => props.margin1080}; */
+/*   } */
+/* ` */
+/* StyledFlex.defaultProps = { */
+/*   margin: "80px 0 0 0" */
+/* } */
 
-const StyledSpan = styled(Span)`
-  display: none;
-  font-size: 0.6rem;
-  padding: 0 0 0 10px;
+/* const StyledSpan = styled(Span)` */
+/*   display: none; */
+/*   font-size: 0.6rem; */
+/*   padding: 0 0 0 10px; */
 
-  @media (min-width: 640px) {
-    display: ${props => props.display640};
-  }
-`
+/*   @media (min-width: 640px) { */
+/*     display: ${props => props.display640}; */
+/*   } */
+/* ` */
+/* const ZONE_CREATE_MUTATION = gql` */
+/*   mutation zoneCreate( */
+/*     $app: String */
+/*     $courseLevel: Int */
+/*     $ageGroup: String! */
+/*     $owner: String! */
+/*     $resources: String */
+/*     $zoneName: String! */
+/*     $zoneImage: String */
+/*     $zoneDescription: String */
+/*     $teachingLang: String */
+/*     $usingLang: String */
+/*   ) { */
+/*     zoneCreate( */
+/*       input: { */
+/*         app: $app */
+/*         courseLevel: $courseLevel */
+/*         ageGroup: $ageGroup */
+/*         owner: $owner */
+/*         resources: $resources */
+/*         zoneName: $zoneName */
+/*         zoneImage: $zoneImage */
+/*         zoneDescription: $zoneDescription */
+/*         teachingLang: $teachingLang */
+/*         usingLang: $usingLang */
+/*       } */
+/*     ) { */
+/*       id */
+/*       app */
+/*       courseLevel */
+/*       ageGroup */
+/*       resources */
+/*       zoneName */
+/*       zoneDescription */
+/*       owner { */
+/*         username */
+/*       } */
+/*     } */
+/*   } */
+/* ` */
 const initialState = {
   ageGroup: "Any age",
   cdn: {},
@@ -135,7 +177,7 @@ class ZoneCreate extends Component {
 
   render() {
     const {classes, handleSubmit} = this.props
-    const {zoneName, zoneDescription} = this.props.values
+    /* const {zoneName, zoneDescription} = this.props.values */
 
     return (
       <React.Fragment>
@@ -154,7 +196,6 @@ class ZoneCreate extends Component {
             <title>Utterzone | Create a Zone</title>
             <link rel="canonical" href="https://utterzone.com/zone/create" />
           </Helmet>
-          {/* Hero unit */}
           <div className={classes.heroUnit}>
             <div className={classes.heroContent}>
               <Grid container justify="center" direction="column">
@@ -177,9 +218,9 @@ class ZoneCreate extends Component {
               </Grid>
             </div>
           </div>
-          {/* End hero unit */}
           <main className={classes.content}>
             <Grid container spacing={24}>
+              {/*
               <Grid item xs={12}>
                 <Typography
                   align="left"
@@ -414,6 +455,7 @@ class ZoneCreate extends Component {
                   Create Zone
                 </Button>
               </Grid>
+          */}
             </Grid>
           </main>
         </form>
@@ -422,47 +464,54 @@ class ZoneCreate extends Component {
   }
 }
 
-export default withFormik({
-  validationSchema: zoneCreateSchema,
-  validateOnChange: false,
-  validateOnBlur: false,
-  mapPropsToValues: () => ({
-    ageGroup: "",
-    app: "",
-    appLevel: 1,
-    course: "",
-    courseLevel: "",
-    owner: "",
-    resources: "",
-    zoneName: "",
-    zoneImage:
-      "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
-    zoneDescription: ""
-  }),
-  handleSubmit: async (values, {props, setErrors}) => {
-    const result = await props.submit(values)
-    const chatHistory = []
-    const onComplete = result => {
-      history.push({
-        pathname: `/zone/${result.zoneCreate.id}`,
-        state: {chatHistory, zoneId: result.zoneCreate.id}
-      })
-      console.log("result: ", result.zoneCreate)
-    }
+export default withStyles(styles)(ZoneCreate)
 
-    // if create is legit
-    if (result) {
-      onComplete(result)
-      props.addFlashMessage({
-        type: "success",
-        text: "Zone successfully created!"
-      })
-    } else {
-      setErrors(result.zoneCreate.errors)
-      props.addFlashMessage({
-        type: "error",
-        text: "Could not create a zone. Please contact technical support."
-      })
-    }
-  }
-})(withStyles(styles)(ZoneCreate))
+/* export default compose( */
+/*   graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}), */
+/*   withFormik({ */
+/*     validationSchema: zoneCreateSchema, */
+/*     validateOnChange: false, */
+/*     validateOnBlur: false, */
+/*     mapPropsToValues: () => ({ */
+/*       ageGroup: "", */
+/*       app: "", */
+/*       appLevel: 1, */
+/*       course: "", */
+/*       courseLevel: "", */
+/*       owner: "", */
+/*       resources: "", */
+/*       zoneName: "", */
+/*       zoneImage: */
+/*         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk", */
+/*       zoneDescription: "" */
+/*     }) */
+/*     /1* handleSubmit: async (values, {props}) => { *1/ */
+/*     /1*   console.log("props: ", props) *1/ */
+/*     /1*   console.log("values: ", values) *1/ */
+/*     /1* const result = await props.submit(values) *1/ */
+/*     /1* const chatHistory = [] *1/ */
+/*     /1* const onComplete = result => { *1/ */
+/*     /1*   history.push({ *1/ */
+/*     /1*     pathname: `/zone/${result.zoneCreate.id}`, *1/ */
+/*     /1*     state: {chatHistory, zoneId: result.zoneCreate.id} *1/ */
+/*     /1*   }) *1/ */
+/*     /1*   console.log("result: ", result.zoneCreate) *1/ */
+/*     /1* } *1/ */
+
+/*     // if create is legit */
+/*     /1* if (result) { *1/ */
+/*     /1*   onComplete(result) *1/ */
+/*     /1*   props.addFlashMessage({ *1/ */
+/*     /1*     type: "success", *1/ */
+/*     /1*     text: "Zone successfully created!" *1/ */
+/*     /1*   }) *1/ */
+/*     /1* } else { *1/ */
+/*     /1*   setErrors(result.zoneCreate.errors) *1/ */
+/*     /1*   props.addFlashMessage({ *1/ */
+/*     /1*     type: "error", *1/ */
+/*     /1*     text: "Could not create a zone. Please contact technical support." *1/ */
+/*     /1*   }) *1/ */
+/*     /1* } *1/ */
+/*     /1* } *1/ */
+/*   })(withStyles(styles)(ZoneCreate)) */
+/* ) */

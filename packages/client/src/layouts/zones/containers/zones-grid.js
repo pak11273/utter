@@ -233,7 +233,7 @@ class ZonesGrid extends PureComponent {
           if (this.state.cursor !== "done") {
             var waypoint = (
               <Waypoint
-                key={data.getZones.cursor}
+                key={data.getZones && data.getZones.cursor}
                 onEnter={() => {
                   // set cursor state to first response
                   const newState = update(this.state, {
@@ -293,9 +293,9 @@ class ZonesGrid extends PureComponent {
                     }
                   })
                 }}>
-                <div>
+                {/* <div>
                   <Button>Scroll down for more</Button>
-                </div>
+                </div> */}
               </Waypoint>
             )
           }
@@ -303,65 +303,66 @@ class ZonesGrid extends PureComponent {
             <div>
               <div className={classNames(classes.layout, classes.cardGrid)}>
                 <Grid container spacing={8}>
-                  {data.getZones.zones.map(card => (
-                    <Grid item key={card.id} xs={12} sm={12} md={3} lg={2}>
-                      <Card className={classes.card}>
-                        <CardContent className={classes.cardContent}>
-                          <Typography
-                            className={classes.cardTitle}
-                            gutterBottom
-                            variant="h6"
-                            component="h6">
-                            {card.zoneName}
-                          </Typography>
-                          <Typography
-                            className={classes.cardDescription}
-                            gutterBottom
-                            component="p">
-                            {card.zoneDescription}
-                          </Typography>
-                          <Typography
-                            className={classes.cardUsername}
-                            gutterBottom
-                            variant="caption">
-                            by: {card.owner.username}
-                          </Typography>
-                        </CardContent>
-                        <div style={{padding: "0 0 0 20px"}}>
-                          App: {card.app}
-                        </div>
-                        <div style={{padding: "0 0 0 20px"}}>
-                          Course: {card.zoneRef}
-                        </div>
-                        <div style={{padding: "0 0 0 20px"}}>
-                          Using: {card.usingLang}
-                        </div>
-                        <div style={{padding: "0 0 0 20px"}}>
-                          Teaching: {card.teachingLang}
-                        </div>
-                        {/* <div
+                  {data.getZones &&
+                    data.getZones.zones.map(card => (
+                      <Grid item key={card.id} xs={12} sm={12} md={3} lg={2}>
+                        <Card className={classes.card}>
+                          <CardContent className={classes.cardContent}>
+                            <Typography
+                              className={classes.cardTitle}
+                              gutterBottom
+                              variant="h6"
+                              component="h6">
+                              {card.zoneName}
+                            </Typography>
+                            <Typography
+                              className={classes.cardDescription}
+                              gutterBottom
+                              component="p">
+                              {card.zoneDescription}
+                            </Typography>
+                            <Typography
+                              className={classes.cardUsername}
+                              gutterBottom
+                              variant="caption">
+                              by: {card.owner.username}
+                            </Typography>
+                          </CardContent>
+                          <div style={{padding: "0 0 0 20px"}}>
+                            App: {card.app}
+                          </div>
+                          <div style={{padding: "0 0 0 20px"}}>
+                            Course: {card.zoneRef}
+                          </div>
+                          <div style={{padding: "0 0 0 20px"}}>
+                            Using: {card.usingLang}
+                          </div>
+                          <div style={{padding: "0 0 0 20px"}}>
+                            Teaching: {card.teachingLang}
+                          </div>
+                          {/* <div
                           style={{display: "flex", padding: "10px 0 0 20px"}}>
                           <PersonIcon />
                           <span>14</span>
                         </div> */}
-                        <CardActions className={classes.actions}>
-                          <Button
-                            color="secondary"
-                            size="small"
-                            onClick={this.ageRestrictionNotice}
-                            style={{margin: "10px 0"}}>
-                            {card.ageGroup}
-                          </Button>
-                          <Button
-                            onClick={this.props.onEnterZone(card)}
-                            size="large"
-                            className={classes.editButton}>
-                            ENTER
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  ))}
+                          <CardActions className={classes.actions}>
+                            <Button
+                              color="secondary"
+                              size="small"
+                              onClick={this.ageRestrictionNotice}
+                              style={{margin: "10px 0"}}>
+                              {card.ageGroup}
+                            </Button>
+                            <Button
+                              onClick={this.props.onEnterZone(card)}
+                              size="large"
+                              className={classes.editButton}>
+                              ENTER
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                    ))}
                 </Grid>
               </div>
               {waypoint}
