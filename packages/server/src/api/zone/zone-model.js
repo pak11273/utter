@@ -13,6 +13,12 @@ const ZoneSchema = mongoose.Schema(
       type: String,
       default: "Total Recall"
     },
+    banned: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
     courseLevel: {
       type: Number,
       default: 1

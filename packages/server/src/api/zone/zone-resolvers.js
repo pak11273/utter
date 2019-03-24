@@ -1,7 +1,6 @@
 import isEmpty from "lodash/isEmpty"
 import mongoose from "mongoose"
 import Zone from "./zone-model"
-import cuid from "cuid"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
@@ -37,43 +36,12 @@ const zoneUpdate = (_, {input}) => {
   return Zone.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const zoneCreate = async (_, args, {redis, url}, info) => {
+const zoneCreate = async (_, args, ctx, info) => {
   //TODO can't have duplicate zone names
   const {input} = args
   console.log("ingput: ", input)
-
-  redis.hmset(
-    cuid(),
-    [
-      "app",
-      input.app,
-      "ageGroup",
-      input.ageGroup,
-      "owner",
-      input.owner,
-      "resource",
-      input.resources,
-      "zoneImage",
-      imput.zoneImage,
-      "zoneName",
-      input.zoneName,
-      "zoneDescription",
-      input.zoneDescription
-    ],
-    (err, reply) => {
-      if (err) {
-        return err
-      }
-      console.log("reply: ", reply)
-      return reply
-    }
-  )
-  /* const redisToken = args.input.token */
-  /* const redisKey = `${confirmEmailPrefix}${redisToken}` */
-  /* const zoneId = await redis.set(input.key) */
-
-  /* const zone = await Zone.create(input) */
-  /* zone.id = zone._id */
+  const zone = await Zone.create(input)
+  zone.id = zone._id
   return zone
 }
 
@@ -83,21 +51,60 @@ const getZoneLevels = async (_, args, ctx, info) => {
   query.owner = ctx.user
 }
 
-const getZones = async (_, args, {redis, url}, info) => {
+const getZones = async (_, args, ctx, info) => {
   console.log("ARGS: ", args)
+  // build query object
+  const query = {}
+  var zoneName, resources, owner, usingLang, teachingLang, app, appLevel
 
-  /* let id = args.input.id */
+  args.zoneName
+    ? (query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi"))
+    : null
 
-  let id = "blah"
+  args.resources
+    ? (query.resources = new RegExp(escapeRegex(args.resources), "gi"))
+    : null
 
-  redis.hgetall(id, (err, obj) => {
-    if (!obj) {
-      return "No zones exist yet."
-    } else {
-      obj.id = id
-      return [{user: obj}]
-    }
-  })
+  if (args.owner) {
+    var owner = await Zone.findByUsername(args.owner, (err, docs) => {
+      if (err) {
+        // console.log doesn't work here
+      }
+      if (!isEmpty(docs)) {
+        var owner = docs._id
+        query.owner = owner
+      }
+    })
+  }
+
+  args.usingLang
+    ? (query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi"))
+    : null
+
+  args.teachingLang
+    ? (query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi"))
+    : null
+  // end query object
+
+  if (args.cursor) {
+    // type cast id, $lt is not the same in aggregate vs query
+    var cursor = mongoose.Types.ObjectId(args.cursor)
+    // add to query object
+    query._id = {$lt: cursor}
+  }
+
+  let result = await Zone.find(query)
+    .limit(12)
+    .sort({_id: -1})
+    .exec()
+
+  if (isEmpty(result)) {
+    console.log("done")
+    return {zones: [], cursor: "done"}
+  } else {
+    cursor = result[result.length - 1]._id
+    return {zones: result, cursor}
+  }
 }
 
 export const zoneResolvers = {

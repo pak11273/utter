@@ -1,16 +1,15 @@
 import React, {Component} from "react"
 import {Helmet} from "react-helmet"
 
-/* import Button from "@material-ui/core/Button" */
+import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 /* /1* import TextField from "@material-ui/core/TextField" *1/ */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {compose} from "react-apollo"
+import {compose, graphql} from "react-apollo"
 
-import {Field} from "formik"
-import {withFormik} from "formik"
-/* import gql from "graphql-tag" */
+import {Field, withFormik} from "formik"
+import gql from "graphql-tag"
 /* /1* import update from "immutability-helper" *1/ */
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
@@ -24,6 +23,7 @@ import {
   FormikTextArea,
   Span
 } from "../../../components"
+import {session} from "brownies"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;
@@ -66,53 +66,50 @@ const StyledSpan = styled(Span)`
     display: ${props => props.display640};
   }
 `
-/* const ZONE_CREATE_MUTATION = gql` */
-/*   mutation zoneCreate( */
-/*     $app: String */
-/*     $courseLevel: Int */
-/*     $ageGroup: String! */
-/*     $owner: String! */
-/*     $resources: String */
-/*     $zoneName: String! */
-/*     $zoneImage: String */
-/*     $zoneDescription: String */
-/*     $teachingLang: String */
-/*     $usingLang: String */
-/*   ) { */
-/*     zoneCreate( */
-/*       input: { */
-/*         app: $app */
-/*         courseLevel: $courseLevel */
-/*         ageGroup: $ageGroup */
-/*         owner: $owner */
-/*         resources: $resources */
-/*         zoneName: $zoneName */
-/*         zoneImage: $zoneImage */
-/*         zoneDescription: $zoneDescription */
-/*         teachingLang: $teachingLang */
-/*         usingLang: $usingLang */
-/*       } */
-/*     ) { */
-/*       id */
-/*       app */
-/*       courseLevel */
-/*       ageGroup */
-/*       resources */
-/*       zoneName */
-/*       zoneDescription */
-/*       owner { */
-/*         username */
-/*       } */
-/*     } */
-/*   } */
-/* ` */
+const ZONE_CREATE_MUTATION = gql`
+  mutation zoneCreate(
+    $app: String
+    $courseLevel: Int
+    $ageGroup: String!
+    $owner: String!
+    $resources: String
+    $zoneName: String!
+    $zoneDescription: String
+    $teachingLang: String
+    $usingLang: String
+  ) {
+    zoneCreate(
+      input: {
+        app: $app
+        courseLevel: $courseLevel
+        ageGroup: $ageGroup
+        owner: $owner
+        resources: $resources
+        zoneName: $zoneName
+        zoneDescription: $zoneDescription
+        teachingLang: $teachingLang
+        usingLang: $usingLang
+      }
+    ) {
+      id
+      app
+      courseLevel
+      ageGroup
+      resources
+      zoneName
+      zoneDescription
+      owner {
+        username
+      }
+    }
+  }
+`
 const initialState = {
   ageGroup: "Any age",
   cdn: {},
   charCount: 0,
   course: "",
   zoneId: cuid(),
-  zoneImage: "",
   zoneRef: "",
   displayName: "",
   errors: {},
@@ -165,8 +162,7 @@ class ZoneCreate extends Component {
   }
 
   componentDidMount() {
-    // clear state
-    this.setState(initialState)
+    this.setState({...initialState, owner: session.user._id})
   }
 
   onChange = e => {
@@ -329,19 +325,19 @@ class ZoneCreate extends Component {
                   component={FormikSelect}
                   options={[
                     {
-                      value: "some course 1",
+                      value: 1,
                       label: "1",
                       className: "courseHeader",
                       disabled: false
                     },
                     {
-                      value: "some course 2",
+                      value: 2,
                       label: "2",
                       className: "courseHeader",
                       disabled: false
                     },
                     {
-                      value: "some course 3",
+                      value: 3,
                       label: "3",
                       className: "courseHeader",
                       disabled: false
@@ -443,7 +439,6 @@ class ZoneCreate extends Component {
                   ]}
                 />
               </Grid>
-              {/*
               <Grid item xs={12} align="center">
                 <Button
                   variant="contained"
@@ -455,7 +450,6 @@ class ZoneCreate extends Component {
                   Create Zone
                 </Button>
               </Grid>
-          */}
             </Grid>
           </main>
         </form>
@@ -465,6 +459,7 @@ class ZoneCreate extends Component {
 }
 
 export default compose(
+  graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}),
   withFormik({
     validationSchema: zoneCreateSchema,
     validateOnChange: false,
@@ -474,40 +469,34 @@ export default compose(
       app: "",
       appLevel: 1,
       course: "",
-      courseLevel: "",
-      owner: "",
+      courseLevel: 1,
+      owner: session.user._id,
       resources: "",
       zoneName: "",
-      zoneImage:
-        "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk",
       zoneDescription: ""
-    })
+    }),
+    handleSubmit: async (values, {props}) => {
+      console.log("values: ", values)
+
+      const result = await props.zoneCreate({
+        variables: {
+          ageGroup: values.ageGroup,
+          app: values.app,
+          appLevel: values.appLevel,
+          course: values.course,
+          courseLevel: values.courseLevel,
+          owner: values.owner,
+          resources: values.resources,
+          zoneName: values.zoneName,
+          zoneDescription: values.zoneDescription
+        }
+      })
+      console.log("result: ", result)
+    }
   }),
   withStyles(styles)
 )(ZoneCreate)
 
-/* export default compose( */
-/*   graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}), */
-/*   withFormik({ */
-/*     validationSchema: zoneCreateSchema, */
-/*     validateOnChange: false, */
-/*     validateOnBlur: false, */
-/*     mapPropsToValues: () => ({ */
-/*       ageGroup: "", */
-/*       app: "", */
-/*       appLevel: 1, */
-/*       course: "", */
-/*       courseLevel: "", */
-/*       owner: "", */
-/*       resources: "", */
-/*       zoneName: "", */
-/*       zoneImage: */
-/*         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk", */
-/*       zoneDescription: "" */
-/*     }) */
-/*     /1* handleSubmit: async (values, {props}) => { *1/ */
-/*     /1*   console.log("props: ", props) *1/ */
-/*     /1*   console.log("values: ", values) *1/ */
 /*     /1* const result = await props.submit(values) *1/ */
 /*     /1* const chatHistory = [] *1/ */
 /*     /1* const onComplete = result => { *1/ */

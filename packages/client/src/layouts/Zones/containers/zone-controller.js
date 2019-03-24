@@ -4,10 +4,6 @@ import ZonesCreate from "./zones-create.js"
 
 export default class ZoneCtrl extends PureComponent {
   render() {
-    return (
-      <div>
-        <ZonesCreate />
-      </div>
-    )
+    return <ZonesCreate />
   }
 }
