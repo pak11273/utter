@@ -1,6 +1,6 @@
 /* eslint react/no-did-update-set-state: 0 */
 import React, {Component} from "react"
-import {Link as RouterLink} from "react-router-dom"
+import {Link as RouterLink, withRouter} from "react-router-dom"
 import ReactSelect from "react-select"
 import {Helmet} from "react-helmet"
 
@@ -143,7 +143,7 @@ class ZonesContainer extends Component {
   }
 
   onEnterZone = card => () => {
-    history.push({
+    this.props.history.push({
       pathname: `/zone/${card.id}`,
       state: {zoneId: card.id}
     })
@@ -477,4 +477,4 @@ class ZonesContainer extends Component {
   }
 }
 
-export default withStyles(styles)(ZonesContainer)
+export default withRouter(withStyles(styles)(ZonesContainer))

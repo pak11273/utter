@@ -102,6 +102,11 @@ const getZoneCtrl = Loadable({
   loading: Loading
 })
 
+const getZone = Loadable({
+  loader: () => import("./layouts/zones/containers/zone.js"),
+  loading: Loading
+})
+
 const getZones = Loadable({
   loader: () => import("./layouts/zones/containers/zones.js"),
   loading: Loading
@@ -202,6 +207,11 @@ export const routes = [
     component: requireAuth(getZoneCtrl),
     exact: true,
     path: "/zones/create"
+  },
+  {
+    component: requireAuth(getZone),
+    exact: true,
+    path: "/zone/:id"
   },
   {
     exact: true,

@@ -1,40 +1,40 @@
 /* eslint no-debugger: 0 */
 
 /* import cuid from "cuid" */
-import RecordRTC from "recordrtc"
+/* import RecordRTC from "recordrtc" */
 import React, {PureComponent} from "react"
-import {bindActionCreators} from "redux"
+/* import {bindActionCreators} from "redux" */
 /* import filename from "../../../../assets/images/play.svg" */
-import schema from "../../../../core/schema.js"
+/* import schema from "../../../../core/schema.js" */
 import Button from "@material-ui/core/Button"
 import {Box} from "../../../../components"
 import styled from "styled-components"
-import ceoImg from "../../../../assets/images/ceo.jpg"
+/* import ceoImg from "../../../../assets/images/ceo.jpg" */
 import TextField from "@material-ui/core/TextField"
 /* import FloatingActionButton from "@material-ui/core/Fab" */
 import {withStyles} from "@material-ui/core/styles"
-/* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" */
+/* /1* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" *1/ */
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
-import ListItemText from "@material-ui/core/ListItemText"
-import ListItemAvatar from "@material-ui/core/ListItemAvatar"
-import Avatar from "@material-ui/core/Avatar"
+/* import ListItem from "@material-ui/core/ListItem" */
+/* import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction" */
+/* import ListItemText from "@material-ui/core/ListItemText" */
+/* import ListItemAvatar from "@material-ui/core/ListItemAvatar" */
+/* import Avatar from "@material-ui/core/Avatar" */
 import SendIcon from "@material-ui/icons/Send"
 import Typography from "@material-ui/core/Typography"
 
 /* import Overlay from './Overlay'; */
 
 // actions
-import {updateReviewList} from "../../../../containers/Pictures/actions.js"
+/* import {updateReviewList} from "../../../../containers/Pictures/actions.js" */
 /* import {addAudio, addMsg, setCurrentMsg, updateMsg} from "./actions.js" */
-import /* deleteAudioBlob, */
+/* import /1* deleteAudioBlob, *1/ */
 /* loadAudioBlob, */
 /* sendAudioBlob, */
 /* sendMsg */
-"../../../../services/socketio/actions.js"
-import "./styles.css"
+/* "../../../../services/socketio/actions.js" */
+/* import "./styles.css" */
 
 const ChatWindow = styled.div`
   position: relative;
@@ -72,11 +72,11 @@ const ChatPanel = styled.div`
 /*   font-size: 24px; */
 /* ` */
 
-const NoDots = styled.div`
-  hr {
-    visibility: hidden;
-  }
-`
+/* const NoDots = styled.div` */
+/*   hr { */
+/*     visibility: hidden; */
+/*   } */
+/* ` */
 
 const InputPanel = styled.div`
   background-color: #a1a1a1;
@@ -135,157 +135,157 @@ class Chat extends PureComponent {
     }
   }
 
-  componentDidMount() {
-    this.props.registerHandler(this.onMessageReceived)
-    this.scrollChatToBottom()
+  /* componentDidMount() { */
+  /*   this.props.registerHandler(this.onMessageReceived) */
+  /*   this.scrollChatToBottom() */
 
-    var {props} = this
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      console.log("getUserMedia supported.")
-      navigator.mediaDevices
-        .getUserMedia({audio: true})
-        // Success callback
-        .then(stream => {
-          const recorder = RecordRTC(stream, {type: "audio"})
-          var record = document.querySelector(".record")
-          var stop = document.querySelector(".stop")
-          var soundClips = document.querySelector(".sound-clips")
-          record.onclick = () => {
-            if (soundClips.childNodes.length === 1) {
-              record.disabled = true
-              alert(
-                "You can only record 1 audio clip at a time.  Delete your audio clip to record another."
-              )
-            } else {
-              recorder.startRecording()
-              console.log("recorder started")
-              record.style.background = "green"
-              record.style.color = "black"
-            }
-          }
+  /*   var {props} = this */
+  /*   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
+  /*     console.log("getUserMedia supported.") */
+  /*     navigator.mediaDevices */
+  /*       .getUserMedia({audio: true}) */
+  /*       // Success callback */
+  /*       .then(stream => { */
+  /*         const recorder = RecordRTC(stream, {type: "audio"}) */
+  /*         var record = document.querySelector(".record") */
+  /*         var stop = document.querySelector(".stop") */
+  /*         var soundClips = document.querySelector(".sound-clips") */
+  /*         record.onclick = () => { */
+  /*           if (soundClips.childNodes.length === 1) { */
+  /*             record.disabled = true */
+  /*             alert( */
+  /*               "You can only record 1 audio clip at a time.  Delete your audio clip to record another." */
+  /*             ) */
+  /*           } else { */
+  /*             recorder.startRecording() */
+  /*             console.log("recorder started") */
+  /*             record.style.background = "green" */
+  /*             record.style.color = "black" */
+  /*           } */
+  /*         } */
 
-          stop.onclick = () => {
-            var audio = document.createElement("audio")
-            var clipContainer = document.createElement("Article")
-            var deleteButton = document.createElement("button")
+  /*         stop.onclick = () => { */
+  /*           var audio = document.createElement("audio") */
+  /*           var clipContainer = document.createElement("Article") */
+  /*           var deleteButton = document.createElement("button") */
 
-            recorder.stopRecording(audioURL => {
-              audio.src = audioURL
+  /*           recorder.stopRecording(audioURL => { */
+  /*             audio.src = audioURL */
 
-              /* var recordedBlob = recorder.getBlob() */
-              recorder.getDataURL(dataUrl => {
-                var files = {
-                  audio: {
-                    /* author: props.userReducer.userProfile.username, */
-                    author: "chino",
-                    /* room: props.socketReducer.joined_room, */
-                    /* name: "file" + fileCounter++ + ".wav", */
-                    type: "audio/wav",
-                    dataUrl
-                  }
-                }
-                // add blob to redux
-                props.actions.loadAudioBlob(files)
-              })
-            })
-            console.log("recorder stopped")
-            record.style.background = ""
-            record.style.color = ""
+  /*             /1* var recordedBlob = recorder.getBlob() *1/ */
+  /*             recorder.getDataURL(dataUrl => { */
+  /*               var files = { */
+  /*                 audio: { */
+  /*                   /1* author: props.userReducer.userProfile.username, *1/ */
+  /*                   author: "chino", */
+  /*                   /1* room: props.socketReducer.joined_room, *1/ */
+  /*                   /1* name: "file" + fileCounter++ + ".wav", *1/ */
+  /*                   type: "audio/wav", */
+  /*                   dataUrl */
+  /*                 } */
+  /*               } */
+  /*               // add blob to redux */
+  /*               props.actions.loadAudioBlob(files) */
+  /*             }) */
+  /*           }) */
+  /*           console.log("recorder stopped") */
+  /*           record.style.background = "" */
+  /*           record.style.color = "" */
 
-            clipContainer.classList.add("clip")
-            clipContainer.setAttribute(
-              "style",
-              "display: flex; justify-content: center; padding-top: 20px; width: 270px"
-            )
-            audio.setAttribute("controls", "")
-            deleteButton.innerHTML = "DEL"
+  /*           clipContainer.classList.add("clip") */
+  /*           clipContainer.setAttribute( */
+  /*             "style", */
+  /*             "display: flex; justify-content: center; padding-top: 20px; width: 270px" */
+  /*           ) */
+  /*           audio.setAttribute("controls", "") */
+  /*           deleteButton.innerHTML = "DEL" */
 
-            clipContainer.appendChild(audio)
-            clipContainer.appendChild(deleteButton)
-            deleteButton.setAttribute(
-              "style",
-              "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
-            )
-            soundClips.appendChild(clipContainer)
+  /*           clipContainer.appendChild(audio) */
+  /*           clipContainer.appendChild(deleteButton) */
+  /*           deleteButton.setAttribute( */
+  /*             "style", */
+  /*             "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;" */
+  /*           ) */
+  /*           soundClips.appendChild(clipContainer) */
 
-            deleteButton.onclick = e => {
-              var evtTgt = e.target
-              evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
-              record.disabled = false
-            }
-          }
-        })
-        // Error callback
-        .catch(err => {
-          console.log("The following gUM error occured: " + err)
-        })
-    } else {
-      console.log("getUserMedia not supported on your browser!")
-    }
-  }
+  /*           deleteButton.onclick = e => { */
+  /*             var evtTgt = e.target */
+  /*             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode) */
+  /*             record.disabled = false */
+  /*           } */
+  /*         } */
+  /*       }) */
+  /*       // Error callback */
+  /*       .catch(err => { */
+  /*         console.log("The following gUM error occured: " + err) */
+  /*       }) */
+  /*   } else { */
+  /*     console.log("getUserMedia not supported on your browser!") */
+  /*   } */
+  /* } */
 
-  componentWillReceiveProps(props) {
-    if (props.receiveMsg.data) {
-      this.setState({
-        chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
-      })
-    }
-  }
+  /* componentWillReceiveProps(props) { */
+  /*   if (props.receiveMsg.data) { */
+  /*     this.setState({ */
+  /*       chatHistory: [...this.state.chatHistory, props.receiveMsg.data] */
+  /*     }) */
+  /*   } */
+  /* } */
 
-  componentDidUpdate() {
-    this.scrollChatToBottom()
-  }
+  /* componentDidUpdate() { */
+  /*   this.scrollChatToBottom() */
+  /* } */
 
-  componentWillUnmount() {
-    /* this.props.unregisterHandler() */
-  }
+  /* componentWillUnmount() { */
+  /*   /1* this.props.unregisterHandler() *1/ */
+  /* } */
 
-  onInput = e => {
-    this.setState({
-      input: e.target.value
-    })
-  }
+  /* onInput = e => { */
+  /*   this.setState({ */
+  /*     input: e.target.value */
+  /*   }) */
+  /* } */
 
-  onSendMessage = () => {
-    if (!this.state.input) return
+  /* onSendMessage = () => { */
+  /*   if (!this.state.input) return */
 
-    this.props.onSendMessage(this.state.input, err => {
-      if (err) return console.error(err)
-      return this.setState({input: ""})
-    })
+  /*   this.props.onSendMessage(this.state.input, err => { */
+  /*     if (err) return console.error(err) */
+  /*     return this.setState({input: ""}) */
+  /*   }) */
 
-    /* const audio = this.props.socketReducer.audioBlob */
+  /* const audio = this.props.socketReducer.audioBlob */
 
-    // send audio file
-    /* if (audio) { */
-    /*   this.props.actions.addAudio({ */
-    /*     author: audio.audio.author, */
-    /*     dataUrl: audio.audio.dataUrl */
-    /*   }) */
-    /*   this.props.actions.sendAudioBlob(audio) */
-    /* } */
+  // send audio file
+  /* if (audio) { */
+  /*   this.props.actions.addAudio({ */
+  /*     author: audio.audio.author, */
+  /*     dataUrl: audio.audio.dataUrl */
+  /*   }) */
+  /*   this.props.actions.sendAudioBlob(audio) */
+  /* } */
 
-    // TODO: remove the soundclips
-    /* var soundClips = document.querySelector(".sound-clips") */
-    /* if (soundClips.firstChild) { */
-    /*   soundClips.removeChild(soundClips.firstChild) */
-    /* } */
+  // TODO: remove the soundclips
+  /* var soundClips = document.querySelector(".sound-clips") */
+  /* if (soundClips.firstChild) { */
+  /*   soundClips.removeChild(soundClips.firstChild) */
+  /* } */
 
-    // delete the audio
-    /* this.props.actions.deleteAudioBlob() */
-  }
+  // delete the audio
+  /* this.props.actions.deleteAudioBlob() */
+  /* } */
 
-  onMessageReceived(entry) {
-    this.updateChatHistory(entry)
-  }
+  /* onMessageReceived(entry) { */
+  /*   this.updateChatHistory(entry) */
+  /* } */
 
-  updateChatHistory(entry) {
-    this.setState({chatHistory: this.state.chatHistory.concat(entry)})
-  }
+  /* updateChatHistory(entry) { */
+  /*   this.setState({chatHistory: this.state.chatHistory.concat(entry)}) */
+  /* } */
 
-  scrollChatToBottom() {
-    this.panel.scrollTo(0, this.panel.scrollHeight)
-  }
+  /* scrollChatToBottom() { */
+  /*   this.panel.scrollTo(0, this.panel.scrollHeight) */
+  /* } */
 
   render() {
     const {classes} = this.props
@@ -330,6 +330,7 @@ class Chat extends PureComponent {
                 this.panel = panel
               }}>
               <List>
+                {/*
                 {this.state.chatHistory.map(({username, message, event}, i) => [
                   <NoDots key={i}>
                     <ListItem button style={{color: "#fafafa"}}>
@@ -350,6 +351,7 @@ class Chat extends PureComponent {
                     </ListItem>
                   </NoDots>
                 ])}
+						*/}
               </List>
             </Scrollable>
             <InputPanel>

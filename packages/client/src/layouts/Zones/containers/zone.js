@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
+/* import {connect} from "react-redux" */
 import {Redirect} from "react-router-dom"
 
 import {withStyles} from "@material-ui/core/styles"
@@ -8,18 +8,15 @@ import Grid from "@material-ui/core/Grid"
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet"
 import socket from "../../../services/socketio"
-import {history} from "@utterzone/connector"
+/* import {history} from "@utterzone/connector" */
 
 import {Spacer} from "../../../components"
 import AppContainer from "../../../apps/app-container"
-import schema from "../../../core/schema.js"
+/* import schema from "../../../core/schema.js" */
 import Chat from "./chat/chat.js"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
-import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-
-// actions
-import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
+/* import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader */
 
 /* const getCourse = gql` */
 /*   query getCourse($courseId: String) { */
@@ -38,19 +35,19 @@ import {toggleFooter} from "../../../core/actions/toggle-footer-action.js"
 
 /* ` */
 
-const styles = () => ({
+const styles = theme => ({
   app: {
     /* height: "300px" */
   },
   root: {
     backgroundColor: "#3e3e3e",
     flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: "center",
+    color: theme.palette.text.secondary
   }
-  /* paper: { */
-  /*   padding: theme.spacing.unit * 2, */
-  /*   textAlign: "center", */
-  /*   color: theme.palette.text.secondary */
-  /* } */
 })
 
 const Loader = () => <div>Loading...</div>
@@ -71,9 +68,11 @@ class Zone extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
-    this.state.client.join(this.props.zone, this.props.user.username, () =>
-      console.log("User joined this zone!")
-    )
+    console.log("state: ", this.state)
+    console.log("props: ", this.props)
+    /* this.state.client.join(this.props.zone, this.props.user.username, () => */
+    /*   console.log("User joined this zone!") */
+    /* ) */
 
     this.state.client.usersList(usersList => {
       this.setState({
@@ -84,8 +83,6 @@ class Zone extends Component {
     this.state.client.newMessage(data => {
       this.setState({receiveMsg: data})
     })
-
-    this.props.toggleFooter(false)
   }
 
   componentWillUnmount() {
@@ -124,10 +121,11 @@ class Zone extends Component {
   }
 
   render() {
-    const {classes, zone} = this.props
-    const {username} = this.props.user
+    /* const {classes, zone} = this.props */
+    const {classes} = this.props
+    /* const {username} = this.props.user */
     /* const {chatHistory} = history.location.state */
-    this.state.client.connected(zone)
+    /* this.state.client.connected(zone) */
     return (
       <React.Fragment>
         <Helmet>
@@ -159,19 +157,7 @@ class Zone extends Component {
             sm={12}
             md={6}
             lg={4}>
-            <Chat
-              usersList={this.state.usersList}
-              user={this.state.user}
-              onLeave={() =>
-                this.onLeaveZone(zone.id, () => history.push("/zones"))
-              }
-              onSendMessage={(message, cb) =>
-                this.state.client.createMessage(username, zone.id, message, cb)
-              }
-              receiveMsg={this.state.receiveMsg}
-              registerHandler={this.state.client.registerHandler}
-              unregisterHandler={this.state.client.unregisterHandler}
-            />
+            <Chat zone="changeme" usersList={this.state.usersList} />
           </Grid>
           <Grid item xs={12}>
             <Notebook />
@@ -181,22 +167,17 @@ class Zone extends Component {
     )
   }
 }
+/* <Chat */
+/*  user={this.state.user} */
+/*  onLeave={() => */
+/*    this.onLeaveZone(zone.id, () => history.push("/zones")) */
+/*  } */
+/*  onSendMessage={(message, cb) => */
+/*    this.state.client.createMessage(username, zone.id, message, cb) */
+/*  } */
+/*  receiveMsg={this.state.receiveMsg} */
+/*  registerHandler={this.state.client.registerHandler} */
+/*  unregisterHandler={this.state.client.unregisterHandler} */
+/* /> */
 
-const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {Zone, User} = session
-  const zoneObj = Zone.all().toRefArray()
-  const userObj = User.all().toRefArray()
-  const zone = zoneObj[0]
-  const user = userObj[0]
-
-  return {
-    user,
-    zone
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  {toggleFooter}
-)(withStyles(styles)(Zone))
+export default withStyles(styles)(Zone)
