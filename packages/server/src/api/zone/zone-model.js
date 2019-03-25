@@ -15,7 +15,7 @@ const ZoneSchema = mongoose.Schema(
     },
     banned: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       }
     ],
@@ -33,7 +33,7 @@ const ZoneSchema = mongoose.Schema(
       required: [true, "can't be blank"]
     },
     owner: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
     zoneImage: {
@@ -47,7 +47,7 @@ const ZoneSchema = mongoose.Schema(
     },
     zoneRef: [
       {
-        type: Schema.Types.Mixed,
+        type: mongoose.Schema.Types.Mixed,
         default: {}
       }
     ],

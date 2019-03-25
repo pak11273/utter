@@ -10,13 +10,13 @@ export const UserSchema = new mongoose.Schema(
     },
     blocked: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       }
     ],
     contacts: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User"
       }
     ],
@@ -26,7 +26,7 @@ export const UserSchema = new mongoose.Schema(
     },
     createdCourses: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Course"
       }
     ],
@@ -78,7 +78,7 @@ export const UserSchema = new mongoose.Schema(
     },
     subscriptions: [
       {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Course"
       }
     ],

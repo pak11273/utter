@@ -22,11 +22,11 @@ var UserSchema = new _mongoose.default.Schema({
     type: Number
   },
   blocked: [{
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   }],
   contacts: [{
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   }],
   confirmed: {
@@ -34,7 +34,7 @@ var UserSchema = new _mongoose.default.Schema({
     default: false
   },
   createdCourses: [{
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Course"
   }],
   forgotPasswordLocked: {
@@ -84,7 +84,7 @@ var UserSchema = new _mongoose.default.Schema({
     default: "registeredUser"
   },
   subscriptions: [{
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Course"
   }],
   password: {

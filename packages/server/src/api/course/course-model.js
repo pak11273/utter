@@ -6,7 +6,7 @@ import {LevelSchema} from "../level/level-model.js"
 const CourseSchema = mongoose.Schema(
   {
     cdn: {
-      type: Schema.Types.Mixed,
+      type: mongoose.Schema.Types.Mixed,
       default: {}
     },
     courseName: {
@@ -15,7 +15,7 @@ const CourseSchema = mongoose.Schema(
       required: [true, "can't be blank"]
     },
     owner: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
     courseMode: {
@@ -28,7 +28,7 @@ const CourseSchema = mongoose.Schema(
     },
     resources: [
       {
-        type: Schema.Types.Mixed,
+        type: mongoose.Schema.Types.Mixed,
         default: {}
       }
     ],

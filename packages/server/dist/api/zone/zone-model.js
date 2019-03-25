@@ -25,7 +25,7 @@ var ZoneSchema = _mongoose.default.Schema({
     default: "Total Recall"
   },
   banned: [{
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   }],
   courseLevel: {
@@ -42,7 +42,7 @@ var ZoneSchema = _mongoose.default.Schema({
     required: [true, "can't be blank"]
   },
   owner: {
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   },
   zoneImage: {
@@ -54,7 +54,7 @@ var ZoneSchema = _mongoose.default.Schema({
     default: -1
   },
   zoneRef: [{
-    type: _mongoose.Schema.Types.Mixed,
+    type: _mongoose.default.Schema.Types.Mixed,
     default: {}
   }],
   teachingLang: {

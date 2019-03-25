@@ -19,7 +19,7 @@ var _levelModel = require("../level/level-model.js");
 
 var CourseSchema = _mongoose.default.Schema({
   cdn: {
-    type: _mongoose.Schema.Types.Mixed,
+    type: _mongoose.default.Schema.Types.Mixed,
     default: {}
   },
   courseName: {
@@ -28,7 +28,7 @@ var CourseSchema = _mongoose.default.Schema({
     required: [true, "can't be blank"]
   },
   owner: {
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   },
   courseMode: {
@@ -40,7 +40,7 @@ var CourseSchema = _mongoose.default.Schema({
     default: -1
   },
   resources: [{
-    type: _mongoose.Schema.Types.Mixed,
+    type: _mongoose.default.Schema.Types.Mixed,
     default: {}
   }],
   teachingLang: {
