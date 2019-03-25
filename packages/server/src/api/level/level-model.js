@@ -1,5 +1,4 @@
 import mongoose, {Schema} from "mongoose"
-import User, {UserSchema} from "../user/user-model.js"
 import Course from "../course/course-model.js"
 import Vocabulary from "../vocabulary/vocabulary-model.js"
 
