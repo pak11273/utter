@@ -24,6 +24,10 @@ var ZoneSchema = _mongoose.default.Schema({
     type: String,
     default: "Total Recall"
   },
+  banned: [{
+    type: _mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   courseLevel: {
     type: Number,
     default: 1

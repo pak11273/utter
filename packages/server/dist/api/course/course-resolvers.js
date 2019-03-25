@@ -141,27 +141,40 @@ function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            console.log("userId: ", userId);
+            _context2.prev = 1;
+            _context2.next = 4;
             return _userModel.default.findById(userId).lean();
 
-          case 3:
+          case 4:
             user = _context2.sent;
+            console.log("user: ", user);
+
+            if (!user) {
+              _context2.next = 8;
+              break;
+            }
+
             return _context2.abrupt("return", _objectSpread({}, user, {
               createdCourses: coursesById.bind(_this, user.createdCourses)
             }));
 
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
+          case 8:
+            return _context2.abrupt("return", {
+              username: ""
+            });
+
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2["catch"](1);
             throw _context2.t0;
 
-          case 10:
+          case 14:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[1, 11]]);
   }));
 
   return function userById(_x2) {
@@ -181,24 +194,23 @@ function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             user = _ref3.user;
-            console.log("args: ", args);
-            _context3.next = 4;
+            _context3.next = 3;
             return _courseModel.default.findById(args._id).lean().exec();
 
-          case 4:
+          case 3:
             course = _context3.sent;
 
             if (course) {
-              _context3.next = 7;
+              _context3.next = 6;
               break;
             }
 
             throw new Error("Cannot find course with id");
 
-          case 7:
+          case 6:
             return _context3.abrupt("return", course);
 
-          case 8:
+          case 7:
           case "end":
             return _context3.stop();
         }
@@ -343,24 +355,25 @@ function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
+            console.log("args: ", args);
+            _context6.prev = 1;
 
             if (ctx.isAuth) {
-              _context6.next = 3;
+              _context6.next = 4;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 3:
+          case 4:
             userId = ctx.req.token._id;
-            _context6.next = 6;
+            _context6.next = 7;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context6.sent;
             newCourse = new _courseModel.default({
               courseImage: args.input.courseImage,
@@ -372,10 +385,10 @@ function () {
               usingLang: args.input.usingLang,
               owner: user._id
             });
-            _context6.next = 10;
+            _context6.next = 11;
             return newCourse.save();
 
-          case 10:
+          case 11:
             course = _context6.sent;
 
             /* createdCourse = mongooseToJs(course) */
@@ -383,38 +396,38 @@ function () {
               _id: course._doc._id.toString(),
               owner: userById.bind(_this, course._doc.owner)
             });
-            _context6.next = 14;
+            _context6.next = 15;
             return _userModel.default.findById(userId);
 
-          case 14:
+          case 15:
             owner = _context6.sent;
 
             if (owner) {
-              _context6.next = 17;
+              _context6.next = 18;
               break;
             }
 
             throw new Error("User not found.");
 
-          case 17:
+          case 18:
             owner.createdCourses.push(course);
-            _context6.next = 20;
+            _context6.next = 21;
             return owner.save();
 
-          case 20:
+          case 21:
             return _context6.abrupt("return", createdCourse);
 
-          case 23:
-            _context6.prev = 23;
-            _context6.t0 = _context6["catch"](0);
+          case 24:
+            _context6.prev = 24;
+            _context6.t0 = _context6["catch"](1);
             throw _context6.t0;
 
-          case 26:
+          case 27:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[0, 23]]);
+    }, _callee6, null, [[1, 24]]);
   }));
 
   return function courseCreate(_x12, _x13, _x14, _x15) {
@@ -495,31 +508,44 @@ function () {
             }
 
             _context8.next = 12;
-            return _courseModel.default.find(query).limit(3).sort({
+            return _courseModel.default.find(query).lean()
+            /* .limit(3) */
+            .sort({
               _id: -1
             });
 
           case 12:
             courses = _context8.sent;
+
+            if (!(0, _isEmpty.default)(courses)) {
+              _context8.next = 15;
+              break;
+            }
+
+            return _context8.abrupt("return", {
+              courses: [],
+              cursor: "done"
+            });
+
+          case 15:
             convertedCourses = courses.map(function (course) {
-              return _objectSpread({}, course._doc, {
-                _id: course.id,
-                owner: userById.bind(_this, course._doc.owner)
+              return _objectSpread({}, course, {
+                owner: userById.bind(_this, course.owner)
               });
             });
-            _context8.next = 16;
+            _context8.next = 18;
             return _courseModel.default.findOne().sort({
               field: "asc",
               _id: 1
             });
 
-          case 16:
+          case 18:
             lastCourse = _context8.sent;
             //TODO: index?
             cursor = convertedCourses[convertedCourses.length - 1]._id;
 
             if (!((0, _isEmpty.default)(convertedCourses) || lastCourse._doc._id.toString() === cursor)) {
-              _context8.next = 22;
+              _context8.next = 24;
               break;
             }
 
@@ -528,27 +554,27 @@ function () {
               cursor: "done"
             });
 
-          case 22:
+          case 24:
             return _context8.abrupt("return", {
               courses: convertedCourses,
               cursor: cursor
             });
 
-          case 23:
-            _context8.next = 28;
+          case 25:
+            _context8.next = 30;
             break;
 
-          case 25:
-            _context8.prev = 25;
+          case 27:
+            _context8.prev = 27;
             _context8.t0 = _context8["catch"](0);
             throw _context8.t0;
 
-          case 28:
+          case 30:
           case "end":
             return _context8.stop();
         }
       }
-    }, _callee8, null, [[0, 25]]);
+    }, _callee8, null, [[0, 27]]);
   }));
 
   return function getCreatedCourses(_x20, _x21, _x22, _x23) {

@@ -196,17 +196,18 @@ function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            // build query object
+            console.log("ARGS: ", args); // build query object
+
             query = {};
             args.zoneName ? query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi") : null;
             args.resources ? query.resources = new RegExp(escapeRegex(args.resources), "gi") : null;
 
             if (!args.owner) {
-              _context5.next = 7;
+              _context5.next = 8;
               break;
             }
 
-            _context5.next = 6;
+            _context5.next = 7;
             return _zoneModel.default.findByUsername(args.owner, function (err, docs) {
               if (err) {}
 
@@ -216,10 +217,10 @@ function () {
               }
             });
 
-          case 6:
+          case 7:
             owner = _context5.sent;
 
-          case 7:
+          case 8:
             args.usingLang ? query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi") : null;
             args.teachingLang ? query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi") : null; // end query object
 
@@ -232,16 +233,16 @@ function () {
               };
             }
 
-            _context5.next = 12;
+            _context5.next = 13;
             return _zoneModel.default.find(query).limit(12).sort({
               _id: -1
             }).exec();
 
-          case 12:
+          case 13:
             result = _context5.sent;
 
             if (!(0, _isEmpty.default)(result)) {
-              _context5.next = 18;
+              _context5.next = 19;
               break;
             }
 
@@ -251,14 +252,14 @@ function () {
               cursor: "done"
             });
 
-          case 18:
+          case 19:
             cursor = result[result.length - 1]._id;
             return _context5.abrupt("return", {
               zones: result,
               cursor: cursor
             });
 
-          case 20:
+          case 21:
           case "end":
             return _context5.stop();
         }

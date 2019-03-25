@@ -11,6 +11,8 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 var _path = _interopRequireDefault(require("path"));
 
+var _graphqlServer = require("./graphql-server");
+
 var _api = _interopRequireDefault(require("./api"));
 
 var _config = _interopRequireDefault(require("./config"));
@@ -23,11 +25,10 @@ var _expressHandlebars = _interopRequireDefault(require("express-handlebars"));
 
 var _expressRateLimit = _interopRequireDefault(require("express-rate-limit"));
 
+var _rateLimitRedis = _interopRequireDefault(require("rate-limit-redis"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/* import {redis} from "./graphql-server" */
-
-/* import RedisStore from "rate-limit-redis" */
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
 // if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
@@ -53,27 +54,20 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 var app = (0, _express.default)();
 (0, _middleware.default)(app); // rate limiter
 
-/* const limiter = new RateLimit({ */
+var limiter = new _expressRateLimit.default({
+  store: new _rateLimitRedis.default({
+    // see Configuration
+    client: _graphqlServer.redis
+  }),
+  windowMs: 15 * 60 * 1000,
+  // 15 minutes
+  max: 100,
+  // limit each IP to 100 requests per windowMs
+  delayMs: 0 // disable delaying - full speed until the max limit is reached
 
-/*   store: new RedisStore({ */
+}); //  apply to all requests
 
-/*     // see Configuration */
-
-/*     client: redis */
-
-/*   }), */
-
-/*   windowMs: 15 * 60 * 1000, // 15 minutes */
-
-/*   max: 100, // limit each IP to 100 requests per windowMs */
-
-/*   delayMs: 0 // disable delaying - full speed until the max limit is reached */
-
-/* }) */
-//  apply to all requests
-
-/* app.use(limiter) */
-// Routers
+app.use(limiter); // Routers
 
 _mongoose.default.connection.on("connected", function () {
   app.use("/api", _api.default);
