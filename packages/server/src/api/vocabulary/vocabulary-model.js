@@ -2,7 +2,7 @@ import mongoose, {Schema} from "mongoose"
 import Course from "../course/course-model.js"
 import Level from "../level/level-model.js"
 
-export const VocabularySchema = new Schema({
+export const VocabularySchema = new mongoose.Schema({
   word: {
     type: String,
     required: [true, "can't be blank"]
