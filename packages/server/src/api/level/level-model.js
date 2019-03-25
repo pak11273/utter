@@ -20,7 +20,7 @@ export const LevelSchema = new mongoose.Schema({
   vocabulary: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Vocabulary"
+      ref: "VocabularySchema"
     }
   ],
   grammar: [
