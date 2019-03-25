@@ -7,8 +7,6 @@ exports.default = exports.LevelSchema = void 0;
 
 var _mongoose = _interopRequireWildcard(require("mongoose"));
 
-var _userModel = _interopRequireWildcard(require("../user/user-model.js"));
-
 var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
 var _vocabularyModel = _interopRequireDefault(require("../vocabulary/vocabulary-model.js"));

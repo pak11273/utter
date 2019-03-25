@@ -1,5 +1,5 @@
 import mongoose, {Schema} from "mongoose"
-import {CourseSchema} from "../course/course-model.js"
+import Course from "../course/course-model.js"
 import Vocabulary from "../vocabulary/vocabulary-model.js"
 
 export const LevelSchema = new mongoose.Schema({
@@ -13,7 +13,7 @@ export const LevelSchema = new mongoose.Schema({
   },
   courseId: {
     type: Schema.Types.ObjectId,
-    ref: "CourseSchema",
+    ref: "Course",
     required: [true, "can't be blank"]
   },
   vocabulary: [

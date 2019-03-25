@@ -3,7 +3,7 @@ import User from "../user/user-model.js"
 import {TermSchema} from "../term/term-model.js"
 import {LevelSchema} from "../level/level-model.js"
 
-export const CourseSchema = mongoose.Schema(
+const CourseSchema = mongoose.Schema(
   {
     cdn: {
       type: Schema.Types.Mixed,

@@ -3,11 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.VocabularySchema = void 0;
+exports.default = void 0;
 
 var _mongoose = _interopRequireWildcard(require("mongoose"));
-
-var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
 var _levelModel = _interopRequireDefault(require("../level/level-model.js"));
 
@@ -32,7 +30,6 @@ var VocabularySchema = new _mongoose.default.Schema({
     required: [true, "can't be blank"]
   }]
 });
-exports.VocabularySchema = VocabularySchema;
 
 _mongoose.default.model("Vocabulary", VocabularySchema);
 
