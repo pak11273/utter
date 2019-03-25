@@ -35,7 +35,7 @@ class BrainStorm extends PureComponent {
   }
 
   componentDidMount() {
-    // get app info from redux and load app here
+    // get app info and load app here
   }
 
   handleExpandClick = () => {

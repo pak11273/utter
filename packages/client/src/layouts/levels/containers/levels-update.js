@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import ReactTable from "react-table"
 import update from "immutability-helper"
 import "react-table/react-table.css"
-import {connect} from "react-redux"
 
 import Button from "@material-ui/core/Button"
 import CircularProgress from "@material-ui/core/CircularProgress"
@@ -21,7 +20,6 @@ import {session} from "brownies"
 import {Mutation, Query} from "react-apollo"
 import classNames from "classnames"
 import isEmpty from "lodash/isEmpty"
-import schema from "../../../core/schema.js"
 
 import {levelSchema} from "@utterzone/common"
 import {styles} from "../styles.js"
@@ -407,21 +405,4 @@ class Levels extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const ormSession = schema.session(state.apiReducer)
-  const {User, Level} = ormSession
-  const userObj = User.all().toRefArray()
-  const levelObj = Level.all().toRefArray()
-  var user = userObj[0]
-  var levels = levelObj
-
-  return {
-    user,
-    levels
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  {loadData, toggleFooter}
-)(withStyles(styles)(Levels))
+export default withStyles(styles)(Levels)

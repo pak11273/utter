@@ -1,10 +1,8 @@
 import React, {Component} from "react"
 import {Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
-import {Provider} from "react-redux"
 import styled from "styled-components"
 import {AppContainer} from "react-hot-loader"
-import {ConnectedRouter as Router} from "react-router-redux"
 import ReactGA from "react-ga"
 import {ApolloProvider} from "react-apollo"
 import {local, session} from "brownies"
@@ -25,7 +23,6 @@ import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {store, persistor} from "./store.js"
 /* import FlashMessagesList from "./components/flashmessages/flashmessages-list" */
 import {history} from "@utterzone/connector"
-import {PersistGate} from "redux-persist/integration/react"
 import {ToastContainer} from "react-toastify"
 
 import gql from "graphql-tag"
@@ -107,40 +104,31 @@ class App extends Component {
       /* const toggleFooter = store.getState().toggleFooterReducer.toggle */
       <ApolloProvider client={client}>
         <AppContainer>
-          <Provider store={store}>
-            <PersistGate loading={null} persistor={persistor}>
-              <MuiThemeProvider theme={theme}>
-                <CssBaseline />
-                <ToastContainer
-                  position="top-left"
-                  className="toast-container"
-                />
-                <Router history={history}>
-                  <StyledGrid style={{minHeight: "100vh"}}>
-                    <MainNavbar
-                      gridarea="navBar"
-                      list={["about", "contact", "courses", "pricing", "zones"]}
-                      changeMenuOn="640px"
-                      largeMenuClassName="large-menu"
-                      smallMenuClassName="small-menu"
-                    />
-                    <Section gridarea="flash">
-                      <NavbarSpacer id="spacer" />
-                      {/*  <FlashMessagesList /> */}
-                    </Section>
-                    <Section gridarea="content">
-                      <Switch>
-                        {routes.map((route, i) => (
-                          <SubRoutes key={i} {...route} />
-                        ))}
-                      </Switch>
-                    </Section>
-                    <Footer gridarea="footer" />
-                  </StyledGrid>
-                </Router>
-              </MuiThemeProvider>
-            </PersistGate>
-          </Provider>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <ToastContainer position="top-left" className="toast-container" />
+            <StyledGrid style={{minHeight: "100vh"}}>
+              <MainNavbar
+                gridarea="navBar"
+                list={["about", "contact", "courses", "pricing", "zones"]}
+                changeMenuOn="640px"
+                largeMenuClassName="large-menu"
+                smallMenuClassName="small-menu"
+              />
+              <Section gridarea="flash">
+                <NavbarSpacer id="spacer" />
+                {/*  <FlashMessagesList /> */}
+              </Section>
+              <Section gridarea="content">
+                <Switch>
+                  {routes.map((route, i) => (
+                    <SubRoutes key={i} {...route} />
+                  ))}
+                </Switch>
+              </Section>
+              <Footer gridarea="footer" />
+            </StyledGrid>
+          </MuiThemeProvider>
         </AppContainer>
       </ApolloProvider>
     )

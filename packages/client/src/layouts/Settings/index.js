@@ -1,6 +1,4 @@
 import React, {Component} from "react"
-import {bindActionCreators} from "redux"
-import {connect} from "react-redux"
 // TODO import {validateInput} from '../../utils/validations/courseUpdate.js'
 
 import {Flex, Title} from "../../components"
@@ -49,18 +47,4 @@ class Settings extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    actions: bindActionCreators(
-      {
-        toggleFooter
-      },
-      dispatch
-    )
-  }
-}
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Settings)
+export default Settings

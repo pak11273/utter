@@ -2,8 +2,6 @@
 import React, {Component} from "react"
 import ReactTable from "react-table"
 import "react-table/react-table.css"
-import {connect} from "react-redux"
-import schema from "../../../core/schema.js"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -282,27 +280,4 @@ class Phrases extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const ormSession = schema.session(state.apiReducer)
-  const {User, Level} = ormSession
-  const userObj = User.all().toRefArray()
-  const levelObj = Level.all().toRefArray()
-  var user = userObj[0]
-  var level = levelObj[0]
-
-  return {
-    user,
-    level
-  }
-}
-
-const mapDispatchToProps = dispatch => {
-  return {
-    toggleFooter: () => dispatch(toggleFooter())
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Phrases))
+export default withStyles(styles)(Phrases)

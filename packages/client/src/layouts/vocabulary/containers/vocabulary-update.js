@@ -1,7 +1,6 @@
 import React, {Component} from "react"
 import ReactTable from "react-table"
 import "react-table/react-table.css"
-import {connect} from "react-redux"
 import schema from "../../../core/schema.js"
 
 import FormGroup from "@material-ui/core/FormGroup"
@@ -97,7 +96,10 @@ class Vocabulary extends Component {
 
     /* // mutate if no errors */
     if (isEmpty(this.state.formErrors.errors)) {
-      this.handleAudioUpload(this.state.audioBlob, handleVocabularyCreateMutation)
+      this.handleAudioUpload(
+        this.state.audioBlob,
+        handleVocabularyCreateMutation
+      )
     }
   }
 
@@ -142,7 +144,7 @@ class Vocabulary extends Component {
 
   handleAudioUpload = async (file, handleVocabularyCreateMutation) => {
     var formdata = new FormData()
-		var levelId = "someString"
+    var levelId = "someString"
 
     formdata.append("file", file)
     formdata.append("cloud_name", "dgvw5b6pf")
@@ -190,7 +192,6 @@ class Vocabulary extends Component {
     if (this.state.audioBlob) {
       xhr.send(formdata)
     } else {
-
       handleVocabularyCreateMutation(levelId)
 
       // reset state
@@ -465,27 +466,31 @@ class Vocabulary extends Component {
         Header: () => (
           <div className={classes.addButton}>
             <VocabularyCtrl>
-               {(vocabularyCreateMutation) => { 
-								 const handleVocabularyCreateMutation = async (levelId) => {
-									 await vocabularyCreateMutation.mutation({
-										 variables: { levelId }
-									 })
-								 }
+              {vocabularyCreateMutation => {
+                const handleVocabularyCreateMutation = async levelId => {
+                  await vocabularyCreateMutation.mutation({
+                    variables: {levelId}
+                  })
+                }
                 /* return loading ? ( */
                 /*   <CircularProgress /> */
                 /* ) : ( */
-								 return <Can
+                return (
+                  <Can
                     roles={user.roles}
                     perform="course:update-vocabulary"
                     id={user.username}
                     matchingID={course.owner.username}
                     yes={() => (
-                      <Button type="submit" onClick={this.addWord(handleVocabularyCreateMutation)}>
+                      <Button
+                        type="submit"
+                        onClick={this.addWord(handleVocabularyCreateMutation)}>
                         Add Word
                       </Button>
                     )}
                     no={() => null}
                   />
+                )
                 /* ) */
               }}
             </VocabularyCtrl>
@@ -531,7 +536,6 @@ class Vocabulary extends Component {
     return (
       <VocabularyCtrl>
         {({getLevelsQuery}) => {
-
           if (getLevelsQuery.loading) {
             return <LoaderCircle />
           }
@@ -630,30 +634,4 @@ class Vocabulary extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User, Course, Level} = session
-  const userObj = User.all().toRefArray()
-  const courseObj = Course.all().toRefArray()
-  const levelObj = Level.all().toRefArray()
-  var user = userObj[0]
-  var course = courseObj[0]
-  var level = levelObj[0]
-
-  return {
-    user,
-    course,
-    level
-  }
-}
-
-const actions = {
-  loadData,
-  resetGlobalLevel,
-  toggleFooter
-}
-
-export default connect(
-  mapStateToProps,
-  actions
-)(withStyles(styles)(Vocabulary))
+export default withStyles(styles)(Vocabulary)

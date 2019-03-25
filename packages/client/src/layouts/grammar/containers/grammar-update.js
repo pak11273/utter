@@ -2,8 +2,6 @@
 import React, {Component} from "react"
 import ReactTable from "react-table"
 import "react-table/react-table.css"
-import {connect} from "react-redux"
-import schema from "../../../core/schema.js"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -251,7 +249,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(withStyles(styles)(Grammar))
+export default withStyles(styles)(Grammar)

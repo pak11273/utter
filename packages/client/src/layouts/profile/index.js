@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {connect} from "react-redux"
 import {Route, NavLink} from "react-router-dom"
 
 import Divider from "@material-ui/core/Divider"
@@ -193,18 +192,4 @@ class Profile extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const session = schema.session(state.apiReducer)
-  const {User} = session
-  const userObj = User.all().toRefArray()
-  var user = userObj[0]
-
-  return {
-    user
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  {toggleFooter}
-)(withStyles(styles)(Profile))
+export default withStyles(styles)(Profile)
