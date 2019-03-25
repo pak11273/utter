@@ -5,7 +5,7 @@ import User from "../user/user-model.js"
 const TestSchema = mongoose.Schema(
   {
     owner: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
     testId: {

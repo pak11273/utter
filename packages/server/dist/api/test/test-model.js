@@ -17,7 +17,7 @@ var _userModel = _interopRequireDefault(require("../user/user-model.js"));
 
 var TestSchema = _mongoose.default.Schema({
   owner: {
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   },
   testId: {
