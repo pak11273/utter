@@ -1,7 +1,7 @@
 import mongoose, {Schema} from "mongoose"
 import User, {UserSchema} from "../user/user-model.js"
 
-export const TermSchema = new Schema({
+export const TermSchema = new mongoose.Schema({
   term: {
     type: String,
     default: "Change me"
