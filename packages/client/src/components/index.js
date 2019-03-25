@@ -46,6 +46,7 @@ import Span from "./Spans"
 import State from "./buttons/state.js"
 import Subtitle from "./Text/Subtitle.js"
 import Table from "./Table.js"
+import teaching from "./selects/teaching.js"
 import Tbody from "./Tbody.js"
 import Td from "./Td.js"
 import Text from "./Text/Text.js"
@@ -55,6 +56,7 @@ import TogglePlay from "./buttons/toggle-play.js"
 import Tr from "./Tr.js"
 import TextArea from "./TextArea.js"
 import Title from "./Text/Title.js"
+import using from "./selects/using.js"
 import {Searching} from "./loaders/searching.js"
 import Select from "./Select.js"
 import Spacer from "./spacers"
@@ -111,6 +113,7 @@ export {
   State,
   Subtitle,
   Table,
+  teaching,
   Tbody,
   Td,
   Thead,
@@ -120,6 +123,7 @@ export {
   Text,
   TextArea,
   Title,
+  using,
   Wrapper,
   Zone
 }

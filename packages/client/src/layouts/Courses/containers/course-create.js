@@ -458,6 +458,7 @@ export default compose(
       usingLang: ""
     }),
     handleSubmit: async (values, {props, setStatus, setErrors}) => {
+      console.log("props:", props)
       setStatus({loading: true})
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,

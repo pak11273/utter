@@ -44,7 +44,7 @@ const getZones = gql`
         ageGroup
         app
         courseLevel
-        id
+        _id
         owner {
           username
         }
@@ -94,7 +94,8 @@ const styles = theme => ({
     height: "52px",
     lineHeight: "1.2em",
     overflow: "hidden",
-    wordBreak: "break-all"
+    wordBreak: "break-all",
+    whiteSpace: "nowrap"
   },
   cardUsername: {
     whiteSpace: "nowrap",

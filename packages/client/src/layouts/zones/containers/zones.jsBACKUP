@@ -3,7 +3,6 @@ import React, {Component} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import ReactSelect from "react-select"
 import {Helmet} from "react-helmet"
-import {withFormik} from "formik"
 
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -459,30 +458,4 @@ class ZonesContainer extends Component {
   }
 }
 
-export default withRouter(
-  withFormik({
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      "username or email": "",
-      password: ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const data = await props.submit(values)
-      if (!data.token) {
-        if (data.identifier) {
-          data["username or email"] = data.identifier
-        }
-        setErrors(data)
-      }
-      /* if (data.token) { */
-      /*   local.AUTH_TOKEN = data.token */
-      /*   session.user = data.user */
-      /*   props.history.push({ */
-      /*     pathname: "/", */
-      /*     state: "loadUserSession" */
-      /*   }) */
-      /* } */
-    }
-  })(withStyles(styles)(ZonesContainer))
-)
+export default withRouter(withStyles(styles)(ZonesContainer))

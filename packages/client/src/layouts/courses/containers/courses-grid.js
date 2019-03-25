@@ -1,9 +1,9 @@
 import React, {PureComponent} from "react"
-import {withRouter} from "react-router-dom"
 /* import Waypoint from "react-waypoint" */
 
 import classNames from "classnames"
 import cloneDeep from "lodash/cloneDeep"
+import {history} from "@utterzone/connector"
 /* import isEmpty from "lodash/isEmpty" */
 import update from "immutability-helper"
 
@@ -20,14 +20,29 @@ import Typography from "@material-ui/core/Typography"
 
 import {Query, withApollo} from "react-apollo"
 import {session} from "brownies"
-/* import {getCourse} from "../../../state/queries.js" */
 import gql from "graphql-tag"
 
 import {subsToSize} from "../../../utils/helpers.js"
 
 const getCourses = gql`
-  query getCourses {
-    getCourses {
+  query getCourses(
+    $cursor: String
+    $courseName: String!
+    $owner: String!
+    $resources: String
+    $usingLang: String!
+    $teachingLang: String!
+  ) {
+    getCourses(
+      input: {
+        cursor: $cursor
+        courseName: $courseName
+        owner: $owner
+        resources: $resources
+        usingLang: $usingLang
+        teachingLang: $teachingLang
+      }
+    ) {
       courses {
         _id
         courseImage
@@ -158,11 +173,19 @@ class CoursesGrid extends PureComponent {
 
   componentDidMount = async () => {}
 
-  componentWillReceiveProps() {
-    const newState = update(this.state, {
-      cursor: {$set: ""}
-    })
-    this.setState(newState)
+  componentWillReceiveProps(prevProps) {
+    if (prevProps.searchInput) {
+      const newState = update(this.state, {
+        usingLang: {$set: prevProps.searchInput.teachingLang},
+        teachingLang: {$set: prevProps.searchInput.teachingLang}
+      })
+      this.setState(newState)
+    } else {
+      const newState = update(this.state, {
+        cursor: {$set: ""}
+      })
+      this.setState(newState)
+    }
   }
 
   handleImageClick = card => () => {
@@ -173,32 +196,31 @@ class CoursesGrid extends PureComponent {
     /* notification: "You must */
     /*   }) */
     /* } else { */
-    this.props.history.push({
+    history.push({
       pathname: "/course/course-settings",
       state: {courseId: card.id}
     })
   }
 
   render() {
-    const {
-      classes,
-      courseName,
-      resources,
-      owner,
-      usingLang,
-      teachingLang
-    } = this.props
+    const {classes} = this.props
+    console.log("grid props: ", this.props)
     return (
       <Query
         query={getCourses}
-        fetchPolicy="network-only"
         variables={{
           cursor: "",
-          courseName,
-          resources,
-          owner,
-          usingLang,
-          teachingLang
+          courseName: "",
+          resources: "",
+          owner: "",
+          usingLang:
+            this.props.searchInput && this.props.searchInput.usingLang
+              ? this.props.searchInput.usingLang
+              : "",
+          teachingLang:
+            this.props.searchInput && this.props.searchInput.teachingLang
+              ? this.props.searchInput.teachingLang
+              : ""
         }}>
         {({loading, error, data}) => {
           if (loading)
@@ -351,4 +373,4 @@ class CoursesGrid extends PureComponent {
   }
 }
 
-export default withRouter(withApollo(withStyles(styles)(CoursesGrid)))
+export default withApollo(withStyles(styles)(CoursesGrid))

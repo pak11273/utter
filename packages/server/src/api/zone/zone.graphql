@@ -4,7 +4,7 @@ type Zone {
 	app: String
 	courseLevel: Int
   createdAt: Int
-  id: ID!
+  _id: ID!
   levels: [Level]
 	members: Int
   owner: User
@@ -17,7 +17,7 @@ type Zone {
 }
 
 input ZoneUpdated {
-  id: ID!
+  _id: ID!
   zoneId: String
   zoneName: String
   zonedescription: String
@@ -62,7 +62,7 @@ extend type Query {
 
 extend type Mutation {
   zoneCreate(input: ZoneCreateInput!): Zone! 
-	zoneDelete(id: String!): Boolean
+	zoneDelete(_id: String!): Boolean
   zoneUpdate(input: ZoneUpdated!): Zone!
-  zoneRemove(id: ID!): Boolean
+  zoneRemove(_id: ID!): Boolean
 }

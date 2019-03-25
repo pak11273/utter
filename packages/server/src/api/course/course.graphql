@@ -55,7 +55,7 @@ type PaginatedCourses {
 extend type Query {
   getCourse(_id: String!): Course!
 	getCourseLevels(courseId: String!): Course!
-  getCourses: PaginatedCourses 
+  getCourses(input: GetCoursesInput!): PaginatedCourses 
 	getCreatedCourses(
     cursor: String
 	): PaginatedCourses  

@@ -64,7 +64,6 @@ const getZones = async (_, args, ctx, info) => {
   args.resources
     ? (query.resources = new RegExp(escapeRegex(args.resources), "gi"))
     : null
-
   if (args.owner) {
     var owner = await Zone.findByUsername(args.owner, (err, docs) => {
       if (err) {
@@ -96,10 +95,8 @@ const getZones = async (_, args, ctx, info) => {
   let result = await Zone.find(query)
     .limit(12)
     .sort({_id: -1})
-    .exec()
 
   if (isEmpty(result)) {
-    console.log("done")
     return {zones: [], cursor: "done"}
   } else {
     cursor = result[result.length - 1]._id

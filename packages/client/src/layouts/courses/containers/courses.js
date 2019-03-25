@@ -1,11 +1,11 @@
 /* eslint react/no-did-update-set-state: 0 */
 import React, {PureComponent} from "react"
-import {Link as RouterLink} from "react-router-dom"
-import ReactSelect from "react-select"
+import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
+import {Field, withFormik} from "formik"
 
 import {withStyles} from "@material-ui/core/styles"
-import Button from "@material-ui/core/Button"
+/* import Button from "@material-ui/core/Button" */
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
 import FormControl from "@material-ui/core/FormControl"
@@ -20,9 +20,11 @@ import TextField from "@material-ui/core/TextField"
 import {session} from "brownies"
 import CoursesGrid from "./courses-grid.js"
 import update from "immutability-helper"
-import {Spacer} from "../../../components"
+import {Spacer, LoadingButton, using, teaching} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
 import {groupedOptions} from "../../../data/language-data.js"
+
+import {compose} from "react-apollo"
 
 const drawerWidth = 240
 const styles = theme => ({
@@ -103,10 +105,10 @@ const styles = theme => ({
     flexGrow: 1,
     width: "100%"
   },
-  select: {
-    width: "80% !important",
-    margin: "10px auto !important"
-  },
+  /* select: { */
+  /*   width: "80% !important", */
+  /*   margin: "10px auto !important" */
+  /* }, */
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
   },
@@ -136,6 +138,18 @@ class CoursesContainer extends PureComponent {
 
   componentDidMount() {
     delete session.course
+  }
+
+  addTeachingLang = value => {
+    this.setState({
+      teachingLang: value
+    })
+  }
+
+  addUsingLang = value => {
+    this.setState({
+      usingLang: value
+    })
   }
 
   handleSpeakingChange = usingLang => {
@@ -197,87 +211,10 @@ class CoursesContainer extends PureComponent {
     this.setState(newState)
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    // change state props based on selectionBox
-    const {courseInput, selectionBox} = this.state
-    console.log("course input: ", courseInput)
-    console.log("selection box", selectionBox)
-    switch (selectionBox) {
-      case "title": {
-        // set courseName
-        const newName = update(this.state, {
-          owner: {
-            $set: ""
-          },
-          courseName: {
-            $set: courseInput
-          },
-          resources: {
-            $set: []
-          },
-          next: {
-            $set: ""
-          }
-        })
-
-        this.setState(newName)
-
-        break
-      }
-
-      case "resources": {
-        // set resources
-        const newResource = update(this.state, {
-          owner: {
-            $set: ""
-          },
-          courseName: {
-            $set: ""
-          },
-          resources: {
-            $set: [courseInput]
-          },
-          next: {
-            $set: ""
-          }
-        })
-
-        this.setState(newResource)
-
-        break
-      }
-
-      case "author": {
-        // set owner
-        const newAuthor = update(this.state, {
-          owner: {
-            $set: courseInput
-          },
-          courseName: {
-            $set: ""
-          },
-          resources: {
-            $set: []
-          },
-          next: {
-            $set: ""
-          }
-        })
-
-        this.setState(newAuthor)
-
-        break
-      }
-      default:
-        break
-    }
-  }
-
   render() {
-    const {classes} = this.props
+    const {classes, handleSubmit} = this.props
     return (
-      <form className={classes.root} autoComplete="off">
+      <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -288,22 +225,20 @@ class CoursesContainer extends PureComponent {
           <Typography variant="h6" align="center" gutterBottom>
             I speak:
           </Typography>
-          <ReactSelect
-            className={classes.select}
-            name="form-field-name"
-            value={this.state.usingLang}
-            onChange={this.handleSpeakingChange}
+          <Field
+            name="usingLang"
+            component={using}
+            addUsingLang={this.addUsingLang}
             options={groupedOptions}
           />
           <Spacer margin="40px 0 0 0" />
           <Typography variant="h6" align="center" gutterBottom>
             I want to learn:
           </Typography>
-          <ReactSelect
-            className={classes.select}
-            name="form-field-name"
-            value={this.state.teachingLang}
-            onChange={this.handleTeachingChange}
+          <Field
+            name="teachingLang"
+            component={teaching}
+            addTeachingLang={this.addTeachingLang}
             options={groupedOptions}
           />
           <Spacer margin="40px 0 0 0" />
@@ -368,12 +303,21 @@ class CoursesContainer extends PureComponent {
                       <MenuItem value="author">Author</MenuItem>
                     </Select>
                   </FormControl>
-                  <Button
+                  <LoadingButton
+                    variant="contained"
+                    color="secondary"
+                    type="submit"
+                    size="large"
+                    loading={this.props.status && this.props.status.loading}
+                    disabled={this.props.status && this.props.status.loading}>
+                    Search
+                  </LoadingButton>
+                  {/*       <Button
                     component="button"
                     type="submit"
-                    onClick={this.handleSubmit}>
+                    onClick={handleSubmit}>
                     Search
-                  </Button>
+                  </Button> */}
                 </Grid>
               </Grid>
             </div>
@@ -382,11 +326,7 @@ class CoursesContainer extends PureComponent {
           <Grid>
             {
               <CoursesGrid
-                courseName={this.state.courseName}
-                resources={this.state.resources}
-                owner={this.state.owner}
-                teachingLang={this.state.teachingLang}
-                usingLang={this.state.usingLang}
+                searchInput={this.props.status && this.props.status.searchInput}
               />
             }
           </Grid>
@@ -396,4 +336,42 @@ class CoursesContainer extends PureComponent {
   }
 }
 
-export default withStyles(styles)(CoursesContainer)
+export default compose(withRouter)(
+  withFormik({
+    validateOnChange: false,
+    validateOnBlur: false,
+    mapPropsToValues: () => ({
+      courseInput: "",
+      courseName: "",
+      resource: "",
+      items: "",
+      labelWidth: 0,
+      mobileOpen: false,
+      next: "",
+      owner: "",
+      resetCursor: "",
+      search: "",
+      selectionBox: "title",
+      teachingLang: "",
+      usingLang: ""
+    }),
+
+    handleSubmit: async (values, {props, setStatus}) => {
+      setStatus({loading: true})
+      console.log("values: ", values)
+      console.log("props: ", props)
+
+      // pass this object to grid
+      const searchInput = {
+        courseInput: values.courseInput,
+        courseName: values.courseName,
+        resource: values.resource,
+        owner: values.owner,
+        search: values.search,
+        teachingLang: values.teachingLang,
+        usingLang: values.usingLang
+      }
+      setStatus({searchInput})
+    }
+  })(withStyles(styles)(CoursesContainer))
+)
