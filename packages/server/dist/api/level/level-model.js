@@ -34,10 +34,18 @@ var LevelSchema = new _mongoose.default.Schema({
   /*   required: [true, "can't be blank"] */
 
   /* }, */
-  vocabulary: [{
-    type: _mongoose.Schema.Types.ObjectId,
-    ref: "Vocabulary"
-  }],
+
+  /* vocabulary: [ */
+
+  /*   { */
+
+  /*     type: Schema.Types.ObjectId, */
+
+  /*     ref: "Vocabulary" */
+
+  /*   } */
+
+  /* ], */
   grammar: [{
     rule: {
       type: String

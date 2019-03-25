@@ -16,12 +16,12 @@ export const LevelSchema = new mongoose.Schema({
   /*   ref: "Course", */
   /*   required: [true, "can't be blank"] */
   /* }, */
-  vocabulary: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Vocabulary"
-    }
-  ],
+  /* vocabulary: [ */
+  /*   { */
+  /*     type: Schema.Types.ObjectId, */
+  /*     ref: "Vocabulary" */
+  /*   } */
+  /* ], */
   grammar: [
     {
       rule: {type: String},
