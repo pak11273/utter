@@ -1,9 +1,9 @@
 import mongoose, {Schema} from "mongoose"
 import User, {UserSchema} from "../user/user-model.js"
 import Course from "../course/course-model.js"
-import {TermSchema} from "../term/term-model.js"
+import {VocabularySchema} from "../vocabulary/vocabulary-model.js"
 
-export const LevelSchema = new Schema({
+export const LevelSchema = new mongoose.Schema({
   level: {
     type: Number,
     required: [true, "can't be blank"]
