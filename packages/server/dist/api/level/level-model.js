@@ -11,7 +11,7 @@ var _userModel = _interopRequireWildcard(require("../user/user-model.js"));
 
 var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
-var _vocabularyModel = require("../vocabulary/vocabulary-model.js");
+var _vocabularyModel = _interopRequireDefault(require("../vocabulary/vocabulary-model.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -33,7 +33,7 @@ var LevelSchema = new _mongoose.default.Schema({
   },
   vocabulary: [{
     type: _mongoose.Schema.Types.ObjectId,
-    ref: "VocabularySchema"
+    ref: "Vocabulary"
   }],
   grammar: [{
     rule: {
