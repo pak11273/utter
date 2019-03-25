@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react"
 import {NavLink} from "react-router-dom"
 import {Helmet} from "react-helmet"
-/* import classNames from "classnames" */
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -17,8 +16,9 @@ import Slide from "@material-ui/core/Slide"
 import StarIcon from "@material-ui/icons/StarBorder"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
+import {Container, Section} from "../components"
 
-import {Footer} from "../containers"
+import {Masthead, Footer} from "../containers"
 
 function Transition(props) {
   return <Slide direction="up" {...props} />
@@ -49,10 +49,24 @@ const BetaModal = () => {
   )
 }
 
-const styles = () => ({
+const styles = theme => ({
   center: {
     display: "flex",
     justifyContent: "center"
+  },
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    height: "100%"
+  },
+  section: {
+    padding: theme.spacing.unit * 1,
+    margin: "0 auto 100px",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column"
+    }
   },
   title: {
     fontSize: "3em"
@@ -107,35 +121,41 @@ class Pricing extends PureComponent {
           <title>Utterzone | Pricing</title>
           <link rel="canonical" href="https://utter.zone/courses" />
         </Helmet>
-        <main className={classes.layout}>
+        <Container className={classes.root}>
           {/* Hero unit */}
           <BetaModal />
-          <div className={classes.heroContent}>
-            <Typography
-              component="h1"
-              variant="h2"
-              align="center"
-              color="textPrimary"
-              gutterBottom>
-              Pricing
-            </Typography>
-            <Typography
-              variant="h4"
-              align="center"
-              color="textSecondary"
-              component="p">
-              Obtain a priceless skill for the price of a Starbucks coffee.
-            </Typography>
-            <Typography
-              variant="h6"
-              align="center"
-              color="textSecondary"
-              component="p">
-              Try it out for a week.
-            </Typography>
-          </div>
+          <Masthead className={classes.masthead} height="400px" width="100%">
+            <div className={classes.heroContent}>
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom>
+                Pricing
+              </Typography>
+              <Typography
+                variant="h4"
+                align="center"
+                color="textSecondary"
+                component="p">
+                Obtain a priceless skill for the price of a Starbucks coffee.
+              </Typography>
+              <Typography
+                variant="h6"
+                align="center"
+                color="textSecondary"
+                component="p">
+                Try it out for a week.
+              </Typography>
+            </div>
+          </Masthead>
           {/* End hero unit */}
-          <Grid container spacing={40} alignItems="flex-end">
+          <Grid
+            style={{maxWidth: "900px"}}
+            container
+            spacing={40}
+            alignItems="flex-end">
             {tiers.map(tier => (
               // Enterprise card is full width at sm breakpoint
               <Grid
@@ -144,50 +164,50 @@ class Pricing extends PureComponent {
                 xs={12}
                 sm={tier.title === "Standard" ? 12 : 6}
                 md={3}>
-                <Card>
-                  <CardHeader
-                    title={tier.title}
-                    subheader={tier.subheader}
-                    titleTypographyProps={{align: "center"}}
-                    subheaderTypographyProps={{align: "center"}}
-                    action={tier.title === "3 Months" ? <StarIcon /> : null}
-                    className={classes.cardHeader}
-                  />
-                  <CardContent>
-                    <div className={classes.cardPricing}>
-                      <Typography
-                        component="h2"
-                        variant="h3"
-                        color="textPrimary">
-                        ${tier.price}
-                      </Typography>
-                      <Typography variant="h6" color="textSecondary">
-                        /mo
-                      </Typography>
-                    </div>
-                    {tier.description.map(line => (
-                      <Typography variant="subtitle1" align="center" key={line}>
-                        {line}
-                      </Typography>
-                    ))}
-                  </CardContent>
-                  <CardActions className={classes.cardActions}>
-                    <Button
-                      fullWidth
-                      variant={tier.buttonVariant}
-                      color="primary"
-                      size="large">
-                      {tier.buttonText}
-                    </Button>
-                  </CardActions>
-                </Card>
+                <Section className={classes.section}>
+                  <Card>
+                    <CardHeader
+                      title={tier.title}
+                      subheader={tier.subheader}
+                      titleTypographyProps={{align: "center"}}
+                      subheaderTypographyProps={{align: "center"}}
+                      action={tier.title === "3 Months" ? <StarIcon /> : null}
+                      className={classes.cardHeader}
+                    />
+                    <CardContent>
+                      <div className={classes.cardPricing}>
+                        <Typography variant="h4" color="textPrimary">
+                          ${tier.price}
+                          <span style={{fontSize: "10px"}}>/mo</span>
+                        </Typography>
+                      </div>
+                      {tier.description.map(line => (
+                        <Typography
+                          variant="subtitle1"
+                          align="center"
+                          key={line}>
+                          {line}
+                        </Typography>
+                      ))}
+                    </CardContent>
+                    <CardActions className={classes.cardActions}>
+                      <Button
+                        fullWidth
+                        variant={tier.buttonVariant}
+                        color="primary"
+                        size="large">
+                        {tier.buttonText}
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </Section>
               </Grid>
             ))}
-            <Grid item style={{width: "100%"}}>
-              <Footer />
-            </Grid>
           </Grid>
-        </main>
+          <Grid item style={{width: "100%"}}>
+            <Footer />
+          </Grid>
+        </Container>
       </React.Fragment>
     )
   }
