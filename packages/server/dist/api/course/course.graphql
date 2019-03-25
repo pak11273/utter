@@ -1,0 +1,71 @@
+directive @hasScope(scope: String) on FIELD_DEFINITION
+
+type Course {
+  courseDescription: String
+  courseImage: String
+  courseMode: String!
+  courseName: String!
+  createdAt: String 
+  _id: ID!
+  levels: [Level]
+  owner: User!
+	resources: String
+	subscribers: Int
+  teachingLang: String
+  usingLang: String
+  updatedAt: String
+}
+
+type Resource {
+	value: String,
+	label: String,
+	className: String
+}
+
+input CourseUpdateInput {
+  courseName: String
+  courseDescription: String
+  courseMode: String
+}
+
+input GetCoursesInput {
+    cursor: String
+    courseName: String!
+    owner: String!
+		resources: String 
+    usingLang: String!
+    teachingLang: String!
+}
+
+input CourseCreateInput {
+	courseImage: String
+  courseName: String!
+  courseDescription: String
+  courseMode: String
+	resources: [String]
+	teachingLang: String
+  usingLang: String
+}
+
+type PaginatedCourses {
+  courses: [Course!]! 
+  cursor: String
+}
+
+extend type Query {
+  getCourse(_id: String!): Course!
+	getCourseLevels(courseId: String!): Course!
+  getCourses: PaginatedCourses 
+	getCreatedCourses(
+    cursor: String
+	): PaginatedCourses  
+  getCourseCount: Int
+}
+
+extend type Mutation {
+  courseCreate(input: CourseCreateInput!): Course! 
+	courseDelete(resourceId: String!): Boolean @hasScope(scope: "course:delete")
+  courseUpdate(input: CourseUpdateInput!): Course!
+	subscribe(courseId: String!): Course 
+	unsubscribe(courseId: String!): Boolean
+}
