@@ -3,10 +3,9 @@ import User, {UserSchema} from "../user/user-model.js"
 
 export const TermSchema = new Schema({
   term: {
-    type: Schema.Types.ObjectId,
-    ref: "Term"
+    type: String,
+    default: "Change me"
   },
-  term: Number,
   title: {
     type: String,
     default: "Change me"
