@@ -9,18 +9,18 @@ import React, {PureComponent} from "react"
 import Button from "@material-ui/core/Button"
 import {Box} from "../../../../components"
 import styled from "styled-components"
-/* import ceoImg from "../../../../assets/images/ceo.jpg" */
+import ceoImg from "../../../../assets/images/ceo.jpg"
 import TextField from "@material-ui/core/TextField"
 /* import FloatingActionButton from "@material-ui/core/Fab" */
 import {withStyles} from "@material-ui/core/styles"
 /* /1* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" *1/ */
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import List from "@material-ui/core/List"
-/* import ListItem from "@material-ui/core/ListItem" */
-/* import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction" */
-/* import ListItemText from "@material-ui/core/ListItemText" */
-/* import ListItemAvatar from "@material-ui/core/ListItemAvatar" */
-/* import Avatar from "@material-ui/core/Avatar" */
+import ListItem from "@material-ui/core/ListItem"
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
+import ListItemText from "@material-ui/core/ListItemText"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
+import Avatar from "@material-ui/core/Avatar"
 import SendIcon from "@material-ui/icons/Send"
 import Typography from "@material-ui/core/Typography"
 
@@ -72,11 +72,11 @@ const ChatPanel = styled.div`
 /*   font-size: 24px; */
 /* ` */
 
-/* const NoDots = styled.div` */
-/*   hr { */
-/*     visibility: hidden; */
-/*   } */
-/* ` */
+const NoDots = styled.div`
+  hr {
+    visibility: hidden;
+  }
+`
 
 const InputPanel = styled.div`
   background-color: #a1a1a1;
@@ -330,7 +330,6 @@ class Chat extends PureComponent {
                 this.panel = panel
               }}>
               <List>
-                {/*
                 {this.state.chatHistory.map(({username, message, event}, i) => [
                   <NoDots key={i}>
                     <ListItem button style={{color: "#fafafa"}}>
@@ -351,7 +350,6 @@ class Chat extends PureComponent {
                     </ListItem>
                   </NoDots>
                 ])}
-						*/}
               </List>
             </Scrollable>
             <InputPanel>

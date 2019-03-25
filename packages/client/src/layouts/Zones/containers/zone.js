@@ -16,6 +16,7 @@ import AppContainer from "../../../apps/app-container"
 import Chat from "./chat/chat.js"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
+import {session} from "brownies"
 /* import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader */
 
 /* const getCourse = gql` */
@@ -121,9 +122,8 @@ class Zone extends Component {
   }
 
   render() {
-    /* const {classes, zone} = this.props */
-    const {classes} = this.props
-    /* const {username} = this.props.user */
+    const {classes, zone} = this.props
+    const {username} = session.user
     /* const {chatHistory} = history.location.state */
     /* this.state.client.connected(zone) */
     return (
@@ -157,7 +157,20 @@ class Zone extends Component {
             sm={12}
             md={6}
             lg={4}>
-            <Chat zone="changeme" usersList={this.state.usersList} />
+            <Chat
+              onLeave={() =>
+                this.onLeaveZone(zone.id, () => history.push("/zones"))
+              }
+              user={this.state.user}
+              registerHandler={this.state.client.registerHandler}
+              unregisterHandler={this.state.client.unregisterHandler}
+              onSendMessage={(message, cb) =>
+                this.state.client.createMessage(username, zone.id, message, cb)
+              }
+              receiveMsg={this.state.receiveMsg}
+              zone="changeme"
+              usersList={this.state.usersList}
+            />
           </Grid>
           <Grid item xs={12}>
             <Notebook />
@@ -167,17 +180,5 @@ class Zone extends Component {
     )
   }
 }
-/* <Chat */
-/*  user={this.state.user} */
-/*  onLeave={() => */
-/*    this.onLeaveZone(zone.id, () => history.push("/zones")) */
-/*  } */
-/*  onSendMessage={(message, cb) => */
-/*    this.state.client.createMessage(username, zone.id, message, cb) */
-/*  } */
-/*  receiveMsg={this.state.receiveMsg} */
-/*  registerHandler={this.state.client.registerHandler} */
-/*  unregisterHandler={this.state.client.unregisterHandler} */
-/* /> */
 
 export default withStyles(styles)(Zone)
