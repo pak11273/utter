@@ -16,7 +16,7 @@ var AppSchema = _mongoose.default.Schema({
     required: [true, "can't be blank"]
   },
   appAuthor: {
-    type: _mongoose.Schema.Types.ObjectId,
+    type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   },
   appImage: {
@@ -28,7 +28,7 @@ var AppSchema = _mongoose.default.Schema({
     default: -1
   },
   appRef: [{
-    type: _mongoose.Schema.Types.Mixed,
+    type: _mongoose.default.Schema.Types.Mixed,
     default: {}
   }],
   appDescription: {

@@ -8,7 +8,7 @@ const AppSchema = mongoose.Schema(
       required: [true, "can't be blank"]
     },
     appAuthor: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
     appImage: {
@@ -22,7 +22,7 @@ const AppSchema = mongoose.Schema(
     },
     appRef: [
       {
-        type: Schema.Types.Mixed,
+        type: mongoose.Schema.Types.Mixed,
         default: {}
       }
     ],
