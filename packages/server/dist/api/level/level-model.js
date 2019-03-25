@@ -33,7 +33,7 @@ var LevelSchema = new _mongoose.default.Schema({
   },
   vocabulary: [{
     type: _mongoose.Schema.Types.ObjectId,
-    ref: "Vocabulary"
+    ref: "VocabularySchema"
   }],
   grammar: [{
     rule: {
