@@ -1,9 +1,19 @@
 "use strict";
 
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.userResolvers = void 0;
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _chalk = _interopRequireDefault(require("chalk"));
 
@@ -35,26 +45,15 @@ var _resolverFunctions = require("../shared/resolver-functions.js");
 
 var _common = require("@utterzone/common");
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
+/* eslint-enable no-unused-vars */
 var confirmEmail =
 /*#__PURE__*/
 function () {
-  var _ref2 = _asyncToGenerator(
+  var _ref2 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(_, args, _ref) {
+  _regenerator.default.mark(function _callee(_, args, _ref) {
     var redis, url, redisToken, redisKey, userId;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -103,11 +102,11 @@ function () {
 var contact =
 /*#__PURE__*/
 function () {
-  var _ref4 = _asyncToGenerator(
+  var _ref4 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(_, args, _ref3) {
+  _regenerator.default.mark(function _callee2(_, args, _ref3) {
     var redis, url, email;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -138,11 +137,11 @@ function () {
 var changePassword =
 /*#__PURE__*/
 function () {
-  var _ref6 = _asyncToGenerator(
+  var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3(_, args, _ref5) {
+  _regenerator.default.mark(function _callee3(_, args, _ref5) {
     var redis, url, token, arrayOfErrors, redisToken, redisKey, userId, user, hashedPassword, updatePromise, deleteKeyPromise;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -238,12 +237,12 @@ function () {
 var signup =
 /*#__PURE__*/
 function () {
-  var _ref8 = _asyncToGenerator(
+  var _ref8 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee5(_, args, _ref7, info) {
+  _regenerator.default.mark(function _callee5(_, args, _ref7, info) {
     var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
 
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -312,10 +311,10 @@ function () {
             return _context5.abrupt("return", newUser.save().then(
             /*#__PURE__*/
             function () {
-              var _ref9 = _asyncToGenerator(
+              var _ref9 = (0, _asyncToGenerator2.default)(
               /*#__PURE__*/
-              regeneratorRuntime.mark(function _callee4(result) {
-                return regeneratorRuntime.wrap(function _callee4$(_context4) {
+              _regenerator.default.mark(function _callee4(result) {
+                return _regenerator.default.wrap(function _callee4$(_context4) {
                   while (1) {
                     switch (_context4.prev = _context4.next) {
                       case 0:
@@ -371,12 +370,12 @@ function () {
 var login =
 /*#__PURE__*/
 function () {
-  var _ref10 = _asyncToGenerator(
+  var _ref10 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee6(parent, args, ctx, info) {
+  _regenerator.default.mark(function _callee6(parent, args, ctx, info) {
     var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
 
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return _regenerator.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
@@ -478,12 +477,12 @@ function () {
 var getUserByToken =
 /*#__PURE__*/
 function () {
-  var _ref11 = _asyncToGenerator(
+  var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee7(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee7(_, args, ctx, info) {
     var token, result, _userId, user;
 
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+    return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
@@ -547,11 +546,11 @@ function () {
 var getUserById =
 /*#__PURE__*/
 function () {
-  var _ref12 = _asyncToGenerator(
+  var _ref12 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee8(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee8(_, args, ctx, info) {
     var result;
-    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    return _regenerator.default.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
@@ -580,11 +579,11 @@ function () {
 var getUserByUsername =
 /*#__PURE__*/
 function () {
-  var _ref13 = _asyncToGenerator(
+  var _ref13 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee9(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee9(_, args, ctx, info) {
     var result;
-    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+    return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
@@ -613,11 +612,11 @@ function () {
 var forgotPassword =
 /*#__PURE__*/
 function () {
-  var _ref16 = _asyncToGenerator(
+  var _ref16 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee10(_, _ref14, _ref15) {
+  _regenerator.default.mark(function _callee10(_, _ref14, _ref15) {
     var email, redis, url, user, link;
-    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+    return _regenerator.default.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
@@ -667,11 +666,11 @@ var updateMe = function updateMe(_, _ref17, _ref18) {
 var getSubscriptions =
 /*#__PURE__*/
 function () {
-  var _ref20 = _asyncToGenerator(
+  var _ref20 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee11(_, args, _ref19) {
+  _regenerator.default.mark(function _callee11(_, args, _ref19) {
     var user, subscriptions;
-    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+    return _regenerator.default.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
@@ -682,7 +681,7 @@ function () {
 
           case 4:
             subscriptions = _context11.sent;
-            return _context11.abrupt("return", _objectSpread({}, subscriptions._doc, {
+            return _context11.abrupt("return", (0, _objectSpread2.default)({}, subscriptions._doc, {
               _id: subscriptions.id
             }));
 

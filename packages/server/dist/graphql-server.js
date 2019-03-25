@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -46,8 +48,6 @@ var _userResolvers = require("./api/user/user-resolvers.js");
 var _vocabularyResolvers = require("./api/vocabulary/vocabulary-resolvers.js");
 
 var _zoneResolvers = require("./api/zone/zone-resolvers.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // directive imports
 // schema imports

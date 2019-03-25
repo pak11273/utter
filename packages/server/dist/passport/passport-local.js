@@ -1,12 +1,12 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _passport = _interopRequireDefault(require("passport"));
 
 var _user = _interopRequireDefault(require("../models/user"));
 
 var _passportLocal = _interopRequireDefault(require("passport-local"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LocalStrategy = _passportLocal.default.Strategy;
 

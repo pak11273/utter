@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26,8 +28,6 @@ var _expressHandlebars = _interopRequireDefault(require("express-handlebars"));
 var _expressRateLimit = _interopRequireDefault(require("express-rate-limit"));
 
 var _rateLimitRedis = _interopRequireDefault(require("rate-limit-redis"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log

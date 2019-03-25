@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _chalk = _interopRequireDefault(require("chalk"));
 
 var _http = _interopRequireDefault(require("http"));
@@ -15,8 +17,6 @@ var _graphqlServer = _interopRequireDefault(require("./graphql-server.js"));
 var _auth = require("./auth");
 
 var _socketServer = _interopRequireDefault(require("./socketio/socket-server.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var server = _http.default.createServer(_server.default); // socketio instance
 

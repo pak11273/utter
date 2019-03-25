@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,8 +12,6 @@ var _isEmpty = _interopRequireDefault(require("lodash/isEmpty"));
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var _zoneModel = _interopRequireDefault(require("../api/zone/zone-model"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var result = _zoneModel.default.find({});
 

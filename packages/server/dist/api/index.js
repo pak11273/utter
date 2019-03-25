@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +14,6 @@ var _userRoutes = _interopRequireDefault(require("./user/user-routes.js"));
 var _courseRoutes = _interopRequireDefault(require("./course/course-routes.js"));
 
 var _levelRoutes = _interopRequireDefault(require("./level/level-routes.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var router = (0, _express.default)();
 router.use("/users", _userRoutes.default);

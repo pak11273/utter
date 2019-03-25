@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,8 +16,6 @@ var _path = _interopRequireDefault(require("path"));
 var _async = _interopRequireDefault(require("async"));
 
 var _userModel = _interopRequireDefault(require("../api/user/user-model.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var options = {
   viewEngine: "handlebars",

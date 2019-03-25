@@ -1,9 +1,19 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.courseResolvers = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/objectSpread"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _isEmpty = _interopRequireDefault(require("lodash/isEmpty"));
 
@@ -20,20 +30,6 @@ var _userModel = _interopRequireDefault(require("../user/user-model.js"));
 var _resolverFunctions = require("../shared/resolver-functions.js");
 
 var _this = void 0;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var escapeRegex = function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -55,11 +51,11 @@ var escapeRegex = function escapeRegex(text) {
 var coursesById =
 /*#__PURE__*/
 function () {
-  var _ref = _asyncToGenerator(
+  var _ref = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(courseIds) {
+  _regenerator.default.mark(function _callee(courseIds) {
     var courses;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -74,7 +70,7 @@ function () {
           case 3:
             courses = _context.sent;
             return _context.abrupt("return", courses.map(function (course) {
-              return _objectSpread({}, course, {
+              return (0, _objectSpread2.default)({}, course, {
                 owner: userById.bind(_this, course.owner)
               });
             }));
@@ -111,7 +107,7 @@ function () {
 
 
 var mongooseToJs = function mongooseToJs(object) {
-  return _objectSpread({}, object._doc, {
+  return (0, _objectSpread2.default)({}, object._doc, {
     _id: object._doc._id.toString(),
     owner: userById.bind(_this, object._doc.owner)
   });
@@ -133,11 +129,11 @@ var mongooseToJs = function mongooseToJs(object) {
 var userById =
 /*#__PURE__*/
 function () {
-  var _ref2 = _asyncToGenerator(
+  var _ref2 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(userId) {
+  _regenerator.default.mark(function _callee2(userId) {
     var user;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -155,7 +151,7 @@ function () {
               break;
             }
 
-            return _context2.abrupt("return", _objectSpread({}, user, {
+            return _context2.abrupt("return", (0, _objectSpread2.default)({}, user, {
               createdCourses: coursesById.bind(_this, user.createdCourses)
             }));
 
@@ -185,11 +181,11 @@ function () {
 var getCourse =
 /*#__PURE__*/
 function () {
-  var _ref4 = _asyncToGenerator(
+  var _ref4 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3(_, args, _ref3) {
+  _regenerator.default.mark(function _callee3(_, args, _ref3) {
     var user, course;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -226,11 +222,11 @@ function () {
 var courseDelete =
 /*#__PURE__*/
 function () {
-  var _ref6 = _asyncToGenerator(
+  var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4(_, _ref5, ctx) {
+  _regenerator.default.mark(function _callee4(_, _ref5, ctx) {
     var id, token, user, course;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -292,12 +288,12 @@ function () {
 var courseUpdate =
 /*#__PURE__*/
 function () {
-  var _ref7 = _asyncToGenerator(
+  var _ref7 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee5(_, args, ctx) {
+  _regenerator.default.mark(function _callee5(_, args, ctx) {
     var _id, update, result;
 
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -312,7 +308,7 @@ function () {
 
           case 3:
             console.log("input: ", args);
-            _id = args._id, update = _objectWithoutProperties(args, ["_id"]);
+            _id = args._id, update = (0, _objectWithoutProperties2.default)(args, ["_id"]);
             _context5.next = 7;
             return _courseModel.default.findByIdAndUpdate(_id, update, {
               new: true
@@ -347,11 +343,11 @@ function () {
 var courseCreate =
 /*#__PURE__*/
 function () {
-  var _ref8 = _asyncToGenerator(
+  var _ref8 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee6(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee6(_, args, ctx, info) {
     var userId, user, newCourse, createdCourse, course, owner;
-    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+    return _regenerator.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
@@ -392,7 +388,7 @@ function () {
             course = _context6.sent;
 
             /* createdCourse = mongooseToJs(course) */
-            createdCourse = _objectSpread({}, course._doc, {
+            createdCourse = (0, _objectSpread2.default)({}, course._doc, {
               _id: course._doc._id.toString(),
               owner: userById.bind(_this, course._doc.owner)
             });
@@ -438,11 +434,11 @@ function () {
 var getCourseLevels =
 /*#__PURE__*/
 function () {
-  var _ref9 = _asyncToGenerator(
+  var _ref9 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee7(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee7(_, args, ctx, info) {
     var query;
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+    return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
@@ -466,11 +462,11 @@ function () {
 var getCreatedCourses =
 /*#__PURE__*/
 function () {
-  var _ref10 = _asyncToGenerator(
+  var _ref10 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee8(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee8(_, args, ctx, info) {
     var token, user, query, cursorObj, cursor, courses, convertedCourses, lastCourse;
-    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+    return _regenerator.default.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
@@ -529,7 +525,7 @@ function () {
 
           case 15:
             convertedCourses = courses.map(function (course) {
-              return _objectSpread({}, course, {
+              return (0, _objectSpread2.default)({}, course, {
                 owner: userById.bind(_this, course.owner)
               });
             });
@@ -585,11 +581,11 @@ function () {
 var getCourses =
 /*#__PURE__*/
 function () {
-  var _ref11 = _asyncToGenerator(
+  var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee9(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee9(_, args, ctx, info) {
     var courses, convertedCourses;
-    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+    return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
@@ -600,7 +596,7 @@ function () {
           case 3:
             courses = _context9.sent;
             convertedCourses = courses.map(function (course) {
-              return _objectSpread({}, course, {
+              return (0, _objectSpread2.default)({}, course, {
                 owner: userById.bind(_this, course.owner)
               });
             });
@@ -630,11 +626,11 @@ function () {
 var subscribe =
 /*#__PURE__*/
 function () {
-  var _ref12 = _asyncToGenerator(
+  var _ref12 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee10(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee10(_, args, ctx, info) {
     var course, userId, user, result;
-    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+    return _regenerator.default.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
@@ -698,11 +694,11 @@ function () {
 var unsubscribe =
 /*#__PURE__*/
 function () {
-  var _ref13 = _asyncToGenerator(
+  var _ref13 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee11(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee11(_, args, ctx, info) {
     var course, userId, user, result;
-    return regeneratorRuntime.wrap(function _callee11$(_context11) {
+    return _regenerator.default.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:

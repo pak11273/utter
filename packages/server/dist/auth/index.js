@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +14,6 @@ var _expressJwt = _interopRequireDefault(require("express-jwt"));
 var _config = _interopRequireDefault(require("../config"));
 
 var _userModel = _interopRequireDefault(require("../api/user/user-model.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var jwtDecode = require("jwt-decode");
 

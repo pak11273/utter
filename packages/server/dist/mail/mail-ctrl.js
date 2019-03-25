@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,8 +20,6 @@ var _path = _interopRequireDefault(require("path"));
 var _mail = require("./mail.js");
 
 var _nodemailerExpressHandlebars = _interopRequireDefault(require("nodemailer-express-handlebars"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // add nodemailer-express-handlebars to transporter
 var options = {

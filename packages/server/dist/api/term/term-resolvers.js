@@ -1,27 +1,25 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.courseResolvers = void 0;
+
+var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _lodash = require("lodash");
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var _termModel = _interopRequireDefault(require("./term-model"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 var escapeRegex = function escapeRegex(text) {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -30,11 +28,11 @@ var escapeRegex = function escapeRegex(text) {
 var getTerm =
 /*#__PURE__*/
 function () {
-  var _ref3 = _asyncToGenerator(
+  var _ref3 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee(_, _ref, _ref2) {
+  _regenerator.default.mark(function _callee(_, _ref, _ref2) {
     var id, user, course;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
+    return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
@@ -72,11 +70,11 @@ function () {
 var deleteTerm =
 /*#__PURE__*/
 function () {
-  var _ref5 = _asyncToGenerator(
+  var _ref5 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee2(_, _ref4, ctx) {
+  _regenerator.default.mark(function _callee2(_, _ref4, ctx) {
     var id, course;
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+    return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
@@ -116,10 +114,8 @@ function () {
 
 var updateTerm = function updateTerm(_, _ref6) {
   var input = _ref6.input;
-
   var id = input.id,
-      update = _objectWithoutProperties(input, ["id"]);
-
+      update = (0, _objectWithoutProperties2.default)(input, ["id"]);
   return _termModel.default.findByIdAndUpdate(id, update, {
     new: true
   }).exec();
@@ -128,11 +124,11 @@ var updateTerm = function updateTerm(_, _ref6) {
 var courseCreate =
 /*#__PURE__*/
 function () {
-  var _ref7 = _asyncToGenerator(
+  var _ref7 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee3(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee3(_, args, ctx, info) {
     var input, course;
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
+    return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
@@ -147,7 +143,7 @@ function () {
           case 6:
             course = _context3.sent;
             course.id = course._id;
-            console.log("course: ", _typeof(course));
+            console.log("course: ", (0, _typeof2.default)(course));
             return _context3.abrupt("return", course);
 
           case 10:
@@ -166,11 +162,11 @@ function () {
 var getCreatedTerms =
 /*#__PURE__*/
 function () {
-  var _ref8 = _asyncToGenerator(
+  var _ref8 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee4(_, args, ctx, info) {
     var query, cursorObj, cursor, result;
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+    return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
@@ -235,11 +231,11 @@ function () {
 var getTerms =
 /*#__PURE__*/
 function () {
-  var _ref9 = _asyncToGenerator(
+  var _ref9 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee5(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee5(_, args, ctx, info) {
     var query, courseName, resources, owner, cursor, result;
-    return regeneratorRuntime.wrap(function _callee5$(_context5) {
+    return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
@@ -331,11 +327,11 @@ var courseResolvers = {
   },
   Term: {
     owner: function () {
-      var _owner = _asyncToGenerator(
+      var _owner = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee6(course) {
+      _regenerator.default.mark(function _callee6(course) {
         var populated;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return _regenerator.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:

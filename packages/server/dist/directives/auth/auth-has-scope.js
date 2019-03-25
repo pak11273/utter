@@ -1,9 +1,31 @@
 "use strict";
 
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.hasScopeDirective = void 0;
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/classCallCheck"));
+
+var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(require("@babel/runtime/helpers/possibleConstructorReturn"));
+
+var _getPrototypeOf3 = _interopRequireDefault(require("@babel/runtime/helpers/getPrototypeOf"));
+
+var _assertThisInitialized2 = _interopRequireDefault(require("@babel/runtime/helpers/assertThisInitialized"));
+
+var _inherits2 = _interopRequireDefault(require("@babel/runtime/helpers/inherits"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
 var jwt = _interopRequireWildcard(require("jsonwebtoken"));
 
@@ -29,34 +51,8 @@ var _testModel = _interopRequireDefault(require("../../api/test/test-model.js"))
 
 var _zoneModel = _interopRequireDefault(require("../../api/zone/zone-model.js"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+/* import { AuthorizationError } from "./errors"; */
+// resources
 // register resources
 var resources = [{
   user: _userModel.default
@@ -75,37 +71,35 @@ var resources = [{
 var hasScopeDirective =
 /*#__PURE__*/
 function (_SchemaDirectiveVisit) {
-  _inherits(hasScopeDirective, _SchemaDirectiveVisit);
+  (0, _inherits2.default)(hasScopeDirective, _SchemaDirectiveVisit);
 
   function hasScopeDirective() {
     var _getPrototypeOf2;
 
     var _this;
 
-    _classCallCheck(this, hasScopeDirective);
+    (0, _classCallCheck2.default)(this, hasScopeDirective);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(hasScopeDirective)).call.apply(_getPrototypeOf2, [this].concat(args)));
-
-    _defineProperty(_assertThisInitialized(_this), "arrayContainsAnotherArray", function (needle, haystack) {
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(hasScopeDirective)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "arrayContainsAnotherArray", function (needle, haystack) {
       for (var i = 0; i < needle.length; i++) {
         if (haystack.indexOf(needle[i]) === -1) return false;
       }
 
       return true;
     });
-
-    _defineProperty(_assertThisInitialized(_this), "hasPermission",
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "hasPermission",
     /*#__PURE__*/
     function () {
-      var _ref = _asyncToGenerator(
+      var _ref = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee(rules, user, resourceId, expectedScope) {
+      _regenerator.default.mark(function _callee(rules, user, resourceId, expectedScope) {
         var roles, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, key, modelSlice, modelName, Model, result;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+        return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
@@ -197,11 +191,10 @@ function (_SchemaDirectiveVisit) {
         return _ref.apply(this, arguments);
       };
     }());
-
     return _this;
   }
 
-  _createClass(hasScopeDirective, [{
+  (0, _createClass2.default)(hasScopeDirective, [{
     key: "visitFieldDefinition",
     value: function visitFieldDefinition(field) {
       var _this2 = this;
@@ -211,9 +204,9 @@ function (_SchemaDirectiveVisit) {
           resolve = _field$resolve === void 0 ? _graphql.defaultFieldResolver : _field$resolve;
       field.resolve =
       /*#__PURE__*/
-      _asyncToGenerator(
+      (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
-      regeneratorRuntime.mark(function _callee2() {
+      _regenerator.default.mark(function _callee2() {
         var _len2,
             args,
             _key2,
@@ -223,7 +216,7 @@ function (_SchemaDirectiveVisit) {
             resource,
             _args2 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return _regenerator.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
@@ -307,7 +300,6 @@ function (_SchemaDirectiveVisit) {
       }));
     }
   }]);
-
   return hasScopeDirective;
 }(_apolloServer.SchemaDirectiveVisitor);
 

@@ -1,6 +1,14 @@
 {
 	"presets": ["@babel/preset-env"],
+  "env": {
+    "server": {
+      "plugins": ["transform-es2015-modules-commonjs"]
+    }
+	},
 	"plugins": [
+		[
+			"@babel/plugin-transform-runtime"
+		],
 		[
 			"@babel/plugin-proposal-class-properties"
 		]

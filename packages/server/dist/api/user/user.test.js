@@ -1,5 +1,11 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _ioredis = _interopRequireDefault(require("ioredis"));
 
 var _graphqlRequest = require("graphql-request");
@@ -17,12 +23,6 @@ var _errorMessages = require("../shared/error-messages.js");
 var _userModel = _interopRequireDefault(require("./user-model.js"));
 
 var _config = _interopRequireDefault(require("../../config"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 afterAll(function () {
   // mongoose.connection.db.dropDatabase()
@@ -65,20 +65,20 @@ var forgotPasswordMutation = function forgotPasswordMutation(newPassword, key) {
 try {
   describe("Signup User",
   /*#__PURE__*/
-  _asyncToGenerator(
+  (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee4() {
-    return regeneratorRuntime.wrap(function _callee4$(_context4) {
+  _regenerator.default.mark(function _callee4() {
+    return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             it("check for duplicate emails",
             /*#__PURE__*/
-            _asyncToGenerator(
+            (0, _asyncToGenerator2.default)(
             /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee() {
+            _regenerator.default.mark(function _callee() {
               var response, dupe;
-              return regeneratorRuntime.wrap(function _callee$(_context) {
+              return _regenerator.default.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
@@ -105,11 +105,11 @@ try {
             })));
             it("check for bad emails",
             /*#__PURE__*/
-            _asyncToGenerator(
+            (0, _asyncToGenerator2.default)(
             /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee2() {
+            _regenerator.default.mark(function _callee2() {
               var emailCheck;
-              return regeneratorRuntime.wrap(function _callee2$(_context2) {
+              return _regenerator.default.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
@@ -136,10 +136,10 @@ try {
             })));
             it("validate passwords",
             /*#__PURE__*/
-            _asyncToGenerator(
+            (0, _asyncToGenerator2.default)(
             /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee3() {
-              return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            _regenerator.default.mark(function _callee3() {
+              return _regenerator.default.wrap(function _callee3$(_context3) {
                 while (1) {
                   switch (_context3.prev = _context3.next) {
                     case 0:
@@ -166,20 +166,20 @@ try {
   })));
   describe("Login User",
   /*#__PURE__*/
-  _asyncToGenerator(
+  (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  regeneratorRuntime.mark(function _callee7() {
-    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+  _regenerator.default.mark(function _callee7() {
+    return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             it("invalid identifier login",
             /*#__PURE__*/
-            _asyncToGenerator(
+            (0, _asyncToGenerator2.default)(
             /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee5() {
+            _regenerator.default.mark(function _callee5() {
               var response;
-              return regeneratorRuntime.wrap(function _callee5$(_context5) {
+              return _regenerator.default.wrap(function _callee5$(_context5) {
                 while (1) {
                   switch (_context5.prev = _context5.next) {
                     case 0:
@@ -202,10 +202,10 @@ try {
             })));
             it("email not confirmed",
             /*#__PURE__*/
-            _asyncToGenerator(
+            (0, _asyncToGenerator2.default)(
             /*#__PURE__*/
-            regeneratorRuntime.mark(function _callee6() {
-              return regeneratorRuntime.wrap(function _callee6$(_context6) {
+            _regenerator.default.mark(function _callee6() {
+              return _regenerator.default.wrap(function _callee6$(_context6) {
                 while (1) {
                   switch (_context6.prev = _context6.next) {
                     case 0:
@@ -226,11 +226,11 @@ try {
   describe("Forgot Password", function () {
     it("ensures it works",
     /*#__PURE__*/
-    _asyncToGenerator(
+    (0, _asyncToGenerator2.default)(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee8() {
+    _regenerator.default.mark(function _callee8() {
       var url, segments, key, response;
-      return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      return _regenerator.default.wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:

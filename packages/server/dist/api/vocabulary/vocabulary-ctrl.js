@@ -1,9 +1,17 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
@@ -14,25 +22,16 @@ var _lodash = require("lodash");
 var _vocabularyModel = _interopRequireDefault(require("./vocabulary-model.js"));
 
 var _arguments = arguments;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var ObjectId = _mongoose.default.Types.ObjectId;
 
-var _default = _defineProperty({
+var _default = (0, _defineProperty2.default)({
   get: function () {
-    var _get = _asyncToGenerator(
+    var _get = (0, _asyncToGenerator2.default)(
     /*#__PURE__*/
-    regeneratorRuntime.mark(function _callee(req, res, next) {
-      var limit, query, vocabularyAuthor, prePopResult, result, totalRecords, _next2, lastResultId;
+    _regenerator.default.mark(function _callee(req, res, next) {
+      var limit, query, vocabularyAuthor, prePopResult, result, totalRecords, _next, lastResultId;
 
-      return regeneratorRuntime.wrap(function _callee$(_context) {
+      return _regenerator.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
@@ -142,10 +141,10 @@ var _default = _defineProperty({
               // remaining queries
               console.log("remaining queries");
               // type cast id, $lt is not the same in aggregate vs query
-              _next2 = _mongoose.default.Types.ObjectId(req.query.next); // add to query object
+              _next = _mongoose.default.Types.ObjectId(req.query.next); // add to query object
 
               query._id = {
-                $lt: _next2
+                $lt: _next
               };
               _context.next = 32;
               return _vocabularyModel.default.aggregate([{
@@ -185,17 +184,17 @@ var _default = _defineProperty({
               }
 
               if ((0, _lodash.isEmpty)(result)) {
-                _next2 = "done";
+                _next = "done";
                 res.json({
                   result: result,
-                  next: _next2
+                  next: _next
                 });
               } else {
-                _next2 = result[result.length - 1]._id;
-                console.log("next: ", _next2);
+                _next = result[result.length - 1]._id;
+                console.log("next: ", _next);
                 res.json({
                   result: result,
-                  next: _next2
+                  next: _next
                 });
               }
 
