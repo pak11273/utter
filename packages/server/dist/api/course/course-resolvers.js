@@ -369,7 +369,7 @@ function () {
               title: args.input.title,
               courseDescription: args.input.courseDescription,
               courseMode: args.input.courseMode,
-              resources: args.input.resources,
+              resource: args.input.resource,
               teachingLang: args.input.teachingLang,
               usingLang: args.input.usingLang,
               owner: user._id

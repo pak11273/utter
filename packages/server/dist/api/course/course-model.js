@@ -39,10 +39,9 @@ var CourseSchema = _mongoose.default.Schema({
     type: Number,
     default: -1
   },
-  resources: [{
-    type: _mongoose.default.Schema.Types.Mixed,
-    default: {}
-  }],
+  resource: {
+    type: String
+  },
   teachingLang: {
     type: String,
     default: ""
