@@ -1,9 +1,9 @@
 import React, {PureComponent} from "react"
+import {withRouter} from "react-router-dom"
 /* import Waypoint from "react-waypoint" */
 
 import classNames from "classnames"
 import cloneDeep from "lodash/cloneDeep"
-import {history} from "@utterzone/connector"
 /* import isEmpty from "lodash/isEmpty" */
 import update from "immutability-helper"
 
@@ -18,7 +18,7 @@ import Grid from "@material-ui/core/Grid"
 import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
-import {Query, withApollo} from "react-apollo"
+import {compose, Query, withApollo} from "react-apollo"
 import {session} from "brownies"
 import gql from "graphql-tag"
 
@@ -194,14 +194,8 @@ class CoursesGrid extends PureComponent {
 
   handleImageClick = card => () => {
     session.course = card
-    /* if (!session.user) { */
-    /*   history.push({ */
-    /*     pathname: "/login", */
-    /* notification: "You must */
-    /*   }) */
-    /* } else { */
-    history.push({
-      pathname: "/course/course-settings",
+    this.props.history.push({
+      pathname: "/course/course-introduction",
       state: {courseId: card.id}
     })
   }
@@ -384,4 +378,8 @@ class CoursesGrid extends PureComponent {
   }
 }
 
-export default withApollo(withStyles(styles)(CoursesGrid))
+export default compose(
+  withRouter,
+  withApollo,
+  withStyles(styles)
+)(CoursesGrid)
