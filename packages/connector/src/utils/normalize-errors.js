@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export const normalizeErrors = errors => {
   const errorMap = {}
   errors.forEach(err => {

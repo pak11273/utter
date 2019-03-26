@@ -3,7 +3,7 @@ import * as yup from "yup"
 /* const invalidLogin = "invalid login" */
 
 /* export const invalidEmail = "email must be a valid email" */
-export const nameNotLongEnough = "Course name must be at least 10 characters"
+export const titleNotLongEnough = "Course titles must be at least 10 characters"
 export const descriptionNotLongEnough =
   "Course description must be at least 100 characters"
 export const descriptionTooLong =
@@ -11,23 +11,33 @@ export const descriptionTooLong =
 export const nameTooLong = "Course name cannot exceed 100 characters"
 
 export const courseCreateSchema = yup.object().shape({
-  courseName: yup
+  title: yup
     .string()
-    .min(10, nameNotLongEnough)
+    .min(10, titleNotLongEnough)
     .max(100, nameTooLong)
-    .required("A course name is required"),
+    .required("A course title is required"),
   courseDescription: yup
     .string()
     .min(100, descriptionNotLongEnough)
     .max(350, descriptionTooLong)
-    .required("A course description is required")
+    .required("A course description is required"),
+  usingLang: yup
+    .array()
+    .min(1, "Pick at least 1 language")
+    .of(
+      yup.object().shape({
+        label: yup.string().required(),
+        value: yup.string().required()
+      })
+    )
+  /* teachingLang: yup.string().required("Teaching language is required") */
 })
 
 export const courseSchema = yup.object().shape({
-  courseName: yup
+  title: yup
     .string()
     .required("A course name is required")
-    .min(10, nameNotLongEnough)
+    .min(10, titleNotLongEnough)
     .max(100, nameTooLong),
   courseDescription: yup
     .string()

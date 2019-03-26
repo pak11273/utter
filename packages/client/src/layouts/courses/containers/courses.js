@@ -118,7 +118,7 @@ const styles = theme => ({
 const initialState = {
   searchInput: "",
   title: "",
-  resources: [],
+  resource: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -240,7 +240,7 @@ class CoursesContainer extends PureComponent {
                         <em>None</em>
                       </MenuItem>
                       <MenuItem value="title">Title</MenuItem>
-                      <MenuItem value="resources">Resource</MenuItem>
+                      <MenuItem value="resource">Resource</MenuItem>
                       <MenuItem value="author">Author</MenuItem>
                     </Select>
                   </FormControl>

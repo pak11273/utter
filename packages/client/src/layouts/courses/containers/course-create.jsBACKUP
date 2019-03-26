@@ -15,16 +15,17 @@ import cloneDeep from "lodash/cloneDeep"
 import Dropzone from "react-dropzone"
 import cuid from "cuid"
 import styled from "styled-components"
-/* import {courseCreateSchema} from "@utterzone/common" */
+import {courseCreateSchema} from "@utterzone/common"
 import CryptoJS from "crypto-js"
 import {groupedOptions} from "../../../data/language-data.js"
 import {
   FormikInput,
   FormikTextArea,
-  Span,
   Img,
-  LoadingButton
+  LoadingButton,
+  Span
 } from "../../../components"
+import CourseResources from "../components/course-resources.js"
 import Teaching from "./teaching"
 import Using from "./using"
 
@@ -45,7 +46,6 @@ const StyledSpan = styled(Span)`
     display: ${props => props.display640};
   }
 `
-
 const initialState = {
   cdn: {},
   charCount: 0,
@@ -112,7 +112,6 @@ const COURSE_CREATE_MUTATION = gql`
     $courseImage: String
     $courseDescription: String
     $courseMode: String
-    $resource: String
     $teachingLang: String
     $usingLang: String
   ) {
@@ -122,7 +121,6 @@ const COURSE_CREATE_MUTATION = gql`
         courseImage: $courseImage
         courseDescription: $courseDescription
         courseMode: $courseMode
-        resource: $resource
         teachingLang: $teachingLang
         usingLang: $usingLang
       }
@@ -159,6 +157,12 @@ class CourseCreate extends Component {
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
+    })
+  }
+
+  addResources = value => {
+    this.setState({
+      resource: value
     })
   }
 
@@ -226,16 +230,8 @@ class CourseCreate extends Component {
   }
 
   render() {
-    const {
-      classes,
-      errors,
-      handleSubmit,
-      isSubmitting,
-      setFieldTouched,
-      setFieldValue,
-      touched
-    } = this.props
-    const {title, courseDescription, usingLang} = this.props.values
+    const {classes, handleSubmit, isSubmitting} = this.props
+    const {title, courseDescription} = this.props.values
 
     return (
       <React.Fragment>
@@ -322,9 +318,7 @@ class CourseCreate extends Component {
                             borderWidth: "2px",
                             borderColor: "rgb(102, 102, 102)",
                             borderStyle: "dashed",
-                            borderRadius: "5px",
-                            alignItems: "center",
-                            display: "flex"
+                            borderRadius: "5px"
                           }}
                           {...getRootProps()}>
                           <input {...getInputProps()} />
@@ -393,14 +387,9 @@ class CourseCreate extends Component {
                 </Typography>
                 <Field
                   name="usingLang"
-                  error={errors.usingLang}
                   component={Using}
                   addUsingLang={this.addUsingLang}
                   options={groupedOptions}
-                  onChange={setFieldValue}
-                  onBlur={setFieldTouched}
-                  touched={touched.usingLang}
-                  value={usingLang}
                 />
                 <Typography
                   align="left"
@@ -423,13 +412,7 @@ class CourseCreate extends Component {
                   Resource
                 </Typography>
                 <p>ie. Book, Classroom, Online Course</p>
-                <Field
-                  id="resource"
-                  label="Resource"
-                  type="text"
-                  name="resource"
-                  component={FormikInput}
-                />
+                <CourseResources addResources={this.addResources} />
                 <Grid
                   item
                   style={{
@@ -460,7 +443,7 @@ export default compose(
   graphql(COURSE_CREATE_MUTATION, {name: "courseCreate"}),
   withRouter,
   withFormik({
-    /* validationSchema: courseCreateSchema, */
+    validationSchema: courseCreateSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
@@ -474,6 +457,7 @@ export default compose(
       usingLang: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
+      console.log("setErrors: ", setErrors)
       console.log("values: ", values)
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,
@@ -486,14 +470,13 @@ export default compose(
       }
 
       const result = merge(cdnUpload)
-      console.log("result: ", result)
+
       const course = await props.courseCreate({
         variables: {
           title: result.title,
           courseDescription: result.courseDescription,
           courseImage: result.secure_url,
           courseMode: result.courseMode,
-          resource: result.resource,
           teachingLang: result.teachingLang,
           usingLang: result.usingLang
         }

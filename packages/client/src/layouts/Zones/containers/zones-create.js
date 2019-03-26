@@ -2,9 +2,7 @@ import React, {Component} from "react"
 import {Helmet} from "react-helmet"
 import {withRouter} from "react-router-dom"
 
-import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
-/* /1* import TextField from "@material-ui/core/TextField" *1/ */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {compose, graphql} from "react-apollo"
@@ -12,17 +10,16 @@ import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
 import gql from "graphql-tag"
-/* /1* import update from "immutability-helper" *1/ */
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"
 import appData from "../../../data/appData.js"
 import {
-  /*   Flex, */
   FormikInput,
   FormikSelect,
   FormikTextArea,
+  LoadingButton,
   Span
 } from "../../../components"
 import {session} from "brownies"
@@ -45,20 +42,6 @@ const DisplayCount = styled.div`
     right: 10%;
   }
 `
-/* const StyledFlex = styled(Flex)` */
-/*   grid-area: ${props => props.gridarea}; */
-/*   margin: ${props => props.margin}; */
-/*   overflow: initial; */
-/*   position: relative; */
-
-/*   @media (min-width: 1080px) { */
-/*     margin: ${props => props.margin1080}; */
-/*   } */
-/* ` */
-/* StyledFlex.defaultProps = { */
-/*   margin: "80px 0 0 0" */
-/* } */
-
 const StyledSpan = styled(Span)`
   display: none;
   font-size: 0.6rem;
@@ -171,7 +154,7 @@ class ZoneCreate extends Component {
   }
 
   render() {
-    const {classes, handleSubmit} = this.props
+    const {classes, handleSubmit, isSubmitting} = this.props
     const {zoneName, zoneDescription} = this.props.values
 
     return (
@@ -439,14 +422,15 @@ class ZoneCreate extends Component {
                 />
               </Grid>
               <Grid item xs={12} align="center">
-                <Button
+                <LoadingButton
                   variant="contained"
-                  color="primary"
-                  className={classes.saveButton}
+                  color="secondary"
                   type="submit"
-                  size="large">
+                  size="large"
+                  loading={isSubmitting}
+                  disabled={isSubmitting}>
                   Create Zone
-                </Button>
+                </LoadingButton>
               </Grid>
             </Grid>
           </main>
@@ -473,8 +457,7 @@ export default compose(
       zoneName: "",
       zoneDescription: ""
     }),
-    handleSubmit: async (values, {props, setStatus, setErrors}) => {
-      setStatus({loading: true})
+    handleSubmit: async (values, {props, setErrors}) => {
       const result = await props.zoneCreate({
         variables: {
           ageGroup: values.ageGroup,
@@ -489,7 +472,6 @@ export default compose(
       })
 
       const onComplete = zone => {
-        setStatus({loading: false})
         session.zone = zone.data.zoneCreate
         props.history.push({
           pathname: `/zone/${zone.data.zoneCreate._id}`,

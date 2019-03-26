@@ -64,6 +64,12 @@ class Using extends Component {
           rtl={this.state.rtl}
           searchable={this.state.searchable}
         />
+        {!!this.props.error &&
+          this.props.touched && (
+            <div style={{color: "red", marginTop: ".5rem"}}>
+              {this.props.error}
+            </div>
+          )}
       </Box>
     )
   }

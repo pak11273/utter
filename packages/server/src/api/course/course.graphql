@@ -44,7 +44,7 @@ input CourseCreateInput {
   title: String!
   courseDescription: String
   courseMode: String
-	resource: [String]
+	resource: String
 	teachingLang: String
   usingLang: String
 }

@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.normalizeErrors = void 0;
 
+/* eslint-disable */
 var normalizeErrors = function normalizeErrors(errors) {
   var errorMap = {};
   errors.forEach(function (err) {

@@ -16,6 +16,7 @@
     "@babel/preset-react": "^7.0.0"
   },
   "dependencies": {
+    "@babel/runtime": "^7.4.2",
     "@utterzone/common": "^1.0.0",
     "@utterzone/connector": "^1.0.0",
     "graphql": "^14.0.2",

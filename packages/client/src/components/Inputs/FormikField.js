@@ -43,7 +43,6 @@ export const FormikTextArea = ({
       {...field}
       {...props}
       error={!isEmpty(errors[field.name])}
-      label={field.name}
     />
     {errors[field.name] &&
       touched[field.name] && (
