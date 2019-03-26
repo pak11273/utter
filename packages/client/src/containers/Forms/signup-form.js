@@ -2,6 +2,7 @@ import React, {PureComponent} from "react"
 import {Helmet} from "react-helmet"
 import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
+import {compose, withApollo} from "react-apollo"
 
 import Checkbox from "@material-ui/core/Checkbox"
 import Grid from "@material-ui/core/Grid"
@@ -9,7 +10,7 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
-import {local} from "brownies"
+import {local, session} from "brownies"
 /* import {toast} from "react-toastify" */
 /* import "react-toastify/dist/ReactToastify.min.css" */
 
@@ -18,7 +19,30 @@ import Terms from "../../documents/terms-and-conditions.js"
 import {signupSchema} from "@utterzone/common"
 import {FormikInput, Img, LoadingButton, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
+import gql from "graphql-tag"
 
+const GET_USER_BY_TOKEN = gql`
+  query getUserByToken($token: String!) {
+    getUserByToken(token: $token) {
+      blocked
+      contacts
+      createdCourses {
+        _id
+      }
+      createdAt
+      email
+      _id
+      password
+      roles
+      scopes
+      subscriptions {
+        _id
+      }
+      updatedAt
+      username
+    }
+  }
+`
 const styles = () => ({
   agreement: {
     display: "flex",
@@ -254,7 +278,10 @@ class SignupForm extends PureComponent {
   }
 }
 
-export default withRouter(
+export default compose(
+  withApollo,
+  withRouter,
+  withStyles(styles),
   withFormik({
     validationSchema: signupSchema,
     validateOnChange: false,
@@ -267,25 +294,30 @@ export default withRouter(
       timezone: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      console.log("props: ", props)
-      const result = await props.submit(values)
-      const onComplete = () => {
+      const signupResult = await props.submit(values)
+      const onComplete = async () => {
+        const loginResult = await props.client.query({
+          query: GET_USER_BY_TOKEN,
+          variables: {
+            token: local.AUTH_TOKEN
+          }
+        })
+
+        session.user = loginResult.data.getUserByToken
+
         props.history.push("/a/confirm-email", {
           announcement: "Please check your email to confirm your address."
         })
       }
 
-      console.log("result: ", result)
-
       // if signup info is legit
-      if (typeof result !== "object") {
-        console.log("hello")
-        local.AUTH_TOKEN = result
+      if (typeof signupResult !== "object") {
+        local.AUTH_TOKEN = signupResult
         onComplete()
       } else {
         // if signup info is not legit
-        setErrors(result)
+        setErrors(signupResult)
       }
     }
-  })(withStyles(styles)(SignupForm))
-)
+  })
+)(SignupForm)
