@@ -4,12 +4,12 @@ type Course {
   courseDescription: String
   courseImage: String
   courseMode: String!
-  courseName: String!
+  title: String!
   createdAt: String 
   _id: ID!
   levels: [Level]
   owner: User!
-	resources: String
+	resource: String
 	subscribers: Int
   teachingLang: String
   usingLang: String
@@ -23,26 +23,28 @@ type Resource {
 }
 
 input CourseUpdateInput {
-  courseName: String
+  title: String
   courseDescription: String
   courseMode: String
 }
 
 input GetCoursesInput {
     cursor: String
-    courseName: String!
+    title: String!
     owner: String!
-		resources: String 
+		resource: String 
+		searchInput: String
+		selectionBox: String
     usingLang: String!
     teachingLang: String!
 }
 
 input CourseCreateInput {
 	courseImage: String
-  courseName: String!
+  title: String!
   courseDescription: String
   courseMode: String
-	resources: [String]
+	resource: [String]
 	teachingLang: String
   usingLang: String
 }
@@ -55,7 +57,7 @@ type PaginatedCourses {
 extend type Query {
   getCourse(_id: String!): Course!
 	getCourseLevels(courseId: String!): Course!
-  getCourses: PaginatedCourses 
+  getCourses(input: GetCoursesInput!): PaginatedCourses 
 	getCreatedCourses(
     cursor: String
 	): PaginatedCourses  

@@ -22,7 +22,7 @@ var CourseSchema = _mongoose.default.Schema({
     type: _mongoose.default.Schema.Types.Mixed,
     default: {}
   },
-  courseName: {
+  title: {
     type: String,
     default: "",
     required: [true, "can't be blank"]
@@ -69,7 +69,7 @@ var CourseSchema = _mongoose.default.Schema({
 });
 
 CourseSchema.index({
-  courseName: "text",
+  title: "text",
   courseDescription: "text"
 });
 

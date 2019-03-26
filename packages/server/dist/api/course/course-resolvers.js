@@ -137,17 +137,15 @@ function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log("userId: ", userId);
-            _context2.prev = 1;
-            _context2.next = 4;
+            _context2.prev = 0;
+            _context2.next = 3;
             return _userModel.default.findById(userId).lean();
 
-          case 4:
+          case 3:
             user = _context2.sent;
-            console.log("user: ", user);
 
             if (!user) {
-              _context2.next = 8;
+              _context2.next = 6;
               break;
             }
 
@@ -155,22 +153,22 @@ function () {
               createdCourses: coursesById.bind(_this, user.createdCourses)
             }));
 
-          case 8:
+          case 6:
             return _context2.abrupt("return", {
               username: ""
             });
 
-          case 11:
-            _context2.prev = 11;
-            _context2.t0 = _context2["catch"](1);
+          case 9:
+            _context2.prev = 9;
+            _context2.t0 = _context2["catch"](0);
             throw _context2.t0;
 
-          case 14:
+          case 12:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[1, 11]]);
+    }, _callee2, null, [[0, 9]]);
   }));
 
   return function userById(_x2) {
@@ -307,32 +305,28 @@ function () {
             return _context5.abrupt("return", new Error("You need to be registered to edit this course."));
 
           case 3:
-            console.log("input: ", args);
             _id = args._id, update = (0, _objectWithoutProperties2.default)(args, ["_id"]);
-            _context5.next = 7;
+            _context5.next = 6;
             return _courseModel.default.findByIdAndUpdate(_id, update, {
               new: true
             }).lean();
 
-          case 7:
+          case 6:
             result = _context5.sent;
-
-            /* .exec() */
-            console.log("result: ", result);
-            _context5.next = 14;
+            _context5.next = 12;
             break;
 
-          case 11:
-            _context5.prev = 11;
+          case 9:
+            _context5.prev = 9;
             _context5.t0 = _context5["catch"](0);
             throw _context5.t0;
 
-          case 14:
+          case 12:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 11]]);
+    }, _callee5, null, [[0, 9]]);
   }));
 
   return function courseUpdate(_x9, _x10, _x11) {
@@ -351,29 +345,28 @@ function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            console.log("args: ", args);
-            _context6.prev = 1;
+            _context6.prev = 0;
 
             if (ctx.isAuth) {
-              _context6.next = 4;
+              _context6.next = 3;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 4:
+          case 3:
             userId = ctx.req.token._id;
-            _context6.next = 7;
+            _context6.next = 6;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
+          case 6:
             user = _context6.sent;
             newCourse = new _courseModel.default({
               courseImage: args.input.courseImage,
-              courseName: args.input.courseName,
+              title: args.input.title,
               courseDescription: args.input.courseDescription,
               courseMode: args.input.courseMode,
               resources: args.input.resources,
@@ -381,10 +374,10 @@ function () {
               usingLang: args.input.usingLang,
               owner: user._id
             });
-            _context6.next = 11;
+            _context6.next = 10;
             return newCourse.save();
 
-          case 11:
+          case 10:
             course = _context6.sent;
 
             /* createdCourse = mongooseToJs(course) */
@@ -392,38 +385,38 @@ function () {
               _id: course._doc._id.toString(),
               owner: userById.bind(_this, course._doc.owner)
             });
-            _context6.next = 15;
+            _context6.next = 14;
             return _userModel.default.findById(userId);
 
-          case 15:
+          case 14:
             owner = _context6.sent;
 
             if (owner) {
-              _context6.next = 18;
+              _context6.next = 17;
               break;
             }
 
             throw new Error("User not found.");
 
-          case 18:
+          case 17:
             owner.createdCourses.push(course);
-            _context6.next = 21;
+            _context6.next = 20;
             return owner.save();
 
-          case 21:
+          case 20:
             return _context6.abrupt("return", createdCourse);
 
-          case 24:
-            _context6.prev = 24;
-            _context6.t0 = _context6["catch"](1);
+          case 23:
+            _context6.prev = 23;
+            _context6.t0 = _context6["catch"](0);
             throw _context6.t0;
 
-          case 27:
+          case 26:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[1, 24]]);
+    }, _callee6, null, [[0, 23]]);
   }));
 
   return function courseCreate(_x12, _x13, _x14, _x15) {
@@ -584,16 +577,33 @@ function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee9(_, args, ctx, info) {
-    var courses, convertedCourses;
+    var input, query, key, courses, convertedCourses;
     return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            _context9.prev = 0;
-            _context9.next = 3;
-            return _courseModel.default.find().lean();
+            console.log("args: ", args.input);
+            input = args.input;
 
-          case 3:
+            if (input.searchInput || input.selectionBox) {
+              console.log("input: ", input.searchInput);
+              input[input.selectionBox] = input.searchInput;
+              delete input.searchInput;
+              delete input.selectionBox;
+            }
+
+            query = {};
+
+            for (key in input) {
+              input[key] !== "" ? query[key] = input[key] : null;
+            }
+
+            console.log("query: ", query);
+            _context9.prev = 6;
+            _context9.next = 9;
+            return _courseModel.default.find(query).lean();
+
+          case 9:
             courses = _context9.sent;
             convertedCourses = courses.map(function (course) {
               return (0, _objectSpread2.default)({}, course, {
@@ -605,17 +615,17 @@ function () {
               cursor: ""
             });
 
-          case 8:
-            _context9.prev = 8;
-            _context9.t0 = _context9["catch"](0);
+          case 14:
+            _context9.prev = 14;
+            _context9.t0 = _context9["catch"](6);
             throw _context9.t0;
 
-          case 11:
+          case 17:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[0, 8]]);
+    }, _callee9, null, [[6, 14]]);
   }));
 
   return function getCourses(_x24, _x25, _x26, _x27) {

@@ -22,9 +22,9 @@ router.route("/my-courses/:owner").get(_courseCtrl.default.getTeachingCourses); 
 
 router.route("/unique").post(_courseCtrl.default.unique); // get current teaching course
 
-router.route("/:authId/:owner/:courseId/:courseName").get(_courseCtrl.default.getOne).delete(_courseCtrl.default.deleteCourse).put(_courseCtrl.default.updateOne); // delete course level
+router.route("/:authId/:owner/:courseId/:title").get(_courseCtrl.default.getOne).delete(_courseCtrl.default.deleteCourse).put(_courseCtrl.default.updateOne); // delete course level
 
-router.route("/my-courses/:owner/:courseId/:courseName/:levelId").delete(_courseCtrl.default.deleteLevel); // .put(controller.update)
+router.route("/my-courses/:owner/:courseId/:title/:levelId").delete(_courseCtrl.default.deleteLevel); // .put(controller.update)
 
 var _default = router;
 exports.default = _default;

@@ -38,8 +38,8 @@ var _default = {
 
               query = {};
 
-              if (req.query.courseName) {
-                query.courseName = new RegExp("".concat(req.query.courseName), "i");
+              if (req.query.title) {
+                query.title = new RegExp("".concat(req.query.title), "i");
               }
 
               if (req.query.resources) {
@@ -90,7 +90,7 @@ var _default = {
                 $match: query
               }, {
                 $project: {
-                  courseName: 1,
+                  title: 1,
                   courseDescription: 1,
                   resources: 1,
                   owner: 1,
@@ -156,7 +156,7 @@ var _default = {
                 $limit: limit
               }, {
                 $project: {
-                  courseName: 1,
+                  title: 1,
                   courseDescription: 1,
                   resources: 1,
                   owner: 1,
@@ -262,7 +262,7 @@ var _default = {
   },
   unique: function unique(req, res, next) {
     _courseModel.default.find({
-      courseName: req.body.course
+      title: req.body.course
     }).then(function (course) {
       if (!req.body.course) {
         res.status(400).json({
@@ -325,7 +325,7 @@ var _default = {
 
       course.courseId = (0, _cuid.default)();
       course.owner = _faker2.default.random.arrayElement(["5b9012f043aa4329f187f01a", "5b93f90c4d034f51d0e72286", "5baf12a86b73051f6295172b"]);
-      course.courseName = _faker2.default.commerce.productName();
+      course.title = _faker2.default.commerce.productName();
       course.price = _faker2.default.commerce.price();
       course.courseDescription = "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild.";
       course.courseImage = _faker2.default.image.image();

@@ -4,11 +4,10 @@ type Zone {
 	app: String
 	courseLevel: Int
   createdAt: Int
-  id: ID!
+  _id: ID!
   levels: [Level]
 	members: Int
   owner: User
-	resources: String
   teachingLang: String
   usingLang: String
   zoneDescription: String
@@ -17,7 +16,7 @@ type Zone {
 }
 
 input ZoneUpdated {
-  id: ID!
+  _id: ID!
   zoneId: String
   zoneName: String
   zonedescription: String
@@ -30,7 +29,6 @@ input ZoneCreateInput {
 	ageGroup: String
 	members: Int
 	owner: String!
-	resources: String
   zoneId: String
 	zoneImage: String
   zoneName: String!
@@ -52,7 +50,6 @@ extend type Query {
 		courseLevel: Int
     cursor: String
     owner: String!
-    resources: String!
     usingLang: String!
     teachingLang: String!
     zoneName: String!
@@ -62,7 +59,7 @@ extend type Query {
 
 extend type Mutation {
   zoneCreate(input: ZoneCreateInput!): Zone! 
-	zoneDelete(id: String!): Boolean
+	zoneDelete(_id: String!): Boolean
   zoneUpdate(input: ZoneUpdated!): Zone!
-  zoneRemove(id: ID!): Boolean
+  zoneRemove(_id: ID!): Boolean
 }
