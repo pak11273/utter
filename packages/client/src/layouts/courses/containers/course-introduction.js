@@ -84,12 +84,17 @@ class CourseIntroduction extends Component {
   }
 
   componentDidMount() {
-    const newState = update(this.state, {
-      subscribed: {$set: true},
-      title: {$set: course.title},
-      courseDescription: {$set: course.courseDescription}
-    })
-    this.setState(newState)
+    const found = session.user.subscriptions.find(
+      o => o._id === session.course._id
+    )
+    if (found) {
+      const newState = update(this.state, {
+        subscribed: {$set: true},
+        title: {$set: course.title},
+        courseDescription: {$set: course.courseDescription}
+      })
+      this.setState(newState)
+    }
 
     if (user.username === course.owner.username) {
       this.setState({
@@ -170,7 +175,6 @@ class CourseIntroduction extends Component {
   render() {
     const {classes, client} = this.props
     const {course} = session
-    console.log("props: ", this.props)
 
     const courseDescriptionError = classNames({
       errorClass:
@@ -178,7 +182,7 @@ class CourseIntroduction extends Component {
         !isEmpty(this.state.formErrors.errors)
     })
 
-    const courseNameError = classNames({
+    const titleError = classNames({
       errorClass:
         this.state.formErrors.path === "title" &&
         !isEmpty(this.state.formErrors.errors)
@@ -233,6 +237,7 @@ class CourseIntroduction extends Component {
                       flexDirection: "column",
                       alignItems: "center"
                     }}>
+                    {/*
                     <Can
                       roles={user.roles}
                       perform="course:update-introduction"
@@ -251,6 +256,7 @@ class CourseIntroduction extends Component {
                         </Typography>
                       )}
                     />
+										*/}
 
                     <div style={{display: "flex", justifyContent: "center"}}>
                       <Img margin="40px" src={course.courseImage} />
@@ -313,12 +319,12 @@ class CourseIntroduction extends Component {
                       General Information
                     </Typography>
                     <TextField
-                      className={`${classes[courseNameError]} ${
+                      className={`${classes[titleError]} ${
                         classes.inputHeader
                       }`}
                       fullWidth
                       disabled={this.state.disabled}
-                      label="Course Name"
+                      label="Course Title"
                       margin="normal"
                       name="title"
                       onChange={this.handleChange}
