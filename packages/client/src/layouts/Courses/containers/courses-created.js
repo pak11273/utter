@@ -117,7 +117,7 @@ const getCreatedCourses = gql`
         _id
         courseImage
         courseDescription
-        courseName
+        title
         courseMode
         owner {
           username
@@ -132,7 +132,7 @@ const initialState = {
   search: "",
   owner: "",
   courseInput: "",
-  courseName: "",
+  title: "",
   selectionBox: "title",
   resources: [],
   teachingLang: "",
@@ -258,14 +258,14 @@ class CoursesCreatedContainer extends PureComponent {
                                   onClick={() => this.handleImageClick(card)}
                                   className={classes.cardMedia}
                                   image={`${card.courseImage}`}
-                                  title={`${card.courseName}`}
+                                  title={`${card.title}`}
                                 />
                                 <CardContent className={classes.cardContent}>
                                   <Typography
                                     gutterBottom
                                     variant="h6"
                                     component="h6">
-                                    {card.courseName}
+                                    {card.title}
                                   </Typography>
                                 </CardContent>
                                 <CardActions className={classes.actions}>

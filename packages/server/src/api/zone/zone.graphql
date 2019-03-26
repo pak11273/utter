@@ -8,7 +8,6 @@ type Zone {
   levels: [Level]
 	members: Int
   owner: User
-	resources: String
   teachingLang: String
   usingLang: String
   zoneDescription: String
@@ -30,7 +29,6 @@ input ZoneCreateInput {
 	ageGroup: String
 	members: Int
 	owner: String!
-	resources: String
   zoneId: String
 	zoneImage: String
   zoneName: String!
@@ -52,7 +50,6 @@ extend type Query {
 		courseLevel: Int
     cursor: String
     owner: String!
-    resources: String!
     usingLang: String!
     teachingLang: String!
     zoneName: String!

@@ -3,7 +3,7 @@ import React, {Component} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import ReactSelect from "react-select"
 import {Helmet} from "react-helmet"
-import {withFormik} from "formik"
+import {Field, withFormik} from "formik"
 
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -20,7 +20,7 @@ import TextField from "@material-ui/core/TextField"
 
 import ZonesGrid from "./zones-grid.js"
 import update from "immutability-helper"
-import {Spacer} from "../../../components"
+import {Spacer, app, using, teaching} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
 import {groupedOptions} from "../../../data/language-data.js"
 
@@ -118,7 +118,6 @@ const styles = theme => ({
 
 const initialState = {
   courseLevel: "",
-  resources: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -141,6 +140,24 @@ class ZonesContainer extends Component {
   componentDidMount() {
     // TODO when we put zones to redis then redo this
     /* this.getZones() */
+  }
+
+  addApp = value => {
+    this.setState({
+      app: value
+    })
+  }
+
+  addTeachingLang = value => {
+    this.setState({
+      teachingLang: value
+    })
+  }
+
+  addUsingLang = value => {
+    this.setState({
+      usingLang: value
+    })
   }
 
   onEnterZone = card => () => {
@@ -176,81 +193,6 @@ class ZonesContainer extends Component {
     })
 
     this.setState(newState)
-  }
-
-  handleSubmit = e => {
-    e.preventDefault()
-    // change state props based on selectionBox
-    const {zoneInput, selectionBox} = this.state
-    switch (selectionBox) {
-      case "title": {
-        // set zoneName
-        const newName = update(this.state, {
-          owner: {
-            $set: ""
-          },
-          zoneName: {
-            $set: zoneInput
-          },
-          resources: {
-            $set: ""
-          },
-          next: {
-            $set: ""
-          }
-        })
-
-        this.setState(newName)
-
-        break
-      }
-
-      case "reference": {
-        // set resources
-        const newRef = update(this.state, {
-          owner: {
-            $set: ""
-          },
-          zoneName: {
-            $set: ""
-          },
-          resources: {
-            $set: zoneInput
-          },
-          next: {
-            $set: ""
-          }
-        })
-
-        this.setState(newRef)
-
-        break
-      }
-
-      case "author": {
-        // set owner
-        const newAuthor = update(this.state, {
-          owner: {
-            $set: zoneInput
-          },
-          zoneName: {
-            $set: ""
-          },
-          resources: {
-            $set: ""
-          },
-          next: {
-            $set: ""
-          }
-        })
-
-        this.setState(newAuthor)
-
-        break
-      }
-      default:
-        break
-    }
   }
 
   handleSpeakingChange = usingLang => {
@@ -306,9 +248,9 @@ class ZonesContainer extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, handleSubmit} = this.props
     return (
-      <form className={classes.root} autoComplete="off">
+      <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -320,36 +262,43 @@ class ZonesContainer extends Component {
             <Typography variant="h6" align="center" gutterBottom>
               I speak:
             </Typography>
-            <ReactSelect
-              className={classes.select}
-              name="form-field-name"
-              value={this.state.usingLang}
-              onChange={this.handleSpeakingChange}
+            <Field
+              name="usingLang"
+              component={using}
+              addUsingLang={this.addUsingLang}
               options={groupedOptions}
             />
-            <Spacer margin="40px 0 0 0" />
             <Typography variant="h6" align="center" gutterBottom>
               I want to learn:
             </Typography>
-            <ReactSelect
-              className={classes.select}
-              name="form-field-name"
-              value={this.state.teachingLang}
-              onChange={this.handleTeachingChange}
+            <Field
+              name="teachingLang"
+              component={teaching}
+              addTeachingLang={this.addTeachingLang}
+              options={groupedOptions}
+            />
+            <Typography variant="h6" align="center" gutterBottom>
+              Choose An App
+            </Typography>
+            <Field
+              name="app"
+              component={app}
+              addTeachingLang={this.addApp}
               options={groupedOptions}
             />
             <Spacer margin="40px 0 0 0" />
             <Typography variant="h6" align="center" gutterBottom>
-              Choose An App
+              Subscribed Courses:
             </Typography>
             <ReactSelect
               className={classes.select}
               name="form-field-name"
-              value={this.state.app}
-              onChange={this.handleAppChange}
+              value={this.state.courseLevel}
+              onChange={this.handleLevelChange}
               options={[
-                {value: "chat", label: "General Chat"},
-                {value: "recall", label: "Total Recall"}
+                {value: "1", label: "1"},
+                {value: "2", label: "2"},
+                {value: "3", label: "3"}
               ]}
             />
             <Spacer margin="40px 0 0 0" />
@@ -431,9 +380,10 @@ class ZonesContainer extends Component {
                     </Select>
                   </FormControl>
                   <Button
-                    component="button"
+                    variant="contained"
+                    color="secondary"
                     type="submit"
-                    onClick={this.handleSubmit}>
+                    size="large">
                     Search
                   </Button>
                 </Grid>
@@ -444,12 +394,8 @@ class ZonesContainer extends Component {
           <Grid>
             {
               <ZonesGrid
-                zoneName={this.state.zoneName}
-                resources={this.state.resources}
-                owner={this.state.owner}
-                teachingLang={this.state.teachingLang}
-                usingLang={this.state.usingLang}
                 onEnterZone={this.onEnterZone}
+                searchInput={this.props.status && this.props.status.searchInput}
               />
             }
           </Grid>
@@ -464,25 +410,25 @@ export default withRouter(
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      "username or email": "",
-      password: ""
+      courseInput: "",
+      courseName: "",
+      owner: "",
+      search: "",
+      teachingLang: "",
+      usingLang: ""
     }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      const data = await props.submit(values)
-      if (!data.token) {
-        if (data.identifier) {
-          data["username or email"] = data.identifier
-        }
-        setErrors(data)
+    handleSubmit: async (values, {setStatus}) => {
+      console.log("values; ", values)
+      setStatus({loading: true})
+      const searchInput = {
+        courseInput: values.courseInput,
+        courseName: values.courseName,
+        owner: values.owner,
+        search: values.search,
+        teachingLang: values.teachingLang,
+        usingLang: values.usingLang
       }
-      /* if (data.token) { */
-      /*   local.AUTH_TOKEN = data.token */
-      /*   session.user = data.user */
-      /*   props.history.push({ */
-      /*     pathname: "/", */
-      /*     state: "loadUserSession" */
-      /*   }) */
-      /* } */
+      setStatus({searchInput})
     }
   })(withStyles(styles)(ZonesContainer))
 )

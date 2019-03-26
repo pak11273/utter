@@ -15,14 +15,14 @@ router.route("/unique").post(controller.unique)
 
 // get current teaching course
 router
-  .route("/:authId/:owner/:courseId/:courseName")
+  .route("/:authId/:owner/:courseId/:title")
   .get(controller.getOne)
   .delete(controller.deleteCourse)
   .put(controller.updateOne)
 
 // delete course level
 router
-  .route("/my-courses/:owner/:courseId/:courseName/:levelId")
+  .route("/my-courses/:owner/:courseId/:title/:levelId")
   .delete(controller.deleteLevel)
 
 // .put(controller.update)

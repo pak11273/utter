@@ -1,5 +1,6 @@
 import AbsolutePosition from "./misc/aboslute-position.js"
 import Ad from "./Ads"
+import app from "./selects/apps.js"
 import Audio from "./Audio.js"
 import Box from "./Boxes/index.js"
 import Button from "./buttons/button.js"
@@ -66,6 +67,7 @@ import Zone from "./Zone.js"
 export {
   AbsolutePosition,
   Ad,
+  app,
   Audio,
   Box,
   Button,

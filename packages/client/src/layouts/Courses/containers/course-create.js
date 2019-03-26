@@ -108,7 +108,7 @@ const styles = theme => ({
 
 const COURSE_CREATE = gql`
   mutation courseCreate(
-    $courseName: String!
+    $title: String!
     $courseImage: String
     $courseDescription: String
     $courseMode: String
@@ -117,7 +117,7 @@ const COURSE_CREATE = gql`
   ) {
     courseCreate(
       input: {
-        courseName: $courseName
+        title: $title
         courseImage: $courseImage
         courseDescription: $courseDescription
         courseMode: $courseMode
@@ -129,7 +129,7 @@ const COURSE_CREATE = gql`
       courseDescription
       courseImage
       courseMode
-      courseName
+      title
       owner {
         username
       }
@@ -231,7 +231,7 @@ class CourseCreate extends Component {
 
   render() {
     const {classes, handleSubmit} = this.props
-    const {courseName, courseDescription} = this.props.values
+    const {title, courseDescription} = this.props.values
 
     return (
       <React.Fragment>
@@ -342,13 +342,13 @@ class CourseCreate extends Component {
                     {" "}
                     (10-100 chars.)
                   </StyledSpan>
-                  <DisplayCount>{courseName.length}</DisplayCount>
+                  <DisplayCount>{title.length}</DisplayCount>
                 </Typography>
                 <Field
                   fullWidth
                   id="outlined-search"
-                  name="courseName"
-                  label="Course Name"
+                  name="title"
+                  label="Course Title"
                   type="text"
                   component={FormikInput}
                   margin="normal"
@@ -441,14 +441,13 @@ class CourseCreate extends Component {
 
 export default compose(
   graphql(COURSE_CREATE, {name: "courseCreate"}),
-  withRouter
-)(
+  withRouter,
   withFormik({
     validationSchema: courseCreateSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      courseName: "",
+      title: "",
       courseImage:
         "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/course-thumbnails/fa-image_kzo6kn.jpg",
       courseDescription: "",
@@ -458,7 +457,7 @@ export default compose(
       usingLang: ""
     }),
     handleSubmit: async (values, {props, setStatus, setErrors}) => {
-      console.log("props:", props)
+      console.log("hello")
       setStatus({loading: true})
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,
@@ -474,7 +473,7 @@ export default compose(
 
       const course = await props.courseCreate({
         variables: {
-          courseName: result.courseName,
+          title: result.title,
           courseDescription: result.courseDescription,
           courseImage: result.secure_url,
           courseMode: result.courseMode,
@@ -509,5 +508,6 @@ export default compose(
         })
       }
     }
-  })(withStyles(styles)(CourseCreate))
-)
+  }),
+  withStyles(styles)
+)(CourseCreate)

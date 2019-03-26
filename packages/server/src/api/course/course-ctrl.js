@@ -13,8 +13,8 @@ export default {
     // query builder
     var query = {}
 
-    if (req.query.courseName) {
-      query.courseName = new RegExp(`${req.query.courseName}`, "i")
+    if (req.query.title) {
+      query.title = new RegExp(`${req.query.title}`, "i")
     }
     if (req.query.resources) {
       query.resources = new RegExp(`${req.query.resources}`, "i")
@@ -54,7 +54,7 @@ export default {
           {$match: query},
           {
             $project: {
-              courseName: 1,
+              title: 1,
               courseDescription: 1,
               resources: 1,
               owner: 1,
@@ -95,7 +95,7 @@ export default {
           {$limit: limit},
           {
             $project: {
-              courseName: 1,
+              title: 1,
               courseDescription: 1,
               resources: 1,
               owner: 1,
@@ -180,7 +180,7 @@ export default {
   },
 
   unique: (req, res, next) => {
-    Course.find({courseName: req.body.course}).then(
+    Course.find({title: req.body.course}).then(
       course => {
         if (!req.body.course) {
           res.status(400).json({error: "This field is required."})
@@ -253,7 +253,7 @@ export default {
         "5b93f90c4d034f51d0e72286",
         "5baf12a86b73051f6295172b"
       ])
-      course.courseName = faker.commerce.productName()
+      course.title = faker.commerce.productName()
       course.price = faker.commerce.price()
       course.courseDescription =
         "Nothing but a chicken wing. I dont like chicken wings, I like buffalo spicy hot wings with a little bit of wine.  There is nothing wrong with the sauce in chicken wings, but its so mild."
@@ -288,10 +288,7 @@ export default {
     const offset = (pg - 1) * limit
     // const pageStart = 1
     // const numPages = 10
-    Course.paginate(
-      {owner: req.params.owner},
-      {offset, limit, lean: true}
-    )
+    Course.paginate({owner: req.params.owner}, {offset, limit, lean: true})
       .then(function(result) {
         res.json({
           result

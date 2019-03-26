@@ -24,21 +24,25 @@ import gql from "graphql-tag"
 
 import {subsToSize} from "../../../utils/helpers.js"
 
-const getCourses = gql`
+const GET_COURSES = gql`
   query getCourses(
     $cursor: String
-    $courseName: String!
+    $title: String!
     $owner: String!
-    $resources: String
+    $resource: String
+    $searchInput: String
+    $selectionBox: String
     $usingLang: String!
     $teachingLang: String!
   ) {
     getCourses(
       input: {
         cursor: $cursor
-        courseName: $courseName
+        title: $title
         owner: $owner
-        resources: $resources
+        resource: $resource
+        searchInput: $searchInput
+        selectionBox: $selectionBox
         usingLang: $usingLang
         teachingLang: $teachingLang
       }
@@ -47,7 +51,7 @@ const getCourses = gql`
         _id
         courseImage
         courseMode
-        courseName
+        title
         courseDescription
         levels {
           _id
@@ -154,15 +158,15 @@ const styles = theme => ({
 
 const initialState = {
   courseInput: "",
-  courseName: "",
-  resources: [],
+  title: "",
+  resource: [],
   items: "",
   labelWidth: 0,
   mobileOpen: false,
   next: "",
   owner: "",
   resetCursor: "",
-  search: "",
+  searchInput: "",
   selectionBox: "title",
   teachingLang: "",
   usingLang: ""
@@ -204,22 +208,29 @@ class CoursesGrid extends PureComponent {
 
   render() {
     const {classes} = this.props
-    console.log("grid props: ", this.props)
     return (
       <Query
-        query={getCourses}
+        query={GET_COURSES}
         variables={{
           cursor: "",
-          courseName: "",
-          resources: "",
+          title: "",
+          resource: "",
           owner: "",
+          searchInput:
+            this.props.search && this.props.search.searchInput
+              ? this.props.search.searchInput
+              : "",
+          selectionBox:
+            this.props.search && this.props.search.selectionBox
+              ? this.props.search.selectionBox
+              : "",
           usingLang:
-            this.props.searchInput && this.props.searchInput.usingLang
-              ? this.props.searchInput.usingLang
+            this.props.search && this.props.search.usingLang
+              ? this.props.search.usingLang
               : "",
           teachingLang:
-            this.props.searchInput && this.props.searchInput.teachingLang
-              ? this.props.searchInput.teachingLang
+            this.props.search && this.props.search.teachingLang
+              ? this.props.search.teachingLang
               : ""
         }}>
         {({loading, error, data}) => {
@@ -327,7 +338,7 @@ class CoursesGrid extends PureComponent {
                           onClick={this.handleImageClick(card)}
                           className={classes.cardMedia}
                           image={`${card.courseImage}`}
-                          title={`${card.courseName}`}
+                          title={`${card.title}`}
                         />
                         <CardContent className={classes.cardContent}>
                           <Typography
@@ -335,7 +346,7 @@ class CoursesGrid extends PureComponent {
                             gutterBottom
                             variant="h6"
                             component="h6">
-                            {card.courseName}
+                            {card.title}
                           </Typography>
                           <Typography
                             className={classes.cardUsername}

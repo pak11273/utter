@@ -24,7 +24,6 @@ const getZones = gql`
     $courseLevel: Int
     $cursor: String
     $owner: String!
-    $resources: String!
     $teachingLang: String!
     $usingLang: String!
     $zoneName: String!
@@ -34,7 +33,6 @@ const getZones = gql`
       courseLevel: $courseLevel
       cursor: $cursor
       owner: $owner
-      resources: $resources
       teachingLang: $teachingLang
       usingLang: $usingLang
       zoneName: $zoneName
@@ -48,7 +46,6 @@ const getZones = gql`
         owner {
           username
         }
-        resources
         teachingLang
         usingLang
         zoneDescription
@@ -133,9 +130,8 @@ const styles = theme => ({
 
 const initialState = {
   app: "",
-  courseLevel: "",
+  courseLevel: 1,
   courseInput: "",
-  resources: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -174,29 +170,24 @@ class ZonesGrid extends PureComponent {
   }
 
   render() {
-    const {
-      app,
-      courseLevel,
-      classes,
-      zoneName,
-      resources,
-      owner,
-      usingLang,
-      teachingLang
-    } = this.props
+    const {classes} = this.props
     return (
       <Query
         query={getZones}
-        fetchPolicy="network-only"
         variables={{
-          app,
-          courseLevel,
+          app: "",
+          courseLevel: 1,
           cursor: "",
-          zoneName,
-          resources,
-          owner,
-          usingLang,
-          teachingLang
+          zoneName: "",
+          owner: "",
+          usingLang:
+            this.props.searchInput && this.props.searchInput.usingLang
+              ? this.props.searchInput.usingLang
+              : "",
+          teachingLang:
+            this.props.searchInput && this.props.searchInput.teachingLang
+              ? this.props.searchInput.teachingLang
+              : ""
         }}>
         {({loading, error, data, fetchMore}) => {
           if (loading)
@@ -306,7 +297,7 @@ class ZonesGrid extends PureComponent {
                 <Grid container spacing={8}>
                   {data.getZones &&
                     data.getZones.zones.map(card => (
-                      <Grid item key={card.id} xs={12} sm={12} md={3} lg={2}>
+                      <Grid item key={card._id} xs={12} sm={12} md={3} lg={2}>
                         <Card className={classes.card}>
                           <CardContent className={classes.cardContent}>
                             <Typography

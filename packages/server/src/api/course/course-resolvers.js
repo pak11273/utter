@@ -146,7 +146,7 @@ const courseCreate = async (_, args, ctx, info) => {
 
     const newCourse = new Course({
       courseImage: args.input.courseImage,
-      courseName: args.input.courseName,
+      title: args.input.title,
       courseDescription: args.input.courseDescription,
       courseMode: args.input.courseMode,
       resources: args.input.resources,
@@ -246,14 +246,20 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 
 const getCourses = async (_, args, ctx, info) => {
   console.log("args: ", args.input)
+  var input = args.input
+  if (input.searchInput || input.selectionBox) {
+    console.log("input: ", input.searchInput)
+    input[input.selectionBox] = input.searchInput
+    delete input.searchInput
+    delete input.selectionBox
+  }
   var query = {}
-  for (var key in args.input) {
-    args.input[key] !== "" ? (query[key] = args.input[key]) : null
+  for (var key in input) {
+    input[key] !== "" ? (query[key] = input[key]) : null
   }
   console.log("query: ", query)
   try {
     const courses = await Course.find(query).lean()
-    console.log("course: ", courses)
     const convertedCourses = courses.map(course => {
       return {
         ...course,
@@ -266,9 +272,9 @@ const getCourses = async (_, args, ctx, info) => {
   }
   /* // build query object */
   /* const query = {} */
-  /* var courseName, resources, owner */
-  /* args.courseName */
-  /*   ? (query.courseName = new RegExp(escapeRegex(args.courseName), "gi"))   : null */
+  /* var title, resources, owner */
+  /* args.title */
+  /*   ? (query.title = new RegExp(escapeRegex(args.title), "gi"))   : null */
 
   /* if (!isEmpty(args.resources)) { */
   /*   var newArray = [] */

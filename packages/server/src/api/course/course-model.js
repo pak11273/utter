@@ -9,7 +9,7 @@ const CourseSchema = mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       default: {}
     },
-    courseName: {
+    title: {
       type: String,
       default: "",
       required: [true, "can't be blank"]
@@ -58,7 +58,7 @@ const CourseSchema = mongoose.Schema(
   {timestamps: true}
 )
 
-CourseSchema.index({courseName: "text", courseDescription: "text"})
+CourseSchema.index({title: "text", courseDescription: "text"})
 
 CourseSchema.statics.findByUsername = function(username, callback) {
   var query = this.findOne()

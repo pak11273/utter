@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {Helmet} from "react-helmet"
+import {withRouter} from "react-router-dom"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -7,6 +8,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {compose, graphql} from "react-apollo"
+import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
 import gql from "graphql-tag"
@@ -72,7 +74,6 @@ const ZONE_CREATE_MUTATION = gql`
     $courseLevel: Int
     $ageGroup: String!
     $owner: String!
-    $resources: String
     $zoneName: String!
     $zoneDescription: String
     $teachingLang: String
@@ -84,18 +85,16 @@ const ZONE_CREATE_MUTATION = gql`
         courseLevel: $courseLevel
         ageGroup: $ageGroup
         owner: $owner
-        resources: $resources
         zoneName: $zoneName
         zoneDescription: $zoneDescription
         teachingLang: $teachingLang
         usingLang: $usingLang
       }
     ) {
-      id
+      _id
       app
       courseLevel
       ageGroup
-      resources
       zoneName
       zoneDescription
       owner {
@@ -445,7 +444,6 @@ class ZoneCreate extends Component {
                   color="primary"
                   className={classes.saveButton}
                   type="submit"
-                  onClick={this.onButtonClick}
                   size="large">
                   Create Zone
                 </Button>
@@ -460,6 +458,7 @@ class ZoneCreate extends Component {
 
 export default compose(
   graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}),
+  withRouter,
   withFormik({
     validationSchema: zoneCreateSchema,
     validateOnChange: false,
@@ -471,13 +470,11 @@ export default compose(
       course: "",
       courseLevel: 1,
       owner: session.user._id,
-      resources: "",
       zoneName: "",
       zoneDescription: ""
     }),
-    handleSubmit: async (values, {props}) => {
-      console.log("values: ", values)
-
+    handleSubmit: async (values, {props, setStatus, setErrors}) => {
+      setStatus({loading: true})
       const result = await props.zoneCreate({
         variables: {
           ageGroup: values.ageGroup,
@@ -486,41 +483,37 @@ export default compose(
           course: values.course,
           courseLevel: values.courseLevel,
           owner: values.owner,
-          resources: values.resources,
           zoneName: values.zoneName,
           zoneDescription: values.zoneDescription
         }
       })
-      console.log("result: ", result)
+
+      const onComplete = zone => {
+        setStatus({loading: false})
+        session.zone = zone.data.zoneCreate
+        props.history.push({
+          pathname: `/zone/${zone.data.zoneCreate._id}`,
+          state: {zoneId: zone.data.zoneCreate._id}
+        })
+      }
+
+      // if result is legit
+      if (result) {
+        onComplete(result)
+        toast.success("You have successfully created a zone.", {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      } else {
+        setErrors(result.ZONE_CREATE_MUTATION.errors)
+        toast.success("Something went wrong. Could not create a zone.", {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      }
     }
   }),
   withStyles(styles)
 )(ZoneCreate)
-
-/*     /1* const result = await props.submit(values) *1/ */
-/*     /1* const chatHistory = [] *1/ */
-/*     /1* const onComplete = result => { *1/ */
-/*     /1*   history.push({ *1/ */
-/*     /1*     pathname: `/zone/${result.zoneCreate.id}`, *1/ */
-/*     /1*     state: {chatHistory, zoneId: result.zoneCreate.id} *1/ */
-/*     /1*   }) *1/ */
-/*     /1*   console.log("result: ", result.zoneCreate) *1/ */
-/*     /1* } *1/ */
-
-/*     // if create is legit */
-/*     /1* if (result) { *1/ */
-/*     /1*   onComplete(result) *1/ */
-/*     /1*   props.addFlashMessage({ *1/ */
-/*     /1*     type: "success", *1/ */
-/*     /1*     text: "Zone successfully created!" *1/ */
-/*     /1*   }) *1/ */
-/*     /1* } else { *1/ */
-/*     /1*   setErrors(result.zoneCreate.errors) *1/ */
-/*     /1*   props.addFlashMessage({ *1/ */
-/*     /1*     type: "error", *1/ */
-/*     /1*     text: "Could not create a zone. Please contact technical support." *1/ */
-/*     /1*   }) *1/ */
-/*     /1* } *1/ */
-/*     /1* } *1/ */
-/*   })(withStyles(styles)(ZoneCreate)) */
-/* ) */

@@ -22,7 +22,7 @@ import {Can, Spacer} from "../../../components"
 /*     getCourse(_id: $_id) { */
 /*       _id */
 /*       courseImage */
-/*       courseName */
+/*       title */
 /*       courseMode */
 /*       owner { */
 /*         username */

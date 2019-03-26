@@ -28,7 +28,7 @@ import {styles} from "../styles.js"
 /*   query getCourse($_id: String!) { */
 /*     getCourse(_id: $_id) { */
 /*       _id */
-/*       courseName */
+/*       title */
 /*       courseDescription */
 /*     } */
 /*   } */
@@ -47,21 +47,21 @@ import {styles} from "../styles.js"
 /* ` */
 /* const COURSE_UPDATE = gql` */
 /*   mutation courseUpdate(input: { */
-/*     $courseName: String */
+/*     $title: String */
 /*     $courseDescription: String */
 /*     $courseMode: String */
 /* 	} */
 /*   ) { */
 /*     courseUpdate( */
 /*       input: { */
-/*         courseName: $courseName */
+/*         title: $title */
 /*         courseDescription: $courseDescription */
 /*         courseMode: $courseMode */
 /*       } */
 /*     ) { */
 /*       _id */
 /*       courseDescription */
-/*       courseName */
+/*       title */
 /*     } */
 /*   } */
 /* ` */
@@ -76,7 +76,7 @@ class CourseIntroduction extends Component {
     email: "",
     submittedName: "",
     submittedEmail: "",
-    courseName: "",
+    title: "",
     courseDescription: "",
     disabled: true,
     subscribed: false
@@ -85,7 +85,7 @@ class CourseIntroduction extends Component {
   componentDidMount() {
     const newState = update(this.state, {
       subscribed: {$set: true},
-      courseName: {$set: course.courseName},
+      title: {$set: course.title},
       courseDescription: {$set: course.courseDescription}
     })
     this.setState(newState)
@@ -137,7 +137,7 @@ class CourseIntroduction extends Component {
           mutation: COURSE_UPDATE,
           variables: {
             input: {
-              courseName: this.state.courseName,
+              title: this.state.title,
               courseDescription: this.state.courseDescription
             }
           }
@@ -146,7 +146,7 @@ class CourseIntroduction extends Component {
 
       // reset state
       const labelState = update(this.state, {
-        courseName: {$set: course.courseName},
+        title: {$set: course.title},
         courseDescription: {$set: course.courseDescription}
       })
 
@@ -180,7 +180,7 @@ class CourseIntroduction extends Component {
 
     /* const courseNameError = classNames({ */
     /*   errorClass: */
-    /*     this.state.formErrors.path === "courseName" && */
+    /*     this.state.formErrors.path === "title" && */
     /*     !isEmpty(this.state.formErrors.errors) */
     /* }) */
 
@@ -322,14 +322,14 @@ class CourseIntroduction extends Component {
                       disabled={this.state.disabled}
                       label="Course Name"
                       margin="normal"
-                      name="courseName"
+                      name="title"
                       onChange={this.handleChange}
                       placeholder="And it's title here."
                       type="text"
                       variant="outlined"
-                      value={this.state.courseName}
+                      value={this.state.title}
                     />
-                    {this.state.formErrors.path === "courseName" && (
+                    {this.state.formErrors.path === "title" && (
                       <div style={{color: "#f44336"}}>
                         {this.state.formErrors.errors[0]}
                       </div>

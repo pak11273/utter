@@ -18,7 +18,7 @@ import gql from "react-apollo"
 
 const COURSE_CREATE = gql`
   mutation courseCreate(
-    $courseName: String!
+    $title: String!
     $courseImage: String
     $courseDescription: String
     $courseMode: String
@@ -28,7 +28,7 @@ const COURSE_CREATE = gql`
   ) {
     courseCreate(
       input: {
-        courseName: $courseName
+        title: $title
         courseImage: $courseImage
         courseDescription: $courseDescription
         courseMode: $courseMode
@@ -38,7 +38,7 @@ const COURSE_CREATE = gql`
       }
     ) {
       id
-      courseName
+      title
       owner {
         username
       }

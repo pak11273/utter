@@ -5,7 +5,6 @@ import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
 
 import {withStyles} from "@material-ui/core/styles"
-/* import Button from "@material-ui/core/Button" */
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
 import FormControl from "@material-ui/core/FormControl"
@@ -19,7 +18,6 @@ import TextField from "@material-ui/core/TextField"
 
 import {session} from "brownies"
 import CoursesGrid from "./courses-grid.js"
-import update from "immutability-helper"
 import {Spacer, LoadingButton, using, teaching} from "../../../components"
 import cloneDeep from "lodash/cloneDeep"
 import {groupedOptions} from "../../../data/language-data.js"
@@ -118,8 +116,8 @@ const styles = theme => ({
 })
 
 const initialState = {
-  courseInput: "",
-  courseName: "",
+  searchInput: "",
+  title: "",
   resources: [],
   items: "",
   labelWidth: 0,
@@ -152,67 +150,8 @@ class CoursesContainer extends PureComponent {
     })
   }
 
-  handleSpeakingChange = usingLang => {
-    if (usingLang === null) {
-      const newState = update(this.state, {
-        usingLang: {$set: ""}
-      })
-
-      this.setState(newState)
-    } else {
-      const newState = update(this.state, {
-        usingLang: {$set: usingLang.value}
-      })
-
-      this.setState(newState)
-    }
-  }
-
-  handleTeachingChange = teachingLang => {
-    if (teachingLang === null) {
-      const newState = update(this.state, {
-        teachingLang: {$set: ""}
-      })
-
-      this.setState(newState)
-    } else {
-      const newState = update(this.state, {
-        teachingLang: {$set: teachingLang.value}
-      })
-      this.setState(newState)
-    }
-  }
-
-  handleSearch = e => {
-    this.setState({
-      search: e.target.value
-    })
-  }
-
-  handleFilterChg = (e, data) => {
-    const newState = update(this.state, {
-      selectionBox: {$set: data.value}
-    })
-    this.setState(newState)
-  }
-
-  handleChg = name => e => {
-    const newState = update(this.state, {
-      [name]: {$set: e.target.value}
-    })
-    this.setState(newState)
-  }
-
-  handleInputChg = (e, data) => {
-    const newState = update(this.state, {
-      courseInput: {$set: data.value}
-    })
-
-    this.setState(newState)
-  }
-
   render() {
-    const {classes, handleSubmit} = this.props
+    const {classes, handleSubmit, handleChange, values} = this.props
     return (
       <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
         <Drawer
@@ -274,11 +213,13 @@ class CoursesContainer extends PureComponent {
                 </Typography>
                 <Grid container alignItems="center" justify="center">
                   <TextField
+                    name="searchInput"
                     id="outlined-search"
                     label="Search"
-                    onChange={this.handleChg("courseInput")}
+                    onChange={handleChange}
                     type="search"
                     className={classes.searchField}
+                    value={values.searchInput}
                     margin="normal"
                     variant="outlined"
                   />
@@ -286,12 +227,12 @@ class CoursesContainer extends PureComponent {
                     variant="outlined"
                     className={classes.formControl}>
                     <Select
-                      value={this.state.selectionBox}
-                      onChange={this.handleChg("selectionBox")}
+                      value={values.selectionBox}
+                      name="selectionBox"
+                      onChange={handleChange}
                       input={
                         <OutlinedInput
                           labelWidth={this.state.labelWidth}
-                          name="info"
                           id="outlined-filter-simple"
                         />
                       }>
@@ -312,12 +253,6 @@ class CoursesContainer extends PureComponent {
                     disabled={this.props.status && this.props.status.loading}>
                     Search
                   </LoadingButton>
-                  {/*       <Button
-                    component="button"
-                    type="submit"
-                    onClick={handleSubmit}>
-                    Search
-                  </Button> */}
                 </Grid>
               </Grid>
             </div>
@@ -326,7 +261,7 @@ class CoursesContainer extends PureComponent {
           <Grid>
             {
               <CoursesGrid
-                searchInput={this.props.status && this.props.status.searchInput}
+                search={this.props.status && this.props.status.search}
               />
             }
           </Grid>
@@ -341,9 +276,10 @@ export default compose(withRouter)(
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      courseInput: "",
-      courseName: "",
+      searchInput: "",
+      title: "",
       resource: "",
+      info: "",
       items: "",
       labelWidth: 0,
       mobileOpen: false,
@@ -356,22 +292,21 @@ export default compose(withRouter)(
       usingLang: ""
     }),
 
-    handleSubmit: async (values, {props, setStatus}) => {
-      setStatus({loading: true})
+    handleSubmit: async (values, {setStatus}) => {
       console.log("values: ", values)
-      console.log("props: ", props)
 
       // pass this object to grid
-      const searchInput = {
-        courseInput: values.courseInput,
-        courseName: values.courseName,
+      const search = {
+        title: values.title,
         resource: values.resource,
+        info: values.info,
         owner: values.owner,
-        search: values.search,
+        searchInput: values.searchInput,
+        selectionBox: values.selectionBox,
         teachingLang: values.teachingLang,
         usingLang: values.usingLang
       }
-      setStatus({searchInput})
+      setStatus({search})
     }
   })(withStyles(styles)(CoursesContainer))
 )

@@ -1,9 +1,41 @@
 import isEmpty from "lodash/isEmpty"
 import mongoose from "mongoose"
+import User from "../user/user-model.js"
 import Zone from "./zone-model"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
+}
+
+const userById = async userId => {
+  try {
+    const user = await User.findById(userId).lean()
+    if (user) {
+      return {
+        ...user,
+        createdZones: zonesById.bind(this, user.createdZones)
+      }
+    }
+    return {
+      username: ""
+    }
+  } catch (err) {
+    throw err
+  }
+}
+
+const zonesById = async zoneIds => {
+  try {
+    const zones = await Zone.find({_id: {$in: zoneIds}}).lean()
+    return zones.map(zone => {
+      return {
+        ...zone,
+        owner: userById.bind(this, zone.owner)
+      }
+    })
+  } catch (err) {
+    throw err
+  }
 }
 
 const getZone = async (_, {zoneId}, {user}) => {
@@ -41,8 +73,30 @@ const zoneCreate = async (_, args, ctx, info) => {
   const {input} = args
   console.log("ingput: ", input)
   const zone = await Zone.create(input)
-  zone.id = zone._id
-  return zone
+
+  const newZone = new Zone({
+    app: input.app,
+    courseLevel: input.courseLevel,
+    ageGroup: input.ageGroup,
+    owner: input.owner,
+    zoneName: input.zoneName,
+    zoneDescription: input.zoneDescription,
+    teachingLang: input.teachingLang,
+    usingLang: input.usingLang
+  })
+
+  let createdZone
+
+  /* zone.id = zone._id */
+
+  createdZone = {
+    ...zone._doc,
+    _id: zone._doc._id.toString(),
+    owner: userById.bind(this, zone._doc.owner)
+  }
+
+  console.log("zone: ", createdZone)
+  return createdZone
 }
 
 const getZoneLevels = async (_, args, ctx, info) => {
@@ -54,53 +108,34 @@ const getZoneLevels = async (_, args, ctx, info) => {
 const getZones = async (_, args, ctx, info) => {
   console.log("ARGS: ", args)
   // build query object
-  const query = {}
-  var zoneName, resources, owner, usingLang, teachingLang, app, appLevel
+  var query = {}
+  for (var key in args) {
+    args[key] !== "" ? (query[key] = args[key]) : null
+  }
+  console.log("query: ", query)
 
-  args.zoneName
-    ? (query.zoneName = new RegExp(escapeRegex(args.zoneName), "gi"))
-    : null
+  try {
+    let zones = await Zone.find(query)
+      .lean()
+      .limit(12)
+      .sort({_id: -1})
 
-  args.resources
-    ? (query.resources = new RegExp(escapeRegex(args.resources), "gi"))
-    : null
-  if (args.owner) {
-    var owner = await Zone.findByUsername(args.owner, (err, docs) => {
-      if (err) {
-        // console.log doesn't work here
-      }
-      if (!isEmpty(docs)) {
-        var owner = docs._id
-        query.owner = owner
+    const convertedZones = zones.map(zone => {
+      return {
+        ...zone,
+        owner: userById.bind(this, zone.owner)
       }
     })
-  }
+    return {zones: convertedZones, cursor: ""}
 
-  args.usingLang
-    ? (query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi"))
-    : null
-
-  args.teachingLang
-    ? (query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi"))
-    : null
-  // end query object
-
-  if (args.cursor) {
-    // type cast id, $lt is not the same in aggregate vs query
-    var cursor = mongoose.Types.ObjectId(args.cursor)
-    // add to query object
-    query._id = {$lt: cursor}
-  }
-
-  let result = await Zone.find(query)
-    .limit(12)
-    .sort({_id: -1})
-
-  if (isEmpty(result)) {
-    return {zones: [], cursor: "done"}
-  } else {
-    cursor = result[result.length - 1]._id
-    return {zones: result, cursor}
+    if (isEmpty(zones)) {
+      return {zones: [], cursor: "done"}
+    } else {
+      cursor = zones[zones.length - 1]._id
+      return {zones: zones, cursor}
+    }
+  } catch (err) {
+    throw err
   }
 }
 
@@ -114,12 +149,12 @@ export const zoneResolvers = {
     zoneDelete,
     zoneUpdate,
     zoneCreate
-  },
-  Zone: {
-    async owner(zone) {
-      const populated = await zone.populate("owner").execPopulate()
-
-      return populated.owner
-    }
   }
+  /* Zone: { */
+  /*   async owner(zone) { */
+  /*     const populated = await zone.populate("owner").execPopulate() */
+
+  /*     return populated.owner */
+  /*   } */
+  /* } */
 }
