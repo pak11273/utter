@@ -33,15 +33,19 @@ const getContact = Loadable({
 })
 
 const getCourseCtrl = Loadable({
-  loader: () => import("./layouts/courses/containers/course-create.js"),
-  loading: Loading
+  loader: () =>
+    import(/* webpackChunkName: 'course' */ "./layouts/courses/containers/course-create.js"),
+  loading: Loading,
+  delay: 200
 })
 
-/* const getCourseIntroduction = Loadable({ */
-/*   loader: () => import("./layouts/courses/containers/course-introduction.js"), */
-/*   loading: Loading, */
-/*   delay: 200 */
-/* }) */
+const getCourseIntroduction = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'course-introduction' */ "./layouts/courses/containers/course-introduction.js"),
+  loading: Loading,
+  delay: 200
+})
+
 const getCoursesCreated = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'courses-created' */ "./layouts/courses/containers/courses-created.js"),
@@ -150,15 +154,17 @@ export const routes = [
     path: "/course/:id",
     routes: [
       {
-        component: getCourseSettings,
+        component: requireAuth(getCourseSettings),
+        exact: true,
         path: "/course/course-settings"
+      },
+      {
+        component: requireAuth(getCourseIntroduction),
+        exact: true,
+        path: "/course/course-introduction"
       }
     ]
   },
-  /* { */
-  /* component: requireAuth(getCourseIntroduction), */
-  /* path: "/course/course-introduction" */
-  /* }, */
   {
     component: getCourses,
     exact: true,

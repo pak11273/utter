@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import Helmet from "react-helmet"
-import {courseSchema} from "@utterzone/common"
+/* import {courseSchema} from "@utterzone/common" */
 import update from "immutability-helper"
 
 import Button from "@material-ui/core/Button"
@@ -15,36 +15,37 @@ import TextField from "@material-ui/core/TextField"
 import {session} from "brownies"
 import gql from "graphql-tag"
 /* import {compose, graphql, Mutation, Query, withApollo} from "react-apollo" */
-import {compose, graphql, Mutation, withApollo} from "react-apollo"
-import /* Can, */
-/* FormikInput, */
-/* FormikTextArea, */
-/* Img, */
-/* LoadingButton */
-"../../../components"
+import {compose, Query, Mutation, withApollo} from "react-apollo"
+import {
+  Can,
+  /* FormikInput, */
+  /* FormikTextArea, */
+  Img,
+  LoadingButton
+} from "../../../components"
 import {styles} from "../styles.js"
 
-/* const GET_COURSE = gql` */
-/*   query getCourse($_id: String!) { */
-/*     getCourse(_id: $_id) { */
-/*       _id */
-/*       title */
-/*       courseDescription */
-/*     } */
-/*   } */
-/* ` */
-/* const SUBSCRIBE_MUTATION = gql` */
-/*   mutation subscribe($courseId: String!) { */
-/*     subscribe(courseId: $courseId) { */
-/*       _id */
-/*     } */
-/*   } */
-/* ` */
-/* const UNSUBSCRIBE_MUTATION = gql` */
-/*   mutation unsubscribe($courseId: String!) { */
-/*     unsubscribe(courseId: $courseId) */
-/*   } */
-/* ` */
+const GET_COURSE = gql`
+  query getCourse($_id: String!) {
+    getCourse(_id: $_id) {
+      _id
+      title
+      courseDescription
+    }
+  }
+`
+const SUBSCRIBE_MUTATION = gql`
+  mutation subscribe($courseId: String!) {
+    subscribe(courseId: $courseId) {
+      _id
+    }
+  }
+`
+const UNSUBSCRIBE_MUTATION = gql`
+  mutation unsubscribe($courseId: String!) {
+    unsubscribe(courseId: $courseId)
+  }
+`
 /* const COURSE_UPDATE = gql` */
 /*   mutation courseUpdate(input: { */
 /*     $title: String */
@@ -65,7 +66,7 @@ import {styles} from "../styles.js"
 /*     } */
 /*   } */
 /* ` */
-const {course, user} = session
+const {user, course} = session
 
 class CourseIntroduction extends Component {
   state = {
@@ -95,14 +96,13 @@ class CourseIntroduction extends Component {
         disabled: false
       })
     }
-    this.props.toggleFooter(false)
   }
 
-  handleChange = e => {
-    e.persist()
-    const {name} = e.target
-    this.setState({[name]: e.target.value})
-  }
+  /* handleChange = e => { */
+  /*   e.persist() */
+  /*   const {name} = e.target */
+  /*   this.setState({[name]: e.target.value}) */
+  /* } */
 
   sessionSubscribe = () => {
     const {course, user} = session
@@ -112,49 +112,49 @@ class CourseIntroduction extends Component {
     session.user = tempUser
   }
 
-  handleSubmit = async e => {
-    e.preventDefault()
-    // reset errors
-    const resetErrors = update(this.state, {
-      formErrors: {
-        errors: {$set: []}
-      }
-    })
-    this.setState(resetErrors)
-    try {
-      await courseSchema.validate(this.state).catch(err => {
-        if (err) {
-          const newState = update(this.state, {
-            formErrors: {$set: err}
-          })
-          this.setState(newState)
-        }
-      })
+  /* handleSubmit = async e => { */
+  /*   e.preventDefault() */
+  /*   // reset errors */
+  /*   const resetErrors = update(this.state, { */
+  /*     formErrors: { */
+  /*       errors: {$set: []} */
+  /*     } */
+  /*   }) */
+  /*   this.setState(resetErrors) */
+  /*   try { */
+  /*     await courseSchema.validate(this.state).catch(err => { */
+  /*       if (err) { */
+  /*         const newState = update(this.state, { */
+  /*           formErrors: {$set: err} */
+  /*         }) */
+  /*         this.setState(newState) */
+  /*       } */
+  /*     }) */
 
-      // mutate if no errors
-      if (isEmpty(this.state.formErrors.errors)) {
-        this.props.client.mutate({
-          mutation: COURSE_UPDATE,
-          variables: {
-            input: {
-              title: this.state.title,
-              courseDescription: this.state.courseDescription
-            }
-          }
-        })
-      }
+  /*     // mutate if no errors */
+  /*     if (isEmpty(this.state.formErrors.errors)) { */
+  /*       this.props.client.mutate({ */
+  /*         mutation: COURSE_UPDATE, */
+  /*         variables: { */
+  /*           input: { */
+  /*             title: this.state.title, */
+  /*             courseDescription: this.state.courseDescription */
+  /*           } */
+  /*         } */
+  /*       }) */
+  /*     } */
 
-      // reset state
-      const labelState = update(this.state, {
-        title: {$set: course.title},
-        courseDescription: {$set: course.courseDescription}
-      })
+  /*     // reset state */
+  /*     const labelState = update(this.state, { */
+  /*       title: {$set: course.title}, */
+  /*       courseDescription: {$set: course.courseDescription} */
+  /*     }) */
 
-      this.setState(labelState)
-    } catch (err) {
-      throw err
-    }
-  }
+  /*     this.setState(labelState) */
+  /*   } catch (err) { */
+  /*     throw err */
+  /*   } */
+  /* } */
 
   sessionUnsubscribe = () => {
     const {user} = session
@@ -168,26 +168,24 @@ class CourseIntroduction extends Component {
   }
 
   render() {
-    ;<div>hello</div>
-    /* const {classes, client} = this.props */
-    /* const {course, user} = session */
+    const {classes, client} = this.props
+    const {course} = session
+    console.log("props: ", this.props)
 
-    /* const courseDescriptionError = classNames({ */
-    /*   errorClass: */
-    /*     this.state.formErrors.path === "courseDescription" && */
-    /*     !isEmpty(this.state.formErrors.errors) */
-    /* }) */
+    const courseDescriptionError = classNames({
+      errorClass:
+        this.state.formErrors.path === "courseDescription" &&
+        !isEmpty(this.state.formErrors.errors)
+    })
 
-    /* const courseNameError = classNames({ */
-    /*   errorClass: */
-    /*     this.state.formErrors.path === "title" && */
-    /*     !isEmpty(this.state.formErrors.errors) */
-    /* }) */
+    const courseNameError = classNames({
+      errorClass:
+        this.state.formErrors.path === "title" &&
+        !isEmpty(this.state.formErrors.errors)
+    })
 
-    /* console.log("courseID: ", course._id) */
-
-    return {
-      /* <Query
+    return (
+      <Query
         query={GET_COURSE}
         variables={{
           _id: course._id
@@ -214,7 +212,7 @@ class CourseIntroduction extends Component {
                   href="https://utter.zone/course/course-introduction"
                 />
               </Helmet>
-               Hero unit 
+              {/*   Hero unit  */}
               <div className={classes.heroUnit}>
                 <div className={classes.heroContent}>
                   <Grid container justify="center" direction="column">
@@ -224,7 +222,7 @@ class CourseIntroduction extends Component {
                   </Grid>
                 </div>
               </div>
-               End hero unit 
+              {/* End hero unit */}
               <main className={classes.content}>
                 <Grid container spacing={24}>
                   <Grid
@@ -408,13 +406,15 @@ class CourseIntroduction extends Component {
             </form>
           )
         }}
-      </Query> */
-    }
+      </Query>
+    )
   }
 }
 
 export default compose(
-  withStyles(styles),
-  withApollo /* graphql(COURSE_UPDATE, {name: "courseUpdate"}), */
-  /* graphql(GET_COURSE, {name: "getCourse"}), */
+  withApollo,
+  withStyles(styles)
 )(CourseIntroduction)
+
+/* graphql(COURSE_UPDATE, {name: "courseUpdate"}), */
+/* graphql(GET_COURSE, {name: "getCourse"}), */
