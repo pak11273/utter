@@ -61,7 +61,7 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	.toasty-body {
-		color: #344ba5;
+		color: white;
 		font-family: Arial;
 		padding-left: 30px;
 	}
