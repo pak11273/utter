@@ -85,13 +85,23 @@ class CourseIntroduction extends PureComponent {
   }
 
   componentDidMount() {
-    const newState = update(this.state, {
-      subscribed: {$set: true},
+    console.log("course: ", course)
+    const initialState = update(this.state, {
       courseId: {$set: course._id},
       title: {$set: course.title},
       courseDescription: {$set: course.courseDescription}
     })
-    this.setState(newState)
+    this.setState(initialState)
+
+    const found = session.user.subscriptions.find(
+      o => o._id === session.course._id
+    )
+    if (found) {
+      const newState = update(this.state, {
+        subscribed: {$set: true}
+      })
+      this.setState(newState)
+    }
 
     if (user.username === course.owner.username) {
       this.setState({
@@ -116,6 +126,7 @@ class CourseIntroduction extends PureComponent {
 
   handleSubmit = async e => {
     e.preventDefault()
+    // TODO: set loading
     await this.setState({
       loading: true
     })

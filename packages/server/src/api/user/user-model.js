@@ -112,6 +112,8 @@ UserSchema.pre("save", function(next) {
   next()
 })
 
+
+
 UserSchema.methods = {
   // check password
   authenticate: function(plainTextPwd) {

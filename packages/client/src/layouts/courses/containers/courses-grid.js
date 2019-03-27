@@ -27,9 +27,6 @@ import {subsToSize} from "../../../utils/helpers.js"
 const GET_COURSES = gql`
   query getCourses(
     $cursor: String
-    $title: String!
-    $owner: String!
-    $resource: String
     $searchInput: String
     $selectionBox: String
     $usingLang: String!
@@ -38,9 +35,6 @@ const GET_COURSES = gql`
     getCourses(
       input: {
         cursor: $cursor
-        title: $title
-        owner: $owner
-        resource: $resource
         searchInput: $searchInput
         selectionBox: $selectionBox
         usingLang: $usingLang
@@ -58,6 +52,7 @@ const GET_COURSES = gql`
           level
           title
         }
+        resource
         usingLang
         subscribers
         teachingLang
@@ -159,7 +154,7 @@ const styles = theme => ({
 const initialState = {
   courseInput: "",
   title: "",
-  resource: [],
+  resource: "",
   items: "",
   labelWidth: 0,
   mobileOpen: false,
@@ -207,9 +202,6 @@ class CoursesGrid extends PureComponent {
         query={GET_COURSES}
         variables={{
           cursor: "",
-          title: "",
-          resource: "",
-          owner: "",
           searchInput:
             this.props.search && this.props.search.searchInput
               ? this.props.search.searchInput
@@ -346,7 +338,13 @@ class CoursesGrid extends PureComponent {
                             className={classes.cardUsername}
                             gutterBottom
                             variant="caption">
-                            {card.owner.username}
+                            by: {card.owner.username}
+                          </Typography>
+                          <Typography
+                            className={classes.cardUsername}
+                            gutterBottom
+                            variant="caption">
+                            resource: {card.resource}
                           </Typography>
                         </CardContent>
                         <CardActions className={classes.actions}>

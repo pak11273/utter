@@ -30,9 +30,6 @@ input CourseUpdateInput {
 
 input GetCoursesInput {
     cursor: String
-    title: String!
-    owner: String!
-		resource: String 
 		searchInput: String
 		selectionBox: String
     usingLang: String!

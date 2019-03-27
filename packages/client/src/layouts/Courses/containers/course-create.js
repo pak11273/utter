@@ -474,7 +474,6 @@ export default compose(
       usingLang: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      console.log("values: ", values)
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,
         "image",
@@ -486,7 +485,6 @@ export default compose(
       }
 
       const result = merge(cdnUpload)
-      console.log("result: ", result)
       const course = await props.courseCreate({
         variables: {
           title: result.title,

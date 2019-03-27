@@ -252,10 +252,8 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  console.log("args: ", args.input)
   var input = args.input
   if (input.searchInput || input.selectionBox) {
-    console.log("input: ", input.searchInput)
     input[input.selectionBox] = input.searchInput
     delete input.searchInput
     delete input.selectionBox
@@ -264,7 +262,27 @@ const getCourses = async (_, args, ctx, info) => {
   for (var key in input) {
     input[key] !== "" ? (query[key] = input[key]) : null
   }
-  console.log("query: ", query)
+
+  query.title
+    ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
+    : null
+
+  if (query.owner) {
+    query.owner = await User.findOne({username: query.owner}, (err, docs) => {
+      if (err) {
+        throw err
+      }
+      if (!isEmpty(docs)) {
+        var owner = docs._id
+        query.owner = docs._id
+      }
+    })
+  }
+
+  query.resource
+    ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
+    : null
+
   try {
     const courses = await Course.find(query).lean()
     const convertedCourses = courses.map(course => {
@@ -277,60 +295,6 @@ const getCourses = async (_, args, ctx, info) => {
   } catch (err) {
     throw err
   }
-  /* // build query object */
-  /* const query = {} */
-  /* var title, resources, owner */
-  /* args.title */
-  /*   ? (query.title = new RegExp(escapeRegex(args.title), "gi"))   : null */
-
-  /* if (!isEmpty(args.resources)) { */
-  /*   var newArray = [] */
-  /*   args.resources.map(item => { */
-  /*     const escapedStr = new RegExp(escapeRegex(item), "gi") */
-  /*     newArray.push(escapedStr) */
-  /*   }) */
-  /*   query.resources = newArray */
-  /* } else { */
-  /*   null */
-  /* } */
-  /* if (args.owner) { */
-  /*   var owner = await Course.findByUsername(args.owner, (err, docs) => { */
-  /*     if (err) { */
-  /*       // console.log doesn't work here */
-  /*     } */
-  /*     if (!isEmpty(docs)) { */
-  /*       var owner = docs._id */
-  /*       query.owner = owner */
-  /*     } */
-  /*   }) */
-  /* } */
-
-  /* args.usingLang 
-    ? (query.usingLang = new RegExp(escapeRegex(args.usingLang), "gi"))
-     : null */
-
-  /* args.teachingLang 
-     ? (query.teachingLang = new RegExp(escapeRegex(args.teachingLang), "gi"))  : null
-   // end query object */
-
-  /*   if (args.cursor && args.cursor !== "done") { */
-  /*     // type cast id, $lt is not the same in aggregate vs query */
-  /*     var cursor = mongoose.Types.ObjectId(args.cursor) */
-  /*     // add to query object */
-  /*     query._id = {$lt: cursor} */
-  /*   } */
-
-  /*   let result = await Course.find(query) */
-  /*     .limit(3) */
-  /*     .sort({_id: -1}) */
-  /*     .exec() */
-
-  /*   if (isEmpty(result)) { */
-  /*     return {courses: [], cursor: "done"} */
-  /*   } else { */
-  /*     cursor = result[result.length - 1]._id */
-  /*     return {courses: result, cursor} */
-  /*   } */
 }
 
 const subscribe = async (_, args, ctx, info) => {

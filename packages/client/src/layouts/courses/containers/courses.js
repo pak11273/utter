@@ -241,7 +241,7 @@ class CoursesContainer extends PureComponent {
                       </MenuItem>
                       <MenuItem value="title">Title</MenuItem>
                       <MenuItem value="resource">Resource</MenuItem>
-                      <MenuItem value="author">Author</MenuItem>
+                      <MenuItem value="owner">Author</MenuItem>
                     </Select>
                   </FormControl>
                   <LoadingButton
@@ -293,8 +293,6 @@ export default compose(withRouter)(
     }),
 
     handleSubmit: async (values, {setStatus}) => {
-      console.log("values: ", values)
-
       // pass this object to grid
       const search = {
         title: values.title,
