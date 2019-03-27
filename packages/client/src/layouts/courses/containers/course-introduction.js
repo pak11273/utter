@@ -12,7 +12,7 @@ import isEmpty from "lodash/isEmpty"
 
 import classNames from "classnames"
 import TextField from "@material-ui/core/TextField"
-import {session, subscribe} from "brownies"
+import {session} from "brownies"
 import gql from "graphql-tag"
 import {compose, Query, Mutation, withApollo} from "react-apollo"
 import {Can, Img, LoadingButton} from "../../../components"
@@ -103,12 +103,6 @@ class CourseIntroduction extends PureComponent {
         disabled: false
       })
     }
-
-    subscribe(session, "course", value => {
-      this.setState({
-        title: value.title
-      })
-    })
   }
 
   handleChange = e => {
