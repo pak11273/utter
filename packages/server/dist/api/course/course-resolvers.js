@@ -585,11 +585,9 @@ function () {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            console.log("args: ", args.input);
             input = args.input;
 
             if (input.searchInput || input.selectionBox) {
-              console.log("input: ", input.searchInput);
               input[input.selectionBox] = input.searchInput;
               delete input.searchInput;
               delete input.selectionBox;
@@ -601,12 +599,37 @@ function () {
               input[key] !== "" ? query[key] = input[key] : null;
             }
 
-            console.log("query: ", query);
-            _context9.prev = 6;
-            _context9.next = 9;
-            return _courseModel.default.find(query).lean();
+            query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
+
+            if (!query.owner) {
+              _context9.next = 9;
+              break;
+            }
+
+            _context9.next = 8;
+            return _userModel.default.findOne({
+              username: query.owner
+            }, function (err, docs) {
+              if (err) {
+                throw err;
+              }
+
+              if (!(0, _isEmpty.default)(docs)) {
+                var owner = docs._id;
+                query.owner = docs._id;
+              }
+            });
+
+          case 8:
+            query.owner = _context9.sent;
 
           case 9:
+            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null;
+            _context9.prev = 10;
+            _context9.next = 13;
+            return _courseModel.default.find(query).lean();
+
+          case 13:
             courses = _context9.sent;
             convertedCourses = courses.map(function (course) {
               return (0, _objectSpread2.default)({}, course, {
@@ -618,17 +641,17 @@ function () {
               cursor: ""
             });
 
-          case 14:
-            _context9.prev = 14;
-            _context9.t0 = _context9["catch"](6);
+          case 18:
+            _context9.prev = 18;
+            _context9.t0 = _context9["catch"](10);
             throw _context9.t0;
 
-          case 17:
+          case 21:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[6, 14]]);
+    }, _callee9, null, [[10, 18]]);
   }));
 
   return function getCourses(_x24, _x25, _x26, _x27) {
