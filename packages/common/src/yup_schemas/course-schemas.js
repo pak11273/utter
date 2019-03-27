@@ -36,7 +36,7 @@ export const courseCreateSchema = yup.object().shape({
 export const courseSchema = yup.object().shape({
   title: yup
     .string()
-    .required("A course name is required")
+    .required("A course title is required")
     .min(10, titleNotLongEnough)
     .max(100, nameTooLong),
   courseDescription: yup

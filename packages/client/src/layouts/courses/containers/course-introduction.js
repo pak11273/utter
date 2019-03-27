@@ -1,28 +1,21 @@
-import React, {Component} from "react"
+import React, {PureComponent} from "react"
 import Helmet from "react-helmet"
-/* import {courseSchema} from "@utterzone/common" */
+import {courseSchema} from "@utterzone/common"
 import update from "immutability-helper"
 
-import Button from "@material-ui/core/Button"
+/* import Button from "@material-ui/core/Button" */
+import CircularProgress from "@material-ui/core/CircularProgress"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import isEmpty from "lodash/isEmpty"
 
 import classNames from "classnames"
-/* import {Field} from "formik" */
 import TextField from "@material-ui/core/TextField"
-import {session} from "brownies"
+import {session, subscribe} from "brownies"
 import gql from "graphql-tag"
-/* import {compose, graphql, Mutation, Query, withApollo} from "react-apollo" */
 import {compose, Query, Mutation, withApollo} from "react-apollo"
-import {
-  Can,
-  /* FormikInput, */
-  /* FormikTextArea, */
-  Img,
-  LoadingButton
-} from "../../../components"
+import {Can, Img, LoadingButton} from "../../../components"
 import {styles} from "../styles.js"
 
 const GET_COURSE = gql`
@@ -46,35 +39,43 @@ const UNSUBSCRIBE_MUTATION = gql`
     unsubscribe(courseId: $courseId)
   }
 `
-/* const COURSE_UPDATE = gql` */
-/*   mutation courseUpdate(input: { */
-/*     $title: String */
-/*     $courseDescription: String */
-/*     $courseMode: String */
-/* 	} */
-/*   ) { */
-/*     courseUpdate( */
-/*       input: { */
-/*         title: $title */
-/*         courseDescription: $courseDescription */
-/*         courseMode: $courseMode */
-/*       } */
-/*     ) { */
-/*       _id */
-/*       courseDescription */
-/*       title */
-/*     } */
-/*   } */
-/* ` */
+const COURSE_UPDATE = gql`
+  mutation courseUpdate($_id: ID, $title: String, $courseDescription: String) {
+    courseUpdate(
+      input: {_id: $_id, title: $title, courseDescription: $courseDescription}
+    ) {
+      courseDescription
+      courseImage
+      courseMode
+      title
+      _id
+      levels {
+        _id
+        level
+      }
+      owner {
+        _id
+        username
+      }
+      resource
+      subscribers
+      teachingLang
+      usingLang
+    }
+  }
+`
+
 const {user, course} = session
 
-class CourseIntroduction extends Component {
+class CourseIntroduction extends PureComponent {
   state = {
     formErrors: {
       errors: []
     },
+    courseId: "",
     name: "",
     email: "",
+    loading: false,
     submittedName: "",
     submittedEmail: "",
     title: "",
@@ -90,6 +91,7 @@ class CourseIntroduction extends Component {
     if (found) {
       const newState = update(this.state, {
         subscribed: {$set: true},
+        courseId: {$set: course._id},
         title: {$set: course.title},
         courseDescription: {$set: course.courseDescription}
       })
@@ -101,13 +103,19 @@ class CourseIntroduction extends Component {
         disabled: false
       })
     }
+
+    subscribe(session, "course", value => {
+      this.setState({
+        title: value.title
+      })
+    })
   }
 
-  /* handleChange = e => { */
-  /*   e.persist() */
-  /*   const {name} = e.target */
-  /*   this.setState({[name]: e.target.value}) */
-  /* } */
+  handleChange = e => {
+    e.persist()
+    const {name} = e.target
+    this.setState({[name]: e.target.value})
+  }
 
   sessionSubscribe = () => {
     const {course, user} = session
@@ -117,49 +125,49 @@ class CourseIntroduction extends Component {
     session.user = tempUser
   }
 
-  /* handleSubmit = async e => { */
-  /*   e.preventDefault() */
-  /*   // reset errors */
-  /*   const resetErrors = update(this.state, { */
-  /*     formErrors: { */
-  /*       errors: {$set: []} */
-  /*     } */
-  /*   }) */
-  /*   this.setState(resetErrors) */
-  /*   try { */
-  /*     await courseSchema.validate(this.state).catch(err => { */
-  /*       if (err) { */
-  /*         const newState = update(this.state, { */
-  /*           formErrors: {$set: err} */
-  /*         }) */
-  /*         this.setState(newState) */
-  /*       } */
-  /*     }) */
-
-  /*     // mutate if no errors */
-  /*     if (isEmpty(this.state.formErrors.errors)) { */
-  /*       this.props.client.mutate({ */
-  /*         mutation: COURSE_UPDATE, */
-  /*         variables: { */
-  /*           input: { */
-  /*             title: this.state.title, */
-  /*             courseDescription: this.state.courseDescription */
-  /*           } */
-  /*         } */
-  /*       }) */
-  /*     } */
-
-  /*     // reset state */
-  /*     const labelState = update(this.state, { */
-  /*       title: {$set: course.title}, */
-  /*       courseDescription: {$set: course.courseDescription} */
-  /*     }) */
-
-  /*     this.setState(labelState) */
-  /*   } catch (err) { */
-  /*     throw err */
-  /*   } */
-  /* } */
+  handleSubmit = async e => {
+    e.preventDefault()
+    // TODO: set loading
+    await this.setState({
+      loading: true
+    })
+    // reset errors
+    const resetErrors = update(this.state, {
+      formErrors: {
+        errors: {$set: []}
+      }
+    })
+    this.setState(resetErrors)
+    try {
+      await courseSchema.validate(this.state).catch(err => {
+        if (err) {
+          const newState = update(this.state, {
+            formErrors: {$set: err}
+          })
+          this.setState(newState)
+        }
+      })
+      // mutate if no errors
+      if (isEmpty(this.state.formErrors.errors)) {
+        const updatedCourse = await this.props.client.mutate({
+          mutation: COURSE_UPDATE,
+          variables: {
+            _id: this.state.courseId,
+            title: this.state.title,
+            courseDescription: this.state.courseDescription
+          }
+        })
+        if (updatedCourse) {
+          session.course = updatedCourse.data.courseUpdate
+        }
+        await this.setState({
+          loading: false
+        })
+      }
+    } catch (err) {
+      throw err
+    }
+  }
 
   sessionUnsubscribe = () => {
     const {user} = session
@@ -195,8 +203,38 @@ class CourseIntroduction extends Component {
           _id: course._id
         }}>
         {({loading, error}) => {
-          if (loading) return "Loading..."
-          if (error) return `Error! ${error.message}`
+          if (loading)
+            return (
+              <Grid
+                container
+                alignContent="center"
+                justify="center"
+                style={{height: "300px"}}>
+                <CircularProgress style={{color: "grey"}} />
+              </Grid>
+            )
+          if (error) {
+            console.log("err: ", error)
+            return (
+              <Grid>
+                <p>
+                  {error.graphQLErrors.map(({message}, i) => (
+                    <p
+                      style={{
+                        fontSize: "1.3em",
+                        color: "red",
+                        margin: "30px",
+                        padding: "30px",
+                        textAlign: "center"
+                      }}
+                      key={i}>
+                      {message}
+                    </p>
+                  ))}
+                </p>
+              </Grid>
+            )
+          }
           return (
             <form className={classes.root} onSubmit={this.handleSubmit}>
               <Helmet>
@@ -396,12 +434,14 @@ class CourseIntroduction extends Component {
                       matchingID={course.owner.username}
                       yes={() => (
                         <Grid item xs={12} align="center">
-                          <Button
+                          <LoadingButton
+                            variant="contained"
+                            loading={this.state.loading}
+                            disabled={this.stateloading}
                             type="submit"
-                            color="inherit"
-                            variant="outlined">
+                            color="secondary">
                             Save Changes
-                          </Button>
+                          </LoadingButton>
                         </Grid>
                       )}
                       no={() => null}
@@ -421,6 +461,3 @@ export default compose(
   withApollo,
   withStyles(styles)
 )(CourseIntroduction)
-
-/* graphql(COURSE_UPDATE, {name: "courseUpdate"}), */
-/* graphql(GET_COURSE, {name: "getCourse"}), */

@@ -121,11 +121,18 @@ const courseUpdate = async (_, args, ctx) => {
     if (!ctx.isAuth) {
       return new Error("You need to be registered to edit this course.")
     }
-    const {_id, ...update} = args
-    const result = await Course.findByIdAndUpdate(_id, update, {
+    const {_id, ...update} = args.input
+    const course = await Course.findByIdAndUpdate(_id, update, {
       new: true
     }).lean()
-    /* .exec() */
+
+    let updatedCourse = {
+      ...course,
+      _id: course._id.toString(),
+      owner: userById.bind(this, course.owner)
+    }
+
+    return updatedCourse
   } catch (err) {
     throw err
   }
