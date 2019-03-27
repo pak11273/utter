@@ -32,7 +32,7 @@ var courseCreateSchema = yup.object().shape({
 });
 exports.courseCreateSchema = courseCreateSchema;
 var courseSchema = yup.object().shape({
-  title: yup.string().required("A course name is required").min(10, titleNotLongEnough).max(100, nameTooLong),
+  title: yup.string().required("A course title is required").min(10, titleNotLongEnough).max(100, nameTooLong),
   courseDescription: yup.string().min(100, descriptionNotLongEnough).max(350, descriptionTooLong).required("A course description is required")
 });
 exports.courseSchema = courseSchema;

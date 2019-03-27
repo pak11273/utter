@@ -289,7 +289,7 @@ function () {
   var _ref7 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee5(_, args, ctx) {
-    var _id, update, result;
+    var _args$input, _id, update, course, updatedCourse;
 
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
@@ -305,28 +305,31 @@ function () {
             return _context5.abrupt("return", new Error("You need to be registered to edit this course."));
 
           case 3:
-            _id = args._id, update = (0, _objectWithoutProperties2.default)(args, ["_id"]);
+            _args$input = args.input, _id = _args$input._id, update = (0, _objectWithoutProperties2.default)(_args$input, ["_id"]);
             _context5.next = 6;
             return _courseModel.default.findByIdAndUpdate(_id, update, {
               new: true
             }).lean();
 
           case 6:
-            result = _context5.sent;
-            _context5.next = 12;
-            break;
+            course = _context5.sent;
+            updatedCourse = (0, _objectSpread2.default)({}, course, {
+              _id: course._id.toString(),
+              owner: userById.bind(_this, course.owner)
+            });
+            return _context5.abrupt("return", updatedCourse);
 
-          case 9:
-            _context5.prev = 9;
+          case 11:
+            _context5.prev = 11;
             _context5.t0 = _context5["catch"](0);
             throw _context5.t0;
 
-          case 12:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 9]]);
+    }, _callee5, null, [[0, 11]]);
   }));
 
   return function courseUpdate(_x9, _x10, _x11) {

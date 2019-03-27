@@ -23,9 +23,9 @@ type Resource {
 }
 
 input CourseUpdateInput {
+	_id: ID
   title: String
   courseDescription: String
-  courseMode: String
 }
 
 input GetCoursesInput {
