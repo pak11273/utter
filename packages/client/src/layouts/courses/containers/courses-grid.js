@@ -1,6 +1,6 @@
-import React from "react"
+import React, {useState} from "react"
 import {withRouter} from "react-router-dom"
-import {Waypoint} from "react-waypoint"
+/* import {Waypoint} from "react-waypoint" */
 
 import classNames from "classnames"
 
@@ -15,6 +15,7 @@ import Grid from "@material-ui/core/Grid"
 import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
+import {LoadingButton} from "../../../components"
 import {compose} from "react-apollo"
 import {session} from "brownies"
 import {GET_COURSES} from "../course-queries.js"
@@ -102,10 +103,19 @@ const styles = theme => ({
   },
   searchField: {
     marginTop: "7px"
+  },
+  showMore: {
+    position: "absolute",
+    bottom: -50,
+    left: "50%",
+    webkitTransform: "translateX(-50%)",
+    transform: "translateX(-50%)"
   }
 })
 
 const CoursesGrid = props => {
+  const [showMoreBtn, setShowMoreBtn] = useState(true)
+
   const handleImageClick = card => () => {
     session.course = card
     props.history.push({
@@ -168,7 +178,7 @@ const CoursesGrid = props => {
     <div>
       <div className={classNames(props.classes.layout, props.classes.cardGrid)}>
         {/* End hero unit */}
-        <Grid container spacing={8}>
+        <Grid container spacing={8} style={{position: "relative"}}>
           {data.getCourses.courses.map((card, i) => (
             <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
               <Card className={props.classes.card}>
@@ -215,32 +225,41 @@ const CoursesGrid = props => {
                   </Button>
                 </CardActions>
               </Card>
-              {i === data.getCourses.courses.length - 1 && (
-                <Waypoint
-                  onEnter={() =>
-                    fetchMore({
-                      variables: {
-                        cursor:
-                          data.getCourses.courses[
-                            data.getCourses.courses.length - 1
-                          ]._id
-                      },
-                      updateQuery: (prev, {fetchMoreResult}) => {
-                        if (!fetchMoreResult) return prev
-                        return {
-                          getCourses: {
-                            ...fetchMoreResult.getCourses,
-                            courses: [
-                              ...prev.getCourses.courses,
-                              ...fetchMoreResult.getCourses.courses
-                            ]
+              {i === data.getCourses.courses.length - 1 &&
+                showMoreBtn && (
+                  <LoadingButton
+                    className={props.classes.showMore}
+                    color="secondary"
+                    variant="contained"
+                    onClick={() =>
+                      fetchMore({
+                        variables: {
+                          cursor:
+                            data.getCourses.courses[
+                              data.getCourses.courses.length - 1
+                            ]._id
+                        },
+                        updateQuery: (prev, {fetchMoreResult}) => {
+                          // length needs to be 1 less than the limit
+                          if (fetchMoreResult.getCourses.courses.length <= 7) {
+                            setShowMoreBtn(false)
+                          }
+                          if (!fetchMoreResult) return prev
+                          return {
+                            getCourses: {
+                              ...fetchMoreResult.getCourses,
+                              courses: [
+                                ...prev.getCourses.courses,
+                                ...fetchMoreResult.getCourses.courses
+                              ]
+                            }
                           }
                         }
-                      }
-                    })
-                  }
-                />
-              )}
+                      })
+                    }>
+                    Show More
+                  </LoadingButton>
+                )}
             </Grid>
           ))}
           {loading && <h1>loading</h1>}
