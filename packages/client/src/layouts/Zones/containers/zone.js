@@ -68,8 +68,6 @@ class Zone extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
-    console.log("state: ", this.state)
-    console.log("props: ", this.props)
     /* this.state.client.join(this.props.zone, this.props.user.username, () => */
     /*   console.log("User joined this zone!") */
     /* ) */
@@ -86,7 +84,7 @@ class Zone extends Component {
   }
 
   componentWillUnmount() {
-    // TODO memory link in console.  Kill socket.io connection??
+    // TODO memory leak in console.  Kill socket.io connection??
   }
 
   onLeaveZone = (zoneId, onLeaveSuccess) => {
@@ -122,7 +120,7 @@ class Zone extends Component {
 
   render() {
     const {classes, zone} = this.props
-    const {username} = session.user
+    const {username} = (session && session.user) || {username: ""}
     /* const {chatHistory} = history.location.state */
     /* this.state.client.connected(zone) */
     return (
