@@ -1,6 +1,5 @@
 import React, {useState} from "react"
 import {withRouter} from "react-router-dom"
-/* import {Waypoint} from "react-waypoint" */
 
 import classNames from "classnames"
 
@@ -262,7 +261,6 @@ const CoursesGrid = props => {
                 )}
             </Grid>
           ))}
-          {loading && <h1>loading</h1>}
         </Grid>
       </div>
     </div>

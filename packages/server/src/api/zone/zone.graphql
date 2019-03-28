@@ -15,6 +15,14 @@ type Zone {
   zoneName: String!
 }
 
+input GetZonesInput {
+  cursor: String
+	searchInput: String
+	selectionBox: String
+  teachingLang: String!
+  usingLang: String!
+}
+
 input ZoneUpdated {
   _id: ID!
   zoneId: String
@@ -45,15 +53,7 @@ type PaginatedZones {
 extend type Query {
   getZone(zoneId: String!): Zone!
 	getZoneLevels(zoneId: String!): Zone!
-  getZones(
-		app: String
-		courseLevel: Int
-    cursor: String
-    owner: String!
-    usingLang: String!
-    teachingLang: String!
-    zoneName: String!
-  ): PaginatedZones  
+  getZones(input: GetZonesInput!): PaginatedZones  
   getZoneCount: Int
 }
 

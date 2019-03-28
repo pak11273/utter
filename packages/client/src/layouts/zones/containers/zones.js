@@ -4,6 +4,7 @@ import {Link as RouterLink, withRouter} from "react-router-dom"
 import ReactSelect from "react-select"
 import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
+import {session} from "brownies"
 
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -138,8 +139,7 @@ class ZonesContainer extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
-    // TODO when we put zones to redis then redo this
-    /* this.getZones() */
+    delete session.zone
   }
 
   addApp = value => {

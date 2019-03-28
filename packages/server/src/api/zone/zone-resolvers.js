@@ -107,18 +107,50 @@ const getZoneLevels = async (_, args, ctx, info) => {
 
 const getZones = async (_, args, ctx, info) => {
   console.log("ARGS: ", args)
-  // build query object
-  var query = {}
-  for (var key in args) {
-    args[key] !== "" ? (query[key] = args[key]) : null
+  var input = args.input
+  if (input.searchInput || input.selectionBox) {
+    input[input.selectionBox] = input.searchInput
+    delete input.searchInput
+    delete input.selectionBox
   }
-  console.log("query: ", query)
+  var query = {}
+  for (var key in input) {
+    input[key] !== "" ? (query[key] = input[key]) : null
+  }
+
+  query.title
+    ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
+    : null
+
+  if (query.owner) {
+    query.owner = await User.findOne({username: query.owner}, (err, docs) => {
+      if (err) {
+        throw err
+      }
+      if (!isEmpty(docs)) {
+        var owner = docs._id
+        query.owner = docs._id
+      }
+    })
+  }
+
+  query.resource
+    ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
+    : null
+
+  // type cast id because $lt is not the same in aggregate vs query
+  /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
+
+  if (query.cursor) {
+    query._id = {$gt: query.cursor || null}
+    delete query.cursor
+  }
 
   try {
     let zones = await Zone.find(query)
       .lean()
-      .limit(12)
       .sort({_id: -1})
+      .limit(12)
 
     const convertedZones = zones.map(zone => {
       return {

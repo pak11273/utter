@@ -1,10 +1,6 @@
-import React, {PureComponent} from "react"
-import {Waypoint} from "react-waypoint"
+import React, {useState} from "react"
 
 import classNames from "classnames"
-import isEmpty from "lodash/isEmpty"
-import update from "immutability-helper"
-import cloneDeep from "lodash/cloneDeep"
 
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -15,46 +11,10 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 
-import {Query} from "react-apollo"
-import gql from "graphql-tag"
-
-const getZones = gql`
-  query getZones(
-    $app: String
-    $courseLevel: Int
-    $cursor: String
-    $owner: String!
-    $teachingLang: String!
-    $usingLang: String!
-    $zoneName: String!
-  ) {
-    getZones(
-      app: $app
-      courseLevel: $courseLevel
-      cursor: $cursor
-      owner: $owner
-      teachingLang: $teachingLang
-      usingLang: $usingLang
-      zoneName: $zoneName
-    ) {
-      cursor
-      zones {
-        ageGroup
-        app
-        courseLevel
-        _id
-        owner {
-          username
-        }
-        teachingLang
-        usingLang
-        zoneDescription
-        zoneImage
-        zoneName
-      }
-    }
-  }
-`
+import {useQuery} from "react-apollo-hooks"
+import {session} from "brownies"
+import {LoadingButton} from "../../../components"
+import {GET_ZONES} from "../zone-queries.js"
 
 const drawerWidth = 240
 
@@ -121,249 +81,186 @@ const styles = theme => ({
       marginLeft: "auto",
       marginRight: "auto"
     }
+  },
+  showMore: {
+    position: "absolute",
+    bottom: -50,
+    left: "50%",
+    webkitTransform: "translateX(-50%)",
+    transform: "translateX(-50%)"
   }
 })
 
-/* const Wrapper = styled.div` */
-/*   cursor: pointer; */
-/* ` */
-
-const initialState = {
-  app: "",
-  courseLevel: 1,
-  courseInput: "",
-  items: "",
-  labelWidth: 0,
-  mobileOpen: false,
-  next: "",
-  owner: "",
-  resetCursor: "",
-  search: "",
-  selectionBox: "title",
-  teachingLang: "",
-  usingLang: "",
-  zoneName: ""
-}
-
-class ZonesGrid extends PureComponent {
-  state = cloneDeep(initialState)
-
-  componentWillReceiveProps() {
-    const newState = update(this.state, {
-      cursor: {$set: ""}
-    })
-    this.setState(newState)
-
-    /* if (this.state !== props) { */
-    /*   this.setState({ */
-    /*     courseLevel: props.courseLevel, */
-    /*     usingLang: props.usingLang, */
-    /*     teachingLang: props.teachingLang */
-    /*   }) */
-    /* } */
-  }
-
-  ageRestrictionNotice = () => {
+const ZonesGrid = props => {
+  const [showMoreBtn, setShowMoreBtn] = useState(true)
+  const {classes} = props
+  const ageRestrictionNotice = () => {
     alert(
       "AGE GROUPS: \nAny age \nages 0-2 \nages 3+ \nages 7+ \nages 12+ \nages 16+ \nages 18+ \nages 30+ \nages 40+ \nages 50+ \nages 60+"
     )
   }
 
-  render() {
-    const {classes} = this.props
+  const onEnterZone = card => () => {
+    session.zone = card
+    props.history.push({
+      pathname: `/zone/${card._id}`,
+      state: {zoneeId: card.id}
+    })
+  }
+
+  const {data, error, loading, fetchMore} = useQuery(GET_ZONES, {
+    variables: {
+      cursor: "",
+      searchInput:
+        props.search && props.search.searchInput
+          ? props.search.searchInput
+          : "",
+      selectionBox:
+        props.search && props.search.selectionBox
+          ? props.search.selectionBox
+          : "",
+      usingLang:
+        props.searchInput && props.searchInput.usingLang
+          ? props.searchInput.usingLang
+          : "",
+      teachingLang:
+        props.searchInput && props.searchInput.teachingLang
+          ? props.searchInput.teachingLang
+          : ""
+    }
+  })
+  if (loading)
     return (
-      <Query
-        query={getZones}
-        variables={{
-          app: "",
-          courseLevel: 1,
-          cursor: "",
-          zoneName: "",
-          owner: "",
-          usingLang:
-            this.props.searchInput && this.props.searchInput.usingLang
-              ? this.props.searchInput.usingLang
-              : "",
-          teachingLang:
-            this.props.searchInput && this.props.searchInput.teachingLang
-              ? this.props.searchInput.teachingLang
-              : ""
-        }}>
-        {({loading, error, data, fetchMore}) => {
-          if (loading)
-            return (
-              <Grid
-                container
-                alignContent="center"
-                justify="center"
-                style={{height: "300px"}}>
-                <CircularProgress style={{color: "grey"}} />
-              </Grid>
-            )
-          if (error) {
-            console.log("err: ", error)
-            return (
-              <Grid>
-                <p>
-                  {error.graphQLErrors.map(({message}, i) => (
-                    <p
-                      style={{
-                        fontSize: "1.3em",
-                        color: "red",
-                        margin: "30px",
-                        padding: "30px",
-                        textAlign: "center"
-                      }}
-                      key={i}>
-                      {message}
-                    </p>
-                  ))}
-                </p>
-              </Grid>
-            )
-          }
-          if (this.state.cursor !== "done") {
-            var waypoint = (
-              <Waypoint
-                key={data.getZones && data.getZones.cursor}
-                onEnter={() => {
-                  // set cursor state to first response
-                  const newState = update(this.state, {
-                    cursor: {$set: data.getZones.cursor}
-                  })
-
-                  this.setState(newState)
-
-                  fetchMore({
-                    // note this is a different query than the one used in the
-                    variables: {
-                      cursor: this.state.cursor
-                    },
-                    updateQuery: (previousResult, {fetchMoreResult}) => {
-                      if (!fetchMoreResult) {
-                        // do something here
-                        console.log("prev: ", previousResult)
-                        console.log("fetch: ", fetchMoreResult)
-                      }
-                      const previousEntry = previousResult.getZones.courses
-                      const newZones = fetchMoreResult.getZones.courses
-
-                      // display waypoint if a cursor exists
-                      const newState = update(this.state, {
-                        cursor: {
-                          $set: fetchMoreResult.getZones.cursor
-                        }
-                      })
-
-                      this.setState(newState)
-
-                      if (isEmpty(newZones)) {
-                        // hide waypoint
-                        const newState = update(this.state, {
-                          cursor: {
-                            $set: fetchMoreResult.getZones.cursor
-                          }
-                        })
-
-                        this.setState(newState)
-
-                        return previousResult
-                      }
-                      var newCursor = newZones[newZones.length - 1].id
-
-                      if (!fetchMoreResult) return previousEntry
-
-                      return {
-                        // By returning `cursor` here, we update the `fetchMore` function
-                        // to the new cursor.
-                        getZones: {
-                          cursor: newCursor,
-                          courses: [...previousEntry, ...newZones],
-                          __typename: "PaginatedZones"
-                        }
-                      }
-                    }
-                  })
-                }}>
-                {/* <div>
-                  <Button>Scroll down for more</Button>
-                </div> */}
-              </Waypoint>
-            )
-          }
-          return (
-            <div>
-              <div className={classNames(classes.layout, classes.cardGrid)}>
-                <Grid container spacing={8}>
-                  {data.getZones &&
-                    data.getZones.zones.map(card => (
-                      <Grid item key={card._id} xs={12} sm={12} md={3} lg={2}>
-                        <Card className={classes.card}>
-                          <CardContent className={classes.cardContent}>
-                            <Typography
-                              className={classes.cardTitle}
-                              gutterBottom
-                              variant="h6"
-                              component="h6">
-                              {card.zoneName}
-                            </Typography>
-                            <Typography
-                              className={classes.cardDescription}
-                              gutterBottom
-                              component="p">
-                              {card.zoneDescription}
-                            </Typography>
-                            <Typography
-                              className={classes.cardUsername}
-                              gutterBottom
-                              variant="caption">
-                              by: {card.owner.username}
-                            </Typography>
-                          </CardContent>
-                          <div style={{padding: "0 0 0 20px"}}>
-                            App: {card.app}
-                          </div>
-                          <div style={{padding: "0 0 0 20px"}}>
-                            Course: {card.zoneRef}
-                          </div>
-                          <div style={{padding: "0 0 0 20px"}}>
-                            Using: {card.usingLang}
-                          </div>
-                          <div style={{padding: "0 0 0 20px"}}>
-                            Teaching: {card.teachingLang}
-                          </div>
-                          {/* <div
+      <Grid
+        container
+        alignContent="center"
+        justify="center"
+        style={{height: "300px"}}>
+        <CircularProgress style={{color: "grey"}} />
+      </Grid>
+    )
+  if (error) {
+    return (
+      <Grid>
+        <p>
+          {error.graphQLErrors.map(({message}, i) => (
+            <p
+              style={{
+                fontSize: "1.3em",
+                color: "red",
+                margin: "30px",
+                padding: "30px",
+                textAlign: "center"
+              }}
+              key={i}>
+              {message}
+            </p>
+          ))}
+        </p>
+      </Grid>
+    )
+  }
+  return (
+    <div>
+      <div className={classNames(classes.layout, classes.cardGrid)}>
+        <Grid container spacing={8}>
+          {data.getZones &&
+            data.getZones.zones.map((card, i) => (
+              <Grid item key={card._id} xs={12} sm={12} md={3} lg={2}>
+                <Card className={classes.card}>
+                  <CardContent className={classes.cardContent}>
+                    <Typography
+                      className={classes.cardTitle}
+                      gutterBottom
+                      variant="h6"
+                      component="h6">
+                      {card.zoneName}
+                    </Typography>
+                    <Typography
+                      className={classes.cardDescription}
+                      gutterBottom
+                      component="p">
+                      {card.zoneDescription}
+                    </Typography>
+                    <Typography
+                      className={classes.cardUsername}
+                      gutterBottom
+                      variant="caption">
+                      by: {card.owner.username}
+                    </Typography>
+                  </CardContent>
+                  <div style={{padding: "0 0 0 20px"}}>App: {card.app}</div>
+                  <div style={{padding: "0 0 0 20px"}}>
+                    Course: {card.zoneRef}
+                  </div>
+                  <div style={{padding: "0 0 0 20px"}}>
+                    Using: {card.usingLang}
+                  </div>
+                  <div style={{padding: "0 0 0 20px"}}>
+                    Teaching: {card.teachingLang}
+                  </div>
+                  {/* <div
                           style={{display: "flex", padding: "10px 0 0 20px"}}>
                           <PersonIcon />
                           <span>14</span>
                         </div> */}
-                          <CardActions className={classes.actions}>
-                            <Button
-                              color="secondary"
-                              size="small"
-                              onClick={this.ageRestrictionNotice}
-                              style={{margin: "10px 0"}}>
-                              {card.ageGroup}
-                            </Button>
-                            <Button
-                              onClick={this.props.onEnterZone(card)}
-                              size="large"
-                              className={classes.editButton}>
-                              ENTER
-                            </Button>
-                          </CardActions>
-                        </Card>
-                      </Grid>
-                    ))}
-                </Grid>
-              </div>
-              {waypoint}
-            </div>
-          )
-        }}
-      </Query>
-    )
-  }
+                  <CardActions className={classes.actions}>
+                    <Button
+                      color="secondary"
+                      size="small"
+                      onClick={ageRestrictionNotice}
+                      style={{margin: "10px 0"}}>
+                      {card.ageGroup}
+                    </Button>
+                    <Button
+                      onClick={onEnterZone(card)}
+                      size="large"
+                      className={classes.editButton}>
+                      ENTER
+                    </Button>
+                  </CardActions>
+                </Card>
+                {i === data.getZones.zones.length - 1 &&
+                  showMoreBtn && (
+                    <LoadingButton
+                      className={props.classes.showMore}
+                      color="secondary"
+                      variant="contained"
+                      onClick={() =>
+                        fetchMore({
+                          variables: {
+                            cursor:
+                              data.getZones.zones[
+                                data.getZones.zones.length - 1
+                              ]._id
+                          },
+                          updateQuery: (prev, {fetchMoreResult}) => {
+                            // length needs to be 1 less than the limit
+                            if (fetchMoreResult.getZones.zones.length <= 7) {
+                              setShowMoreBtn(false)
+                            }
+                            if (!fetchMoreResult) return prev
+                            return {
+                              getZones: {
+                                ...fetchMoreResult.getZones,
+                                zones: [
+                                  ...prev.getZones.zones,
+                                  ...fetchMoreResult.getZones.zones
+                                ]
+                              }
+                            }
+                          }
+                        })
+                      }>
+                      Show More
+                    </LoadingButton>
+                  )}
+              </Grid>
+            ))}
+        </Grid>
+      </div>
+    </div>
+  )
 }
 
 export default withStyles(styles)(ZonesGrid)

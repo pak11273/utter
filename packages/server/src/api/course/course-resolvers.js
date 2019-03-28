@@ -252,7 +252,6 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   var input = args.input
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
@@ -292,14 +291,11 @@ const getCourses = async (_, args, ctx, info) => {
     delete query.cursor
   }
 
-  console.log("query: ", query)
   try {
     const courses = await Course.find(query)
       .sort({subscribers: "desc"})
       .limit(8)
       .lean()
-
-    console.log("courseS: ", courses)
 
     const convertedCourses = courses.map(course => {
       return {

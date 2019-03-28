@@ -37,7 +37,7 @@ class Using extends Component {
     this.setState({
       selectValue: newValue
     })
-    this.props.addUsingLang(newValue.value)
+    /* this.props.addUsingLang(newValue.value) */
     this.props.form.setFieldValue(this.props.field.name, newValue.value)
   }
 

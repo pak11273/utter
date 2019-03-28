@@ -23,10 +23,10 @@ import {
   FormikTextArea,
   Span,
   Img,
-  LoadingButton
+  LoadingButton,
+  teaching,
+  using
 } from "../../../components"
-import Teaching from "./teaching"
-import Using from "./using"
 
 import {handleCloudinaryUpload} from "../../../utils/cloudinary-upload.js"
 
@@ -394,7 +394,7 @@ class CourseCreate extends Component {
                 <Field
                   name="usingLang"
                   error={errors.usingLang}
-                  component={Using}
+                  component={using}
                   addUsingLang={this.addUsingLang}
                   options={groupedOptions}
                   onChange={setFieldValue}
@@ -411,7 +411,7 @@ class CourseCreate extends Component {
                 </Typography>
                 <Field
                   name="teachingLang"
-                  component={Teaching}
+                  component={teaching}
                   addTeachingLang={this.addTeachingLang}
                   options={groupedOptions}
                 />
