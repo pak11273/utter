@@ -150,7 +150,7 @@ const getZones = async (_, args, ctx, info) => {
     let zones = await Zone.find(query)
       .lean()
       .sort({_id: -1})
-      .limit(12)
+      .limit(6)
 
     const convertedZones = zones.map(zone => {
       return {

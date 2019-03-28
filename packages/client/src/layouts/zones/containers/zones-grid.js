@@ -26,8 +26,8 @@ const styles = theme => ({
     justifyContent: "flex-end"
   },
   card: {
-    height: "340px",
-    /* maxWidth: "300px", */
+    height: "360px",
+    maxWidth: "300px",
     display: "flex",
     flexDirection: "column"
   },
@@ -53,8 +53,7 @@ const styles = theme => ({
     height: "52px",
     lineHeight: "1.2em",
     overflow: "hidden",
-    wordBreak: "break-all",
-    whiteSpace: "nowrap"
+    wordBreak: "break-word"
   },
   cardUsername: {
     whiteSpace: "nowrap",
@@ -94,8 +93,16 @@ const styles = theme => ({
 })
 
 const ZonesGrid = props => {
-  console.log("props: ", props)
   const [showMoreBtn, setShowMoreBtn] = useState(true)
+
+  const onEnterZone = card => () => {
+    session.zone = card
+    props.history.push({
+      pathname: `/zone/${card._id}`,
+      state: {zoneeId: card.id}
+    })
+  }
+
   const {data, error, loading, fetchMore} = useQuery(GET_ZONES, {
     variables: {
       cursor: "",
@@ -108,12 +115,10 @@ const ZonesGrid = props => {
           ? props.search.selectionBox
           : "",
       usingLang:
-        props.searchInput && props.searchInput.usingLang
-          ? props.searchInput.usingLang
-          : "",
+        props.search && props.search.usingLang ? props.search.usingLang : "",
       teachingLang:
-        props.searchInput && props.searchInput.teachingLang
-          ? props.searchInput.teachingLang
+        props.search && props.search.teachingLang
+          ? props.search.teachingLang
           : ""
     }
   })
@@ -154,16 +159,8 @@ const ZonesGrid = props => {
 
   const ageRestrictionNotice = () => {
     alert(
-      "AGE GROUPS: \nAny age \nages 0-2 \nages 3+ \nages 7+ \nages 12+ \nages 16+ \nages 18+ \nages 30+ \nages 40+ \nages 50+ \nages 60+"
+      "ALL public zones irregardless of age requirements are to uphold the following zone rules: \nNo discrimination \nNo sexual harrassment \nNo sexual innuendos of any kind \nNo Profanity \nNo Spamming Chat \n\nRule breakers are subject to suspensed or banned accounts."
     )
-  }
-
-  const onEnterZone = card => () => {
-    session.zone = card
-    props.history.push({
-      pathname: `/zone/${card._id}`,
-      state: {zoneeId: card.id}
-    })
   }
 
   return (
@@ -207,7 +204,22 @@ const ZonesGrid = props => {
                   </div>
                   <div style={{display: "flex", padding: "10px 0 0 20px"}}>
                     <PersonIcon />
-                    <span>14</span>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        padding: "5px 25px 0px 5px"
+                      }}>
+                      {(card.occupants && card.occupants.length) || 1}
+                    </span>
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        paddingTop: "5px"
+                      }}>
+                      Max: 30
+                    </span>
                   </div>
                   <CardActions className={classes.actions}>
                     <Button

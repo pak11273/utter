@@ -23,9 +23,9 @@ const ZoneSchema = mongoose.Schema(
       type: Number,
       default: 1
     },
-    members: {
+    occupants: {
       type: Number,
-      default: 0
+      default: 1
     },
     zoneName: {
       type: String,

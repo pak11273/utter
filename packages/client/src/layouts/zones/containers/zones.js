@@ -1,10 +1,8 @@
-/* eslint react/no-did-update-set-state: 0 */
 import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
-/* import {withRouter} from "react-router-dom" */
 import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
-/* import {session} from "brownies" */
+import {session} from "brownies"
 
 import Drawer from "@material-ui/core/Drawer"
 import FormControl from "@material-ui/core/FormControl"
@@ -15,7 +13,6 @@ import Select from "@material-ui/core/Select"
 import Link from "@material-ui/core/Link"
 import TextField from "@material-ui/core/TextField"
 import {withStyles} from "@material-ui/core/styles"
-/* import Button from "@material-ui/core/Button" */
 import Divider from "@material-ui/core/Divider"
 import Typography from "@material-ui/core/Typography"
 import {
@@ -123,16 +120,9 @@ const styles = theme => ({
 })
 
 const ZonesContainer = props => {
-  /* delete session.zone */
+  delete session.zone
 
-  /* const onEnterZone = card => () => { */
-  /*   props.history.push({ */
-  /*     pathname: `/zone/${card.id}`, */
-  /*     state: {zoneId: card.id} */
-  /*   }) */
-  /* } */
-
-  const {classes, handleSubmit, values} = props
+  const {classes, handleChange, handleSubmit, values} = props
   return (
     <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
       <Drawer
@@ -195,6 +185,7 @@ const ZonesContainer = props => {
           <title>Utterzone | Zones</title>
           <link rel="canonical" href="https://utterzone/zones" />
         </Helmet>
+        {/* Hero unit */}
         <div className={classes.heroUnit}>
           <div className={classes.heroContent}>
             <Grid container justify="center" direction="column">
@@ -203,16 +194,21 @@ const ZonesContainer = props => {
               </Typography>
               <Grid container alignItems="center" justify="center">
                 <TextField
+                  name="searchInput"
                   id="outlined-search"
                   label="Search"
+                  onChange={handleChange}
                   type="search"
                   className={classes.searchField}
+                  value={values.searchInput}
                   margin="normal"
                   variant="outlined"
                 />
                 <FormControl variant="outlined" className={classes.formControl}>
                   <Select
                     value={values.selectionBox}
+                    name="selectionBox"
+                    onChange={handleChange}
                     input={
                       <OutlinedInput
                         labelWidth={0}
@@ -223,9 +219,12 @@ const ZonesContainer = props => {
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
+                    <MenuItem value="host">Host</MenuItem>
                     <MenuItem value="title">Title</MenuItem>
+                    <MenuItem value="app">App</MenuItem>
+                    <MenuItem value="course">Course</MenuItem>
+                    <MenuItem value="level">Level</MenuItem>
                     <MenuItem value="reference">Reference</MenuItem>
-                    <MenuItem value="author">Author</MenuItem>
                   </Select>
                 </FormControl>
                 <LoadingButton
@@ -239,29 +238,23 @@ const ZonesContainer = props => {
                 </LoadingButton>
               </Grid>
             </Grid>
-            <Grid>
-              <ZonesGrid
-                searchInput={props.status && props.status.searchInput}
-              />
-            </Grid>
           </div>
         </div>
+        {/* End hero unit */}
+        <Grid>
+          <ZonesGrid search={props.status && props.status.search} />
+        </Grid>
       </main>
     </form>
   )
 }
-
-/* onEnterZone={onEnterZone} */
 
 export default withRouter(
   withFormik({
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      courseInput: "",
-      courseName: "",
-      owner: "",
-      search: "",
+      searchInput: "",
       selectionBox: "",
       teachingLang: "",
       usingLang: ""
@@ -269,16 +262,13 @@ export default withRouter(
     handleSubmit: async (values, {setStatus}) => {
       console.log("values; ", values)
       setStatus({loading: true})
-      const searchInput = {
-        courseInput: values.courseInput,
-        courseName: values.courseName,
-        owner: values.owner,
-        search: values.search,
+      const search = {
+        searchInput: values.searchInput,
         selectionBox: values.selectionBox,
         teachingLang: values.teachingLang,
         usingLang: values.usingLang
       }
-      setStatus({searchInput})
+      setStatus({search})
     }
   })(withStyles(styles)(ZonesContainer))
 )
