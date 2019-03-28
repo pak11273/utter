@@ -85,7 +85,6 @@ class CourseIntroduction extends PureComponent {
   }
 
   componentDidMount() {
-    console.log("course: ", course)
     const initialState = update(this.state, {
       courseId: {$set: course._id},
       title: {$set: course.title},
@@ -93,9 +92,9 @@ class CourseIntroduction extends PureComponent {
     })
     this.setState(initialState)
 
-    const found = session.user.subscriptions.find(
-      o => o._id === session.course._id
-    )
+    const found =
+      session.user &&
+      session.user.subscriptions.find(o => o._id === session.course._id)
     if (found) {
       const newState = update(this.state, {
         subscribed: {$set: true}
@@ -103,7 +102,7 @@ class CourseIntroduction extends PureComponent {
       this.setState(newState)
     }
 
-    if (user.username === course.owner.username) {
+    if (user && user.username === course.owner.username) {
       this.setState({
         disabled: false
       })

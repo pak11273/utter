@@ -120,9 +120,9 @@ class CourseUpdate extends PureComponent {
                 return (
                   <Can
                     key={text}
-                    roles={user.roles}
+                    roles={user && user.roles}
                     perform="course:read-settings"
-                    id={user.username}
+                    id={user && user.username}
                     matchingID={course.owner.username}
                     yes={() => (
                       <ListItem
