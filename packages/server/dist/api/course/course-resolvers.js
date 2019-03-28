@@ -490,7 +490,7 @@ function () {
             query.owner = user._id; // end query object
 
             if (args.cursor && args.cursor !== "done") {
-              // type cast id, $lt is not the same in aggregate vs query
+              // type cast id because $lt is not the same in aggregate vs query
               cursorObj = _mongoose.default.Types.ObjectId(args.cursor); // add to query object
 
               cursor = cursorObj;
@@ -585,6 +585,7 @@ function () {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
+            console.log("args: ", args);
             input = args.input;
 
             if (input.searchInput || input.selectionBox) {
@@ -602,11 +603,11 @@ function () {
             query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
 
             if (!query.owner) {
-              _context9.next = 9;
+              _context9.next = 10;
               break;
             }
 
-            _context9.next = 8;
+            _context9.next = 9;
             return _userModel.default.findOne({
               username: query.owner
             }, function (err, docs) {
@@ -620,38 +621,51 @@ function () {
               }
             });
 
-          case 8:
+          case 9:
             query.owner = _context9.sent;
 
-          case 9:
-            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null;
-            _context9.prev = 10;
-            _context9.next = 13;
-            return _courseModel.default.find(query).lean();
+          case 10:
+            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null; // type cast id because $lt is not the same in aggregate vs query
 
-          case 13:
+            /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
+
+            if (query.cursor) {
+              query._id = {
+                $gt: query.cursor || null
+              };
+              delete query.cursor;
+            }
+
+            console.log("query: ", query);
+            _context9.prev = 13;
+            _context9.next = 16;
+            return _courseModel.default.find(query).sort({
+              subscribers: "desc"
+            }).limit(8).lean();
+
+          case 16:
             courses = _context9.sent;
+            console.log("courseS: ", courses);
             convertedCourses = courses.map(function (course) {
               return (0, _objectSpread2.default)({}, course, {
                 owner: userById.bind(_this, course.owner)
               });
             });
             return _context9.abrupt("return", {
-              courses: convertedCourses,
-              cursor: ""
+              courses: convertedCourses
             });
 
-          case 18:
-            _context9.prev = 18;
-            _context9.t0 = _context9["catch"](10);
+          case 22:
+            _context9.prev = 22;
+            _context9.t0 = _context9["catch"](13);
             throw _context9.t0;
 
-          case 21:
+          case 25:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[10, 18]]);
+    }, _callee9, null, [[13, 22]]);
   }));
 
   return function getCourses(_x24, _x25, _x26, _x27) {

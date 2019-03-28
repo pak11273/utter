@@ -1,11 +1,8 @@
-import React, {PureComponent} from "react"
+import React from "react"
 import {withRouter} from "react-router-dom"
-/* import Waypoint from "react-waypoint" */
+import {Waypoint} from "react-waypoint"
 
 import classNames from "classnames"
-import cloneDeep from "lodash/cloneDeep"
-/* import isEmpty from "lodash/isEmpty" */
-import update from "immutability-helper"
 
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -18,55 +15,12 @@ import Grid from "@material-ui/core/Grid"
 import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 
-import {compose, Query, withApollo} from "react-apollo"
+import {compose} from "react-apollo"
 import {session} from "brownies"
-import gql from "graphql-tag"
+import {GET_COURSES} from "../course-queries.js"
+import {useQuery} from "react-apollo-hooks"
 
 import {subsToSize} from "../../../utils/helpers.js"
-
-const GET_COURSES = gql`
-  query getCourses(
-    $cursor: String
-    $searchInput: String
-    $selectionBox: String
-    $usingLang: String!
-    $teachingLang: String!
-  ) {
-    getCourses(
-      input: {
-        cursor: $cursor
-        searchInput: $searchInput
-        selectionBox: $selectionBox
-        usingLang: $usingLang
-        teachingLang: $teachingLang
-      }
-    ) {
-      courses {
-        _id
-        courseImage
-        courseMode
-        title
-        courseDescription
-        levels {
-          _id
-          level
-          title
-        }
-        resource
-        usingLang
-        subscribers
-        teachingLang
-        owner {
-          username
-          subscriptions {
-            _id
-          }
-        }
-      }
-      cursor
-    }
-  }
-`
 
 const drawerWidth = 240
 
@@ -151,233 +105,152 @@ const styles = theme => ({
   }
 })
 
-const initialState = {
-  courseInput: "",
-  title: "",
-  resource: "",
-  items: "",
-  labelWidth: 0,
-  mobileOpen: false,
-  next: "",
-  owner: "",
-  resetCursor: "",
-  searchInput: "",
-  selectionBox: "title",
-  teachingLang: "",
-  usingLang: ""
-}
-
-class CoursesGrid extends PureComponent {
-  state = cloneDeep(initialState)
-
-  componentDidMount = async () => {}
-
-  componentWillReceiveProps(prevProps) {
-    if (prevProps.searchInput) {
-      const newState = update(this.state, {
-        usingLang: {$set: prevProps.searchInput.teachingLang},
-        teachingLang: {$set: prevProps.searchInput.teachingLang}
-      })
-      this.setState(newState)
-    } else {
-      const newState = update(this.state, {
-        cursor: {$set: ""}
-      })
-      this.setState(newState)
-    }
-  }
-
-  handleImageClick = card => () => {
+const CoursesGrid = props => {
+  const handleImageClick = card => () => {
     session.course = card
-    this.props.history.push({
+    props.history.push({
       pathname: "/course/course-introduction",
       state: {courseId: card.id}
     })
   }
 
-  render() {
-    const {classes} = this.props
+  const {data, error, loading, fetchMore} = useQuery(GET_COURSES, {
+    variables: {
+      cursor: "",
+      searchInput:
+        props.search && props.search.searchInput
+          ? props.search.searchInput
+          : "",
+      selectionBox:
+        props.search && props.search.selectionBox
+          ? props.search.selectionBox
+          : "",
+      usingLang:
+        props.search && props.search.usingLang ? props.search.usingLang : "",
+      teachingLang:
+        props.search && props.search.teachingLang
+          ? props.search.teachingLang
+          : ""
+    }
+  })
+  if (loading)
     return (
-      <Query
-        query={GET_COURSES}
-        variables={{
-          cursor: "",
-          searchInput:
-            this.props.search && this.props.search.searchInput
-              ? this.props.search.searchInput
-              : "",
-          selectionBox:
-            this.props.search && this.props.search.selectionBox
-              ? this.props.search.selectionBox
-              : "",
-          usingLang:
-            this.props.search && this.props.search.usingLang
-              ? this.props.search.usingLang
-              : "",
-          teachingLang:
-            this.props.search && this.props.search.teachingLang
-              ? this.props.search.teachingLang
-              : ""
-        }}>
-        {({loading, error, data}) => {
-          if (loading)
-            return (
-              <Grid
-                container
-                alignContent="center"
-                justify="center"
-                style={{height: "300px"}}>
-                <CircularProgress style={{color: "grey"}} />
-              </Grid>
-            )
-          if (error) {
-            console.log("err: ", error)
-            return (
-              <Grid>
-                <p>
-                  {error.graphQLErrors.map(({message}, i) => (
-                    <p
-                      style={{
-                        fontSize: "1.3em",
-                        color: "red",
-                        margin: "30px",
-                        padding: "30px",
-                        textAlign: "center"
-                      }}
-                      key={i}>
-                      {message}
-                    </p>
-                  ))}
-                </p>
-              </Grid>
-            )
-          }
-          if (this.state.cursor !== "done") {
-            /* var waypoint = ( */
-            /*   <Waypoint */
-            /*     key={data.getCourses.cursor} */
-            /*     onEnter={() => { */
-            /*       // set cursor state to first response */
-            /*       const newState = update(this.state, { */
-            /*         cursor: {$set: data.getCourses.cursor} */
-            /*       }) */
-            /*       this.setState(newState) */
-            /*       fetchMore({ */
-            /*         // note this is a different query than the one used in the */
-            /*         variables: { */
-            /*           cursor: this.state.cursor */
-            /*         }, */
-            /*         updateQuery: (previousResult, {fetchMoreResult}) => { */
-            /*           if (!fetchMoreResult) { */
-            /*             // do something here */
-            /*             console.log("prev: ", previousResult) */
-            /*             console.log("fetch: ", fetchMoreResult) */
-            /*           } */
-            /*           const previousEntry = previousResult.getCourses.courses */
-            /*           const newCourses = fetchMoreResult.getCourses.courses */
-            /*           // display waypoint if a cursor exists */
-            /*           const newState = update(this.state, { */
-            /*             cursor: { */
-            /*               $set: fetchMoreResult.getCourses.cursor */
-            /*             } */
-            /*           }) */
-            /*           this.setState(newState) */
-            /*           if (isEmpty(newCourses)) { */
-            /*             // hide waypoint */
-            /*             const newState = update(this.state, { */
-            /*               cursor: { */
-            /*                 $set: fetchMoreResult.getCourses.cursor */
-            /*               } */
-            /*             }) */
-            /*             this.setState(newState) */
-            /*             return previousResult */
-            /*           } */
-            /*           var newCursor = newCourses[newCourses.length - 1].id */
-            /*           if (!fetchMoreResult) return previousEntry */
-            /*           return { */
-            /*             // By returning `cursor` here, we update the `fetchMore` function */
-            /*             // to the new cursor. */
-            /*             getCourses: { */
-            /*               cursor: newCursor, */
-            /*               courses: [...previousEntry, ...newCourses], */
-            /*               __typename: "PaginatedCourses" */
-            /*             } */
-            /*           } */
-            /*         } */
-            /*       }) */
-            /*     }}> */
-            /*     {/1* <div> */
-            /*       <Button>Scroll down for more</Button> */
-            /*     </div> *1/} */
-            /*   </Waypoint> */
-            /* ) */
-          }
-          return (
-            <div>
-              <div className={classNames(classes.layout, classes.cardGrid)}>
-                {/* End hero unit */}
-                <Grid container spacing={8}>
-                  {data.getCourses.courses.map(card => (
-                    <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
-                      <Card className={classes.card}>
-                        <CardMedia
-                          onClick={this.handleImageClick(card)}
-                          className={classes.cardMedia}
-                          image={`${card.courseImage}`}
-                          title={`${card.title}`}
-                        />
-                        <CardContent className={classes.cardContent}>
-                          <Typography
-                            className={classes.cardTitle}
-                            gutterBottom
-                            variant="h6"
-                            component="h6">
-                            {card.title}
-                          </Typography>
-                          <Typography
-                            className={classes.cardUsername}
-                            gutterBottom
-                            variant="caption">
-                            by: {card.owner.username}
-                          </Typography>
-                          <Typography
-                            className={classes.cardUsername}
-                            gutterBottom
-                            variant="caption">
-                            resource: {card.resource}
-                          </Typography>
-                        </CardContent>
-                        <CardActions className={classes.actions}>
-                          <PersonIcon />
-                          <Typography
-                            className={classes.cardUsername}
-                            gutterBottom>
-                            {subsToSize(card.subscribers)}
-                          </Typography>
-                          <Button
-                            onClick={this.handleImageClick(card)}
-                            size="large"
-                            className={classes.editButton}>
-                            {" "}
-                            VIEW
-                          </Button>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  ))}
-                </Grid>
-              </div>
-              {/* {waypoint} */}
-            </div>
-          )
-        }}
-      </Query>
+      <Grid
+        container
+        alignContent="center"
+        justify="center"
+        style={{height: "300px"}}>
+        <CircularProgress style={{color: "grey"}} />
+      </Grid>
+    )
+  if (error) {
+    return (
+      <Grid>
+        <p>
+          {error.graphQLErrors.map(({message}, i) => (
+            <p
+              style={{
+                fontSize: "1.3em",
+                color: "red",
+                margin: "30px",
+                padding: "30px",
+                textAlign: "center"
+              }}
+              key={i}>
+              {message}
+            </p>
+          ))}
+        </p>
+      </Grid>
     )
   }
+  return (
+    <div>
+      <div className={classNames(props.classes.layout, props.classes.cardGrid)}>
+        {/* End hero unit */}
+        <Grid container spacing={8}>
+          {data.getCourses.courses.map((card, i) => (
+            <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
+              <Card className={props.classes.card}>
+                <CardMedia
+                  onClick={handleImageClick(card)}
+                  className={props.classes.cardMedia}
+                  image={`${card.courseImage}`}
+                  title={`${card.title}`}
+                />
+                <CardContent className={props.classes.cardContent}>
+                  <Typography
+                    className={props.classes.cardTitle}
+                    gutterBottom
+                    variant="h6"
+                    component="h6">
+                    {card.title}
+                  </Typography>
+                  <Typography
+                    className={props.classes.cardUsername}
+                    gutterBottom
+                    variant="caption">
+                    by: {card.owner.username}
+                  </Typography>
+                  <Typography
+                    className={props.classes.cardUsername}
+                    gutterBottom
+                    variant="caption">
+                    resource: {card.resource}
+                  </Typography>
+                </CardContent>
+                <CardActions className={props.classes.actions}>
+                  <PersonIcon />
+                  <Typography
+                    className={props.classes.cardUsername}
+                    gutterBottom>
+                    {subsToSize(card.subscribers)}
+                  </Typography>
+                  <Button
+                    onClick={handleImageClick(card)}
+                    size="large"
+                    className={props.classes.editButton}>
+                    {" "}
+                    VIEW
+                  </Button>
+                </CardActions>
+              </Card>
+              {i === data.getCourses.courses.length - 1 && (
+                <Waypoint
+                  onEnter={() =>
+                    fetchMore({
+                      variables: {
+                        cursor:
+                          data.getCourses.courses[
+                            data.getCourses.courses.length - 1
+                          ]._id
+                      },
+                      updateQuery: (prev, {fetchMoreResult}) => {
+                        if (!fetchMoreResult) return prev
+                        return {
+                          getCourses: {
+                            ...fetchMoreResult.getCourses,
+                            courses: [
+                              ...prev.getCourses.courses,
+                              ...fetchMoreResult.getCourses.courses
+                            ]
+                          }
+                        }
+                      }
+                    })
+                  }
+                />
+              )}
+            </Grid>
+          ))}
+          {loading && <h1>loading</h1>}
+        </Grid>
+      </div>
+    </div>
+  )
 }
 
 export default compose(
   withRouter,
-  withApollo,
   withStyles(styles)
 )(CoursesGrid)

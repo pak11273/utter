@@ -4,6 +4,7 @@ import {render} from "react-dom"
 /* import styled from "styled-components" */
 /* import {hot} from "react-hot-loader/root" */
 /* import ReactGA from "react-ga" */
+import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {local, session} from "brownies"
 
@@ -90,31 +91,33 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <GlobalStyle />
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <ToastContainer position="top-left" className="toast-container" />
-          <Router>
-            <Grid>
-              <MainNavbar
-                list={["about", "contact", "courses", "pricing", "zones"]}
-                changeMenuOn="640px"
-                largeMenuClassName="large-menu"
-                smallMenuClassName="small-menu"
-              />
-              <Section>
-                <NavbarSpacer id="spacer" />
-              </Section>
-              <Section>
-                <Switch>
-                  {routes.map((route, i) => (
-                    <SubRoutes key={i} {...route} />
-                  ))}
-                </Switch>
-              </Section>
-            </Grid>
-          </Router>
-        </MuiThemeProvider>
+        <ApolloHooksProvider client={client}>
+          <GlobalStyle />
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <ToastContainer position="top-left" className="toast-container" />
+            <Router>
+              <Grid>
+                <MainNavbar
+                  list={["about", "contact", "courses", "pricing", "zones"]}
+                  changeMenuOn="640px"
+                  largeMenuClassName="large-menu"
+                  smallMenuClassName="small-menu"
+                />
+                <Section>
+                  <NavbarSpacer id="spacer" />
+                </Section>
+                <Section>
+                  <Switch>
+                    {routes.map((route, i) => (
+                      <SubRoutes key={i} {...route} />
+                    ))}
+                  </Switch>
+                </Section>
+              </Grid>
+            </Router>
+          </MuiThemeProvider>
+        </ApolloHooksProvider>
       </ApolloProvider>
     )
   }

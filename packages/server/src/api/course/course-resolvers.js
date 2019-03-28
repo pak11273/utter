@@ -212,7 +212,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
     // end query object
 
     if (args.cursor && args.cursor !== "done") {
-      // type cast id, $lt is not the same in aggregate vs query
+      // type cast id because $lt is not the same in aggregate vs query
       var cursorObj = mongoose.Types.ObjectId(args.cursor)
       // add to query object
       var cursor = cursorObj
@@ -252,6 +252,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   var input = args.input
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
@@ -283,15 +284,30 @@ const getCourses = async (_, args, ctx, info) => {
     ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
     : null
 
+  // type cast id because $lt is not the same in aggregate vs query
+  /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
+
+  if (query.cursor) {
+    query._id = {$gt: query.cursor || null}
+    delete query.cursor
+  }
+
+  console.log("query: ", query)
   try {
-    const courses = await Course.find(query).lean()
+    const courses = await Course.find(query)
+      .sort({subscribers: "desc"})
+      .limit(8)
+      .lean()
+
+    console.log("courseS: ", courses)
+
     const convertedCourses = courses.map(course => {
       return {
         ...course,
         owner: userById.bind(this, course.owner)
       }
     })
-    return {courses: convertedCourses, cursor: ""}
+    return {courses: convertedCourses}
   } catch (err) {
     throw err
   }

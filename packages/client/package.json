@@ -39,6 +39,7 @@
     "lodash": "^4.17.11",
     "react": "^16.8.4",
     "react-apollo": "^2.5.2",
+    "react-apollo-hooks": "^0.4.4",
     "react-dom": "^16.8.4",
     "react-dropzone": "^10.0.5",
     "react-helmet": "^5.2.0",
