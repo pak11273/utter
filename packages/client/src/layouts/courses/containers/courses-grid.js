@@ -173,52 +173,51 @@ const CoursesGrid = props => {
       </Grid>
     )
   }
+
+  const {classes} = props
   return (
     <div>
-      <div className={classNames(props.classes.layout, props.classes.cardGrid)}>
-        {/* End hero unit */}
+      <div className={classNames(classes.layout, classes.cardGrid)}>
         <Grid container spacing={8} style={{position: "relative"}}>
           {data.getCourses.courses.map((card, i) => (
             <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
-              <Card className={props.classes.card}>
+              <Card className={classes.card}>
                 <CardMedia
                   onClick={handleImageClick(card)}
-                  className={props.classes.cardMedia}
+                  className={classes.cardMedia}
                   image={`${card.courseImage}`}
                   title={`${card.title}`}
                 />
-                <CardContent className={props.classes.cardContent}>
+                <CardContent className={classes.cardContent}>
                   <Typography
-                    className={props.classes.cardTitle}
+                    className={classes.cardTitle}
                     gutterBottom
                     variant="h6"
                     component="h6">
                     {card.title}
                   </Typography>
                   <Typography
-                    className={props.classes.cardUsername}
+                    className={classes.cardUsername}
                     gutterBottom
                     variant="caption">
                     by: {card.owner.username}
                   </Typography>
                   <Typography
-                    className={props.classes.cardUsername}
+                    className={classes.cardUsername}
                     gutterBottom
                     variant="caption">
                     resource: {card.resource}
                   </Typography>
                 </CardContent>
-                <CardActions className={props.classes.actions}>
+                <CardActions className={classes.actions}>
                   <PersonIcon />
-                  <Typography
-                    className={props.classes.cardUsername}
-                    gutterBottom>
+                  <Typography className={classes.cardUsername} gutterBottom>
                     {subsToSize(card.subscribers)}
                   </Typography>
                   <Button
                     onClick={handleImageClick(card)}
                     size="large"
-                    className={props.classes.editButton}>
+                    className={classes.editButton}>
                     {" "}
                     VIEW
                   </Button>
@@ -227,7 +226,7 @@ const CoursesGrid = props => {
               {i === data.getCourses.courses.length - 1 &&
                 showMoreBtn && (
                   <LoadingButton
-                    className={props.classes.showMore}
+                    className={classes.showMore}
                     color="secondary"
                     variant="contained"
                     onClick={() =>

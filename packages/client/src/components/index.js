@@ -35,6 +35,7 @@ import Link from "./Link.js"
 import Logo from "./Logo.js"
 import MastheadSubtitle from "./MastheadSubtitle.js"
 import MastheadTitle from "./MastheadTitle.js"
+import levels from "./selects/course-levels.js"
 import List from "./Lists/List.js"
 import ListItem from "./Lists/ListItem.js"
 import LoaderCircle from "./loaders/loader-circle.js"
@@ -45,6 +46,7 @@ import RememberSection from "./RememberSection.js"
 import Row from "./Row.js"
 import Span from "./Spans"
 import State from "./buttons/state.js"
+import subscriptions from "./selects/subscriptions.js"
 import Subtitle from "./Text/Subtitle.js"
 import Table from "./Table.js"
 import teaching from "./selects/teaching.js"
@@ -97,6 +99,7 @@ export {
   Line,
   Link,
   Logo,
+  levels,
   MastheadTitle,
   MastheadSubtitle,
   List,
@@ -113,6 +116,7 @@ export {
   Spacer,
   Span,
   State,
+  subscriptions,
   Subtitle,
   Table,
   teaching,

@@ -1,21 +1,21 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag"
 
 export const GET_ZONES = gql`
   query getZones(
     $cursor: String
-		$searchInput: String
-		$selectionBox: String
+    $searchInput: String
+    $selectionBox: String
     $teachingLang: String!
     $usingLang: String!
   ) {
     getZones(
-			input: {
-				$cursor: String
-				$searchInput: String
-				$selectionBox: String
-				$teachingLang: String!
-				$usingLang: String!
-			}
+      input: {
+        cursor: $cursor
+        searchInput: $searchInput
+        selectionBox: $selectionBox
+        teachingLang: $teachingLang
+        usingLang: $usingLang
+      }
     ) {
       cursor
       zones {

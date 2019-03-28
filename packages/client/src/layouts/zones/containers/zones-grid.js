@@ -1,4 +1,5 @@
 import React, {useState} from "react"
+import {withRouter} from "react-router-dom"
 
 import classNames from "classnames"
 
@@ -6,6 +7,7 @@ import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import CircularProgress from "@material-ui/core/CircularProgress"
+import PersonIcon from "@material-ui/icons/Person"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -92,22 +94,8 @@ const styles = theme => ({
 })
 
 const ZonesGrid = props => {
+  console.log("props: ", props)
   const [showMoreBtn, setShowMoreBtn] = useState(true)
-  const {classes} = props
-  const ageRestrictionNotice = () => {
-    alert(
-      "AGE GROUPS: \nAny age \nages 0-2 \nages 3+ \nages 7+ \nages 12+ \nages 16+ \nages 18+ \nages 30+ \nages 40+ \nages 50+ \nages 60+"
-    )
-  }
-
-  const onEnterZone = card => () => {
-    session.zone = card
-    props.history.push({
-      pathname: `/zone/${card._id}`,
-      state: {zoneeId: card.id}
-    })
-  }
-
   const {data, error, loading, fetchMore} = useQuery(GET_ZONES, {
     variables: {
       cursor: "",
@@ -129,6 +117,7 @@ const ZonesGrid = props => {
           : ""
     }
   })
+
   if (loading)
     return (
       <Grid
@@ -160,10 +149,27 @@ const ZonesGrid = props => {
       </Grid>
     )
   }
+
+  const {classes} = props
+
+  const ageRestrictionNotice = () => {
+    alert(
+      "AGE GROUPS: \nAny age \nages 0-2 \nages 3+ \nages 7+ \nages 12+ \nages 16+ \nages 18+ \nages 30+ \nages 40+ \nages 50+ \nages 60+"
+    )
+  }
+
+  const onEnterZone = card => () => {
+    session.zone = card
+    props.history.push({
+      pathname: `/zone/${card._id}`,
+      state: {zoneeId: card.id}
+    })
+  }
+
   return (
     <div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={8}>
+        <Grid container spacing={8} style={{position: "relative"}}>
           {data.getZones &&
             data.getZones.zones.map((card, i) => (
               <Grid item key={card._id} xs={12} sm={12} md={3} lg={2}>
@@ -199,11 +205,10 @@ const ZonesGrid = props => {
                   <div style={{padding: "0 0 0 20px"}}>
                     Teaching: {card.teachingLang}
                   </div>
-                  {/* <div
-                          style={{display: "flex", padding: "10px 0 0 20px"}}>
-                          <PersonIcon />
-                          <span>14</span>
-                        </div> */}
+                  <div style={{display: "flex", padding: "10px 0 0 20px"}}>
+                    <PersonIcon />
+                    <span>14</span>
+                  </div>
                   <CardActions className={classes.actions}>
                     <Button
                       color="secondary"
@@ -263,4 +268,8 @@ const ZonesGrid = props => {
   )
 }
 
-export default withStyles(styles)(ZonesGrid)
+/*
+
+	*/
+
+export default withRouter(withStyles(styles)(ZonesGrid))
