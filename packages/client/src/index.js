@@ -25,26 +25,6 @@ import {store, persistor} from "./store.js"
 import {history} from "@utterzone/connector"
 import {ToastContainer} from "react-toastify"
 
-import gql from "graphql-tag"
-
-const GET_USER_BY_TOKEN = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      _id
-      username
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      roles
-      scopes
-      subscriptions {
-        _id
-      }
-    }
-  }
-`
 
 const SubRoutes = route => (
   <Route
@@ -86,22 +66,9 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
-  componentDidMount = async () => {
-    const token = local.AUTH_TOKEN
-
-    if (token) {
-      const userByToken = await client.query({
-        query: GET_USER_BY_TOKEN,
-        variables: {token}
-      })
-
-      session.user = userByToken.data.getUserByToken
-    }
-  }
 
   render() {
     return (
-      /* const toggleFooter = store.getState().toggleFooterReducer.toggle */
       <ApolloProvider client={client}>
         <AppContainer>
           <MuiThemeProvider theme={theme}>

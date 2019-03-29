@@ -47,6 +47,13 @@ const loginMutation = gql`
         email
         roles
         scopes
+        subscriptions {
+          _id
+          title
+          levels {
+            level
+          }
+        }
       }
       error {
         path

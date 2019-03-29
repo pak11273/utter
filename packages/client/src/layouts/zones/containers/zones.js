@@ -27,6 +27,13 @@ import {
 import ZonesGrid from "./zones-grid.js"
 import {groupedOptions} from "../../../data/language-data.js"
 
+const subscribedOptions = session.user.subscriptions.map(item => {
+  return {
+    value: item._id,
+    label: item._id
+  }
+})
+
 const drawerWidth = 240
 const styles = theme => ({
   actions: {
@@ -156,7 +163,7 @@ const ZonesContainer = props => {
           <Field
             name="subscriptions"
             component={subscriptions}
-            options={groupedOptions}
+            options={subscribedOptions}
           />
           <Spacer margin="40px 0 0 0" />
           <Typography variant="h6" align="center" gutterBottom>

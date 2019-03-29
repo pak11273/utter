@@ -191,7 +191,18 @@ const login = async (parent, args, ctx, info) => {
     })
   }
   // check if passwords match
-  let user = await User.findOne(criteria).exec()
+  let user = await User.findOne(criteria)
+    .populate("subscriptions")
+    .exec()
+
+  /* const subscriptions = user.subscriptions.map(course => { */
+  /* return */
+
+  /*     levels: course.find() */
+  /*   } */
+  /* }) */
+  console.log("user: ", user)
+
   if (!user) {
     arrayOfErrors.push({
       path: "identifier",
@@ -210,6 +221,8 @@ const login = async (parent, args, ctx, info) => {
     token = await signToken(user._id)
   }
 
+  console.log("user: ", user)
+
   return {
     token,
     user,
@@ -225,8 +238,8 @@ const getUserByToken = async (_, args, ctx, info) => {
       if (result) {
         const userId = result._id
         let user = await User.findById(userId)
+          .populate("subscriptions")
           .lean()
-          .exec()
         return user
       } else {
         return {username: ""}

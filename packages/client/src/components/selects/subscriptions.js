@@ -37,7 +37,6 @@ class Subscriptions extends Component {
     this.setState({
       selectValue: newValue
     })
-    this.props.addApp(newValue.value)
     this.props.form.setFieldValue(this.props.field.name, newValue.value)
   }
 

@@ -37,6 +37,10 @@ const GET_USER_BY_TOKEN = gql`
       scopes
       subscriptions {
         _id
+        title
+        levels {
+          level
+        }
       }
       updatedAt
       username

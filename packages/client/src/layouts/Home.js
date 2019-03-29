@@ -2,7 +2,7 @@
 
 import {NavLink} from "react-router-dom"
 import React, {Component} from "react"
-import {local, session} from "brownies"
+/* import {local, session} from "brownies" */
 import {withApollo} from "react-apollo"
 
 import {withStyles} from "@material-ui/core/styles"
@@ -18,26 +18,6 @@ import busyPeopleImg from "../assets/images/busy-people.jpg"
 import homeMastheadImg from "../assets/images/two-guys.jpg"
 import embarrassedImg from "../assets/images/embarrassed.jpg"
 import visitingImg from "../assets/images/walking-around.jpg"
-import gql from "graphql-tag"
-
-const GET_USER_BY_TOKEN = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      _id
-      username
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      roles
-      scopes
-      subscriptions {
-        _id
-      }
-    }
-  }
-`
 
 const styles = theme => ({
   root: {
@@ -75,24 +55,6 @@ const styles = theme => ({
 })
 
 class Home extends Component {
-  componentDidMount = async () => {
-    /*   this.props.toggleFooter(true) */
-    if (this.props.location.state === "loadUserSession") {
-      const {client} = this.props
-
-      const token = local.AUTH_TOKEN
-
-      if (token) {
-        const userByToken = await client.query({
-          query: GET_USER_BY_TOKEN,
-          variables: {token}
-        })
-
-        session.user = userByToken.data.getUserByToken
-      }
-    }
-  }
-
   render() {
     const {classes} = this.props
     return (
