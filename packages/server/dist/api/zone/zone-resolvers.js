@@ -304,27 +304,68 @@ function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee7(_, args, ctx, info) {
-    var query, key, zones, convertedZones;
+    var input, query, key, zones, convertedZones;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            console.log("ARGS: ", args); // build query object
+            input = args.input;
+
+            if (input.searchInput || input.selectionBox) {
+              input[input.selectionBox] = input.searchInput;
+              delete input.searchInput;
+              delete input.selectionBox;
+            }
 
             query = {};
 
-            for (key in args) {
-              args[key] !== "" ? query[key] = args[key] : null;
+            for (key in input) {
+              input[key] !== "" ? query[key] = input[key] : null;
             }
 
-            console.log("query: ", query);
-            _context7.prev = 4;
-            _context7.next = 7;
-            return _zoneModel.default.find(query).lean().limit(12).sort({
-              _id: -1
+            query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
+
+            if (!query.owner) {
+              _context7.next = 9;
+              break;
+            }
+
+            _context7.next = 8;
+            return _userModel.default.findOne({
+              username: query.owner
+            }, function (err, docs) {
+              if (err) {
+                throw err;
+              }
+
+              if (!(0, _isEmpty.default)(docs)) {
+                var owner = docs._id;
+                query.owner = docs._id;
+              }
             });
 
-          case 7:
+          case 8:
+            query.owner = _context7.sent;
+
+          case 9:
+            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null; // type cast id because $lt is not the same in aggregate vs query
+
+            /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
+
+            if (query.cursor) {
+              query._id = {
+                $gt: query.cursor || null
+              };
+              delete query.cursor;
+            }
+
+            _context7.prev = 11;
+            _context7.next = 14;
+            return _zoneModel.default.find(query).lean().sort({
+              _id: -1
+            }).limit(8);
+
+          case 14:
             zones = _context7.sent;
             convertedZones = zones.map(function (zone) {
               return (0, _objectSpread2.default)({}, zone, {
@@ -336,28 +377,28 @@ function () {
               cursor: ""
             });
 
-          case 14:
+          case 21:
             cursor = zones[zones.length - 1]._id;
             return _context7.abrupt("return", {
               zones: zones,
               cursor: cursor
             });
 
-          case 16:
-            _context7.next = 21;
+          case 23:
+            _context7.next = 28;
             break;
 
-          case 18:
-            _context7.prev = 18;
-            _context7.t0 = _context7["catch"](4);
+          case 25:
+            _context7.prev = 25;
+            _context7.t0 = _context7["catch"](11);
             throw _context7.t0;
 
-          case 21:
+          case 28:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[4, 18]]);
+    }, _callee7, null, [[11, 25]]);
   }));
 
   return function getZones(_x17, _x18, _x19, _x20) {

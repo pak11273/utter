@@ -580,12 +580,11 @@ function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee9(_, args, ctx, info) {
-    var input, query, key, courses, convertedCourses;
+    var input, query, key, courses;
     return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            console.log("args: ", args);
             input = args.input;
 
             if (input.searchInput || input.selectionBox) {
@@ -603,11 +602,11 @@ function () {
             query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
 
             if (!query.owner) {
-              _context9.next = 10;
+              _context9.next = 9;
               break;
             }
 
-            _context9.next = 9;
+            _context9.next = 8;
             return _userModel.default.findOne({
               username: query.owner
             }, function (err, docs) {
@@ -621,10 +620,10 @@ function () {
               }
             });
 
-          case 9:
+          case 8:
             query.owner = _context9.sent;
 
-          case 10:
+          case 9:
             query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null; // type cast id because $lt is not the same in aggregate vs query
 
             /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
@@ -636,36 +635,29 @@ function () {
               delete query.cursor;
             }
 
-            console.log("query: ", query);
-            _context9.prev = 13;
-            _context9.next = 16;
-            return _courseModel.default.find(query).sort({
+            _context9.prev = 11;
+            _context9.next = 14;
+            return _courseModel.default.find(query).populate("owner").sort({
               subscribers: "desc"
             }).limit(8).lean();
 
-          case 16:
+          case 14:
             courses = _context9.sent;
-            console.log("courseS: ", courses);
-            convertedCourses = courses.map(function (course) {
-              return (0, _objectSpread2.default)({}, course, {
-                owner: userById.bind(_this, course.owner)
-              });
-            });
             return _context9.abrupt("return", {
-              courses: convertedCourses
+              courses: courses
             });
 
-          case 22:
-            _context9.prev = 22;
-            _context9.t0 = _context9["catch"](13);
+          case 18:
+            _context9.prev = 18;
+            _context9.t0 = _context9["catch"](11);
             throw _context9.t0;
 
-          case 25:
+          case 21:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[13, 22]]);
+    }, _callee9, null, [[11, 18]]);
   }));
 
   return function getCourses(_x24, _x25, _x26, _x27) {

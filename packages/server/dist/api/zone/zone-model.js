@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
 var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
 
 Object.defineProperty(exports, "__esModule", {
@@ -10,6 +12,8 @@ exports.default = void 0;
 var _mongoose = _interopRequireWildcard(require("mongoose"));
 
 var _userModel = _interopRequireWildcard(require("../user/user-model.js"));
+
+var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
 var _termModel = require("../term/term-model.js");
 
@@ -28,13 +32,21 @@ var ZoneSchema = _mongoose.default.Schema({
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   }],
+  course: {
+    type: _mongoose.default.Schema.Types.ObjectId,
+    ref: "Course"
+  },
   courseLevel: {
     type: Number,
     default: 1
   },
-  members: {
+  maxOccupants: {
     type: Number,
-    default: 0
+    default: 1
+  },
+  occupants: {
+    type: Number,
+    default: 1
   },
   zoneName: {
     type: String,

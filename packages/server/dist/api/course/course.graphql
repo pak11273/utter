@@ -8,7 +8,7 @@ type Course {
   createdAt: String 
   _id: ID!
   levels: [Level]
-  owner: User!
+  owner: User
 	resource: String
 	subscribers: Int
   teachingLang: String

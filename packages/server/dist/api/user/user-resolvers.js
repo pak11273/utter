@@ -398,13 +398,24 @@ function () {
 
 
             _context6.next = 7;
-            return _userModel.default.findOne(criteria).exec();
+            return _userModel.default.findOne(criteria).populate("subscriptions").exec();
 
           case 7:
             user = _context6.sent;
 
+            /* const subscriptions = user.subscriptions.map(course => { */
+
+            /* return */
+
+            /*     levels: course.find() */
+
+            /*   } */
+
+            /* }) */
+            console.log("user: ", user);
+
             if (user) {
-              _context6.next = 12;
+              _context6.next = 13;
               break;
             }
 
@@ -412,12 +423,12 @@ function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context6.next = 24;
+            _context6.next = 25;
             break;
 
-          case 12:
+          case 13:
             if (user.authenticate(password)) {
-              _context6.next = 16;
+              _context6.next = 17;
               break;
             }
 
@@ -426,12 +437,12 @@ function () {
               path: "password",
               message: "Invalid Password"
             });
-            _context6.next = 24;
+            _context6.next = 25;
             break;
 
-          case 16:
+          case 17:
             if (!user.forgotPasswordLocked) {
-              _context6.next = 20;
+              _context6.next = 21;
               break;
             }
 
@@ -439,29 +450,30 @@ function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context6.next = 24;
+            _context6.next = 25;
             break;
 
-          case 20:
+          case 21:
             if (!user) {
-              _context6.next = 24;
+              _context6.next = 25;
               break;
             }
 
-            _context6.next = 23;
+            _context6.next = 24;
             return (0, _auth.signToken)(user._id);
 
-          case 23:
+          case 24:
             token = _context6.sent;
 
-          case 24:
+          case 25:
+            console.log("user: ", user);
             return _context6.abrupt("return", {
               token: token,
               user: user,
               error: arrayOfErrors
             });
 
-          case 25:
+          case 27:
           case "end":
             return _context6.stop();
         }
@@ -507,7 +519,7 @@ function () {
 
             _userId = result._id;
             _context7.next = 10;
-            return _userModel.default.findById(_userId).lean().exec();
+            return _userModel.default.findById(_userId).populate("subscriptions").lean();
 
           case 10:
             user = _context7.sent;
