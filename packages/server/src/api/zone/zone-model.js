@@ -1,5 +1,6 @@
 import mongoose, {Schema} from "mongoose"
 import User, {UserSchema} from "../user/user-model.js"
+import Course from "../course/course-model.js"
 import {TermSchema} from "../term/term-model.js"
 import {LevelSchema} from "../level/level-model.js"
 
@@ -19,7 +20,15 @@ const ZoneSchema = mongoose.Schema(
         ref: "User"
       }
     ],
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course"
+    },
     courseLevel: {
+      type: Number,
+      default: 1
+    },
+    maxOccupants: {
       type: Number,
       default: 1
     },

@@ -2,11 +2,13 @@
 type Zone {
 	ageGroup: String
 	app: String
+	course: Course
 	courseLevel: Int
   createdAt: Int
   _id: ID!
   levels: [Level]
-	members: Int
+	maxOccupants: Int
+	occupants: Int
   owner: User
   teachingLang: String
   usingLang: String
@@ -33,6 +35,7 @@ input ZoneUpdated {
 
 input ZoneCreateInput {
 	app: String
+	course: String
 	courseLevel: Int
 	ageGroup: String
 	members: Int

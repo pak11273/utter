@@ -31,6 +31,7 @@ const SUBSCRIBE_MUTATION = gql`
   mutation subscribe($courseId: String!) {
     subscribe(courseId: $courseId) {
       _id
+      title
     }
   }
 `
@@ -118,7 +119,7 @@ class CourseIntroduction extends PureComponent {
   sessionSubscribe = () => {
     const {course, user} = session
     const tempUser = user
-    tempUser.subscriptions.push({_id: course._id})
+    tempUser.subscriptions.push({_id: course._id, title: course.title})
 
     session.user = tempUser
   }
@@ -367,7 +368,7 @@ class CourseIntroduction extends PureComponent {
                       placeholder="And it's title here."
                       type="text"
                       variant="outlined"
-                      value={this.state.title}
+                      value={course.title}
                     />
                     {this.state.formErrors.path === "title" && (
                       <div style={{color: "#f44336"}}>
@@ -389,7 +390,7 @@ class CourseIntroduction extends PureComponent {
                       multiline
                       variant="outlined"
                       rowsMax="4"
-                      value={this.state.courseDescription}
+                      value={course.courseDescription}
                     />
                     {this.state.formErrors.path === "courseDescription" && (
                       <div style={{color: "#f44336"}}>

@@ -17,80 +17,8 @@ import {useQuery} from "react-apollo-hooks"
 import {session} from "brownies"
 import {LoadingButton} from "../../../components"
 import {GET_ZONES} from "../zone-queries.js"
-
-const drawerWidth = 240
-
-const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  card: {
-    height: "360px",
-    maxWidth: "300px",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardDescription: {
-    height: "80px",
-    lineHeight: "1em",
-    overflow: "auto",
-    wordBreak: "break-all"
-  },
-  cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      cursor: "pointer"
-    }
-  },
-  cardContent: {
-    /* flexGrow: 1 */
-  },
-  cardTitle: {
-    height: "52px",
-    lineHeight: "1.2em",
-    overflow: "hidden",
-    wordBreak: "break-word"
-  },
-  cardUsername: {
-    whiteSpace: "nowrap",
-    width: "200px",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  heroUnit: {
-    backgroundColor: theme.palette.background.paper
-  },
-  heroContent: {
-    maxWidth: 600,
-    margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1240 + theme.spacing.unit * 3 * 2)]: {
-      width: 1240,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  showMore: {
-    position: "absolute",
-    bottom: -50,
-    left: "50%",
-    webkitTransform: "translateX(-50%)",
-    transform: "translateX(-50%)"
-  }
-})
+import {styles} from "../styles.js"
+/* const drawerWidth = 240 */
 
 const ZonesGrid = props => {
   const [showMoreBtn, setShowMoreBtn] = useState(true)
@@ -170,10 +98,10 @@ const ZonesGrid = props => {
           {data.getZones &&
             data.getZones.zones.map((card, i) => (
               <Grid item key={card._id} xs={12} sm={12} md={3} lg={2}>
-                <Card className={classes.card}>
+                <Card className={classes.card2}>
                   <CardContent className={classes.cardContent}>
                     <Typography
-                      className={classes.cardTitle}
+                      className={classes.cardTitle2}
                       gutterBottom
                       variant="h6"
                       component="h6">

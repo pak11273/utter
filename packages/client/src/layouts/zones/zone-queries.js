@@ -35,3 +35,40 @@ export const GET_ZONES = gql`
     }
   }
 `
+export const ZONE_CREATE_MUTATION = gql`
+  mutation zoneCreate(
+    $ageGroup: String!
+    $app: String
+    $course: String
+    $courseLevel: Int
+    $owner: String!
+    $zoneName: String!
+    $zoneDescription: String
+    $teachingLang: String
+    $usingLang: String
+  ) {
+    zoneCreate(
+      input: {
+        ageGroup: $ageGroup
+        app: $app
+        course: $course
+        courseLevel: $courseLevel
+        owner: $owner
+        zoneName: $zoneName
+        zoneDescription: $zoneDescription
+        teachingLang: $teachingLang
+        usingLang: $usingLang
+      }
+    ) {
+      _id
+      app
+      courseLevel
+      ageGroup
+      zoneName
+      zoneDescription
+      owner {
+        username
+      }
+    }
+  }
+`

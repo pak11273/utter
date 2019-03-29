@@ -106,7 +106,6 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, args, ctx, info) => {
-  console.log("ARGS: ", args)
   var input = args.input
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
@@ -150,7 +149,7 @@ const getZones = async (_, args, ctx, info) => {
     let zones = await Zone.find(query)
       .lean()
       .sort({_id: -1})
-      .limit(6)
+      .limit(8)
 
     const convertedZones = zones.map(zone => {
       return {

@@ -293,17 +293,12 @@ const getCourses = async (_, args, ctx, info) => {
 
   try {
     const courses = await Course.find(query)
+      .populate("owner")
       .sort({subscribers: "desc"})
       .limit(8)
       .lean()
 
-    const convertedCourses = courses.map(course => {
-      return {
-        ...course,
-        owner: userById.bind(this, course.owner)
-      }
-    })
-    return {courses: convertedCourses}
+    return {courses}
   } catch (err) {
     throw err
   }

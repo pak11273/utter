@@ -9,7 +9,6 @@ import {compose, graphql} from "react-apollo"
 import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
-import gql from "graphql-tag"
 import cloneDeep from "lodash/cloneDeep"
 import cuid from "cuid"
 import styled from "styled-components"
@@ -22,6 +21,8 @@ import {
   LoadingButton,
   Span
 } from "../../../components"
+import {ZONE_CREATE_MUTATION} from "../zone-queries.js"
+
 import {session} from "brownies"
 
 const DisplayCount = styled.div`
@@ -51,41 +52,13 @@ const StyledSpan = styled(Span)`
     display: ${props => props.display640};
   }
 `
-const ZONE_CREATE_MUTATION = gql`
-  mutation zoneCreate(
-    $app: String
-    $courseLevel: Int
-    $ageGroup: String!
-    $owner: String!
-    $zoneName: String!
-    $zoneDescription: String
-    $teachingLang: String
-    $usingLang: String
-  ) {
-    zoneCreate(
-      input: {
-        app: $app
-        courseLevel: $courseLevel
-        ageGroup: $ageGroup
-        owner: $owner
-        zoneName: $zoneName
-        zoneDescription: $zoneDescription
-        teachingLang: $teachingLang
-        usingLang: $usingLang
-      }
-    ) {
-      _id
-      app
-      courseLevel
-      ageGroup
-      zoneName
-      zoneDescription
-      owner {
-        username
-      }
-    }
+const subscribedOptions = session.user.subscriptions.map(item => {
+  return {
+    value: item._id,
+    label: item.title
   }
-`
+})
+
 const initialState = {
   ageGroup: "Any age",
   cdn: {},
@@ -272,26 +245,7 @@ class ZoneCreate extends Component {
                   name="course"
                   type="text"
                   component={FormikSelect}
-                  options={[
-                    {
-                      value: "label 1",
-                      label: "label 1",
-                      className: "courseHeader",
-                      disabled: false
-                    },
-                    {
-                      value: "label 2",
-                      label: "label 2",
-                      className: "courseHeader",
-                      disabled: false
-                    },
-                    {
-                      value: "label 3",
-                      label: "label 3",
-                      className: "courseHeader",
-                      disabled: false
-                    }
-                  ]}
+                  options={subscribedOptions}
                 />
                 <Typography
                   align="left"
@@ -458,6 +412,7 @@ export default compose(
       zoneDescription: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
+      console.log("values: ", values)
       const result = await props.zoneCreate({
         variables: {
           ageGroup: values.ageGroup,

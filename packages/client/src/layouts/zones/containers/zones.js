@@ -1,8 +1,10 @@
+/* import React, {useState} from "react" */
 import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
 import {session} from "brownies"
+/* import {session, subscribe} from "brownies" */
 
 import Drawer from "@material-ui/core/Drawer"
 import FormControl from "@material-ui/core/FormControl"
@@ -18,116 +20,34 @@ import Typography from "@material-ui/core/Typography"
 import {
   Spacer,
   app,
-  levels,
+  /* levels, */
   LoadingButton,
   subscriptions,
-  using,
-  teaching
+  teaching,
+  using
 } from "../../../components"
+import {styles} from "../styles.js"
 import ZonesGrid from "./zones-grid.js"
 import {groupedOptions} from "../../../data/language-data.js"
 
-const subscribedOptions = session.user.subscriptions.map(item => {
-  return {
-    value: item._id,
-    label: item._id
-  }
-})
-
-const drawerWidth = 240
-const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
-  card: {
-    backgroundColor: "red",
-    minHeight: "240px",
-    maxHeight: "240px",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      cursor: "pointer"
-    }
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  cardTitle: {
-    height: "54px",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
-  },
-  cardUsername: {
-    whiteSpace: "nowrap",
-    width: "200px",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
-  },
-  heroUnit: {
-    backgroundColor: theme.palette.background.paper
-  },
-  heroContent: {
-    margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
-  },
-  heroButtons: {
-    marginTop: theme.spacing.unit * 4
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1240 + theme.spacing.unit * 3 * 2)]: {
-      width: 1240,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  root: {
-    display: "flex",
-    flexGrow: 1,
-    width: "100%"
-  },
-  select: {
-    width: "80% !important",
-    margin: "10px auto !important"
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
-  },
-  searchField: {
-    marginTop: "7px"
-  }
-})
-
 const ZonesContainer = props => {
+  /* const [courseOption, setCourseOption] = useState(session.user.subscription) */
   delete session.zone
+
+  /* subscribe(session, "user", value => { */
+  /*   setCourseOption(value.subscriptions) */
+  /*   console.log("courseOption: ", courseOption) */
+  /* }) */
+
+  const subscribedOptions =
+    session.user && session.user.subscriptions
+      ? session.user.subscriptions.map(item => {
+          return {
+            value: item._id,
+            label: item.title
+          }
+        })
+      : [{}]
 
   const {classes, handleChange, handleSubmit, values} = props
   return (
@@ -166,10 +86,11 @@ const ZonesContainer = props => {
             options={subscribedOptions}
           />
           <Spacer margin="40px 0 0 0" />
-          <Typography variant="h6" align="center" gutterBottom>
+          {/*    <Typography variant="h6" align="center" gutterBottom>
             Course Level:
           </Typography>
           <Field name="levels" component={levels} options={groupedOptions} />
+					*/}
           <Spacer margin="40px 0 0 0" />
           <Divider />
           <Spacer margin="40px 0 0 0" />
@@ -192,7 +113,6 @@ const ZonesContainer = props => {
           <title>Utterzone | Zones</title>
           <link rel="canonical" href="https://utterzone/zones" />
         </Helmet>
-        {/* Hero unit */}
         <div className={classes.heroUnit}>
           <div className={classes.heroContent}>
             <Grid container justify="center" direction="column">
@@ -247,7 +167,6 @@ const ZonesContainer = props => {
             </Grid>
           </div>
         </div>
-        {/* End hero unit */}
         <Grid>
           <ZonesGrid search={props.status && props.status.search} />
         </Grid>
