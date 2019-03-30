@@ -265,9 +265,7 @@ const getCourses = async (_, args, ctx, info) => {
   }
 
   // get subscriptions
-  console.log("query: ", query)
   if (query.utterzone) {
-    console.log("hello")
     // get user subs
     // return courses object
   }
@@ -292,42 +290,33 @@ const getCourses = async (_, args, ctx, info) => {
     ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
     : null
 
-  // type cast id because $lt is not the same in aggregate vs query
-  /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
-
   if (query.cursor) {
-    query._id = {$gt: query.cursor || null}
+    query._id = {$lt: query.cursor || null}
     delete query.cursor
   }
 
   try {
     const courses = await Course.find(query)
       .populate("owner")
-      .sort({_id: 1})
-      .limit(4)
-      .lean()
-
-    const lastCourse = await Course.find(query)
       .sort({_id: -1})
-      .limit(1)
+      .limit(12)
       .lean()
 
-    console.log(
-      "courses: ",
-      courses.map(obj => {
-        return obj._id
-      })
-    )
+    const lastCourses = await Course.find(query)
+      .sort({_id: -1})
+      .lean()
 
-    let obj = courses.find(
-      o => o._id.toString() === lastCourse[0]._id.toString()
-    )
+    const lastCourse = lastCourses[lastCourses.length - 1]._id
+
+    let obj = courses.find(o => o._id.toString() === lastCourse._id.toString())
 
     if (obj) {
       more = false
     } else {
       more = true
     }
+
+    console.log("more: ", more)
 
     return {courses, more}
   } catch (err) {
