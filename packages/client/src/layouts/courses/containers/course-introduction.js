@@ -235,7 +235,7 @@ class CourseIntroduction extends PureComponent {
             )
           }
           return (
-            <form className={classes.root} onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleSubmit}>
               <Helmet>
                 <meta charset="utf-8" />
                 <meta
