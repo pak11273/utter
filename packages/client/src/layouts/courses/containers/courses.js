@@ -1,5 +1,5 @@
 /* eslint react/no-did-update-set-state: 0 */
-import React from "react"
+import React, {useState} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
@@ -22,100 +22,16 @@ import {Spacer, LoadingButton, using, teaching} from "../../../components"
 import {groupedOptions} from "../../../data/language-data.js"
 
 import {compose} from "react-apollo"
-
-const drawerWidth = 240
-const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
-  card: {
-    minHeight: "240px",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      cursor: "pointer"
-    }
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  cardTitle: {
-    height: "54px",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
-  },
-  cardUsername: {
-    whiteSpace: "nowrap",
-    width: "200px",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    width: "100%"
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
-  },
-  heroUnit: {
-    backgroundColor: theme.palette.background.paper
-  },
-  heroContent: {
-    margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
-  },
-  heroButtons: {
-    marginTop: theme.spacing.unit * 4
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1240 + theme.spacing.unit * 3 * 2)]: {
-      width: 1240,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  root: {
-    display: "flex",
-    flexGrow: 1,
-    width: "100%"
-  },
-  /* select: { */
-  /*   width: "80% !important", */
-  /*   margin: "10px auto !important" */
-  /* }, */
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
-  },
-  searchField: {
-    marginTop: "7px"
-  }
-})
+import {styles} from "../styles.js"
 
 const CoursesContainer = props => {
+  const [mySelection, setSelectionBox] = useState(null)
   delete session.course
+
+  const getSubscribedCourses = () => {
+    setSelectionBox("utterzone")
+    console.log("myselection: ", mySelection)
+  }
 
   const {classes, handleSubmit, handleChange, values} = props
   return (
@@ -142,6 +58,12 @@ const CoursesContainer = props => {
         />
         <Spacer margin="40px 0 0 0" />
         <Divider />
+        <Spacer margin="40px 0 0 0" />
+        <Link component={RouterLink} to="#" onClick={getSubscribedCourses}>
+          <Typography align="center" gutterBottom>
+            My Subscriptions
+          </Typography>
+        </Link>
         <Spacer margin="40px 0 0 0" />
         <Link component={RouterLink} to="/courses/created">
           <Typography align="center" gutterBottom>
@@ -217,7 +139,12 @@ const CoursesContainer = props => {
         </div>
         {/* End hero unit */}
         <Grid>
-          {<CoursesGrid search={props.status && props.status.search} />}
+          {
+            <CoursesGrid
+              mySelection={mySelection}
+              search={props.status && props.status.search}
+            />
+          }
         </Grid>
       </main>
     </form>
@@ -240,7 +167,7 @@ export default compose(withRouter)(
       owner: "",
       resetCursor: "",
       search: "",
-      selectionBox: "title",
+      selectionBox: "",
       teachingLang: "",
       usingLang: ""
     }),

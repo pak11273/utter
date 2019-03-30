@@ -1,7 +1,8 @@
-import React, {useState} from "react"
+import React from "react"
 import {withRouter} from "react-router-dom"
 
 import classNames from "classnames"
+import {styles} from "../styles.js"
 
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
@@ -22,99 +23,7 @@ import {useQuery} from "react-apollo-hooks"
 
 import {subsToSize} from "../../../utils/helpers.js"
 
-const drawerWidth = 240
-
-const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "space-between"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
-  card: {
-    minHeight: "240px",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      cursor: "pointer"
-    }
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  cardTitle: {
-    height: "40px",
-    lineHeight: "1em",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    wordBreak: "break-word"
-  },
-  cardUsername: {
-    whiteSpace: "nowrap",
-    width: "200px",
-    overflow: "hidden",
-    textOverflow: "ellipsis"
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
-  },
-  heroUnit: {
-    backgroundColor: theme.palette.background.paper
-  },
-  heroContent: {
-    maxWidth: 600,
-    margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
-  },
-  heroButtons: {
-    marginTop: theme.spacing.unit * 4
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1240 + theme.spacing.unit * 3 * 2)]: {
-      width: 1240,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  root: {
-    display: "flex"
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
-  },
-  searchField: {
-    marginTop: "7px"
-  },
-  showMore: {
-    position: "absolute",
-    bottom: -50,
-    left: "50%",
-    webkitTransform: "translateX(-50%)",
-    transform: "translateX(-50%)"
-  }
-})
-
 const CoursesGrid = props => {
-  const [showMoreBtn, setShowMoreBtn] = useState(true)
-
   const handleImageClick = card => () => {
     session.course = card
     props.history.push({
@@ -190,7 +99,7 @@ const CoursesGrid = props => {
                 />
                 <CardContent className={classes.cardContent}>
                   <Typography
-                    className={classes.cardTitle}
+                    className={classes.gridTitle}
                     gutterBottom
                     variant="h6"
                     component="h6">
@@ -209,7 +118,7 @@ const CoursesGrid = props => {
                     resource: {card.resource}
                   </Typography>
                 </CardContent>
-                <CardActions className={classes.actions}>
+                <CardActions className={classes.gridActions}>
                   <PersonIcon />
                   <Typography className={classes.cardUsername} gutterBottom>
                     {subsToSize(card.subscribers)}
@@ -224,7 +133,7 @@ const CoursesGrid = props => {
                 </CardActions>
               </Card>
               {i === data.getCourses.courses.length - 1 &&
-                showMoreBtn && (
+                data.getCourses.more && (
                   <LoadingButton
                     className={classes.showMore}
                     color="secondary"
@@ -239,9 +148,12 @@ const CoursesGrid = props => {
                         },
                         updateQuery: (prev, {fetchMoreResult}) => {
                           // length needs to be 1 less than the limit
-                          if (fetchMoreResult.getCourses.courses.length <= 7) {
-                            setShowMoreBtn(false)
-                          }
+                          console.log(
+                            "courses: ",
+                            fetchMoreResult.getCourses.course
+                          )
+                          /* if (fetchMoreResult.getCourses.courses.length <= 3) { */
+                          /* } */
                           if (!fetchMoreResult) return prev
                           return {
                             getCourses: {

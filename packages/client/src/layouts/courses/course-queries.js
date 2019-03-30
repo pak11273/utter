@@ -40,6 +40,7 @@ export const GET_COURSES = gql`
         }
       }
       cursor
+      more
     }
   }
 `

@@ -252,6 +252,7 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, args, ctx, info) => {
+  var more = false
   var input = args.input
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
@@ -261,6 +262,14 @@ const getCourses = async (_, args, ctx, info) => {
   var query = {}
   for (var key in input) {
     input[key] !== "" ? (query[key] = input[key]) : null
+  }
+
+  // get subscriptions
+  console.log("query: ", query)
+  if (query.utterzone) {
+    console.log("hello")
+    // get user subs
+    // return courses object
   }
 
   query.title
@@ -294,11 +303,37 @@ const getCourses = async (_, args, ctx, info) => {
   try {
     const courses = await Course.find(query)
       .populate("owner")
-      .sort({subscribers: "desc"})
-      .limit(8)
+      .sort({_id: 1})
+      .limit(4)
       .lean()
 
-    return {courses}
+    const lastCourse = await Course.findOne()
+      .sort({_id: -1})
+      .limit(1)
+      .lean()
+
+    console.log(
+      "courses: ",
+      courses.map(obj => {
+        return obj._id
+      })
+    )
+
+    console.log("lastCoures: ", lastCourse._id)
+
+    let obj = courses.find(o => o._id.toString() === lastCourse._id.toString())
+
+    console.log("ojbect: ", obj)
+
+    if (obj) {
+      more = false
+    } else {
+      more = true
+    }
+
+    console.log("more: ", more)
+
+    return {courses, more}
   } catch (err) {
     throw err
   }

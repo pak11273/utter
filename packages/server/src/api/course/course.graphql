@@ -49,6 +49,7 @@ input CourseCreateInput {
 type PaginatedCourses {
   courses: [Course!]! 
   cursor: String
+	more: Boolean
 }
 
 extend type Query {

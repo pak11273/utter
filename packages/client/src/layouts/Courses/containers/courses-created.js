@@ -110,7 +110,7 @@ const styles = theme => ({
   }
 })
 
-const getCreatedCourses = gql`
+const GET_CREATED_COURSES = gql`
   query getCreatedCourses($cursor: String) {
     getCreatedCourses(cursor: $cursor) {
       courses {
@@ -208,7 +208,7 @@ class CoursesCreatedContainer extends PureComponent {
               {/* End hero unit */}
               {/* TODO: remove network only by writing new courses to the cache */}
               <Query
-                query={getCreatedCourses}
+                query={GET_CREATED_COURSES}
                 fetchPolicy="network-only"
                 errorPolicy="all"
                 variables={{
