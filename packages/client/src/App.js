@@ -6,7 +6,7 @@ import {render} from "react-dom"
 /* import ReactGA from "react-ga" */
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
-/* import {local, session} from "brownies" */
+import {local, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -24,6 +24,35 @@ import {Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
+
+import gql from "graphql-tag"
+
+const GET_USER_BY_TOKEN = gql`
+  query getUserByToken($token: String!) {
+    getUserByToken(token: $token) {
+      blocked
+      contacts
+      createdCourses {
+        _id
+      }
+      createdAt
+      email
+      _id
+      password
+      roles
+      scopes
+      subscriptions {
+        _id
+        title
+        levels {
+          level
+        }
+      }
+      updatedAt
+      username
+    }
+  }
+`
 
 const SubRoutes = route => (
   <Route
@@ -54,6 +83,19 @@ const theme = createMuiTheme({
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
+  componentDidMount = async () => {
+    const token = local.AUTH_TOKEN
+
+    if (!session.user) {
+      const userByToken = await client.query({
+        query: GET_USER_BY_TOKEN,
+        variables: {token}
+      })
+
+      session.user = userByToken.data.getUserByToken
+    }
+  }
+
   render() {
     return (
       <ApolloProvider client={client}>
