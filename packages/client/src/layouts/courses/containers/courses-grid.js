@@ -8,7 +8,7 @@ import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
-import CircularProgress from "@material-ui/core/CircularProgress"
+/* import CircularProgress from "@material-ui/core/CircularProgress" */
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -32,35 +32,39 @@ const CoursesGrid = props => {
     })
   }
 
-  const {data, error, loading, fetchMore} = useQuery(GET_COURSES, {
-    variables: {
-      cursor: "",
-      searchInput:
-        props.search && props.search.searchInput
-          ? props.search.searchInput
-          : "",
-      selectionBox:
-        props.search && props.search.selectionBox
-          ? props.search.selectionBox
-          : "",
-      usingLang:
-        props.search && props.search.usingLang ? props.search.usingLang : "",
-      teachingLang:
-        props.search && props.search.teachingLang
-          ? props.search.teachingLang
-          : ""
+  const {data, error, loading, fetchMore, networkStatus} = useQuery(
+    GET_COURSES,
+    {
+      notifyOnNetworkStatusChange: true,
+      variables: {
+        cursor: "",
+        searchInput:
+          props.search && props.search.searchInput
+            ? props.search.searchInput
+            : "",
+        selectionBox:
+          props.search && props.search.selectionBox
+            ? props.search.selectionBox
+            : "",
+        usingLang:
+          props.search && props.search.usingLang ? props.search.usingLang : "",
+        teachingLang:
+          props.search && props.search.teachingLang
+            ? props.search.teachingLang
+            : ""
+      }
     }
-  })
-  if (loading)
-    return (
-      <Grid
-        container
-        alignContent="center"
-        justify="center"
-        style={{height: "300px"}}>
-        <CircularProgress style={{color: "grey"}} />
-      </Grid>
-    )
+  )
+  /* if (loading) */
+  /*   return ( */
+  /*     <Grid */
+  /*       container */
+  /*       alignContent="center" */
+  /*       justify="center" */
+  /*       style={{height: "300px"}}> */
+  /*       <CircularProgress style={{color: "grey"}} /> */
+  /*     </Grid> */
+  /*   ) */
   if (error) {
     return (
       <Grid>
@@ -88,90 +92,87 @@ const CoursesGrid = props => {
     <div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
         <Grid container spacing={8} style={{position: "relative"}}>
-          {data.getCourses.courses.map((card, i) => (
-            <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
-              <Card className={classes.card}>
-                <CardMedia
-                  onClick={handleImageClick(card)}
-                  className={classes.cardMedia}
-                  image={`${card.courseImage}`}
-                  title={`${card.title}`}
-                />
-                <CardContent className={classes.cardContent}>
-                  <Typography
-                    className={classes.gridTitle}
-                    gutterBottom
-                    variant="h6"
-                    component="h6">
-                    {card.title}
-                  </Typography>
-                  <Typography
-                    className={classes.cardUsername}
-                    gutterBottom
-                    variant="caption">
-                    by: {card.owner.username}
-                  </Typography>
-                  <Typography
-                    className={classes.cardUsername}
-                    gutterBottom
-                    variant="caption">
-                    resource: {card.resource}
-                  </Typography>
-                </CardContent>
-                <CardActions className={classes.gridActions}>
-                  <PersonIcon />
-                  <Typography className={classes.cardUsername} gutterBottom>
-                    {subsToSize(card.subscribers)}
-                  </Typography>
-                  <Button
+          {data.getCourses &&
+            data.getCourses.courses.map((card, i) => (
+              <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
+                <Card className={classes.card}>
+                  <CardMedia
                     onClick={handleImageClick(card)}
-                    size="large"
-                    className={classes.editButton}>
-                    {" "}
-                    VIEW
-                  </Button>
-                </CardActions>
-              </Card>
-              {i === data.getCourses.courses.length - 1 &&
-                data.getCourses.more && (
-                  <LoadingButton
-                    className={classes.showMore}
-                    color="secondary"
-                    variant="contained"
-                    onClick={() =>
-                      fetchMore({
-                        variables: {
-                          cursor:
-                            data.getCourses.courses[
-                              data.getCourses.courses.length - 1
-                            ]._id
-                        },
-                        updateQuery: (prev, {fetchMoreResult}) => {
-                          // length needs to be 1 less than the limit
-                          console.log(
-                            "courses: ",
-                            fetchMoreResult.getCourses.course
-                          )
-                          /* if (fetchMoreResult.getCourses.courses.length <= 3) { */
-                          /* } */
-                          if (!fetchMoreResult) return prev
-                          return {
-                            getCourses: {
-                              ...fetchMoreResult.getCourses,
-                              courses: [
-                                ...prev.getCourses.courses,
-                                ...fetchMoreResult.getCourses.courses
-                              ]
+                    className={classes.cardMedia}
+                    image={`${card.courseImage}`}
+                    title={`${card.title}`}
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography
+                      className={classes.gridTitle}
+                      gutterBottom
+                      variant="h6"
+                      component="h6">
+                      {card.title}
+                    </Typography>
+                    <Typography
+                      className={classes.cardUsername}
+                      gutterBottom
+                      variant="caption">
+                      by: {card.owner.username}
+                    </Typography>
+                    <Typography
+                      className={classes.cardUsername}
+                      gutterBottom
+                      variant="caption">
+                      resource: {card.resource}
+                    </Typography>
+                  </CardContent>
+                  <CardActions className={classes.gridActions}>
+                    <PersonIcon />
+                    <Typography className={classes.cardUsername} gutterBottom>
+                      {subsToSize(card.subscribers)}
+                    </Typography>
+                    <Button
+                      onClick={handleImageClick(card)}
+                      size="large"
+                      className={classes.editButton}>
+                      {" "}
+                      VIEW
+                    </Button>
+                  </CardActions>
+                </Card>
+                {i === data.getCourses.courses.length - 1 &&
+                  data.getCourses.more && (
+                    <LoadingButton
+                      loading={loading}
+                      disabled={loading}
+                      className={classes.showMore}
+                      color="secondary"
+                      variant="contained"
+                      onClick={() => {
+                        console.log("network: ", networkStatus)
+                        fetchMore({
+                          variables: {
+                            cursor:
+                              data.getCourses.courses[
+                                data.getCourses.courses.length - 1
+                              ]._id
+                          },
+                          updateQuery: (prev, {fetchMoreResult}) => {
+                            if (!fetchMoreResult) return prev
+                            return {
+                              getCourses: {
+                                ...fetchMoreResult.getCourses,
+                                courses: [
+                                  ...prev.getCourses.courses,
+                                  ...fetchMoreResult.getCourses.courses
+                                ]
+                              }
                             }
                           }
-                        }
-                      })
-                    }>
-                    Show More
-                  </LoadingButton>
-                )}
-            </Grid>
-          ))}
+                        })
+                      }}>
+                      Show More
+                    </LoadingButton>
+                  )}
+              </Grid>
+            ))}
         </Grid>
       </div>
     </div>
