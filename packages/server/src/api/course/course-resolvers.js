@@ -307,7 +307,7 @@ const getCourses = async (_, args, ctx, info) => {
       .limit(4)
       .lean()
 
-    const lastCourse = await Course.findOne()
+    const lastCourse = await Course.find(query)
       .sort({_id: -1})
       .limit(1)
       .lean()
@@ -319,19 +319,15 @@ const getCourses = async (_, args, ctx, info) => {
       })
     )
 
-    console.log("lastCoures: ", lastCourse._id)
-
-    let obj = courses.find(o => o._id.toString() === lastCourse._id.toString())
-
-    console.log("ojbect: ", obj)
+    let obj = courses.find(
+      o => o._id.toString() === lastCourse[0]._id.toString()
+    )
 
     if (obj) {
       more = false
     } else {
       more = true
     }
-
-    console.log("more: ", more)
 
     return {courses, more}
   } catch (err) {
