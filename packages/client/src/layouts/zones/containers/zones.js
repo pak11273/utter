@@ -29,6 +29,7 @@ import {
 import {styles} from "../styles.js"
 import ZonesGrid from "./zones-grid.js"
 import {groupedOptions} from "../../../data/language-data.js"
+import appData from "../../../data/appData.js"
 
 const ZonesContainer = props => {
   /* const [courseOption, setCourseOption] = useState(session.user.subscription) */
@@ -75,7 +76,7 @@ const ZonesContainer = props => {
           <Typography variant="h6" align="center" gutterBottom>
             Choose An App
           </Typography>
-          <Field name="app" component={app} options={groupedOptions} />
+          <Field name="app" component={app} options={appData} />
           <Spacer margin="40px 0 0 0" />
           <Typography variant="h6" align="center" gutterBottom>
             Subscribed Courses:
@@ -176,6 +177,7 @@ export default withRouter(
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
+      app: "",
       searchInput: "",
       selectionBox: "",
       teachingLang: "",
@@ -185,6 +187,7 @@ export default withRouter(
       console.log("values; ", values)
       setStatus({loading: true})
       const search = {
+        app: values.app,
         searchInput: values.searchInput,
         selectionBox: values.selectionBox,
         teachingLang: values.teachingLang,

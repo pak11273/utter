@@ -41,6 +41,7 @@ const ZonesGrid = props => {
         props.search && props.search.selectionBox
           ? props.search.selectionBox
           : "",
+      app: props.search && props.search.app ? props.search.app : "",
       usingLang:
         props.search && props.search.usingLang ? props.search.usingLang : "",
       teachingLang:
@@ -212,9 +213,5 @@ const ZonesGrid = props => {
     </div>
   )
 }
-
-/*
-
-	*/
 
 export default withRouter(withStyles(styles)(ZonesGrid))

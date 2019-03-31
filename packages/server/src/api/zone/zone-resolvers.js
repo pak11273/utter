@@ -121,6 +121,9 @@ const getZoneLevels = async (_, args, ctx, info) => {
 
 const getZones = async (_, args, ctx, info) => {
   console.log("args: ", args)
+  var usingLangMatch = new RegExp(".", "i")
+  var teachingLangMatch = new RegExp(".", "i")
+  var appMatch = new RegExp(".", "i")
   var more = false
   var input = args.input
   if (input.searchInput || input.selectionBox) {
@@ -133,18 +136,20 @@ const getZones = async (_, args, ctx, info) => {
     input[key] !== "" ? (query[key] = input[key]) : null
   }
 
-  /* var populateQuery = "course" */
-  /* for (var key in input) { */
-  /*   if (input.usingLang !== "") { */
-  /*     delete query.usingLang */
-  /*     populateQuery = { */
-  /*       path: "course", */
-  /*       match: {usingLang: input[key]} */
-  /*     } */
-  /*   } */
-  /* } */
-
-  /* console.log("populateQuery: ", populateQuery) */
+  for (var key in input) {
+    if (input[key] !== "") {
+      console.log("key: ", key)
+      if (key === "usingLang") {
+        usingLangMatch = input[key]
+      }
+      if (key === "teachingLang") {
+        teachingLangMatch = input[key]
+      }
+      if (key === "app") {
+        appMatch = input[key]
+      }
+    }
+  }
 
   query.title
     ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
@@ -171,7 +176,6 @@ const getZones = async (_, args, ctx, info) => {
     delete query.cursor
   }
 
-  query = {"course.usingLang": "english US"}
   console.log("query: ", query)
 
   try {
@@ -183,7 +187,11 @@ const getZones = async (_, args, ctx, info) => {
     /*   .lean() */
 
     const zones = await Zone.aggregate([
-      /* $match: {}, */
+      /* { */
+      /*   $match: { */
+      /*     is_enabled: {$eq: true} */
+      /*   } */
+      /* }, */
       {
         $lookup: {
           from: "users",
@@ -201,21 +209,32 @@ const getZones = async (_, args, ctx, info) => {
           as: "zoneCourse"
         }
       },
-      {$unwind: "$zoneCourse"}
+      {$unwind: "$zoneCourse"},
+      {
+        $match: {
+          $and: [
+            {"zoneCourse.usingLang": usingLangMatch},
+            {"zoneCourse.teachingLang": teachingLangMatch},
+            {app: appMatch}
+            /* {"publisher.name": new RegExp(params.expression, "i")}, */
+            /* {description: new RegExp(params.expression, "i")}, */
+            /* {name: new RegExp(params.expression, "i")}, */
+            /* {published_year: params.terms} */
+          ]
+        }
+      }
     ])
 
     const lastZones = await Zone.find(query)
       .sort({_id: -1})
       .lean()
 
-    console.log("zones: ", zones)
-
-    /* console.log( */
-    /*   "zones: ", */
-    /*   zones.map(item => { */
-    /*     return item._id */
-    /*   }) */
-    /* ) */
+    console.log(
+      "zones: ",
+      zones.map(item => {
+        return item._id
+      })
+    )
 
     if (lastZones.length !== 0) {
       var lastZone = lastZones[lastZones.length - 1]._id

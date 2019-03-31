@@ -52,7 +52,6 @@ class Subscriptions extends Component {
           }}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
-          required
           simpleValue
           clearable={this.state.clearable}
           name={field.name}

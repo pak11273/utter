@@ -37,7 +37,6 @@ class Using extends Component {
     this.setState({
       selectValue: newValue
     })
-    /* this.props.addUsingLang(newValue.value) */
     this.props.form.setFieldValue(this.props.field.name, newValue.value)
   }
 
@@ -53,7 +52,6 @@ class Using extends Component {
           }}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
-          required
           simpleValue
           clearable={this.state.clearable}
           name={field.name}

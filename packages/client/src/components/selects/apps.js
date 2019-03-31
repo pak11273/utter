@@ -37,7 +37,6 @@ class App extends Component {
     this.setState({
       selectValue: newValue
     })
-    this.props.addApp(newValue.value)
     this.props.form.setFieldValue(this.props.field.name, newValue.value)
   }
 
@@ -53,7 +52,6 @@ class App extends Component {
           }}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
-          required
           simpleValue
           clearable={this.state.clearable}
           name={field.name}
