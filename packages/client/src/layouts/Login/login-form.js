@@ -155,8 +155,6 @@ export default withRouter(
       if (data.token) {
         local.AUTH_TOKEN = data.token
         session.user = data.user
-        console.log("data: ", data.user)
-        console.log("session: ", session.user)
         props.history.push({
           pathname: "/",
           state: "loadUserSession"

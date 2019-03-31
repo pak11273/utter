@@ -1,5 +1,4 @@
-/* eslint no-unused-vars: 0 */
-import React, {useState} from "react"
+import React, {PureComponent} from "react"
 import Select from "react-select"
 
 import TextField from "@material-ui/core/TextField"
@@ -52,35 +51,42 @@ export const FormikTextArea = ({
   </div>
 )
 
-export const FormikSelect = ({
-  field, // { name, value, onChange, onBlur }
-  form: {touched, errors}, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
-  ...props
-}) => {
-  const {options} = props
-  const [disabled, setDisabled] = useState(false)
-  const [searchable, setSearchable] = useState(props.searchable)
-  const [selectValue, setSelectValue] = useState("")
-  const [clearable, setClearable] = useState(true)
-  const [rtl] = useState(false)
-  const updateValue = newValue => {
-    setSelectValue(newValue)
-    props.setFieldValue(field.name, newValue.value)
+export class FormikSelect extends PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = {
+      disabled: false,
+      searchable: props.searchable,
+      selectValue: "",
+      clearable: true,
+      rtl: false
+    }
   }
-  return (
-    <div>
+
+  clearValue = () => {
+    this.select.setInputValue("")
+  }
+
+  updateValue = newValue => {
+    this.setState({
+      selectValue: newValue
+    })
+    this.props.form.setFieldValue(this.props.field.name, newValue.value)
+  }
+
+  render() {
+    const {field, options} = this.props
+    return (
       <Select
-        {...field}
-        {...props}
         id="select"
         ref={ref => {
-          props.select = ref
+          this.select = ref
         }}
         onBlurResetsInput={false}
         onSelectResetsInput={false}
         required
         simpleValue
-        clearable={clearable}
+        clearable={this.state.clearable}
         wrapperStyle={{
           margin: "20px 0 0 0",
           width: "100%"
@@ -96,18 +102,12 @@ export const FormikSelect = ({
         }}
         name={field.name}
         options={options}
-        disabled={disabled}
-        value={selectValue}
-        onChange={updateValue}
-        rtl={rtl}
-        searchable={searchable}
+        disabled={this.state.disabled}
+        value={this.state.selectValue}
+        onChange={this.updateValue}
+        rtl={this.state.rtl}
+        searchable={this.state.searchable}
       />
-      {errors[field.name] &&
-        touched[field.name] && (
-          <div style={{color: "#f44336", padding: "10px"}}>
-            {errors[field.name]}
-          </div>
-        )}
-    </div>
-  )
+    )
+  }
 }

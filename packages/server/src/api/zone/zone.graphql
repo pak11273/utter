@@ -12,6 +12,7 @@ type Zone {
   owner: User
   teachingLang: String
   usingLang: String
+	zoneCourse: Course
   zoneDescription: String
   zoneImage: String
   zoneName: String!
@@ -51,6 +52,9 @@ input ZoneCreateInput {
 type PaginatedZones {
   zones: [Zone]
   cursor: String
+	course: Course
+	zoneCourse: Course
+	more: Boolean
 }
 
 extend type Query {

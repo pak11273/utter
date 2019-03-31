@@ -22,7 +22,7 @@ export const styles = theme => ({
     flexDirection: "column"
   },
   cardDescription: {
-    height: "80px",
+    height: "70px",
     lineHeight: "1em",
     overflow: "auto",
     wordBreak: "break-all"

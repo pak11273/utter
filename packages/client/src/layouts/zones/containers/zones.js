@@ -147,11 +147,7 @@ const ZonesContainer = props => {
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value="host">Host</MenuItem>
-                    <MenuItem value="title">Title</MenuItem>
-                    <MenuItem value="app">App</MenuItem>
-                    <MenuItem value="course">Course</MenuItem>
-                    <MenuItem value="level">Level</MenuItem>
-                    <MenuItem value="reference">Reference</MenuItem>
+                    <MenuItem value="title">Zone Name</MenuItem>
                   </Select>
                 </FormControl>
                 <LoadingButton

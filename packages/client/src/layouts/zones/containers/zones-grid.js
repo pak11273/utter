@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import {withRouter} from "react-router-dom"
 
 import classNames from "classnames"
@@ -6,7 +6,7 @@ import classNames from "classnames"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
-import CircularProgress from "@material-ui/core/CircularProgress"
+/* import CircularProgress from "@material-ui/core/CircularProgress" */
 import PersonIcon from "@material-ui/icons/Person"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -21,8 +21,6 @@ import {styles} from "../styles.js"
 /* const drawerWidth = 240 */
 
 const ZonesGrid = props => {
-  const [showMoreBtn, setShowMoreBtn] = useState(true)
-
   const onEnterZone = card => () => {
     session.zone = card
     props.history.push({
@@ -32,6 +30,7 @@ const ZonesGrid = props => {
   }
 
   const {data, error, loading, fetchMore} = useQuery(GET_ZONES, {
+    notifyOnNetworkStatusChange: true,
     variables: {
       cursor: "",
       searchInput:
@@ -51,16 +50,16 @@ const ZonesGrid = props => {
     }
   })
 
-  if (loading)
-    return (
-      <Grid
-        container
-        alignContent="center"
-        justify="center"
-        style={{height: "300px"}}>
-        <CircularProgress style={{color: "grey"}} />
-      </Grid>
-    )
+  /* if (loading) */
+  /*   return ( */
+  /*     <Grid */
+  /*       container */
+  /*       alignContent="center" */
+  /*       justify="center" */
+  /*       style={{height: "300px"}}> */
+  /*       <CircularProgress style={{color: "grey"}} /> */
+  /*     </Grid> */
+  /*   ) */
   if (error) {
     return (
       <Grid>
@@ -121,14 +120,22 @@ const ZonesGrid = props => {
                     </Typography>
                   </CardContent>
                   <div style={{padding: "0 0 0 20px"}}>App: {card.app}</div>
-                  <div style={{padding: "0 0 0 20px"}}>
-                    Course: {card.zoneRef}
+                  <div
+                    style={{
+                      padding: "0 0 0 20px",
+                      marginRight: "20px",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap"
+                    }}>
+                    Course: {(card.zoneCourse && card.zoneCourse.title) || ""}
                   </div>
                   <div style={{padding: "0 0 0 20px"}}>
-                    Using: {card.usingLang}
+                    Using:{" "}
+                    {(card.zoneCourse && card.zoneCourse.usingLang) || ""}
                   </div>
                   <div style={{padding: "0 0 0 20px"}}>
-                    Teaching: {card.teachingLang}
+                    Teaching:{" "}
+                    {(card.zoneCourse && card.zoneCourse.teachingLang) || ""}
                   </div>
                   <div style={{display: "flex", padding: "10px 0 0 20px"}}>
                     <PersonIcon />
@@ -166,8 +173,10 @@ const ZonesGrid = props => {
                   </CardActions>
                 </Card>
                 {i === data.getZones.zones.length - 1 &&
-                  showMoreBtn && (
+                  data.getZones.more && (
                     <LoadingButton
+                      loading={loading}
+                      disabled={loading}
                       className={props.classes.showMore}
                       color="secondary"
                       variant="contained"
@@ -180,10 +189,6 @@ const ZonesGrid = props => {
                               ]._id
                           },
                           updateQuery: (prev, {fetchMoreResult}) => {
-                            // length needs to be 1 less than the limit
-                            if (fetchMoreResult.getZones.zones.length <= 7) {
-                              setShowMoreBtn(false)
-                            }
                             if (!fetchMoreResult) return prev
                             return {
                               getZones: {

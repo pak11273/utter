@@ -18,9 +18,18 @@ export const GET_ZONES = gql`
       }
     ) {
       cursor
+      more
       zones {
         ageGroup
         app
+        zoneCourse {
+          title
+          usingLang
+          teachingLang
+        }
+        course {
+          _id
+        }
         courseLevel
         _id
         owner {

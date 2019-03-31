@@ -32,29 +32,27 @@ const CoursesGrid = props => {
     })
   }
 
-  const {data, error, loading, fetchMore, networkStatus} = useQuery(
-    GET_COURSES,
-    {
-      notifyOnNetworkStatusChange: true,
-      variables: {
-        cursor: "",
-        searchInput:
-          props.search && props.search.searchInput
-            ? props.search.searchInput
-            : "",
-        selectionBox:
-          props.search && props.search.selectionBox
-            ? props.search.selectionBox
-            : "",
-        usingLang:
-          props.search && props.search.usingLang ? props.search.usingLang : "",
-        teachingLang:
-          props.search && props.search.teachingLang
-            ? props.search.teachingLang
-            : ""
-      }
+  const {data, error, loading, fetchMore} = useQuery(GET_COURSES, {
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      cursor: "",
+      searchInput:
+        props.search && props.search.searchInput
+          ? props.search.searchInput
+          : "",
+      selectionBox:
+        props.search && props.search.selectionBox
+          ? props.search.selectionBox
+          : "",
+      usingLang:
+        props.search && props.search.usingLang ? props.search.usingLang : "",
+      teachingLang:
+        props.search && props.search.teachingLang
+          ? props.search.teachingLang
+          : ""
     }
-  )
+  })
+
   /* if (loading) */
   /*   return ( */
   /*     <Grid */
@@ -146,7 +144,6 @@ const CoursesGrid = props => {
                       color="secondary"
                       variant="contained"
                       onClick={() => {
-                        console.log("network: ", networkStatus)
                         fetchMore({
                           variables: {
                             cursor:

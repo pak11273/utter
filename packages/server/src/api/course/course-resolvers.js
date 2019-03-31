@@ -166,8 +166,6 @@ const courseCreate = async (_, args, ctx, info) => {
 
     const course = await newCourse.save()
 
-    /* createdCourse = mongooseToJs(course) */
-
     createdCourse = {
       ...course._doc,
       _id: course._doc._id.toString(),
@@ -264,12 +262,6 @@ const getCourses = async (_, args, ctx, info) => {
     input[key] !== "" ? (query[key] = input[key]) : null
   }
 
-  // get subscriptions
-  if (query.utterzone) {
-    // get user subs
-    // return courses object
-  }
-
   query.title
     ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
     : null
@@ -299,14 +291,18 @@ const getCourses = async (_, args, ctx, info) => {
     const courses = await Course.find(query)
       .populate("owner")
       .sort({_id: -1})
-      .limit(12)
+      .limit(4)
       .lean()
 
     const lastCourses = await Course.find(query)
       .sort({_id: -1})
       .lean()
 
-    const lastCourse = lastCourses[lastCourses.length - 1]._id
+    if (lastCourses.length !== 0) {
+      var lastCourse = lastCourses[lastCourses.length - 1]._id
+    } else {
+      lastCourse = {}
+    }
 
     let obj = courses.find(o => o._id.toString() === lastCourse._id.toString())
 
@@ -315,8 +311,6 @@ const getCourses = async (_, args, ctx, info) => {
     } else {
       more = true
     }
-
-    console.log("more: ", more)
 
     return {courses, more}
   } catch (err) {

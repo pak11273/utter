@@ -1,5 +1,6 @@
 import isEmpty from "lodash/isEmpty"
 import mongoose from "mongoose"
+import Course from "../course/course-model.js"
 import User from "../user/user-model.js"
 import Zone from "./zone-model"
 
@@ -69,34 +70,47 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, ctx, info) => {
-  //TODO can't have duplicate zone names
-  const {input} = args
-  console.log("ingput: ", input)
-  const zone = await Zone.create(input)
+  try {
+    if (!ctx.isAuth) {
+      throw new Error("You need to be registered to create a course.")
+    }
 
-  const newZone = new Zone({
-    app: input.app,
-    courseLevel: input.courseLevel,
-    ageGroup: input.ageGroup,
-    owner: input.owner,
-    zoneName: input.zoneName,
-    zoneDescription: input.zoneDescription,
-    teachingLang: input.teachingLang,
-    usingLang: input.usingLang
-  })
+    const userId = ctx.req.token._id
 
-  let createdZone
+    const user = await User.findById(userId, (err, res) => {
+      if (err) return err
+      return res
+    })
 
-  /* zone.id = zone._id */
+    const {input} = args
 
-  createdZone = {
-    ...zone._doc,
-    _id: zone._doc._id.toString(),
-    owner: userById.bind(this, zone._doc.owner)
+    const newZone = new Zone({
+      app: input.app,
+      course: input.course,
+      courseLevel: input.courseLevel,
+      ageGroup: input.ageGroup,
+      owner: input.owner,
+      zoneName: input.zoneName,
+      zoneDescription: input.zoneDescription,
+      teachingLang: input.teachingLang,
+      usingLang: input.usingLang
+    })
+
+    const zone = await newZone.save()
+
+    let createdZone
+
+    createdZone = {
+      ...zone._doc,
+      _id: zone._doc._id.toString(),
+      owner: userById.bind(this, zone._doc.owner),
+      course: Course.findById(input.course)
+    }
+
+    return createdZone
+  } catch (err) {
+    throw err
   }
-
-  console.log("zone: ", createdZone)
-  return createdZone
 }
 
 const getZoneLevels = async (_, args, ctx, info) => {
@@ -106,6 +120,8 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, args, ctx, info) => {
+  console.log("args: ", args)
+  var more = false
   var input = args.input
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
@@ -116,6 +132,19 @@ const getZones = async (_, args, ctx, info) => {
   for (var key in input) {
     input[key] !== "" ? (query[key] = input[key]) : null
   }
+
+  /* var populateQuery = "course" */
+  /* for (var key in input) { */
+  /*   if (input.usingLang !== "") { */
+  /*     delete query.usingLang */
+  /*     populateQuery = { */
+  /*       path: "course", */
+  /*       match: {usingLang: input[key]} */
+  /*     } */
+  /*   } */
+  /* } */
+
+  /* console.log("populateQuery: ", populateQuery) */
 
   query.title
     ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
@@ -137,34 +166,64 @@ const getZones = async (_, args, ctx, info) => {
     ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
     : null
 
-  // type cast id because $lt is not the same in aggregate vs query
-  /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
-
   if (query.cursor) {
-    query._id = {$gt: query.cursor || null}
+    query._id = {$lt: query.cursor || null}
     delete query.cursor
   }
 
+  query = {"course.usingLang": "english US"}
+  console.log("query: ", query)
+
   try {
-    let zones = await Zone.find(query)
-      .lean()
+    /* const zones = await Zone.find(query) */
+    /*   .populate("owner") */
+    /*   .populate("course") */
+    /*   .sort({_id: -1}) */
+    /*   .limit(6) */
+    /*   .lean() */
+
+    const zones = await Zone.aggregate([
+        /* $match: {}, */
+      {
+        $lookup: {
+          from: "courses",
+          localField: "course",
+          foreignField: "_id",
+          as: "zoneCourse"
+        }
+      },
+      {$unwind: "$zoneCourse"}
+    ])
+
+    const lastZones = await Zone.find(query)
       .sort({_id: -1})
-      .limit(8)
+      .lean()
 
-    const convertedZones = zones.map(zone => {
-      return {
-        ...zone,
-        owner: userById.bind(this, zone.owner)
-      }
-    })
-    return {zones: convertedZones, cursor: ""}
+    console.log("zones: ", zones)
 
-    if (isEmpty(zones)) {
-      return {zones: [], cursor: "done"}
+    /* console.log( */
+    /*   "zones: ", */
+    /*   zones.map(item => { */
+    /*     return item._id */
+    /*   }) */
+    /* ) */
+
+    if (lastZones.length !== 0) {
+      var lastZone = lastZones[lastZones.length - 1]._id
     } else {
-      cursor = zones[zones.length - 1]._id
-      return {zones: zones, cursor}
+      lastZone = {}
     }
+
+    /* let obj = zones.find(o => o._id.toString() === lastZone._id.toString()) */
+
+    /* if (obj) { */
+    if (true) {
+      more = false
+    } else {
+      more = true
+    }
+
+    return {zones, more}
   } catch (err) {
     throw err
   }

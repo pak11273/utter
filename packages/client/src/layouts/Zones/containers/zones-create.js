@@ -231,6 +231,7 @@ class ZoneCreate extends Component {
                   type="text"
                   options={appData}
                   component={FormikSelect}
+                  {...this.props}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -245,6 +246,7 @@ class ZoneCreate extends Component {
                   name="course"
                   type="text"
                   component={FormikSelect}
+                  {...this.props}
                   options={subscribedOptions}
                 />
                 <Typography
@@ -252,13 +254,16 @@ class ZoneCreate extends Component {
                   variant="h6"
                   className={classes.subHeading}
                   gutterBottom>
-                  Set Levels
+                  Set Level
                 </Typography>
-                <p>Apps will use the course information from this level.</p>
+                <p style={{padding: "10px"}}>
+                  Apps will use the course information from this level.
+                </p>
                 <Field
                   name="courseLevel"
                   type="text"
                   component={FormikSelect}
+                  {...this.props}
                   options={[
                     {
                       value: 1,
@@ -289,7 +294,7 @@ class ZoneCreate extends Component {
                   gutterBottom>
                   Age Restrictions
                 </Typography>
-                <p>
+                <p style={{padding: "10px"}}>
                   Pick an appropriate age setting or a specific age demographic.
                   Conversations are still not to involve any sexual misconduct
                   or vulgar behaviour. Account bans/suspensions are duly
@@ -299,6 +304,7 @@ class ZoneCreate extends Component {
                   name="ageGroup"
                   type="text"
                   component={FormikSelect}
+                  {...this.props}
                   options={[
                     {
                       value: "any age",
@@ -406,7 +412,7 @@ export default compose(
       app: "",
       appLevel: 1,
       course: "",
-      courseLevel: 1,
+      courseLevel: "",
       owner: session.user._id,
       zoneName: "",
       zoneDescription: ""

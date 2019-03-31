@@ -1,5 +1,5 @@
 /* eslint react/no-did-update-set-state: 0 */
-import React, {useState} from "react"
+import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
@@ -25,13 +25,11 @@ import {compose} from "react-apollo"
 import {styles} from "../styles.js"
 
 const CoursesContainer = props => {
-  const [mySelection, setSelectionBox] = useState(null)
   delete session.course
 
-  const getSubscribedCourses = () => {
-    setSelectionBox("utterzone")
-    console.log("myselection: ", mySelection)
-  }
+  /* const getSubscribedCourses = () => { */
+  /*   setSelectionBox("utterzone") */
+  /* } */
 
   const {classes, handleSubmit, handleChange, values} = props
   return (
@@ -59,11 +57,12 @@ const CoursesContainer = props => {
         <Spacer margin="40px 0 0 0" />
         <Divider />
         <Spacer margin="40px 0 0 0" />
-        <Link component={RouterLink} to="#" onClick={getSubscribedCourses}>
+        {/* <Link component={RouterLink} to="#" onClick={getSubscribedCourses}>
           <Typography align="center" gutterBottom>
             My Subscriptions
           </Typography>
         </Link>
+				*/}
         <Spacer margin="40px 0 0 0" />
         <Link component={RouterLink} to="/courses/created">
           <Typography align="center" gutterBottom>
@@ -139,12 +138,7 @@ const CoursesContainer = props => {
         </div>
         {/* End hero unit */}
         <Grid>
-          {
-            <CoursesGrid
-              mySelection={mySelection}
-              search={props.status && props.status.search}
-            />
-          }
+          {<CoursesGrid search={props.status && props.status.search} />}
         </Grid>
       </main>
     </form>
