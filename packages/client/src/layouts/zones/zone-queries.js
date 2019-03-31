@@ -33,6 +33,10 @@ export const GET_ZONES = gql`
         courseLevel
         _id
         owner {
+          _id
+        }
+        ownerCourse {
+          _id
           username
         }
         teachingLang

@@ -116,7 +116,7 @@ const ZonesGrid = props => {
                       className={classes.cardUsername}
                       gutterBottom
                       variant="caption">
-                      by: {card.owner.username}
+                      by: {card.ownerCourse.username}
                     </Typography>
                   </CardContent>
                   <div style={{padding: "0 0 0 20px"}}>App: {card.app}</div>

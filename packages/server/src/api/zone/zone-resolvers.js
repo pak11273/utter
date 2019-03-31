@@ -183,7 +183,16 @@ const getZones = async (_, args, ctx, info) => {
     /*   .lean() */
 
     const zones = await Zone.aggregate([
-        /* $match: {}, */
+      /* $match: {}, */
+      {
+        $lookup: {
+          from: "users",
+          localField: "owner",
+          foreignField: "_id",
+          as: "ownerCourse"
+        }
+      },
+      {$unwind: "$ownerCourse"},
       {
         $lookup: {
           from: "courses",
