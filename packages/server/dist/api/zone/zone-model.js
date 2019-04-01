@@ -11,7 +11,7 @@ exports.default = void 0;
 
 var _mongoose = _interopRequireWildcard(require("mongoose"));
 
-var _userModel = _interopRequireWildcard(require("../user/user-model.js"));
+var _userModel = _interopRequireDefault(require("../user/user-model.js"));
 
 var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
@@ -37,8 +37,7 @@ var ZoneSchema = _mongoose.default.Schema({
     ref: "Course"
   },
   courseLevel: {
-    type: Number,
-    default: 1
+    type: Number
   },
   maxOccupants: {
     type: Number,

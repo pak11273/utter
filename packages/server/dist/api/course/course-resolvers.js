@@ -382,8 +382,6 @@ function () {
 
           case 10:
             course = _context6.sent;
-
-            /* createdCourse = mongooseToJs(course) */
             createdCourse = (0, _objectSpread2.default)({}, course._doc, {
               _id: course._doc._id.toString(),
               owner: userById.bind(_this, course._doc.owner)
@@ -580,11 +578,12 @@ function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee9(_, args, ctx, info) {
-    var input, query, key, courses;
+    var more, input, query, key, courses, lastCourses, lastCourse, obj;
     return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
+            more = false;
             input = args.input;
 
             if (input.searchInput || input.selectionBox) {
@@ -602,11 +601,11 @@ function () {
             query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
 
             if (!query.owner) {
-              _context9.next = 9;
+              _context9.next = 10;
               break;
             }
 
-            _context9.next = 8;
+            _context9.next = 9;
             return _userModel.default.findOne({
               username: query.owner
             }, function (err, docs) {
@@ -620,44 +619,67 @@ function () {
               }
             });
 
-          case 8:
+          case 9:
             query.owner = _context9.sent;
 
-          case 9:
-            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null; // type cast id because $lt is not the same in aggregate vs query
-
-            /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
+          case 10:
+            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null;
 
             if (query.cursor) {
               query._id = {
-                $gt: query.cursor || null
+                $lt: query.cursor || null
               };
               delete query.cursor;
             }
 
-            _context9.prev = 11;
-            _context9.next = 14;
+            _context9.prev = 12;
+            _context9.next = 15;
             return _courseModel.default.find(query).populate("owner").sort({
-              subscribers: "desc"
-            }).limit(8).lean();
+              _id: -1
+            }).limit(4).lean();
 
-          case 14:
+          case 15:
             courses = _context9.sent;
-            return _context9.abrupt("return", {
-              courses: courses
-            });
+            _context9.next = 18;
+            return _courseModel.default.find(query).sort({
+              _id: -1
+            }).lean();
 
           case 18:
-            _context9.prev = 18;
-            _context9.t0 = _context9["catch"](11);
+            lastCourses = _context9.sent;
+
+            if (lastCourses.length !== 0) {
+              lastCourse = lastCourses[lastCourses.length - 1]._id;
+            } else {
+              lastCourse = {};
+            }
+
+            obj = courses.find(function (o) {
+              return o._id.toString() === lastCourse._id.toString();
+            });
+
+            if (obj) {
+              more = false;
+            } else {
+              more = true;
+            }
+
+            return _context9.abrupt("return", {
+              courses: courses,
+              more: more
+            });
+
+          case 25:
+            _context9.prev = 25;
+            _context9.t0 = _context9["catch"](12);
             throw _context9.t0;
 
-          case 21:
+          case 28:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[11, 18]]);
+    }, _callee9, null, [[12, 25]]);
   }));
 
   return function getCourses(_x24, _x25, _x26, _x27) {

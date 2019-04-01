@@ -19,6 +19,8 @@ var _isEmpty = _interopRequireDefault(require("lodash/isEmpty"));
 
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
+var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
+
 var _userModel = _interopRequireDefault(require("../user/user-model.js"));
 
 var _zoneModel = _interopRequireDefault(require("./zone-model"));
@@ -225,21 +227,34 @@ function () {
   var _ref9 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee5(_, args, ctx, info) {
-    var input, zone, newZone, createdZone;
+    var userId, user, input, newZone, zone, createdZone;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            //TODO can't have duplicate zone names
-            input = args.input;
-            console.log("ingput: ", input);
-            _context5.next = 4;
-            return _zoneModel.default.create(input);
+            _context5.prev = 0;
 
-          case 4:
-            zone = _context5.sent;
+            if (ctx.isAuth) {
+              _context5.next = 3;
+              break;
+            }
+
+            throw new Error("You need to be registered to create a course.");
+
+          case 3:
+            userId = ctx.req.token._id;
+            _context5.next = 6;
+            return _userModel.default.findById(userId, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 6:
+            user = _context5.sent;
+            input = args.input;
             newZone = new _zoneModel.default({
               app: input.app,
+              course: input.course,
               courseLevel: input.courseLevel,
               ageGroup: input.ageGroup,
               owner: input.owner,
@@ -248,21 +263,29 @@ function () {
               teachingLang: input.teachingLang,
               usingLang: input.usingLang
             });
+            _context5.next = 11;
+            return newZone.save();
 
-            /* zone.id = zone._id */
+          case 11:
+            zone = _context5.sent;
             createdZone = (0, _objectSpread2.default)({}, zone._doc, {
               _id: zone._doc._id.toString(),
-              owner: userById.bind(_this, zone._doc.owner)
+              owner: userById.bind(_this, zone._doc.owner),
+              course: _courseModel.default.findById(input.course)
             });
-            console.log("zone: ", createdZone);
             return _context5.abrupt("return", createdZone);
 
-          case 9:
+          case 16:
+            _context5.prev = 16;
+            _context5.t0 = _context5["catch"](0);
+            throw _context5.t0;
+
+          case 19:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5);
+    }, _callee5, null, [[0, 16]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {
@@ -304,16 +327,23 @@ function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee7(_, args, ctx, info) {
-    var input, query, key, zones, convertedZones;
+    var hostMatch, zoneMatch, usingLangMatch, teachingLangMatch, appMatch, titleMatch, more, input, query, key, zones, lastZones, lastZone;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
+            console.log("args: ", args);
+            hostMatch = new RegExp(".", "i");
+            zoneMatch = new RegExp(".", "i");
+            usingLangMatch = new RegExp(".", "i");
+            teachingLangMatch = new RegExp(".", "i");
+            appMatch = new RegExp(".", "i");
+            titleMatch = new RegExp(".", "i");
+            more = false;
             input = args.input;
 
             if (input.searchInput || input.selectionBox) {
               input[input.selectionBox] = input.searchInput;
-              delete input.searchInput;
               delete input.selectionBox;
             }
 
@@ -323,14 +353,47 @@ function () {
               input[key] !== "" ? query[key] = input[key] : null;
             }
 
+            for (key in input) {
+              console.log("input: ", input);
+              console.log("key: ", key);
+
+              if (input[key] !== "") {
+                if (key === "host" && input.searchInput !== "") {
+                  hostMatch = input[key];
+                }
+
+                if (key === "zoneName" && input.searchInput !== "") {
+                  zoneMatch = new RegExp(input[key], "i");
+                }
+
+                if (key === "usingLang") {
+                  usingLangMatch = input[key];
+                }
+
+                if (key === "teachingLang") {
+                  teachingLangMatch = input[key];
+                }
+
+                if (key === "app") {
+                  appMatch = input[key];
+                }
+
+                if (key === "subscriptions") {
+                  titleMatch = input[key];
+                }
+              }
+
+              delete input.searchInput;
+            }
+
             query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
 
             if (!query.owner) {
-              _context7.next = 9;
+              _context7.next = 18;
               break;
             }
 
-            _context7.next = 8;
+            _context7.next = 17;
             return _userModel.default.findOne({
               username: query.owner
             }, function (err, docs) {
@@ -344,61 +407,104 @@ function () {
               }
             });
 
-          case 8:
+          case 17:
             query.owner = _context7.sent;
 
-          case 9:
-            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null; // type cast id because $lt is not the same in aggregate vs query
-
-            /* var cursorObj = mongoose.Types.ObjectId(query.cursor) */
+          case 18:
+            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null;
 
             if (query.cursor) {
               query._id = {
-                $gt: query.cursor || null
+                $lt: query.cursor || null
               };
               delete query.cursor;
             }
 
-            _context7.prev = 11;
-            _context7.next = 14;
-            return _zoneModel.default.find(query).lean().sort({
-              _id: -1
-            }).limit(8);
-
-          case 14:
-            zones = _context7.sent;
-            convertedZones = zones.map(function (zone) {
-              return (0, _objectSpread2.default)({}, zone, {
-                owner: userById.bind(_this, zone.owner)
-              });
-            });
-            return _context7.abrupt("return", {
-              zones: convertedZones,
-              cursor: ""
-            });
-
-          case 21:
-            cursor = zones[zones.length - 1]._id;
-            return _context7.abrupt("return", {
-              zones: zones,
-              cursor: cursor
-            });
-
-          case 23:
-            _context7.next = 28;
-            break;
+            console.log("query: ", query);
+            console.log("zone: ", zoneMatch);
+            _context7.prev = 22;
+            _context7.next = 25;
+            return _zoneModel.default.aggregate([{
+              $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "ownerCourse"
+              }
+            }, {
+              $unwind: "$ownerCourse"
+            }, {
+              $lookup: {
+                from: "courses",
+                localField: "course",
+                foreignField: "_id",
+                as: "zoneCourse"
+              }
+            }, {
+              $unwind: "$zoneCourse"
+            }, {
+              $match: {
+                $and: [{
+                  app: appMatch
+                }, {
+                  "ownerCourse.username": hostMatch
+                }, {
+                  zoneName: zoneMatch
+                }, {
+                  "zoneCourse.usingLang": usingLangMatch
+                }, {
+                  "zoneCourse.teachingLang": teachingLangMatch
+                }, {
+                  "zoneCourse.title": titleMatch
+                }]
+              }
+            }]);
 
           case 25:
-            _context7.prev = 25;
-            _context7.t0 = _context7["catch"](11);
-            throw _context7.t0;
+            zones = _context7.sent;
+            _context7.next = 28;
+            return _zoneModel.default.find(query).sort({
+              _id: -1
+            }).lean();
 
           case 28:
+            lastZones = _context7.sent;
+            console.log("zones: ", zones.map(function (item) {
+              return item._id;
+            }));
+
+            if (lastZones.length !== 0) {
+              lastZone = lastZones[lastZones.length - 1]._id;
+            } else {
+              lastZone = {};
+            }
+            /* let obj = zones.find(o => o._id.toString() === lastZone._id.toString()) */
+
+            /* if (obj) { */
+
+
+            if (true) {
+              more = false;
+            } else {
+              more = true;
+            }
+
+            return _context7.abrupt("return", {
+              zones: zones,
+              more: more
+            });
+
+          case 35:
+            _context7.prev = 35;
+            _context7.t0 = _context7["catch"](22);
+            throw _context7.t0;
+
+          case 38:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[11, 25]]);
+    }, _callee7, null, [[22, 35]]);
   }));
 
   return function getZones(_x17, _x18, _x19, _x20) {

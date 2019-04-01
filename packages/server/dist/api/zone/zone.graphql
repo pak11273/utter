@@ -12,12 +12,16 @@ type Zone {
   owner: User
   teachingLang: String
   usingLang: String
+	zoneCourse: Course
+	ownerCourse: User 
   zoneDescription: String
   zoneImage: String
   zoneName: String!
 }
 
 input GetZonesInput {
+  app: String
+	subscriptions: String 
   cursor: String
 	searchInput: String
 	selectionBox: String
@@ -51,6 +55,9 @@ input ZoneCreateInput {
 type PaginatedZones {
   zones: [Zone]
   cursor: String
+	course: Course
+	zoneCourse: Course
+	more: Boolean
 }
 
 extend type Query {
