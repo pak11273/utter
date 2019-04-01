@@ -120,7 +120,6 @@ class CourseIntroduction extends PureComponent {
     const {course, user} = session
     const tempUser = user
     tempUser.subscriptions.push({_id: course._id, title: course.title})
-
     session.user = tempUser
   }
 
@@ -173,9 +172,7 @@ class CourseIntroduction extends PureComponent {
     const updatedSubscriptions = user.subscriptions.filter(obj => {
       return obj._id !== session.course._id
     })
-
     user.subscriptions = updatedSubscriptions
-
     session.user = user
   }
 

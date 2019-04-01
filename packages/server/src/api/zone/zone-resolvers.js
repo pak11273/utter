@@ -70,6 +70,7 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
@@ -87,7 +88,7 @@ const zoneCreate = async (_, args, ctx, info) => {
     const newZone = new Zone({
       app: input.app,
       course: input.course,
-      courseLevel: input.courseLevel,
+      courseLevel: +input.courseLevel,
       ageGroup: input.ageGroup,
       owner: input.owner,
       zoneName: input.zoneName,
@@ -122,6 +123,7 @@ const getZoneLevels = async (_, args, ctx, info) => {
 const getZones = async (_, args, ctx, info) => {
   console.log("args: ", args)
   var hostMatch = new RegExp(".", "i")
+  /* var levelMatch = new RegExp(".", "i") */
   var zoneMatch = new RegExp(".", "i")
   var usingLangMatch = new RegExp(".", "i")
   var teachingLangMatch = new RegExp(".", "i")
@@ -146,6 +148,9 @@ const getZones = async (_, args, ctx, info) => {
       if (key === "host" && input.searchInput !== "") {
         hostMatch = input[key]
       }
+      /* if (key === "level" && input.searchInput !== "") { */
+      /*   levelMatch = +input[key] */
+      /* } */
       if (key === "zoneName" && input.searchInput !== "") {
         zoneMatch = new RegExp(input[key], "i")
       }
@@ -191,7 +196,6 @@ const getZones = async (_, args, ctx, info) => {
   }
 
   console.log("query: ", query)
-  console.log("zone: ", zoneMatch)
 
   try {
     /* const zones = await Zone.find(query) */
@@ -224,8 +228,9 @@ const getZones = async (_, args, ctx, info) => {
         $match: {
           $and: [
             {app: appMatch},
-            {"ownerCourse.username": hostMatch},
+            /* {courseLevel: levelMatch}, */
             {zoneName: zoneMatch},
+            {"ownerCourse.username": hostMatch},
             {"zoneCourse.usingLang": usingLangMatch},
             {"zoneCourse.teachingLang": teachingLangMatch},
             {"zoneCourse.title": titleMatch}

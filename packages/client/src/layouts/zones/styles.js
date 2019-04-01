@@ -9,7 +9,7 @@ export const styles = theme => ({
     zIndex: theme.zIndex.drawer + 1
   },
   card2: {
-    height: "360px",
+    height: "370px",
     maxWidth: "300px",
     display: "flex",
     flexDirection: "column"

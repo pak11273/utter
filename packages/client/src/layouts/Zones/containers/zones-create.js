@@ -52,12 +52,15 @@ const StyledSpan = styled(Span)`
     display: ${props => props.display640};
   }
 `
-const subscribedOptions = session.user.subscriptions.map(item => {
-  return {
-    value: item._id,
-    label: item.title
-  }
-})
+const subscribedOptions =
+  session.user && session.user.subscriptions
+    ? session.user.subscriptions.map(item => {
+        return {
+          value: item._id,
+          label: item.title
+        }
+      })
+    : [{}]
 
 const initialState = {
   ageGroup: "Any age",
@@ -117,6 +120,7 @@ class ZoneCreate extends Component {
   }
 
   componentDidMount() {
+    console.log("hello")
     this.setState({...initialState, owner: session.user._id})
   }
 
@@ -262,6 +266,12 @@ class ZoneCreate extends Component {
                 <Field
                   name="courseLevel"
                   type="text"
+                  component={FormikInput}
+                  style={{width: "80px"}}
+                />
+                {/* <Field
+                  name="courseLevel"
+                  type="text"
                   component={FormikSelect}
                   {...this.props}
                   options={[
@@ -270,21 +280,9 @@ class ZoneCreate extends Component {
                       label: "1",
                       className: "courseHeader",
                       disabled: false
-                    },
-                    {
-                      value: 2,
-                      label: "2",
-                      className: "courseHeader",
-                      disabled: false
-                    },
-                    {
-                      value: 3,
-                      label: "3",
-                      className: "courseHeader",
-                      disabled: false
                     }
                   ]}
-                />
+                /> */}
               </Grid>
               <Grid item xs={12}>
                 <Typography

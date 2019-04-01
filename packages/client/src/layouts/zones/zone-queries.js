@@ -57,7 +57,7 @@ export const ZONE_CREATE_MUTATION = gql`
     $ageGroup: String!
     $app: String
     $course: String
-    $courseLevel: Int
+    $courseLevel: String
     $owner: String!
     $zoneName: String!
     $zoneDescription: String

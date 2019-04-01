@@ -40,7 +40,7 @@ input ZoneUpdated {
 input ZoneCreateInput {
 	app: String
 	course: String
-	courseLevel: Int
+	courseLevel: String 
 	ageGroup: String
 	members: Int
 	owner: String!

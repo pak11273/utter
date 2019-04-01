@@ -135,6 +135,9 @@ const ZonesGrid = props => {
                     Course: {(card.zoneCourse && card.zoneCourse.title) || ""}
                   </div>
                   <div style={{padding: "0 0 0 20px"}}>
+                    Level: {(card && card.courseLevel) || ""}
+                  </div>
+                  <div style={{padding: "0 0 0 20px"}}>
                     Using:{" "}
                     {(card.zoneCourse && card.zoneCourse.usingLang) || ""}
                   </div>

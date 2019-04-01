@@ -4,7 +4,6 @@ import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet"
 import {Field, withFormik} from "formik"
 import {session} from "brownies"
-/* import {session, subscribe} from "brownies" */
 
 import Drawer from "@material-ui/core/Drawer"
 import FormControl from "@material-ui/core/FormControl"
@@ -149,6 +148,7 @@ const ZonesContainer = props => {
                     </MenuItem>
                     <MenuItem value="host">Host</MenuItem>
                     <MenuItem value="zoneName">Zone Name</MenuItem>
+                    {/* <MenuItem value="level">Course Level</MenuItem> */}
                   </Select>
                 </FormControl>
                 <LoadingButton
@@ -185,7 +185,6 @@ export default withRouter(
       usingLang: ""
     }),
     handleSubmit: async (values, {setStatus}) => {
-      console.log("values; ", values)
       setStatus({loading: true})
       const search = {
         app: values.app,
