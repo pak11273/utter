@@ -44,7 +44,7 @@ const ZonesContainer = props => {
     session.user && session.user.subscriptions
       ? session.user.subscriptions.map(item => {
           return {
-            value: item._id,
+            value: item.title,
             label: item.title
           }
         })
@@ -148,7 +148,7 @@ const ZonesContainer = props => {
                       <em>None</em>
                     </MenuItem>
                     <MenuItem value="host">Host</MenuItem>
-                    <MenuItem value="title">Zone Name</MenuItem>
+                    <MenuItem value="zoneName">Zone Name</MenuItem>
                   </Select>
                 </FormControl>
                 <LoadingButton
@@ -178,6 +178,7 @@ export default withRouter(
     validateOnBlur: false,
     mapPropsToValues: () => ({
       app: "",
+      subscriptions: "",
       searchInput: "",
       selectionBox: "",
       teachingLang: "",
@@ -188,6 +189,7 @@ export default withRouter(
       setStatus({loading: true})
       const search = {
         app: values.app,
+        subscriptions: values.subscriptions,
         searchInput: values.searchInput,
         selectionBox: values.selectionBox,
         teachingLang: values.teachingLang,

@@ -3,6 +3,7 @@ import gql from "graphql-tag"
 export const GET_ZONES = gql`
   query getZones(
     $app: String
+    $subscriptions: String
     $cursor: String
     $searchInput: String
     $selectionBox: String
@@ -12,6 +13,7 @@ export const GET_ZONES = gql`
     getZones(
       input: {
         app: $app
+        subscriptions: $subscriptions
         cursor: $cursor
         searchInput: $searchInput
         selectionBox: $selectionBox

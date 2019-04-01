@@ -21,6 +21,7 @@ type Zone {
 
 input GetZonesInput {
   app: String
+	subscriptions: String 
   cursor: String
 	searchInput: String
 	selectionBox: String

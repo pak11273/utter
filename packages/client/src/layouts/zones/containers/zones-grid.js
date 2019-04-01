@@ -42,6 +42,10 @@ const ZonesGrid = props => {
           ? props.search.selectionBox
           : "",
       app: props.search && props.search.app ? props.search.app : "",
+      subscriptions:
+        props.search && props.search.subscriptions
+          ? props.search.subscriptions
+          : "",
       usingLang:
         props.search && props.search.usingLang ? props.search.usingLang : "",
       teachingLang:

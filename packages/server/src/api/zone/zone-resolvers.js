@@ -121,14 +121,17 @@ const getZoneLevels = async (_, args, ctx, info) => {
 
 const getZones = async (_, args, ctx, info) => {
   console.log("args: ", args)
+  var hostMatch = new RegExp(".", "i")
+  var zoneMatch = new RegExp(".", "i")
   var usingLangMatch = new RegExp(".", "i")
   var teachingLangMatch = new RegExp(".", "i")
   var appMatch = new RegExp(".", "i")
+  var titleMatch = new RegExp(".", "i")
   var more = false
   var input = args.input
+
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
-    delete input.searchInput
     delete input.selectionBox
   }
   var query = {}
@@ -137,8 +140,15 @@ const getZones = async (_, args, ctx, info) => {
   }
 
   for (var key in input) {
+    console.log("input: ", input)
+    console.log("key: ", key)
     if (input[key] !== "") {
-      console.log("key: ", key)
+      if (key === "host" && input.searchInput !== "") {
+        hostMatch = input[key]
+      }
+      if (key === "zoneName" && input.searchInput !== "") {
+        zoneMatch = new RegExp(input[key], "i")
+      }
       if (key === "usingLang") {
         usingLangMatch = input[key]
       }
@@ -148,7 +158,11 @@ const getZones = async (_, args, ctx, info) => {
       if (key === "app") {
         appMatch = input[key]
       }
+      if (key === "subscriptions") {
+        titleMatch = input[key]
+      }
     }
+    delete input.searchInput
   }
 
   query.title
@@ -177,6 +191,7 @@ const getZones = async (_, args, ctx, info) => {
   }
 
   console.log("query: ", query)
+  console.log("zone: ", zoneMatch)
 
   try {
     /* const zones = await Zone.find(query) */
@@ -187,11 +202,6 @@ const getZones = async (_, args, ctx, info) => {
     /*   .lean() */
 
     const zones = await Zone.aggregate([
-      /* { */
-      /*   $match: { */
-      /*     is_enabled: {$eq: true} */
-      /*   } */
-      /* }, */
       {
         $lookup: {
           from: "users",
@@ -213,13 +223,12 @@ const getZones = async (_, args, ctx, info) => {
       {
         $match: {
           $and: [
+            {app: appMatch},
+            {"ownerCourse.username": hostMatch},
+            {zoneName: zoneMatch},
             {"zoneCourse.usingLang": usingLangMatch},
             {"zoneCourse.teachingLang": teachingLangMatch},
-            {app: appMatch}
-            /* {"publisher.name": new RegExp(params.expression, "i")}, */
-            /* {description: new RegExp(params.expression, "i")}, */
-            /* {name: new RegExp(params.expression, "i")}, */
-            /* {published_year: params.terms} */
+            {"zoneCourse.title": titleMatch}
           ]
         }
       }
