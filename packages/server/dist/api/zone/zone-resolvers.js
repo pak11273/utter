@@ -232,30 +232,31 @@ function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
+            console.log("args: ", args);
+            _context5.prev = 1;
 
             if (ctx.isAuth) {
-              _context5.next = 3;
+              _context5.next = 4;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 3:
+          case 4:
             userId = ctx.req.token._id;
-            _context5.next = 6;
+            _context5.next = 7;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context5.sent;
             input = args.input;
             newZone = new _zoneModel.default({
               app: input.app,
               course: input.course,
-              courseLevel: input.courseLevel,
+              courseLevel: +input.courseLevel,
               ageGroup: input.ageGroup,
               owner: input.owner,
               zoneName: input.zoneName,
@@ -263,10 +264,10 @@ function () {
               teachingLang: input.teachingLang,
               usingLang: input.usingLang
             });
-            _context5.next = 11;
+            _context5.next = 12;
             return newZone.save();
 
-          case 11:
+          case 12:
             zone = _context5.sent;
             createdZone = (0, _objectSpread2.default)({}, zone._doc, {
               _id: zone._doc._id.toString(),
@@ -275,17 +276,17 @@ function () {
             });
             return _context5.abrupt("return", createdZone);
 
-          case 16:
-            _context5.prev = 16;
-            _context5.t0 = _context5["catch"](0);
+          case 17:
+            _context5.prev = 17;
+            _context5.t0 = _context5["catch"](1);
             throw _context5.t0;
 
-          case 19:
+          case 20:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 16]]);
+    }, _callee5, null, [[1, 17]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {
@@ -334,6 +335,8 @@ function () {
           case 0:
             console.log("args: ", args);
             hostMatch = new RegExp(".", "i");
+            /* var levelMatch = new RegExp(".", "i") */
+
             zoneMatch = new RegExp(".", "i");
             usingLangMatch = new RegExp(".", "i");
             teachingLangMatch = new RegExp(".", "i");
@@ -361,6 +364,12 @@ function () {
                 if (key === "host" && input.searchInput !== "") {
                   hostMatch = input[key];
                 }
+                /* if (key === "level" && input.searchInput !== "") { */
+
+                /*   levelMatch = +input[key] */
+
+                /* } */
+
 
                 if (key === "zoneName" && input.searchInput !== "") {
                   zoneMatch = new RegExp(input[key], "i");
@@ -421,9 +430,8 @@ function () {
             }
 
             console.log("query: ", query);
-            console.log("zone: ", zoneMatch);
-            _context7.prev = 22;
-            _context7.next = 25;
+            _context7.prev = 21;
+            _context7.next = 24;
             return _zoneModel.default.aggregate([{
               $lookup: {
                 from: "users",
@@ -446,10 +454,12 @@ function () {
               $match: {
                 $and: [{
                   app: appMatch
+                },
+                /* {courseLevel: levelMatch}, */
+                {
+                  zoneName: zoneMatch
                 }, {
                   "ownerCourse.username": hostMatch
-                }, {
-                  zoneName: zoneMatch
                 }, {
                   "zoneCourse.usingLang": usingLangMatch
                 }, {
@@ -460,14 +470,14 @@ function () {
               }
             }]);
 
-          case 25:
+          case 24:
             zones = _context7.sent;
-            _context7.next = 28;
+            _context7.next = 27;
             return _zoneModel.default.find(query).sort({
               _id: -1
             }).lean();
 
-          case 28:
+          case 27:
             lastZones = _context7.sent;
             console.log("zones: ", zones.map(function (item) {
               return item._id;
@@ -494,17 +504,17 @@ function () {
               more: more
             });
 
-          case 35:
-            _context7.prev = 35;
-            _context7.t0 = _context7["catch"](22);
+          case 34:
+            _context7.prev = 34;
+            _context7.t0 = _context7["catch"](21);
             throw _context7.t0;
 
-          case 38:
+          case 37:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[22, 35]]);
+    }, _callee7, null, [[21, 34]]);
   }));
 
   return function getZones(_x17, _x18, _x19, _x20) {
