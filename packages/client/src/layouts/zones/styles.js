@@ -72,8 +72,20 @@ export const styles = theme => ({
     margin: theme.spacing.unit,
     minWidth: 120
   },
+  heading: {
+    color: "white"
+  },
   heroUnit: {
     backgroundColor: theme.palette.background.paper
+  },
+  heroUnitZoneCreate: {
+    backgroundColor: "#502bae"
+  },
+  heroContentZoneCreate: {
+    maxWidth: 960,
+    margin: "0 auto",
+    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 6}px ${theme
+      .spacing.unit * 6}px`
   },
   heroContent: {
     margin: "0 auto",
@@ -97,6 +109,13 @@ export const styles = theme => ({
     flexGrow: 1,
     width: "100%"
   },
+  rootZoneCreate: {
+    maxWidth: 960,
+    margin: "0 auto"
+  },
+  saveButton: {
+    margin: "50px"
+  },
   select: {
     width: "80% !important",
     margin: "10px auto !important"
@@ -114,5 +133,10 @@ export const styles = theme => ({
     webkitTransform: "translateX(-50%)",
     transform: "translateX(-50%)",
     whiteSpace: "nowrap"
+  },
+  subHeading: {
+    color: "black",
+    marginTop: "40px",
+    position: "relative"
   }
 })
