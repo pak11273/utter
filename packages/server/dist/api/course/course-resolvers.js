@@ -223,54 +223,44 @@ function () {
   var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee4(_, _ref5, ctx) {
-    var id, token, user, course;
+    var resourceId, token, user, course;
     return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
-            id = _ref5.id;
-
-            if (!(token === "null")) {
-              _context4.next = 3;
-              break;
-            }
-
-            return _context4.abrupt("return", new Error("You need to be registered to delete this resource."));
-
-          case 3:
+            resourceId = _ref5.resourceId;
+            console.log("resourceID: ", resourceId);
             token = ctx.req.headers.authorization;
-            _context4.next = 6;
+            _context4.next = 5;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 5:
             user = _context4.sent;
-            _context4.next = 9;
-            return _courseModel.default.findOneAndDelete({
-              owner: user._id
-            });
+            _context4.next = 8;
+            return _courseModel.default.findByIdAndDelete(resourceId.toString());
 
-          case 9:
+          case 8:
             course = _context4.sent;
 
             if (course) {
-              _context4.next = 12;
+              _context4.next = 11;
               break;
             }
 
             throw new Error("No course found by this owner.");
 
-          case 12:
+          case 11:
             if (!course) {
-              _context4.next = 14;
+              _context4.next = 13;
               break;
             }
 
             return _context4.abrupt("return", true);
 
-          case 14:
+          case 13:
           case "end":
             return _context4.stop();
         }
