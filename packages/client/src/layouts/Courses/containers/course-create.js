@@ -500,7 +500,7 @@ export default compose(
       const onComplete = course => {
         session.course = course.data.courseCreate
         props.history.push({
-          pathname: "/course/course-settings",
+          pathname: "/course/course-introduction",
           state: {courseId: course.data.courseCreate._id}
         })
       }

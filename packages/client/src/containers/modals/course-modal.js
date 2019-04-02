@@ -7,7 +7,7 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import {compose, graphql} from "react-apollo"
+import {compose, graphql, withApollo} from "react-apollo"
 import {session} from "brownies"
 import gql from "graphql-tag"
 import {toast} from "react-toastify"
@@ -49,37 +49,51 @@ export class ModalContainer extends Component {
 
 export default compose(
   withRouter,
+  withApollo,
   graphql(COURSE_DELETE),
   withFormik({
     mapPropsToValues: () => ({
       resourceId: ""
     }),
-    handleSubmit: async (values, {props}, setErrors) => {
+    handleSubmit: async (values, {props, setErrors}) => {
       const {course} = session
-      const result = await props.mutate({
+      const result = props.mutate({
         variables: {
           resourceId: course._id
         }
       })
-
       const onComplete = () => {
         delete session.course
         props.history.push("/courses/created")
       }
 
-      // if delete was successfull
-      if (result.data.courseDelete) {
-        onComplete()
+      result
+        .then(res => {
+          // if delete was successfull
+          if (res.data.courseDelete) {
+            onComplete()
 
-        const text = "Your Course was deleted."
-        toast.success(text, {
-          className: "toasty",
-          bodyClassName: "toasty-body",
-          hideProgressBar: true
+            const text = "Your Course was deleted."
+            toast.success(text, {
+              className: "toasty",
+              bodyClassName: "toasty-body",
+              hideProgressBar: true
+            })
+          } else {
+            setErrors(result.errors)
+          }
         })
-      } else {
-        setErrors(result.data.errors)
-      }
+        .catch(err => {
+          const cleanErr = err.message
+            .split(" ")
+            .slice(2)
+            .join(" ")
+          toast.error(cleanErr, {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        })
     }
   })
 )(ModalContainer)

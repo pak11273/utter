@@ -96,17 +96,15 @@ const getCourse = async (_, args, {user}) => {
   return course
 }
 
-const courseDelete = async (_, {id}, ctx) => {
-  if (token === "null") {
-    return new Error("You need to be registered to delete this resource.")
-  }
+const courseDelete = async (_, {resourceId}, ctx) => {
+  console.log("resourceID: ", resourceId)
   const token = ctx.req.headers.authorization
   const user = await userByToken(token, (err, res) => {
     if (err) return err
     return res
   })
 
-  const course = await Course.findOneAndDelete({owner: user._id})
+  const course = await Course.findByIdAndDelete(resourceId.toString())
   if (!course) {
     throw new Error("No course found by this owner.")
   }
