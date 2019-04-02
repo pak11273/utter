@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
-/* import Helmet from "react-helmet" */
+import {Helmet} from "react-helmet-async"
 import {courseSchema} from "@utterzone/common"
+import {toast} from "react-toastify"
 
 /* /1* import Button from "@material-ui/core/Button" *1/ */
 import CircularProgress from "@material-ui/core/CircularProgress"
@@ -43,7 +44,7 @@ const GET_COURSE = gql`
 const COURSE_UPDATE = gql`
   mutation courseUpdate($_id: ID, $title: String, $courseDescription: String) {
     courseUpdate(
-      state: {_id: $_id, title: $title, courseDescription: $courseDescription}
+      input: {_id: $_id, title: $title, courseDescription: $courseDescription}
     ) {
       courseDescription
       courseImage
@@ -70,14 +71,13 @@ const CourseIntroduction = props => {
   const {user, course} = session
   const {classes} = props
   const [subscribed, setSubscribed] = useState(false)
-  const [disabled, setDisabled] = useState(true)
-  /* const [courseDescription, setCourseDescription] = useState("") */
+  /* const [disabled, setDisabled] = useState(true) */
   const [state, handleChange] = useState({
     formErrors: {
       errors: []
     },
-    courseId: "",
-    courseDescription: "",
+    courseId: course._id,
+    courseDescription: course.courseDescription,
     name: "",
     email: "",
     loading: false,
@@ -85,13 +85,6 @@ const CourseIntroduction = props => {
     submittedEmail: "",
     title: course.title
   })
-
-  const updateState = e => {
-    handleChange({
-      ...state,
-      [e.target.name]: e.target.value
-    })
-  }
 
   useEffect(
     () => {
@@ -105,14 +98,17 @@ const CourseIntroduction = props => {
     [subscribed]
   )
 
-  useEffect(
-    () => {
-      if (user && user.username === course.owner.username) {
-        setDisabled(false)
-      }
-    },
-    [user, course.owner.username]
-  )
+  /* useEffect( */
+  /*   () => { */
+  /*     if (user && user.username === course.owner.username) { */
+  /*       handleChange({ */
+  /*         ...state, */
+  /*         loading: true */
+  /*       }) */
+  /*     } */
+  /*   }, */
+  /*   [user, course.owner.username, state] */
+  /* ) */
 
   /* const sessionSubscribe = () => { */
   /*   const {course, user} = session */
@@ -123,11 +119,12 @@ const CourseIntroduction = props => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    // TODO: set loading
+
     handleChange({
       ...state,
       loading: true
     })
+
     // reset errors
     /* const resetErrors = handleChange({ */
     /*   ...state, */
@@ -136,35 +133,44 @@ const CourseIntroduction = props => {
     /*   } */
     /* }) */
 
-    try {
-      await courseSchema.validate(state).catch(err => {
-        if (err) {
-          handleChange({
-            ...state,
-            formErrors: err
-          })
-          // mutate if no errors
-          if (isEmpty(state.formErrors.errors)) {
-            const updatedCourse = props.client.mutate({
-              mutation: COURSE_UPDATE,
-              variables: {
-                _id: state.courseId,
-                title: state.title,
-                courseDescription: state.courseDescription
-              }
-            })
-            if (updatedCourse) {
-              session.course = updatedCourse.data.courseUpdate
-            }
-
-            handleChange({
-              loading: false
-            })
-          }
+    const yupCheck = await courseSchema.validate(state).catch(err => {
+      if (err) {
+        console.log("err: ", err)
+        handleChange({
+          ...state,
+          formErrors: err
+        })
+        return err
+      }
+    })
+    /* if (isEmpty(state.formErrors.errors)) { */
+    if (isEmpty(yupCheck.errors)) {
+      const updatedCourse = await props.client.mutate({
+        mutation: COURSE_UPDATE,
+        variables: {
+          _id: state.courseId,
+          title: state.title,
+          courseDescription: state.courseDescription
         }
       })
-    } catch (err) {
-      throw err
+      if (updatedCourse) {
+        console.log("updated: ", updatedCourse)
+        session.course = updatedCourse.data.courseUpdate
+        // TODO:  toastify & make loading button work on save
+        toast.success("Your changes were saved.", {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      }
+
+      handleChange({
+        ...state,
+        formErrors: {
+          errors: []
+        },
+        loading: false
+      })
     }
   }
 
@@ -229,7 +235,7 @@ const CourseIntroduction = props => {
         }
         return (
           <form onSubmit={handleSubmit}>
-            {/* <Helmet>
+            <Helmet>
               <meta charset="utf-8" />
               <meta
                 name="viewport"
@@ -243,7 +249,6 @@ const CourseIntroduction = props => {
                 href="https://utter.zone/course/course-introduction"
               />
             </Helmet>
-						*/}
             <div className={classes.heroUnit}>
               <div className={classes.heroContent}>
                 <Grid container justify="center" direction="column">
@@ -337,7 +342,7 @@ const CourseIntroduction = props => {
                   <TextField
                     className={`${classes[titleError]} ${classes.inputHeader}`}
                     fullWidth
-                    disabled={disabled}
+                    disabled={state.loading}
                     label="Course Title"
                     margin="normal"
                     name="title"
@@ -359,12 +364,17 @@ const CourseIntroduction = props => {
                     className={`${classes[courseDescriptionError]} ${
                       classes.inputHeader
                     }`}
-                    disabled={disabled}
+                    disabled={state.loading}
                     fullWidth
                     name="courseDescription"
                     label="Course Description"
                     type="text"
-                    onChange={e => updateState(e)}
+                    onChange={e =>
+                      handleChange({
+                        ...state,
+                        courseDescription: e.target.value
+                      })
+                    }
                     margin="normal"
                     multiline
                     variant="outlined"
@@ -412,8 +422,8 @@ const CourseIntroduction = props => {
                       <Grid item xs={12} align="center">
                         <LoadingButton
                           variant="contained"
-                          loading={loading}
-                          disabled={loading}
+                          loading={state.loading}
+                          disabled={state.loading}
                           type="submit"
                           color="secondary">
                           Save Changes

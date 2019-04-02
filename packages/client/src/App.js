@@ -6,6 +6,7 @@ import {render} from "react-dom"
 /* import ReactGA from "react-ga" */
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
+import {HelmetProvider} from "react-helmet-async"
 import {local, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
@@ -98,35 +99,37 @@ class App extends Component {
 
   render() {
     return (
-      <ApolloProvider client={client}>
-        <ApolloHooksProvider client={client}>
-          <GlobalStyle />
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <ToastContainer position="top-left" className="toast-container" />
-            <Router>
-              <Grid>
-                <MainNavbar
-                  list={["about", "contact", "courses", "pricing", "zones"]}
-                  changeMenuOn="640px"
-                  largeMenuClassName="large-menu"
-                  smallMenuClassName="small-menu"
-                />
-                <Section>
-                  <NavbarSpacer id="spacer" />
-                </Section>
-                <Section>
-                  <Switch>
-                    {routes.map((route, i) => (
-                      <SubRoutes key={i} {...route} />
-                    ))}
-                  </Switch>
-                </Section>
-              </Grid>
-            </Router>
-          </MuiThemeProvider>
-        </ApolloHooksProvider>
-      </ApolloProvider>
+      <HelmetProvider>
+        <ApolloProvider client={client}>
+          <ApolloHooksProvider client={client}>
+            <GlobalStyle />
+            <MuiThemeProvider theme={theme}>
+              <CssBaseline />
+              <ToastContainer position="top-left" className="toast-container" />
+              <Router>
+                <Grid>
+                  <MainNavbar
+                    list={["about", "contact", "courses", "pricing", "zones"]}
+                    changeMenuOn="640px"
+                    largeMenuClassName="large-menu"
+                    smallMenuClassName="small-menu"
+                  />
+                  <Section>
+                    <NavbarSpacer id="spacer" />
+                  </Section>
+                  <Section>
+                    <Switch>
+                      {routes.map((route, i) => (
+                        <SubRoutes key={i} {...route} />
+                      ))}
+                    </Switch>
+                  </Section>
+                </Grid>
+              </Router>
+            </MuiThemeProvider>
+          </ApolloHooksProvider>
+        </ApolloProvider>
+      </HelmetProvider>
     )
   }
 }

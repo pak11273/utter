@@ -1,7 +1,7 @@
 /* import React, {useState} from "react" */
 import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
 import {session} from "brownies"
 

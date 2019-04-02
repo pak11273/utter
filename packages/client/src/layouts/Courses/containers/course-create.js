@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {withRouter} from "react-router-dom"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {compose, graphql} from "react-apollo"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"

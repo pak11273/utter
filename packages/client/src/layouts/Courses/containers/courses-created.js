@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {session} from "brownies"
 
 import classNames from "classnames"

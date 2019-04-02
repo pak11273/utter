@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react"
 import {NavLink} from "react-router-dom"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"

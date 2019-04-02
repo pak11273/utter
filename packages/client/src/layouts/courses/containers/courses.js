@@ -1,7 +1,7 @@
 /* eslint react/no-did-update-set-state: 0 */
 import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
 
 import {withStyles} from "@material-ui/core/styles"

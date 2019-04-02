@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 import {compose, withApollo} from "react-apollo"
@@ -11,8 +11,6 @@ import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
 import {local, session} from "brownies"
-/* import {toast} from "react-toastify" */
-/* import "react-toastify/dist/ReactToastify.min.css" */
 
 import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */

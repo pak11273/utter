@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
 import cloneDeep from "lodash/cloneDeep"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import socket from "../../../services/socketio"
 /* import {history} from "@utterzone/connector" */
 

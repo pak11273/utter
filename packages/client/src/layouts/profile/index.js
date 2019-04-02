@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 

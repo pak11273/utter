@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 import {compose, withApollo} from "react-apollo"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"

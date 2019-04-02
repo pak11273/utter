@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react"
-import {Helmet} from "react-helmet"
+import {Helmet} from "react-helmet-async"
 
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
