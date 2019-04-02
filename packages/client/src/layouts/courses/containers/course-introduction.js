@@ -1,5 +1,5 @@
-import React, {useState} from "react"
-import Helmet from "react-helmet"
+import React, {useEffect, useState} from "react"
+/* import Helmet from "react-helmet" */
 import {courseSchema} from "@utterzone/common"
 
 /* /1* import Button from "@material-ui/core/Button" *1/ */
@@ -43,7 +43,7 @@ const GET_COURSE = gql`
 const COURSE_UPDATE = gql`
   mutation courseUpdate($_id: ID, $title: String, $courseDescription: String) {
     courseUpdate(
-      input: {_id: $_id, title: $title, courseDescription: $courseDescription}
+      state: {_id: $_id, title: $title, courseDescription: $courseDescription}
     ) {
       courseDescription
       courseImage
@@ -67,48 +67,52 @@ const COURSE_UPDATE = gql`
 `
 
 const CourseIntroduction = props => {
-  /* const [subscribed, setSubscribed] = useState(false) */
+  const {user, course} = session
+  const {classes} = props
+  const [subscribed, setSubscribed] = useState(false)
   const [disabled, setDisabled] = useState(true)
-  console.log("setDisabled: ", setDisabled)
-  const [input, handleChange] = useState({
+  /* const [courseDescription, setCourseDescription] = useState("") */
+  const [state, handleChange] = useState({
     formErrors: {
       errors: []
     },
     courseId: "",
+    courseDescription: "",
     name: "",
     email: "",
     loading: false,
     submittedName: "",
     submittedEmail: "",
-    title: "",
-    courseDescription: ""
+    title: course.title
   })
 
-  /* const {user, course} = session */
-  const {user} = session
-  const {course} = session
-  const {classes} = props
-
-  /* var state = {} */
-
-  /* componentDidMount() { */
-  /*   const initialState = update(state, { */
-  /*     courseId: {$set: course._id}, */
-  /*     title: {$set: course.title}, */
-  /*     courseDescription: {$set: course.courseDescription} */
-  /*   }) */
-  /*   state = {...state, ...initialState} */
-
-  const found =
-    session.user &&
-    session.user.subscriptions.find(o => o._id === session.course._id)
-  if (found) {
-    /* setSubscribed(true) */
+  const updateState = e => {
+    handleChange({
+      ...state,
+      [e.target.name]: e.target.value
+    })
   }
 
-  /* if (user && user.username === course.owner.username) { */
-  /*   setDisabled(false) */
-  /* } */
+  useEffect(
+    () => {
+      const found =
+        session.user &&
+        session.user.subscriptions.find(o => o._id === session.course._id)
+      if (found) {
+        setSubscribed(true)
+      }
+    },
+    [subscribed]
+  )
+
+  useEffect(
+    () => {
+      if (user && user.username === course.owner.username) {
+        setDisabled(false)
+      }
+    },
+    [user, course.owner.username]
+  )
 
   /* const sessionSubscribe = () => { */
   /*   const {course, user} = session */
@@ -121,32 +125,32 @@ const CourseIntroduction = props => {
     e.preventDefault()
     // TODO: set loading
     handleChange({
-      ...input,
+      ...state,
       loading: true
     })
     // reset errors
     /* const resetErrors = handleChange({ */
-    /*   ...input, */
+    /*   ...state, */
     /*   formErrors: { */
     /*     errors: [] */
     /*   } */
     /* }) */
 
     try {
-      await courseSchema.validate(input).catch(err => {
+      await courseSchema.validate(state).catch(err => {
         if (err) {
           handleChange({
-            ...input,
+            ...state,
             formErrors: err
           })
           // mutate if no errors
-          if (isEmpty(input.formErrors.errors)) {
+          if (isEmpty(state.formErrors.errors)) {
             const updatedCourse = props.client.mutate({
               mutation: COURSE_UPDATE,
               variables: {
-                _id: input.courseId,
-                title: input.title,
-                courseDescription: input.courseDescription
+                _id: state.courseId,
+                title: state.title,
+                courseDescription: state.courseDescription
               }
             })
             if (updatedCourse) {
@@ -175,13 +179,13 @@ const CourseIntroduction = props => {
 
   const courseDescriptionError = classNames({
     errorClass:
-      input.formErrors.path === "courseDescription" &&
-      !isEmpty(input.formErrors.errors)
+      state.formErrors.path === "courseDescription" &&
+      !isEmpty(state.formErrors.errors)
   })
 
   const titleError = classNames({
     errorClass:
-      input.formErrors.path === "title" && !isEmpty(input.formErrors.errors)
+      state.formErrors.path === "title" && !isEmpty(state.formErrors.errors)
   })
 
   return (
@@ -225,7 +229,7 @@ const CourseIntroduction = props => {
         }
         return (
           <form onSubmit={handleSubmit}>
-            <Helmet>
+            {/* <Helmet>
               <meta charset="utf-8" />
               <meta
                 name="viewport"
@@ -239,6 +243,7 @@ const CourseIntroduction = props => {
                 href="https://utter.zone/course/course-introduction"
               />
             </Helmet>
+						*/}
             <div className={classes.heroUnit}>
               <div className={classes.heroContent}>
                 <Grid container justify="center" direction="column">
@@ -258,7 +263,9 @@ const CourseIntroduction = props => {
                     flexDirection: "column",
                     alignItems: "center"
                   }}>
-                  <Can
+                  {/*  
+									TODO: Change thumbnail feature
+									<Can
                     roles={user.roles}
                     perform="course:update-introduction"
                     id={user.username}
@@ -275,7 +282,7 @@ const CourseIntroduction = props => {
                         Course Thumbnail
                       </Typography>
                     )}
-                  />
+                  /> */}
 
                   <div style={{display: "flex", justifyContent: "center"}}>
                     <Img margin="40px" src={course.courseImage} />
@@ -335,16 +342,16 @@ const CourseIntroduction = props => {
                     margin="normal"
                     name="title"
                     onChange={e =>
-                      handleChange({...input, title: e.target.value})
+                      handleChange({...state, title: e.target.value})
                     }
                     placeholder="And it's title here."
                     type="text"
                     variant="outlined"
-                    value={course.title}
+                    value={state.title}
                   />
-                  {input.formErrors.path === "title" && (
+                  {state.formErrors.path === "title" && (
                     <div style={{color: "#f44336"}}>
-                      {input.formErrors.errors[0]}
+                      {state.formErrors.errors[0]}
                     </div>
                   )}
 
@@ -357,21 +364,16 @@ const CourseIntroduction = props => {
                     name="courseDescription"
                     label="Course Description"
                     type="text"
-                    onChange={e =>
-                      handleChange({
-                        ...input,
-                        courseDescription: e.target.value
-                      })
-                    }
+                    onChange={e => updateState(e)}
                     margin="normal"
                     multiline
                     variant="outlined"
-                    rowsMax="4"
-                    value={course.courseDescription}
+                    rowsMax="12"
+                    value={state.courseDescription}
                   />
-                  {input.formErrors.path === "courseDescription" && (
+                  {state.formErrors.path === "courseDescription" && (
                     <div style={{color: "#f44336"}}>
-                      {input.formErrors.errors[0]}
+                      {state.formErrors.errors[0]}
                     </div>
                   )}
                 </Grid>
