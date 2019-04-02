@@ -142,8 +142,6 @@ const getZones = async (_, args, ctx, info) => {
   }
 
   for (var key in input) {
-    console.log("input: ", input)
-    console.log("key: ", key)
     if (input[key] !== "") {
       if (key === "host" && input.searchInput !== "") {
         hostMatch = input[key]
@@ -185,10 +183,6 @@ const getZones = async (_, args, ctx, info) => {
       }
     })
   }
-
-  query.resource
-    ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
-    : null
 
   if (query.cursor) {
     query._id = {$lt: query.cursor || null}
@@ -238,6 +232,10 @@ const getZones = async (_, args, ctx, info) => {
         }
       }
     ])
+      .sort({_id: -1})
+      .limit(1)
+
+    console.log("Zzonemattch: ", zoneMatch)
 
     const lastZones = await Zone.find(query)
       .sort({_id: -1})
