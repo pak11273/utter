@@ -14,7 +14,7 @@ import classNames from "classnames"
 import TextField from "@material-ui/core/TextField"
 import {session} from "brownies"
 import gql from "graphql-tag"
-import {compose, Query, withApollo} from "react-apollo"
+import {compose, Mutation, Query, withApollo} from "react-apollo"
 import {Can, Img, LoadingButton} from "../../../components"
 /* import {LoadingButton} from "../../../components" */
 import {styles} from "../styles.js"
@@ -28,19 +28,19 @@ const GET_COURSE = gql`
     }
   }
 `
-/* const SUBSCRIBE_MUTATION = gql` */
-/*   mutation subscribe($courseId: String!) { */
-/*     subscribe(courseId: $courseId) { */
-/*       _id */
-/*       title */
-/*     } */
-/*   } */
-/* ` */
-/* const UNSUBSCRIBE_MUTATION = gql` */
-/*   mutation unsubscribe($courseId: String!) { */
-/*     unsubscribe(courseId: $courseId) */
-/*   } */
-/* ` */
+const SUBSCRIBE_MUTATION = gql`
+  mutation subscribe($courseId: String!) {
+    subscribe(courseId: $courseId) {
+      _id
+      title
+    }
+  }
+`
+const UNSUBSCRIBE_MUTATION = gql`
+  mutation unsubscribe($courseId: String!) {
+    unsubscribe(courseId: $courseId)
+  }
+`
 const COURSE_UPDATE = gql`
   mutation courseUpdate($_id: ID, $title: String, $courseDescription: String) {
     courseUpdate(
@@ -69,9 +69,7 @@ const COURSE_UPDATE = gql`
 
 const CourseIntroduction = props => {
   const {user, course} = session
-  const {classes} = props
-  const [subscribed, setSubscribed] = useState(false)
-  /* const [disabled, setDisabled] = useState(true) */
+  const {classes, client} = props
   const [state, handleChange] = useState({
     formErrors: {
       errors: []
@@ -81,6 +79,7 @@ const CourseIntroduction = props => {
     name: "",
     email: "",
     loading: false,
+    subscribed: false,
     submittedName: "",
     submittedEmail: "",
     title: course.title
@@ -92,10 +91,13 @@ const CourseIntroduction = props => {
         session.user &&
         session.user.subscriptions.find(o => o._id === session.course._id)
       if (found) {
-        setSubscribed(true)
+        handleChange({
+          ...state,
+          subscribed: true
+        })
       }
     },
-    [subscribed]
+    [state]
   )
 
   /* useEffect( */
@@ -110,12 +112,12 @@ const CourseIntroduction = props => {
   /*   [user, course.owner.username, state] */
   /* ) */
 
-  /* const sessionSubscribe = () => { */
-  /*   const {course, user} = session */
-  /*   const tempUser = user */
-  /*   tempUser.subscriptions.push({_id: course._id, title: course.title}) */
-  /*   session.user = tempUser */
-  /* } */
+  const sessionSubscribe = () => {
+    const {course, user} = session
+    const tempUser = user
+    tempUser.subscriptions.push({_id: course._id, title: course.title})
+    session.user = tempUser
+  }
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -174,14 +176,14 @@ const CourseIntroduction = props => {
     }
   }
 
-  /* const sessionUnsubscribe = () => { */
-  /*   const {user} = session */
-  /*   const updatedSubscriptions = user.subscriptions.filter(obj => { */
-  /*     return obj._id !== session.course._id */
-  /*   }) */
-  /*   user.subscriptions = updatedSubscriptions */
-  /*   session.user = user */
-  /* } */
+  const sessionUnsubscribe = () => {
+    const {user} = session
+    const updatedSubscriptions = user.subscriptions.filter(obj => {
+      return obj._id !== session.course._id
+    })
+    user.subscriptions = updatedSubscriptions
+    session.user = user
+  }
 
   const courseDescriptionError = classNames({
     errorClass:
@@ -294,46 +296,52 @@ const CourseIntroduction = props => {
                   </div>
                 </Grid>
                 <Grid item xs={12} align="center">
-                  {/*  <Mutation
-                      mutation={SUBSCRIBE_MUTATION}
-                      onCompleted={sessionSubscribe}>
-                      {(SUBSCRIBE_MUTATION, {loading}) => {
-                        return {
-                          <LoadingButton
-                            loading={loading}
-                            disabled={loading}
-                            color={
-                              subscribed === true ? "secondary" : "primary"
+                  <Mutation
+                    mutation={SUBSCRIBE_MUTATION}
+                    onCompleted={sessionSubscribe}>
+                    {(SUBSCRIBE_MUTATION, {loading}) => {
+                      return (
+                        <LoadingButton
+                          loading={loading}
+                          disabled={loading}
+                          color={
+                            state.subscribed === true ? "secondary" : "primary"
+                          }
+                          variant="contained"
+                          onClick={() => {
+                            if (state.subscribed) {
+                              client.mutate({
+                                mutation: UNSUBSCRIBE_MUTATION,
+                                variables: {
+                                  courseId: course._id
+                                }
+                              })
+                              handleChange({
+                                ...state,
+                                subscribed: false
+                              })
+                              sessionUnsubscribe()
                             }
-                            variant="contained"
-                            onClick={() => {
-                              if (subscribed) {
-                                client.mutate({
-                                  mutation: UNSUBSCRIBE_MUTATION,
-                                  variables: {
-                                    courseId: course._id
-                                  }
-                                })
-                                setSubscribed(false)
-                                sessionUnsubscribe()
-                              }
-                              if (!subscribed) {
-                                SUBSCRIBE_MUTATION({
-                                  variables: {
-                                    courseId: course._id
-                                  }
-                                })
-                                setSubscribed(true)
-                              }
-                            }}
-                            size="large">
-                            <Typography>
-                              {subscribed ? "unsubscribe" : "subscribe"}
-                            </Typography>
-                          </LoadingButton>
-                        }
-                      }}
-                    </Mutation> */}
+                            if (!state.subscribed) {
+                              SUBSCRIBE_MUTATION({
+                                variables: {
+                                  courseId: course._id
+                                }
+                              })
+                              handleChange({
+                                ...state,
+                                subscribed: true
+                              })
+                            }
+                          }}
+                          size="large">
+                          <Typography>
+                            {state.subscribed ? "unsubscribe" : "subscribe"}
+                          </Typography>
+                        </LoadingButton>
+                      )
+                    }}
+                  </Mutation>
                 </Grid>
                 <Grid item xs={12}>
                   <Typography variant="h6" align="left" gutterBottom>

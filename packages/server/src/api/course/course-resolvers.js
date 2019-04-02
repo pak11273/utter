@@ -117,6 +117,7 @@ const courseDelete = async (_, {id}, ctx) => {
 }
 
 const courseUpdate = async (_, args, ctx) => {
+  console.log("args: ", args)
   try {
     if (!ctx.isAuth) {
       return new Error("You need to be registered to edit this course.")
