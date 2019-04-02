@@ -295,23 +295,24 @@ function () {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
+            console.log("args: ", args);
+            _context5.prev = 1;
 
             if (ctx.isAuth) {
-              _context5.next = 3;
+              _context5.next = 4;
               break;
             }
 
             return _context5.abrupt("return", new Error("You need to be registered to edit this course."));
 
-          case 3:
+          case 4:
             _args$input = args.input, _id = _args$input._id, update = (0, _objectWithoutProperties2.default)(_args$input, ["_id"]);
-            _context5.next = 6;
+            _context5.next = 7;
             return _courseModel.default.findByIdAndUpdate(_id, update, {
               new: true
             }).lean();
 
-          case 6:
+          case 7:
             course = _context5.sent;
             updatedCourse = (0, _objectSpread2.default)({}, course, {
               _id: course._id.toString(),
@@ -319,17 +320,17 @@ function () {
             });
             return _context5.abrupt("return", updatedCourse);
 
-          case 11:
-            _context5.prev = 11;
-            _context5.t0 = _context5["catch"](0);
+          case 12:
+            _context5.prev = 12;
+            _context5.t0 = _context5["catch"](1);
             throw _context5.t0;
 
-          case 14:
+          case 15:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 11]]);
+    }, _callee5, null, [[1, 12]]);
   }));
 
   return function courseUpdate(_x9, _x10, _x11) {
