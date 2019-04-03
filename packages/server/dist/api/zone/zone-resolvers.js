@@ -328,7 +328,7 @@ function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee7(_, args, ctx, info) {
-    var hostMatch, zoneMatch, usingLangMatch, teachingLangMatch, appMatch, titleMatch, more, input, query, key, zones, lastZones, lastZone;
+    var hostMatch, zoneMatch, usingLangMatch, teachingLangMatch, appMatch, titleMatch, more, input, cursor, key, zones, lastZones, lastZone, obj;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -350,16 +350,18 @@ function () {
               delete input.selectionBox;
             }
 
-            query = {};
+            cursor = {
+              null: null
+            };
 
-            for (key in input) {
-              input[key] !== "" ? query[key] = input[key] : null;
+            if (input.cursor) {
+              cursor = {
+                $lt: input.cursor
+              };
+              delete input.cursor;
             }
 
             for (key in input) {
-              console.log("input: ", input);
-              console.log("key: ", key);
-
               if (input[key] !== "") {
                 if (key === "host" && input.searchInput !== "") {
                   hostMatch = input[key];
@@ -395,43 +397,8 @@ function () {
               delete input.searchInput;
             }
 
-            query.title ? query.title = new RegExp(escapeRegex(query.title), "gi") : null;
-
-            if (!query.owner) {
-              _context7.next = 18;
-              break;
-            }
-
-            _context7.next = 17;
-            return _userModel.default.findOne({
-              username: query.owner
-            }, function (err, docs) {
-              if (err) {
-                throw err;
-              }
-
-              if (!(0, _isEmpty.default)(docs)) {
-                var owner = docs._id;
-                query.owner = docs._id;
-              }
-            });
-
-          case 17:
-            query.owner = _context7.sent;
-
-          case 18:
-            query.resource ? query.resource = new RegExp(escapeRegex(query.resource), "gi") : null;
-
-            if (query.cursor) {
-              query._id = {
-                $lt: query.cursor || null
-              };
-              delete query.cursor;
-            }
-
-            console.log("query: ", query);
-            _context7.prev = 21;
-            _context7.next = 24;
+            _context7.prev = 13;
+            _context7.next = 16;
             return _zoneModel.default.aggregate([{
               $lookup: {
                 from: "users",
@@ -452,7 +419,7 @@ function () {
               $unwind: "$zoneCourse"
             }, {
               $match: {
-                $and: [{
+                $and: [cursor, {
                   app: appMatch
                 },
                 /* {courseLevel: levelMatch}, */
@@ -468,17 +435,20 @@ function () {
                   "zoneCourse.title": titleMatch
                 }]
               }
-            }]);
+            }]).sort({
+              _id: -1
+            }).limit(12);
 
-          case 24:
+          case 16:
             zones = _context7.sent;
-            _context7.next = 27;
-            return _zoneModel.default.find(query).sort({
+            _context7.next = 19;
+            return _zoneModel.default.find(cursor).sort({
               _id: -1
             }).lean();
 
-          case 27:
+          case 19:
             lastZones = _context7.sent;
+            console.log("zones: ", zones);
             console.log("zones: ", zones.map(function (item) {
               return item._id;
             }));
@@ -488,33 +458,35 @@ function () {
             } else {
               lastZone = {};
             }
-            /* let obj = zones.find(o => o._id.toString() === lastZone._id.toString()) */
 
-            /* if (obj) { */
+            console.log("last zone: ", lastZone);
+            obj = zones.find(function (o) {
+              return o._id.toString() === lastZone._id.toString();
+            });
 
-
-            if (true) {
+            if (obj) {
               more = false;
             } else {
               more = true;
             }
 
+            console.log("more: ", more);
             return _context7.abrupt("return", {
               zones: zones,
               more: more
             });
 
-          case 34:
-            _context7.prev = 34;
-            _context7.t0 = _context7["catch"](21);
+          case 30:
+            _context7.prev = 30;
+            _context7.t0 = _context7["catch"](13);
             throw _context7.t0;
 
-          case 37:
+          case 33:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[21, 34]]);
+    }, _callee7, null, [[13, 30]]);
   }));
 
   return function getZones(_x17, _x18, _x19, _x20) {
