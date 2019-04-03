@@ -32,6 +32,17 @@ const getContact = Loadable({
   delay: 200
 })
 
+const getCourses = Loadable({
+  loader: () => import("./layouts/courses/containers/courses"),
+  loading: Loading,
+  delay: 200
+})
+
+const getCourseSettings = Loadable({
+  loader: () => import("./layouts/courses/containers/course-settings.js"),
+  loading: Loading
+})
+
 const getCourseCtrl = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'course' */ "./layouts/courses/containers/course-create.js"),
@@ -64,14 +75,8 @@ const getForgotPassword = Loadable({
   delay: 200
 })
 
-const getCourses = Loadable({
-  loader: () => import("./layouts/courses/containers/courses"),
-  loading: Loading,
-  delay: 200
-})
-
-const getCourseSettings = Loadable({
-  loader: () => import("./layouts/courses/containers/course-settings.js"),
+const getLevels = Loadable({
+  loader: () => import("./layouts/levels/containers/levels-update.js"),
   loading: Loading
 })
 
@@ -162,6 +167,11 @@ export const routes = [
         component: requireAuth(getCourseIntroduction),
         exact: true,
         path: "/course/course-introduction"
+      },
+      {
+        component: getLevels,
+        exact: true,
+        path: "/course/course-levels"
       }
     ]
   },
@@ -204,6 +214,10 @@ export const routes = [
     exact: true,
     path: "/"
   },
+  /* { */
+  /*   path: "/course/course-levels", */
+  /*   component: getLevels */
+  /* }, */
   {
     component: getLogin,
     exact: true,

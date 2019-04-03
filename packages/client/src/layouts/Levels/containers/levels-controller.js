@@ -1,12 +1,12 @@
 import React from "react"
 import {Mutation} from "react-apollo"
-import {adopt} from "react-adopt"
+/* import {adopt} from "react-adopt" */
 import remove from "lodash/remove"
 
 import {DELETE_LEVEL, getLevels} from "../xhr.js"
-import {store} from "../../../store.js"
+/* import {store} from "../../../store.js" */
 
-const courseId = store.getState().apiReducer.Course.items[0]
+/* const courseId = store.getState().apiReducer.Course.items[0] */
 
 const levelDelete = ({render}) => (
   <Mutation
@@ -15,7 +15,7 @@ const levelDelete = ({render}) => (
       try {
         const gotLevels = cache.readQuery({
           query: getLevels,
-          variables: {courseId}
+          variables: "TODO: pending"
         })
         var {levels} = gotLevels.getLevels
 
@@ -39,6 +39,4 @@ const levelDelete = ({render}) => (
   </Mutation>
 )
 
-export default adopt({
-  levelDelete
-})
+export default levelDelete

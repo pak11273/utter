@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {adopt} from "react-adopt"
+/* import {adopt} from "react-adopt" */
 
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
@@ -13,9 +13,7 @@ import Typography from "@material-ui/core/Typography"
 
 import LevelsCtrl from "../containers/levels-controller.js"
 
-const Composed = adopt({
-  container: <LevelsCtrl />
-})
+const Composed = {container: <LevelsCtrl />}
 
 class LevelDeleteModal extends Component {
   render() {
