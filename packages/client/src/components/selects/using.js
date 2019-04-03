@@ -37,11 +37,12 @@ class Using extends Component {
     this.setState({
       selectValue: newValue
     })
-    this.props.form.setFieldValue(this.props.field.name, newValue.value)
+
+    this.props.onChange("usingLang", newValue.value)
   }
 
   render() {
-    const {field, options} = this.props
+    const {options} = this.props
     return (
       <Box width="250px">
         <Select
@@ -50,11 +51,11 @@ class Using extends Component {
           ref={ref => {
             this.select = ref
           }}
+          name={this.props.name}
           onBlurResetsInput={false}
           onSelectResetsInput={false}
           simpleValue
           clearable={this.state.clearable}
-          name={field.name}
           options={options}
           disabled={this.state.disabled}
           value={this.state.selectValue}

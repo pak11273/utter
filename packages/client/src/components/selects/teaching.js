@@ -37,7 +37,8 @@ class Teaching extends Component {
     this.setState({
       selectValue: newValue
     })
-    this.props.form.setFieldValue(this.props.field.name, newValue.value)
+
+    this.props.onChange("teachingLang", newValue.value)
   }
 
   render() {
@@ -63,6 +64,12 @@ class Teaching extends Component {
           rtl={this.state.rtl}
           searchable={this.state.searchable}
         />
+        {!!this.props.error &&
+          this.props.touched && (
+            <div style={{color: "red", marginTop: ".5rem"}}>
+              {this.props.error}
+            </div>
+          )}
       </Box>
     )
   }

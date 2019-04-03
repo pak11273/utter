@@ -21,9 +21,9 @@ import {
   app,
   /* levels, */
   LoadingButton,
-  subscriptions,
+  /* subscriptions, */
   teaching,
-  using
+  Using
 } from "../../../components"
 import {styles} from "../styles.js"
 import ZonesGrid from "./zones-grid.js"
@@ -39,7 +39,7 @@ const ZonesContainer = props => {
   /*   console.log("courseOption: ", courseOption) */
   /* }) */
 
-  const subscribedOptions =
+  /* const subscribedOptions =
     session.user && session.user.subscriptions
       ? session.user.subscriptions.map(item => {
           return {
@@ -48,7 +48,7 @@ const ZonesContainer = props => {
           }
         })
       : [{}]
-
+*/
   const {classes, handleChange, handleSubmit, values} = props
   return (
     <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
@@ -63,7 +63,7 @@ const ZonesContainer = props => {
           <Typography variant="h6" align="center" gutterBottom>
             I speak:
           </Typography>
-          <Field name="usingLang" component={using} options={groupedOptions} />
+          <Field name="usingLang" component={Using} options={groupedOptions} />
           <Typography variant="h6" align="center" gutterBottom>
             I want to learn:
           </Typography>
@@ -77,14 +77,14 @@ const ZonesContainer = props => {
           </Typography>
           <Field name="app" component={app} options={appData} />
           <Spacer margin="40px 0 0 0" />
-          <Typography variant="h6" align="center" gutterBottom>
+          {/* <Typography variant="h6" align="center" gutterBottom>
             Subscribed Courses:
           </Typography>
           <Field
             name="subscriptions"
             component={subscriptions}
             options={subscribedOptions}
-          />
+          /> */}
           <Spacer margin="40px 0 0 0" />
           {/*    <Typography variant="h6" align="center" gutterBottom>
             Course Level:

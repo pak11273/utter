@@ -59,7 +59,7 @@ import TogglePlay from "./buttons/toggle-play.js"
 import Tr from "./Tr.js"
 import TextArea from "./TextArea.js"
 import Title from "./Text/Title.js"
-import using from "./selects/using.js"
+import Using from "./selects/using.js"
 import {Searching} from "./loaders/searching.js"
 import Select from "./Select.js"
 import Spacer from "./spacers"
@@ -129,7 +129,7 @@ export {
   Text,
   TextArea,
   Title,
-  using,
+  Using,
   Wrapper,
   Zone
 }

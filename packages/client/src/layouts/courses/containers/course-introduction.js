@@ -122,11 +122,6 @@ const CourseIntroduction = props => {
   const handleSubmit = async e => {
     e.preventDefault()
 
-    handleChange({
-      ...state,
-      loading: true
-    })
-
     // reset errors
     /* const resetErrors = handleChange({ */
     /*   ...state, */
@@ -140,13 +135,19 @@ const CourseIntroduction = props => {
         console.log("err: ", err)
         handleChange({
           ...state,
-          formErrors: err
+          formErrors: {
+            errors: err
+          }
         })
+        console.log("state: ", state)
         return err
       }
     })
-    /* if (isEmpty(state.formErrors.errors)) { */
     if (isEmpty(yupCheck.errors)) {
+      handleChange({
+        ...state,
+        loading: true
+      })
       const updatedCourse = await props.client.mutate({
         mutation: COURSE_UPDATE,
         variables: {
@@ -169,7 +170,7 @@ const CourseIntroduction = props => {
       handleChange({
         ...state,
         formErrors: {
-          errors: []
+          errors: ["hi"]
         },
         loading: false
       })

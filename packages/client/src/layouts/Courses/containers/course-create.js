@@ -1,4 +1,6 @@
+/* eslint-disable */
 import React, {Component} from "react"
+import Select from "react-select"
 import {withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import {compose, graphql} from "react-apollo"
@@ -16,6 +18,7 @@ import Dropzone from "react-dropzone"
 import cuid from "cuid"
 import styled from "styled-components"
 /* import {courseCreateSchema} from "@utterzone/common" */
+import {courseCreateSchema} from "../yupSchemas.js"
 import CryptoJS from "crypto-js"
 import {groupedOptions} from "../../../data/language-data.js"
 import {
@@ -25,7 +28,7 @@ import {
   Img,
   LoadingButton,
   teaching,
-  using
+  Using
 } from "../../../components"
 
 import {handleCloudinaryUpload} from "../../../utils/cloudinary-upload.js"
@@ -233,10 +236,11 @@ class CourseCreate extends Component {
       isSubmitting,
       setFieldTouched,
       setFieldValue,
-      touched
+      touched,
+      values
     } = this.props
     const {title, courseDescription, usingLang} = this.props.values
-
+    console.log("errors: ", errors)
     return (
       <React.Fragment>
         <form className={classes.root} onSubmit={handleSubmit}>
@@ -358,6 +362,7 @@ class CourseCreate extends Component {
                   type="text"
                   component={FormikInput}
                   margin="normal"
+                  required
                   variant="outlined"
                 />
                 <Typography
@@ -380,6 +385,7 @@ class CourseCreate extends Component {
                   type="text"
                   component={FormikTextArea}
                   margin="normal"
+                  required
                   variant="outlined"
                 />
               </Grid>
@@ -394,13 +400,12 @@ class CourseCreate extends Component {
                 <Field
                   name="usingLang"
                   error={errors.usingLang}
-                  component={using}
+                  component={Using}
                   addUsingLang={this.addUsingLang}
                   options={groupedOptions}
                   onChange={setFieldValue}
-                  onBlur={setFieldTouched}
                   touched={touched.usingLang}
-                  value={usingLang}
+                  value={values.usingLang}
                 />
                 <Typography
                   align="left"
@@ -410,10 +415,14 @@ class CourseCreate extends Component {
                   Teaching Language
                 </Typography>
                 <Field
+                  error={errors.teachingLang}
                   name="teachingLang"
                   component={teaching}
                   addTeachingLang={this.addTeachingLang}
+                  onChange={setFieldValue}
                   options={groupedOptions}
+                  touched={touched.usingLang}
+                  value={values.teachingLang}
                 />
                 <Typography
                   align="left"
@@ -460,7 +469,7 @@ export default compose(
   graphql(COURSE_CREATE_MUTATION, {name: "courseCreate"}),
   withRouter,
   withFormik({
-    /* validationSchema: courseCreateSchema, */
+    validationSchema: courseCreateSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
@@ -471,9 +480,11 @@ export default compose(
       courseMode: "draft",
       resource: "",
       teachingLang: "",
+      topics: [],
       usingLang: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
+      console.log("values: ", values)
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,
         "image",

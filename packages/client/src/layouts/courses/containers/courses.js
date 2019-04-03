@@ -18,7 +18,7 @@ import TextField from "@material-ui/core/TextField"
 
 import {session} from "brownies"
 import CoursesGrid from "./courses-grid.js"
-import {Spacer, LoadingButton, using, teaching} from "../../../components"
+import {Spacer, LoadingButton, Using, teaching} from "../../../components"
 import {groupedOptions} from "../../../data/language-data.js"
 
 import {compose} from "react-apollo"
@@ -44,7 +44,7 @@ const CoursesContainer = props => {
         <Typography variant="h6" align="center" gutterBottom>
           I speak:
         </Typography>
-        <Field name="usingLang" component={using} options={groupedOptions} />
+        <Field name="usingLang" component={Using} options={groupedOptions} />
         <Spacer margin="40px 0 0 0" />
         <Typography variant="h6" align="center" gutterBottom>
           I want to learn:

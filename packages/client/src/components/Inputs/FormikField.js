@@ -35,7 +35,6 @@ export const FormikTextArea = ({
   <div>
     <TextField
       id="outlined-multiline-static"
-      required
       multiline
       rows="8"
       fullWidth

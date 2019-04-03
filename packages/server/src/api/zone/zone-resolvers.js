@@ -130,15 +130,17 @@ const getZones = async (_, args, ctx, info) => {
   var appMatch = new RegExp(".", "i")
   var titleMatch = new RegExp(".", "i")
   var more = false
-  var input = args.input
+  var {input} = args
 
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
     delete input.selectionBox
   }
-  var query = {}
-  for (var key in input) {
-    input[key] !== "" ? (query[key] = input[key]) : null
+
+  var cursor = {null: null}
+  if (input.cursor) {
+    cursor = {$lt: input.cursor}
+    delete input.cursor
   }
 
   for (var key in input) {
@@ -168,37 +170,7 @@ const getZones = async (_, args, ctx, info) => {
     delete input.searchInput
   }
 
-  query.title
-    ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
-    : null
-
-  if (query.owner) {
-    query.owner = await User.findOne({username: query.owner}, (err, docs) => {
-      if (err) {
-        throw err
-      }
-      if (!isEmpty(docs)) {
-        var owner = docs._id
-        query.owner = docs._id
-      }
-    })
-  }
-
-  if (query.cursor) {
-    query._id = {$lt: query.cursor || null}
-    delete query.cursor
-  }
-
-  console.log("query: ", query)
-
   try {
-    /* const zones = await Zone.find(query) */
-    /*   .populate("owner") */
-    /*   .populate("course") */
-    /*   .sort({_id: -1}) */
-    /*   .limit(6) */
-    /*   .lean() */
-
     const zones = await Zone.aggregate([
       {
         $lookup: {
@@ -221,6 +193,7 @@ const getZones = async (_, args, ctx, info) => {
       {
         $match: {
           $and: [
+            cursor,
             {app: appMatch},
             /* {courseLevel: levelMatch}, */
             {zoneName: zoneMatch},
@@ -233,13 +206,13 @@ const getZones = async (_, args, ctx, info) => {
       }
     ])
       .sort({_id: -1})
-      .limit(1)
+      .limit(12)
 
-    console.log("Zzonemattch: ", zoneMatch)
-
-    const lastZones = await Zone.find(query)
+    const lastZones = await Zone.find(cursor)
       .sort({_id: -1})
       .lean()
+
+    console.log("zones: ", zones)
 
     console.log(
       "zones: ",
@@ -254,14 +227,16 @@ const getZones = async (_, args, ctx, info) => {
       lastZone = {}
     }
 
-    /* let obj = zones.find(o => o._id.toString() === lastZone._id.toString()) */
+    console.log("last zone: ", lastZone)
 
-    /* if (obj) { */
-    if (true) {
+    let obj = zones.find(o => o._id.toString() === lastZone._id.toString())
+
+    if (obj) {
       more = false
     } else {
       more = true
     }
+    console.log("more: ", more)
 
     return {zones, more}
   } catch (err) {
