@@ -11,11 +11,13 @@ export const LevelSchema = new mongoose.Schema({
     type: String,
     required: [true, "can't be blank"]
   },
-  courseId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Course",
-    required: [true, "can't be blank"]
-  },
+  course: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+      required: [true, "can't be blank"]
+    }
+  ],
   vocabulary: [
     {
       type: mongoose.Schema.Types.ObjectId,

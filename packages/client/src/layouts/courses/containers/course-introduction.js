@@ -256,7 +256,8 @@ const CourseIntroduction = props => {
               <div className={classes.heroContent}>
                 <Grid container justify="center" direction="column">
                   <Typography variant="h4" align="center" gutterBottom>
-                    Introduction
+                    {" "}
+                    Introduction{" "}
                   </Typography>
                 </Grid>
               </div>

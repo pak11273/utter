@@ -1,192 +1,78 @@
-import React, {PureComponent} from "react"
-import {Route, NavLink} from "react-router-dom"
+/* eslint react-hooks/exhaustive-deps: 0 */
+import React, {useState, useEffect} from "react"
+/* import {Admin, Resource, ListGuesser} from "react-admin" */
 import {session} from "brownies"
-
-import Divider from "@material-ui/core/Divider"
-import Drawer from "@material-ui/core/Drawer"
-/* import Grid from "@material-ui/core/Grid" */
-import Link from "@material-ui/core/Link"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-/* import ListItemText from "@material-ui/core/ListItemText" */
+import buildGraphQLProvider from "ra-data-graphql-simple"
+/* import {UserList} from "../components/users" */
+import Dashboard from "./course-dashboard.js"
+import {Admin} from "react-admin"
+/* import {Resource} from "react-admin" */
+/* import {ApolloInstance} from "../../../apollo.js" */
+/* import {LevelsList, LevelsEdit, LevelsCreate} from "../components/levels" */
+/* import {PostsList} from "../components/posts.js" */
+import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
+/* import PostIcon from "@material-ui/icons/Book" */
+/* import UserIcon from "@material-ui/icons/Group" */
 import {withStyles} from "@material-ui/core/styles"
+import {styles} from "../styles.js"
 
-import styled from "styled-components"
-import cloneDeep from "lodash/cloneDeep"
-import {Helmet} from "react-helmet-async"
-import {Can, Spacer} from "../../../components"
+/* import jsonServerProvider from "ra-data-json-server" */
 
-/* const getCourse = gql` */
-/*   query getCourse($_id: ID!) { */
-/*     getCourse(_id: $_id) { */
-/*       _id */
-/*       courseImage */
-/*       title */
-/*       courseMode */
-/*       owner { */
-/*         username */
-/*       } */
-/*     } */
-/*   } */
-/* ` */
+/* const dataProvider = jsonServerProvider("http://jsonplaceholder.typicode.com") */
+/* import authProvider from "../components/authProvider" */
 
-const StyledNavLink = styled(NavLink)`
-  grid-area: ${props => props.gridarea};
-  color: #003478;
-  &:hover {
-    color: red;
-    text-decoration: underline;
-  }
-`
-const drawerWidth = 240
+/* buildGraphQLProvider({ */
+/* 	client: ApolloInstance */
+/* }); */
 
-const styles = theme => ({
-  content: {
-    alignItems: "center",
-    display: "flex",
-    flexGrow: 1,
-    justifyContent: "center",
-    padding: theme.spacing.unit * 3
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  list: {
-    margin: "0 auto"
-  },
-  root: {
-    display: "flex",
-    flexGrow: 1,
-    width: "100%"
-  }
-})
+const CourseUpdate = ({classes}) => {
+  const [state, changeState] = useState({
+    dataProvider: null
+  })
 
-const initialCoursesContainerState = {
-  resources: ""
-}
+  useEffect(() => {
+    buildGraphQLProvider({clientOptions: {uri: "/graphql"}}).then(result => {
+      changeState({
+        ...state,
+        dataProvider: result
+      })
+    })
+  }, [])
 
-class CourseUpdate extends PureComponent {
-  locationName = this.props.path
+  const {course} = session
 
-  constructor(props) {
-    super(props)
-
-    this.state = cloneDeep(initialCoursesContainerState)
+  if (!state.dataProvider) {
+    return <div>Loading</div>
   }
 
-  componentDidMount = async () => {}
-
-  handleImageClick = e => {
-    e.preventDefault()
-    // TODO
-  }
-
-  render() {
-    const {course, user} = session
-    const {classes} = this.props
-    const SubRoutes = route => (
-      <Route
-        path={route.path}
-        render={props => <route.component {...props} routes={route.routes} />}
-      />
-    )
-    const {routes} = this.props
-    return (
-      <div className={classes.root}>
-        <Drawer
-          className={classes.drawer}
-          variant="permanent"
-          classes={{
-            paper: classes.drawerPaper
-          }}>
-          <Spacer margin="200px 0 0 0" />
-          <List className={classes.list}>
-            {[
-              "introduction",
-              "settings",
-              "levels",
-              "vocabulary",
-              "grammar",
-              "examples",
-              "phrases",
-              "notes"
-            ].map((text, index) => {
-              if (text === "settings") {
-                return (
-                  <Can
-                    key={text}
-                    roles={user && user.roles}
-                    perform="course:read-settings"
-                    id={user && user.username}
-                    matchingID={course.owner.username}
-                    yes={() => (
-                      <ListItem
-                        button
-                        component={StyledNavLink}
-                        exact
-                        activeStyle={{
-                          color: "yellow"
-                        }}
-                        to="/course/course-settings"
-                        key={index}>
-                        <Typography>{text}</Typography>
-                      </ListItem>
-                    )}
-                    no={() => null}
-                  />
-                )
-              }
-              return (
-                <ListItem
-                  button
-                  component={StyledNavLink}
-                  exact
-                  activeStyle={{
-                    color: "primary"
-                  }}
-                  to={`/course/course-${text}`}
-                  key={index}>
-                  <Typography>{text}</Typography>
-                </ListItem>
-              )
-            })}
-          </List>
-          <Spacer margin="40px 0 0 0" />
-          <Divider />
-          <Spacer margin="40px 0 0 0" />
-          <div align="center">
-            <Link component={NavLink} to="/courses/created">
-              My Created Courses
-            </Link>
-          </div>
-        </Drawer>
-        <main className={classes.content}>
-          <Helmet>
-            <meta charset="utf-8" />
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, shrink-to-fit=no"
-            />
-            <meta
-              name="description"
-              content="Make direct contact with our team throught our contact information form.  We will do our best to respond in a timely manner.  If you are a business or educational institution this would be an ideal place to shoot a short inquiry."
-            />
-            <meta name="author" content="Isaac Pak" />
-            <title>Utterzone | Courses</title>
-            <link rel="canonical" href="https://utter.zone/courses" />
-          </Helmet>
-          {routes.map(route => (
-            <SubRoutes key={route.path} {...route} />
-          ))}
-        </main>
+  return (
+    <React.Fragment>
+      <div className={classes.heroUnit}>
+        <div className={classes.heroContent}>
+          <Grid container justify="center" direction="column">
+            <Typography variant="h4" align="center" gutterBottom>
+              {course.title}
+            </Typography>
+          </Grid>
+        </div>
       </div>
-    )
-  }
+      <Admin
+        dashboard={Dashboard}
+        /* authProvider={authProvider} */
+        dataProvider={state.dataProvider}>
+        {/* <Resource name="Post" list={PostsList} />
+         <Resource
+          name="levels"
+          list={LevelsList}
+          edit={LevelsEdit}
+          create={LevelsCreate}
+          icon={PostIcon}
+        />
+        <Resource name="users" list={UserList} icon={UserIcon} /> */}
+      </Admin>
+    </React.Fragment>
+  )
 }
 
 export default withStyles(styles)(CourseUpdate)

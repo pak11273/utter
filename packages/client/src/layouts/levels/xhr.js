@@ -27,13 +27,13 @@ export const levelCreate = gql`
     levelCreate(input: $input) {
       level {
         courseId
-        id
+        _id
         level
         title
         vocabulary {
           audioUrl
           courseId
-          id
+          _id
           gender
           level
           word
@@ -52,7 +52,7 @@ export const DELETE_LEVEL = gql`
     levelDelete(courseId: $courseId, level: $level, title: $title) {
       level {
         courseId
-        id
+        _id
         level
         title
       }

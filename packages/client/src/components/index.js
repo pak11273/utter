@@ -39,6 +39,7 @@ import levels from "./selects/course-levels.js"
 import List from "./Lists/List.js"
 import ListItem from "./Lists/ListItem.js"
 import LoaderCircle from "./loaders/loader-circle.js"
+import Loading from "./loaders/layout-loader.js"
 import LoadingButton from "./buttons/loading-button.js"
 import PlayBox from "./Boxes/Playbox.js"
 import PlayButton from "./buttons/play-button.js"
@@ -105,6 +106,7 @@ export {
   List,
   ListItem,
   LoaderCircle,
+  Loading,
   LoadingButton,
   PlayBox,
   PlayButton,

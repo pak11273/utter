@@ -16,7 +16,7 @@ import blue from "@material-ui/core/colors/blue"
 import yellow from "@material-ui/core/colors/yellow"
 import red from "@material-ui/core/colors/red"
 
-import client from "./apollo.js"
+import {ApolloInstance} from "./apollo.js"
 
 import {GlobalStyle} from "./assets/css/global-styles.js"
 import {routes} from "./routes"
@@ -88,7 +88,7 @@ class App extends Component {
     const token = local.AUTH_TOKEN
 
     if (!session.user) {
-      const userByToken = await client.query({
+      const userByToken = await ApolloInstance.query({
         query: GET_USER_BY_TOKEN,
         variables: {token}
       })
@@ -100,8 +100,8 @@ class App extends Component {
   render() {
     return (
       <HelmetProvider>
-        <ApolloProvider client={client}>
-          <ApolloHooksProvider client={client}>
+        <ApolloProvider client={ApolloInstance}>
+          <ApolloHooksProvider client={ApolloInstance}>
             <GlobalStyle />
             <MuiThemeProvider theme={theme}>
               <CssBaseline />

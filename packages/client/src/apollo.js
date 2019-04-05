@@ -1,11 +1,12 @@
 import {ApolloClient} from "apollo-client"
 import {ApolloLink} from "apollo-link"
-import {InMemoryCache} from "apollo-cache-inmemory"
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import {createPersistedQueryLink} from "apollo-link-persisted-queries"
 import {HttpLink} from "apollo-link-http"
 import {local} from "brownies"
 import typeDefs from "./typeDefs.js"
 import resolvers from "./resolvers.js"
+
 
 const cache = new InMemoryCache({
   dataIdFromObject: object => object.key || null,
@@ -35,7 +36,7 @@ const httpLink = new HttpLink({
 
 const persistLink = createPersistedQueryLink()
 
-export default new ApolloClient({
+export const ApolloInstance = new ApolloClient({
   cache,
   link: ApolloLink.from([AuthLink, persistLink, httpLink]),
   resolvers,
