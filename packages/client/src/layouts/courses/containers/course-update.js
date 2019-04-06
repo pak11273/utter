@@ -1,9 +1,8 @@
 import React, {Component} from "react"
-/* import {Admin, Resource, ListGuesser} from "react-admin" */
-import {Admin, Resource} from "react-admin"
+import {Admin, Resource, ListGuesser} from "react-admin"
+/* import {Admin, Resource} from "react-admin" */
 import buildGraphQLProvider from "ra-data-graphql-simple"
 /* import {PostCreate, PostEdit, PostList} from "./posts" */
-import {PostsList} from "../components/posts"
 /* import {Admin, Resource} from "react-admin" */
 /* import {session} from "brownies" */
 /* import {UserList} from "../components/users" */
@@ -35,7 +34,14 @@ class CourseUpdate extends Component {
 
   componentDidMount() {
     buildGraphQLProvider({
-      clientOptions: {uri: "http://192.168.68.8:3010/graphql"}
+      clientOptions: {
+        uri:
+          process.env.NODE_ENV === "production" ||
+          process.env.NODE_ENV === "prod"
+            ? /* ? process.env.REACT_APP_SERVER_URL */
+              "https://api.utterzone.com/graphql"
+            : "http://192.168.68.8:3010/graphql"
+      }
     }).then(dataProvider => this.setState({dataProvider}))
   }
 
@@ -48,7 +54,7 @@ class CourseUpdate extends Component {
 
     return (
       <Admin dataProvider={dataProvider}>
-        <Resource name="Post" list={PostsList} />
+        <Resource name="Post" list={ListGuesser} />
       </Admin>
     )
   }

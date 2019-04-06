@@ -8,13 +8,13 @@ import {
   DisabledInput,
   List,
   LongTextInput,
-  ReferenceField,
+  /* ReferenceField, */
   ReferenceInput,
   Responsive,
   SelectInput,
   SimpleForm,
   SimpleList,
-  TextField,
+  /* TextField, */
   TextInput
 } from "react-admin"
 
@@ -45,13 +45,12 @@ export const PostsList = props => (
       }
       medium={
         <Datagrid>
-          <TextField source="id" />
-          <ReferenceField label="User" source="userId" reference="users">
+          {/* <TextField source="id" />
+           <ReferenceField label="User" source="userId" reference="users">
             <TextField source="name" />
-          </ReferenceField>
-          <TextField source="title" />
-          <TextField source="body" />
-          <EditButton />
+          </ReferenceField> 
+          <TextField source="title" /> */}
+          <EditButton label="Edit" />
         </Datagrid>
       }
     />

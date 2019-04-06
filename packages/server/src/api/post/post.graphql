@@ -4,12 +4,9 @@ type Comment {
 }
 
 type Post {
-	id: ID!
-	title: String!
-	views: Int!
-	user_id: ID!
-	User: User
-	Comments: [Comment]
+	id: ID
+	title: String
+	views: Int
 }
 
 input PostFilter {
@@ -25,7 +22,7 @@ input PostFilter {
 }
 
 type ListMetadata {
-	count: Int!
+	count: Int
 }
 
 extend type Query {

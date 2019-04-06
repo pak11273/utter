@@ -28,14 +28,7 @@ const allPosts = async (_, args, {user}) => {
   /*   throw new Error("Cannot find post with id") */
   /* } */
 
-  return [
-    {
-      id: "jsldjfsjdlj",
-      title: "ehllo",
-      views: 3,
-      user_id: "lksjdflksjdljfklj"
-    }
-  ]
+  return [{}]
 }
 
 const _allPostsMeta = async (_, args, {user}) => {
@@ -45,7 +38,7 @@ const _allPostsMeta = async (_, args, {user}) => {
   /*   throw new Error("Cannot find post with id") */
   /* } */
 
-  return 3
+  return {count: 3}
 }
 
 const createPost = async (_, args, {user}) => {
