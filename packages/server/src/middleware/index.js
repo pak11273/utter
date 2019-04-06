@@ -22,7 +22,7 @@ export default app => {
               //              "http://utterzone.com",
               //              "utterzone.com"
             ]
-          : "http://localhost:8080"
+          : ["http://localhost:8080", "http://192.168.68.8:8080"]
     })
   )
   /* app.options("/graphql") */

@@ -27,9 +27,9 @@ import {
 /*   </Filter> */
 /* ) */
 
-/* const PostsTitle = ({record}) => { */
-/*   return <span>Posts {record ? `"${record.title}"` : ""}</span> */
-/* } */
+const PostsTitle = ({record}) => {
+  return <span>Posts {record ? `"${record.title}"` : ""}</span>
+}
 
 export const PostsList = props => (
   <List {...props}>
@@ -38,9 +38,9 @@ export const PostsList = props => (
         <SimpleList
           primaryText={record => record.title}
           secondaryText={record => `${record.views} views`}
-          tertiaryText={record =>
+          tertiaryText={record => {
             new Date(record.published_at).toLocaleDateString()
-          }
+          }}
         />
       }
       medium={

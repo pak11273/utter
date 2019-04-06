@@ -13,28 +13,29 @@ const escapeRegex = text => {
 const Post = async (_, args, {user}) => {
   console.log("args: ", args)
 
-
   return {
-		id: "jsldjfsjdlj", 
-		title: "ehllo", 
-		views: 3, 
-		user_id: "lksjdflksjdljfklj" 
-	}
+    id: "jsldjfsjdlj",
+    title: "ehllo",
+    views: 3,
+    user_id: "lksjdflksjdljfklj"
+  }
 }
 
 const allPosts = async (_, args, {user}) => {
-  console.log('args: ', args )
+  console.log("args: ", args)
   /* const post = await Post.findById(postId).exec() */
   /* if (!post) { */
   /*   throw new Error("Cannot find post with id") */
   /* } */
 
-  return [{
-		id: "jsldjfsjdlj", 
-		title: "ehllo", 
-		views: 3,
-		user_id: "lksjdflksjdljfklj" 
-	}]
+  return [
+    {
+      id: "jsldjfsjdlj",
+      title: "ehllo",
+      views: 3,
+      user_id: "lksjdflksjdljfklj"
+    }
+  ]
 }
 
 const _allPostsMeta = async (_, args, {user}) => {
@@ -44,49 +45,49 @@ const _allPostsMeta = async (_, args, {user}) => {
   /*   throw new Error("Cannot find post with id") */
   /* } */
 
-  return 3  
+  return 3
 }
 
 const createPost = async (_, args, {user}) => {
   console.log("hello")
 
   return {
-		id: "jsldjfsjdlj", 
-		title: "ehllo", 
-		views: 3, 
-		user_id: "lksjdflksjdljfklj" 
-	}
+    id: "jsldjfsjdlj",
+    title: "ehllo",
+    views: 3,
+    user_id: "lksjdflksjdljfklj"
+  }
 }
-const updatePost  = async (_, args, {user}) => {
+const updatePost = async (_, args, {user}) => {
   console.log("hello")
 
   return {
-		id: "jsldjfsjdlj", 
-		title: "ehllo", 
-		views: 3, 
-		user_id: "lksjdflksjdljfklj" 
-	}
+    id: "jsldjfsjdlj",
+    title: "ehllo",
+    views: 3,
+    user_id: "lksjdflksjdljfklj"
+  }
 }
 const deletePost = async (_, args, {user}) => {
   console.log("hello")
 
   return {
-		id: "jsldjfsjdlj", 
-		title: "ehllo", 
-		views: 3, 
-		user_id: "lksjdflksjdljfklj" 
-	}
+    id: "jsldjfsjdlj",
+    title: "ehllo",
+    views: 3,
+    user_id: "lksjdflksjdljfklj"
+  }
 }
 
 export const postResolvers = {
   Query: {
-		Post,
+    Post,
     allPosts,
-		_allPostsMeta
+    _allPostsMeta
   },
- Mutation: {
-	createPost,
-	updatePost,
-	deletePost
- }
+  Mutation: {
+    createPost,
+    updatePost,
+    deletePost
+  }
 }

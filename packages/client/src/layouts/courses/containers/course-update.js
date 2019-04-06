@@ -1,17 +1,18 @@
-/* eslint react-hooks/exhaustive-deps: 0 */
-import React, {useState, useEffect} from "react"
+import React, {Component} from "react"
 /* import {Admin, Resource, ListGuesser} from "react-admin" */
-import {session} from "brownies"
+import {Admin, Resource} from "react-admin"
 import buildGraphQLProvider from "ra-data-graphql-simple"
+/* import {PostCreate, PostEdit, PostList} from "./posts" */
+import {PostsList} from "../components/posts"
+/* import {Admin, Resource} from "react-admin" */
+/* import {session} from "brownies" */
 /* import {UserList} from "../components/users" */
-import Dashboard from "./course-dashboard.js"
-import {Admin} from "react-admin"
-/* import {Resource} from "react-admin" */
+/* import Dashboard from "./course-dashboard.js" */
 /* import {ApolloInstance} from "../../../apollo.js" */
 /* import {LevelsList, LevelsEdit, LevelsCreate} from "../components/levels" */
 /* import {PostsList} from "../components/posts.js" */
-import Grid from "@material-ui/core/Grid"
-import Typography from "@material-ui/core/Typography"
+/* import Grid from "@material-ui/core/Grid" */
+/* import Typography from "@material-ui/core/Typography" */
 /* import PostIcon from "@material-ui/icons/Book" */
 /* import UserIcon from "@material-ui/icons/Group" */
 import {withStyles} from "@material-ui/core/styles"
@@ -26,53 +27,31 @@ import {styles} from "../styles.js"
 /* 	client: ApolloInstance */
 /* }); */
 
-const CourseUpdate = ({classes}) => {
-  const [state, changeState] = useState({
-    dataProvider: null
-  })
-
-  useEffect(() => {
-    buildGraphQLProvider({clientOptions: {uri: "/graphql"}}).then(result => {
-      changeState({
-        ...state,
-        dataProvider: result
-      })
-    })
-  }, [])
-
-  const {course} = session
-
-  if (!state.dataProvider) {
-    return <div>Loading</div>
+class CourseUpdate extends Component {
+  constructor() {
+    super()
+    this.state = {dataProvider: null}
   }
 
-  return (
-    <React.Fragment>
-      <div className={classes.heroUnit}>
-        <div className={classes.heroContent}>
-          <Grid container justify="center" direction="column">
-            <Typography variant="h4" align="center" gutterBottom>
-              {course.title}
-            </Typography>
-          </Grid>
-        </div>
-      </div>
-      <Admin
-        dashboard={Dashboard}
-        /* authProvider={authProvider} */
-        dataProvider={state.dataProvider}>
-        {/* <Resource name="Post" list={PostsList} />
-         <Resource
-          name="levels"
-          list={LevelsList}
-          edit={LevelsEdit}
-          create={LevelsCreate}
-          icon={PostIcon}
-        />
-        <Resource name="users" list={UserList} icon={UserIcon} /> */}
+  componentDidMount() {
+    buildGraphQLProvider({
+      clientOptions: {uri: "http://192.168.68.8:3010/graphql"}
+    }).then(dataProvider => this.setState({dataProvider}))
+  }
+
+  render() {
+    const {dataProvider} = this.state
+
+    if (!dataProvider) {
+      return <div>Loading</div>
+    }
+
+    return (
+      <Admin dataProvider={dataProvider}>
+        <Resource name="Post" list={PostsList} />
       </Admin>
-    </React.Fragment>
-  )
+    )
+  }
 }
 
 export default withStyles(styles)(CourseUpdate)
