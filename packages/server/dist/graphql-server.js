@@ -39,6 +39,8 @@ var _courseResolvers = require("./api/course/course-resolvers.js");
 
 var _levelResolvers = require("./api/level/level-resolvers.js");
 
+var _postResolvers = require("./api/post/post-resolvers.js");
+
 var _termResolvers = require("./api/term/term-resolvers.js");
 
 var _testResolvers = require("./api/test/test-resolvers.js");
@@ -56,6 +58,8 @@ var appSchema = _path.default.join(__dirname, "./api/app/app.graphql");
 var courseSchema = _path.default.join(__dirname, "./api/course/course.graphql");
 
 var levelSchema = _path.default.join(__dirname, "./api/level/level.graphql");
+
+var postSchema = _path.default.join(__dirname, "./api/post/post.graphql");
 
 var sharedSchema = _path.default.join(__dirname, "./api/shared/shared.graphql");
 
@@ -76,6 +80,8 @@ var courseTypeDefs = _fs.default.readFileSync(courseSchema, "utf8");
 
 var levelTypeDefs = _fs.default.readFileSync(levelSchema, "utf8");
 
+var postTypeDefs = _fs.default.readFileSync(postSchema, "utf8");
+
 var sharedTypeDefs = _fs.default.readFileSync(sharedSchema, "utf8");
 
 var termTypeDefs = _fs.default.readFileSync(termSchema, "utf8");
@@ -92,14 +98,14 @@ var zoneTypeDefs = _fs.default.readFileSync(zoneSchema, "utf8"); // resolver imp
 // baseSchema minimum requirement is a property query: Query
 var baseSchema = "\n  schema {\n    query: Query,\n    mutation: Mutation\n  }\n";
 var schema = (0, _apolloServer.makeExecutableSchema)({
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
+  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, postTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
   schemaDirectives: {
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.AuthDirective,
     hasScope: _authHasScope.hasScopeDirective
   },
-  resolvers: (0, _merge.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
+  resolvers: (0, _merge.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _postResolvers.postResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
 });
 var ObjectId = _mongoose.default.Types.ObjectId;
 

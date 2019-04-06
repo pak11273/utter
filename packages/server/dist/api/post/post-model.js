@@ -7,7 +7,7 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.LevelSchema = void 0;
+exports.default = exports.PostSchema = void 0;
 
 var _mongoose = _interopRequireWildcard(require("mongoose"));
 
@@ -15,8 +15,8 @@ var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
 var _vocabularyModel = _interopRequireDefault(require("../vocabulary/vocabulary-model.js"));
 
-var LevelSchema = new _mongoose.default.Schema({
-  level: {
+var PostSchema = new _mongoose.default.Schema({
+  post: {
     type: Number,
     required: [true, "can't be blank"]
   },
@@ -79,10 +79,10 @@ var LevelSchema = new _mongoose.default.Schema({
     type: String
   }
 });
-exports.LevelSchema = LevelSchema;
+exports.PostSchema = PostSchema;
 
-_mongoose.default.model("Level", LevelSchema);
+_mongoose.default.model("Post", PostSchema);
 
-var _default = _mongoose.default.model("Level", LevelSchema);
+var _default = _mongoose.default.model("Post", PostSchema);
 
 exports.default = _default;

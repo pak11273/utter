@@ -24,6 +24,7 @@ type Level {
   createdAt: Int
 	examples: [Example]
 	grammar: [Grammar]
+	id: ID!
   _id: ID
 	level: Int
 	notes: String 
@@ -56,6 +57,7 @@ type PaginatedLevels {
 
 extend type Query {
   getLevel(levelId: String!): Level!
+	allLevels(page: Int, perPage: Int, sortField: String, sortOrder: String ): [Level]
   getLevels(
 		courseId: String!
   ): PaginatedLevels 
