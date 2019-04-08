@@ -56,11 +56,7 @@ const LevelsUpdate = props => {
         })
       })
       .catch(err => console.log("err: ", err))
-    /* console.log("levels: ", levels) */
   }, [])
-  /* console.log("data: ", data) */
-  /* console.log("error: ", error) */
-  /* console.log("loading: ", loading) */
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
@@ -90,6 +86,7 @@ const LevelsUpdate = props => {
                 icons={{
                   Add: () => <Add />,
                   Check: () => <Check />,
+                  Clear: () => <Clear />,
                   ResetSearch: () => <Clear />,
                   Delete: () => <Delete />,
                   Export: () => <SaveAlt />,
@@ -127,17 +124,14 @@ const LevelsUpdate = props => {
                 ]}
                 options={{
                   actionsColumnIndex: -1,
-                  pageSize: 10
+                  pageSize: 10,
+                  showTitle: false
                 }}
                 editable={{
                   onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
-                        console.log("newData: ", newData)
                         console.log("reject: ", reject)
-                        console.log("useState: ", useState)
-                        console.log("changeState: ", changeState)
-                        console.log("state.data: ", state.data)
                         const {data} = state
                         data.push(newData)
                         changeState({...state, data})
