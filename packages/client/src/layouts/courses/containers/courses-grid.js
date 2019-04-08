@@ -18,7 +18,7 @@ import Typography from "@material-ui/core/Typography"
 import {LoadingButton} from "../../../components"
 import {compose} from "react-apollo"
 import {session} from "brownies"
-import {GET_COURSES} from "../course-queries.js"
+import {GET_COURSES} from "../xhr.js"
 import {useQuery} from "react-apollo-hooks"
 
 import {subsToSize} from "../../../utils/helpers.js"

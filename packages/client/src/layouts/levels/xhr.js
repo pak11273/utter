@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-export const getLevels = gql`
+export const GET_LEVELS = gql`
   query getLevels($courseId: String!) {
     getLevels(courseId: $courseId) {
       levels {
@@ -8,44 +8,39 @@ export const getLevels = gql`
         courseId
         level
         title
-        vocabulary {
-          audioUrl
-          courseId
-          _id
-          gender
-          level
-          word
-          translation
-        }
       }
     }
   }
 `
 
-export const levelCreate = gql`
-  mutation levelCreate($input: LevelCreateInput!) {
-    levelCreate(input: $input) {
-      level {
-        courseId
-        id
-        level
-        title
-        vocabulary {
-          audioUrl
-          courseId
-          id
-          gender
-          level
-          word
-          translation
-        }
-      }
-      errors {
-        message
-      }
-    }
-  }
-`
+/* export const LEVEL_CREATE = gql` */
+/*   mutation levelCreate( */
+/* 	$courseId: String */
+/* 	$level: Int */
+/* 	$title: String */
+/* 	) { */
+/*     levelCreate( */
+/* 			input: { */
+/* 				$courseId: courseId */
+
+/* 				$level: level */
+
+/* 				$title: title */
+
+/* 			} */
+/* 		) { */
+/*       level { */
+/*         courseId */
+/*         _id */
+/*         level */
+/*         title */
+/*       } */
+/*       errors { */
+/*         message */
+/*       } */
+/*     } */
+/*   } */
+/* ` */
 
 export const DELETE_LEVEL = gql`
   mutation levelDelete($courseId: String, $level: Int, $title: String) {

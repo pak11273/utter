@@ -1,398 +1,322 @@
-import React, {Component} from "react"
-import ReactTable from "react-table"
-import update from "immutability-helper"
-import "react-table/react-table.css"
+/* eslint react-hooks/exhaustive-deps:0 */
 
-import Button from "@material-ui/core/Button"
-import CircularProgress from "@material-ui/core/CircularProgress"
+import React, {useEffect, useState} from "react"
+/* import {Route, NavLink} from "react-router-dom" */
+import {session} from "brownies"
+import {useQuery} from "react-apollo-hooks"
+
 import Grid from "@material-ui/core/Grid"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import TextField from "@material-ui/core/TextField"
+/* import Link from "@material-ui/core/Link" */
+/* import List from "@material-ui/core/List" */
+/* import ListItem from "@material-ui/core/ListItem" */
+/* import ListItemText from "@material-ui/core/ListItemText" */
+import MaterialTable from "material-table"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-/* components */
-import {LevelDeleteModal} from "../components"
-import {Can, Hero, LoaderCircle} from "../../../components"
+/* import {SvgIconProps} from "@material-ui/core/SvgIcon" */
+import Add from "@material-ui/icons/Add"
+import Check from "@material-ui/icons/Check"
+import Clear from "@material-ui/icons/Clear"
+import ChevronLeft from "@material-ui/icons/ChevronLeft"
+import ChevronRight from "@material-ui/icons/ChevronRight"
+import Delete from "@material-ui/icons/Delete"
+import FilterList from "@material-ui/icons/FilterList"
+import FirstPage from "@material-ui/icons/FirstPage"
+import LastPage from "@material-ui/icons/LastPage"
+import Remove from "@material-ui/icons/Remove"
+import SaveAlt from "@material-ui/icons/SaveAlt"
+import Search from "@material-ui/icons/Search"
+import ViewColumn from "@material-ui/icons/ViewColumn"
 
-import {session} from "brownies"
-import {Mutation, Query} from "react-apollo"
-import classNames from "classnames"
-import isEmpty from "lodash/isEmpty"
+import {getLevels} from "../xhr.js"
 
-import {levelSchema} from "@utterzone/common"
-import {styles} from "../styles.js"
+/* import styled from "styled-components" */
+/* import cloneDeep from "lodash/cloneDeep" */
+/* import {Can, Spacer} from "../../../components" */
+import {LayoutLoader} from "../../../components"
 
-import {getLevels, levelCreate} from "../xhr.js"
+/* const getCourse = gql` */
+/*   query getCourse($_id: ID!) { */
+/*     getCourse(_id: $_id) { */
+/*       _id */
+/*       courseImage */
+/*       title */
+/*       courseMode */
+/*       owner { */
+/*         username */
+/*       } */
+/*     } */
+/*   } */
+/* ` */
 
-class Levels extends Component {
-  constructor(props) {
-    super(props)
+/* const StyledNavLink = styled(NavLink)` */
+/*   grid-area: ${props => props.gridarea}; */
+/*   color: #003478; */
+/*   &:hover { */
+/*     color: red; */
+/*     text-decoration: underline; */
+/*   } */
+/* ` */
+const drawerWidth = 240
 
-    this.state = {
-      courseId: "",
-      formErrors: {
-        errors: []
-      },
-      modalLevel: "",
-      modalTitle: "",
-      openDeleteModal: false,
-      title: "",
-      level: ""
-    }
+const styles = theme => ({
+  content: {
+    alignItems: "center",
+    display: "flex",
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: theme.spacing.unit * 3
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  drawerPaper: {
+    width: drawerWidth
+  },
+  heroUnit: {
+    backgroundColor: theme.palette.background.paper
+  },
+  heroContent: {
+    margin: "0 auto",
+    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
+  },
+  list: {
+    margin: "0 auto"
+  },
+  root: {
+    width: "100%"
   }
+})
 
-  componentDidMount() {
-    const {course} = session
-    this.setState({
-      courseId: course._id
-    })
-  }
+const LevelsUpdate = props => {
+  const {course} = session
+  const {classes} = props
+  const [state, changeState] = useState({
+    data: []
+  })
 
-  addLevel = levelCreate => async e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     // reset errors
-    const resetErrors = update(this.state, {
-      formErrors: {
-        errors: {$set: []}
-      }
-    })
-    this.setState(resetErrors)
+    /* const resetErrors = handleChange({ */
+    /*   ...state, */
+    /*   formErrors: { */
+    /*     errors: [] */
+    /*   } */
+    /* }) */
 
-    await levelSchema.validate(this.state).catch(e => {
-      if (e) {
-        const newState = update(this.state, {
-          formErrors: {$set: e}
+    /* const yupCheck = await courseSchema.validate(state).catch(err => { */
+    /*   if (err) { */
+    /*     console.log("err: ", err) */
+    /*     handleChange({ */
+    /*       ...state, */
+    /*       formErrors: { */
+    /*         errors: err */
+    /*       } */
+    /*     }) */
+    /*     console.log("state: ", state) */
+    /*     return err */
+    /*   } */
+    /* }) */
+    /* if (isEmpty(yupCheck.errors)) { */
+    /*   handleChange({ */
+    /*     ...state, */
+    /*     loading: true */
+    /*   }) */
+    /*   const updatedCourse = await props.client.mutate({ */
+    /*     mutation: COURSE_UPDATE, */
+    /*     variables: { */
+    /*       _id: state.courseId, */
+    /*       title: state.title, */
+    /*       courseDescription: state.courseDescription */
+    /*     } */
+    /*   }) */
+    /*   if (updatedCourse) { */
+    /*     console.log("updated: ", updatedCourse) */
+    /*     session.course = updatedCourse.data.courseUpdate */
+    /*     // TODO:  toastify & make loading button work on save */
+    /*     toast.success("Your changes were saved.", { */
+    /*       className: "toasty", */
+    /*       bodyClassName: "toasty-body", */
+    /*       hideProgressBar: true */
+    /*     }) */
+    /*   } */
+
+    /*   handleChange({ */
+    /*     ...state, */
+    /*     formErrors: { */
+    /*       errors: ["hi"] */
+    /*     }, */
+    /*     loading: false */
+    /*   }) */
+    /* } */
+  }
+
+  const {data, error, loading} = useQuery(getLevels, {
+    variables: {
+      courseId: course._id
+    }
+  })
+
+  useEffect(
+    () => {
+      const onCompleted = data => {
+        changeState({
+          ...state,
+          data: data.getLevels.levels
         })
-        this.setState(newState)
       }
-    })
-
-    // mutate if no errors
-    if (isEmpty(this.state.formErrors.errors)) {
-      levelCreate({
-        variables: {
-          input: {
-            level: this.state.level,
-            title: this.state.title
-          }
+      const onError = error => {
+        return (
+          <Grid>
+            <pre>
+              {error.graphQLErrors.map(({message}, i) => (
+                <p
+                  style={{
+                    fontSize: "1em",
+                    color: "red",
+                    margin: "30px",
+                    padding: "30px",
+                    textAlign: "center"
+                  }}
+                  key={i}>
+                  {message}
+                </p>
+              ))}
+            </pre>
+          </Grid>
+        )
+      }
+      if (onCompleted || onError) {
+        if (onCompleted && !loading && !error) {
+          onCompleted(data)
+        } else if (onError && !loading && error) {
+          onError(error)
         }
-      })
-    }
+      }
+    },
+    [loading, data, error]
+  )
 
-    // reset state
-    const labelState = update(this.state, {
-      openDeleteModal: {$set: false},
-      title: {$set: ""},
-      level: {$set: ""}
-    })
-    this.setState(labelState)
+  if (loading) {
+    return <LayoutLoader />
   }
 
-  onChange = e => {
-    if (e.target.name === "level") {
-      this.setState({
-        [e.target.name]: Number(e.target.value)
-      })
-    } else {
-      this.setState({
-        [e.target.name]: e.target.value
-      })
-    }
-  }
+  /* if (error) */
+  /*   return ( */
+  /*     <Grid> */
+  /*       <pre> */
+  /*         {error.graphQLErrors.map(({message}, i) => ( */
+  /*           <p */
+  /*             style={{ */
+  /*               fontSize: "1em", */
+  /*               color: "red", */
+  /*               margin: "30px", */
+  /*               padding: "30px", */
+  /*               textAlign: "center" */
+  /*             }} */
+  /*             key={i}> */
+  /*             {message} */
+  /*           </p> */
+  /*         ))} */
+  /*       </pre> */
+  /*     </Grid> */
+  /*   ) */
+  console.log("data: ", data)
+  console.log("state: ", state.data)
 
-  handleDelete = row => () => {
-    this.setState({
-      openDeleteModal: true,
-      modalLevel: row.original.level,
-      modalTitle: row.original.title
-    })
-  }
-
-  closeDeleteModal = () => {
-    this.setState({
-      openDeleteModal: false
-    })
-  }
-
-  deleteLevel = DELETE_LEVEL => e => {
-    e.preventDefault()
-
-    if (isEmpty(this.state.formErrors.errors)) {
-      DELETE_LEVEL({
-        variables: {
-          input: {
-            level: this.state.level
-          }
-        }
-      })
-    }
-
-    // reset state
-    const labelState = update(this.state, {
-      title: {$set: ""},
-      level: {$set: ""}
-    })
-    this.setState(labelState)
-  }
-
-  render() {
-    const {course} = session
-
-    const {classes, user} = this.props
-    const levelError = classNames({
-      errorClass:
-        this.state.formErrors.path === "level" &&
-        !isEmpty(this.state.formErrors.errors)
-    })
-
-    const titleError = classNames({
-      errorClass:
-        this.state.formErrors.path === "title" &&
-        !isEmpty(this.state.formErrors.errors)
-    })
-
-    const formErrors = this.state.formErrors.errors.map((error, i) => {
-      return (
-        <ListItem key={i}>
-          <Typography className={classes.errors}>{error}</Typography>
-        </ListItem>
-      )
-    })
-
-    const columns = [
-      {
-        Header: () => (
-          <Can
-            roles={user.roles}
-            perform="course:update-levels"
-            id={user.username}
-            matchingID={course.owner.username}
-            yes={() => (
-              <TextField
-                align="center"
-                className={`${classes[levelError]} ${classes.inputHeader}`}
-                fullWidth
-                id="outlined-bare"
-                margin="normal"
-                name="level"
-                onChange={this.onChange}
-                placeholder="Add a level number here."
-                value={this.state.level}
-                variant="outlined"
-              />
-            )}
-            no={() => null}
+  return (
+    <form className={classes.root} onSubmit={handleSubmit}>
+      <div className={classes.heroUnit}>
+        <div className={classes.heroContent}>
+          <Grid container justify="center" direction="column">
+            <Typography variant="h4" align="center" gutterBottom>
+              Course Levels
+            </Typography>
+          </Grid>
+        </div>
+      </div>
+      <main className={classes.content}>
+        <Grid container spacing={24}>
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center"
+            }}
           />
-        ),
-        columns: [
-          {
-            Header: () => (
-              <Typography className={classes.header}>Level</Typography>
-            ),
-            accessor: "level",
-            Cell: row => (
-              <Typography className={classes.level}>{row.value}</Typography>
-            ),
-            minWidth: 60,
-            maxWidth: 80
-          }
-        ]
-      },
-      {
-        Header: () => (
-          <Can
-            roles={user.roles}
-            perform="course:update-levels"
-            id={user.username}
-            matchingID={course.owner.username}
-            yes={() => (
-              <TextField
-                className={`${classes[titleError]} ${classes.inputHeader}`}
-                fullWidth
-                id="outlined-bare"
-                margin="normal"
-                name="title"
-                onChange={this.onChange}
-                placeholder="And it's title here."
-                value={this.state.title}
-                variant="outlined"
-              />
-            )}
-            no={() => null}
-          />
-        ),
-        columns: [
-          {
-            Header: () => (
-              <Typography className={classes.header}>Title</Typography>
-            ),
-            accessor: "title",
-            Cell: props => (
-              <Typography className={classes.title}>{props.value}</Typography>
-            )
-          }
-        ]
-      },
-      {
-        Header: () => (
-          <div className={classes.addButton}>
-            <Mutation
-              mutation={levelCreate}
-              update={(cache, {data: {levelCreate}}) => {
-                try {
-                  var gotLevels = cache.readQuery({
-                    query: getLevels,
-                    variables: {courseId: course._id}
-                  })
-                  var {levels} = gotLevels.getLevels
-                  cache.writeQuery({
-                    query: getLevels,
-                    variables: {
-                      courseId: course._id
-                    },
-                    data: {
-                      getLevels: {
-                        levels: levels.concat([levelCreate.level])
-                      }
+          <Grid item xs={12} align="center">
+            <div style={{maxWidth: "100%"}}>
+              <MaterialTable
+                icons={{
+                  Add: () => <Add />,
+                  Check: () => <Check />,
+                  Clear: () => <Clear />,
+                  Delete: () => <Delete />,
+                  Export: () => <SaveAlt />,
+                  Filter: () => <FilterList />,
+                  FirstPage: () => <FirstPage />,
+                  LastPage: () => <LastPage />,
+                  NextPage: () => <ChevronRight />,
+                  PreviousPage: () => <ChevronLeft />,
+                  Search: () => <Search />,
+                  ThirdStateCheck: () => <Remove />,
+                  ViewColumn: () => <ViewColumn />,
+                  DetailPanel: () => <ChevronRight />
+                }}
+                columns={[
+                  {title: "level", field: "level"},
+                  {title: "title", field: "title"}
+                ]}
+                data={state.data}
+                actions={[
+                  {
+                    icon: () => <Check />,
+                    tooltip: "Edit Level",
+                    onClick: (event, rowData) => {
+                      alert("Accept level: " + rowData.level)
+                    }
+                  },
+                  rowData => ({
+                    icon: () => <Delete />,
+                    tooltip: "Delete Level",
+                    disabled: rowData.birthYear >= 2000,
+                    onClick: (event, rowData) => {
+                      alert("Delete level: " + rowData.level)
                     }
                   })
-                } catch (err) {
-                  console.log("err: ", err)
-                }
-              }}>
-              {(levelCreate, {loading}) => {
-                return loading ? (
-                  <CircularProgress />
-                ) : (
-                  <Can
-                    roles={user.roles}
-                    perform="course:update-levels"
-                    id={user.username}
-                    matchingID={course.owner.username}
-                    yes={() => (
-                      <Button
-                        type="submit"
-                        onClick={this.addLevel(levelCreate)}>
-                        Add Level
-                      </Button>
-                    )}
-                    no={() => null}
-                  />
-                )
-              }}
-            </Mutation>
-          </div>
-        ),
-        columns: [
-          {
-            Header: () => (
-              <Can
-                roles={user.roles}
-                perform="course:update-levels"
-                id={user.username}
-                matchingID={course.owner.username}
-                yes={() => (
-                  <Typography className={classes.header}>Edit</Typography>
-                )}
-                no={() => null}
+                ]}
+                options={{
+                  actionsColumnIndex: -1
+                }}
+                editable={{
+                  onRowAdd: newData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        console.log("newData: ", newData)
+                        console.log("reject: ", reject)
+                        console.log("useState: ", useState)
+                        console.log("changeState: ", changeState)
+                        console.log("state.data: ", state.data)
+                        const {data} = state
+                        data.push(newData)
+                        changeState({...state, data})
+                        resolve(state.data)
+                      }, 1000)
+                    })
+                }}
               />
-            ),
-            Cell: row => (
-              <Can
-                roles={user.roles}
-                perform="course:update-levels"
-                id={user.username}
-                matchingID={course.owner.username}
-                yes={() => (
-                  <LevelDeleteModal
-                    row={row}
-                    {...this.state}
-                    closeDeleteModal={this.closeDeleteModal}
-                    handleDelete={this.handleDelete}
-                  />
-                )}
-                no={() => null}
-              />
-            ),
-            minWidth: 90,
-            maxWidth: 100
-          }
-        ],
-        minWidth: 30
-      }
-    ]
-    return (
-      <Query
-        errorPolicy="all"
-        query={getLevels}
-        variables={{
-          courseId: course._id
-        }}>
-        {({loading, error, data}) => {
-          if (loading) {
-            return <LoaderCircle />
-          }
-          if (error)
-            return (
-              <Grid>
-                <pre>
-                  {error.graphQLErrors.map(({message}, i) => (
-                    <p
-                      style={{
-                        fontSize: "1em",
-                        color: "red",
-                        margin: "30px",
-                        padding: "30px",
-                        textAlign: "center"
-                      }}
-                      key={i}>
-                      {message}
-                    </p>
-                  ))}
-                </pre>
-              </Grid>
-            )
-
-          /* if (!isEmpty(data.getLevels.levels)) { */
-          /*   console.log("data: ", data.getLevels.levels) */
-          /* } */
-
-          return (
-            <Grid container direction="column">
-              <Hero title="Levels" />
-              <List>{formErrors}</List>
-              <Grid item>
-                <ReactTable
-                  getTheadThProps={() => {
-                    return {style: {outline: 0, textAlign: "left"}}
-                  }}
-                  getTheadGroupThProps={() => {
-                    return {
-                      style: {
-                        alignItems: "center",
-                        display: "flex",
-                        justifyContent: "center",
-                        margin: "30px auto",
-                        outline: 0,
-                        whiteSpace: "inherit"
-                      }
-                    }
-                  }}
-                  className="-striped -highlight"
-                  data={data.getLevels.levels}
-                  columns={columns}
-                  defaultPageSize={10}
-                />
-              </Grid>
-            </Grid>
-          )
-        }}
-      </Query>
-    )
-  }
+            </div>
+          </Grid>
+        </Grid>
+      </main>
+    </form>
+  )
 }
 
-export default withStyles(styles)(Levels)
+export default withStyles(styles)(LevelsUpdate)

@@ -1,3 +1,5 @@
+const drawerWidth = 240
+
 export const styles = theme => ({
   actions: {
     display: "flex",
@@ -10,6 +12,20 @@ export const styles = theme => ({
     display: "flex",
     height: "100%",
     justifyContent: "center"
+  },
+  content: {
+    alignItems: "center",
+    display: "flex",
+    flexGrow: 1,
+    justifyContent: "center",
+    padding: theme.spacing.unit * 3
+  },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  drawerPaper: {
+    width: drawerWidth
   },
   editHeader: {
     alignItems: "center",
@@ -52,13 +68,23 @@ export const styles = theme => ({
     minHeight: "40px",
     width: "100%"
   },
+  heroUnit: {
+    backgroundColor: theme.palette.background.paper
+  },
+  heroContent: {
+    margin: "0 auto",
+    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
+  },
   inputHeader: {
     background: "white",
     minHeight: "40px"
   },
-  root: {
-    maxWidth: 900,
+  list: {
     margin: "0 auto"
+  },
+  root: {
+    margin: "0 auto",
+    width: "100%"
   },
   text: {
     color: "white"

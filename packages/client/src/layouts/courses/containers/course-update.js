@@ -4,7 +4,6 @@ import {session} from "brownies"
 
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
-/* import Grid from "@material-ui/core/Grid" */
 import Link from "@material-ui/core/Link"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"

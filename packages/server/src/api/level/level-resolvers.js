@@ -69,6 +69,7 @@ const levelUpdate = (_, {input}) => {
 }
 
 const levelCreate = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   let arrayOfErrors = []
   const token = ctx.req.headers.authorization
   if (token === "null") {
@@ -114,6 +115,7 @@ const levelCreate = async (_, args, ctx, info) => {
 }
 
 const getLevels = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   let result = await Course.find({_id: args.courseId}).exec()
 
   const sortedLevels = result[0].levels.sort((a, b) => {

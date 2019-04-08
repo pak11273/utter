@@ -38,6 +38,7 @@ import MastheadTitle from "./MastheadTitle.js"
 import levels from "./selects/course-levels.js"
 import List from "./Lists/List.js"
 import ListItem from "./Lists/ListItem.js"
+import LayoutLoader from "./loaders/layout-loader.js"
 import LoaderCircle from "./loaders/loader-circle.js"
 import LoadingButton from "./buttons/loading-button.js"
 import PlayBox from "./Boxes/Playbox.js"
@@ -104,6 +105,7 @@ export {
   MastheadSubtitle,
   List,
   ListItem,
+  LayoutLoader,
   LoaderCircle,
   LoadingButton,
   PlayBox,
