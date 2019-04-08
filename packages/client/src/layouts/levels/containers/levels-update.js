@@ -90,7 +90,7 @@ const LevelsUpdate = props => {
                 icons={{
                   Add: () => <Add />,
                   Check: () => <Check />,
-                  Clear: () => <Clear />,
+                  ResetSearch: () => <Clear />,
                   Delete: () => <Delete />,
                   Export: () => <SaveAlt />,
                   Filter: () => <FilterList />,
@@ -127,8 +127,7 @@ const LevelsUpdate = props => {
                 ]}
                 options={{
                   actionsColumnIndex: -1,
-                  pageSize: 10,
-                  showTitle: false
+                  pageSize: 10
                 }}
                 editable={{
                   onRowAdd: newData =>
