@@ -7,17 +7,17 @@ import {session} from "brownies"
 import Add from "@material-ui/icons/Add"
 /* import Check from "@material-ui/icons/Check" */
 import Clear from "@material-ui/icons/Clear"
-/* import ChevronLeft from "@material-ui/icons/ChevronLeft" */
-/* import ChevronRight from "@material-ui/icons/ChevronRight" */
+import ChevronLeft from "@material-ui/icons/ChevronLeft"
+import ChevronRight from "@material-ui/icons/ChevronRight"
 /* import Delete from "@material-ui/icons/Delete" */
 import Edit from "@material-ui/icons/Edit"
-/* import FirstPage from "@material-ui/icons/FirstPage" */
+import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
-/* import LastPage from "@material-ui/icons/LastPage" */
+import LastPage from "@material-ui/icons/LastPage"
 import Paper from "@material-ui/core/Paper"
 /* import Remove from "@material-ui/icons/Remove" */
 /* import SaveAlt from "@material-ui/icons/SaveAlt" */
-/* import Search from "@material-ui/icons/Search" */
+import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
 /* import ViewColumn from "@material-ui/icons/ViewColumn" */
 import {withStyles} from "@material-ui/core/styles"
@@ -97,13 +97,13 @@ const LevelsUpdate = props => {
                   /* Clear: () => <Clear />, */
                   ResetSearch: () => <Clear />,
                   /* Delete: () => <Delete /> */
-                  Edit: () => <Edit />
+                  Edit: () => <Edit />,
                   /* Export: () => <SaveAlt />, */
-                  /* FirstPage: () => <FirstPage />, */
-                  /* LastPage: () => <LastPage />, */
-                  /* NextPage: () => <ChevronRight />, */
-                  /* PreviousPage: () => <ChevronLeft />, */
-                  /* Search: () => <Search />, */
+                  FirstPage: () => <FirstPage />,
+                  LastPage: () => <LastPage />,
+                  NextPage: () => <ChevronRight />,
+                  PreviousPage: () => <ChevronLeft />,
+                  Search: () => <Search />
                   /* ThirdStateCheck: () => <Remove /> */
                   /* ViewColumn: () => <ViewColumn />, */
                   /* DetailPanel: () => <ChevronRight /> */
@@ -132,9 +132,9 @@ const LevelsUpdate = props => {
                 /* ]} */
                 options={{
                   actionsColumnIndex: -1,
-                  pageSize: 10
-                  /* showTitle: false, */
-                  /* sorting: false */
+                  pageSize: 10,
+                  showTitle: false,
+                  sorting: false
                 }}
                 editable={
                   {
