@@ -5,6 +5,7 @@ import {CourseModal} from "../../../containers"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
+import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
@@ -106,17 +107,21 @@ class CourseSettings extends Component {
           <title>Utterzone | Settings</title>
           <link rel="canonical" href="https://utter.zone/settings" />
         </Helmet>
-        {/* Hero unit */}
-        <div className={classes.heroUnit}>
-          <div className={classes.heroContent}>
-            <Grid container justify="center" direction="column">
-              <Typography variant="h4" align="center" gutterBottom>
-                Settings
-              </Typography>
-            </Grid>
-          </div>
-        </div>
-        {/* End hero unit */}
+        <Grid
+          className={classes.hero}
+          container
+          justify="center"
+          direction="column">
+          <Paper className={classes.header} elevation={1}>
+            <Typography
+              className={classes.headerBody}
+              variant="h4"
+              align="center"
+              gutterBottom>
+              Settings
+            </Typography>
+          </Paper>
+        </Grid>
         <main className={classes.content}>
           <Grid container spacing={24}>
             {/* TODO: Course mode feature

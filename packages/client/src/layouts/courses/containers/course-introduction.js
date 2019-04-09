@@ -6,6 +6,7 @@ import {toast} from "react-toastify"
 /* /1* import Button from "@material-ui/core/Button" *1/ */
 import CircularProgress from "@material-ui/core/CircularProgress"
 import Grid from "@material-ui/core/Grid"
+import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import isEmpty from "lodash/isEmpty"
@@ -252,15 +253,21 @@ const CourseIntroduction = props => {
                 href="https://utter.zone/course/course-introduction"
               />
             </Helmet>
-            <div className={classes.heroUnit}>
-              <div className={classes.heroContent}>
-                <Grid container justify="center" direction="column">
-                  <Typography variant="h4" align="center" gutterBottom>
-                    Introduction
-                  </Typography>
-                </Grid>
-              </div>
-            </div>
+            <Grid
+              className={classes.hero}
+              container
+              justify="center"
+              direction="column">
+              <Paper className={classes.header} elevation={1}>
+                <Typography
+                  className={classes.headerBody}
+                  variant="h4"
+                  align="center"
+                  gutterBottom>
+                  Introduction
+                </Typography>
+              </Paper>
+            </Grid>
             <main className={classes.content}>
               <Grid container spacing={24}>
                 <Grid

@@ -68,6 +68,12 @@ export const styles = theme => ({
     minHeight: "40px",
     width: "100%"
   },
+  headerBody: {
+    padding: "40px"
+  },
+  hero: {
+    padding: " 0 24px "
+  },
   heroUnit: {
     backgroundColor: theme.palette.background.paper
   },

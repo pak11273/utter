@@ -14,6 +14,7 @@ import FilterList from "@material-ui/icons/FilterList"
 import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
 import LastPage from "@material-ui/icons/LastPage"
+import Paper from "@material-ui/core/Paper"
 import Remove from "@material-ui/icons/Remove"
 import SaveAlt from "@material-ui/icons/SaveAlt"
 import Search from "@material-ui/icons/Search"
@@ -22,7 +23,7 @@ import ViewColumn from "@material-ui/icons/ViewColumn"
 import {withStyles} from "@material-ui/core/styles"
 
 import MaterialTable from "material-table"
-import {GET_LEVELS} from "../xhr.js"
+import {GET_LEVELS, LEVEL_CREATE} from "../xhr.js"
 import {styles} from "../styles.js"
 
 const LevelsUpdate = props => {
@@ -50,6 +51,7 @@ const LevelsUpdate = props => {
         }
       })
       .then(res => {
+        session.levels = res.data.getLevels.levels
         changeState({
           ...state,
           data: res.data.getLevels.levels
@@ -60,15 +62,21 @@ const LevelsUpdate = props => {
 
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
-      <div className={classes.heroUnit}>
-        <div className={classes.heroContent}>
-          <Grid container justify="center" direction="column">
-            <Typography variant="h4" align="center" gutterBottom>
-              Course Levels
-            </Typography>
-          </Grid>
-        </div>
-      </div>
+      <Grid
+        className={classes.hero}
+        container
+        justify="center"
+        direction="column">
+        <Paper className={classes.header} elevation={1}>
+          <Typography
+            className={classes.headerBody}
+            variant="h4"
+            align="center"
+            gutterBottom>
+            Course Levels
+          </Typography>
+        </Paper>
+      </Grid>
       <main className={classes.content}>
         <Grid container spacing={24}>
           <Grid
@@ -135,9 +143,21 @@ const LevelsUpdate = props => {
                         const {data} = state
                         data.push(newData)
                         changeState({...state, data})
-                        resolve(state.data)
+                        resolve(newData)
                       }, 1000)
                     })
+                      .then(res => {
+                        console.log("res: ", res)
+                        props.client.mutate({
+                          mutation: LEVEL_CREATE,
+                          variables: {
+                            courseId: course._id,
+                            level: +res.level,
+                            title: res.title
+                          }
+                        })
+                      })
+                      .catch(err => console.log("err: ", err))
                 }}
               />
             </div>

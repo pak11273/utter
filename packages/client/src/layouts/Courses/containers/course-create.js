@@ -240,7 +240,6 @@ class CourseCreate extends Component {
       values
     } = this.props
     const {title, courseDescription, usingLang} = this.props.values
-    console.log("errors: ", errors)
     return (
       <React.Fragment>
         <form className={classes.root} onSubmit={handleSubmit}>
@@ -484,7 +483,6 @@ export default compose(
       usingLang: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      console.log("values: ", values)
       const cdnUpload = await handleCloudinaryUpload(
         values.uploadedFile,
         "image",

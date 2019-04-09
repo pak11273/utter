@@ -82,45 +82,46 @@ const levelCreate = async (_, args, ctx, info) => {
 
   const {input} = args
 
-  const level = await Course.findOneAndUpdate(
-    {
-      _id: input.courseId,
-      "levels.level": {
-        $ne: input.level
-      }
-    },
-    {
-      $push: {
-        levels: {
-          courseId: input.courseId,
-          level: input.level,
-          title: input.title
-        }
-      }
-    },
-    {new: true}
-  )
+  const newLevel = new Level(input)
 
-  if (!level) {
+  const level = await newLevel.save()
+
+  const course = await Course.findById(input.courseId)
+
+  course.levels.push(level)
+
+  await course.save()
+
+  console.log("course: ", course)
+
+  if (!course) {
     arrayOfErrors.push({
       path: "level",
-      message: "Courses cannot have duplicate level numbers."
+      message: "Course was not found."
     })
   }
 
   return {
-    level: level.levels[level.levels.length - 1],
+    level,
     errors: arrayOfErrors
   }
 }
 
 const getLevels = async (_, args, ctx, info) => {
   console.log("args: ", args)
-  let result = await Course.find({_id: args.courseId}).exec()
+  let result = await Course.find({_id: args.courseId})
+    .populate("levels")
+    .sort({_id: -1})
+    .limit(100)
+    .lean()
+
+  console.log("result: ", result)
 
   const sortedLevels = result[0].levels.sort((a, b) => {
     return a.level - b.level
   })
+
+  console.log("sortedLevels: ", sortedLevels)
 
   if (isEmpty(result)) {
     return {levels: []}
