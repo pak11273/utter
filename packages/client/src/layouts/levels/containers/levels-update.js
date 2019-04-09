@@ -6,7 +6,7 @@ import {session} from "brownies"
 
 import Add from "@material-ui/icons/Add"
 /* import Check from "@material-ui/icons/Check" */
-/* import Clear from "@material-ui/icons/Clear" */
+import Clear from "@material-ui/icons/Clear"
 /* import ChevronLeft from "@material-ui/icons/ChevronLeft" */
 /* import ChevronRight from "@material-ui/icons/ChevronRight" */
 /* import Delete from "@material-ui/icons/Delete" */
@@ -95,7 +95,7 @@ const LevelsUpdate = props => {
                   Add: () => <Add />,
                   /* Check: () => <Check />, */
                   /* Clear: () => <Clear />, */
-                  /* ResetSearch: () => <Clear />, */
+                  ResetSearch: () => <Clear />,
                   /* Delete: () => <Delete /> */
                   Edit: () => <Edit />
                   /* Export: () => <SaveAlt />, */
@@ -131,8 +131,8 @@ const LevelsUpdate = props => {
                 /* }) */
                 /* ]} */
                 options={{
-                  actionsColumnIndex: -1
-                  /* pageSize: 10, */
+                  actionsColumnIndex: -1,
+                  pageSize: 10
                   /* showTitle: false, */
                   /* sorting: false */
                 }}
