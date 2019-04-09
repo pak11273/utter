@@ -133,6 +133,11 @@ const LevelsUpdate = props => {
                 options={{
                   actionsColumnIndex: -1,
                   pageSize: 10,
+                  rowStyle: x => {
+                    if (x.level % 2) {
+                      return {backgroundColor: "#f2f2f2"}
+                    }
+                  },
                   showTitle: false
                 }}
                 editable={{
