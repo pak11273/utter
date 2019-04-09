@@ -34,7 +34,7 @@ export const DELETE_LEVEL = gql`
     levelDelete(courseId: $courseId, level: $level, title: $title) {
       level {
         courseId
-        id
+        _id
         level
         title
       }

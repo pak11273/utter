@@ -10,7 +10,18 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
+const allLevels = async (_, {levelId}, {user}) => {
+  console.log("hello")
+  const level = await Level.findById(levelId).exec()
+  if (!level) {
+    throw new Error("Cannot find level with id")
+  }
+
+  return level
+}
+
 const getLevel = async (_, {levelId}, {user}) => {
+  console.log("bye")
   const level = await Level.findById(levelId).exec()
   if (!level) {
     throw new Error("Cannot find level with id")
@@ -20,6 +31,7 @@ const getLevel = async (_, {levelId}, {user}) => {
 }
 
 const levelDelete = async (_, args, ctx) => {
+  console.log("nah")
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -64,6 +76,7 @@ const levelDelete = async (_, args, ctx) => {
 }
 
 const levelUpdate = (_, {input}) => {
+  console.log("update")
   const {_id, ...update} = input
   return Level.findByIdAndUpdate(_id, update, {new: true}).exec()
 }
@@ -99,39 +112,41 @@ const levelCreate = async (_, args, ctx, info) => {
       path: "level",
       message: "Course was not found."
     })
-  }
 
-  return {
-    level,
-    errors: arrayOfErrors
-  }
-}
+    return {
+      level,
+      errors: arrayOfErrors
+    }
 
-const getLevels = async (_, args, ctx, info) => {
-  console.log("args: ", args)
-  let result = await Course.find({_id: args.courseId})
-    .populate("levels")
-    .sort({_id: -1})
-    .limit(100)
-    .lean()
+    const getLevels = async (_, args, ctx, info) => {
+      console.log("args: ", args)
+      let result = await Course.find({_id: args.courseId})
+        .populate("levels")
+        .sort({_id: -1})
+        .limit(100)
+        .lean()
 
-  console.log("result: ", result)
+      console.log("result: ", result)
 
-  const sortedLevels = result[0].levels.sort((a, b) => {
-    return a.level - b.level
-  })
+      /* return { */
+      /* level: level.levels[level.levels.length - 1], */
+      /* errors: arrayOfErrors */
+      /* } */
 
-  console.log("sortedLevels: ", sortedLevels)
+      console.log("sortedLevels: ", sortedLevels)
 
-  if (isEmpty(result)) {
-    return {levels: []}
-  } else {
-    return {levels: sortedLevels}
+      if (isEmpty(result)) {
+        return {levels: []}
+      } else {
+        return {levels: sortedLevels}
+      }
+    }
   }
 }
 
 export const levelResolvers = {
   Query: {
+    allLevels,
     getLevels,
     getLevel
   },

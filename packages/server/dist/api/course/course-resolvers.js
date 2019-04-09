@@ -229,38 +229,43 @@ function () {
         switch (_context4.prev = _context4.next) {
           case 0:
             resourceId = _ref5.resourceId;
-            console.log("resourceID: ", resourceId);
+            console.log("resourceID: ", resourceId); // TODO: async find all users with this resourceId in subscriptions and delete
+
+            _userModel.default.find({
+              "subscriptions._id": resourceId
+            });
+
             token = ctx.req.headers.authorization;
-            _context4.next = 5;
+            _context4.next = 6;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 5:
+          case 6:
             user = _context4.sent;
-            _context4.next = 8;
+            _context4.next = 9;
             return _courseModel.default.findByIdAndDelete(resourceId.toString());
 
-          case 8:
+          case 9:
             course = _context4.sent;
 
             if (course) {
-              _context4.next = 11;
+              _context4.next = 12;
               break;
             }
 
             throw new Error("No course found by this owner.");
 
-          case 11:
+          case 12:
             if (!course) {
-              _context4.next = 13;
+              _context4.next = 14;
               break;
             }
 
             return _context4.abrupt("return", true);
 
-          case 13:
+          case 14:
           case "end":
             return _context4.stop();
         }
@@ -339,24 +344,25 @@ function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
+            console.log("args: ", args);
+            _context6.prev = 1;
 
             if (ctx.isAuth) {
-              _context6.next = 3;
+              _context6.next = 4;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 3:
+          case 4:
             userId = ctx.req.token._id;
-            _context6.next = 6;
+            _context6.next = 7;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context6.sent;
             newCourse = new _courseModel.default({
               courseImage: args.input.courseImage,
@@ -368,47 +374,47 @@ function () {
               usingLang: args.input.usingLang,
               owner: user._id
             });
-            _context6.next = 10;
+            _context6.next = 11;
             return newCourse.save();
 
-          case 10:
+          case 11:
             course = _context6.sent;
             createdCourse = (0, _objectSpread2.default)({}, course._doc, {
               _id: course._doc._id.toString(),
               owner: userById.bind(_this, course._doc.owner)
             });
-            _context6.next = 14;
+            _context6.next = 15;
             return _userModel.default.findById(userId);
 
-          case 14:
+          case 15:
             owner = _context6.sent;
 
             if (owner) {
-              _context6.next = 17;
+              _context6.next = 18;
               break;
             }
 
             throw new Error("User not found.");
 
-          case 17:
+          case 18:
             owner.createdCourses.push(course);
-            _context6.next = 20;
+            _context6.next = 21;
             return owner.save();
 
-          case 20:
+          case 21:
             return _context6.abrupt("return", createdCourse);
 
-          case 23:
-            _context6.prev = 23;
-            _context6.t0 = _context6["catch"](0);
+          case 24:
+            _context6.prev = 24;
+            _context6.t0 = _context6["catch"](1);
             throw _context6.t0;
 
-          case 26:
+          case 27:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[0, 23]]);
+    }, _callee6, null, [[1, 24]]);
   }));
 
   return function courseCreate(_x12, _x13, _x14, _x15) {

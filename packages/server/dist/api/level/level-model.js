@@ -24,11 +24,11 @@ var LevelSchema = new _mongoose.default.Schema({
     type: String,
     required: [true, "can't be blank"]
   },
-  courseId: {
+  course: [{
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Course",
     required: [true, "can't be blank"]
-  },
+  }],
   vocabulary: [{
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Vocabulary"
