@@ -29,14 +29,27 @@ export const LEVEL_CREATE = gql`
   }
 `
 
-export const DELETE_LEVEL = gql`
-  mutation levelDelete($courseId: String, $level: Int, $title: String) {
-    levelDelete(courseId: $courseId, level: $level, title: $title) {
+export const LEVEL_UPDATE = gql`
+  mutation levelUpdate($_Id: String, $level: Int, $title: String) {
+    levelUpdate(input: {_Id: $courseId, level: $level, title: $title}) {
       level {
         courseId
-        id
+        _id
         level
         title
+      }
+      errors {
+        message
+      }
+    }
+  }
+`
+
+export const LEVEL_DELETE = gql`
+  mutation levelDelete($_id: ID) {
+    levelDelete(_id: $_id) {
+      level {
+        _id
       }
       errors {
         path

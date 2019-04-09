@@ -32,19 +32,7 @@ const levelDelete = async (_, args, ctx) => {
 
   console.log("args: ", args)
 
-  const level = await Course.findOneAndUpdate(
-    {
-      _id: args.courseId
-    },
-    {
-      $pull: {
-        levels: {
-          level: args.level
-        }
-      }
-    },
-    {new: true}
-  )
+  const level = await Course.findByIdAndDelete(args._id)
 
   console.log("LEVELVELVELVLELVELVELEL: ", level)
 
@@ -58,7 +46,7 @@ const levelDelete = async (_, args, ctx) => {
   console.log("array of errors: ", arrayOfErrors)
 
   return {
-    level: args,
+    level,
     errors: arrayOfErrors
   }
 }
