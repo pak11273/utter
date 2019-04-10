@@ -5,11 +5,11 @@ import {withApollo} from "react-apollo"
 import {session} from "brownies"
 
 import Add from "@material-ui/icons/Add"
-/* import Check from "@material-ui/icons/Check" */
+import Check from "@material-ui/icons/Check"
 import Clear from "@material-ui/icons/Clear"
 import ChevronLeft from "@material-ui/icons/ChevronLeft"
 import ChevronRight from "@material-ui/icons/ChevronRight"
-/* import Delete from "@material-ui/icons/Delete" */
+import Delete from "@material-ui/icons/Delete"
 import Edit from "@material-ui/icons/Edit"
 import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
@@ -93,10 +93,10 @@ const LevelsUpdate = props => {
               <MaterialTable
                 icons={{
                   Add: () => <Add />,
-                  /* Check: () => <Check />, */
-                  /* Clear: () => <Clear />, */
+                  Check: () => <Check />,
+                  Clear: () => <Clear />,
                   ResetSearch: () => <Clear />,
-                  /* Delete: () => <Delete /> */
+                  Delete: () => <Delete />,
                   Edit: () => <Edit />,
                   /* Export: () => <SaveAlt />, */
                   FirstPage: () => <FirstPage />,
@@ -167,13 +167,15 @@ const LevelsUpdate = props => {
                   /*     new Promise((resolve, reject) => { */
                   /*       setTimeout(() => { */
                   /*         console.log("reject: ", reject) */
+                  /*         console.log("oldData: ", oldData) */
+                  /*         console.log("resolve: ", resolve) */
                   /*         const {data} = state */
                   /*         const index = data.indexOf(oldData) */
                   /*         data.splice(index, 1) */
                   /*         changeState({...state, data}) */
                   /*         resolve(oldData) */
-                  /*       }, 1000) */
-                  /*     }) */
+                  /* }, 1000) */
+                  /* }) */
                   /*       .then(res => { */
                   /*         console.log("res: ", res) */
                   /*         props.client.mutate({ */
@@ -186,19 +188,21 @@ const LevelsUpdate = props => {
                   /*         }) */
                   /*       }) */
                   /*       .catch(err => console.log("err: ", err)) */
-                  /* }, */
+                  /* }) */
                   /* { */
                   /*   onRowDelete: oldData => */
                   /*     new Promise((resolve, reject) => { */
                   /*       setTimeout(() => { */
+                  /*         console.log("oldData: ", oldData) */
+                  /*         console.log("resolve: ", resolve) */
                   /*         console.log("reject: ", reject) */
                   /*         const {data} = state */
                   /*         const index = data.indexOf(oldData) */
                   /*         data.splice(index, 1) */
                   /*         changeState({...state, data}) */
                   /*         resolve(oldData) */
-                  /*       }, 1000) */
-                  /*     }) */
+                  /* }, 1000) */
+                  /* }) */
                   /*       .then(res => { */
                   /*         console.log("res: ", res) */
                   /*         props.client.mutate({ */
