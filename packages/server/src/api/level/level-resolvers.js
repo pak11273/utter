@@ -32,7 +32,7 @@ const levelDelete = async (_, args, ctx) => {
 
   console.log("args: ", args)
 
-  const level = await Course.findByIdAndDelete(args._id)
+  const level = await Level.findByIdAndDelete(args._id)
 
   console.log("LEVELVELVELVLELVELVELEL: ", level)
 
@@ -96,20 +96,15 @@ const levelCreate = async (_, args, ctx, info) => {
 }
 
 const getLevels = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   let result = await Course.find({_id: args.courseId})
     .populate("levels")
     .sort({_id: -1})
     .limit(100)
     .lean()
 
-  console.log("result: ", result)
-
   const sortedLevels = result[0].levels.sort((a, b) => {
     return a.level - b.level
   })
-
-  console.log("sortedLevels: ", sortedLevels)
 
   if (isEmpty(result)) {
     return {levels: []}

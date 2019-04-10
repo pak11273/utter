@@ -23,7 +23,7 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import MaterialTable from "material-table"
-import {GET_LEVELS, LEVEL_CREATE} from "../xhr.js"
+import {GET_LEVELS, LEVEL_CREATE, LEVEL_DELETE, LEVEL_UPDATE} from "../xhr.js"
 import {styles} from "../styles.js"
 
 const LevelsUpdate = props => {
@@ -136,85 +136,79 @@ const LevelsUpdate = props => {
                   showTitle: false,
                   sorting: false
                 }}
-                editable={
-                  {
-                    onRowAdd: newData =>
-                      new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                          console.log("resolve: ", resolve)
-                          console.log("reject: ", reject)
-                          const {data} = state
-                          data.push(newData)
-                          changeState({...state, data})
-                          resolve(newData)
-                        }, 1000)
-                      })
-                        .then(res => {
-                          console.log("res: ", res)
-                          props.client.mutate({
-                            mutation: LEVEL_CREATE,
-                            variables: {
-                              courseId: course._id,
-                              level: +res.level,
-                              title: res.title
-                            }
-                          })
+                editable={{
+                  onRowAdd: newData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        console.log("resolve: ", resolve)
+                        console.log("reject: ", reject)
+                        const {data} = state
+                        data.push(newData)
+                        changeState({...state, data})
+                        resolve(newData)
+                      }, 1000)
+                    })
+                      .then(res => {
+                        console.log("res: ", res)
+                        props.client.mutate({
+                          mutation: LEVEL_CREATE,
+                          variables: {
+                            courseId: course._id,
+                            level: +res.level,
+                            title: res.title
+                          }
                         })
-                        .catch(err => console.log("err: ", err))
-                  }
-                  /* { */
-                  /*   onRowUpdate: oldData => */
-                  /*     new Promise((resolve, reject) => { */
-                  /*       setTimeout(() => { */
-                  /*         console.log("reject: ", reject) */
-                  /*         console.log("oldData: ", oldData) */
-                  /*         console.log("resolve: ", resolve) */
-                  /*         const {data} = state */
-                  /*         const index = data.indexOf(oldData) */
-                  /*         data.splice(index, 1) */
-                  /*         changeState({...state, data}) */
-                  /*         resolve(oldData) */
-                  /* }, 1000) */
-                  /* }) */
-                  /*       .then(res => { */
-                  /*         console.log("res: ", res) */
-                  /*         props.client.mutate({ */
-                  /*           mutation: LEVEL_UPDATE, */
-                  /*           variables: { */
-                  /*             courseId: course._id, */
-                  /*             level: +res.level, */
-                  /*             title: res.title */
-                  /*           } */
-                  /*         }) */
-                  /*       }) */
-                  /*       .catch(err => console.log("err: ", err)) */
-                  /* }) */
-                  /* { */
-                  /*   onRowDelete: oldData => */
-                  /*     new Promise((resolve, reject) => { */
-                  /*       setTimeout(() => { */
-                  /*         console.log("oldData: ", oldData) */
-                  /*         console.log("resolve: ", resolve) */
-                  /*         console.log("reject: ", reject) */
-                  /*         const {data} = state */
-                  /*         const index = data.indexOf(oldData) */
-                  /*         data.splice(index, 1) */
-                  /*         changeState({...state, data}) */
-                  /*         resolve(oldData) */
-                  /* }, 1000) */
-                  /* }) */
-                  /*       .then(res => { */
-                  /*         console.log("res: ", res) */
-                  /*         props.client.mutate({ */
-                  /*           mutation: LEVEL_DELETE, */
-                  /*           variables: { */
-                  /*             _id: res._id */
-                  /*           } */
-                  /*         }) */
-                  /*       }) */
-                  /*       .catch(err => console.log("err: ", err)) */
-                  /* }) */
-                }
+                      })
+                      .catch(err => console.log("err: ", err)),
+                  onRowUpdate: oldData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        console.log("reject: ", reject)
+                        console.log("oldData: ", oldData)
+                        console.log("resolve: ", resolve)
+                        const {data} = state
+                        const index = data.indexOf(oldData)
+                        data.splice(index, 1)
+                        changeState({...state, data})
+                        resolve(oldData)
+                      }, 1000)
+                    })
+                      .then(res => {
+                        console.log("res: ", res)
+                        props.client.mutate({
+                          mutation: LEVEL_UPDATE,
+                          variables: {
+                            courseId: course._id,
+                            level: +res.level,
+                            title: res.title
+                          }
+                        })
+                      })
+                      .catch(err => console.log("err: ", err)),
+                  onRowDelete: oldData =>
+                    new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                        console.log("oldData: ", oldData)
+                        console.log("resolve: ", resolve)
+                        console.log("reject: ", reject)
+                        const {data} = state
+                        const index = data.indexOf(oldData)
+                        data.splice(index, 1)
+                        changeState({...state, data})
+                        resolve(oldData)
+                      }, 1000)
+                    })
+                      .then(res => {
+                        console.log("res: ", res)
+                        props.client.mutate({
+                          mutation: LEVEL_DELETE,
+                          variables: {
+                            _id: res._id
+                          }
+                        })
+                      })
+                      .catch(err => console.log("err: ", err))
+                }}
               />
             </div>
           </Grid>
