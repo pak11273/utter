@@ -1,9 +1,9 @@
 type  Vocabulary {
 	audioUrl: String
-	courseId: String
+	level: Int
+	levelId: ID 
 	_id: ID
 	gender: String
-	level: Int 
 	word: String
 	translation: String
 }
@@ -21,11 +21,10 @@ input VocabularyUpdated {
 }
 
 input VocabularyCreateInput {
-		_id: ID
 		audioUrl: String
-		courseId: String
 		gender: String
-		level: Int
+		level: Int 
+		levelId: ID
 		translation: String
 		word: String
 }
@@ -37,7 +36,7 @@ type PaginatedVocabulary {
 extend type Query {
   getVocabulary(levelId: String!): Vocabulary!
   getVocabularies(
-		level: Int
+		levelId: ID 
   ): PaginatedVocabulary 
   getVocabularyCount: Int
 }
@@ -45,6 +44,6 @@ extend type Query {
 
 extend type Mutation {
 	vocabularyCreate(input: VocabularyCreateInput!): VocabularyPayload
-	vocabularyDelete(level: Int, word: String, translation: String): VocabularyPayload 
+	vocabularyDelete(levelId: ID, word: String, translation: String): VocabularyPayload 
   vocabularyUpdate(input: VocabularyUpdated!): Vocabulary!
 }

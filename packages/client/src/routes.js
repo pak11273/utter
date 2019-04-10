@@ -106,6 +106,12 @@ const getSignup = Loadable({
   delay: 200
 })
 
+const getVocabulary = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'vocabulary' */ "./layouts/vocabulary/containers/vocabulary-update.js"),
+  loading: Loading
+})
+
 const getZoneCtrl = Loadable({
   loader: () => import("./layouts/zones/containers/zone-controller.js"),
   loading: Loading
@@ -172,6 +178,11 @@ export const routes = [
         component: getLevels,
         exact: true,
         path: "/course/course-levels"
+      },
+      {
+        component: getVocabulary,
+        exact: true,
+        path: "/course/course-vocabulary"
       }
     ]
   },
@@ -214,10 +225,6 @@ export const routes = [
     exact: true,
     path: "/"
   },
-  /* { */
-  /*   path: "/course/course-levels", */
-  /*   component: getLevels */
-  /* }, */
   {
     component: getLogin,
     exact: true,

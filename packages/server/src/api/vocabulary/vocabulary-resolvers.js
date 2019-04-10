@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import Course from "../course/course-model"
 import Level from "../level/level-model.js"
+import User from "../user/user-model.js"
 import Vocabulary from "./vocabulary-model"
 import {userByToken} from "../shared/resolver-functions.js"
 
@@ -36,7 +37,7 @@ const vocabularyDelete = async (_, args, ctx) => {
 
   const vocabulary = await Course.findOneAndUpdate(
     {
-      _id: args.courseId
+      _id: args.levelId
     },
     {
       $pull: {
@@ -72,60 +73,52 @@ const vocabularyUpdate = (_, {input}) => {
 
 const vocabularyCreate = async (_, args, ctx, info) => {
   console.log("args: ", args)
-  let arrayOfErrors = []
-  const token = ctx.req.headers.authorization
-  if (token === "null") {
-    return new Error("You need to be registered to view this resource.")
-  }
-  const user = await userByToken(token, (err, res) => {
-    if (err) return err
-    return res
-  })
-
   const {input} = args
-  const vocabulary = await Course.findOneAndUpdate(
-    {
-      _id: input.courseId,
-      "levels.level": {
-        $eq: input.level
-      }
-    },
-    {
-      $push: {
-        "levels.$.vocabulary": {
-          audioUrl: input.audioUrl,
-          courseId: input.courseId,
-          gender: input.gender,
-          translation: input.translation,
-          word: input.word
-        }
-      }
-    },
-    {new: true}
-  )
+  try {
+    if (!ctx.isAuth) {
+      throw new Error("You need to be registered to create a course.")
+    }
 
-  if (!vocabulary) {
-    arrayOfErrors.push({
-      path: "vocabulary",
-      message:
-        "Server Error: Could not save new vocabulary. Please contact technical support."
+    const userId = ctx.req.token._id
+
+    const user = await User.findById(userId, (err, res) => {
+      if (err) return err
+      return res
     })
-  }
 
-  const vocabularyArr = vocabulary.levels[0].vocabulary
-  const vocabularyObj = vocabularyArr[vocabularyArr.length - 1]
-  vocabularyObj.toObject()
-  vocabularyObj.id = vocabularyObj._id
-  console.log("vocabularyObj; ", vocabularyObj)
-  return {
-    vocabulary: vocabularyObj,
-    errors: arrayOfErrors
+    const newVocabulary = new Vocabulary({
+      audioUrl: input.audioUrl,
+      levelId: input.levelId,
+      gender: input.gender,
+      translation: input.translation,
+      word: input.word
+    })
+
+    let createdVocabulary
+
+    const vocabulary = await newVocabulary.save()
+
+    console.log("vocab: ", vocabulary)
+
+    const level = await Level.findById(input.level)
+
+    if (!level) {
+      throw new Error("Level not found.")
+    }
+
+    level.vocabulary.push(vocabulary)
+
+    await level.save()
+
+    return createdVocabulary
+  } catch (err) {
+    throw err
   }
 }
 
 const getVocabularies = async (_, args, ctx, info) => {
   console.log("args: ", args)
-  let result = await Course.find({_id: args.courseId}).exec()
+  let result = await Course.find({_id: args.levelId}).exec()
 
   console.log("result: ", result)
 
@@ -146,7 +139,6 @@ const getVocabularies = async (_, args, ctx, info) => {
 
 export const vocabularyResolvers = {
   Query: {
-    getVocabulary,
     getVocabularies
   },
   Mutation: {

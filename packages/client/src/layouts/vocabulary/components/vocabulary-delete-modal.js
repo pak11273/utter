@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {adopt} from "react-adopt"
 
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
@@ -13,9 +12,7 @@ import Typography from "@material-ui/core/Typography"
 
 import VocabularyCtrl from "../containers/vocabulary-ctrl.js"
 
-const Composed = adopt({
-  container: <VocabularyCtrl />
-})
+const Composed = <VocabularyCtrl />
 
 class VocabularyDeleteModal extends Component {
   render() {

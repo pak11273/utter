@@ -54,6 +54,7 @@
     "react-table": "6.9.2",
     "react-toastify": "^4.5.2",
     "react-waypoint": "^9.0.1",
+    "recordrtc": "^5.5.4",
     "reselect": "^4.0.0",
     "rimraf": "^2.6.3",
     "socket.io-client": "^2.2.0",

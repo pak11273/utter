@@ -1,5 +1,4 @@
 import React, {Component} from "react"
-import {adopt} from "react-adopt"
 /* import update from "immutability-helper" */
 
 import Button from "@material-ui/core/Button"
@@ -23,10 +22,7 @@ import RecordRTC from "recordrtc"
 import VocabularyCtrl from "../containers/vocabulary-ctrl.js"
 import {withStyles} from "@material-ui/core/styles"
 
-const Composed = adopt({
-  container: <VocabularyCtrl />
-})
-
+const Composed = <VocabularyCtrl />
 const styles = theme => ({
   record: {
     backgroundColor: theme.palette.error

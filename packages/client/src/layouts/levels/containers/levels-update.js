@@ -109,37 +109,44 @@ const LevelsUpdate = props => {
                   /* DetailPanel: () => <ChevronRight /> */
                 }}
                 columns={[
-                  {title: "level", field: "level", readonly: true},
+                  {
+                    title: "level",
+                    readonly: true,
+                    render: rowData => rowData.tableData.id + 1
+                  },
+                  /* {title: "level", field: "level", readonly: true}, */
                   {title: "title", field: "title"}
                 ]}
                 data={state.data}
-                /* actions={[ */
-                /* { */
-                /*   icon: () => <Check />, */
-                /*   tooltip: "Edit Level" */
-                /*   onClick: (event, rowData) => { */
-                /*     alert("Accept level: " + rowData.level) */
-                /*   } */
-                /* } */
-                /* rowData => ({ */
-                /*   icon: () => <Delete />, */
-                /*   tooltip: "Delete Level", */
-                /*   disabled: rowData.birthYear >= 2000, */
-                /*   onClick: (event, rowData) => { */
-                /*     alert("Delete level: " + rowData.level) */
-                /*   } */
-                /* }) */
-                /* ]} */
+                actions={
+                  [
+                    /* { */
+                    /*   icon: () => <Check />, */
+                    /*   tooltip: "Edit Level" */
+                    /*   onClick: (event, rowData) => { */
+                    /*     alert("Accept level: " + rowData.level) */
+                    /*   } */
+                    /* } */
+                    /* rowData => ({ */
+                    /*   icon: () => <Delete />, */
+                    /*   tooltip: "Delete Level", */
+                    /*   disabled: rowData.birthYear >= 2000, */
+                    /*   onClick: (event, rowData) => { */
+                    /*     alert("Delete level: " + rowData.level) */
+                    /*   } */
+                    /* }) */
+                  ]
+                }
                 options={{
                   actionsColumnIndex: -1,
                   pageSize: 10,
                   showTitle: false,
-                  sorting: false,
-                  rowStyle: x => {
-                    if (x.level % 2) {
-                      return {backgroundColor: "#f2f2f2"}
-                    }
-                  }
+                  sorting: false
+                  /* rowStyle: x => { */
+                  /*   if (x.level % 2) { */
+                  /*     return {backgroundColor: "#f2f2f2"} */
+                  /*   } */
+                  /* } */
                 }}
                 editable={{
                   onRowAdd: newData =>
