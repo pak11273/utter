@@ -2,8 +2,8 @@ import mongoose, {Schema} from "mongoose"
 import Course from "../course/course-model.js"
 import Vocabulary from "../vocabulary/vocabulary-model.js"
 
-export const LevelSchema = new mongoose.Schema({
-  level: {
+export const PostSchema = new mongoose.Schema({
+  post: {
     type: Number,
     required: [true, "can't be blank"]
   },
@@ -53,6 +53,6 @@ export const LevelSchema = new mongoose.Schema({
   }
 })
 
-mongoose.model("Level", LevelSchema)
+mongoose.model("Post", PostSchema)
 
-export default mongoose.model("Level", LevelSchema)
+export default mongoose.model("Post", PostSchema)

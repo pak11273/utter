@@ -18,6 +18,7 @@ import {hasScopeDirective} from "./directives/auth/auth-has-scope.js"
 const appSchema = path.join(__dirname, "./api/app/app.graphql")
 const courseSchema = path.join(__dirname, "./api/course/course.graphql")
 const levelSchema = path.join(__dirname, "./api/level/level.graphql")
+const postSchema = path.join(__dirname, "./api/post/post.graphql")
 const sharedSchema = path.join(__dirname, "./api/shared/shared.graphql")
 const termSchema = path.join(__dirname, "./api/term/term.graphql")
 const testSchema = path.join(__dirname, "./api/test/test.graphql")
@@ -32,6 +33,7 @@ const zoneSchema = path.join(__dirname, "./api/zone/zone.graphql")
 const appTypeDefs = fs.readFileSync(appSchema, "utf8")
 const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
 const levelTypeDefs = fs.readFileSync(levelSchema, "utf8")
+const postTypeDefs = fs.readFileSync(postSchema, "utf8")
 const sharedTypeDefs = fs.readFileSync(sharedSchema, "utf8")
 const termTypeDefs = fs.readFileSync(termSchema, "utf8")
 const testTypeDefs = fs.readFileSync(testSchema, "utf8")
@@ -43,6 +45,7 @@ const zoneTypeDefs = fs.readFileSync(zoneSchema, "utf8")
 import {appResolvers} from "./api/app/app-resolvers.js"
 import {courseResolvers} from "./api/course/course-resolvers.js"
 import {levelResolvers} from "./api/level/level-resolvers.js"
+import {postResolvers} from "./api/post/post-resolvers.js"
 import {termResolvers} from "./api/term/term-resolvers.js"
 import {testResolvers} from "./api/test/test-resolvers.js"
 import {userResolvers} from "./api/user/user-resolvers.js"
@@ -62,6 +65,7 @@ const schema = makeExecutableSchema({
     userTypeDefs,
     courseTypeDefs,
     levelTypeDefs,
+    postTypeDefs,
     sharedTypeDefs,
     termTypeDefs,
     testTypeDefs,
@@ -79,6 +83,7 @@ const schema = makeExecutableSchema({
     userResolvers,
     courseResolvers,
     levelResolvers,
+    postResolvers,
     termResolvers,
     testResolvers,
     vocabularyResolvers,

@@ -134,7 +134,12 @@ const LevelsUpdate = props => {
                   actionsColumnIndex: -1,
                   pageSize: 10,
                   showTitle: false,
-                  sorting: false
+                  sorting: false,
+                  rowStyle: x => {
+                    if (x.level % 2) {
+                      return {backgroundColor: "#f2f2f2"}
+                    }
+                  }
                 }}
                 editable={{
                   onRowAdd: newData =>

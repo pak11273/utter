@@ -35,7 +35,7 @@ const httpLink = new HttpLink({
 
 const persistLink = createPersistedQueryLink()
 
-export default new ApolloClient({
+export const ApolloInstance = new ApolloClient({
   cache,
   link: ApolloLink.from([AuthLink, persistLink, httpLink]),
   resolvers,

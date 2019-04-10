@@ -85,11 +85,11 @@ export const styles = theme => ({
     padding: "0 24px "
   },
   heroUnit: {
-    backgroundColor: theme.palette.background.paper
+    /* backgroundColor: theme.palette.background.paper */
   },
   heroContent: {
     margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
+    padding: `${theme.spacing.unit * 16}px 0 0 0`
   },
   heroButtons: {
     marginTop: theme.spacing.unit * 4

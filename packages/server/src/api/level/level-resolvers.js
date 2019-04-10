@@ -10,7 +10,18 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
+const allLevels = async (_, {levelId}, {user}) => {
+  console.log("hello")
+  const level = await Level.findById(levelId).exec()
+  if (!level) {
+    throw new Error("Cannot find level with id")
+  }
+
+  return level
+}
+
 const getLevel = async (_, {levelId}, {user}) => {
+  console.log("bye")
   const level = await Level.findById(levelId).exec()
   if (!level) {
     throw new Error("Cannot find level with id")
@@ -20,6 +31,7 @@ const getLevel = async (_, {levelId}, {user}) => {
 }
 
 const levelDelete = async (_, args, ctx) => {
+  console.log("nah")
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -46,6 +58,7 @@ const levelDelete = async (_, args, ctx) => {
 }
 
 const levelUpdate = (_, {input}) => {
+  console.log("update")
   const {_id, ...update} = input
   return Level.findByIdAndUpdate(_id, update, {new: true}).exec()
 }
@@ -81,11 +94,11 @@ const levelCreate = async (_, args, ctx, info) => {
       path: "level",
       message: "Course was not found."
     })
-  }
 
-  return {
-    level,
-    errors: arrayOfErrors
+    return {
+      level,
+      errors: arrayOfErrors
+    }
   }
 }
 
@@ -109,6 +122,7 @@ const getLevels = async (_, args, ctx, info) => {
 
 export const levelResolvers = {
   Query: {
+    allLevels,
     getLevels,
     getLevel
   },
