@@ -30,11 +30,7 @@ const levelDelete = async (_, args, ctx) => {
     return res
   })
 
-  console.log("args: ", args)
-
   const level = await Level.findByIdAndDelete(args._id)
-
-  console.log("LEVELVELVELVLELVELVELEL: ", level)
 
   if (!level) {
     arrayOfErrors.push({
@@ -42,8 +38,6 @@ const levelDelete = async (_, args, ctx) => {
       message: "An Error has occured.  Please contact technical support."
     })
   }
-
-  console.log("array of errors: ", arrayOfErrors)
 
   return {
     level,

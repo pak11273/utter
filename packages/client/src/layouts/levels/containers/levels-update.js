@@ -160,17 +160,20 @@ const LevelsUpdate = props => {
                         })
                       })
                       .catch(err => console.log("err: ", err)),
-                  onRowUpdate: oldData =>
+                  onRowUpdate: newData =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
                         console.log("reject: ", reject)
-                        console.log("oldData: ", oldData)
-                        console.log("resolve: ", resolve)
-                        const {data} = state
-                        const index = data.indexOf(oldData)
-                        data.splice(index, 1)
+                        console.log("newData: ", newData)
+                        var {data} = state
+
+                        const index = data.findIndex(x => x._id === newData._id)
+                        data[index] = newData
+                        console.log("data: ", data)
                         changeState({...state, data})
-                        resolve(oldData)
+                        /* data.push(newData) */
+                        /* changeState({...state, data}) */
+                        resolve(newData)
                       }, 1000)
                     })
                       .then(res => {
@@ -178,7 +181,7 @@ const LevelsUpdate = props => {
                         props.client.mutate({
                           mutation: LEVEL_UPDATE,
                           variables: {
-                            courseId: course._id,
+                            _id: res._id,
                             level: +res.level,
                             title: res.title
                           }
@@ -188,8 +191,6 @@ const LevelsUpdate = props => {
                   onRowDelete: oldData =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
-                        console.log("oldData: ", oldData)
-                        console.log("resolve: ", resolve)
                         console.log("reject: ", reject)
                         const {data} = state
                         const index = data.indexOf(oldData)
@@ -199,7 +200,6 @@ const LevelsUpdate = props => {
                       }, 1000)
                     })
                       .then(res => {
-                        console.log("res: ", res)
                         props.client.mutate({
                           mutation: LEVEL_DELETE,
                           variables: {
