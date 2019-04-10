@@ -33,7 +33,7 @@ type Level {
 	vocabulary: [Vocabulary]
 }
 
-input LevelUpdated {
+input LevelUpdateInput {
   _id: ID
   level: Int 
   title: String
@@ -64,6 +64,6 @@ extend type Query {
 
 extend type Mutation {
   levelCreate(input: LevelCreateInput!): LevelPayload! 
-	levelDelete(courseId: String, level: Int, title: String): LevelPayload 
-  levelUpdate(input: LevelUpdated!): Level!
+	levelDelete(_id: ID): LevelPayload 
+  levelUpdate(input: LevelUpdateInput!): LevelPayload!
 }

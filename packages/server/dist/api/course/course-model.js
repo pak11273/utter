@@ -15,7 +15,7 @@ var _userModel = _interopRequireDefault(require("../user/user-model.js"));
 
 var _termModel = require("../term/term-model.js");
 
-var _levelModel = require("../level/level-model.js");
+var _levelModel = _interopRequireDefault(require("../level/level-model.js"));
 
 var CourseSchema = _mongoose.default.Schema({
   cdn: {
@@ -54,7 +54,10 @@ var CourseSchema = _mongoose.default.Schema({
     type: Number,
     default: 0
   },
-  levels: [_levelModel.LevelSchema],
+  levels: [{
+    type: _mongoose.default.Schema.Types.ObjectId,
+    ref: "Level"
+  }],
   courseDescription: {
     type: String,
     default: ""

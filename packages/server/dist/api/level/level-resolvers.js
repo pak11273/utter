@@ -103,23 +103,11 @@ function () {
 
           case 6:
             user = _context2.sent;
-            console.log("args: ", args);
-            _context2.next = 10;
-            return _courseModel.default.findOneAndUpdate({
-              _id: args.courseId
-            }, {
-              $pull: {
-                levels: {
-                  level: args.level
-                }
-              }
-            }, {
-              new: true
-            });
+            _context2.next = 9;
+            return _levelModel.default.findByIdAndDelete(args._id);
 
-          case 10:
+          case 9:
             level = _context2.sent;
-            console.log("LEVELVELVELVLELVELVELEL: ", level);
 
             if (!level) {
               arrayOfErrors.push({
@@ -128,13 +116,12 @@ function () {
               });
             }
 
-            console.log("array of errors: ", arrayOfErrors);
             return _context2.abrupt("return", {
-              level: args,
+              level: level,
               errors: arrayOfErrors
             });
 
-          case 15:
+          case 12:
           case "end":
             return _context2.stop();
         }
@@ -162,65 +149,63 @@ function () {
   var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input, level;
+    var arrayOfErrors, token, user, input, newLevel, level, course;
     return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
+            console.log("args: ", args);
             arrayOfErrors = [];
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context3.next = 4;
+              _context3.next = 5;
               break;
             }
 
             return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 4:
-            _context3.next = 6;
+          case 5:
+            _context3.next = 7;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context3.sent;
             input = args.input;
-            _context3.next = 10;
-            return _courseModel.default.findOneAndUpdate({
-              _id: input.courseId,
-              "levels.level": {
-                $ne: input.level
-              }
-            }, {
-              $push: {
-                levels: {
-                  courseId: input.courseId,
-                  level: input.level,
-                  title: input.title
-                }
-              }
-            }, {
-              new: true
-            });
+            newLevel = new _levelModel.default(input);
+            _context3.next = 12;
+            return newLevel.save();
 
-          case 10:
+          case 12:
             level = _context3.sent;
+            _context3.next = 15;
+            return _courseModel.default.findById(input.courseId);
 
-            if (!level) {
+          case 15:
+            course = _context3.sent;
+            course.levels.push(level);
+            _context3.next = 19;
+            return course.save();
+
+          case 19:
+            console.log("course: ", course);
+
+            if (!course) {
               arrayOfErrors.push({
                 path: "level",
-                message: "Courses cannot have duplicate level numbers."
+                message: "Course was not found."
               });
             }
 
             return _context3.abrupt("return", {
-              level: level.levels[level.levels.length - 1],
+              level: level,
               errors: arrayOfErrors
             });
 
-          case 13:
+          case 22:
           case "end":
             return _context3.stop();
         }
@@ -247,7 +232,9 @@ function () {
             _context4.next = 2;
             return _courseModel.default.find({
               _id: args.courseId
-            }).exec();
+            }).populate("levels").sort({
+              _id: -1
+            }).limit(100).lean();
 
           case 2:
             result = _context4.sent;
