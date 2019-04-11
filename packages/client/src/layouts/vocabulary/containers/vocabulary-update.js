@@ -19,7 +19,7 @@ import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import MaterialTable from "material-table"
+import MaterialTable, {MTableToolbar} from "material-table"
 import {
   GET_VOCABULARIES,
   VOCABULARY_CREATE,
@@ -27,6 +27,8 @@ import {
   VOCABULARY_UPDATE
 } from "../xhr.js"
 import {styles} from "../../styles.js"
+import {LevelSelect} from "../components/level-select.js"
+import {Flex} from "../../../components"
 
 const VocabularysUpdate = props => {
   const [state, changeState] = useState({
@@ -60,21 +62,23 @@ const VocabularysUpdate = props => {
   const handleSubmit = () => {}
 
   useEffect(() => {
-    props.client
-      .query({
-        query: GET_VOCABULARIES,
-        variables: {
-          levelId: levels[0]._id
-        }
-      })
-      .then(res => {
-        session.vocabularies = res.data.getVocabularies.vocabularies
-        changeState({
-          ...state,
-          data: res.data.getVocabularies.vocabularies
+    if (levels.length !== 0) {
+      props.client
+        .query({
+          query: GET_VOCABULARIES,
+          variables: {
+            levelId: levels[0]._id
+          }
         })
-      })
-      .catch(err => console.log("err: ", err))
+        .then(res => {
+          session.vocabularies = res.data.getVocabularies.vocabularies
+          changeState({
+            ...state,
+            data: res.data.getVocabularies.vocabularies
+          })
+        })
+        .catch(err => console.log("err: ", err))
+    }
   }, [])
 
   return (
@@ -108,6 +112,14 @@ const VocabularysUpdate = props => {
           <Grid item xs={12} align="center">
             <div style={{maxWidth: "100%"}}>
               <MaterialTable
+                components={{
+                  Toolbar: props => (
+                    <Flex flexdirection="row" padding="30px">
+                      <LevelSelect />
+                      <MTableToolbar {...props} />
+                    </Flex>
+                  )
+                }}
                 icons={{
                   Add: () => <Add />,
                   Check: () => <Check />,

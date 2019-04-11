@@ -5,7 +5,7 @@ export const GET_LEVELS = gql`
     getLevels(courseId: $courseId) {
       levels {
         _id
-        courseId
+        course
         level
         title
       }
@@ -17,7 +17,7 @@ export const LEVEL_CREATE = gql`
   mutation levelCreate($courseId: String, $level: Int, $title: String) {
     levelCreate(input: {courseId: $courseId, level: $level, title: $title}) {
       level {
-        courseId
+        course
         _id
         level
         title
@@ -33,7 +33,7 @@ export const LEVEL_UPDATE = gql`
   mutation levelUpdate($_id: ID, $level: Int, $title: String) {
     levelUpdate(input: {_id: $_id, level: $level, title: $title}) {
       level {
-        courseId
+        course
         _id
         level
         title

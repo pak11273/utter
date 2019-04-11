@@ -77,7 +77,7 @@ const levelCreate = async (_, args, ctx, info) => {
 
   const {input} = args
 
-  const newLevel = new Level(input)
+  const newLevel = new Level({...input, course: input.courseId})
 
   const level = await newLevel.save()
 
@@ -86,8 +86,6 @@ const levelCreate = async (_, args, ctx, info) => {
   course.levels.push(level)
 
   await course.save()
-
-  console.log("course: ", course)
 
   if (!course) {
     arrayOfErrors.push({

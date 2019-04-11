@@ -31,7 +31,7 @@ const LevelsUpdate = props => {
     data: []
   })
 
-  const {course} = session
+  var {course, levels} = session
   const {classes} = props
 
   const handleSubmit = () => {}
@@ -109,12 +109,12 @@ const LevelsUpdate = props => {
                   /* DetailPanel: () => <ChevronRight /> */
                 }}
                 columns={[
-                  {
+                  /* {
                     title: "level",
                     readonly: true,
                     render: rowData => rowData.tableData.id + 1
-                  },
-                  /* {title: "level", field: "level", readonly: true}, */
+                  }, */
+                  {title: "level", field: "level", readonly: true},
                   {title: "title", field: "title"}
                 ]}
                 data={state.data}
@@ -152,7 +152,6 @@ const LevelsUpdate = props => {
                   onRowAdd: newData =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
-                        console.log("resolve: ", resolve)
                         console.log("reject: ", reject)
                         const {data} = state
                         data.push(newData)
@@ -161,7 +160,6 @@ const LevelsUpdate = props => {
                       }, 1000)
                     })
                       .then(res => {
-                        console.log("res: ", res)
                         props.client.mutate({
                           mutation: LEVEL_CREATE,
                           variables: {
@@ -170,18 +168,18 @@ const LevelsUpdate = props => {
                             title: res.title
                           }
                         })
+                        levels.push(res)
+                        session.levels = levels
                       })
                       .catch(err => console.log("err: ", err)),
                   onRowUpdate: newData =>
                     new Promise((resolve, reject) => {
                       setTimeout(() => {
                         console.log("reject: ", reject)
-                        console.log("newData: ", newData)
                         var {data} = state
 
                         const index = data.findIndex(x => x._id === newData._id)
                         data[index] = newData
-                        console.log("data: ", data)
                         changeState({...state, data})
                         /* data.push(newData) */
                         /* changeState({...state, data}) */
@@ -189,7 +187,6 @@ const LevelsUpdate = props => {
                       }, 1000)
                     })
                       .then(res => {
-                        console.log("res: ", res)
                         props.client.mutate({
                           mutation: LEVEL_UPDATE,
                           variables: {
@@ -218,6 +215,8 @@ const LevelsUpdate = props => {
                             _id: res._id
                           }
                         })
+                        levels.pop(res)
+                        session.levels = levels
                       })
                       .catch(err => console.log("err: ", err))
                 }}

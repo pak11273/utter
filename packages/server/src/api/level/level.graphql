@@ -20,7 +20,7 @@ type Phrases {
 }
 
 type Level {
-	courseId: String
+	course: String
   createdAt: Int
 	examples: [Example]
 	grammar: [Grammar]
