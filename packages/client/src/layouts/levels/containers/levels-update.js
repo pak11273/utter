@@ -181,8 +181,6 @@ const LevelsUpdate = props => {
                         const index = data.findIndex(x => x._id === newData._id)
                         data[index] = newData
                         changeState({...state, data})
-                        /* data.push(newData) */
-                        /* changeState({...state, data}) */
                         resolve(newData)
                       }, 1000)
                     })
@@ -215,7 +213,10 @@ const LevelsUpdate = props => {
                             _id: res._id
                           }
                         })
-                        levels.pop(res)
+                        const index = levels.findIndex(
+                          x => x.level === oldData.level
+                        )
+                        levels.splice(index, 1)
                         session.levels = levels
                       })
                       .catch(err => console.log("err: ", err))
