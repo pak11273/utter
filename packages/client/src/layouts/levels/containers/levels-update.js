@@ -31,8 +31,86 @@ const LevelsUpdate = props => {
     data: []
   })
 
-  var {course, levels} = session
+  var {course, levels, user} = session
   const {classes} = props
+
+  if (user.username === course.owner.username) {
+    var can = {
+      onRowAdd: newData =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("reject: ", reject)
+            const {data} = state
+            data.push(newData)
+            changeState({...state, data})
+            resolve(newData)
+          }, 1000)
+        })
+          .then(res => {
+            props.client.mutate({
+              mutation: LEVEL_CREATE,
+              variables: {
+                courseId: course._id,
+                level: +res.level,
+                title: res.title
+              }
+            })
+            levels.push(res)
+            session.levels = levels
+          })
+          .catch(err => console.log("err: ", err)),
+      onRowUpdate: newData =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("reject: ", reject)
+            var {data} = state
+
+            const index = data.findIndex(x => x._id === newData._id)
+            data[index] = newData
+            changeState({...state, data})
+            resolve(newData)
+          }, 1000)
+        })
+          .then(res => {
+            props.client.mutate({
+              mutation: LEVEL_UPDATE,
+              variables: {
+                _id: res._id,
+                level: +res.level,
+                title: res.title
+              }
+            })
+          })
+          .catch(err => console.log("err: ", err)),
+      onRowDelete: oldData =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            console.log("reject: ", reject)
+            const {data} = state
+            const index = data.indexOf(oldData)
+            data.splice(index, 1)
+            changeState({...state, data})
+            resolve(oldData)
+          }, 1000)
+        })
+          .then(res => {
+            props.client.mutate({
+              mutation: LEVEL_DELETE,
+              variables: {
+                _id: res._id
+              }
+            })
+            console.log("old Data: ", oldData)
+            const index = levels.findIndex(x => x._id === oldData._id)
+            levels[index] = oldData
+            levels.splice(index, 1)
+            changeState({...state, levels})
+          })
+          .catch(err => console.log("err: ", err))
+    }
+  } else {
+    can = {}
+  }
 
   const handleSubmit = () => {}
 
@@ -109,11 +187,11 @@ const LevelsUpdate = props => {
                   /* DetailPanel: () => <ChevronRight /> */
                 }}
                 columns={[
-                  /* {
-                    title: "level",
+                  {
+                    title: "test",
                     readonly: true,
-                    render: rowData => rowData.tableData.id + 1
-                  }, */
+                    render: rowData => rowData && rowData.tableData.id + 1
+                  },
                   {title: "level", field: "level", readonly: true},
                   {title: "title", field: "title"}
                 ]}
@@ -148,81 +226,7 @@ const LevelsUpdate = props => {
                     }
                   }
                 }}
-                editable={{
-                  onRowAdd: newData =>
-                    new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                        console.log("reject: ", reject)
-                        const {data} = state
-                        data.push(newData)
-                        changeState({...state, data})
-                        resolve(newData)
-                      }, 1000)
-                    })
-                      .then(res => {
-                        props.client.mutate({
-                          mutation: LEVEL_CREATE,
-                          variables: {
-                            courseId: course._id,
-                            level: +res.level,
-                            title: res.title
-                          }
-                        })
-                        levels.push(res)
-                        session.levels = levels
-                      })
-                      .catch(err => console.log("err: ", err)),
-                  onRowUpdate: newData =>
-                    new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                        console.log("reject: ", reject)
-                        var {data} = state
-
-                        const index = data.findIndex(x => x._id === newData._id)
-                        data[index] = newData
-                        changeState({...state, data})
-                        resolve(newData)
-                      }, 1000)
-                    })
-                      .then(res => {
-                        props.client.mutate({
-                          mutation: LEVEL_UPDATE,
-                          variables: {
-                            _id: res._id,
-                            level: +res.level,
-                            title: res.title
-                          }
-                        })
-                      })
-                      .catch(err => console.log("err: ", err)),
-                  onRowDelete: oldData =>
-                    new Promise((resolve, reject) => {
-                      setTimeout(() => {
-                        console.log("reject: ", reject)
-                        const {data} = state
-                        const index = data.indexOf(oldData)
-                        data.splice(index, 1)
-                        changeState({...state, data})
-                        resolve(oldData)
-                      }, 1000)
-                    })
-                      .then(res => {
-                        props.client.mutate({
-                          mutation: LEVEL_DELETE,
-                          variables: {
-                            _id: res._id
-                          }
-                        })
-                        console.log("old Data: ", oldData)
-                        const index = levels.findIndex(
-                          x => x._id === oldData._id
-                        )
-                        levels[index] = oldData
-                        levels.splice(index, 1)
-                        changeState({...state, levels})
-                      })
-                      .catch(err => console.log("err: ", err))
-                }}
+                editable={can}
               />
             </div>
           </Grid>
