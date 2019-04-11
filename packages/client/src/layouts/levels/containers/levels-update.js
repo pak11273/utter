@@ -15,11 +15,8 @@ import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
 import LastPage from "@material-ui/icons/LastPage"
 import Paper from "@material-ui/core/Paper"
-/* import Remove from "@material-ui/icons/Remove" */
-/* import SaveAlt from "@material-ui/icons/SaveAlt" */
 import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
-/* import ViewColumn from "@material-ui/icons/ViewColumn" */
 import {withStyles} from "@material-ui/core/styles"
 
 import MaterialTable from "material-table"
@@ -30,9 +27,9 @@ const LevelsUpdate = props => {
   const [state, changeState] = useState({
     data: []
   })
+  const {classes} = props
 
   var {course, levels, user} = session
-  const {classes} = props
 
   if (user.username === course.owner.username) {
     var can = {
@@ -84,14 +81,12 @@ const LevelsUpdate = props => {
           .catch(err => console.log("err: ", err)),
       onRowDelete: oldData =>
         new Promise((resolve, reject) => {
-          setTimeout(() => {
-            console.log("reject: ", reject)
-            const {data} = state
-            const index = data.indexOf(oldData)
-            data.splice(index, 1)
-            changeState({...state, data})
-            resolve(oldData)
-          }, 1000)
+          console.log("reject: ", reject)
+          const {data} = state
+          const index = data.indexOf(oldData)
+          data.splice(index, 1)
+          changeState({...state, data})
+          resolve(oldData)
         })
           .then(res => {
             props.client.mutate({
@@ -137,7 +132,6 @@ const LevelsUpdate = props => {
       })
       .catch(err => console.log("err: ", err))
   }, [])
-
   return (
     <form className={classes.root} onSubmit={handleSubmit}>
       <Grid
@@ -169,6 +163,15 @@ const LevelsUpdate = props => {
           <Grid item xs={12} align="center">
             <div style={{maxWidth: "100%"}}>
               <MaterialTable
+                /* components={{ */
+                /*   Actions: props => { */
+                /*     const arr = [] */
+                /*     if (props.data) { */
+                /*       arr.push(props.data) */
+                /*     } */
+                /*     return <div>{console.log("props: ", arr)}</div> */
+                /*   } */
+                /* }} */
                 icons={{
                   Add: () => <Add />,
                   Check: () => <Check />,
@@ -176,45 +179,25 @@ const LevelsUpdate = props => {
                   ResetSearch: () => <Clear />,
                   Delete: () => <Delete />,
                   Edit: () => <Edit />,
-                  /* Export: () => <SaveAlt />, */
                   FirstPage: () => <FirstPage />,
                   LastPage: () => <LastPage />,
                   NextPage: () => <ChevronRight />,
                   PreviousPage: () => <ChevronLeft />,
                   Search: () => <Search />
-                  /* ThirdStateCheck: () => <Remove /> */
-                  /* ViewColumn: () => <ViewColumn />, */
-                  /* DetailPanel: () => <ChevronRight /> */
                 }}
                 columns={[
                   {
-                    title: "test",
+                    title: "level",
                     readonly: true,
                     render: rowData => rowData && rowData.tableData.id + 1
                   },
-                  {title: "level", field: "level", readonly: true},
+                  {
+                    title: "id",
+                    render: rowData => rowData && rowData._id
+                  },
                   {title: "title", field: "title"}
                 ]}
                 data={state.data}
-                actions={
-                  [
-                    /* { */
-                    /*   icon: () => <Check />, */
-                    /*   tooltip: "Edit Level" */
-                    /*   onClick: (event, rowData) => { */
-                    /*     alert("Accept level: " + rowData.level) */
-                    /*   } */
-                    /* } */
-                    /* rowData => ({ */
-                    /*   icon: () => <Delete />, */
-                    /*   tooltip: "Delete Level", */
-                    /*   disabled: rowData.birthYear >= 2000, */
-                    /*   onClick: (event, rowData) => { */
-                    /*     alert("Delete level: " + rowData.level) */
-                    /*   } */
-                    /* }) */
-                  ]
-                }
                 options={{
                   actionsColumnIndex: -1,
                   pageSize: 10,
@@ -228,6 +211,7 @@ const LevelsUpdate = props => {
                 }}
                 editable={can}
               />
+              {console.log("this: ")}
             </div>
           </Grid>
         </Grid>
