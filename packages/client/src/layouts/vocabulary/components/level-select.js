@@ -17,7 +17,8 @@ export const LevelSelect = () => {
       [e.target.name]: e.target.value
     })
 
-    session.level = e.target.value
+    session.level = +e.target.value
+    console.log("session: ", session.level)
   }
 
   return (

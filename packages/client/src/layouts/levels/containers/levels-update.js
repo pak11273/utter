@@ -141,12 +141,12 @@ const LevelsUpdate = props => {
                   actionsColumnIndex: -1,
                   pageSize: 10,
                   showTitle: false,
-                  sorting: false
-                  /* rowStyle: x => { */
-                  /*   if (x.level % 2) { */
-                  /*     return {backgroundColor: "#f2f2f2"} */
-                  /*   } */
-                  /* } */
+                  sorting: false,
+                  rowStyle: x => {
+                    if (x.tableData.id % 2) {
+                      return {backgroundColor: "#f2f2f2"}
+                    }
+                  }
                 }}
                 editable={{
                   onRowAdd: newData =>
@@ -213,11 +213,13 @@ const LevelsUpdate = props => {
                             _id: res._id
                           }
                         })
+                        console.log("old Data: ", oldData)
                         const index = levels.findIndex(
-                          x => x.level === oldData.level
+                          x => x._id === oldData._id
                         )
+                        levels[index] = oldData
                         levels.splice(index, 1)
-                        session.levels = levels
+                        changeState({...state, levels})
                       })
                       .catch(err => console.log("err: ", err))
                 }}
