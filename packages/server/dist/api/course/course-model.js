@@ -22,6 +22,10 @@ var CourseSchema = _mongoose.default.Schema({
     type: _mongoose.default.Schema.Types.Mixed,
     default: {}
   },
+  levelSort: {
+    type: Array,
+    default: []
+  },
   title: {
     type: String,
     default: "",

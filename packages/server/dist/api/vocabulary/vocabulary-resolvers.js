@@ -25,6 +25,8 @@ var _courseModel = _interopRequireDefault(require("../course/course-model"));
 
 var _levelModel = _interopRequireDefault(require("../level/level-model.js"));
 
+var _userModel = _interopRequireDefault(require("../user/user-model.js"));
+
 var _vocabularyModel = _interopRequireDefault(require("./vocabulary-model"));
 
 var _resolverFunctions = require("../shared/resolver-functions.js");
@@ -109,7 +111,7 @@ function () {
             console.log("args: ", args);
             _context2.next = 10;
             return _courseModel.default.findOneAndUpdate({
-              _id: args.courseId
+              _id: args.levelId
             }, {
               $pull: {
                 vocabulary: {
@@ -165,78 +167,77 @@ function () {
   var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input, vocabulary, vocabularyArr, vocabularyObj;
+    var input, userId, user, newVocabulary, createdVocabulary, vocabulary, level;
     return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
             console.log("args: ", args);
-            arrayOfErrors = [];
-            token = ctx.req.headers.authorization;
+            input = args.input;
+            _context3.prev = 2;
 
-            if (!(token === "null")) {
+            if (ctx.isAuth) {
               _context3.next = 5;
               break;
             }
 
-            return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
+            throw new Error("You need to be registered to create a course.");
 
           case 5:
-            _context3.next = 7;
-            return (0, _resolverFunctions.userByToken)(token, function (err, res) {
+            userId = ctx.req.token._id;
+            _context3.next = 8;
+            return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
+          case 8:
             user = _context3.sent;
-            input = args.input;
-            _context3.next = 11;
-            return _courseModel.default.findOneAndUpdate({
-              _id: input.courseId,
-              "levels.level": {
-                $eq: input.level
-              }
-            }, {
-              $push: {
-                "levels.$.vocabulary": {
-                  audioUrl: input.audioUrl,
-                  courseId: input.courseId,
-                  gender: input.gender,
-                  translation: input.translation,
-                  word: input.word
-                }
-              }
-            }, {
-              new: true
+            newVocabulary = new _vocabularyModel.default({
+              audioUrl: input.audioUrl,
+              levelId: input.levelId,
+              gender: input.gender,
+              translation: input.translation,
+              word: input.word
             });
+            _context3.next = 12;
+            return newVocabulary.save();
 
-          case 11:
+          case 12:
             vocabulary = _context3.sent;
+            console.log("vocab: ", vocabulary);
+            _context3.next = 16;
+            return _levelModel.default.findById(input.level);
 
-            if (!vocabulary) {
-              arrayOfErrors.push({
-                path: "vocabulary",
-                message: "Server Error: Could not save new vocabulary. Please contact technical support."
-              });
+          case 16:
+            level = _context3.sent;
+
+            if (level) {
+              _context3.next = 19;
+              break;
             }
 
-            vocabularyArr = vocabulary.levels[0].vocabulary;
-            vocabularyObj = vocabularyArr[vocabularyArr.length - 1];
-            vocabularyObj.toObject();
-            vocabularyObj.id = vocabularyObj._id;
-            console.log("vocabularyObj; ", vocabularyObj);
-            return _context3.abrupt("return", {
-              vocabulary: vocabularyObj,
-              errors: arrayOfErrors
-            });
+            throw new Error("Level not found.");
 
           case 19:
+            level.vocabulary.push(vocabulary);
+            _context3.next = 22;
+            return level.save();
+
+          case 22:
+            return _context3.abrupt("return", createdVocabulary);
+
+          case 25:
+            _context3.prev = 25;
+            _context3.t0 = _context3["catch"](2);
+            throw _context3.t0;
+
+          case 28:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[2, 25]]);
   }));
 
   return function vocabularyCreate(_x7, _x8, _x9, _x10) {
@@ -258,7 +259,7 @@ function () {
             console.log("args: ", args);
             _context4.next = 3;
             return _courseModel.default.find({
-              _id: args.courseId
+              _id: args.levelId
             }).exec();
 
           case 3:
@@ -301,7 +302,6 @@ function () {
 
 var vocabularyResolvers = {
   Query: {
-    getVocabulary: getVocabulary,
     getVocabularies: getVocabularies
   },
   Mutation: {

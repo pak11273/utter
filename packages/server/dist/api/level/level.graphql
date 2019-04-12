@@ -20,13 +20,12 @@ type Phrases {
 }
 
 type Level {
-	courseId: String
+	course: String
   createdAt: Int
 	examples: [Example]
 	grammar: [Grammar]
 	id: ID!
   _id: ID
-	level: Int
 	notes: String 
 	phrases: [Phrases]
   updatedAt: String
@@ -36,14 +35,17 @@ type Level {
 
 input LevelUpdateInput {
   _id: ID
-  level: Int 
   title: String
 }
 
 input LevelCreateInput {
 	courseId: String
-  level: Int 
   title: String
+}
+
+input LevelSortInput {
+	courseId: String
+	levelSort: [String]
 }
 
 type LevelPayload {
@@ -67,5 +69,6 @@ extend type Query {
 extend type Mutation {
   levelCreate(input: LevelCreateInput!): LevelPayload! 
 	levelDelete(_id: ID): LevelPayload 
+  levelSort(input: LevelSortInput!): LevelPayload!
   levelUpdate(input: LevelUpdateInput!): LevelPayload!
 }

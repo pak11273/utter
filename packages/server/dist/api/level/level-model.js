@@ -16,19 +16,15 @@ var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 var _vocabularyModel = _interopRequireDefault(require("../vocabulary/vocabulary-model.js"));
 
 var LevelSchema = new _mongoose.default.Schema({
-  level: {
-    type: Number,
-    required: [true, "can't be blank"]
-  },
   title: {
     type: String,
     required: [true, "can't be blank"]
   },
-  course: [{
+  course: {
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Course",
     required: [true, "can't be blank"]
-  }],
+  },
   vocabulary: [{
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Vocabulary"
