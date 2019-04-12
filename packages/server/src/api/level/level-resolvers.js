@@ -90,7 +90,7 @@ const levelUpdate = (_, {input}) => {
   return Level.findByIdAndUpdate(_id, update, {new: true}).exec()
 }
 
-const levelCreate = async (_, args, ctx, info) => {
+const levelCreate = async (_, {input}, ctx, info) => {
   let arrayOfErrors = []
   const token = ctx.req.headers.authorization
   if (token === "null") {
@@ -101,7 +101,7 @@ const levelCreate = async (_, args, ctx, info) => {
     return res
   })
 
-  const {input} = args
+  console.log("input: ", input)
 
   const newLevel = new Level({...input, course: input.courseId})
 

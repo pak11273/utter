@@ -31,19 +31,21 @@ import {
 } from "../xhr.js"
 import {styles} from "../styles.js"
 
-const MuiTableEditRow = ({onEditingApproved, ...props}) => (
-  <Formik
-    validationSchema={courseLevelSchema}
-    initialValues={props.data}
-    onSubmit={values => {
-      delete values.tableData
-      onEditingApproved(props.mode, values, props.data)
-    }}
-    render={({submitForm}) => (
-      <MTableEditRow {...props} onEditingApproved={submitForm} />
-    )}
-  />
-)
+const MuiTableEditRow = ({onEditingApproved, ...props}) => {
+  return (
+    <Formik
+      validationSchema={courseLevelSchema}
+      initialValues={props.data}
+      onSubmit={values => {
+        delete values.tableData
+        onEditingApproved(props.mode, values, props.data)
+      }}
+      render={({submitForm}) => (
+        <MTableEditRow {...props} onEditingApproved={submitForm} />
+      )}
+    />
+  )
+}
 
 class LevelsUpdate extends Component {
   constructor(props) {

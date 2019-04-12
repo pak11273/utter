@@ -118,7 +118,7 @@ class CourseSettings extends Component {
               variant="h4"
               align="center"
               gutterBottom>
-              Settings
+              Course Settings
             </Typography>
           </Paper>
         </Grid>

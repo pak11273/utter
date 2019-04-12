@@ -264,7 +264,7 @@ const CourseIntroduction = props => {
                   variant="h4"
                   align="center"
                   gutterBottom>
-                  Introduction
+                  Course Introduction
                 </Typography>
               </Paper>
             </Grid>
