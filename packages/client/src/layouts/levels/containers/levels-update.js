@@ -37,7 +37,7 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseLevelSchema}
       initialValues={props.data}
       onSubmit={values => {
-        delete values.tableData
+        /* delete values.tableData */
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
@@ -132,8 +132,6 @@ class LevelsUpdate extends Component {
             }, 1000)
           })
             .then(res => {
-              /* session.levelsIdsArr = */
-              /* this.tableRef.current && this.tableRef.current.props.data */
               this.props.client.mutate({
                 mutation: LEVEL_UPDATE,
                 variables: {
