@@ -10,8 +10,7 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
-const allLevels = async (_, {levelId}, {user}) => {
-  console.log("hello")
+const getLevel = async (_, {levelId}, {user}) => {
   const level = await Level.findById(levelId).exec()
   if (!level) {
     throw new Error("Cannot find level with id")
@@ -20,18 +19,27 @@ const allLevels = async (_, {levelId}, {user}) => {
   return level
 }
 
-const getLevel = async (_, {levelId}, {user}) => {
-  console.log("bye")
-  const level = await Level.findById(levelId).exec()
-  if (!level) {
-    throw new Error("Cannot find level with id")
-  }
+const getLevels = async (_, args, ctx, info) => {
+  const course = await Course.findById(args.courseId)
+    .populate("levels")
+    .limit(100)
+    .lean()
 
-  return level
+  const ids = course.levelSort
+
+  const sortedLevels = course.levels.sort(function(a, b) {
+    // Sort docs by the order of their _id values in ids.
+    return ids.indexOf(a._id.toString()) - ids.indexOf(b._id.toString())
+  })
+
+  if (isEmpty(course.levels)) {
+    return {levels: []}
+  } else {
+    return {levels: sortedLevels}
+  }
 }
 
 const levelDelete = async (_, args, ctx) => {
-  console.log("nah")
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -57,14 +65,32 @@ const levelDelete = async (_, args, ctx) => {
   }
 }
 
+const levelSort = async (_, {input}, {redis, url}) => {
+  console.log("input ", input)
+
+  const course = await Course.findByIdAndUpdate(input.courseId, {
+    levelSort: input.levelSort
+  }).exec()
+  console.log("course: ", course)
+  /* const redisToken = args.input.token */
+  /* const redisKey = `${confirmEmailPrefix}${redisToken}` */
+  /* const userId = await redis.get(redisKey) */
+
+  const {_id, ...update} = input
+  /* Level.findByIdAndUpdate(input_id, input, {new: true}).exec() */
+  return {
+    level: Level,
+    errors: []
+  }
+}
+
 const levelUpdate = (_, {input}) => {
-  console.log("update")
+  console.log("update: ", input)
   const {_id, ...update} = input
   return Level.findByIdAndUpdate(_id, update, {new: true}).exec()
 }
 
 const levelCreate = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   let arrayOfErrors = []
   const token = ctx.req.headers.authorization
   if (token === "null") {
@@ -80,8 +106,6 @@ const levelCreate = async (_, args, ctx, info) => {
   const newLevel = new Level({...input, course: input.courseId})
 
   const level = await newLevel.save()
-
-  console.log("level: ", level)
 
   const course = await Course.findById(input.courseId)
 
@@ -102,34 +126,16 @@ const levelCreate = async (_, args, ctx, info) => {
   }
 }
 
-const getLevels = async (_, args, ctx, info) => {
-  let result = await Course.find({_id: args.courseId})
-    .populate("levels")
-    .sort({_id: -1})
-    .limit(100)
-    .lean()
-
-  const sortedLevels = result[0].levels.sort((a, b) => {
-    return a.level - b.level
-  })
-
-  if (isEmpty(result)) {
-    return {levels: []}
-  } else {
-    return {levels: sortedLevels}
-  }
-}
-
 export const levelResolvers = {
   Query: {
-    allLevels,
     getLevels,
     getLevel
   },
   Mutation: {
     levelDelete,
-    levelUpdate,
-    levelCreate
+    levelCreate,
+    levelSort,
+    levelUpdate
   }
   /* Level: { */
   /*   async course(level) { */

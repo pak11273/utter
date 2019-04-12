@@ -19,7 +19,13 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import MaterialTable from "material-table"
-import {GET_LEVELS, LEVEL_CREATE, LEVEL_DELETE, LEVEL_UPDATE} from "../xhr.js"
+import {
+  GET_LEVELS,
+  LEVEL_CREATE,
+  LEVEL_DELETE,
+  LEVEL_UPDATE,
+  LEVEL_SORT
+} from "../xhr.js"
 import {styles} from "../styles.js"
 
 class LevelsUpdate extends Component {
@@ -58,16 +64,15 @@ class LevelsUpdate extends Component {
       this.can = {
         onRowAdd: newData =>
           new Promise((resolve, reject) => {
-            console.log("reject: ", reject)
-            const {levels} = this.state
-            levels.push(newData)
-            this.setState(
-              {
+            setTimeout(() => {
+              console.log("reject: ", reject)
+              const {levels} = this.state
+              levels.push(newData)
+              this.setState({
                 levels
-              },
-              console.log("state: ", this.state)
-            )
-            resolve(newData)
+              })
+              resolve(newData)
+            }, 1000)
           })
             .then(async res => {
               const newLevel = await this.props.client.mutate({
@@ -81,6 +86,18 @@ class LevelsUpdate extends Component {
               tempArr.push(newLevel.data.levelCreate.level)
               session.levels = tempArr
               session.levelsIdsArr = this.convertObjIdsToArr(session.levels)
+              return session.levelsIdsArr
+            })
+            .then(async res => {
+              console.log("res: ", res)
+              const newSort = await this.props.client.mutate({
+                mutation: LEVEL_SORT,
+                variables: {
+                  courseId: session.course._id,
+                  levelSort: res
+                }
+              })
+              console.log("newSort: ", newSort)
             })
             .catch(err => console.log("err: ", err)),
         onRowUpdate: newData =>

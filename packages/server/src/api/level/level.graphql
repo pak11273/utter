@@ -43,6 +43,11 @@ input LevelCreateInput {
   title: String
 }
 
+input LevelSortInput {
+	courseId: String
+	levelSort: [String]
+}
+
 type LevelPayload {
 	level: Level
   errors: [Error]
@@ -64,5 +69,6 @@ extend type Query {
 extend type Mutation {
   levelCreate(input: LevelCreateInput!): LevelPayload! 
 	levelDelete(_id: ID): LevelPayload 
+  levelSort(input: LevelSortInput!): LevelPayload!
   levelUpdate(input: LevelUpdateInput!): LevelPayload!
 }

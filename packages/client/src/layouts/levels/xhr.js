@@ -27,6 +27,19 @@ export const LEVEL_CREATE = gql`
   }
 `
 
+export const LEVEL_SORT = gql`
+  mutation levelSort($courseId: String, $levelSort: [String]) {
+    levelSort(input: {courseId: $courseId, levelSort: $levelSort}) {
+      level {
+        _id
+      }
+      errors {
+        message
+      }
+    }
+  }
+`
+
 export const LEVEL_UPDATE = gql`
   mutation levelUpdate($_id: ID, $title: String) {
     levelUpdate(input: {_id: $_id, title: $title}) {

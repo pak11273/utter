@@ -9,6 +9,10 @@ const CourseSchema = mongoose.Schema(
       type: mongoose.Schema.Types.Mixed,
       default: {}
     },
+    levelSort: {
+      type: Array,
+      default: []
+    },
     title: {
       type: String,
       default: "",
