@@ -1,6 +1,8 @@
 /* eslint no-unused-vars: 0 */
 import React, {useState} from "react"
 import Select from "react-select"
+import {Field, getIn} from "formik"
+import {MTableEditField} from "material-table"
 
 import TextField from "@material-ui/core/TextField"
 
@@ -110,3 +112,29 @@ export const FormikSelect = ({
     </div>
   )
 }
+
+export const FormikMTInput = props => (
+  <Field
+    name={props.columnDef.field}
+    render={({field, form}) => {
+      const {name} = field
+      const {errors, setFieldValue} = form
+
+      const showError = !!getIn(errors, name)
+
+      return (
+        <div>
+          <MTableEditField
+            {...props}
+            {...field}
+            error={showError}
+            onChange={newValue => setFieldValue(name, newValue)}
+          />
+          {errors[field.name] && (
+            <div style={{color: "#f44336"}}>{errors[field.name]}</div>
+          )}
+        </div>
+      )
+    }}
+  />
+)

@@ -1,6 +1,7 @@
 /* eslint react-hooks/exhaustive-deps:0 */
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
+import {Formik} from "formik"
 import {session} from "brownies"
 
 import Add from "@material-ui/icons/Add"
@@ -18,7 +19,9 @@ import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import MaterialTable from "material-table"
+import MaterialTable, {MTableEditRow} from "material-table"
+import {courseLevelSchema} from "../../yupSchemas.js"
+import {FormikMTInput} from "../../../components"
 import {
   GET_LEVELS,
   LEVEL_CREATE,
@@ -27,6 +30,20 @@ import {
   LEVEL_SORT
 } from "../xhr.js"
 import {styles} from "../styles.js"
+
+const MuiTableEditRow = ({onEditingApproved, ...props}) => (
+  <Formik
+    validationSchema={courseLevelSchema}
+    initialValues={props.data}
+    onSubmit={values => {
+      delete values.tableData
+      onEditingApproved(props.mode, values, props.data)
+    }}
+    render={({submitForm}) => (
+      <MTableEditRow {...props} onEditingApproved={submitForm} />
+    )}
+  />
+)
 
 class LevelsUpdate extends Component {
   constructor(props) {
@@ -89,15 +106,13 @@ class LevelsUpdate extends Component {
               return session.levelsIdsArr
             })
             .then(async res => {
-              console.log("res: ", res)
-              const newSort = await this.props.client.mutate({
+              await this.props.client.mutate({
                 mutation: LEVEL_SORT,
                 variables: {
                   courseId: session.course._id,
                   levelSort: res
                 }
               })
-              console.log("newSort: ", newSort)
             })
             .catch(err => console.log("err: ", err)),
         onRowUpdate: newData =>
@@ -167,12 +182,10 @@ class LevelsUpdate extends Component {
     })
   }
 
-  handleSubmit = () => {}
-
   render() {
     const {classes} = this.props
     return (
-      <form className={classes.root} onSubmit={this.handleSubmit}>
+      <div className={classes.root}>
         <Grid
           className={classes.hero}
           container
@@ -228,6 +241,10 @@ class LevelsUpdate extends Component {
                     },
                     {title: "title", field: "title"}
                   ]}
+                  components={{
+                    EditRow: MuiTableEditRow,
+                    EditField: FormikMTInput
+                  }}
                   data={this.state.levels}
                   options={{
                     actionsColumnIndex: -1,
@@ -246,7 +263,7 @@ class LevelsUpdate extends Component {
             </Grid>
           </Grid>
         </main>
-      </form>
+      </div>
     )
   }
 }

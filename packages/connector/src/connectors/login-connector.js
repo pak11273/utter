@@ -51,7 +51,7 @@ const loginMutation = gql`
           _id
           title
           levels {
-            level
+            _id
           }
         }
       }
