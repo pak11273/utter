@@ -48,7 +48,7 @@ class LevelsUpdate extends Component {
             levels: res.data.getLevels.levels
           },
           () => {
-            session.levelsIdsArr = this.getIds(this.state.levels)
+            session.levelsIdsArr = this.convertObjIdsToArr(this.state.levels)
           }
         )
       })
@@ -77,11 +77,10 @@ class LevelsUpdate extends Component {
                   title: res.title
                 }
               })
-              console.log(
-                "huh: ",
-                session.levels.concat[newLevel.data.levelCreate.level]
-              )
-              session.levelsIdsArr = this.getIds(session.levels)
+              const tempArr = session.levels
+              tempArr.push(newLevel.data.levelCreate.level)
+              session.levels = tempArr
+              session.levelsIdsArr = this.convertObjIdsToArr(session.levels)
             })
             .catch(err => console.log("err: ", err)),
         onRowUpdate: newData =>
@@ -122,7 +121,7 @@ class LevelsUpdate extends Component {
             resolve(oldData)
           })
             .then(res => {
-              session.levelsIdsArr = this.getIds(
+              session.levelsIdsArr = this.convertObjIdsToArr(
                 this.tableRef.current && this.tableRef.current.props.data
               )
               this.props.client.mutate({
@@ -145,7 +144,7 @@ class LevelsUpdate extends Component {
     }
   }
 
-  getIds = arr => {
+  convertObjIdsToArr = arr => {
     return arr.map(item => {
       return item._id
     })
