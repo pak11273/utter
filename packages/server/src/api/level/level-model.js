@@ -3,10 +3,6 @@ import Course from "../course/course-model.js"
 import Vocabulary from "../vocabulary/vocabulary-model.js"
 
 export const LevelSchema = new mongoose.Schema({
-  level: {
-    type: Number,
-    required: [true, "can't be blank"]
-  },
   title: {
     type: String,
     required: [true, "can't be blank"]

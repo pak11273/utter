@@ -25,7 +25,6 @@ export const GET_COURSES = gql`
         courseDescription
         levels {
           _id
-          level
           title
         }
         resource

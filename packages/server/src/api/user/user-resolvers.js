@@ -231,6 +231,7 @@ const login = async (parent, args, ctx, info) => {
 }
 
 const getUserByToken = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   try {
     var token = args.token
     if (token) {

@@ -46,7 +46,7 @@ const GET_USER_BY_TOKEN = gql`
         _id
         title
         levels {
-          level
+          _id
         }
       }
       updatedAt

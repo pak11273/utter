@@ -192,7 +192,6 @@ const VocabularysUpdate = props => {
                           variables: {
                             audioUrl: res.audio,
                             gender: res.gender,
-                            level: +res.level,
                             levelId: res.levelId,
                             word: res.word,
                             translation: res.translation
