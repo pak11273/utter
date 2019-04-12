@@ -81,6 +81,8 @@ const levelCreate = async (_, args, ctx, info) => {
 
   const level = await newLevel.save()
 
+  console.log("level: ", level)
+
   const course = await Course.findById(input.courseId)
 
   course.levels.push(level)
@@ -92,7 +94,7 @@ const levelCreate = async (_, args, ctx, info) => {
       path: "level",
       message: "Course was not found."
     })
-
+  } else {
     return {
       level,
       errors: arrayOfErrors

@@ -1,6 +1,5 @@
 /* eslint react-hooks/exhaustive-deps:0 */
 import React, {Component} from "react"
-/* import {useQuery} from "react-apollo-hooks" */
 import {withApollo} from "react-apollo"
 import {session} from "brownies"
 
@@ -27,71 +26,81 @@ class LevelsUpdate extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      data: []
+      levels: []
     }
     this.can = null
+    this.levelsIdsArr = []
+    this.tableRef = React.createRef()
   }
 
   componentDidMount() {
-    var {course, levels, user} = session
-
     this.props.client
       .query({
         query: GET_LEVELS,
         variables: {
-          courseId: course._id
+          courseId: session.course._id
         }
       })
       .then(res => {
         session.levels = res.data.getLevels.levels
-        this.setState({
-          data: res.data.getLevels.levels
-        })
+        this.setState(
+          {
+            levels: res.data.getLevels.levels
+          },
+          () => {
+            session.levelsIdsArr = this.getIds(this.state.levels)
+          }
+        )
       })
       .catch(err => console.log("err: ", err))
 
-    if (user.username === course.owner.username) {
+    if (session.user.username === session.course.owner.username) {
       this.can = {
         onRowAdd: newData =>
           new Promise((resolve, reject) => {
             console.log("reject: ", reject)
-            const {data} = this.state
-            data.push(newData)
+            const {levels} = this.state
+            levels.push(newData)
             this.setState(
               {
-                data
+                levels
               },
               console.log("state: ", this.state)
             )
             resolve(newData)
           })
-            .then(res => {
-              this.props.client.mutate({
+            .then(async res => {
+              const newLevel = await this.props.client.mutate({
                 mutation: LEVEL_CREATE,
                 variables: {
-                  courseId: course._id,
+                  courseId: session.course._id,
                   title: res.title
                 }
               })
-              levels.push(res)
-              session.levels = levels
+              console.log(
+                "huh: ",
+                session.levels.concat[newLevel.data.levelCreate.level]
+              )
+              session.levelsIdsArr = this.getIds(session.levels)
             })
             .catch(err => console.log("err: ", err)),
         onRowUpdate: newData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
               console.log("reject: ", reject)
-              var {data} = this.state
+              var {levels} = this.state
 
-              const index = data.findIndex(x => x._id === newData._id)
-              data[index] = newData
+              const index = levels.findIndex(x => x._id === newData._id)
+              levels[index] = newData
               this.setState({
-                data
+                levels
               })
               resolve(newData)
             }, 1000)
           })
             .then(res => {
+              /* session.levelsIdsArr = */
+              /* this.tableRef.current && this.tableRef.current.props.data */
               this.props.client.mutate({
                 mutation: LEVEL_UPDATE,
                 variables: {
@@ -104,27 +113,29 @@ class LevelsUpdate extends Component {
         onRowDelete: oldData =>
           new Promise((resolve, reject) => {
             console.log("reject: ", reject)
-            const {data} = this.state
-            const index = data.indexOf(oldData)
-            data.splice(index, 1)
+            const {levels} = this.state
+            const index = levels.indexOf(oldData)
+            levels.splice(index, 1)
             this.setState({
-              data
+              levels
             })
             resolve(oldData)
           })
             .then(res => {
+              session.levelsIdsArr = this.getIds(
+                this.tableRef.current && this.tableRef.current.props.data
+              )
               this.props.client.mutate({
                 mutation: LEVEL_DELETE,
                 variables: {
                   _id: res._id
                 }
               })
-              console.log("old Data: ", oldData)
-              const index = levels.findIndex(x => x._id === oldData._id)
-              levels[index] = oldData
-              levels.splice(index, 1)
+              const index = session.levels.findIndex(x => x._id === oldData._id)
+              session.levels[index] = oldData
+              session.levels.splice(index, 1)
               this.setState({
-                levels
+                levels: session.levels
               })
             })
             .catch(err => console.log("err: ", err))
@@ -132,6 +143,12 @@ class LevelsUpdate extends Component {
     } else {
       this.can = {}
     }
+  }
+
+  getIds = arr => {
+    return arr.map(item => {
+      return item._id
+    })
   }
 
   handleSubmit = () => {}
@@ -169,6 +186,7 @@ class LevelsUpdate extends Component {
             <Grid item xs={12} align="center">
               <div style={{maxWidth: "100%"}}>
                 <MaterialTable
+                  ref={this.tableRef}
                   icons={{
                     Add: () => <Add />,
                     Check: () => <Check />,
@@ -194,7 +212,7 @@ class LevelsUpdate extends Component {
                     },
                     {title: "title", field: "title"}
                   ]}
-                  data={this.state.data}
+                  data={this.state.levels}
                   options={{
                     actionsColumnIndex: -1,
                     pageSize: 10,
