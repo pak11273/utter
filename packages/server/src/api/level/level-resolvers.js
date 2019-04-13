@@ -40,6 +40,7 @@ const getLevels = async (_, args, ctx, info) => {
 }
 
 const levelDelete = async (_, args, ctx) => {
+  console.log("args: ", args)
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -51,6 +52,9 @@ const levelDelete = async (_, args, ctx) => {
   })
 
   const level = await Level.findByIdAndDelete(args._id)
+  console.log("level: ", level)
+
+  // TODO: remove level from course
 
   if (!level) {
     arrayOfErrors.push({

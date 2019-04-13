@@ -67,7 +67,7 @@ extend type Query {
 }
 
 extend type Mutation {
-  levelCreate(input: LevelCreateInput!): LevelPayload! 
+	levelCreate(input: LevelCreateInput!): LevelPayload! 
 	levelDelete(_id: ID): LevelPayload 
   levelSort(input: LevelSortInput!): LevelPayload!
   levelUpdate(input: LevelUpdateInput!): LevelPayload!

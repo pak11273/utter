@@ -1,4 +1,4 @@
-/* eslint react-hooks/exhaustive-deps:0 */
+/* eslint react-hooks/exhaustive-deps:0 no-plusplus:0 */
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import {Formik} from "formik"
@@ -82,9 +82,8 @@ class LevelsUpdate extends Component {
     if (session.user.username === session.course.owner.username) {
       this.can = {
         onRowAdd: newData =>
-          new Promise((resolve, reject) => {
+          new Promise(resolve => {
             setTimeout(() => {
-              console.log("reject: ", reject)
               const {levels} = this.state
               levels.push(newData)
               this.setState({
@@ -118,9 +117,8 @@ class LevelsUpdate extends Component {
             })
             .catch(err => console.log("err: ", err)),
         onRowUpdate: newData =>
-          new Promise((resolve, reject) => {
+          new Promise(resolve => {
             setTimeout(() => {
-              console.log("reject: ", reject)
               var {levels} = this.state
 
               const index = levels.findIndex(x => x._id === newData._id)
@@ -141,35 +139,58 @@ class LevelsUpdate extends Component {
               })
             })
             .catch(err => console.log("err: ", err)),
-        onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
-            console.log("reject: ", reject)
-            const {levels} = this.state
-            const index = levels.indexOf(oldData)
-            levels.splice(index, 1)
-            this.setState({
-              levels
-            })
-            resolve(oldData)
-          })
-            .then(res => {
-              session.levelsIdsArr = this.convertObjIdsToArr(
-                this.tableRef.current && this.tableRef.current.props.data
-              )
-              this.props.client.mutate({
-                mutation: LEVEL_DELETE,
-                variables: {
-                  _id: res._id
+        onRowDelete: async selectedRow => {
+          const tempLevels = [...session.levels]
+          const deletedInfo = await new Promise(resolve => {
+            setTimeout(() => {
+              var index = -1
+              for (var i = 0; i < session.levels.length; i++) {
+                if (session.levels[i].title === selectedRow.title) {
+                  index = i
+                  break
                 }
+              }
+              var splice = tempLevels.splice(index, 1)
+              resolve({
+                splicedLevels: tempLevels,
+                spliced: splice[0],
+                deletedIndex: index
               })
-              const index = session.levels.findIndex(x => x._id === oldData._id)
-              session.levels[index] = oldData
-              session.levels.splice(index, 1)
-              this.setState({
-                levels: session.levels
-              })
-            })
-            .catch(err => console.log("err: ", err))
+            }, 1000)
+          })
+
+          const {splicedLevels, spliced, deletedIndex} = deletedInfo
+
+          this.setState(
+            {
+              levels: splicedLevels
+            },
+            () => (session.levels = splicedLevels)
+          )
+
+          session.levelsIdsArr = this.convertObjIdsToArr(splicedLevels)
+
+          await this.props.client.mutate({
+            mutation: LEVEL_DELETE,
+            variables: {
+              _id: spliced._id
+            }
+          })
+
+          session.levels.splice(deletedIndex, 1)
+
+          this.setState({
+            levels: session.levels
+          })
+
+          await this.props.client.mutate({
+            mutation: LEVEL_SORT,
+            variables: {
+              courseId: session.course._id,
+              levelSort: session.levelsIdsArr
+            }
+          })
+        }
       }
     } else {
       this.can = {}
