@@ -130,7 +130,7 @@ function () {
   var _ref5 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee3(_, args, ctx) {
-    var arrayOfErrors, token, user, level;
+    var arrayOfErrors, token, user, level, course;
     return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
@@ -156,11 +156,19 @@ function () {
           case 7:
             user = _context3.sent;
             _context3.next = 10;
-            return _levelModel.default.findByIdAndDelete(args._id);
+            return _levelModel.default.findOneAndDelete({
+              _id: args._id
+            }).lean();
 
           case 10:
             level = _context3.sent;
-            console.log("level: ", level); // TODO: remove level from course
+            _context3.next = 13;
+            return _courseModel.default.findById(level.course);
+
+          case 13:
+            course = _context3.sent;
+            course.levels.pull(level._id);
+            course.save();
 
             if (!level) {
               arrayOfErrors.push({
@@ -174,7 +182,7 @@ function () {
               errors: arrayOfErrors
             });
 
-          case 14:
+          case 18:
           case "end":
             return _context3.stop();
         }
@@ -201,7 +209,7 @@ function () {
           case 0:
             input = _ref6.input;
             redis = _ref7.redis, url = _ref7.url;
-            console.log("input ", input);
+            console.log("input: ", input);
             _context4.next = 5;
             return _courseModel.default.findByIdAndUpdate(input.courseId, {
               levelSort: input.levelSort
@@ -209,22 +217,13 @@ function () {
 
           case 5:
             course = _context4.sent;
-            console.log("course: ", course);
-            /* const redisToken = args.input.token */
-
-            /* const redisKey = `${confirmEmailPrefix}${redisToken}` */
-
-            /* const userId = await redis.get(redisKey) */
-
             _id = input._id, update = (0, _objectWithoutProperties2.default)(input, ["_id"]);
-            /* Level.findByIdAndUpdate(input_id, input, {new: true}).exec() */
-
             return _context4.abrupt("return", {
               level: _levelModel.default,
               errors: []
             });
 
-          case 9:
+          case 8:
           case "end":
             return _context4.stop();
         }

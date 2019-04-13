@@ -225,78 +225,73 @@ function (_SchemaDirectiveVisit) {
                 }
 
                 resourceId = args[1].resourceId;
-                console.log("RESOURCE ID: ", resourceId);
                 token = args[2].req.headers.authorization;
 
                 if (!(token === "null")) {
-                  _context2.next = 6;
+                  _context2.next = 5;
                   break;
                 }
 
                 return _context2.abrupt("return", new Error("You need to be registered to view this resource."));
 
-              case 6:
-                _context2.prev = 6;
-                _context2.next = 9;
+              case 5:
+                _context2.prev = 5;
+                _context2.next = 8;
                 return (0, _resolverFunctions.userByToken)(token, function (err, res) {
                   if (err) return err;
                   return res;
                 });
 
-              case 9:
+              case 8:
                 user = _context2.sent;
 
                 if (!(user.name === "JsonWebTokenError")) {
-                  _context2.next = 12;
+                  _context2.next = 11;
                   break;
                 }
 
                 throw new Error("Please be aware.  Due to suspicious activities, we are monitoring actions from your ip now.");
 
-              case 12:
-                _context2.next = 14;
+              case 11:
+                _context2.next = 13;
                 return _this2.hasPermission(_rolesSchema.default, user, resourceId, expectedScope);
 
-              case 14:
+              case 13:
                 resource = _context2.sent;
-                console.log("resource: ", resource);
 
                 if (!(resource instanceof Error)) {
-                  _context2.next = 18;
+                  _context2.next = 16;
                   break;
                 }
 
                 return _context2.abrupt("return", resource);
 
-              case 18:
-                console.log("owner: ", resource.owner);
-                console.log("user: ", user._id);
-
+              case 16:
                 if (!(JSON.stringify(resource.owner) === JSON.stringify(user._id))) {
-                  _context2.next = 24;
+                  _context2.next = 20;
                   break;
                 }
 
                 return _context2.abrupt("return", resolve.apply(_this2, args));
 
-              case 24:
+              case 20:
                 return _context2.abrupt("return", new Error("You are not the owner of this resource."));
 
-              case 25:
-                _context2.next = 30;
+              case 21:
+                _context2.next = 26;
                 break;
 
-              case 27:
-                _context2.prev = 27;
-                _context2.t0 = _context2["catch"](6);
+              case 23:
+                _context2.prev = 23;
+                _context2.t0 = _context2["catch"](5);
                 return _context2.abrupt("return", _context2.t0);
 
-              case 30:
+              case 26:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, null, [[6, 27]]);
+        }, _callee2, null, [[5, 23]]);
       }));
     }
   }]);
