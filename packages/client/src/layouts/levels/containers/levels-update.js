@@ -104,6 +104,9 @@ class LevelsUpdate extends Component {
               tempArr.push(newLevel.data.levelCreate.level)
               session.levels = tempArr
               session.levelsIdsArr = this.convertObjIdsToArr(session.levels)
+              this.setState({
+                levels: tempArr
+              })
               return session.levelsIdsArr
             })
             .then(async res => {

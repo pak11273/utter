@@ -32,7 +32,6 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
 
     field.resolve = async (...args) => {
       const resourceId = args[1].resourceId
-      console.log("RESOURCE ID: ", resourceId)
       const token = args[2].req.headers.authorization
       if (token === "null") {
         return new Error("You need to be registered to view this resource.")
@@ -55,14 +54,9 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
           expectedScope
         )
 
-        console.log("resource: ", resource)
-
         if (resource instanceof Error) {
           return resource
         }
-
-        console.log("owner: ", resource.owner)
-        console.log("user: ", user._id)
 
         if (JSON.stringify(resource.owner) === JSON.stringify(user._id)) {
           return resolve.apply(this, args)

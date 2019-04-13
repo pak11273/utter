@@ -97,8 +97,6 @@ const getCourse = async (_, args, {user}) => {
 }
 
 const courseDelete = async (_, {resourceId}, ctx) => {
-  console.log("resourceID: ", resourceId)
-
   // TODO: async find all users with this resourceId in subscriptions and delete
   User.find({"subscriptions._id": resourceId})
 

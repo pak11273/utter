@@ -51,10 +51,11 @@ const levelDelete = async (_, args, ctx) => {
     return res
   })
 
-  const level = await Level.findByIdAndDelete(args._id)
-  console.log("level: ", level)
+  const level = await Level.findOneAndDelete({_id: args._id}).lean()
 
-  // TODO: remove level from course
+  const course = await Course.findById(level.course)
+  course.levels.pull(level._id)
+  course.save()
 
   if (!level) {
     arrayOfErrors.push({
@@ -70,18 +71,12 @@ const levelDelete = async (_, args, ctx) => {
 }
 
 const levelSort = async (_, {input}, {redis, url}) => {
-  console.log("input ", input)
-
+  console.log("input: ", input)
   const course = await Course.findByIdAndUpdate(input.courseId, {
     levelSort: input.levelSort
   }).exec()
-  console.log("course: ", course)
-  /* const redisToken = args.input.token */
-  /* const redisKey = `${confirmEmailPrefix}${redisToken}` */
-  /* const userId = await redis.get(redisKey) */
 
   const {_id, ...update} = input
-  /* Level.findByIdAndUpdate(input_id, input, {new: true}).exec() */
   return {
     level: Level,
     errors: []
