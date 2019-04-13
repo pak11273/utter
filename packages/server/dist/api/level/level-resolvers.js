@@ -135,30 +135,32 @@ function () {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
+            console.log("args: ", args);
             arrayOfErrors = [];
 
             if (!(token === "null")) {
-              _context3.next = 3;
+              _context3.next = 4;
               break;
             }
 
             return _context3.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 3:
+          case 4:
             token = ctx.req.headers.authorization;
-            _context3.next = 6;
+            _context3.next = 7;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context3.sent;
-            _context3.next = 9;
+            _context3.next = 10;
             return _levelModel.default.findByIdAndDelete(args._id);
 
-          case 9:
+          case 10:
             level = _context3.sent;
+            console.log("level: ", level); // TODO: remove level from course
 
             if (!level) {
               arrayOfErrors.push({
@@ -172,7 +174,7 @@ function () {
               errors: arrayOfErrors
             });
 
-          case 12:
+          case 14:
           case "end":
             return _context3.stop();
         }
@@ -248,54 +250,55 @@ var levelUpdate = function levelUpdate(_, _ref9) {
 var levelCreate =
 /*#__PURE__*/
 function () {
-  var _ref10 = (0, _asyncToGenerator2.default)(
+  var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee5(_, args, ctx, info) {
-    var arrayOfErrors, token, user, input, newLevel, level, course;
+  _regenerator.default.mark(function _callee5(_, _ref10, ctx, info) {
+    var input, arrayOfErrors, token, user, newLevel, level, course;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            input = _ref10.input;
             arrayOfErrors = [];
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context5.next = 4;
+              _context5.next = 5;
               break;
             }
 
             return _context5.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 4:
-            _context5.next = 6;
+          case 5:
+            _context5.next = 7;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context5.sent;
-            input = args.input;
+            console.log("input: ", input);
             newLevel = new _levelModel.default((0, _objectSpread2.default)({}, input, {
               course: input.courseId
             }));
-            _context5.next = 11;
+            _context5.next = 12;
             return newLevel.save();
 
-          case 11:
+          case 12:
             level = _context5.sent;
-            _context5.next = 14;
+            _context5.next = 15;
             return _courseModel.default.findById(input.courseId);
 
-          case 14:
+          case 15:
             course = _context5.sent;
             course.levels.push(level);
-            _context5.next = 18;
+            _context5.next = 19;
             return course.save();
 
-          case 18:
+          case 19:
             if (course) {
-              _context5.next = 22;
+              _context5.next = 23;
               break;
             }
 
@@ -303,16 +306,16 @@ function () {
               path: "level",
               message: "Course was not found."
             });
-            _context5.next = 23;
+            _context5.next = 24;
             break;
 
-          case 22:
+          case 23:
             return _context5.abrupt("return", {
               level: level,
               errors: arrayOfErrors
             });
 
-          case 23:
+          case 24:
           case "end":
             return _context5.stop();
         }
@@ -321,7 +324,7 @@ function () {
   }));
 
   return function levelCreate(_x14, _x15, _x16, _x17) {
-    return _ref10.apply(this, arguments);
+    return _ref11.apply(this, arguments);
   };
 }();
 
