@@ -37,8 +37,6 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseLevelSchema}
       initialValues={props.data}
       onSubmit={values => {
-        console.log("values: ", values)
-        console.log("props: ", props)
         if (props.mode === "update") {
           delete values.tableData
         }
@@ -123,20 +121,6 @@ class LevelsUpdate extends Component {
               })
             })
             .catch(err => console.log("err: ", err)),
-
-        /* onRowUpdate: (newData, oldData) => */
-        /* new Promise(resolve => { */
-        /*   setTimeout(() => { */
-        /*     { */
-        /*       const {levels} = this.state */
-        /*       const index = levels.indexOf(oldData) */
-        /*       levels[index] = newData */
-        /*       console.log("newData: ", this.state.levels) */
-        /*       this.setState({levels}, () => resolve()) */
-        /*     } */
-        /*     resolve() */
-        /*   }, 1000) */
-        /* }), */
 
         onRowUpdate: (newData, oldData) => {
           const update = new Promise(resolve => {

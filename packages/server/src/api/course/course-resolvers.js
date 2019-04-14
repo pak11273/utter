@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
 import Course from "./course-model"
 import User from "../user/user-model.js"
+import Level from "../level/level-model.js"
 import {userByToken} from "../shared/resolver-functions.js"
 
 const escapeRegex = text => {
@@ -97,22 +98,33 @@ const getCourse = async (_, args, {user}) => {
 }
 
 const courseDelete = async (_, {resourceId}, ctx) => {
-  // TODO: async find all users with this resourceId in subscriptions and delete
-  User.find({"subscriptions._id": resourceId})
+  // TODO: on frontend have users lookup courses and updating their subscriptions before showing them...
+  try {
+    User.find({"subscriptions._id": resourceId})
 
-  const token = ctx.req.headers.authorization
-  const user = await userByToken(token, (err, res) => {
-    if (err) return err
-    return res
-  })
+    const token = ctx.req.headers.authorization
+    const user = await userByToken(token, (err, res) => {
+      if (err) return err
+      return res
+    })
 
-  const course = await Course.findByIdAndDelete(resourceId.toString())
-  if (!course) {
-    throw new Error("No course found by this owner.")
-  }
+    const course = await Course.findByIdAndDelete(resourceId.toString()).lean()
+    if (!course) {
+      throw new Error("No course found by this owner.")
+    }
 
-  if (course) {
-    return true
+    // TODO: DELET all references
+    console.log("courseID: ", course._id)
+    const level = await Level.deleteMany({course: course._id}).exec()
+    console.log("level: ", level)
+
+    if (course) {
+      return true
+    } else {
+      return false
+    }
+  } catch (err) {
+    throw err
   }
 }
 

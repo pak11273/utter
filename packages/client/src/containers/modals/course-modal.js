@@ -84,6 +84,7 @@ export default compose(
           }
         })
         .catch(err => {
+          props.history.push("/courses")
           const cleanErr = err.message
             .split(" ")
             .slice(2)

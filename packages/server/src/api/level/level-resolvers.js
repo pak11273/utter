@@ -40,7 +40,6 @@ const getLevels = async (_, args, ctx, info) => {
 }
 
 const levelDelete = async (_, args, ctx) => {
-  console.log("args: ", args)
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
