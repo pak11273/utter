@@ -498,57 +498,56 @@ function () {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            console.log("args: ", args);
-            _context7.prev = 1;
+            _context7.prev = 0;
             token = args.token;
 
             if (!token) {
-              _context7.next = 17;
+              _context7.next = 16;
               break;
             }
 
-            _context7.next = 6;
+            _context7.next = 5;
             return _jsonwebtoken.default.verify(token, _config.default.env.JWT);
 
-          case 6:
+          case 5:
             result = _context7.sent;
 
             if (!result) {
-              _context7.next = 15;
+              _context7.next = 14;
               break;
             }
 
             _userId = result._id;
-            _context7.next = 11;
+            _context7.next = 10;
             return _userModel.default.findById(_userId).populate("subscriptions").lean();
 
-          case 11:
+          case 10:
             user = _context7.sent;
             return _context7.abrupt("return", user);
 
-          case 15:
+          case 14:
             return _context7.abrupt("return", {
               username: ""
             });
 
-          case 16:
+          case 15:
             return _context7.abrupt("return", result);
 
-          case 17:
-            _context7.next = 22;
+          case 16:
+            _context7.next = 21;
             break;
 
-          case 19:
-            _context7.prev = 19;
-            _context7.t0 = _context7["catch"](1);
+          case 18:
+            _context7.prev = 18;
+            _context7.t0 = _context7["catch"](0);
             throw _context7.t0;
 
-          case 22:
+          case 21:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[1, 19]]);
+    }, _callee7, null, [[0, 18]]);
   }));
 
   return function getUserByToken(_x19, _x20, _x21, _x22) {
