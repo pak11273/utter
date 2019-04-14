@@ -83,10 +83,31 @@ const levelSort = async (_, {input}, {redis, url}) => {
   }
 }
 
-const levelUpdate = (_, {input}) => {
-  console.log("update: ", input)
-  const {_id, ...update} = input
-  return Level.findByIdAndUpdate(_id, update, {new: true}).exec()
+const levelUpdate = async (_, {input}) => {
+  try {
+    var arrayOfErrors = []
+    const {_id, ...update} = input
+    const updatedLevel = await Level.findByIdAndUpdate(_id, update, {
+      new: true
+    }).lean()
+
+    console.log("updateLevel: ", updatedLevel)
+    return {
+      level: updatedLevel,
+      errors: arrayOfErrors
+    }
+  } catch (err) {
+    if (err) {
+      arrayOfErrors.push({
+        path: "title",
+        message: err
+      })
+    }
+    return {
+      level: [],
+      errors: arrayOfErrors
+    }
+  }
 }
 
 const levelCreate = async (_, {input}, ctx, info) => {

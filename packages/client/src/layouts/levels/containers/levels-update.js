@@ -1,4 +1,4 @@
-/* eslint react-hooks/exhaustive-deps:0 no-plusplus:0 */
+/* eslint react-hooks/exhaustive-deps:0, no-plusplus:0, no-new:0 */
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import {Formik} from "formik"
@@ -37,7 +37,11 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseLevelSchema}
       initialValues={props.data}
       onSubmit={values => {
-        /* delete values.tableData */
+        console.log("values: ", values)
+        console.log("props: ", props)
+        if (props.mode === "update") {
+          delete values.tableData
+        }
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
@@ -119,29 +123,44 @@ class LevelsUpdate extends Component {
               })
             })
             .catch(err => console.log("err: ", err)),
-        onRowUpdate: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              var {levels} = this.state
 
-              const index = levels.findIndex(x => x._id === newData._id)
-              levels[index] = newData
-              this.setState({
-                levels
+        /* onRowUpdate: (newData, oldData) => */
+        /* new Promise(resolve => { */
+        /*   setTimeout(() => { */
+        /*     { */
+        /*       const {levels} = this.state */
+        /*       const index = levels.indexOf(oldData) */
+        /*       levels[index] = newData */
+        /*       console.log("newData: ", this.state.levels) */
+        /*       this.setState({levels}, () => resolve()) */
+        /*     } */
+        /*     resolve() */
+        /*   }, 1000) */
+        /* }), */
+
+        onRowUpdate: (newData, oldData) => {
+          const update = new Promise(resolve => {
+            const {levels} = this.state
+            const index = levels.indexOf(oldData)
+            levels[index] = newData
+            setTimeout(() => {
+              this.setState({levels}, () => {
+                session.levels = levels
+                session.levelsIdsArr = this.convertObjIdsToArr(levels)
+                resolve()
               })
-              resolve(newData)
             }, 1000)
-          })
-            .then(res => {
-              this.props.client.mutate({
-                mutation: LEVEL_UPDATE,
-                variables: {
-                  _id: res._id,
-                  title: res.title
-                }
-              })
+            this.props.client.mutate({
+              mutation: LEVEL_UPDATE,
+              variables: {
+                _id: newData._id,
+                title: newData.title
+              }
             })
-            .catch(err => console.log("err: ", err)),
+          })
+          return update
+        },
+
         onRowDelete: async selectedRow => {
           const tempLevels = [...session.levels]
           const deletedInfo = await new Promise(resolve => {
