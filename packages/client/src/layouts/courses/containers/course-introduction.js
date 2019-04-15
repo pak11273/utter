@@ -54,7 +54,6 @@ const COURSE_UPDATE = gql`
       _id
       levels {
         _id
-        level
       }
       owner {
         _id

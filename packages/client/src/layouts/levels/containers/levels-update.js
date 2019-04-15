@@ -1,8 +1,9 @@
-/* eslint react-hooks/exhaustive-deps:0, no-plusplus:0, no-new:0 */
+/* eslint react-hooks/exhaustive-deps:0, no-plusplus:0, no-new:0, prefer-promise-reject-errors: 0 */
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import {Formik} from "formik"
 import {session} from "brownies"
+/* import makeTrashable from "trashable" */
 
 import Add from "@material-ui/icons/Add"
 import Check from "@material-ui/icons/Check"
@@ -24,12 +25,30 @@ import {courseLevelSchema} from "../../yupSchemas.js"
 import {FormikMTInput} from "../../../components"
 import {
   GET_LEVELS,
-  LEVEL_CREATE,
+  /* LEVEL_CREATE, */
   LEVEL_DELETE,
   LEVEL_UPDATE,
   LEVEL_SORT
 } from "../xhr.js"
 import {styles} from "../styles.js"
+
+const makeCancelable = promise => {
+  let hasCanceled_ = false
+
+  const wrappedPromise = new Promise((resolve, reject) => {
+    promise.then(
+      val => (hasCanceled_ ? reject({isCanceled: true}) : resolve(val)),
+      error => (hasCanceled_ ? reject({isCanceled: true}) : reject(error))
+    )
+  })
+
+  return {
+    promise: wrappedPromise,
+    cancel() {
+      hasCanceled_ = true
+    }
+  }
+}
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
   return (
@@ -50,6 +69,12 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
 }
 
 class LevelsUpdate extends Component {
+  _isMounted = true
+
+  /* trashablePromise = null */
+
+  cancelable = null
+
   constructor(props) {
     super(props)
     this.state = {
@@ -61,14 +86,17 @@ class LevelsUpdate extends Component {
   }
 
   componentDidMount() {
+    console.log("props: ", this.props.client.query)
     this.props.client
       .query({
         query: GET_LEVELS,
+        fetchPolicy: "no-cache",
         variables: {
           courseId: session.course._id
         }
       })
       .then(res => {
+        console.log("res: ", res)
         session.levels = res.data.getLevels.levels
         this.setState(
           {
@@ -83,45 +111,53 @@ class LevelsUpdate extends Component {
 
     if (session.user.username === session.course.owner.username) {
       this.can = {
-        onRowAdd: newData =>
-          new Promise(resolve => {
-            setTimeout(() => {
-              const {levels} = this.state
-              levels.push(newData)
+        onRowAdd: newData => {
+          const add = new Promise(resolve => {
+            const {levels} = this.state
+            levels.push(newData)
+            if (this._isMounted) {
               this.setState({
                 levels
               })
-              resolve(newData)
-            }, 1000)
-          })
-            .then(async res => {
-              const newLevel = await this.props.client.mutate({
-                mutation: LEVEL_CREATE,
-                variables: {
-                  courseId: session.course._id,
-                  title: res.title
-                }
-              })
-              const tempArr = session.levels
-              tempArr.push(newLevel.data.levelCreate.level)
-              session.levels = tempArr
-              session.levelsIdsArr = this.convertObjIdsToArr(session.levels)
-              this.setState({
-                levels: tempArr
-              })
-              return session.levelsIdsArr
-            })
-            .then(async res => {
-              await this.props.client.mutate({
-                mutation: LEVEL_SORT,
-                variables: {
-                  courseId: session.course._id,
-                  levelSort: res
-                }
-              })
-            })
-            .catch(err => console.log("err: ", err)),
+            }
 
+            setTimeout(() => {
+              resolve(newData)
+            }, 2000)
+          })
+
+          this.cancelable = makeCancelable(add)
+
+          return add
+        },
+
+        /* const newLevel = await this.props.client.mutate({ */
+        /*   mutation: LEVEL_CREATE, */
+        /*   variables: { */
+        /*     courseId: session.course._id, */
+        /*     title: res.title */
+        /*   } */
+        /* }) */
+
+        /* const tempArr = session.levels */
+        /* tempArr.push(newLevel.data.levelCreate.level) */
+        /* session.levels = tempArr */
+        /* session.levelsIdsArr = this.convertObjIdsToArr(session.levels) */
+        /* if (this._isMounted) { */
+        /*   this.setState({ */
+        /*     levels: tempArr */
+        /*   }) */
+        /* } */
+        /* session.levelsIdsArr */
+        /* .then(async res => { */
+        /* await this.props.client.mutate({ */
+        /*   mutation: LEVEL_SORT, */
+        /*   variables: { */
+        /*     courseId: session.course._id, */
+        /*     levelSort: res */
+        /*   } */
+        /* }) */
+        /* }) */
         onRowUpdate: (newData, oldData) => {
           const update = new Promise(resolve => {
             const {levels} = this.state
@@ -201,6 +237,16 @@ class LevelsUpdate extends Component {
     } else {
       this.can = {}
     }
+  }
+
+  componentWillUnmount = () => {
+    this._isMounted = false
+    /* this.trashablePromise.trash() */
+    this.cancelable &&
+      this.cancelable.promise
+        .then(() => console.log("resolved"))
+        .catch(reason => console.log("isCanceled", reason.isCanceled))
+    this.cancelable && this.cancelable.cancel()
   }
 
   convertObjIdsToArr = arr => {
