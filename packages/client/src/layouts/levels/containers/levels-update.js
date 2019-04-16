@@ -3,7 +3,7 @@ import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import {Formik} from "formik"
 import {session} from "brownies"
-/* import makeTrashable from "trashable" */
+import makeTrashable from "trashable"
 
 import Add from "@material-ui/icons/Add"
 import Check from "@material-ui/icons/Check"
@@ -25,30 +25,12 @@ import {courseLevelSchema} from "../../yupSchemas.js"
 import {FormikMTInput} from "../../../components"
 import {
   GET_LEVELS,
-  /* LEVEL_CREATE, */
+  LEVEL_CREATE,
   LEVEL_DELETE,
   LEVEL_UPDATE,
   LEVEL_SORT
 } from "../xhr.js"
 import {styles} from "../styles.js"
-
-const makeCancelable = promise => {
-  let hasCanceled_ = false
-
-  const wrappedPromise = new Promise((resolve, reject) => {
-    promise.then(
-      val => (hasCanceled_ ? reject({isCanceled: true}) : resolve(val)),
-      error => (hasCanceled_ ? reject({isCanceled: true}) : reject(error))
-    )
-  })
-
-  return {
-    promise: wrappedPromise,
-    cancel() {
-      hasCanceled_ = true
-    }
-  }
-}
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
   return (
@@ -56,6 +38,7 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseLevelSchema}
       initialValues={props.data}
       onSubmit={values => {
+        console.log("values: ", values)
         if (props.mode === "update") {
           delete values.tableData
         }
@@ -69,11 +52,11 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
 }
 
 class LevelsUpdate extends Component {
-  _isMounted = true
+  _addTrash = null
 
-  /* trashablePromise = null */
+  _isMounted = false
 
-  cancelable = null
+  /* cancelable = null */
 
   constructor(props) {
     super(props)
@@ -86,7 +69,7 @@ class LevelsUpdate extends Component {
   }
 
   componentDidMount() {
-    console.log("props: ", this.props.client.query)
+    this._isMounted = true
     this.props.client
       .query({
         query: GET_LEVELS,
@@ -96,22 +79,23 @@ class LevelsUpdate extends Component {
         }
       })
       .then(res => {
-        console.log("res: ", res)
         session.levels = res.data.getLevels.levels
-        this.setState(
-          {
-            levels: res.data.getLevels.levels
-          },
-          () => {
-            session.levelsIdsArr = this.convertObjIdsToArr(this.state.levels)
-          }
-        )
+        if (this._isMounted) {
+          this.setState(
+            {
+              levels: res.data.getLevels.levels
+            },
+            () => {
+              session.levelsIdsArr = this.convertObjIdsToArr(this.state.levels)
+            }
+          )
+        }
       })
       .catch(err => console.log("err: ", err))
 
     if (session.user.username === session.course.owner.username) {
       this.can = {
-        onRowAdd: newData => {
+        onRowAdd: async newData => {
           const add = new Promise(resolve => {
             const {levels} = this.state
             levels.push(newData)
@@ -122,42 +106,65 @@ class LevelsUpdate extends Component {
             }
 
             setTimeout(() => {
-              resolve(newData)
+              resolve({newData, levels})
             }, 2000)
           })
 
-          this.cancelable = makeCancelable(add)
+          this._addTrash = makeTrashable(add)
 
-          return add
+          this._addTrash.then(res => {
+            console.log("res: ", res)
+            const newLevel = this.props.client.mutate({
+              mutation: LEVEL_CREATE,
+              variables: {
+                courseId: session.course._id,
+                title: res.newData.title
+              }
+            })
+            this._newLevelTrash = makeTrashable(newLevel)
+
+            this._newLevelTrash.then(res => {
+              if (this._newLevelTrash && this._isMounted) {
+                const tempArr = session.levels
+                tempArr.push(res.data.levelCreate.level)
+                session.levels = tempArr
+                session.levelsIdsArr = this.convertObjIdsToArr(tempArr)
+                console.log("temp array: ", tempArr)
+                if (this._isMounted) {
+                  this.setState({
+                    levels: tempArr
+                  })
+                }
+              }
+            })
+          })
+
+          /* session.levelsIdsArr = this.convertObjIdsToArr(res) */
+
+          /* console.log("newLevelTrash: ", newLevelTrash) */
+
+          /* const sort = await this.props.client.mutate({ */
+          /*   mutation: LEVEL_SORT, */
+          /*   variables: { */
+          /*     courseId: session.course._id, */
+          /*     levelSort: session.levelsIdsArr */
+          /*   } */
+          /* }) */
+
+          /* const sortTrash = await makeTrashable(sort) */
+          /* console.log("sortTrash: ", sortTrash) */
+
+          // trash
+          /* newLevelTrash.trash() */
+          /* sortTrash.trash() */
+          return this._addTrash
         },
 
-        /* const newLevel = await this.props.client.mutate({ */
-        /*   mutation: LEVEL_CREATE, */
-        /*   variables: { */
-        /*     courseId: session.course._id, */
-        /*     title: res.title */
-        /*   } */
-        /* }) */
-
-        /* const tempArr = session.levels */
-        /* tempArr.push(newLevel.data.levelCreate.level) */
-        /* session.levels = tempArr */
-        /* session.levelsIdsArr = this.convertObjIdsToArr(session.levels) */
         /* if (this._isMounted) { */
         /*   this.setState({ */
         /*     levels: tempArr */
         /*   }) */
         /* } */
-        /* session.levelsIdsArr */
-        /* .then(async res => { */
-        /* await this.props.client.mutate({ */
-        /*   mutation: LEVEL_SORT, */
-        /*   variables: { */
-        /*     courseId: session.course._id, */
-        /*     levelSort: res */
-        /*   } */
-        /* }) */
-        /* }) */
         onRowUpdate: (newData, oldData) => {
           const update = new Promise(resolve => {
             const {levels} = this.state
@@ -241,12 +248,10 @@ class LevelsUpdate extends Component {
 
   componentWillUnmount = () => {
     this._isMounted = false
-    /* this.trashablePromise.trash() */
-    this.cancelable &&
-      this.cancelable.promise
-        .then(() => console.log("resolved"))
-        .catch(reason => console.log("isCanceled", reason.isCanceled))
-    this.cancelable && this.cancelable.cancel()
+
+    // garbage collection
+    this._addTrash && this._addTrash.trash()
+    this._newLevelTrash && this._newLevelTrash.trash()
   }
 
   convertObjIdsToArr = arr => {
