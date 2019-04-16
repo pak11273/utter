@@ -51,11 +51,9 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
 }
 
 class LevelsUpdate extends Component {
-  _addTrash = null
+  /* _addTrash = null */
 
   _isMounted = false
-
-  /* cancelable = null */
 
   constructor(props) {
     super(props)
@@ -104,9 +102,7 @@ class LevelsUpdate extends Component {
               })
             }
 
-            setTimeout(() => {
-              resolve({newData, levels})
-            }, 2000)
+            resolve({newData, levels})
           })
           this._addTrash = makeTrashable(add)
 

@@ -7,7 +7,6 @@ import Drawer from "@material-ui/core/Drawer"
 import Link from "@material-ui/core/Link"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
-/* import ListItemText from "@material-ui/core/ListItemText" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
@@ -15,20 +14,6 @@ import styled from "styled-components"
 import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet-async"
 import {Can, Spacer} from "../../../components"
-
-/* const getCourse = gql` */
-/*   query getCourse($_id: ID!) { */
-/*     getCourse(_id: $_id) { */
-/*       _id */
-/*       courseImage */
-/*       title */
-/*       courseMode */
-/*       owner { */
-/*         username */
-/*       } */
-/*     } */
-/*   } */
-/* ` */
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
