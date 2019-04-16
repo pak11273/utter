@@ -109,7 +109,6 @@ class LevelsUpdate extends Component {
               resolve({newData, levels})
             }, 2000)
           })
-
           this._addTrash = makeTrashable(add)
 
           this._addTrash.then(res => {
@@ -123,40 +122,34 @@ class LevelsUpdate extends Component {
             })
             this._newLevelTrash = makeTrashable(newLevel)
 
-            this._newLevelTrash.then(res => {
-              if (this._newLevelTrash && this._isMounted) {
-                const tempArr = session.levels
-                tempArr.push(res.data.levelCreate.level)
-                session.levels = tempArr
-                session.levelsIdsArr = this.convertObjIdsToArr(tempArr)
-                console.log("temp array: ", tempArr)
-                if (this._isMounted) {
-                  this.setState({
-                    levels: tempArr
-                  })
+            this._newLevelTrash
+              .then(res => {
+                if (this._newLevelTrash && this._isMounted) {
+                  const tempArr = session.levels
+                  tempArr.push(res.data.levelCreate.level)
+                  session.levels = tempArr
+                  if (this._isMounted) {
+                    this.setState({
+                      levels: tempArr
+                    })
+                  }
+                  return tempArr
                 }
-              }
-            })
+              })
+              .then(res => {
+                session.levelsIdsArr = this.convertObjIdsToArr(res)
+                const sort = this.props.client.mutate({
+                  mutation: LEVEL_SORT,
+                  variables: {
+                    courseId: session.course._id,
+                    levelSort: session.levelsIdsArr
+                  }
+                })
+
+                this._sortTrash = makeTrashable(sort)
+              })
           })
 
-          /* session.levelsIdsArr = this.convertObjIdsToArr(res) */
-
-          /* console.log("newLevelTrash: ", newLevelTrash) */
-
-          /* const sort = await this.props.client.mutate({ */
-          /*   mutation: LEVEL_SORT, */
-          /*   variables: { */
-          /*     courseId: session.course._id, */
-          /*     levelSort: session.levelsIdsArr */
-          /*   } */
-          /* }) */
-
-          /* const sortTrash = await makeTrashable(sort) */
-          /* console.log("sortTrash: ", sortTrash) */
-
-          // trash
-          /* newLevelTrash.trash() */
-          /* sortTrash.trash() */
           return this._addTrash
         },
 
@@ -252,6 +245,7 @@ class LevelsUpdate extends Component {
     // garbage collection
     this._addTrash && this._addTrash.trash()
     this._newLevelTrash && this._newLevelTrash.trash()
+    this._sortTrash && this._sortTrash.trash()
   }
 
   convertObjIdsToArr = arr => {
