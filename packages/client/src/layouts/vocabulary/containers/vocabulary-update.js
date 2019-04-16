@@ -26,6 +26,9 @@ import {
   VOCABULARY_DELETE,
   VOCABULARY_UPDATE
 } from "../xhr.js"
+
+import {GET_COURSE} from "../../courses/xhr.js"
+
 import {styles} from "../../styles.js"
 import {LevelSelect} from "../components/level-select.js"
 import {Flex} from "../../../components"
@@ -62,6 +65,20 @@ const VocabularysUpdate = props => {
   const handleSubmit = () => {}
 
   useEffect(() => {
+    props.client
+      .query({
+        query: GET_COURSE,
+        fetchPolicy: "no-cache",
+        variables: {
+          _id: session.course._id
+        }
+      })
+      .then(res => {
+        console.log("res: ", res)
+        session.levels = res.data.getCourse.levels
+        session.levelsIdsArr = res.data.getCourse.levelSort
+      })
+
     if (levels.length !== 0) {
       props.client
         .query({

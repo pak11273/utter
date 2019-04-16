@@ -87,6 +87,7 @@ const userById = async userId => {
 }
 
 const getCourse = async (_, args, {user}) => {
+  console.log("args: ", args)
   const course = await Course.findById(args._id)
     .lean()
     .exec()

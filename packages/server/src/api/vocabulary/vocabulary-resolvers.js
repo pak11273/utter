@@ -121,6 +121,7 @@ const getVocabularies = async (_, args, ctx, info) => {
   let result = await Course.find({_id: args.levelId}).exec()
 
   console.log("result: ", result)
+  return result
 
   /* if (!result || isEmpty(result)) { */
   /*   return {vocabulary: []} */

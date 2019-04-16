@@ -7,18 +7,12 @@ import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 
 export const LevelSelect = () => {
-  /* const [state, changeState] = useState({level: ""}) */
   const {levelsIdsArr} = session
   const handleChange = e => {
     const index = session.levelsIdsArr.findIndex(
       number => number === e.target.value
     )
     session.level = index + 1
-    /* changeState({ */
-    /*   ...state, */
-    /*   level: session.level */
-    /* }) */
-    /* console.log("state: ", state) */
   }
 
   return (

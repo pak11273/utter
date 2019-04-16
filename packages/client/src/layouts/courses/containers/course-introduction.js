@@ -21,7 +21,7 @@ import {Can, Img, LoadingButton} from "../../../components"
 import {styles} from "../styles.js"
 
 const GET_COURSE = gql`
-  query getCourse($_id: String!) {
+  query getCourse($_id: ID!) {
     getCourse(_id: $_id) {
       _id
       title
