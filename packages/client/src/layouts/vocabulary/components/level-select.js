@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React from "react"
 import {session} from "brownies"
 import {Flex} from "../../../components"
 
@@ -7,18 +7,18 @@ import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 
 export const LevelSelect = () => {
-  const [state, changeState] = useState({level: ""})
-  const {levels} = session
-  const options = levels.map(item => item.level)
-  console.log("options: ", options)
+  /* const [state, changeState] = useState({level: ""}) */
+  const {levelsIdsArr} = session
   const handleChange = e => {
-    changeState({
-      ...state,
-      [e.target.name]: e.target.value
-    })
-
-    session.level = +e.target.value
-    console.log("session: ", session.level)
+    const index = session.levelsIdsArr.findIndex(
+      number => number === e.target.value
+    )
+    session.level = index + 1
+    /* changeState({ */
+    /*   ...state, */
+    /*   level: session.level */
+    /* }) */
+    /* console.log("state: ", state) */
   }
 
   return (
@@ -27,15 +27,16 @@ export const LevelSelect = () => {
         Choose a Level:
       </Typography>
       <Select
-        value={state.level}
+        renderValue={() => session.level}
+        value={session.level}
         onChange={handleChange}
         inputProps={{
           id: "level",
           name: "level"
         }}>
-        {options.map(level => (
+        {levelsIdsArr.map(level => (
           <MenuItem key={level} value={level}>
-            {level}
+            {levelsIdsArr.indexOf(level) + 1}
           </MenuItem>
         ))}
       </Select>

@@ -38,7 +38,6 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseLevelSchema}
       initialValues={props.data}
       onSubmit={values => {
-        console.log("values: ", values)
         if (props.mode === "update") {
           delete values.tableData
         }
@@ -112,7 +111,6 @@ class LevelsUpdate extends Component {
           this._addTrash = makeTrashable(add)
 
           this._addTrash.then(res => {
-            console.log("res: ", res)
             const newLevel = this.props.client.mutate({
               mutation: LEVEL_CREATE,
               variables: {
@@ -153,11 +151,6 @@ class LevelsUpdate extends Component {
           return this._addTrash
         },
 
-        /* if (this._isMounted) { */
-        /*   this.setState({ */
-        /*     levels: tempArr */
-        /*   }) */
-        /* } */
         onRowUpdate: (newData, oldData) => {
           const update = new Promise(resolve => {
             const {levels} = this.state
@@ -178,6 +171,8 @@ class LevelsUpdate extends Component {
               }
             })
           })
+
+          this._updateTrash = makeTrashable(update)
           return update
         },
 
@@ -246,6 +241,7 @@ class LevelsUpdate extends Component {
     this._addTrash && this._addTrash.trash()
     this._newLevelTrash && this._newLevelTrash.trash()
     this._sortTrash && this._sortTrash.trash()
+    this._updateTrash && this._updateTrash.trash()
   }
 
   convertObjIdsToArr = arr => {
