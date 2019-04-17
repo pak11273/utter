@@ -72,7 +72,9 @@ const vocabularyUpdate = (_, {input}) => {
 }
 
 const vocabularyCreate = async (_, args, ctx, info) => {
-  console.log("args: ", args)
+  console.log("args; ", args)
+  const arrayOfErrors = []
+
   const {input} = args
   try {
     if (!ctx.isAuth) {
@@ -88,7 +90,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 
     const newVocabulary = new Vocabulary({
       audioUrl: input.audioUrl,
-      levelId: input.levelId,
+      level: input.levelId,
       gender: input.gender,
       translation: input.translation,
       word: input.word
@@ -98,30 +100,37 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 
     const vocabulary = await newVocabulary.save()
 
-    console.log("vocab: ", vocabulary)
-
     const level = await Level.findById(input.level)
+    console.log('lvel" ', level)
+    level.vocabulary.push(vocabulary)
+    level.save()
 
     if (!level) {
       throw new Error("Level not found.")
     }
 
-    level.vocabulary.push(vocabulary)
-
-    await level.save()
-
-    return createdVocabulary
+    return {
+      createdVocabulary,
+      errors: arrayOfErrors
+    }
   } catch (err) {
     throw err
   }
 }
 
 const getVocabularies = async (_, args, ctx, info) => {
+  const arrayOfErrors = []
   console.log("args: ", args)
-  let result = await Course.find({_id: args.levelId}).exec()
+  let result = await Level.findById(args.level)
+    .populate("vocabulary")
+    .lean()
 
   console.log("result: ", result)
-  return result
+
+  return {
+    vocabulary: result.vocabulary,
+    errors: arrayOfErrors
+  }
 
   /* if (!result || isEmpty(result)) { */
   /*   return {vocabulary: []} */

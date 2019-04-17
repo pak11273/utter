@@ -63,7 +63,8 @@ class VocabularysUpdate extends Component {
 
     this.state = {
       /* audioBlob: "", */
-      data: []
+      data: [],
+      level: session.level
       /* female: false, */
       /* formErrors: { */
       /*   errors: [] */
@@ -105,18 +106,23 @@ class VocabularysUpdate extends Component {
       })
 
     if (levels.length !== 0) {
+      console.log("levels; ", levels[0]._id)
       this.props.client
         .query({
           query: GET_VOCABULARIES,
           variables: {
-            levelId: levels[0]._id
+            level: levels[0]._id
           }
         })
         .then(res => {
-          session.vocabularies = res.data.getVocabularies.vocabularies
-          this.setState({
-            data: res.data.getVocabularies.vocabularies || []
-          })
+          console.log("res: ", res)
+          session.vocabularies = res.data.getVocabularies.vocabulary
+          this.setState(
+            {
+              data: res.data.getVocabularies.vocabulary || []
+            },
+            console.log("state: ", this.state)
+          )
         })
         .catch(err => console.log("err: ", err))
     }
@@ -124,16 +130,16 @@ class VocabularysUpdate extends Component {
     if (session.user.username === session.course.owner.username) {
       this.can = {
         onRowAdd: async newData => {
-          console.log("new data: ", newData)
-
           const add = new Promise(resolve => {
-            console.log("state: ", this.state)
             const {data} = this.state
             data.push(newData)
             if (this._isMounted) {
-              this.setState({
-                data
-              })
+              this.setState(
+                {
+                  data
+                },
+                () => console.log("state: ", this.state)
+              )
             }
 
             resolve({newData, data})
@@ -141,15 +147,19 @@ class VocabularysUpdate extends Component {
           this._addTrash = makeTrashable(add)
 
           this._addTrash.then(res => {
+            console.log("res: ", res)
+            console.log("session level: ", session.level)
+            console.log("level ids: ", session.levelsIdsArr)
+            console.log("levelID: ", session.levelsIdsArr[session.level - 1])
+            const {newData} = res
             const newLevel = this.props.client.mutate({
               mutation: VOCABULARY_CREATE,
               variables: {
-                audioUrl: res.audioUrl,
-                gender: res.gender,
-                level: res.level,
-                levelId: res.levelId,
-                word: res.word,
-                translation: res.translation
+                audioUrl: newData.audioUrl || null,
+                gender: newData.gender || "none",
+                level: session.levelsIdsArr[session.level - 1],
+                word: newData.word,
+                translation: newData.translation
               }
             })
             this._newVocabularyTrash = makeTrashable(newLevel)
@@ -243,6 +253,34 @@ class VocabularysUpdate extends Component {
     /* this._updateTrash && this._updateTrash.trash() */
   }
 
+  causeRender = level => {
+    this.setState(
+      {
+        level
+      },
+      () => {
+        this.props.client
+          .query({
+            query: GET_VOCABULARIES,
+            variables: {
+              level
+            }
+          })
+          .then(res => {
+            console.log("res: ", res)
+            session.vocabularies = res.data.getVocabularies.vocabulary
+            this.setState(
+              {
+                data: res.data.getVocabularies.vocabulary || []
+              },
+              console.log("state: ", this.state)
+            )
+          })
+          .catch(err => console.log("err: ", err))
+      }
+    )
+  }
+
   render() {
     const {classes} = this.props
 
@@ -280,7 +318,7 @@ class VocabularysUpdate extends Component {
                   components={{
                     Toolbar: props => (
                       <Flex flexdirection="row" padding="30px">
-                        <LevelSelect />
+                        <LevelSelect causeRender={this.causeRender} />
                         <MTableToolbar {...props} />
                       </Flex>
                     ),

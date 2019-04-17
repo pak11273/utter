@@ -13,12 +13,10 @@ const VocabularySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Level"
   },
-  translation: [
-    {
-      type: String,
-      required: [true, "can't be blank"]
-    }
-  ]
+  translation: {
+    type: String,
+    required: [true, "can't be blank"]
+  }
 })
 
 mongoose.model("Vocabulary", VocabularySchema)

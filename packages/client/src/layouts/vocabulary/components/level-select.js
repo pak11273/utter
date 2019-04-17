@@ -6,15 +6,15 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 
-export const LevelSelect = () => {
+export const LevelSelect = props => {
   const {levelsIdsArr} = session
   const handleChange = e => {
     const index = session.levelsIdsArr.findIndex(
       number => number === e.target.value
     )
     session.level = index + 1
+    props.causeRender(session.level)
   }
-
   return (
     <Flex flexdirection="row">
       <Typography style={{paddingRight: "10px"}} variant="h6" align="center">

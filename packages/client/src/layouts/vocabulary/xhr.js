@@ -1,13 +1,24 @@
 import gql from "graphql-tag"
 
 export const GET_VOCABULARIES = gql`
-  query getVocabularies($levelId: ID) {
-    getVocabularies(levelId: $levelId) {
+  query getVocabularies($level: ID!) {
+    getVocabularies(level: $level) {
       vocabulary {
         _id
         audioUrl
         gender
-        level
+        level {
+          course
+          _id
+          title
+          vocabulary {
+            _id
+            audioUrl
+            gender
+            word
+            translation
+          }
+        }
         translation
         word
       }
@@ -19,8 +30,7 @@ export const VOCABULARY_CREATE = gql`
   mutation vocabularyCreate(
     $audioUrl: String
     $gender: String
-    $level: Int
-    $levelId: ID
+    $level: ID!
     $word: String
     $translation: String
   ) {
@@ -29,13 +39,11 @@ export const VOCABULARY_CREATE = gql`
         audioUrl: $audioUrl
         gender: $gender
         level: $level
-        levelId: $levelId
         word: $word
         translation: $translation
       }
     ) {
       vocabulary {
-        levelId
         _id
         word
       }
@@ -50,7 +58,6 @@ export const VOCABULARY_UPDATE = gql`
   mutation vocabularyUpdate($_id: ID, $word: String) {
     vocabularyUpdate(input: {_id: $_id, word: $word}) {
       vocabulary {
-        levelId
         _id
         word
       }

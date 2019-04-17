@@ -41,7 +41,7 @@ export const UserSchema = new mongoose.Schema(
     firstName: {
       type: String
     },
-    isDeleted: {
+    isCanceled: {
       type: Boolean,
       default: false
     },
@@ -111,8 +111,6 @@ UserSchema.pre("save", function(next) {
   this.password = this.encryptPassword(this.password)
   next()
 })
-
-
 
 UserSchema.methods = {
   // check password
