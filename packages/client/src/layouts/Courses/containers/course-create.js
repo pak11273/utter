@@ -507,6 +507,7 @@ export default compose(
       })
 
       const onComplete = course => {
+        session.level = ""
         session.course = course.data.courseCreate
         props.history.push({
           pathname: "/course/course-introduction",

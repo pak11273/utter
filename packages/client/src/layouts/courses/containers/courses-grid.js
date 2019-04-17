@@ -25,6 +25,7 @@ import {subsToSize} from "../../../utils/helpers.js"
 
 const CoursesGrid = props => {
   const handleImageClick = card => () => {
+    session.level = ""
     session.course = card
     props.history.push({
       pathname: "/course/course-introduction",

@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect, useState} from "react"
 import {session} from "brownies"
 import {Flex} from "../../../components"
 
@@ -7,6 +7,9 @@ import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 
 export const LevelSelect = props => {
+  const [state, changeState] = useState({
+    levels: ""
+  })
   const {levelsIdsArr} = session
   const handleChange = e => {
     console.log("e: ", e.target.value)
@@ -16,6 +19,16 @@ export const LevelSelect = props => {
     session.level = index + 1
     props.causeRender(session.levelsIdsArr[index])
   }
+
+  useEffect(
+    () => {
+      changeState({
+        ...state,
+        level: session.level
+      })
+    },
+    [state]
+  )
   return (
     <Flex flexdirection="row">
       <Typography style={{paddingRight: "10px"}} variant="h6" align="center">
