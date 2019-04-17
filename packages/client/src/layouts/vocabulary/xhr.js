@@ -7,18 +7,7 @@ export const GET_VOCABULARIES = gql`
         _id
         audioUrl
         gender
-        level {
-          course
-          _id
-          title
-          vocabulary {
-            _id
-            audioUrl
-            gender
-            word
-            translation
-          }
-        }
+        level
         translation
         word
       }

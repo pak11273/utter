@@ -63,7 +63,7 @@ class VocabularysUpdate extends Component {
 
     this.state = {
       /* audioBlob: "", */
-      data: [],
+      vocabulary: [],
       level: session.level
       /* female: false, */
       /* formErrors: { */
@@ -91,7 +91,7 @@ class VocabularysUpdate extends Component {
   }
 
   componentDidMount() {
-    const {levels} = session
+    session.level = ""
     this.props.client
       .query({
         query: GET_COURSE,
@@ -105,44 +105,45 @@ class VocabularysUpdate extends Component {
         session.levelsIdsArr = res.data.getCourse.levelSort
       })
 
-    if (levels.length !== 0) {
-      console.log("levels; ", levels[0]._id)
-      this.props.client
-        .query({
-          query: GET_VOCABULARIES,
-          variables: {
-            level: levels[0]._id
-          }
-        })
-        .then(res => {
-          console.log("res: ", res)
-          session.vocabularies = res.data.getVocabularies.vocabulary
-          this.setState(
-            {
-              data: res.data.getVocabularies.vocabulary || []
-            },
-            console.log("state: ", this.state)
-          )
-        })
-        .catch(err => console.log("err: ", err))
-    }
+    /* if (levels.length !== 0) { */
+    /*   console.log("SUP WORLD") */
+    /*   console.log("levels; ", levels[0]._id) */
+    /*   this.props.client */
+    /*     .query({ */
+    /*       query: GET_VOCABULARIES, */
+    /*       variables: { */
+    /*         level: levels[0]._id */
+    /*       } */
+    /*     }) */
+    /*     .then(res => { */
+    /*       console.log("res: ", res) */
+    /*       session.vocabularies = res.data.getVocabularies.vocabulary */
+    /*       this.setState( */
+    /*         { */
+    /*           vocabulary: res.data.getVocabularies.vocabulary || [] */
+    /*         }, */
+    /*         console.log("state: ", this.state) */
+    /*       ) */
+    /*     }) */
+    /*     .catch(err => console.log("err: ", err)) */
+    /* } */
 
     if (session.user.username === session.course.owner.username) {
       this.can = {
         onRowAdd: async newData => {
           const add = new Promise(resolve => {
-            const {data} = this.state
-            data.push(newData)
+            const {vocabulary} = this.state
+            vocabulary.push(newData)
             if (this._isMounted) {
               this.setState(
                 {
-                  data
+                  vocabulary
                 },
                 () => console.log("state: ", this.state)
               )
             }
 
-            resolve({newData, data})
+            resolve({newData, vocabulary})
           })
           this._addTrash = makeTrashable(add)
 
@@ -171,7 +172,7 @@ class VocabularysUpdate extends Component {
                 session.levels = tempArr
                 if (this._isMounted) {
                   this.setState({
-                    data: tempArr
+                    vocabulary: tempArr
                   })
                 }
                 return tempArr
@@ -197,11 +198,11 @@ class VocabularysUpdate extends Component {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               console.log("reject: ", reject)
-              var {data} = this.state
+              var {vocabulary} = this.state
 
-              const index = data.findIndex(x => x._id === newData._id)
-              data[index] = newData
-              this.setState({data})
+              const index = vocabulary.findIndex(x => x._id === newData._id)
+              vocabulary[index] = newData
+              this.setState({vocabulary})
               resolve(newData)
             }, 1000)
           })
@@ -221,10 +222,10 @@ class VocabularysUpdate extends Component {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               console.log("reject: ", reject)
-              const {data} = this.state
-              const index = data.indexOf(oldData)
-              data.splice(index, 1)
-              this.setState({data})
+              const {vocabulary} = this.state
+              const index = vocabulary.indexOf(oldData)
+              vocabulary.splice(index, 1)
+              this.setState({vocabulary})
               resolve(oldData)
             }, 1000)
           })
@@ -271,7 +272,7 @@ class VocabularysUpdate extends Component {
             session.vocabularies = res.data.getVocabularies.vocabulary
             this.setState(
               {
-                data: res.data.getVocabularies.vocabulary || []
+                vocabulary: res.data.getVocabularies.vocabulary || []
               },
               console.log("state: ", this.state)
             )
@@ -363,7 +364,7 @@ class VocabularysUpdate extends Component {
                       }
                     }
                   ]}
-                  data={this.state.data}
+                  data={this.state.vocabulary}
                   options={{
                     actionsColumnIndex: -1,
                     filtering: true,

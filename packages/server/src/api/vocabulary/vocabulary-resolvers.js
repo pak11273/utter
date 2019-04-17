@@ -117,6 +117,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 }
 
 const getVocabularies = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   const arrayOfErrors = []
   let result = await Level.findById(args.level)
     .populate("vocabulary")

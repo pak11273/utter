@@ -1,7 +1,7 @@
 type  Vocabulary {
 	_id: ID
 	audioUrl: String
-	level: [Level] 
+	level: String 
 	gender: String
 	word: String
 	translation: String
