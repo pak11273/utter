@@ -115,16 +115,13 @@ class VocabularysUpdate extends Component {
 
             this._newVocabularyTrash.then(res => {
               if (this._newVocabularyTrash && this._isMounted) {
-                const tempArr = session.vocabularies
+                const tempArr = session.vocabulary
                 tempArr.push(res.data.vocabularyCreate.vocabulary)
-                session.vocabularies = tempArr
+                session.vocabulary = tempArr
                 if (this._isMounted) {
-                  this.setState(
-                    {
-                      vocabulary: session.vocabularies
-                    },
-                    console.log("state: ", this.state)
-                  )
+                  this.setState({
+                    vocabulary: session.vocabulary
+                  })
                 }
                 return tempArr
               }
@@ -134,30 +131,53 @@ class VocabularysUpdate extends Component {
           return this._addTrash
         },
 
-        onRowUpdate: newData =>
-          new Promise((resolve, reject) => {
+        onRowUpdate: (newData, oldData) => {
+          const update = new Promise(resolve => {
+            const {vocabulary} = this.state
+            const index = vocabulary.indexOf(oldData)
+            vocabulary[index] = newData
             setTimeout(() => {
-              console.log("reject: ", reject)
-              var {vocabulary} = this.state
-
-              const index = vocabulary.findIndex(x => x._id === newData._id)
-              vocabulary[index] = newData
-              this.setState({vocabulary})
-              resolve(newData)
-            }, 1000)
-          })
-            .then(res => {
-              console.log("res: ", res)
-              this.props.client.mutate({
-                mutation: VOCABULARY_UPDATE,
-                variables: {
-                  _id: res._id,
-                  vocabulary: +res.vocabulary,
-                  title: res.title
-                }
+              console.log("vocab: ", vocabulary)
+              this.setState({vocabulary}, () => {
+                session.vocabulary = vocabulary
+                resolve()
               })
+            }, 1000)
+            this.props.client.mutate({
+              mutation: VOCABULARY_UPDATE,
+              variables: {
+                _id: newData._id,
+                word: newData.word,
+                translation: newData.translation,
+                audioUrl: newData.audioUrl,
+                gender: newData.gender
+              }
             })
-            .catch(err => console.log("err: ", err)),
+          })
+
+          this._updateTrash = makeTrashable(update)
+          return update
+        },
+
+        /* const index = vocabulary.findIndex(x => x._id === newData._id) */
+        /* vocabulary[index] = newData */
+        /* this.setState({vocabulary}) */
+        /* resolve(newData) */
+        /* }, 1000) */
+        /* }) */
+        /* .then(res => { */
+        /* console.log("res: ", res) */
+        /* this.props.client.mutate({ */
+        /*   mutation: VOCABULARY_UPDATE, */
+        /*   variables: { */
+        /*     _id: res._id, */
+        /*     vocabulary: +res.vocabulary, */
+        /*     title: res.title */
+        /*   } */
+        /* }) */
+        /* }) */
+        /* .catch(err => console.log("err: ", err)), */
+
         onRowDelete: oldData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -191,7 +211,7 @@ class VocabularysUpdate extends Component {
     this._addTrash && this._addTrash.trash()
     this._newVocabularyTrash && this._newVocabularyTrash.trash()
     /* this._sortTrash && this._sortTrash.trash() */
-    /* this._updateTrash && this._updateTrash.trash() */
+    this._updateTrash && this._updateTrash.trash()
   }
 
   causeRender = level => {
@@ -209,7 +229,7 @@ class VocabularysUpdate extends Component {
           })
           .then(res => {
             console.log("res: ", res)
-            session.vocabularies = res.data.getVocabularies.vocabulary
+            session.vocabulary = res.data.getVocabularies.vocabulary
             this.setState(
               {
                 vocabulary: res.data.getVocabularies.vocabulary || []

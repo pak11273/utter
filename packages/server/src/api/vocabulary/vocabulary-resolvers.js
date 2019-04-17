@@ -66,9 +66,30 @@ const vocabularyDelete = async (_, args, ctx) => {
   }
 }
 
-const vocabularyUpdate = (_, {input}) => {
-  const {id, ...update} = input
-  return Vocabulary.findByIdAndUpdate(id, update, {new: true}).exec()
+const vocabularyUpdate = async (_, {input}) => {
+  console.log("input: ", input)
+  try {
+    var arrayOfErrors = []
+    const {_id, ...update} = input
+    const updatedWord = await Vocabulary.findByIdAndUpdate(_id, update, {
+      new: true
+    }).exec()
+
+    console.log("updatedWord: ", updatedWord)
+    return {
+      vocabulary: updatedWord,
+      errors: arrayOfErrors
+    }
+  } catch (err) {
+    return {
+      vocabulary: null,
+      errors: [
+        {
+          message: err
+        }
+      ]
+    }
+  }
 }
 
 const vocabularyCreate = async (_, args, ctx, info) => {

@@ -47,10 +47,27 @@ export const VOCABULARY_CREATE = gql`
 `
 
 export const VOCABULARY_UPDATE = gql`
-  mutation vocabularyUpdate($_id: ID, $word: String) {
-    vocabularyUpdate(input: {_id: $_id, word: $word}) {
+  mutation vocabularyUpdate(
+    $_id: ID
+    $audioUrl: String
+    $gender: String
+    $translation: String
+    $word: String
+  ) {
+    vocabularyUpdate(
+      input: {
+        _id: $_id
+        audioUrl: $audioUrl
+        gender: $gender
+        translation: $translation
+        word: $word
+      }
+    ) {
       vocabulary {
         _id
+        audioUrl
+        gender
+        translation
         word
       }
       errors {
