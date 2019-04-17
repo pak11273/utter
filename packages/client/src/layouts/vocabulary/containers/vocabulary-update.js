@@ -345,6 +345,10 @@ class VocabularysUpdate extends Component {
                       readonly: true,
                       render: () => session.level
                     },
+                    {
+                      title: "id",
+                      render: rowData => rowData && rowData._id
+                    },
                     {title: "word", field: "word"},
                     {title: "translation", field: "translation"},
                     {title: "audio", field: "audio"},

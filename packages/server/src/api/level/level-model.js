@@ -47,6 +47,16 @@ export const LevelSchema = new mongoose.Schema({
   }
 })
 
+const removeLinkedDocuments = async level => {
+  try {
+    await Vocabulary.deleteMany({level: level._id})
+  } catch (err) {
+    throw err
+  }
+}
+
+LevelSchema.post("findOneAndDelete", removeLinkedDocuments)
+
 mongoose.model("Level", LevelSchema)
 
 export default mongoose.model("Level", LevelSchema)

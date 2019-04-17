@@ -115,9 +115,14 @@ const courseDelete = async (_, {resourceId}, ctx) => {
     }
 
     // TODO: DELET all references
-    console.log("courseID: ", course._id)
-    const level = await Level.deleteMany({course: course._id}).exec()
-    console.log("level: ", level)
+
+    const levels = await Level.find({course: course._id}).lean()
+    levels.map(level => {
+      const deleted = Level.findOneAndDelete({_id: level._id}).exec()
+    })
+
+    /* const level = await Level.deleteMany({course: course._id}).exec() */
+    /* const vocabulary = await Vocabulary.deleteMany({course: course._id}).exec() */
 
     if (course) {
       return true

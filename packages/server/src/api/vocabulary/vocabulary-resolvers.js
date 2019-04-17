@@ -12,9 +12,9 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
-const getVocabulary = async (_, {levelId}, {user}) => {
-  console.log("levelId: ", levelId)
-  const vocabulary = await Vocabulary.findById(levelId).exec()
+const getVocabulary = async (_, {level}, {user}) => {
+  console.log("level: ", level)
+  const vocabulary = await Vocabulary.findById(level).exec()
   if (!vocabulary) {
     throw new Error("Cannot find vocabulary with id")
   }
@@ -37,7 +37,7 @@ const vocabularyDelete = async (_, args, ctx) => {
 
   const vocabulary = await Course.findOneAndUpdate(
     {
-      _id: args.levelId
+      _id: args.level
     },
     {
       $pull: {
@@ -72,7 +72,6 @@ const vocabularyUpdate = (_, {input}) => {
 }
 
 const vocabularyCreate = async (_, args, ctx, info) => {
-  console.log("args; ", args)
   const arrayOfErrors = []
 
   const {input} = args
@@ -90,7 +89,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 
     const newVocabulary = new Vocabulary({
       audioUrl: input.audioUrl,
-      level: input.levelId,
+      level: input.level,
       gender: input.gender,
       translation: input.translation,
       word: input.word
@@ -101,7 +100,6 @@ const vocabularyCreate = async (_, args, ctx, info) => {
     const vocabulary = await newVocabulary.save()
 
     const level = await Level.findById(input.level)
-    console.log('lvel" ', level)
     level.vocabulary.push(vocabulary)
     level.save()
 
@@ -120,12 +118,9 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 
 const getVocabularies = async (_, args, ctx, info) => {
   const arrayOfErrors = []
-  console.log("args: ", args)
   let result = await Level.findById(args.level)
     .populate("vocabulary")
     .lean()
-
-  console.log("result: ", result)
 
   return {
     vocabulary: result.vocabulary,
