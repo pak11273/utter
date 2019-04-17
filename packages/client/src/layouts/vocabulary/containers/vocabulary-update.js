@@ -42,7 +42,6 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseVocabularySchema}
       initialValues={props.data}
       onSubmit={values => {
-        console.log("values: ", values)
         if (props.mode === "update") {
           delete values.tableData
         }
@@ -56,35 +55,14 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
 }
 
 class VocabularysUpdate extends Component {
-  _isMounted = false
+  _isMounted = true
 
   constructor(props) {
     super(props)
 
     this.state = {
-      /* audioBlob: "", */
       vocabulary: [],
       level: session.level
-      /* female: false, */
-      /* formErrors: { */
-      /*   errors: [] */
-      /* }, */
-      /* gender: null, */
-      /* globalLevels: [], */
-      /* labelWidth: 0, */
-      /* level: 0, */
-      /* male: false, */
-      /* modalGender: "", */
-      /* modalLevel: "", */
-      /* modalWord: "", */
-      /* modalTranslation: "", */
-      /* modalAudio: "", */
-      /* openAudioModal: false, */
-      /* openDeleteModal: false, */
-      /* secure_url: "", */
-      /* value: "level", */
-      /* word: "", */
-      /* translation: "" */
     }
     this.can = null
     this.tableRef = React.createRef()
@@ -105,29 +83,6 @@ class VocabularysUpdate extends Component {
         session.levelsIdsArr = res.data.getCourse.levelSort
       })
 
-    /* if (levels.length !== 0) { */
-    /*   console.log("SUP WORLD") */
-    /*   console.log("levels; ", levels[0]._id) */
-    /*   this.props.client */
-    /*     .query({ */
-    /*       query: GET_VOCABULARIES, */
-    /*       variables: { */
-    /*         level: levels[0]._id */
-    /*       } */
-    /*     }) */
-    /*     .then(res => { */
-    /*       console.log("res: ", res) */
-    /*       session.vocabularies = res.data.getVocabularies.vocabulary */
-    /*       this.setState( */
-    /*         { */
-    /*           vocabulary: res.data.getVocabularies.vocabulary || [] */
-    /*         }, */
-    /*         console.log("state: ", this.state) */
-    /*       ) */
-    /*     }) */
-    /*     .catch(err => console.log("err: ", err)) */
-    /* } */
-
     if (session.user.username === session.course.owner.username) {
       this.can = {
         onRowAdd: async newData => {
@@ -135,12 +90,9 @@ class VocabularysUpdate extends Component {
             const {vocabulary} = this.state
             vocabulary.push(newData)
             if (this._isMounted) {
-              this.setState(
-                {
-                  vocabulary
-                },
-                () => console.log("state: ", this.state)
-              )
+              this.setState({
+                vocabulary
+              })
             }
 
             resolve({newData, vocabulary})
@@ -148,10 +100,6 @@ class VocabularysUpdate extends Component {
           this._addTrash = makeTrashable(add)
 
           this._addTrash.then(res => {
-            console.log("res: ", res)
-            console.log("session level: ", session.level)
-            console.log("level ids: ", session.levelsIdsArr)
-            console.log("levelID: ", session.levelsIdsArr[session.level - 1])
             const {newData} = res
             const newLevel = this.props.client.mutate({
               mutation: VOCABULARY_CREATE,
@@ -169,31 +117,23 @@ class VocabularysUpdate extends Component {
               if (this._newVocabularyTrash && this._isMounted) {
                 const tempArr = session.vocabularies
                 tempArr.push(res.data.vocabularyCreate.vocabulary)
-                session.levels = tempArr
+                session.vocabularies = tempArr
                 if (this._isMounted) {
-                  this.setState({
-                    vocabulary: tempArr
-                  })
+                  this.setState(
+                    {
+                      vocabulary: session.vocabularies
+                    },
+                    console.log("state: ", this.state)
+                  )
                 }
                 return tempArr
               }
             })
-            /* .then(res => { */
-            /*   session.levelsIdsArr = this.convertObjIdsToArr(res) */
-            /*   const sort = this.props.client.mutate({ */
-            /*     mutation: LEVEL_SORT, */
-            /*     variables: { */
-            /*       courseId: session.course._id, */
-            /*       levelSort: session.levelsIdsArr */
-            /*     } */
-            /*   }) */
-
-            /* this._sortTrash = makeTrashable(sort) */
-            /* }) */
           })
 
           return this._addTrash
         },
+
         onRowUpdate: newData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
@@ -352,7 +292,7 @@ class VocabularysUpdate extends Component {
                     },
                     {title: "word", field: "word"},
                     {title: "translation", field: "translation"},
-                    {title: "audio", field: "audio"},
+                    {title: "audio", field: "audioUrl"},
                     {
                       title: "gender",
                       field: "gender",

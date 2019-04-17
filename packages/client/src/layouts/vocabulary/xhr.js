@@ -34,6 +34,9 @@ export const VOCABULARY_CREATE = gql`
     ) {
       vocabulary {
         _id
+        audioUrl
+        gender
+        translation
         word
       }
       errors {

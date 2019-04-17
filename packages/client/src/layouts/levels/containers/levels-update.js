@@ -300,13 +300,14 @@ class LevelsUpdate extends Component {
                   columns={[
                     {
                       title: "level",
+                      headerStyle: {width: "50px"},
                       readonly: true,
                       render: rowData => rowData && rowData.tableData.id + 1
                     },
-                    {
-                      title: "id",
-                      render: rowData => rowData && rowData._id
-                    },
+                    /* { */
+                    /*   title: "id", */
+                    /*   render: rowData => rowData && rowData._id */
+                    /* }, */
                     {title: "title", field: "title"}
                   ]}
                   components={{

@@ -72,6 +72,7 @@ const vocabularyUpdate = (_, {input}) => {
 }
 
 const vocabularyCreate = async (_, args, ctx, info) => {
+  console.log("args: ", args)
   const arrayOfErrors = []
 
   const {input} = args
@@ -95,8 +96,6 @@ const vocabularyCreate = async (_, args, ctx, info) => {
       word: input.word
     })
 
-    let createdVocabulary
-
     const vocabulary = await newVocabulary.save()
 
     const level = await Level.findById(input.level)
@@ -108,7 +107,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
     }
 
     return {
-      createdVocabulary,
+      vocabulary,
       errors: arrayOfErrors
     }
   } catch (err) {

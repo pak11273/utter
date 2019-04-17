@@ -2,6 +2,9 @@ import mongoose, {Schema} from "mongoose"
 import Level from "../level/level-model.js"
 
 const VocabularySchema = new mongoose.Schema({
+  audioUrl: {
+    type: String
+  },
   word: {
     type: String,
     required: [true, "can't be blank"]
