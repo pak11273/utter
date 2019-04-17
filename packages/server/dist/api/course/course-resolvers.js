@@ -190,23 +190,24 @@ function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             user = _ref3.user;
-            _context3.next = 3;
+            console.log("args: ", args);
+            _context3.next = 4;
             return _courseModel.default.findById(args._id).lean().exec();
 
-          case 3:
+          case 4:
             course = _context3.sent;
 
             if (course) {
-              _context3.next = 6;
+              _context3.next = 7;
               break;
             }
 
             throw new Error("Cannot find course with id");
 
-          case 6:
+          case 7:
             return _context3.abrupt("return", course);
 
-          case 7:
+          case 8:
           case "end":
             return _context3.stop();
         }

@@ -43,7 +43,7 @@ input UpdatedUserInput {
   lastName: String
   contacts: [String]
 	blocked: [String]
-  isDeleted: Boolean
+  isCanceled: Boolean
   roles: [String]
   username: String
 }

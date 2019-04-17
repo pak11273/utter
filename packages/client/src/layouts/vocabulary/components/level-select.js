@@ -13,7 +13,7 @@ export const LevelSelect = props => {
       number => number === e.target.value
     )
     session.level = index + 1
-    props.causeRender(session.level)
+    props.causeRender(session.levelsIdsArr[index])
   }
   return (
     <Flex flexdirection="row">

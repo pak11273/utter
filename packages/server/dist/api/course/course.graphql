@@ -8,6 +8,7 @@ type Course {
   createdAt: String 
   _id: ID!
   levels: [Level]
+	levelSort: [String] 
   owner: User
 	resource: String
 	subscribers: Int
@@ -53,7 +54,7 @@ type PaginatedCourses {
 }
 
 extend type Query {
-  getCourse(_id: String!): Course!
+  getCourse(_id: ID!): Course!
 	getCourseLevels(courseId: String!): Course!
   getCourses(input: GetCoursesInput!): PaginatedCourses 
 	getCreatedCourses(

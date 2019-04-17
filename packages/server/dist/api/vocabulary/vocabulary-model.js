@@ -25,10 +25,10 @@ var VocabularySchema = new _mongoose.default.Schema({
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Level"
   },
-  translation: [{
+  translation: {
     type: String,
     required: [true, "can't be blank"]
-  }]
+  }
 });
 
 _mongoose.default.model("Vocabulary", VocabularySchema);

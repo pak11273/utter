@@ -48,7 +48,7 @@ var UserSchema = new _mongoose.default.Schema({
   firstName: {
     type: String
   },
-  isDeleted: {
+  isCanceled: {
     type: Boolean,
     default: false
   },
