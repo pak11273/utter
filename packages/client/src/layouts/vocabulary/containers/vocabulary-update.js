@@ -318,7 +318,10 @@ class VocabularysUpdate extends Component {
                   components={{
                     Toolbar: props => (
                       <Flex flexdirection="row" padding="30px">
-                        <LevelSelect causeRender={this.causeRender} />
+                        <LevelSelect
+                          name="level"
+                          causeRender={this.causeRender}
+                        />
                         <MTableToolbar {...props} />
                       </Flex>
                     ),

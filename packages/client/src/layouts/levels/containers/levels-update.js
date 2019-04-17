@@ -132,6 +132,10 @@ class LevelsUpdate extends Component {
               })
               .then(res => {
                 session.levelsIdsArr = this.convertObjIdsToArr(res)
+                session.level =
+                  session.levelsIdsArr.length >= 1
+                    ? session.levelsIdsArr.length
+                    : ""
                 const sort = this.props.client.mutate({
                   mutation: LEVEL_SORT,
                   variables: {

@@ -63,6 +63,10 @@ export default compose(
         }
       })
       const onComplete = () => {
+        session.level = ""
+        session.levels = []
+        session.levelsIdsArr = []
+        session.vocabularies = []
         delete session.course
         props.history.push("/courses/created")
       }

@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography"
 export const LevelSelect = props => {
   const {levelsIdsArr} = session
   const handleChange = e => {
+    console.log("e: ", e.target.value)
     const index = session.levelsIdsArr.findIndex(
       number => number === e.target.value
     )
