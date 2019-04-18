@@ -14,6 +14,9 @@ var _mongoose = _interopRequireWildcard(require("mongoose"));
 var _levelModel = _interopRequireDefault(require("../level/level-model.js"));
 
 var VocabularySchema = new _mongoose.default.Schema({
+  audioUrl: {
+    type: String
+  },
   word: {
     type: String,
     required: [true, "can't be blank"]

@@ -41,31 +41,30 @@ function () {
   var _ref3 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee(_, _ref, _ref2) {
-    var levelId, user, vocabulary;
+    var level, user, vocabulary;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            levelId = _ref.levelId;
+            level = _ref.level;
             user = _ref2.user;
-            console.log("levelId: ", levelId);
-            _context.next = 5;
-            return _vocabularyModel.default.findById(levelId).exec();
+            _context.next = 4;
+            return _vocabularyModel.default.findById(level).exec();
 
-          case 5:
+          case 4:
             vocabulary = _context.sent;
 
             if (vocabulary) {
-              _context.next = 8;
+              _context.next = 7;
               break;
             }
 
             throw new Error("Cannot find vocabulary with id");
 
-          case 8:
+          case 7:
             return _context.abrupt("return", vocabulary);
 
-          case 9:
+          case 8:
           case "end":
             return _context.stop();
         }
@@ -84,7 +83,7 @@ function () {
   var _ref4 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee2(_, args, ctx) {
-    var arrayOfErrors, token, user, vocabulary;
+    var arrayOfErrors, token, user, word, level;
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
@@ -108,38 +107,34 @@ function () {
 
           case 6:
             user = _context2.sent;
-            console.log("args: ", args);
-            _context2.next = 10;
-            return _courseModel.default.findOneAndUpdate({
-              _id: args.levelId
-            }, {
-              $pull: {
-                vocabulary: {
-                  vocabulary: args.vocabulary
-                }
-              }
-            }, {
-              new: true
-            });
+            _context2.next = 9;
+            return _vocabularyModel.default.findOneAndDelete({
+              _id: args._id
+            }).lean();
 
-          case 10:
-            vocabulary = _context2.sent;
-            console.log("LEVELVELVELVLELVELVELEL: ", vocabulary);
+          case 9:
+            word = _context2.sent;
+            _context2.next = 12;
+            return _levelModel.default.findById(word.level);
 
-            if (!vocabulary) {
+          case 12:
+            level = _context2.sent;
+            level.vocabulary.pull(word._id);
+            level.save();
+
+            if (!word) {
               arrayOfErrors.push({
-                path: "vocabulary",
+                path: "word",
                 message: "An Error has occured.  Please contact technical support."
               });
             }
 
-            console.log("array of errors: ", arrayOfErrors);
             return _context2.abrupt("return", {
-              vocabulary: args,
+              word: word,
               errors: arrayOfErrors
             });
 
-          case 15:
+          case 17:
           case "end":
             return _context2.stop();
         }
@@ -152,120 +147,158 @@ function () {
   };
 }();
 
-var vocabularyUpdate = function vocabularyUpdate(_, _ref5) {
-  var input = _ref5.input;
-  var id = input.id,
-      update = (0, _objectWithoutProperties2.default)(input, ["id"]);
-  return _vocabularyModel.default.findByIdAndUpdate(id, update, {
-    new: true
-  }).exec();
-};
-
-var vocabularyCreate =
+var vocabularyUpdate =
 /*#__PURE__*/
 function () {
   var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee3(_, args, ctx, info) {
-    var arrayOfErrors, input, userId, user, newVocabulary, createdVocabulary, vocabulary, level;
+  _regenerator.default.mark(function _callee3(_, _ref5) {
+    var input, arrayOfErrors, _id, update, updatedWord;
+
     return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            console.log("args; ", args);
+            input = _ref5.input;
+            _context3.prev = 1;
+            arrayOfErrors = [];
+            _id = input._id, update = (0, _objectWithoutProperties2.default)(input, ["_id"]);
+            _context3.next = 6;
+            return _vocabularyModel.default.findByIdAndUpdate(_id, update, {
+              new: true
+            }).exec();
+
+          case 6:
+            updatedWord = _context3.sent;
+            return _context3.abrupt("return", {
+              vocabulary: updatedWord,
+              errors: arrayOfErrors
+            });
+
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](1);
+            return _context3.abrupt("return", {
+              vocabulary: null,
+              errors: [{
+                message: _context3.t0
+              }]
+            });
+
+          case 13:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3, null, [[1, 10]]);
+  }));
+
+  return function vocabularyUpdate(_x7, _x8) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+var vocabularyCreate =
+/*#__PURE__*/
+function () {
+  var _ref7 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee4(_, args, ctx, info) {
+    var arrayOfErrors, input, userId, user, newVocabulary, vocabulary, level;
+    return _regenerator.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
             arrayOfErrors = [];
             input = args.input;
-            _context3.prev = 3;
+            _context4.prev = 2;
 
             if (ctx.isAuth) {
-              _context3.next = 6;
+              _context4.next = 5;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 6:
+          case 5:
             userId = ctx.req.token._id;
-            _context3.next = 9;
+            _context4.next = 8;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 9:
-            user = _context3.sent;
+          case 8:
+            user = _context4.sent;
             newVocabulary = new _vocabularyModel.default({
               audioUrl: input.audioUrl,
-              level: input.levelId,
+              level: input.level,
               gender: input.gender,
               translation: input.translation,
               word: input.word
             });
-            _context3.next = 13;
+            _context4.next = 12;
             return newVocabulary.save();
 
-          case 13:
-            vocabulary = _context3.sent;
-            _context3.next = 16;
+          case 12:
+            vocabulary = _context4.sent;
+            _context4.next = 15;
             return _levelModel.default.findById(input.level);
 
-          case 16:
-            level = _context3.sent;
-            console.log('lvel" ', level);
+          case 15:
+            level = _context4.sent;
             level.vocabulary.push(vocabulary);
             level.save();
 
             if (level) {
-              _context3.next = 22;
+              _context4.next = 20;
               break;
             }
 
             throw new Error("Level not found.");
 
-          case 22:
-            return _context3.abrupt("return", {
-              createdVocabulary: createdVocabulary,
+          case 20:
+            return _context4.abrupt("return", {
+              vocabulary: vocabulary,
               errors: arrayOfErrors
             });
 
-          case 25:
-            _context3.prev = 25;
-            _context3.t0 = _context3["catch"](3);
-            throw _context3.t0;
+          case 23:
+            _context4.prev = 23;
+            _context4.t0 = _context4["catch"](2);
+            throw _context4.t0;
 
-          case 28:
+          case 26:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
       }
-    }, _callee3, null, [[3, 25]]);
+    }, _callee4, null, [[2, 23]]);
   }));
 
-  return function vocabularyCreate(_x7, _x8, _x9, _x10) {
-    return _ref6.apply(this, arguments);
+  return function vocabularyCreate(_x9, _x10, _x11, _x12) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 var getVocabularies =
 /*#__PURE__*/
 function () {
-  var _ref7 = (0, _asyncToGenerator2.default)(
+  var _ref8 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee4(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee5(_, args, ctx, info) {
     var arrayOfErrors, result;
-    return _regenerator.default.wrap(function _callee4$(_context4) {
+    return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
-        switch (_context4.prev = _context4.next) {
+        switch (_context5.prev = _context5.next) {
           case 0:
             arrayOfErrors = [];
-            console.log("args: ", args);
-            _context4.next = 4;
+            _context5.next = 3;
             return _levelModel.default.findById(args.level).populate("vocabulary").lean();
 
-          case 4:
-            result = _context4.sent;
-            console.log("result: ", result);
-            return _context4.abrupt("return", {
+          case 3:
+            result = _context5.sent;
+            return _context5.abrupt("return", {
               vocabulary: result.vocabulary,
               errors: arrayOfErrors
               /* if (!result || isEmpty(result)) { */
@@ -292,16 +325,16 @@ function () {
 
             });
 
-          case 7:
+          case 5:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4);
+    }, _callee5);
   }));
 
-  return function getVocabularies(_x11, _x12, _x13, _x14) {
-    return _ref7.apply(this, arguments);
+  return function getVocabularies(_x13, _x14, _x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
 

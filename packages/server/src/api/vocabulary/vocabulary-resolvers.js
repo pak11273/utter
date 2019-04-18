@@ -13,7 +13,6 @@ const escapeRegex = text => {
 }
 
 const getVocabulary = async (_, {level}, {user}) => {
-  console.log("level: ", level)
   const vocabulary = await Vocabulary.findById(level).exec()
   if (!vocabulary) {
     throw new Error("Cannot find vocabulary with id")
@@ -33,41 +32,26 @@ const vocabularyDelete = async (_, args, ctx) => {
     return res
   })
 
-  console.log("args: ", args)
+  const word = await Vocabulary.findOneAndDelete({_id: args._id}).lean()
 
-  const vocabulary = await Course.findOneAndUpdate(
-    {
-      _id: args.level
-    },
-    {
-      $pull: {
-        vocabulary: {
-          vocabulary: args.vocabulary
-        }
-      }
-    },
-    {new: true}
-  )
+  const level = await Level.findById(word.level)
+  level.vocabulary.pull(word._id)
+  level.save()
 
-  console.log("LEVELVELVELVLELVELVELEL: ", vocabulary)
-
-  if (!vocabulary) {
+  if (!word) {
     arrayOfErrors.push({
-      path: "vocabulary",
+      path: "word",
       message: "An Error has occured.  Please contact technical support."
     })
   }
 
-  console.log("array of errors: ", arrayOfErrors)
-
   return {
-    vocabulary: args,
+    word,
     errors: arrayOfErrors
   }
 }
 
 const vocabularyUpdate = async (_, {input}) => {
-  console.log("input: ", input)
   try {
     var arrayOfErrors = []
     const {_id, ...update} = input
@@ -75,7 +59,6 @@ const vocabularyUpdate = async (_, {input}) => {
       new: true
     }).exec()
 
-    console.log("updatedWord: ", updatedWord)
     return {
       vocabulary: updatedWord,
       errors: arrayOfErrors
@@ -93,7 +76,6 @@ const vocabularyUpdate = async (_, {input}) => {
 }
 
 const vocabularyCreate = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   const arrayOfErrors = []
 
   const {input} = args
@@ -137,7 +119,6 @@ const vocabularyCreate = async (_, args, ctx, info) => {
 }
 
 const getVocabularies = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   const arrayOfErrors = []
   let result = await Level.findById(args.level)
     .populate("vocabulary")

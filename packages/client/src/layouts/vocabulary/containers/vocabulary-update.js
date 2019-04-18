@@ -1,4 +1,4 @@
-/* eslint react-hooks/exhaustive-deps:0 */
+/* eslint react-hooks/exhaustive-deps:0, no-plusplus:0, no-new:0, prefer-promise-reject-errors: 0 */
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import {session} from "brownies"
@@ -137,7 +137,6 @@ class VocabularysUpdate extends Component {
             const index = vocabulary.indexOf(oldData)
             vocabulary[index] = newData
             setTimeout(() => {
-              console.log("vocab: ", vocabulary)
               this.setState({vocabulary}, () => {
                 session.vocabulary = vocabulary
                 resolve()
@@ -159,45 +158,51 @@ class VocabularysUpdate extends Component {
           return update
         },
 
-        /* const index = vocabulary.findIndex(x => x._id === newData._id) */
-        /* vocabulary[index] = newData */
-        /* this.setState({vocabulary}) */
-        /* resolve(newData) */
-        /* }, 1000) */
-        /* }) */
-        /* .then(res => { */
-        /* console.log("res: ", res) */
-        /* this.props.client.mutate({ */
-        /*   mutation: VOCABULARY_UPDATE, */
-        /*   variables: { */
-        /*     _id: res._id, */
-        /*     vocabulary: +res.vocabulary, */
-        /*     title: res.title */
-        /*   } */
-        /* }) */
-        /* }) */
-        /* .catch(err => console.log("err: ", err)), */
-
-        onRowDelete: oldData =>
-          new Promise((resolve, reject) => {
+        onRowDelete: async selectedRow => {
+          const tempVocabulary = [...session.vocabulary]
+          const deletedInfo = await new Promise(resolve => {
             setTimeout(() => {
-              console.log("reject: ", reject)
-              const {vocabulary} = this.state
-              const index = vocabulary.indexOf(oldData)
-              vocabulary.splice(index, 1)
-              this.setState({vocabulary})
-              resolve(oldData)
+              var index = -1
+              for (var i = 0; i < session.vocabulary.length; i++) {
+                if (session.vocabulary[i].word === selectedRow.word) {
+                  index = i
+                  break
+                }
+              }
+              var splice = tempVocabulary.splice(index, 1)
+              resolve({
+                splicedVocabulary: tempVocabulary,
+                spliced: splice[0],
+                deletedIndex: index
+              })
             }, 1000)
           })
-            .then(res => {
-              this.props.client.mutate({
-                mutation: VOCABULARY_DELETE,
-                variables: {
-                  _id: res._id
-                }
-              })
-            })
-            .catch(err => console.log("err: ", err))
+
+          const {splicedVocabulary, spliced, deletedIndex} = deletedInfo
+
+          this.setState(
+            {
+              vocabulary: splicedVocabulary
+            },
+            () => {
+              session.vocabulary = splicedVocabulary
+            }
+          )
+
+          const deletedWord = await this.props.client.mutate({
+            mutation: VOCABULARY_DELETE,
+            variables: {
+              _id: spliced._id
+            }
+          })
+
+          session.vocabulary.splice(deletedIndex, 1)
+
+          this.setState({
+            vocabulary: session.vocabulary
+          })
+          return deletedWord
+        }
       }
     } else {
       this.can = {}
@@ -222,20 +227,17 @@ class VocabularysUpdate extends Component {
       () => {
         this.props.client
           .query({
+            fetchPolicy: "no-cache",
             query: GET_VOCABULARIES,
             variables: {
               level
             }
           })
           .then(res => {
-            console.log("res: ", res)
             session.vocabulary = res.data.getVocabularies.vocabulary
-            this.setState(
-              {
-                vocabulary: res.data.getVocabularies.vocabulary || []
-              },
-              console.log("state: ", this.state)
-            )
+            this.setState({
+              vocabulary: res.data.getVocabularies.vocabulary || []
+            })
           })
           .catch(err => console.log("err: ", err))
       }

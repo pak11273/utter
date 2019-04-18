@@ -208,13 +208,12 @@ function () {
           case 0:
             input = _ref6.input;
             redis = _ref7.redis, url = _ref7.url;
-            console.log("input: ", input);
-            _context4.next = 5;
+            _context4.next = 4;
             return _courseModel.default.findByIdAndUpdate(input.courseId, {
               levelSort: input.levelSort
             }).exec();
 
-          case 5:
+          case 4:
             course = _context4.sent;
             _id = input._id, update = (0, _objectWithoutProperties2.default)(input, ["_id"]);
             return _context4.abrupt("return", {
@@ -222,7 +221,7 @@ function () {
               errors: []
             });
 
-          case 8:
+          case 7:
           case "end":
             return _context4.stop();
         }
@@ -258,14 +257,13 @@ function () {
 
           case 6:
             updatedLevel = _context5.sent;
-            console.log("updateLevel: ", updatedLevel);
             return _context5.abrupt("return", {
               level: updatedLevel,
               errors: arrayOfErrors
             });
 
-          case 11:
-            _context5.prev = 11;
+          case 10:
+            _context5.prev = 10;
             _context5.t0 = _context5["catch"](1);
 
             if (_context5.t0) {
@@ -280,12 +278,12 @@ function () {
               errors: arrayOfErrors
             });
 
-          case 15:
+          case 14:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[1, 11]]);
+    }, _callee5, null, [[1, 10]]);
   }));
 
   return function levelUpdate(_x14, _x15) {
@@ -324,27 +322,26 @@ function () {
 
           case 7:
             user = _context6.sent;
-            console.log("input: ", input);
             newLevel = new _levelModel.default((0, _objectSpread2.default)({}, input, {
               course: input.courseId
             }));
-            _context6.next = 12;
+            _context6.next = 11;
             return newLevel.save();
 
-          case 12:
+          case 11:
             level = _context6.sent;
-            _context6.next = 15;
+            _context6.next = 14;
             return _courseModel.default.findById(input.courseId);
 
-          case 15:
+          case 14:
             course = _context6.sent;
             course.levels.push(level);
-            _context6.next = 19;
+            _context6.next = 18;
             return course.save();
 
-          case 19:
+          case 18:
             if (course) {
-              _context6.next = 23;
+              _context6.next = 22;
               break;
             }
 
@@ -352,16 +349,16 @@ function () {
               path: "level",
               message: "Course was not found."
             });
-            _context6.next = 24;
+            _context6.next = 23;
             break;
 
-          case 23:
+          case 22:
             return _context6.abrupt("return", {
               level: level,
               errors: arrayOfErrors
             });
 
-          case 24:
+          case 23:
           case "end":
             return _context6.stop();
         }

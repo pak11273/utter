@@ -70,7 +70,6 @@ const levelDelete = async (_, args, ctx) => {
 }
 
 const levelSort = async (_, {input}, {redis, url}) => {
-  console.log("input: ", input)
   const course = await Course.findByIdAndUpdate(input.courseId, {
     levelSort: input.levelSort
   }).exec()
@@ -90,7 +89,6 @@ const levelUpdate = async (_, {input}) => {
       new: true
     }).lean()
 
-    console.log("updateLevel: ", updatedLevel)
     return {
       level: updatedLevel,
       errors: arrayOfErrors
@@ -120,7 +118,6 @@ const levelCreate = async (_, {input}, ctx, info) => {
     return res
   })
 
-  console.log("input: ", input)
 
   const newLevel = new Level({...input, course: input.courseId})
 

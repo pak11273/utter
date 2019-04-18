@@ -226,7 +226,7 @@ function () {
   var _ref6 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee4(_, _ref5, ctx) {
-    var resourceId, token, user, course, level;
+    var resourceId, token, user, course, levels;
     return _regenerator.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
@@ -261,42 +261,47 @@ function () {
             throw new Error("No course found by this owner.");
 
           case 12:
-            // TODO: DELET all references
-            console.log("courseID: ", course._id);
-            _context4.next = 15;
-            return _levelModel.default.deleteMany({
+            _context4.next = 14;
+            return _levelModel.default.find({
               course: course._id
-            }).exec();
+            }).lean();
 
-          case 15:
-            level = _context4.sent;
-            console.log("level: ", level);
+          case 14:
+            levels = _context4.sent;
+            levels.map(function (level) {
+              var deleted = _levelModel.default.findOneAndDelete({
+                _id: level._id
+              }).exec();
+            });
+            /* const level = await Level.deleteMany({course: course._id}).exec() */
+
+            /* const vocabulary = await Vocabulary.deleteMany({course: course._id}).exec() */
 
             if (!course) {
-              _context4.next = 21;
+              _context4.next = 20;
               break;
             }
 
             return _context4.abrupt("return", true);
 
-          case 21:
+          case 20:
             return _context4.abrupt("return", false);
 
-          case 22:
-            _context4.next = 27;
+          case 21:
+            _context4.next = 26;
             break;
 
-          case 24:
-            _context4.prev = 24;
+          case 23:
+            _context4.prev = 23;
             _context4.t0 = _context4["catch"](1);
             throw _context4.t0;
 
-          case 27:
+          case 26:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[1, 24]]);
+    }, _callee4, null, [[1, 23]]);
   }));
 
   return function courseDelete(_x6, _x7, _x8) {

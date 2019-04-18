@@ -45,6 +45,6 @@ extend type Query {
 
 extend type Mutation {
 	vocabularyCreate(input: VocabularyCreateInput!): VocabularyPayload
-	vocabularyDelete(level: ID, word: String, translation: String): VocabularyPayload 
+	vocabularyDelete(_id: ID): VocabularyPayload 
   vocabularyUpdate(input: VocabularyUpdated!): VocabularyPayload
 }
