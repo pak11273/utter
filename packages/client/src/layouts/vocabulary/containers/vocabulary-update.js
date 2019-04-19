@@ -4,6 +4,7 @@ import {withApollo} from "react-apollo"
 import {session} from "brownies"
 import {Formik} from "formik"
 import makeTrashable from "trashable"
+import Can from "../../../components/can"
 
 import Add from "@material-ui/icons/Add"
 import Check from "@material-ui/icons/Check"
@@ -363,16 +364,34 @@ class VocabularysUpdate extends Component {
                               <IconButton>
                                 <Play />
                               </IconButton>
-                              <IconButton>
-                                <Delete />
-                              </IconButton>
+                              <Can
+                                roles={session.user.roles}
+                                perform="course:update-vocabulary"
+                                id={session.user.username}
+                                matchingID={session.course.owner.username}
+                                yes={() => (
+                                  <IconButton>
+                                    <Delete />
+                                  </IconButton>
+                                )}
+                                no={() => null}
+                              />
                             </Flex>
                           )
                         }
                         return (
-                          <IconButton onClick={() => alert("hi")}>
-                            <Mic />
-                          </IconButton>
+                          <Can
+                            roles={session.user.roles}
+                            perform="course:update-vocabulary"
+                            id={session.user.username}
+                            matchingID={session.course.owner.username}
+                            yes={() => (
+                              <IconButton onClick={() => alert("hi")}>
+                                <Mic />
+                              </IconButton>
+                            )}
+                            no={() => null}
+                          />
                         )
                       }
                     },
