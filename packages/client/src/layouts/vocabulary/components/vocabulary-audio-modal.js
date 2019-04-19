@@ -13,16 +13,14 @@ import SpeakerIcon from "@material-ui/icons/RecordVoiceOver"
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import Typography from "@material-ui/core/Typography"
 
-import axios from "axios"
+/* import axios from "axios" */
 import Dropzone from "react-dropzone"
 import {bytesToSize} from "../../../utils/helpers.js"
-import CryptoJS from "crypto-js"
+/* import CryptoJS from "crypto-js" */
 import isEmpty from "lodash/isEmpty"
 import RecordRTC from "recordrtc"
-import VocabularyCtrl from "../containers/vocabulary-ctrl.js"
 import {withStyles} from "@material-ui/core/styles"
 
-const Composed = <VocabularyCtrl />
 const styles = theme => ({
   record: {
     backgroundColor: theme.palette.error
@@ -90,30 +88,31 @@ class VocabularyAudioModal extends Component {
     }
   }
 
-  handleAudioDelete = async state => {
-    const timestamp = await (Date.now() / 1000 || 0).toString()
-    const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo"
-    const hashString = `public_id=${
-      state.public_id
-    }&timestamp=${timestamp}${apiSecret}`
-    const signature = CryptoJS.SHA1(hashString).toString()
-    axios({
-      method: "post",
-      url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/",
-      data: {
-        api_key: "225688292439754",
-        public_id: state.public_id,
-        resource_type: "image",
-        signature,
-        timestamp
-      }
-    })
-      .then(res => {
-        return res
-      })
-      .catch(err => {
-        throw err.response.data.error
-      })
+  /* handleAudioDelete = async state => { */
+  handleAudioDelete = async () => {
+    /* const timestamp = await (Date.now() / 1000 || 0).toString() */
+    /* const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo" */
+    /* const hashString = `public_id=${ */
+    /* state.public_id */
+    /* }&timestamp=${timestamp}${apiSecret}` */
+    /* const signature = CryptoJS.SHA1(hashString).toString() */
+    /* axios({ */
+    /*   method: "post", */
+    /*   url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/", */
+    /*   data: { */
+    /*     api_key: "225688292439754", */
+    /*     public_id: state.public_id, */
+    /*     resource_type: "image", */
+    /*     signature, */
+    /*     timestamp */
+    /*   } */
+    /* }) */
+    /* .then(res => { */
+    /*   return res */
+    /* }) */
+    /* .catch(err => { */
+    /*   throw err.response.data.error */
+    /* }) */
   }
 
   render() {
@@ -231,7 +230,7 @@ class VocabularyAudioModal extends Component {
     } = this.props
 
     return (
-      <Composed>
+      <div>
         {() => {
           /* {({container: {levelDelete}}) => { */
           /* const xhrDeleteLevel = async () => { */
@@ -330,7 +329,7 @@ class VocabularyAudioModal extends Component {
             </Typography>
           )
         }}
-      </Composed>
+      </div>
     )
   }
 }

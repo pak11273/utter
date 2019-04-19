@@ -10,10 +10,6 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import IconButton from "@material-ui/core/IconButton"
 import Typography from "@material-ui/core/Typography"
 
-import VocabularyCtrl from "../containers/vocabulary-ctrl.js"
-
-const Composed = <VocabularyCtrl />
-
 class VocabularyDeleteModal extends Component {
   render() {
     const {
@@ -27,7 +23,7 @@ class VocabularyDeleteModal extends Component {
     } = this.props
 
     return (
-      <Composed>
+      <div>
         {({container: {vocabularyDelete}}) => {
           const xhrDeleteVocabulary = async () => {
             const finished = await vocabularyDelete.mutation({
@@ -75,7 +71,7 @@ class VocabularyDeleteModal extends Component {
             </Typography>
           )
         }}
-      </Composed>
+      </div>
     )
   }
 }

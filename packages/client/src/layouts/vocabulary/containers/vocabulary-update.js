@@ -33,8 +33,39 @@ import {
 import {GET_COURSE} from "../../courses/xhr.js"
 
 import {styles} from "../../styles.js"
-import {LevelSelect} from "../components/level-select.js"
+/* import {LevelSelect} from "../components/level-select.js" */
+import {
+  LevelSelect
+  /* VocabularyAudioModal, */
+  /* VocabularyDeleteModal */
+} from "../components"
 import {Flex, FormikMTInput} from "../../../components"
+
+/* const row = { */
+/*   modalGender: "gender", */
+/*   modalLevel: "level", */
+/*   modalWord: "word", */
+/*   modalTranslation: "translation", */
+/*   modalAudio: "audio" */
+/* } */
+
+/* const audioModal = ( */
+/*   <VocabularyAudioModal */
+/*     row={row} */
+/*     {...this.state} */
+/*     closeAudioModal={this.closeAudioModal} */
+/*     handleAudio={this.handleAudio} */
+/*   /> */
+/* ) */
+
+/* const audioDeleteModal = ( */
+/*   <VocabularyDeleteModal */
+/*     row={row} */
+/*     {...this.state} */
+/*     closeDeleteModal={this.closeDeleteModal} */
+/*     handleDelete={this.handleDelete} */
+/*   /> */
+/* ) */
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
   return (
@@ -245,6 +276,8 @@ class VocabularysUpdate extends Component {
   }
 
   render() {
+    /* console.log(audioDeleteModal) */
+    /* console.log(audioModal) */
     const {classes} = this.props
 
     return (
@@ -314,7 +347,12 @@ class VocabularysUpdate extends Component {
                     },
                     {title: "word", field: "word"},
                     {title: "translation", field: "translation"},
-                    {title: "audio", field: "audioUrl"},
+                    {
+                      title: "audio",
+                      field: "audioUrl",
+                      filtering: false,
+                      readonly: true
+                    },
                     {
                       title: "gender",
                       field: "gender",

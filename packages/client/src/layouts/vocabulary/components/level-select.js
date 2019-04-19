@@ -6,7 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import Typography from "@material-ui/core/Typography"
 
-export const LevelSelect = props => {
+export default props => {
   const [state, changeState] = useState({
     levels: ""
   })
