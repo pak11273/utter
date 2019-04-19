@@ -15,7 +15,10 @@ import Edit from "@material-ui/icons/Edit"
 import Filter from "@material-ui/icons/FilterList"
 import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
+import IconButton from "@material-ui/core/IconButton"
 import LastPage from "@material-ui/icons/LastPage"
+import Mic from "@material-ui/icons/Mic"
+import Play from "@material-ui/icons/PlayArrow"
 import Paper from "@material-ui/core/Paper"
 import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
@@ -73,9 +76,10 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseVocabularySchema}
       initialValues={props.data}
       onSubmit={values => {
-        if (props.mode === "update") {
-          delete values.tableData
-        }
+        // this causes error if you double-click edit icon
+        /* if (props.mode === "update") { */
+        /* delete values.tableData */
+        /* } */
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
@@ -325,7 +329,6 @@ class VocabularysUpdate extends Component {
                     Add: () => <Add />,
                     Check: () => <Check />,
                     Clear: () => <Clear />,
-                    ResetSearch: () => <Clear />,
                     Delete: () => <Delete />,
                     Edit: () => <Edit />,
                     Filter: () => <Filter />,
@@ -333,6 +336,7 @@ class VocabularysUpdate extends Component {
                     LastPage: () => <LastPage />,
                     NextPage: () => <ChevronRight />,
                     PreviousPage: () => <ChevronLeft />,
+                    ResetSearch: () => <Clear />,
                     Search: () => <Search />
                   }}
                   columns={[
@@ -351,7 +355,26 @@ class VocabularysUpdate extends Component {
                       title: "audio",
                       field: "audioUrl",
                       filtering: false,
-                      readonly: true
+                      readonly: true,
+                      render: rowData => {
+                        if (rowData && rowData.audioUrl) {
+                          return (
+                            <Flex flexdirection="row">
+                              <IconButton>
+                                <Play />
+                              </IconButton>
+                              <IconButton>
+                                <Delete />
+                              </IconButton>
+                            </Flex>
+                          )
+                        }
+                        return (
+                          <IconButton onClick={() => alert("hi")}>
+                            <Mic />
+                          </IconButton>
+                        )
+                      }
                     },
                     {
                       title: "gender",
