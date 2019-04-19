@@ -317,7 +317,7 @@ class LevelsUpdate extends Component {
                   data={this.state.levels}
                   options={{
                     actionsColumnIndex: -1,
-                    pageSize: 10,
+                    pageSize: 5,
                     showTitle: false,
                     sorting: false,
                     rowStyle: x => {

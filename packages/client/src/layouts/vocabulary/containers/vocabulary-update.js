@@ -319,7 +319,6 @@ class VocabularysUpdate extends Component {
                       title: "gender",
                       field: "gender",
                       lookup: {
-                        none: "none",
                         male: "male",
                         female: "female",
                         neuter: "neuter"
