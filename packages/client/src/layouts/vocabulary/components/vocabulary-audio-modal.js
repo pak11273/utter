@@ -11,6 +11,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import Typography from "@material-ui/core/Typography"
 
+/* import classNames from "classnames" */
 import {LoadingButton} from "../../../components"
 
 /* import axios from "axios" */
@@ -18,12 +19,16 @@ import Dropzone from "react-dropzone"
 import {bytesToSize} from "../../../utils/helpers.js"
 /* import CryptoJS from "crypto-js" */
 import isEmpty from "lodash/isEmpty"
-import RecordRTC from "recordrtc"
+import RecordRTCPromisesHandler from "recordrtc"
 import {withStyles} from "@material-ui/core/styles"
 
 const styles = theme => ({
   record: {
     backgroundColor: theme.palette.error
+  },
+  recording: {
+    background: "green",
+    color: "black"
   },
   dropzone: {
     alignItems: "center",
@@ -43,10 +48,13 @@ const styles = theme => ({
 
 const initialState = {
   audioBlob: null,
+  blob: null,
   audioFileName: "Click here to upload or just drop an audio file.",
   public_id: "",
   record: false,
+  recording: false,
   recordedBlobSize: 0,
+  readableBlobSize: "",
   isSaving: false,
   secure_url: "",
   signature: "",
@@ -55,20 +63,159 @@ const initialState = {
 }
 
 class VocabularyAudioModal extends Component {
+  blob = null
+
+  recorder = null
+
   constructor() {
     super()
 
     this.state = initialState
   }
 
-  disableStop = () => {
+  componentDidMount = async () => {
+    /* if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
+    /* const stream = await navigator.mediaDevices.getUserMedia({ */
+    /*   /1* video: true, *1/ */
+    /*   audio: true */
+    /* }) */
+
+    if (this.props.stream) {
+      /* const recorder = RecordRTC(stream, {type: "audio", disableLogs: true}) */
+      this.recorder = new RecordRTCPromisesHandler(this.props.stream, {
+        type: "audio"
+      })
+    }
+    /* recorder.startRecording() */
+
+    /* const sleep = m => new Promise(r => setTimeout(r, m)) */
+    /* await sleep(3000) */
+
+    /* await recorder.stopRecording() */
+    /* const blob = await recorder.getBlob() */
+    /* console.log("blob: ", blob) */
+    /* invokeSaveAsDialog(blob) */
+    /* } */
+  }
+
+  stopRecording = async () => {
+    /* await this.recorder.stopRecording() */
+
+    /* const blob = await this.recorder.getBlob() */
+
+    await this.recorder
+      .stopRecording(audioUrl => {
+        var recordedBlob = this.recorder.getBlob()
+        this.setState(
+          {
+            recording: false,
+            recordedBlobSize: recordedBlob.size,
+            readableBlobSize: bytesToSize(recordedBlob.size)
+          },
+          () => {
+            var recordedBlobSize = bytesToSize(this.state.recordedBlobSize)
+            console.log("blobsize: ", recordedBlobSize)
+            /* audioSize.innerHTML = recordedBlobSize */
+          }
+        )
+
+        this.recorder.getDataURL(dataUrl => {
+          /* var files = { */
+          /*   audio: { */
+          /*     author: "utterzone", */
+          /*     type: "audio/wav", */
+          /*     dataUrl */
+          /*   } */
+          /* } */
+          this.setState(
+            {
+              audioFileName: "recorded.webm",
+              audioBlob: dataUrl
+            },
+            console.log("state; ", this.state)
+          )
+        })
+
+        /* var stop = document.querySelector(".stop") */
+        var soundClips = document.querySelector(".sound-clips")
+
+        var audio = document.createElement("audio")
+        var clipContainer = document.createElement("Article")
+        var deleteButton = document.createElement("button")
+        var audioSize = document.createElement("span")
+
+        audio.src = audioUrl
+
+        audioSize.innerHTML = this.state.recordedBlobSize
+
+        this.recorder.getDataURL(dataUrl => {
+          console.log("dataUrl: ", dataUrl)
+          /* var files = { */
+          /*   audio: { */
+          /*     author: "utterzone", */
+          /*     type: "audio/wav", */
+          /*     dataUrl */
+          /*   } */
+          /* } */
+          this.setState({
+            audioFileName: "recorded.webm"
+            /* audioBlob: dataUrl */
+          })
+        })
+
+        clipContainer.classList.add("clip")
+        clipContainer.setAttribute(
+          "style",
+          "display: flex; justify-content: center; padding-top: 20px; width: 390px"
+        )
+        audio.setAttribute("controls", "")
+        deleteButton.innerHTML = "DEL"
+
+        clipContainer.appendChild(audio)
+        clipContainer.appendChild(deleteButton)
+        deleteButton.setAttribute(
+          "style",
+          "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
+        )
+        clipContainer.appendChild(audioSize)
+        audioSize.setAttribute(
+          "style",
+          "display: inline-block,font-size: 18px; width: 200px; height: 30px; padding: 3px; margin: 12px; "
+        )
+        soundClips.appendChild(clipContainer)
+
+        deleteButton.onclick = e => {
+          this.resetState()
+          this.enableStop()
+          var evtTgt = e.target
+          evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
+          /* var record = document.getElementById(classId) */
+          /* record.disabled = false */
+        }
+      })
+      .catch(err => {
+        console.log("The following gUM error occured: " + err)
+      })
+
+    /* this.setState( */
+    /*   { */
+    /*     blob */
+    /*   }, */
+    /*   console.log("blob: ", this.state) */
+    /* ) */
+
     this.setState({
       record: true
     })
   }
 
-  setVocabId = () => {
-    console.log("vocab props: ", this.props)
+  startRecording = () => {
+    this.recorder.startRecording()
+
+    this.setState({
+      recording: true,
+      vocabId: this.props.rowData._id
+    })
   }
 
   enableStop = () => {
@@ -156,118 +303,130 @@ class VocabularyAudioModal extends Component {
   }
 
   render() {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({audio: true})
-        // Success callback
-        .then(stream => {
-          const recorder = RecordRTC(stream, {type: "audio", disableLogs: true})
-          var record = document.querySelector(".record")
-          var stop = document.querySelector(".stop")
-          var soundClips = document.querySelector(".sound-clips")
-          record.onclick = () => {
-            /* if (soundClips.childNodes.length === 1) { */
-            /*   record.disabled = true */
-            /*   alert( */
-            /*     "You can only record 1 audio clip at a time.  Delete your audio clip to record another." */
-            /*   ) */
-            /* } else { */
-            recorder.startRecording()
-            record.style.background = "green"
-            record.style.color = "black"
-            /* } */
-          }
+    /* var recordingClass = classNames({ */
+    /*   recording: this.state.recording */
+    /* }) */
 
-          stop.onclick = async () => {
-            var audio = document.createElement("audio")
-            var clipContainer = document.createElement("Article")
-            var deleteButton = document.createElement("button")
-            var audioSize = document.createElement("span")
+    /* if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
+    /*   var classId */
+    /*   this.props.rowData && this.props.rowData._id */
+    /*     ? (classId = this.props.rowData._id)   : "" */
+    /*   /1* console.log("type: ", typeof this.props.rowData._id) *1/ */
+    /*   console.log("classId: ", typeof classId) */
+    /*   navigator.mediaDevices */
+    /*     .getUserMedia({audio: true}) */
+    /*     // Success callback */
+    /*     .then(stream => { */
+    /*       const recorder = RecordRTC(stream, {type: "audio", disableLogs: true}) */
+    /*       var record = document.getElementById(classId) */
+    /*       console.log("recored: ", record) */
+    /*       var stop = document.querySelector(".stop") */
 
-            recorder.stopRecording(audioURL => {
-              audio.src = audioURL
+    /*       var soundClips = document.querySelector(".sound-clips") */
+    /*       record.onclick = () => { */
+    /*         console.log("hello foo boy") */
+    /*         /1* if (soundClips.childNodes.length === 1) { *1/ */
+    /*         /1*   record.disabled = true *1/ */
+    /*         /1*   alert( *1/ */
+    /*         /1*     "You can only record 1 audio clip at a time.  Delete your audio clip to record another." *1/ */
+    /*         /1*   ) *1/ */
+    /*         /1* } else { *1/ */
+    /*         recorder.startRecording() */
+    /*         record.style.background = "green" */
+    /*         record.style.color = "black" */
+    /*         /1* } *1/ */
+    /*       } */
 
-              var recordedBlob = recorder.getBlob()
-              this.setState(
-                {
-                  recordedBlobSize: recordedBlob.size
-                },
-                () => {
-                  var recordedBlobSize = bytesToSize(
-                    this.state.recordedBlobSize
-                  )
-                  audioSize.innerHTML = recordedBlobSize
-                }
-              )
+    /*       stop.onclick = async () => { */
+    /*         var audio = document.createElement("audio") */
+    /*         var clipContainer = document.createElement("Article") */
+    /*         var deleteButton = document.createElement("button") */
+    /*         var audioSize = document.createElement("span") */
 
-              recorder.getDataURL(dataUrl => {
-                /* var files = { */
-                /*   audio: { */
-                /*     author: "utterzone", */
-                /*     type: "audio/wav", */
-                /*     dataUrl */
-                /*   } */
-                /* } */
-                this.setState({
-                  audioFileName: "recorded.webm",
-                  audioBlob: dataUrl
-                })
-              })
-            })
+    /*         recorder.stopRecording(audioUrl => { */
+    /*           audio.src = audioUrl */
 
-            record.style.background = ""
-            record.style.color = ""
+    /*           var recordedBlob = recorder.getBlob() */
+    /*           this.setState( */
+    /*             { */
+    /*               recordedBlobSize: recordedBlob.size */
+    /*             }, */
+    /*             () => { */
+    /*               var recordedBlobSize = bytesToSize( */
+    /*                 this.state.recordedBlobSize */
+    /*               ) */
+    /*               audioSize.innerHTML = recordedBlobSize */
+    /*             } */
+    /*           ) */
 
-            clipContainer.classList.add("clip")
-            clipContainer.setAttribute(
-              "style",
-              "display: flex; justify-content: center; padding-top: 20px; width: 390px"
-            )
-            audio.setAttribute("controls", "")
-            deleteButton.innerHTML = "DEL"
+    /*           recorder.getDataURL(dataUrl => { */
+    /*             /1* var files = { *1/ */
+    /*             /1*   audio: { *1/ */
+    /*             /1*     author: "utterzone", *1/ */
+    /*             /1*     type: "audio/wav", *1/ */
+    /*             /1*     dataUrl *1/ */
+    /*             /1*   } *1/ */
+    /*             /1* } *1/ */
+    /*             this.setState({ */
+    /*               audioFileName: "recorded.webm", */
+    /*               audioBlob: dataUrl */
+    /*             }) */
+    /*           }) */
+    /*         }) */
 
-            clipContainer.appendChild(audio)
-            clipContainer.appendChild(deleteButton)
-            deleteButton.setAttribute(
-              "style",
-              "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
-            )
-            clipContainer.appendChild(audioSize)
-            audioSize.setAttribute(
-              "style",
-              "display: inline-block,font-size: 18px; width: 200px; height: 30px; padding: 3px; margin: 12px; "
-            )
-            soundClips.appendChild(clipContainer)
+    /*         record.style.background = "" */
+    /*         record.style.color = "" */
 
-            deleteButton.onclick = e => {
-              this.resetState()
-              this.enableStop()
-              var evtTgt = e.target
-              evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
-              record.disabled = false
-            }
-          }
-        })
-        // Error callback
-        .catch(err => {
-          console.log("The following gUM error occured: " + err)
-        })
-    } else {
-      console.log("getUserMedia not supported on your browser!")
-    }
+    /*         clipContainer.classList.add("clip") */
+    /*         clipContainer.setAttribute( */
+    /*           "style", */
+    /*           "display: flex; justify-content: center; padding-top: 20px; width: 390px" */
+    /*         ) */
+    /*         audio.setAttribute("controls", "") */
+    /*         deleteButton.innerHTML = "DEL" */
+
+    /*         clipContainer.appendChild(audio) */
+    /*         clipContainer.appendChild(deleteButton) */
+    /*         deleteButton.setAttribute( */
+    /*           "style", */
+    /*           "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;" */
+    /*         ) */
+    /*         clipContainer.appendChild(audioSize) */
+    /*         audioSize.setAttribute( */
+    /*           "style", */
+    /*           "display: inline-block,font-size: 18px; width: 200px; height: 30px; padding: 3px; margin: 12px; " */
+    /*         ) */
+    /*         soundClips.appendChild(clipContainer) */
+
+    /*         deleteButton.onclick = e => { */
+    /*           this.resetState() */
+    /*           this.enableStop() */
+    /*           var evtTgt = e.target */
+    /*           evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode) */
+    /*           record.disabled = false */
+    /*         } */
+    /*       } */
+    /*     }) */
+    /*     // Error callback */
+    /*     .catch(err => { */
+    /*       console.log("The following gUM error occured: " + err) */
+    /*     }) */
+    /* } else { */
+    /*   console.log("getUserMedia not supported on your browser!") */
+    /* } */
+
     const {
       classes,
-      /* handleAudio, */
       /* handleDelete, */
       /* openDeleteModal, */
       openModal,
       closeModal,
-      resetOpenModal
+      resetOpenModal,
       /* closeDeleteModal, */
       /* courseId, */
       /* modalLevel, */
       /* modalTitle, */
-      /* rowData */
+      rowData
     } = this.props
     return (
       <div>
@@ -284,11 +443,6 @@ class VocabularyAudioModal extends Component {
         return (
 					*/}
         <Typography>
-          {/*
-          <IconButton onClick={handleAudio}>
-            <MicIcon />
-          </IconButton>
-          */}
           <Dialog
             open={openModal}
             /* onClose={closeModal} */
@@ -340,8 +494,9 @@ class VocabularyAudioModal extends Component {
                 marginBottom: "30px"
               }}>
               <Button
-                className="record"
-                onClick={this.setVocabId}
+                id={rowData && rowData._id}
+                className={this.state.recording && classes.recording}
+                onClick={this.startRecording}
                 variant="contained"
                 color="secondary">
                 <FiberSmartRecordIcon />
@@ -349,7 +504,7 @@ class VocabularyAudioModal extends Component {
               </Button>
               <Button
                 className="stop"
-                onClick={this.disableStop}
+                onClick={this.stopRecording}
                 disabled={this.state.record}
                 style={{color: "black", marginLeft: "8px"}}>
                 stop

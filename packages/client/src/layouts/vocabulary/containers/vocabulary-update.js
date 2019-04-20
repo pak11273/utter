@@ -90,14 +90,22 @@ class VocabularysUpdate extends Component {
     this.state = {
       vocabulary: [],
       level: session.level,
-      openModal: false
+      openModal: false,
+      stream: null
     }
 
     this.can = null
     this.tableRef = React.createRef()
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      /* video: true, */
+      audio: true
+    })
+    this.setState({
+      stream
+    })
     session.level = ""
     this.props.client
       .query({
@@ -255,17 +263,6 @@ class VocabularysUpdate extends Component {
     })
   }
 
-  handleAudio = () => () => {
-    this.setState({
-      openModal: true
-      /* modalGender: row.original.gender, */
-      /* modalLevel: row.original.level, */
-      /* modalWord: row.original.word, */
-      /* modalTranslation: row.original.translation, */
-      /* modalAudio: row.original.audio */
-    })
-  }
-
   causeRender = level => {
     this.setState(
       {
@@ -292,23 +289,16 @@ class VocabularysUpdate extends Component {
   }
 
   modalConfig = rowData => {
-    console.log("row: ", rowData)
     this.setState({
-      openModal: true
+      openModal: true,
+      rowData
     })
   }
 
-  /* openModal = () => { */
-  /*   return true */
-  /* } */
-
   resetOpenModal = () => {
-    this.setState(
-      {
-        openModal: false
-      },
-      console.log("parent state; ", this.state)
-    )
+    this.setState({
+      openModal: false
+    })
   }
 
   render() {
@@ -425,6 +415,8 @@ class VocabularysUpdate extends Component {
                                 <VocabularyAudioModal
                                   openModal={this.state.openModal}
                                   resetOpenModal={this.resetOpenModal}
+                                  rowData={this.state.rowData}
+                                  stream={this.state.stream}
                                 />
                               </div>
                             )}
