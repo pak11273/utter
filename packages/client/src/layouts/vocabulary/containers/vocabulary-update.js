@@ -18,7 +18,7 @@ import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import LastPage from "@material-ui/icons/LastPage"
-import Mic from "@material-ui/icons/Mic"
+/* import Mic from "@material-ui/icons/Mic" */
 import Play from "@material-ui/icons/PlayArrow"
 import Paper from "@material-ui/core/Paper"
 import Search from "@material-ui/icons/Search"
@@ -39,8 +39,8 @@ import {GET_COURSE} from "../../courses/xhr.js"
 import {styles} from "../../styles.js"
 /* import {LevelSelect} from "../components/level-select.js" */
 import {
-  LevelSelect
-  /* VocabularyAudioModal, */
+  LevelSelect,
+  VocabularyAudioModal
   /* VocabularyDeleteModal */
 } from "../components"
 import {Flex, FormikMTInput} from "../../../components"
@@ -52,15 +52,6 @@ import {Flex, FormikMTInput} from "../../../components"
 /*   modalTranslation: "translation", */
 /*   modalAudio: "audio" */
 /* } */
-
-/* const audioModal = ( */
-/*   <VocabularyAudioModal */
-/*     row={row} */
-/*     {...this.state} */
-/*     closeAudioModal={this.closeAudioModal} */
-/*     handleAudio={this.handleAudio} */
-/*   /> */
-/* ) */
 
 /* const audioDeleteModal = ( */
 /*   <VocabularyDeleteModal */
@@ -98,7 +89,8 @@ class VocabularysUpdate extends Component {
 
     this.state = {
       vocabulary: [],
-      level: session.level
+      level: session.level,
+      openAudioModal: false
     }
     this.can = null
     this.tableRef = React.createRef()
@@ -255,6 +247,24 @@ class VocabularysUpdate extends Component {
     this._updateTrash && this._updateTrash.trash()
   }
 
+  closeAudioModal = state => {
+    this.setState({
+      openAudioModal: false,
+      audioBlob: state.audioBlob
+    })
+  }
+
+  handleAudio = () => () => {
+    this.setState({
+      openAudioModal: true
+      /* modalGender: row.original.gender, */
+      /* modalLevel: row.original.level, */
+      /* modalWord: row.original.word, */
+      /* modalTranslation: row.original.translation, */
+      /* modalAudio: row.original.audio */
+    })
+  }
+
   causeRender = level => {
     this.setState(
       {
@@ -281,8 +291,15 @@ class VocabularysUpdate extends Component {
   }
 
   render() {
+    const audioModal = (
+      <VocabularyAudioModal
+        /* row={row} */
+        {...this.state}
+        closeAudioModal={this.closeAudioModal}
+        handleAudio={this.handleAudio}
+      />
+    )
     /* console.log(audioDeleteModal) */
-    /* console.log(audioModal) */
     const {classes} = this.props
 
     return (
@@ -385,12 +402,14 @@ class VocabularysUpdate extends Component {
                             perform="course:update-vocabulary"
                             id={session.user.username}
                             matchingID={session.course.owner.username}
-                            yes={() => (
-                              <IconButton onClick={() => alert("hi")}>
-                                <Mic />
-                              </IconButton>
-                            )}
+                            yes={() => audioModal}
                             no={() => null}
+                            /* yes={() => ( */
+                            /*   <IconButton onClick={() => audioModal}> */
+                            /*     <Mic /> */
+                            /*   </IconButton> */
+                            /* )} */
+                            /* no={() => null} */
                           />
                         )
                       }
@@ -409,7 +428,7 @@ class VocabularysUpdate extends Component {
                   options={{
                     actionsColumnIndex: -1,
                     filtering: true,
-                    pageSize: 10,
+                    pageSize: 5,
                     showTitle: false,
                     sorting: false,
                     rowStyle: x => {

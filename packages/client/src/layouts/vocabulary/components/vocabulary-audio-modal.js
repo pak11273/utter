@@ -1,20 +1,20 @@
 import React, {Component} from "react"
 /* import update from "immutability-helper" */
 
-import Button from "@material-ui/core/Button"
+/* import Button from "@material-ui/core/Button" */
 /* import DeleteIcon from "@material-ui/icons/Delete" */
 import Dialog from "@material-ui/core/Dialog"
-import DialogActions from "@material-ui/core/DialogActions"
+/* import DialogActions from "@material-ui/core/DialogActions" */
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import IconButton from "@material-ui/core/IconButton"
-import SpeakerIcon from "@material-ui/icons/RecordVoiceOver"
-import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
+import MicIcon from "@material-ui/icons/Mic"
+/* import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord" */
 import Typography from "@material-ui/core/Typography"
 
 /* import axios from "axios" */
-import Dropzone from "react-dropzone"
+/* import Dropzone from "react-dropzone" */
 import {bytesToSize} from "../../../utils/helpers.js"
 /* import CryptoJS from "crypto-js" */
 import isEmpty from "lodash/isEmpty"
@@ -231,70 +231,72 @@ class VocabularyAudioModal extends Component {
 
     return (
       <div>
-        {() => {
-          /* {({container: {levelDelete}}) => { */
-          /* const xhrDeleteLevel = async () => { */
-          /*   const finished = await levelDelete.mutation({ */
-          /*     variables: {courseId, level: modalLevel, title: modalTitle} */
-          /*   }) */
-          /*   if (finished.data.levelDelete.level.level) { */
-          /*     closeAudioModal() */
-          /*   } */
-          /* } */
-
-          return (
-            <Typography>
-              <IconButton onClick={handleAudio(row)}>
-                <SpeakerIcon />
-              </IconButton>
-              <Dialog
-                open={openAudioModal}
-                onClose={closeAudioModal}
-                onBackdropClick={this.resetState}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">
-                  Record your translation
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    You can either record your own or upload an audio file.
-                    Vocabulary audio files should be in .wav, webm, or mp3
-                    format and under 500 KB. Click Save when done. Clicking
-                    outside the window will reset everything.
-                  </DialogContentText>
-                  <Dropzone
-                    style={{
-                      alignItems: "center",
-                      borderWidth: "2px",
-                      borderColor: "rgb(102, 102, 102)",
-                      borderStyle: "dashed",
-                      borderRadius: "5px",
-                      display: "flex",
-                      height: "100px",
-                      justifyContent: "center",
-                      margin: "20px auto 0",
-                      padding: "3px",
-                      position: "relative",
-                      width: "200px"
-                    }}
-                    maxSize={500000}
-                    multiple={false}
-                    accept="audio/*"
-                    onDrop={this.onAudioDrop}>
-                    <div style={{padding: "30px", textAlign: "center"}}>
-                      {this.state.audioFileName}
-                    </div>
-                  </Dropzone>
-                  <div
-                    className="sound-clips"
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center"
-                    }}
-                  />
-                </DialogContent>
+        {/*			{() => {
+          {({container: {levelDelete}}) => {
+          const xhrDeleteLevel = async () => {
+            const finished = await levelDelete.mutation({
+              variables: {courseId, level: modalLevel, title: modalTitle}
+            })
+            if (finished.data.levelDelete.level.level) {
+              closeAudioModal()
+            }
+          }
+        return (
+					*/}
+        <Typography>
+          <IconButton onClick={handleAudio(row)}>
+            <MicIcon />
+          </IconButton>
+          <Dialog
+            open={openAudioModal}
+            onClose={closeAudioModal}
+            onBackdropClick={this.resetState}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description">
+            <DialogTitle id="alert-dialog-title">
+              Record your translation
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                You can either record your own or upload an audio file.
+                Vocabulary audio files should be in .wav, webm, or mp3 format
+                and under 500 KB. Click Save when done. Clicking outside the
+                window will reset everything.
+              </DialogContentText>
+              {/* <Dropzone
+                style={{
+                  alignItems: "center",
+                  borderWidth: "2px",
+                  borderColor: "rgb(102, 102, 102)",
+                  borderStyle: "dashed",
+                  borderRadius: "5px",
+                  display: "flex",
+                  height: "100px",
+                  justifyContent: "center",
+                  margin: "20px auto 0",
+                  padding: "3px",
+                  position: "relative",
+                  width: "200px"
+                }}
+                maxSize={500000}
+                multiple={false}
+                accept="audio/*"
+                onDrop={this.onAudioDrop}>
+                <div style={{padding: "30px", textAlign: "center"}}>
+                  {this.state.audioFileName}
+                </div>
+              </Dropzone>
+							*/}
+              <div
+                className="sound-clips"
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              />
+            </DialogContent>
+            {/*
                 <DialogActions
                   className="sound-clips"
                   style={{
@@ -325,13 +327,13 @@ class VocabularyAudioModal extends Component {
                     Save
                   </Button>
                 </DialogActions>
-              </Dialog>
-            </Typography>
-          )
-        }}
+	*/}
+          </Dialog>
+        </Typography>
       </div>
     )
   }
 }
+/* ) }} */
 
 export default withStyles(styles)(VocabularyAudioModal)
