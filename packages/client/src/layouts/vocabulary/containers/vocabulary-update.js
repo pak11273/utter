@@ -18,7 +18,7 @@ import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
 import IconButton from "@material-ui/core/IconButton"
 import LastPage from "@material-ui/icons/LastPage"
-/* import Mic from "@material-ui/icons/Mic" */
+import Mic from "@material-ui/icons/Mic"
 import Play from "@material-ui/icons/PlayArrow"
 import Paper from "@material-ui/core/Paper"
 import Search from "@material-ui/icons/Search"
@@ -90,8 +90,9 @@ class VocabularysUpdate extends Component {
     this.state = {
       vocabulary: [],
       level: session.level,
-      openAudioModal: false
+      openModal: false
     }
+
     this.can = null
     this.tableRef = React.createRef()
   }
@@ -247,16 +248,16 @@ class VocabularysUpdate extends Component {
     this._updateTrash && this._updateTrash.trash()
   }
 
-  closeAudioModal = state => {
+  closeModal = state => {
     this.setState({
-      openAudioModal: false,
+      openModal: false,
       audioBlob: state.audioBlob
     })
   }
 
   handleAudio = () => () => {
     this.setState({
-      openAudioModal: true
+      openModal: true
       /* modalGender: row.original.gender, */
       /* modalLevel: row.original.level, */
       /* modalWord: row.original.word, */
@@ -290,15 +291,27 @@ class VocabularysUpdate extends Component {
     )
   }
 
-  render() {
-    const audioModal = (
-      <VocabularyAudioModal
-        /* row={row} */
-        {...this.state}
-        closeAudioModal={this.closeAudioModal}
-        handleAudio={this.handleAudio}
-      />
+  modalConfig = rowData => {
+    console.log("row: ", rowData)
+    this.setState({
+      openModal: true
+    })
+  }
+
+  /* openModal = () => { */
+  /*   return true */
+  /* } */
+
+  resetOpenModal = () => {
+    this.setState(
+      {
+        openModal: false
+      },
+      console.log("parent state; ", this.state)
     )
+  }
+
+  render() {
     /* console.log(audioDeleteModal) */
     const {classes} = this.props
 
@@ -402,14 +415,20 @@ class VocabularysUpdate extends Component {
                             perform="course:update-vocabulary"
                             id={session.user.username}
                             matchingID={session.course.owner.username}
-                            yes={() => audioModal}
+                            yes={() => (
+                              <div>
+                                <IconButton
+                                  type="button"
+                                  onClick={() => this.modalConfig(rowData)}>
+                                  <Mic />
+                                </IconButton>
+                                <VocabularyAudioModal
+                                  openModal={this.state.openModal}
+                                  resetOpenModal={this.resetOpenModal}
+                                />
+                              </div>
+                            )}
                             no={() => null}
-                            /* yes={() => ( */
-                            /*   <IconButton onClick={() => audioModal}> */
-                            /*     <Mic /> */
-                            /*   </IconButton> */
-                            /* )} */
-                            /* no={() => null} */
                           />
                         )
                       }

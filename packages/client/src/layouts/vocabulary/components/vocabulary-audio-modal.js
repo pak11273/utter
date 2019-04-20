@@ -1,20 +1,20 @@
 import React, {Component} from "react"
-/* import update from "immutability-helper" */
 
-/* import Button from "@material-ui/core/Button" */
-/* import DeleteIcon from "@material-ui/icons/Delete" */
+import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
-/* import DialogActions from "@material-ui/core/DialogActions" */
+import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
 import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
-import IconButton from "@material-ui/core/IconButton"
-import MicIcon from "@material-ui/icons/Mic"
-/* import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord" */
+/* import IconButton from "@material-ui/core/IconButton" */
+/* import MicIcon from "@material-ui/icons/Mic" */
+import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
 import Typography from "@material-ui/core/Typography"
 
+import {LoadingButton} from "../../../components"
+
 /* import axios from "axios" */
-/* import Dropzone from "react-dropzone" */
+import Dropzone from "react-dropzone"
 import {bytesToSize} from "../../../utils/helpers.js"
 /* import CryptoJS from "crypto-js" */
 import isEmpty from "lodash/isEmpty"
@@ -24,6 +24,20 @@ import {withStyles} from "@material-ui/core/styles"
 const styles = theme => ({
   record: {
     backgroundColor: theme.palette.error
+  },
+  dropzone: {
+    alignItems: "center",
+    borderWidth: "2px",
+    borderColor: "rgb(102, 102, 102)",
+    borderStyle: "dashed",
+    borderRadius: "5px",
+    display: "flex",
+    height: "100px",
+    justifyContent: "center",
+    margin: "20px auto 0",
+    padding: "3px",
+    position: "relative",
+    width: "200px"
   }
 })
 
@@ -33,10 +47,11 @@ const initialState = {
   public_id: "",
   record: false,
   recordedBlobSize: 0,
-  saveDisabled: false,
+  isSaving: false,
   secure_url: "",
   signature: "",
-  url: ""
+  url: "",
+  vocabId: null
 }
 
 class VocabularyAudioModal extends Component {
@@ -52,19 +67,44 @@ class VocabularyAudioModal extends Component {
     })
   }
 
+  setVocabId = () => {
+    console.log("vocab props: ", this.props)
+  }
+
   enableStop = () => {
     this.setState({
       record: false
     })
   }
 
-  saveAudioModal = closeAudioModal => () => {
+  saveAudioModal = closeModal => () => {
     if (this.state.audioBlob) {
-      closeAudioModal(this.state)
+      // TODO: save loading button
+      this.setState({
+        isSaving: true
+      })
+      const prom = new Promise(resolve => {
+        setTimeout(() => {
+          // TODO: save to db
+          resolve("hello")
+        }, 3000)
+      })
+      prom
+        .then(res => {
+          this.setState({
+            isSaving: false,
+            audioBlob: null
+          })
+          closeModal(this.state)
+          alert(res)
+        })
+        .catch(err => console.log("err: ", err))
+      // succesful: change mic icon to play icon w/ delete
     }
   }
 
   resetState = () => {
+    console.log("gahahahahaha")
     this.setState({
       ...initialState
     })
@@ -126,16 +166,16 @@ class VocabularyAudioModal extends Component {
           var stop = document.querySelector(".stop")
           var soundClips = document.querySelector(".sound-clips")
           record.onclick = () => {
-            if (soundClips.childNodes.length === 1) {
-              record.disabled = true
-              alert(
-                "You can only record 1 audio clip at a time.  Delete your audio clip to record another."
-              )
-            } else {
-              recorder.startRecording()
-              record.style.background = "green"
-              record.style.color = "black"
-            }
+            /* if (soundClips.childNodes.length === 1) { */
+            /*   record.disabled = true */
+            /*   alert( */
+            /*     "You can only record 1 audio clip at a time.  Delete your audio clip to record another." */
+            /*   ) */
+            /* } else { */
+            recorder.startRecording()
+            record.style.background = "green"
+            record.style.color = "black"
+            /* } */
           }
 
           stop.onclick = async () => {
@@ -215,20 +255,20 @@ class VocabularyAudioModal extends Component {
     } else {
       console.log("getUserMedia not supported on your browser!")
     }
-    /* const {classes} = this.props */
     const {
-      handleAudio,
+      classes,
+      /* handleAudio, */
       /* handleDelete, */
       /* openDeleteModal, */
-      openAudioModal,
-      closeAudioModal,
+      openModal,
+      closeModal,
+      resetOpenModal
       /* closeDeleteModal, */
       /* courseId, */
       /* modalLevel, */
       /* modalTitle, */
-      row
+      /* rowData */
     } = this.props
-
     return (
       <div>
         {/*			{() => {
@@ -238,55 +278,50 @@ class VocabularyAudioModal extends Component {
               variables: {courseId, level: modalLevel, title: modalTitle}
             })
             if (finished.data.levelDelete.level.level) {
-              closeAudioModal()
+              closeModal()
             }
           }
         return (
 					*/}
         <Typography>
-          <IconButton onClick={handleAudio(row)}>
+          {/*
+          <IconButton onClick={handleAudio}>
             <MicIcon />
           </IconButton>
+          */}
           <Dialog
-            open={openAudioModal}
-            onClose={closeAudioModal}
-            onBackdropClick={this.resetState}
+            open={openModal}
+            /* onClose={closeModal} */
+            onBackdropClick={resetOpenModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
-            <DialogTitle id="alert-dialog-title">
-              Record your translation
-            </DialogTitle>
+            <DialogTitle id="alert-dialog-title">Record your audio</DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                You can either record your own or upload an audio file.
-                Vocabulary audio files should be in .wav, webm, or mp3 format
-                and under 500 KB. Click Save when done. Clicking outside the
-                window will reset everything.
+                You can either record your own or upload an audio file. Audio
+                files should be in .wav, webm, or mp3 format and under 500 KB.
+                Click Save when done. Clicking outside the window will reset
+                everything.
               </DialogContentText>
-              {/* <Dropzone
-                style={{
-                  alignItems: "center",
-                  borderWidth: "2px",
-                  borderColor: "rgb(102, 102, 102)",
-                  borderStyle: "dashed",
-                  borderRadius: "5px",
-                  display: "flex",
-                  height: "100px",
-                  justifyContent: "center",
-                  margin: "20px auto 0",
-                  padding: "3px",
-                  position: "relative",
-                  width: "200px"
-                }}
-                maxSize={500000}
-                multiple={false}
-                accept="audio/*"
-                onDrop={this.onAudioDrop}>
-                <div style={{padding: "30px", textAlign: "center"}}>
-                  {this.state.audioFileName}
-                </div>
-              </Dropzone>
-							*/}
+              <div className={classes.dropzone}>
+                <Dropzone
+                  accept="audio/*"
+                  maxSize={500000}
+                  multiple={false}
+                  onDrop={this.onAudioDrop}>
+                  {({getRootProps, getInputProps}) => (
+                    <section>
+                      <div {...getRootProps()}>
+                        <input {...getInputProps()} />
+                        <p style={{cursor: "pointer", textAlign: "center"}}>
+                          Click this <span style={{color: "blue"}}>link</span>{" "}
+                          or drop an audio file.
+                        </p>
+                      </div>
+                    </section>
+                  )}
+                </Dropzone>
+              </div>
               <div
                 className="sound-clips"
                 style={{
@@ -296,44 +331,43 @@ class VocabularyAudioModal extends Component {
                 }}
               />
             </DialogContent>
-            {/*
-                <DialogActions
-                  className="sound-clips"
-                  style={{
-                    alignItems: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "30px"
-                  }}>
-                  <Button
-                    variant="contained"
-                    className="record"
-                    color="secondary">
-                    <FiberSmartRecordIcon />
-                    <span style={{paddingLeft: "10px"}}>Rec</span>
-                  </Button>
-                  <Button
-                    className="stop"
-                    onClick={this.disableStop}
-                    disabled={this.state.record}
-                    style={{color: "black", marginLeft: "8px"}}>
-                    stop
-                  </Button>
-                  <Button
-                    disabled={this.state.saveDisabled}
-                    onClick={this.saveAudioModal(closeAudioModal)}
-                    style={{position: "absolute", right: "20px"}}
-                    color="secondary">
-                    Save
-                  </Button>
-                </DialogActions>
-	*/}
+            <DialogActions
+              className="sound-clips"
+              style={{
+                alignItems: "center",
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "30px"
+              }}>
+              <Button
+                className="record"
+                onClick={this.setVocabId}
+                variant="contained"
+                color="secondary">
+                <FiberSmartRecordIcon />
+                <span style={{paddingLeft: "10px"}}>REC</span>
+              </Button>
+              <Button
+                className="stop"
+                onClick={this.disableStop}
+                disabled={this.state.record}
+                style={{color: "black", marginLeft: "8px"}}>
+                stop
+              </Button>
+              <LoadingButton
+                spinner="#2979FF"
+                loading={this.state.isSaving}
+                disabled={this.state.isSaving}
+                onClick={this.saveAudioModal(closeModal)}
+                style={{position: "absolute", right: "20px"}}
+                color="secondary">
+                Save
+              </LoadingButton>
+            </DialogActions>
           </Dialog>
         </Typography>
       </div>
     )
   }
 }
-/* ) }} */
-
 export default withStyles(styles)(VocabularyAudioModal)

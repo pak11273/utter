@@ -41,11 +41,12 @@ export default props => {
           id: "level",
           name: "level"
         }}>
-        {levelsIdsArr.map(level => (
-          <MenuItem key={level} value={level}>
-            {levelsIdsArr.indexOf(level) + 1}
-          </MenuItem>
-        ))}
+        {levelsIdsArr &&
+          levelsIdsArr.map(level => (
+            <MenuItem key={level} value={level}>
+              {levelsIdsArr.indexOf(level) + 1}
+            </MenuItem>
+          ))}
       </Select>
     </Flex>
   )
