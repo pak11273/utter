@@ -233,6 +233,16 @@ class VocabularyAudioModal extends Component {
     })
   }
 
+  resetOpenModal = () => {
+    this.setState(
+      {
+        audioBlob: null
+      },
+      () => console.log("state: ", this.state)
+    )
+    this.props.resetOpenModal()
+  }
+
   onAudioDrop = (files, rejected) => {
     this.resetState()
     if (!isEmpty(rejected)) {
@@ -285,7 +295,6 @@ class VocabularyAudioModal extends Component {
       /* openDeleteModal, */
       openModal,
       closeModal,
-      resetOpenModal,
       /* closeDeleteModal, */
       /* courseId, */
       /* modalLevel, */
@@ -310,7 +319,7 @@ class VocabularyAudioModal extends Component {
           <Dialog
             open={openModal}
             /* onClose={closeModal} */
-            onBackdropClick={resetOpenModal}
+            onBackdropClick={this.resetOpenModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description">
             <DialogTitle id="alert-dialog-title">Record your audio</DialogTitle>
