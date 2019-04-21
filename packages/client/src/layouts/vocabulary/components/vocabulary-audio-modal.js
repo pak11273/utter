@@ -22,7 +22,7 @@ import isEmpty from "lodash/isEmpty"
 import RecordRTCPromisesHandler from "recordrtc"
 import {withStyles} from "@material-ui/core/styles"
 
-import {AUDIO_SAVE} from "../xhr.js"
+import {VOCABULARY_AUDIO_SAVE} from "../xhr.js"
 
 const styles = theme => ({
   record: {
@@ -78,8 +78,8 @@ class VocabularyAudioModal extends Component {
 
   componentDidMount = async () => {
     if (window.stream) {
-      /* const recorder = RecordRTC(stream, {type: "audio", disableLogs: true}) */
       this.recorder = new RecordRTCPromisesHandler(window.stream, {
+        disableLogs: true,
         type: "audio"
       })
     }
@@ -96,13 +96,6 @@ class VocabularyAudioModal extends Component {
         })
 
         this.recorder.getDataURL(dataUrl => {
-          /* var files = { */
-          /*   audio: { */
-          /*     author: "utterzone", */
-          /*     type: "audio/wav", */
-          /*     dataUrl */
-          /*   } */
-          /* } */
           this.setState({
             audioFileName: "recorded.webm",
             audioBlob: dataUrl
@@ -118,21 +111,6 @@ class VocabularyAudioModal extends Component {
         audio.src = audioUrl
 
         audioSize.innerHTML = this.state.readableBlobSize
-
-        this.recorder.getDataURL(dataUrl => {
-          console.log("dataUrl: ", dataUrl)
-          /* var files = { */
-          /*   audio: { */
-          /*     author: "utterzone", */
-          /*     type: "audio/wav", */
-          /*     dataUrl */
-          /*   } */
-          /* } */
-          this.setState({
-            audioFileName: "recorded.webm"
-            /* audioBlob: dataUrl */
-          })
-        })
 
         clipContainer.classList.add("clip")
         clipContainer.setAttribute(
@@ -218,19 +196,16 @@ class VocabularyAudioModal extends Component {
           })
           closeModal()
 
-          // TODO: save audioUrl to db
+          // save audioUrl to db
           this.props.client.mutate({
-            mutation: AUDIO_SAVE,
+            mutation: VOCABULARY_AUDIO_SAVE,
+
             variables: {
               audioUrl: res.secure_url,
-              vocabId: this.state.vocabId,
-
+              _id: this.state.vocabId,
               tags: res.tags
             }
           })
-
-          /* res.secure_url */
-          /* res.tags */
         })
         .catch(err => console.log("err: ", err))
     }

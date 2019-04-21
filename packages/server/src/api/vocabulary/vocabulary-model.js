@@ -16,6 +16,9 @@ const VocabularySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Level"
   },
+  tags: {
+    type: Array
+  },
   translation: {
     type: String,
     required: [true, "can't be blank"]

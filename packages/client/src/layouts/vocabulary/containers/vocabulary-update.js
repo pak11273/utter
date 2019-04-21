@@ -287,6 +287,11 @@ class VocabularysUpdate extends Component {
     })
   }
 
+  playAudio = rowData => {
+    const a = new Audio(rowData.audioUrl)
+    a.play()
+  }
+
   resetOpenModal = () => {
     this.setState({
       openModal: false
@@ -373,7 +378,8 @@ class VocabularysUpdate extends Component {
                         if (rowData && rowData.audioUrl) {
                           return (
                             <Flex flexdirection="row">
-                              <IconButton>
+                              <IconButton
+                                onClick={() => this.playAudio(rowData)}>
                                 <Play />
                               </IconButton>
                               <Can
@@ -433,7 +439,7 @@ class VocabularysUpdate extends Component {
                     filtering: true,
                     pageSize: 5,
                     showTitle: false,
-                    sorting: false,
+                    sorting: true,
                     rowStyle: x => {
                       if (x.vocabulary % 2) {
                         return {backgroundColor: "#f2f2f2"}

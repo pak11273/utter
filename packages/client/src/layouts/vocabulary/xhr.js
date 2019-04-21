@@ -91,9 +91,9 @@ export const VOCABULARY_DELETE = gql`
   }
 `
 
-export const AUDIO_SAVE = gql`
-  mutation vocabularyAudioSave($_id: ID, $audioUrl: String) {
-    vocabularyAudioSave(_id: $_id, audioUrl: $audioUrl) {
+export const VOCABULARY_AUDIO_SAVE = gql`
+  mutation vocabularyAudioSave($_id: ID, $audioUrl: String, $tags: [String]) {
+    vocabularyAudioSave(_id: $_id, audioUrl: $audioUrl, tags: $tags) {
       vocabulary {
         _id
       }

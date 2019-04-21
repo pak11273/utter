@@ -17,7 +17,9 @@ const vocabularyAudioSave = async (_, args, ctx, info) => {
   const arrayOfErrors = []
 
   try {
-    const vocabulary = await Vocabulary.findByIdAndUpdate(args._id, args).exec()
+    const vocabulary = await Vocabulary.findByIdAndUpdate(args._id, args, {
+      new: true
+    }).lean()
 
     console.log("vocabulary: ", vocabulary)
 
