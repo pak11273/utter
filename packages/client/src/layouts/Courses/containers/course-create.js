@@ -31,7 +31,7 @@ import {
   Using
 } from "../../../components"
 
-import {handleCloudinaryUpload} from "../../../utils/cloudinary-upload.js"
+import {handleCloudinaryUpload} from "../../../utils/cloudinary-utils.js"
 
 const DisplayCount = styled.div`
   font-size: 0.8rem;

@@ -107,7 +107,7 @@ class CourseUpdate extends PureComponent {
                     roles={user && user.roles}
                     perform="course:read-settings"
                     id={user && user.username}
-                    matchingID={course.owner.username}
+                    matchingID={course && course.owner.username}
                     yes={() => (
                       <ListItem
                         button
