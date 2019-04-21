@@ -44,7 +44,7 @@ var _isEmpty = _interopRequireDefault(require("lodash/isEmpty"));
 var _brownies = require("brownies");
 
 function _templateObject() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      user {\n        _id\n        username\n        email\n        roles\n        scopes\n        subscriptions {\n          _id\n          title\n          levels {\n            _id\n          }\n        }\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]);
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      user {\n        _id\n        username\n        roles\n        scopes\n        subscriptions {\n          _id\n          title\n          levels {\n            _id\n          }\n        }\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]);
 
   _templateObject = function _templateObject() {
     return data;

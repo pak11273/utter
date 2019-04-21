@@ -27,10 +27,7 @@ const GET_USER_BY_TOKEN = gql`
       createdCourses {
         _id
       }
-      createdAt
-      email
       _id
-      password
       roles
       scopes
       subscriptions {
@@ -40,7 +37,6 @@ const GET_USER_BY_TOKEN = gql`
           level
         }
       }
-      updatedAt
       username
     }
   }

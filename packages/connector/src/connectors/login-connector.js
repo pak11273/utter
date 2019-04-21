@@ -44,7 +44,6 @@ const loginMutation = gql`
       user {
         _id
         username
-        email
         roles
         scopes
         subscriptions {

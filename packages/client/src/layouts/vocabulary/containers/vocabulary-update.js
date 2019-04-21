@@ -120,7 +120,10 @@ class VocabularysUpdate extends Component {
         session.levelsIdsArr = res.data.getCourse.levelSort
       })
 
+    console.log("name; ", session.user.username)
+    console.log("owner: ", session.course.owner.username)
     if (session.user.username === session.course.owner.username) {
+      console.log("yes")
       this.can = {
         onRowAdd: async newData => {
           const add = new Promise(resolve => {
