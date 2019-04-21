@@ -88,9 +88,10 @@ class VocabularysUpdate extends Component {
     super(props)
 
     this.state = {
-      vocabulary: [],
       level: session.level,
-      openModal: false
+      openModal: false,
+      rowData: null,
+      vocabulary: []
     }
 
     this.can = null
@@ -248,10 +249,9 @@ class VocabularysUpdate extends Component {
     this._updateTrash && this._updateTrash.trash()
   }
 
-  closeModal = state => {
+  closeModal = () => {
     this.setState({
-      openModal: false,
-      audioBlob: state.audioBlob
+      openModal: false
     })
   }
 
@@ -405,6 +405,7 @@ class VocabularysUpdate extends Component {
                                   <Mic />
                                 </IconButton>
                                 <VocabularyAudioModal
+                                  closeModal={this.closeModal}
                                   openModal={this.state.openModal}
                                   resetOpenModal={this.resetOpenModal}
                                   rowData={this.state.rowData}

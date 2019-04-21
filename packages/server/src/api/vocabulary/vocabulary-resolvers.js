@@ -12,6 +12,70 @@ const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
 
+const vocabularyAudioSave = async (_, args, ctx, info) => {
+  console.log("args: ", args)
+  const arrayOfErrors = []
+
+  try {
+    const vocabulary = await Vocabulary.findByIdAndUpdate(args._id, args).exec()
+
+    console.log("vocabulary: ", vocabulary)
+
+    return {
+      vocabulary,
+      errors: arrayOfErrors
+    }
+  } catch (err) {
+    return {
+      vocabulary: null,
+      errors: arrayOfErrors
+    }
+  }
+}
+
+const vocabularyCreate = async (_, args, ctx, info) => {
+  const arrayOfErrors = []
+
+  const {input} = args
+  try {
+    if (!ctx.isAuth) {
+      throw new Error("You need to be registered to create a course.")
+    }
+
+    const userId = ctx.req.token._id
+
+    const user = await User.findById(userId, (err, res) => {
+      if (err) return err
+      return res
+    })
+
+    const newVocabulary = new Vocabulary({
+      audioUrl: input.audioUrl,
+      level: input.level,
+      gender: input.gender,
+      translation: input.translation,
+      word: input.word
+    })
+
+    const vocabulary = await newVocabulary.save()
+
+    const level = await Level.findById(input.level)
+    level.vocabulary.push(vocabulary)
+    level.save()
+
+    if (!level) {
+      throw new Error("Level not found.")
+    }
+
+    return {
+      vocabulary,
+      errors: arrayOfErrors
+    }
+  } catch (err) {
+    throw err
+  }
+}
+
 const getVocabulary = async (_, {level}, {user}) => {
   const vocabulary = await Vocabulary.findById(level).exec()
   if (!vocabulary) {
@@ -75,49 +139,6 @@ const vocabularyUpdate = async (_, {input}) => {
   }
 }
 
-const vocabularyCreate = async (_, args, ctx, info) => {
-  const arrayOfErrors = []
-
-  const {input} = args
-  try {
-    if (!ctx.isAuth) {
-      throw new Error("You need to be registered to create a course.")
-    }
-
-    const userId = ctx.req.token._id
-
-    const user = await User.findById(userId, (err, res) => {
-      if (err) return err
-      return res
-    })
-
-    const newVocabulary = new Vocabulary({
-      audioUrl: input.audioUrl,
-      level: input.level,
-      gender: input.gender,
-      translation: input.translation,
-      word: input.word
-    })
-
-    const vocabulary = await newVocabulary.save()
-
-    const level = await Level.findById(input.level)
-    level.vocabulary.push(vocabulary)
-    level.save()
-
-    if (!level) {
-      throw new Error("Level not found.")
-    }
-
-    return {
-      vocabulary,
-      errors: arrayOfErrors
-    }
-  } catch (err) {
-    throw err
-  }
-}
-
 const getVocabularies = async (_, args, ctx, info) => {
   const arrayOfErrors = []
   let result = await Level.findById(args.level)
@@ -149,9 +170,10 @@ export const vocabularyResolvers = {
     getVocabularies
   },
   Mutation: {
+    vocabularyAudioSave,
+    vocabularyCreate,
     vocabularyDelete,
-    vocabularyUpdate,
-    vocabularyCreate
+    vocabularyUpdate
   }
   /* Vocabulary: { */
   /*   async course(vocabulary) { */

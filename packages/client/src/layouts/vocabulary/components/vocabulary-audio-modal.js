@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-
+import {withApollo} from "react-apollo"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
@@ -21,6 +21,8 @@ import {handleCloudinaryUpload} from "../../../utils/cloudinary-utils.js"
 import isEmpty from "lodash/isEmpty"
 import RecordRTCPromisesHandler from "recordrtc"
 import {withStyles} from "@material-ui/core/styles"
+
+import {AUDIO_SAVE} from "../xhr.js"
 
 const styles = theme => ({
   record: {
@@ -101,13 +103,10 @@ class VocabularyAudioModal extends Component {
           /*     dataUrl */
           /*   } */
           /* } */
-          this.setState(
-            {
-              audioFileName: "recorded.webm",
-              audioBlob: dataUrl
-            },
-            console.log("state; ", this.state)
-          )
+          this.setState({
+            audioFileName: "recorded.webm",
+            audioBlob: dataUrl
+          })
         })
 
         var soundClips = this.myRef.current
@@ -198,18 +197,16 @@ class VocabularyAudioModal extends Component {
 
   saveAudioModal = closeModal => async () => {
     if (this.state.audioBlob) {
-      // TODO: save loading button
       this.setState({
         isSaving: true
       })
       const prom = new Promise(async resolve => {
-        // TODO: save to cdn
+        // save to cdn
         const file = this.state.audioBlob
         const type = "video"
         const folder = "vocabulary-audio"
         const tags = [session.user.username]
         const response = await handleCloudinaryUpload(file, type, folder, tags)
-        // TODO: save audioUrl to db
         resolve(response)
       })
       prom
@@ -219,11 +216,23 @@ class VocabularyAudioModal extends Component {
             isSaving: false,
             audioBlob: null
           })
-          closeModal(this.state)
-          alert(res)
+          closeModal()
+
+          // TODO: save audioUrl to db
+          this.props.client.mutate({
+            mutation: AUDIO_SAVE,
+            variables: {
+              audioUrl: res.secure_url,
+              vocabId: this.state.vocabId,
+
+              tags: res.tags
+            }
+          })
+
+          /* res.secure_url */
+          /* res.tags */
         })
         .catch(err => console.log("err: ", err))
-      // succesful: change mic icon to play icon w/ delete
     }
   }
 
@@ -234,12 +243,11 @@ class VocabularyAudioModal extends Component {
   }
 
   resetOpenModal = () => {
-    this.setState(
-      {
-        audioBlob: null
-      },
-      () => console.log("state: ", this.state)
-    )
+    this.recorder.stopRecording()
+    this.setState({
+      recording: false,
+      audioBlob: null
+    })
     this.props.resetOpenModal()
   }
 
@@ -398,4 +406,4 @@ class VocabularyAudioModal extends Component {
     )
   }
 }
-export default withStyles(styles)(VocabularyAudioModal)
+export default withStyles(styles)(withApollo(VocabularyAudioModal))

@@ -90,3 +90,17 @@ export const VOCABULARY_DELETE = gql`
     }
   }
 `
+
+export const AUDIO_SAVE = gql`
+  mutation vocabularyAudioSave($_id: ID, $audioUrl: String) {
+    vocabularyAudioSave(_id: $_id, audioUrl: $audioUrl) {
+      vocabulary {
+        _id
+      }
+      errors {
+        path
+        message
+      }
+    }
+  }
+`
