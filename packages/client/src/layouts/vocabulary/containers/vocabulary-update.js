@@ -90,8 +90,7 @@ class VocabularysUpdate extends Component {
     this.state = {
       vocabulary: [],
       level: session.level,
-      openModal: false,
-      stream: null
+      openModal: false
     }
 
     this.can = null
@@ -99,13 +98,6 @@ class VocabularysUpdate extends Component {
   }
 
   componentDidMount = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      /* video: true, */
-      audio: true
-    })
-    this.setState({
-      stream
-    })
     session.level = ""
     this.props.client
       .query({
@@ -119,11 +111,9 @@ class VocabularysUpdate extends Component {
         session.levels = res.data.getCourse.levels
         session.levelsIdsArr = res.data.getCourse.levelSort
       })
+      .catch(err => console.log("err: ", err))
 
-    console.log("name; ", session.user.username)
-    console.log("owner: ", session.course.owner.username)
     if (session.user.username === session.course.owner.username) {
-      console.log("yes")
       this.can = {
         onRowAdd: async newData => {
           const add = new Promise(resolve => {
@@ -255,7 +245,6 @@ class VocabularysUpdate extends Component {
     // garbage collection
     this._addTrash && this._addTrash.trash()
     this._newVocabularyTrash && this._newVocabularyTrash.trash()
-    /* this._sortTrash && this._sortTrash.trash() */
     this._updateTrash && this._updateTrash.trash()
   }
 
@@ -419,7 +408,6 @@ class VocabularysUpdate extends Component {
                                   openModal={this.state.openModal}
                                   resetOpenModal={this.resetOpenModal}
                                   rowData={this.state.rowData}
-                                  stream={this.state.stream}
                                 />
                               </div>
                             )}

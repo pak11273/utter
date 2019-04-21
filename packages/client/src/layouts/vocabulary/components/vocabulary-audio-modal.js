@@ -75,20 +75,9 @@ class VocabularyAudioModal extends Component {
   }
 
   componentDidMount = async () => {
-    /* if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
-    /* const stream = await navigator.mediaDevices.getUserMedia({ */
-    /*   /1* video: true, *1/ */
-    /*   audio: true */
-    /* }) */
-    /*       console.log("The following gUM error occured: " + err) */
-    /*     }) */
-    /* } else { */
-    /*   console.log("getUserMedia not supported on your browser!") */
-    /* } */
-
-    if (this.props.stream) {
+    if (window.stream) {
       /* const recorder = RecordRTC(stream, {type: "audio", disableLogs: true}) */
-      this.recorder = new RecordRTCPromisesHandler(this.props.stream, {
+      this.recorder = new RecordRTCPromisesHandler(window.stream, {
         type: "audio"
       })
     }
@@ -192,7 +181,7 @@ class VocabularyAudioModal extends Component {
     }
   }
 
-  startRecording = () => {
+  startRecording = async () => {
     this.recorder.startRecording()
 
     this.setState({
@@ -239,7 +228,6 @@ class VocabularyAudioModal extends Component {
   }
 
   resetState = () => {
-    console.log("gahahahahaha")
     this.setState({
       ...initialState
     })

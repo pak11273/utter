@@ -63,7 +63,19 @@ class CourseUpdate extends PureComponent {
     this.state = cloneDeep(initialCoursesContainerState)
   }
 
-  componentDidMount = async () => {}
+  componentDidMount = async () => {
+    session.layoutError = null
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        /* video: true, */
+        audio: true
+      })
+      window.stream = stream
+    } else {
+      session.layoutError =
+        "Your browser does not support getUserMedia.  Please upgrade to a modern browser such as Google Chrome or Mozilla Firefox."
+    }
+  }
 
   handleImageClick = e => {
     e.preventDefault()
@@ -164,8 +176,26 @@ class CourseUpdate extends PureComponent {
             <title>Utterzone | Courses</title>
             <link rel="canonical" href="https://utter.zone/courses" />
           </Helmet>
-          {routes.map(route => (
-            <SubRoutes key={route.path} {...route} />
+          {routes.map((route, i) => (
+            <React.Fragment key={i}>
+              {session.layoutError ? (
+                <div
+                  style={{
+                    color: "red",
+                    fontFamily: "sans-serif",
+                    fontSize: "1.2em",
+                    lineHeight: "3em",
+                    maxWidth: "650px",
+                    position: "absolute",
+                    textAlign: "center",
+                    top: 300
+                  }}>
+                  {session.layoutError}
+                </div>
+              ) : (
+                <SubRoutes key={route.path} {...route} />
+              )}
+            </React.Fragment>
           ))}
         </main>
       </div>
