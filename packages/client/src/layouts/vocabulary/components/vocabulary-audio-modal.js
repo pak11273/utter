@@ -69,6 +69,7 @@ class VocabularyAudioModal extends Component {
 
   constructor() {
     super()
+    this.myRef = React.createRef()
 
     this.state = initialState
   }
@@ -99,12 +100,11 @@ class VocabularyAudioModal extends Component {
   }
 
   stopRecording = async () => {
-    /* await this.recorder.stopRecording() */
+    try {
+      /* await this.recorder.stopRecording() */
 
-    /* const blob = await this.recorder.getBlob() */
-
-    await this.recorder
-      .stopRecording(audioUrl => {
+      /* const blob = await this.recorder.getBlob() */
+      await this.recorder.stopRecording(audioUrl => {
         var recordedBlob = this.recorder.getBlob()
         this.setState(
           {
@@ -137,7 +137,9 @@ class VocabularyAudioModal extends Component {
         })
 
         /* var stop = document.querySelector(".stop") */
-        var soundClips = document.querySelector(".sound-clips")
+        /* var soundClips = document.querySelector(".sound-clips") */
+        /* var soundClips = document.getElementById("audioAdrenaline") */
+        var soundClips = this.myRef.current
 
         var audio = document.createElement("audio")
         var clipContainer = document.createElement("Article")
@@ -193,20 +195,20 @@ class VocabularyAudioModal extends Component {
           /* record.disabled = false */
         }
       })
-      .catch(err => {
-        console.log("The following gUM error occured: " + err)
+
+      /* this.setState( */
+      /*   { */
+      /*     blob */
+      /*   }, */
+      /*   console.log("blob: ", this.state) */
+      /* ) */
+
+      this.setState({
+        record: true
       })
-
-    /* this.setState( */
-    /*   { */
-    /*     blob */
-    /*   }, */
-    /*   console.log("blob: ", this.state) */
-    /* ) */
-
-    this.setState({
-      record: true
-    })
+    } catch (err) {
+      console.log("The following gUM error occured: " + err)
+    }
   }
 
   startRecording = () => {
@@ -477,7 +479,8 @@ class VocabularyAudioModal extends Component {
                 </Dropzone>
               </div>
               <div
-                className="sound-clips"
+                id="audioAdrenaline"
+                ref={this.myRef}
                 style={{
                   display: "flex",
                   justifyContent: "center",
@@ -486,7 +489,6 @@ class VocabularyAudioModal extends Component {
               />
             </DialogContent>
             <DialogActions
-              className="sound-clips"
               style={{
                 alignItems: "center",
                 display: "flex",
