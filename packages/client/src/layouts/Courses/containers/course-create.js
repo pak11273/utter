@@ -200,7 +200,7 @@ class CourseCreate extends Component {
   handleImageDelete = async state => {
     if (this.state.public_id) {
       const timestamp = await (Date.now() / 1000 || 0).toString()
-      const apiSecret = process.env.CLOUDINARY_SECRET
+      const apiSecret = process.env.CLOUDINARY_API_SECRET
       const hashString = `public_id=${
         state.public_id
       }&timestamp=${timestamp}${apiSecret}`

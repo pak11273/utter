@@ -244,32 +244,7 @@ class VocabularyAudioModal extends Component {
     }
   }
 
-  /* handleAudioDelete = async state => { */
-  handleAudioDelete = async () => {
-    /* const timestamp = await (Date.now() / 1000 || 0).toString() */
-    /* const apiSecret = "cWVpcWZDHFMA9H5Djue1uWHXcLo" */
-    /* const hashString = `public_id=${ */
-    /* state.public_id */
-    /* }&timestamp=${timestamp}${apiSecret}` */
-    /* const signature = CryptoJS.SHA1(hashString).toString() */
-    /* axios({ */
-    /*   method: "post", */
-    /*   url: "https://api.cloudinary.com/v1_1/dgvw5b6pf/image/destroy/", */
-    /*   data: { */
-    /*     api_key: "225688292439754", */
-    /*     public_id: state.public_id, */
-    /*     resource_type: "image", */
-    /*     signature, */
-    /*     timestamp */
-    /*   } */
-    /* }) */
-    /* .then(res => { */
-    /*   return res */
-    /* }) */
-    /* .catch(err => { */
-    /*   throw err.response.data.error */
-    /* }) */
-  }
+  handleAudioDelete = async () => {}
 
   render() {
     const {

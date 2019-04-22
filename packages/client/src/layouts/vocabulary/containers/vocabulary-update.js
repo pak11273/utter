@@ -29,6 +29,7 @@ import {courseVocabularySchema} from "../yupSchemas.js"
 import MaterialTable, {MTableEditRow, MTableToolbar} from "material-table"
 import {
   GET_VOCABULARIES,
+  VOCABULARY_AUDIO_DELETE,
   VOCABULARY_CREATE,
   VOCABULARY_DELETE,
   VOCABULARY_UPDATE
@@ -287,6 +288,20 @@ class VocabularysUpdate extends Component {
     })
   }
 
+  deleteAudio = async rowData => {
+    this.props.client
+      .mutate({
+        mutation: VOCABULARY_AUDIO_DELETE,
+        variables: {
+          _id: rowData._id
+        }
+      })
+      .then(res => {
+        console.log("res; ", res)
+      })
+      .catch(err => console.log("err: ", err))
+  }
+
   playAudio = rowData => {
     const a = new Audio(rowData.audioUrl)
     a.play()
@@ -388,7 +403,8 @@ class VocabularysUpdate extends Component {
                                 id={session.user.username}
                                 matchingID={session.course.owner.username}
                                 yes={() => (
-                                  <IconButton>
+                                  <IconButton
+                                    onClick={() => this.deleteAudio(rowData)}>
                                     <Delete />
                                   </IconButton>
                                 )}

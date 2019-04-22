@@ -35,6 +35,35 @@ const vocabularyAudioSave = async (_, args, ctx, info) => {
   }
 }
 
+const vocabularyAudioDelete = async (_, args, ctx, info) => {
+  console.log("args: ", args)
+  const arrayOfErrors = []
+
+  try {
+    // delete from cdn
+    const apiSecret = process.env.CLOUDINARY_API_SECRET
+    const apiKey = process.env.CLOUDINARY_API_KEY
+    console.log("api secrets: ", apiSecret)
+    console.log("api key: ", apiKey)
+
+    /* const vocabulary = await Vocabulary.findByIdAndUpdate(args._id, args, { */
+    /*   new: true */
+    /* }).lean() */
+
+    /* console.log("vocabulary: ", vocabulary) */
+
+    return {
+      vocabulary: {},
+      errors: arrayOfErrors
+    }
+  } catch (err) {
+    return {
+      /*   vocabulary: null, */
+      /*   errors: arrayOfErrors */
+    }
+  }
+}
+
 const vocabularyCreate = async (_, args, ctx, info) => {
   const arrayOfErrors = []
 
@@ -173,6 +202,7 @@ export const vocabularyResolvers = {
   },
   Mutation: {
     vocabularyAudioSave,
+    vocabularyAudioDelete,
     vocabularyCreate,
     vocabularyDelete,
     vocabularyUpdate

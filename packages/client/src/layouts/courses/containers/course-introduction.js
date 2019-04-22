@@ -429,9 +429,9 @@ const CourseIntroduction = props => {
                 </Grid>
                 <Grid container style={{margin: "50px auto"}}>
                   <Can
-                    roles={user.roles}
+                    roles={user && user.roles}
                     perform="course:update-introduction"
-                    id={user.username}
+                    id={user && user.username}
                     matchingID={course.owner.username}
                     yes={() => (
                       <Grid item xs={12} align="center">
