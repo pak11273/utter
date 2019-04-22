@@ -28,6 +28,9 @@ var VocabularySchema = new _mongoose.default.Schema({
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Level"
   },
+  tags: {
+    type: Array
+  },
   translation: {
     type: String,
     required: [true, "can't be blank"]
