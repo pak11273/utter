@@ -15,8 +15,9 @@ var _chalk = _interopRequireDefault(require("chalk"));
 
 _dotenv.default.config();
 
-var cloudinary = require("cloudinary").v2; // setup globals
+var cloudinary = require("cloudinary").v2;
 
+console.log("api key: ", process.env.CLOUDINARY_API_KEY); // setup globals
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
