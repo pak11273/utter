@@ -17,6 +17,8 @@ _dotenv.default.config();
 
 var cloudinary = require("cloudinary").v2;
 
+console.log("api cloudname: ", process.env.CLOUDINARY_CLOUD_NAME);
+console.log("api secret: ", process.env.CLOUDINARY_API_SECRET);
 console.log("api key: ", process.env.CLOUDINARY_API_KEY); // setup globals
 
 cloudinary.config({
