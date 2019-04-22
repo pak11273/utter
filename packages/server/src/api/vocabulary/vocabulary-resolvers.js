@@ -1,4 +1,5 @@
 import isEmpty from "lodash/isEmpty"
+var cloudinary = require("cloudinary").v2
 import config from "../../config"
 import jwt from "jsonwebtoken"
 import mongoose from "mongoose"
@@ -41,25 +42,40 @@ const vocabularyAudioDelete = async (_, args, ctx, info) => {
 
   try {
     // delete from cdn
-    const apiSecret = process.env.CLOUDINARY_API_SECRET
-    const apiKey = process.env.CLOUDINARY_API_KEY
-    console.log("api secrets: ", apiSecret)
-    console.log("api key: ", apiKey)
+    const folder = "vocabulary-audio"
+    cloudinary.uploader.destroy(
+      folder + "/" + args.public_id,
+      {
+        invalidate: true,
+        resource_type: "video"
+      },
+      async (err, result) => {
+        if (err) {
+          throw err
+        }
+        const vocabulary = await Vocabulary.findByIdAndUpdate(
+          args._id,
+          {audioUrl: null},
+          {
+            new: true
+          }
+        ).exec()
 
-    /* const vocabulary = await Vocabulary.findByIdAndUpdate(args._id, args, { */
-    /*   new: true */
-    /* }).lean() */
-
-    /* console.log("vocabulary: ", vocabulary) */
-
-    return {
-      vocabulary: {},
-      errors: arrayOfErrors
-    }
+        console.log("vocabulary: ", vocabulary)
+        return {
+          vocabulary,
+          errors: arrayOfErrors
+        }
+      }
+    )
   } catch (err) {
+    arrayOfErrors.push({
+      path: "audio",
+      message: err
+    })
     return {
-      /*   vocabulary: null, */
-      /*   errors: arrayOfErrors */
+      vocabulary: null,
+      errors: arrayOfErrors
     }
   }
 }

@@ -45,7 +45,7 @@ extend type Query {
 
 extend type Mutation {
 	vocabularyAudioSave(_id: ID, audioUrl: String, tags: [String]): VocabularyPayload
-	vocabularyAudioDelete(_id: ID): VocabularyPayload
+	vocabularyAudioDelete(_id: ID, public_id: String): VocabularyPayload
 	vocabularyCreate(input: VocabularyCreateInput!): VocabularyPayload
 	vocabularyDelete(_id: ID): VocabularyPayload 
   vocabularyUpdate(input: VocabularyUpdated!): VocabularyPayload
