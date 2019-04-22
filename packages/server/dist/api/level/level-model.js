@@ -19,6 +19,10 @@ var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
 var _vocabularyModel = _interopRequireDefault(require("../vocabulary/vocabulary-model.js"));
 
+var _cloudinaryUtils = require("../../utils/cloudinary-utils.js");
+
+var cloudinary = require("cloudinary").v2;
+
 var LevelSchema = new _mongoose.default.Schema({
   title: {
     type: String,
@@ -87,31 +91,70 @@ function () {
   var _ref = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee(level) {
+    var vocabularies, filteredVocabularies, public_ids;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             _context.next = 3;
+            return _vocabularyModel.default.find({
+              level: level._id
+            }).select({
+              audioUrl: 1
+            });
+
+          case 3:
+            vocabularies = _context.sent;
+            filteredVocabularies = vocabularies.map(function (item) {
+              if (item.audioUrl) {
+                var public_id = (0, _cloudinaryUtils.getPublicId)(item.audioUrl);
+                return public_id;
+              }
+            }); // bulk delete audioUrl from cdn
+
+            if (!(filteredVocabularies.length > 0)) {
+              _context.next = 10;
+              break;
+            }
+
+            public_ids = filteredVocabularies.reduce(function (acc, id) {
+              if (id) {
+                var folder = "vocabulary-audio/";
+                var public_id = folder + id;
+                acc.push(public_id);
+                /* acc.push(id) */
+              }
+
+              return acc;
+            }, []); // api onlly accepts arrays of 100.  TODO: levels should be limited to 100 words
+
+            cloudinary.api.delete_resources(public_ids, {
+              resource_type: "video"
+            }, function (error, result) {
+              console.log(error);
+              console.log(result);
+            });
+            _context.next = 10;
             return _vocabularyModel.default.deleteMany({
               level: level._id
             });
 
-          case 3:
-            _context.next = 8;
+          case 10:
+            _context.next = 15;
             break;
 
-          case 5:
-            _context.prev = 5;
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 8:
+          case 15:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 5]]);
+    }, _callee, null, [[0, 12]]);
   }));
 
   return function removeLinkedDocuments(_x) {
