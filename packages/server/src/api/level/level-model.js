@@ -1,6 +1,8 @@
 import mongoose, {Schema} from "mongoose"
 import Course from "../course/course-model.js"
 import Vocabulary from "../vocabulary/vocabulary-model.js"
+import {getPublicId} from "../../utils/cloudinary-utils.js"
+var cloudinary = require("cloudinary").v2
 
 export const LevelSchema = new mongoose.Schema({
   title: {
@@ -49,7 +51,41 @@ export const LevelSchema = new mongoose.Schema({
 
 const removeLinkedDocuments = async level => {
   try {
-    await Vocabulary.deleteMany({level: level._id})
+    // find all vocabulary with level_id and return array
+    const vocabularies = await Vocabulary.find({level: level._id}).select({
+      audioUrl: 1
+    })
+    const filteredVocabularies = vocabularies.map(item => {
+      if (item.audioUrl) {
+        const public_id = getPublicId(item.audioUrl)
+        return public_id
+      }
+    })
+
+    // bulk delete audioUrl from cdn
+    if (filteredVocabularies.length > 0) {
+      const public_ids = filteredVocabularies.reduce((acc, id) => {
+        if (id) {
+          const folder = "vocabulary-audio/"
+          const public_id = folder + id
+          acc.push(public_id)
+          /* acc.push(id) */
+        }
+        return acc
+      }, [])
+
+      // api onlly accepts arrays of 100.  TODO: levels should be limited to 100 words
+      cloudinary.api.delete_resources(
+        public_ids,
+        {resource_type: "video"},
+        function(error, result) {
+          console.log(error)
+          console.log(result)
+        }
+      )
+
+      await Vocabulary.deleteMany({level: level._id})
+    }
   } catch (err) {
     throw err
   }

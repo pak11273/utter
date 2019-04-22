@@ -117,8 +117,9 @@ const courseDelete = async (_, {resourceId}, ctx) => {
     // TODO: DELET all references
 
     const levels = await Level.find({course: course._id}).lean()
-    levels.map(level => {
-      const deleted = Level.findOneAndDelete({_id: level._id}).exec()
+    levels.map(async level => {
+      const deleted = await Level.findOneAndDelete({_id: level._id}).exec()
+      // vocabulary is deleted in the level-model.js
     })
 
     /* const level = await Level.deleteMany({course: course._id}).exec() */
