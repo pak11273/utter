@@ -193,7 +193,6 @@ class VocabularyAudioModal extends Component {
       })
       prom
         .then(res => {
-          console.log("res: ", res)
           this.setState({
             isSaving: false,
             audioBlob: null
