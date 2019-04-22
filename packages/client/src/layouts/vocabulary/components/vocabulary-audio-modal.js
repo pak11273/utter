@@ -122,6 +122,7 @@ class VocabularyAudioModal extends Component {
 
         clipContainer.appendChild(audio)
         clipContainer.appendChild(deleteButton)
+        deleteButton.classList.add("deleteButton")
         deleteButton.setAttribute(
           "style",
           "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
@@ -174,6 +175,9 @@ class VocabularyAudioModal extends Component {
   }
 
   saveAudioModal = closeModal => async () => {
+    var deleteButton = document.querySelector(".deleteButton")
+    deleteButton.style.visibility = "hidden"
+
     if (this.state.audioBlob) {
       this.setState({
         isSaving: true
