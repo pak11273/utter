@@ -39,9 +39,7 @@ export const handleCloudinaryUpload = (file, type, folder, tags) => {
   })
 }
 
-const getPublicId = url => {
-  // example url: https://res.cloudinary.com/dgvw5b6pf/video/upload/v1555884728/vocabulary-audio/lidsxcyd5iodjdfaxypz.webm
-
+export const getPublicId = url => {
   var split = url.split("/")
   var lastIndex = split[split.length - 1]
   lastIndex = lastIndex.substring(0, lastIndex.lastIndexOf("."))

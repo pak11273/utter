@@ -24,6 +24,7 @@ import Paper from "@material-ui/core/Paper"
 import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
+import {getPublicId} from "../../../utils/cloudinary-utils.js"
 
 import {courseVocabularySchema} from "../yupSchemas.js"
 import MaterialTable, {MTableEditRow, MTableToolbar} from "material-table"
@@ -69,10 +70,10 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseVocabularySchema}
       initialValues={props.data}
       onSubmit={values => {
-        // this causes error if you double-click edit icon
-        /* if (props.mode === "update") { */
-        /* delete values.tableData */
-        /* } */
+        // TODO: this causes error if you double-click edit icon, fix this...
+        if (props.mode === "update") {
+          delete values.tableData
+        }
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
@@ -221,10 +222,12 @@ class VocabularysUpdate extends Component {
             }
           )
 
+          const public_id = getPublicId(selectedRow.audioUrl)
           const deletedWord = await this.props.client.mutate({
             mutation: VOCABULARY_DELETE,
             variables: {
-              _id: spliced._id
+              _id: spliced._id,
+              public_id
             }
           })
 
@@ -289,11 +292,14 @@ class VocabularysUpdate extends Component {
   }
 
   deleteAudio = async rowData => {
+    const public_id = getPublicId(rowData.audioUrl)
+    console.log("public_id: ", public_id)
     this.props.client
       .mutate({
         mutation: VOCABULARY_AUDIO_DELETE,
         variables: {
-          _id: rowData._id
+          _id: rowData._id,
+          public_id
         }
       })
       .then(res => {

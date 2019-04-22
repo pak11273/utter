@@ -78,8 +78,8 @@ export const VOCABULARY_UPDATE = gql`
 `
 
 export const VOCABULARY_DELETE = gql`
-  mutation vocabularyDelete($_id: ID) {
-    vocabularyDelete(_id: $_id) {
+  mutation vocabularyAudioDelete($_id: ID, $public_id: String) {
+    vocabularyAudioDelete(_id: $_id, public_id: $public_id) {
       vocabulary {
         _id
       }
@@ -105,8 +105,8 @@ export const VOCABULARY_AUDIO_SAVE = gql`
   }
 `
 export const VOCABULARY_AUDIO_DELETE = gql`
-  mutation vocabularyAudioDelete($_id: ID) {
-    vocabularyAudioDelete(_id: $_id) {
+  mutation vocabularyAudioDelete($_id: ID, $public_id: String) {
+    vocabularyAudioDelete(_id: $_id, public_id: $public_id) {
       vocabulary {
         _id
       }

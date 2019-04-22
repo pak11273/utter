@@ -12,6 +12,7 @@ import {userByToken} from "../shared/resolver-functions.js"
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
+const folder = "vocabulary-audio"
 
 const vocabularyAudioSave = async (_, args, ctx, info) => {
   console.log("args: ", args)
@@ -42,7 +43,6 @@ const vocabularyAudioDelete = async (_, args, ctx, info) => {
 
   try {
     // delete from cdn
-    const folder = "vocabulary-audio"
     cloudinary.uploader.destroy(
       folder + "/" + args.public_id,
       {
@@ -133,6 +133,7 @@ const getVocabulary = async (_, {level}, {user}) => {
 }
 
 const vocabularyDelete = async (_, args, ctx) => {
+  console.log("args; ", args)
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
@@ -148,6 +149,20 @@ const vocabularyDelete = async (_, args, ctx) => {
   const level = await Level.findById(word.level)
   level.vocabulary.pull(word._id)
   level.save()
+
+  // delete from cdn
+  await cloudinary.uploader.destroy(
+    folder + "/" + args.public_id,
+    {
+      invalidate: true,
+      resource_type: "video"
+    },
+    async (err, result) => {
+      if (err) {
+        throw err
+      }
+    }
+  )
 
   if (!word) {
     arrayOfErrors.push({

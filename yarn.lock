@@ -4693,6 +4693,14 @@ clone@^1.0.2:
   resolved "https://registry.yarnpkg.com/clone/-/clone-1.0.4.tgz#da309cc263df15994c688ca902179ca3c7cd7c7e"
   integrity sha1-2jCcwmPfFZlMaIypAheco8fNfH4=
 
+cloudinary@^1.14.0:
+  version "1.14.0"
+  resolved "https://registry.yarnpkg.com/cloudinary/-/cloudinary-1.14.0.tgz#40f66d6b34169849ae98ca9e56bc99b2b26dd48f"
+  integrity sha512-auJY4aD1UGnQTD2iy6kuTA+FJsqyrr9svG12WYSPAO6oRGRf+16UFDDBNuRMm37wj8Tyn8LyiED0b+Jha36ORA==
+  dependencies:
+    lodash "^4.17.11"
+    q "^1.5.1"
+
 clsx@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/clsx/-/clsx-1.0.4.tgz#0c0171f6d5cb2fe83848463c15fcc26b4df8c2ec"
