@@ -15,15 +15,12 @@ const escapeRegex = text => {
 const folder = "vocabulary-audio"
 
 const vocabularyAudioSave = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   const arrayOfErrors = []
 
   try {
     const vocabulary = await Vocabulary.findByIdAndUpdate(args._id, args, {
       new: true
     }).lean()
-
-    console.log("vocabulary: ", vocabulary)
 
     return {
       vocabulary,
@@ -38,37 +35,42 @@ const vocabularyAudioSave = async (_, args, ctx, info) => {
 }
 
 const vocabularyAudioDelete = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   const arrayOfErrors = []
 
   try {
     // delete from cdn
-    cloudinary.uploader.destroy(
-      folder + "/" + args.public_id,
-      {
-        invalidate: true,
-        resource_type: "video"
-      },
-      async (err, result) => {
-        if (err) {
-          throw err
-        }
-        const vocabulary = await Vocabulary.findByIdAndUpdate(
-          args._id,
-          {audioUrl: null},
-          {
-            new: true
+    const all = await new Promise(async resolve => {
+      const result = await cloudinary.uploader.destroy(
+        folder + "/" + args.public_id,
+        {
+          invalidate: true,
+          resource_type: "video"
+        },
+        async (err, result) => {
+          if (err) {
+            throw err
           }
-        ).exec()
+          const vocabulary = await Vocabulary.findByIdAndUpdate(
+            args._id,
+            {audioUrl: null},
+            {
+              new: true
+            }
+          ).exec()
 
-        console.log("vocabulary: ", vocabulary)
-        return {
-          vocabulary,
-          errors: arrayOfErrors
+          resolve({
+            vocabulary,
+            errors: arrayOfErrors
+          })
         }
-      }
-    )
+      )
+    })
+
+    console.log("all: ", all)
+
+    return all
   } catch (err) {
+    console.log("err: ", err)
     arrayOfErrors.push({
       path: "audio",
       message: err
@@ -133,7 +135,6 @@ const getVocabulary = async (_, {level}, {user}) => {
 }
 
 const vocabularyDelete = async (_, args, ctx) => {
-  console.log("args; ", args)
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")

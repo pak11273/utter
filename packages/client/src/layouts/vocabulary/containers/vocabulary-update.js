@@ -288,7 +288,8 @@ class VocabularysUpdate extends Component {
         }
       })
       .then(res => {
-        console.log("res; ", res)
+        console.log("res: ", res)
+        this.causeRender(res.data.vocabularyAudioDelete.vocabulary.level)
       })
       .catch(err => console.log("err: ", err))
   }

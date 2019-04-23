@@ -110,6 +110,7 @@ export const VOCABULARY_AUDIO_DELETE = gql`
     vocabularyAudioDelete(_id: $_id, public_id: $public_id) {
       vocabulary {
         _id
+        level
       }
       errors {
         path

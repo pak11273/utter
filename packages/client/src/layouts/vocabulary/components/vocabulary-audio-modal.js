@@ -84,7 +84,6 @@ class VocabularyAudioModal extends Component {
         type: "audio"
       })
     }
-    console.log("this.props: ", this.props)
   }
 
   stopRecording = async () => {
@@ -248,14 +247,10 @@ class VocabularyAudioModal extends Component {
     }
 
     if (!isEmpty(files)) {
-      console.log("files: ", files)
-      this.setState(
-        {
-          audioBlob: files[0],
-          audioFileName: files[0].name
-        },
-        () => console.log("state: ", this.state)
-      )
+      this.setState({
+        audioBlob: files[0],
+        audioFileName: files[0].name
+      })
 
       // TODO: upload to cdn and save to db
       this.saveAudioModal(this.props.closeModal)
