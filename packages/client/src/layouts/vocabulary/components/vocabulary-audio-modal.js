@@ -51,7 +51,7 @@ const styles = theme => ({
 const initialState = {
   audioBlob: null,
   blob: null,
-  audioFileName: "Click here to upload or just drop an audio file.",
+  audioFileName: "Click in the box or drag n&apos; drop an audio file.",
   public_id: "",
   record: false,
   recording: false,
@@ -83,6 +83,10 @@ class VocabularyAudioModal extends Component {
         type: "audio"
       })
     }
+  }
+
+  componentWillUnmount() {
+    URL.revokeObjectURL(this.state.uploadedFilePreview)
   }
 
   stopRecording = async () => {
@@ -222,10 +226,11 @@ class VocabularyAudioModal extends Component {
 
   resetOpenModal = () => {
     this.recorder.stopRecording()
-    this.setState({
-      recording: false,
-      audioBlob: null
-    })
+    /* this.setState({ */
+    /*   recording: false, */
+    /*   audioBlob: null */
+    /* }) */
+    this.resetState()
     this.props.resetOpenModal()
   }
 
@@ -238,10 +243,14 @@ class VocabularyAudioModal extends Component {
     }
 
     if (!isEmpty(files)) {
-      this.setState({
-        audioBlob: files[0],
-        audioFileName: files[0].name
-      })
+      console.log("files: ", files)
+      this.setState(
+        {
+          audioBlob: files[0],
+          audioFileName: files[0].name
+        },
+        () => console.log("state: ", this.state)
+      )
 
       /* this.handleImageUpload(files) */
     }
@@ -291,7 +300,7 @@ class VocabularyAudioModal extends Component {
                 Click Save when done. Clicking outside the window will reset
                 everything.
               </DialogContentText>
-              <div className={classes.dropzone}>
+              <div>
                 <Dropzone
                   accept="audio/*"
                   maxSize={500000}
@@ -299,11 +308,10 @@ class VocabularyAudioModal extends Component {
                   onDrop={this.onAudioDrop}>
                   {({getRootProps, getInputProps}) => (
                     <section>
-                      <div {...getRootProps()}>
+                      <div className={classes.dropzone} {...getRootProps()}>
                         <input {...getInputProps()} />
                         <p style={{cursor: "pointer", textAlign: "center"}}>
-                          Click this <span style={{color: "blue"}}>link</span>{" "}
-                          or drop an audio file.
+                          {this.state.audioFileName}
                         </p>
                       </div>
                     </section>

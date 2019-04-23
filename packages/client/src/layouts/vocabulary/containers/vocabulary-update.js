@@ -396,7 +396,7 @@ class VocabularysUpdate extends Component {
                       title: "id",
                       render: rowData => rowData && rowData._id
                     },
-                    {title: "word", field: "word", readonly: true},
+                    {title: "word", field: "word"},
                     {title: "translation", field: "translation"},
                     {
                       title: "audio",
