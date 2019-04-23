@@ -85,10 +85,6 @@ class VocabularyAudioModal extends Component {
     }
   }
 
-  componentWillUnmount() {
-    URL.revokeObjectURL(this.state.uploadedFilePreview)
-  }
-
   stopRecording = async () => {
     try {
       await this.recorder.stopRecording(audioUrl => {
@@ -180,7 +176,9 @@ class VocabularyAudioModal extends Component {
 
   saveAudioModal = closeModal => async () => {
     var deleteButton = document.querySelector(".deleteButton")
-    deleteButton.style.visibility = "hidden"
+    if (deleteButton) {
+      deleteButton.style.visibility = "hidden"
+    }
 
     if (this.state.audioBlob) {
       this.setState({
@@ -226,16 +224,15 @@ class VocabularyAudioModal extends Component {
 
   resetOpenModal = () => {
     this.recorder.stopRecording()
-    /* this.setState({ */
-    /*   recording: false, */
-    /*   audioBlob: null */
-    /* }) */
-    this.resetState()
     this.props.resetOpenModal()
+    this.resetState()
   }
 
-  onAudioDrop = (files, rejected) => {
+  onAudioDrop = rowData => (files, rejected) => {
     this.resetState()
+    this.setState({
+      vocabId: rowData._id
+    })
     if (!isEmpty(rejected)) {
       alert(
         "Please check the file format and/or decrease the file size to less than 500kb."
@@ -252,11 +249,10 @@ class VocabularyAudioModal extends Component {
         () => console.log("state: ", this.state)
       )
 
-      /* this.handleImageUpload(files) */
+      // TODO: upload to cdn and save to db
+      this.saveAudioModal(this.props.closeModal)
     }
   }
-
-  handleAudioDelete = async () => {}
 
   render() {
     const {
@@ -305,7 +301,7 @@ class VocabularyAudioModal extends Component {
                   accept="audio/*"
                   maxSize={500000}
                   multiple={false}
-                  onDrop={this.onAudioDrop}>
+                  onDrop={this.onAudioDrop(rowData)}>
                   {({getRootProps, getInputProps}) => (
                     <section>
                       <div className={classes.dropzone} {...getRootProps()}>
