@@ -64,6 +64,14 @@ import {Flex, FormikMTInput} from "../../../components"
 /*   /> */
 /* ) */
 
+const MuiEditField = props => {
+  console.log("props: ", props)
+  if (props.columnDef.title === "audio") {
+    return null
+  }
+  return <FormikMTInput {...props} />
+}
+
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
   return (
     <Formik
@@ -362,7 +370,7 @@ class VocabularysUpdate extends Component {
                       </Flex>
                     ),
                     EditRow: MuiTableEditRow,
-                    EditField: FormikMTInput
+                    EditField: MuiEditField
                   }}
                   icons={{
                     Add: () => <Add />,

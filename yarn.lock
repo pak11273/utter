@@ -10055,10 +10055,10 @@ marker-clusterer-plus@2.1.4:
   resolved "https://registry.yarnpkg.com/marker-clusterer-plus/-/marker-clusterer-plus-2.1.4.tgz#f8eff74d599dab3b7d0e3fed5264ea0e704f5d67"
   integrity sha1-+O/3TVmdqzt9Dj/tUmTqDnBPXWc=
 
-material-table@^1.31.0:
-  version "1.31.0"
-  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.31.0.tgz#45d448774266bce5c092444dcba67573472c766a"
-  integrity sha512-3R2csqECRUyutz9kwF+qO9kn6oSIKnNOdKl/br4PG3kGtwmNRu1ONl6obBZElNkNvD6rO0RRU7ygWivWLcdvhQ==
+material-table@^1.32.0:
+  version "1.32.0"
+  resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.32.0.tgz#fd4956a642aecef294ee68e4cdf80820a0a242f1"
+  integrity sha512-RDYYfnci6Ni9P1WT1VeWYtr7cqvTS6GZUHd2GY4YttcWlccmtI3T349RTH9RUM8akLeKqJLbiQfDpByd6ZopDQ==
   dependencies:
     "@date-io/date-fns" "^1.1.0"
     "@material-ui/core" "^3.9.3"
