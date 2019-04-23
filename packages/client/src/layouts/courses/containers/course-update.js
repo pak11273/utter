@@ -77,6 +77,10 @@ class CourseUpdate extends PureComponent {
     }
   }
 
+  componentWillUnmount = () => {
+    session.course = null
+  }
+
   handleImageClick = e => {
     e.preventDefault()
     // TODO
