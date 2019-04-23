@@ -35,6 +35,7 @@ const CoursesGrid = props => {
 
   const {data, error, loading, fetchMore} = useQuery(GET_COURSES, {
     notifyOnNetworkStatusChange: true,
+    fetchPolicy: "network-only",
     variables: {
       cursor: "",
       searchInput:

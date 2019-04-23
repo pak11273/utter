@@ -154,7 +154,8 @@ const CourseIntroduction = props => {
           _id: state.courseId,
           title: state.title,
           courseDescription: state.courseDescription
-        }
+        },
+        refetchQueries: [{query: GET_COURSE, variables: {_id: state.courseId}}]
       })
       if (updatedCourse) {
         console.log("updated: ", updatedCourse)
