@@ -23,6 +23,7 @@ export const styles = theme => ({
   },
 
   card: {
+    margin: "0 auto",
     marginBottom: 30,
     maxWidth: 600
   },
