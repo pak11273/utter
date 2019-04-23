@@ -11,6 +11,7 @@ import {compose, graphql, withApollo} from "react-apollo"
 import {session} from "brownies"
 import gql from "graphql-tag"
 import {toast} from "react-toastify"
+import {GET_COURSES} from "../../layouts/courses/xhr.js"
 
 const COURSE_DELETE = gql`
   mutation courseDeleteMutation($resourceId: String!) {
@@ -60,7 +61,10 @@ export default compose(
       const result = props.mutate({
         variables: {
           resourceId: course._id
-        }
+        },
+        refetchQueries: [
+          {query: GET_COURSES, variables: {usingLang: "", teachingLang: ""}}
+        ]
       })
       const onComplete = () => {
         session.level = ""

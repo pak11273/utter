@@ -96,6 +96,7 @@ export const VOCABULARY_AUDIO_SAVE = gql`
     vocabularyAudioSave(_id: $_id, audioUrl: $audioUrl, tags: $tags) {
       vocabulary {
         _id
+        level
       }
       errors {
         path

@@ -39,33 +39,10 @@ import {
 import {GET_COURSE} from "../../courses/xhr.js"
 
 import {styles} from "../../styles.js"
-/* import {LevelSelect} from "../components/level-select.js" */
-import {
-  LevelSelect,
-  VocabularyAudioModal
-  /* VocabularyDeleteModal */
-} from "../components"
+import {LevelSelect, VocabularyAudioModal} from "../components"
 import {Flex, FormikMTInput} from "../../../components"
 
-/* const row = { */
-/*   modalGender: "gender", */
-/*   modalLevel: "level", */
-/*   modalWord: "word", */
-/*   modalTranslation: "translation", */
-/*   modalAudio: "audio" */
-/* } */
-
-/* const audioDeleteModal = ( */
-/*   <VocabularyDeleteModal */
-/*     row={row} */
-/*     {...this.state} */
-/*     closeDeleteModal={this.closeDeleteModal} */
-/*     handleDelete={this.handleDelete} */
-/*   /> */
-/* ) */
-
 const MuiEditField = props => {
-  console.log("props: ", props)
   if (props.columnDef.title === "audio") {
     return null
   }
@@ -441,6 +418,8 @@ class VocabularysUpdate extends Component {
                                   <Mic />
                                 </IconButton>
                                 <VocabularyAudioModal
+                                  causeRender={this.causeRender}
+                                  selectedLevel={this.state.level}
                                   closeModal={this.closeModal}
                                   openModal={this.state.openModal}
                                   resetOpenModal={this.resetOpenModal}

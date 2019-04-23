@@ -17,7 +17,7 @@ import {session} from "brownies"
 import gql from "graphql-tag"
 import {compose, Mutation, Query, withApollo} from "react-apollo"
 import {Can, Img, LoadingButton} from "../../../components"
-/* import {LoadingButton} from "../../../components" */
+import {GET_COURSES} from "../xhr.js"
 import {styles} from "../styles.js"
 
 const GET_COURSE = gql`
@@ -155,7 +155,9 @@ const CourseIntroduction = props => {
           title: state.title,
           courseDescription: state.courseDescription
         },
-        refetchQueries: [{query: GET_COURSE, variables: {_id: state.courseId}}]
+        refetchQueries: [
+          {query: GET_COURSES, variables: {usingLang: "", teachingLang: ""}}
+        ]
       })
       if (updatedCourse) {
         console.log("updated: ", updatedCourse)

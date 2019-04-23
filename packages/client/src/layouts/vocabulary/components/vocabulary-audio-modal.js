@@ -22,6 +22,7 @@ import isEmpty from "lodash/isEmpty"
 import RecordRTCPromisesHandler from "recordrtc"
 import {withStyles} from "@material-ui/core/styles"
 
+/* import {GET_VOCABULARIES, VOCABULARY_AUDIO_SAVE} from "../xhr.js" */
 import {VOCABULARY_AUDIO_SAVE} from "../xhr.js"
 
 const styles = theme => ({
@@ -83,6 +84,7 @@ class VocabularyAudioModal extends Component {
         type: "audio"
       })
     }
+    console.log("this.props: ", this.props)
   }
 
   stopRecording = async () => {
@@ -202,15 +204,21 @@ class VocabularyAudioModal extends Component {
           closeModal()
 
           // save audioUrl to db
-          this.props.client.mutate({
-            mutation: VOCABULARY_AUDIO_SAVE,
+          this.props.client
+            .mutate({
+              mutation: VOCABULARY_AUDIO_SAVE,
 
-            variables: {
-              audioUrl: res.secure_url,
-              _id: this.state.vocabId,
-              tags: res.tags
-            }
-          })
+              variables: {
+                audioUrl: res.secure_url,
+                _id: this.state.vocabId,
+                tags: res.tags
+              }
+            })
+            .then(res => {
+              this.props.causeRender(
+                res.data.vocabularyAudioSave.vocabulary.level
+              )
+            })
         })
         .catch(err => console.log("err: ", err))
     }
