@@ -1,5 +1,5 @@
 /* eslint no-plusplus: 0 */
-import React, {useEffect, useState} from "react"
+import React, {PureComponent} from "react"
 import Select from "react-select"
 import {session, subscribe} from "brownies"
 import {Flex} from "../../../components"
@@ -13,13 +13,13 @@ const customStyles = {
     ...style,
     zIndex: 11
   }),
-  option: (provided, state) => ({
-    ...provided,
-    borderBottom: "1px dotted black",
-    color: state.isSelected ? "red" : "#2979FF",
-    padding: 20,
-    textAlign: "left"
-  }),
+  /* option: (provided, state) => ({ */
+  /*   ...provided, */
+  /*   borderBottom: "1px dotted black", */
+  /*   color: state.isSelected ? "red" : "#2979FF", */
+  /*   padding: 20, */
+  /*   textAlign: "left" */
+  /* }), */
   control: styles => ({
     ...styles,
     margin: "20px auto",
@@ -39,76 +39,64 @@ subscribe(session, "levels", value => {
   })
 })
 
-export default props => {
-  const [state, changeState] = useState({
+class LevelSelect extends PureComponent {
+  state = {
+    level: "",
     levels: "",
-    clearable: "",
-    disabled: "",
+    clearable: true,
     values: "",
     rtl: "",
-    searchable: ""
-  })
-  /* const {levelsIdsArr} = session */
-  const handleChange = e => {
+    selectedValue: null
+  }
+
+  componentDidMount = () => {
+    window.app.reformedLevels = session.levels.map((item, i) => {
+      return {value: item.title, label: `${++i}. ${item.title}`}
+    })
+    this.setState({
+      level: session.level,
+      levels: window.app.reformedLevels
+    })
+  }
+
+  handleChange = e => {
     console.log("e: ", e)
     const index = session.levels.findIndex(item => item.title === e.value)
     session.level = index + 1
-    props.causeRender(session.levelsIdsArr[index])
+    this.setState(
+      {
+        selectedValue: e
+      },
+      console.log("selected: ", this.state.selectedValue)
+    )
+    this.props.causeRender(session.levelsIdsArr[index])
   }
 
-  useEffect(
-    () => {
-      window.app.reformedLevels = session.levels.map((item, i) => {
-        return {value: item.title, label: `${++i}. ${item.title}`}
-      })
-      changeState({
-        ...state,
-        level: session.level
-        /* levels: reformedLevels */
-      })
-    },
-    [state]
-  )
-
-  return (
-    <Flex flexdirection="row">
-      <Typography style={{paddingRight: "10px"}} variant="h6" align="center">
-        Choose a Level:
-      </Typography>
-      <Select
-        styles={customStyles}
-        id="app-select"
-        /* ref={ref => { */
-        /*   const select = ref */
-        /* }} */
-        onBlurResetsInput={false}
-        onSelectResetsInput={false}
-        simpleValue
-        clearable={state.clearable}
-        /* name={field.name} */
-        name="level"
-        options={window.app.reformedLevels}
-        disabled={state.disabled}
-        value={state.selectValue}
-        onChange={handleChange}
-        rtl={state.rtl}
-        searchable={state.searchable}
-      />
-      {/* <Select
-        renderValue={() => session.level}
-        value={session.level}
-        onChange={handleChange}
-        inputProps={{
-          id: "level",
-          name: "level"
-        }}>
-        {levelsIdsArr &&
-          levelsIdsArr.map(level => (
-            <MenuItem key={level} value={level}>
-              {levelsIdsArr.indexOf(level) + 1}
-            </MenuItem>
-          ))}
-      </Select> */}
-    </Flex>
-  )
+  render() {
+    return (
+      <React.Fragment>
+        <Flex flexdirection="row">
+          <Typography
+            style={{paddingRight: "10px"}}
+            variant="h6"
+            align="center">
+            Choose a Level:
+          </Typography>
+          <Select
+            styles={customStyles}
+            id="app-select"
+            simpleValue
+            clearable={this.state.clearable}
+            name="level"
+            options={window.app.reformedLevels}
+            onChange={this.handleChange}
+            value={this.state.selectedValue}
+            searchable={true}
+          />
+        </Flex>
+      </React.Fragment>
+    )
+  }
 }
+
+export default LevelSelect

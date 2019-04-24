@@ -1,6 +1,5 @@
 /* eslint-disable */
 import React, {Component} from "react"
-import Select from "react-select"
 import {withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import {compose, graphql} from "react-apollo"
