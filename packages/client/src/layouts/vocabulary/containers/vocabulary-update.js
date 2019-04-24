@@ -387,10 +387,10 @@ class VocabularysUpdate extends Component {
                     {title: "translation", field: "translation"},
                     {
                       title: "audio",
-                      editComponent: () => <div>8null</div>,
+                      editComponent: () => <div />,
                       field: "audioUrl",
                       filtering: false,
-                      readonly: true,
+                      /* readonly: true */
                       render: rowData => {
                         if (rowData && rowData.audioUrl) {
                           return (
