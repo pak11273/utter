@@ -252,7 +252,8 @@ class VocabularysUpdate extends Component {
   causeRender = level => {
     this.setState(
       {
-        level
+        level,
+        isLoading: true
       },
       () => {
         this.props.client
@@ -266,6 +267,7 @@ class VocabularysUpdate extends Component {
           .then(res => {
             session.vocabulary = res.data.getVocabularies.vocabulary
             this.setState({
+              isLoading: false,
               vocabulary: res.data.getVocabularies.vocabulary || []
             })
           })
