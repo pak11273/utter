@@ -87,10 +87,9 @@ const userById = async userId => {
 }
 
 const getCourse = async (_, args, {user}) => {
-  console.log("args: ", args)
   const course = await Course.findById(args._id)
+    .populate("levels")
     .lean()
-    .exec()
   if (!course) {
     throw new Error("Cannot find course with id")
   }

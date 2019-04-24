@@ -96,6 +96,7 @@ class VocabularysUpdate extends Component {
         }
       })
       .then(res => {
+        console.table("res: ", res.data.getCourse.levels)
         session.levels = res.data.getCourse.levels
         session.levelsIdsArr = res.data.getCourse.levelSort
       })
