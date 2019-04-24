@@ -55,10 +55,10 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
       validationSchema={courseVocabularySchema}
       initialValues={props.data}
       onSubmit={values => {
-        // TODO: this causes error if you double-click edit icon, fix this...
-        if (props.mode === "update") {
+        if (props.mode === "update" && values !== props.data) {
           delete values.tableData
         }
+
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
