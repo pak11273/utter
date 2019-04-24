@@ -50,9 +50,8 @@ export default props => {
   })
   /* const {levelsIdsArr} = session */
   const handleChange = e => {
-    const index = session.levelsIdsArr.findIndex(
-      number => number === e.target.value
-    )
+    console.log("e: ", e)
+    const index = session.levels.findIndex(item => item.title === e.value)
     session.level = index + 1
     props.causeRender(session.levelsIdsArr[index])
   }
