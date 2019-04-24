@@ -1,12 +1,12 @@
 export default [
   {
-    value: "Brain Storm",
-    label: "Brain Storm",
+    value: "carousel",
+    label: "Carousel",
     className: "appHeader",
     disabled: false
   },
   {
-    value: "Chat",
+    value: "chat",
     label: "General Chat",
     className: "appHeader",
     disabled: false

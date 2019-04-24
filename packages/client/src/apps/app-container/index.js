@@ -1,14 +1,12 @@
 import React, {PureComponent} from "react"
-/* import BrainStorm from "../brainstorm" */
 
 import Grid from "@material-ui/core/Grid"
-/* import {withStyles} from "@material-ui/core/styles" */
 
 import Loadable from "react-loadable"
 import Loading from "../../components/loaders/layout-loader.js"
 
-const GetBrainStorm = Loadable({
-  loader: () => import("../brainstorm"),
+const GetCarousel = Loadable({
+  loader: () => import("../carousel"),
   loading: Loading
 })
 
@@ -20,7 +18,7 @@ class AppContainer extends PureComponent {
   render() {
     return (
       <Grid align="center">
-        <GetBrainStorm />
+        <GetCarousel />
       </Grid>
     )
   }

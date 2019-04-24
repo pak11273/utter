@@ -178,7 +178,7 @@ class BrainStorm extends PureComponent {
         <Grid container>
           <Grid item xs={12} align="right">
             <Typography className={classes.appTitle} gutterBottom component="p">
-              BRAINSTORM
+              CAROUSEL
             </Typography>
           </Grid>
           <Grid item xs={12}>
