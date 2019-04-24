@@ -75,6 +75,7 @@ class VocabularysUpdate extends Component {
     super(props)
 
     this.state = {
+      isLoading: false,
       level: session.level,
       openModal: false,
       rowData: null,
@@ -82,7 +83,6 @@ class VocabularysUpdate extends Component {
     }
 
     this.can = null
-    this.tableRef = React.createRef()
   }
 
   componentDidMount = async () => {
@@ -96,7 +96,6 @@ class VocabularysUpdate extends Component {
         }
       })
       .then(res => {
-        console.table("res: ", res.data.getCourse.levels)
         session.levels = res.data.getCourse.levels
         session.levelsIdsArr = res.data.getCourse.levelSort
       })
@@ -209,16 +208,11 @@ class VocabularysUpdate extends Component {
             }
           )
 
-          console.log("selected Row: ", selectedRow)
-
-          console.log("audioURl; ", selectedRow.audioUrl)
           if (selectedRow.audioUrl) {
             var public_id = getPublicId(selectedRow.audioUrl)
           } else {
             public_id = null
           }
-          console.log("public_id: ", public_id)
-          console.log("spliced._id: ", spliced._id)
           const deletedWord = await this.props.client.mutate({
             mutation: VOCABULARY_DELETE,
             variables: {
@@ -227,15 +221,11 @@ class VocabularysUpdate extends Component {
             }
           })
 
-          console.log("deletedWord: ", deletedWord)
           session.vocabulary.splice(deletedIndex, 1)
 
-          this.setState(
-            {
-              vocabulary: session.vocabulary
-            },
-            console.log("state: ", this.state)
-          )
+          this.setState({
+            vocabulary: session.vocabulary
+          })
           return deletedWord
         }
       }
@@ -293,7 +283,9 @@ class VocabularysUpdate extends Component {
 
   deleteAudio = async rowData => {
     const public_id = getPublicId(rowData.audioUrl)
-    console.log("public_id: ", public_id)
+    this.setState({
+      isLoading: true
+    })
     this.props.client
       .mutate({
         mutation: VOCABULARY_AUDIO_DELETE,
@@ -303,7 +295,9 @@ class VocabularysUpdate extends Component {
         }
       })
       .then(res => {
-        console.log("res: ", res)
+        this.setState({
+          isLoading: false
+        })
         this.causeRender(res.data.vocabularyAudioDelete.vocabulary.level)
       })
       .catch(err => console.log("err: ", err))
@@ -321,7 +315,6 @@ class VocabularysUpdate extends Component {
   }
 
   render() {
-    /* console.log(audioDeleteModal) */
     const {classes} = this.props
 
     return (
@@ -355,6 +348,7 @@ class VocabularysUpdate extends Component {
             <Grid item xs={12} align="center">
               <div style={{maxWidth: "100%"}}>
                 <MaterialTable
+                  isLoading={this.state.isLoading}
                   components={{
                     Toolbar: props => (
                       <Flex flexdirection="row" padding="30px">

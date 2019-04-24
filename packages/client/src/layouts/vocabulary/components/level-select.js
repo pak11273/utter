@@ -66,22 +66,8 @@ class LevelSelect extends PureComponent {
     })
   }
 
-  /* handleChange = e => { */
-  /*   console.log("e: ", e) */
-  /*   const index = session.levels.findIndex(item => item.title === e.value) */
-  /*   session.level = index + 1 */
-  /*   this.setState( */
-  /*     { */
-  /*       selectedValue: e */
-  /*     }, */
-  /*     console.log("selected: ", this.state.selectedValue) */
-  /*   ) */
-  /*   this.props.causeRender(session.levelsIdsArr[index]) */
-  /* } */
-
   handleChange = selectedOption => {
     this.setState({selectedOption})
-    console.log(`Option selected:`, selectedOption)
 
     const index = session.levels.findIndex(
       item => item.title === selectedOption.value
@@ -89,11 +75,9 @@ class LevelSelect extends PureComponent {
     session.level = index + 1
 
     this.props.causeRender(session.levelsIdsArr[index])
-    console.log("this.state: ", this.state)
   }
 
   render() {
-    /* const {clearable, levels, selectedValue} = this.state */
     const {clearable, levels} = this.state
     const {selectedOption} = this.state
 
