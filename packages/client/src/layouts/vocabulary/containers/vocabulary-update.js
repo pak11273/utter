@@ -388,6 +388,23 @@ class VocabularysUpdate extends Component {
                     {title: "word", field: "word"},
                     {title: "translation", field: "translation"},
                     {
+                      title: "parts of speech",
+                      field: "partsOfspeech",
+                      lookup: {
+                        none: "",
+                        noun: "noun",
+                        pronoun: "pronoun",
+                        verb: "verb",
+                        adjective: "adjective",
+                        adverb: "adverb",
+                        preposition: "preposition",
+                        conjunction: "conjunction",
+                        interjection: "interjection",
+                        determiner: "determiner",
+                        other: "other"
+                      }
+                    },
+                    {
                       title: "audio",
                       editComponent: () => <div />,
                       field: "audioUrl",

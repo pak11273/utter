@@ -5,6 +5,9 @@ const VocabularySchema = new mongoose.Schema({
   audioUrl: {
     type: String
   },
+  partsOfSpeech: {
+    type: String
+  },
   word: {
     type: String,
     required: [true, "can't be blank"]

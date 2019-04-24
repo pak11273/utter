@@ -100,6 +100,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
       audioUrl: input.audioUrl,
       level: input.level,
       gender: input.gender,
+      partsOfSpeech: input.partsOfSpeech,
       translation: input.translation,
       word: input.word
     })
