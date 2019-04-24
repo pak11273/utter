@@ -8,6 +8,7 @@ export const GET_VOCABULARIES = gql`
         audioUrl
         gender
         level
+        partsOfSpeech
         translation
         word
       }
@@ -20,22 +21,25 @@ export const VOCABULARY_CREATE = gql`
     $audioUrl: String
     $gender: String
     $level: ID!
-    $word: String
+    $partsOfSpeech: String
     $translation: String
+    $word: String
   ) {
     vocabularyCreate(
       input: {
         audioUrl: $audioUrl
         gender: $gender
         level: $level
-        word: $word
+        partsOfSpeech: $partsOfSpeech
         translation: $translation
+        word: $word
       }
     ) {
       vocabulary {
         _id
         audioUrl
         gender
+        partsOfSpeech
         translation
         word
       }
@@ -52,6 +56,7 @@ export const VOCABULARY_UPDATE = gql`
     $audioUrl: String
     $gender: String
     $translation: String
+    $partsOfSpeech: String
     $word: String
   ) {
     vocabularyUpdate(
@@ -59,6 +64,7 @@ export const VOCABULARY_UPDATE = gql`
         _id: $_id
         audioUrl: $audioUrl
         gender: $gender
+        partsOfSpeech: $partsOfSpeech
         translation: $translation
         word: $word
       }
@@ -67,6 +73,7 @@ export const VOCABULARY_UPDATE = gql`
         _id
         audioUrl
         gender
+        partsOfSpeech
         translation
         word
       }

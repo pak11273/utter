@@ -125,6 +125,7 @@ class VocabularysUpdate extends Component {
                 audioUrl: newData.audioUrl || null,
                 gender: newData.gender || "none",
                 level: session.levelsIdsArr[session.level - 1],
+                partsOfSpeech: newData.partsOfSpeech || "none",
                 word: newData.word,
                 translation: newData.translation
               }
@@ -164,10 +165,11 @@ class VocabularysUpdate extends Component {
               mutation: VOCABULARY_UPDATE,
               variables: {
                 _id: newData._id,
-                word: newData.word,
-                translation: newData.translation,
                 audioUrl: newData.audioUrl,
-                gender: newData.gender
+                gender: newData.gender,
+                word: newData.word,
+                partsOfSpeech: newData.partsOfSpeech || "none",
+                translation: newData.translation
               }
             })
           })
@@ -389,7 +391,7 @@ class VocabularysUpdate extends Component {
                     {title: "translation", field: "translation"},
                     {
                       title: "parts of speech",
-                      field: "partsOfspeech",
+                      field: "partsOfSpeech",
                       lookup: {
                         none: "",
                         noun: "noun",

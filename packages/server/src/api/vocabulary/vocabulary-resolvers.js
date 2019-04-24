@@ -84,6 +84,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
   const arrayOfErrors = []
 
   const {input} = args
+  console.log("input: ", input)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
@@ -183,6 +184,7 @@ const vocabularyDelete = async (_, args, ctx) => {
 }
 
 const vocabularyUpdate = async (_, {input}) => {
+  console.log("input: ", input)
   try {
     var arrayOfErrors = []
     const {_id, ...update} = input
