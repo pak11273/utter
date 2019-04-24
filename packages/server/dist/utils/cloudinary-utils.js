@@ -10,6 +10,7 @@ exports.getPublicId = void 0;
 var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
 
 var getPublicId = function getPublicId(url) {
+  console.log("url: ", url);
   var split = url.split("/");
   var lastIndex = split[split.length - 1];
   lastIndex = lastIndex.substring(0, lastIndex.lastIndexOf("."));
