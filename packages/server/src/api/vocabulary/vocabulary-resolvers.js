@@ -66,8 +66,6 @@ const vocabularyAudioDelete = async (_, args, ctx, info) => {
       )
     })
 
-    console.log("all: ", all)
-
     return all
   } catch (err) {
     console.log("err: ", err)
@@ -135,21 +133,25 @@ const getVocabulary = async (_, {level}, {user}) => {
 }
 
 const vocabularyDelete = async (_, args, ctx) => {
+  console.log("deleted args; ", args)
   const arrayOfErrors = []
   if (token === "null") {
     return new Error("You need to be registered to view this resource.")
   }
   const token = ctx.req.headers.authorization
+  console.log("token; ", token)
   const user = await userByToken(token, (err, res) => {
     if (err) return err
     return res
   })
 
   const word = await Vocabulary.findOneAndDelete({_id: args._id}).lean()
+  console.log("word; ", word)
 
   const level = await Level.findById(word.level)
   level.vocabulary.pull(word._id)
   level.save()
+  console.log("level: ", level)
 
   // delete from cdn
   await cloudinary.uploader.destroy(
@@ -165,6 +167,7 @@ const vocabularyDelete = async (_, args, ctx) => {
     }
   )
 
+  console.log("final result: ", word)
   if (!word) {
     arrayOfErrors.push({
       path: "word",

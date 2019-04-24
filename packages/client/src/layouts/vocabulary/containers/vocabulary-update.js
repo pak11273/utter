@@ -178,6 +178,7 @@ class VocabularysUpdate extends Component {
 
         onRowDelete: async selectedRow => {
           const tempVocabulary = [...session.vocabulary]
+
           const deletedInfo = await new Promise(resolve => {
             setTimeout(() => {
               var index = -1
@@ -207,7 +208,16 @@ class VocabularysUpdate extends Component {
             }
           )
 
-          const public_id = getPublicId(selectedRow.audioUrl)
+          console.log("selected Row: ", selectedRow)
+
+          console.log("audioURl; ", selectedRow.audioUrl)
+          if (selectedRow.audioUrl) {
+            var public_id = getPublicId(selectedRow.audioUrl)
+          } else {
+            public_id = null
+          }
+          console.log("public_id: ", public_id)
+          console.log("spliced._id: ", spliced._id)
           const deletedWord = await this.props.client.mutate({
             mutation: VOCABULARY_DELETE,
             variables: {
@@ -216,11 +226,15 @@ class VocabularysUpdate extends Component {
             }
           })
 
+          console.log("deletedWord: ", deletedWord)
           session.vocabulary.splice(deletedIndex, 1)
 
-          this.setState({
-            vocabulary: session.vocabulary
-          })
+          this.setState(
+            {
+              vocabulary: session.vocabulary
+            },
+            console.log("state: ", this.state)
+          )
           return deletedWord
         }
       }
