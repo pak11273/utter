@@ -97,9 +97,7 @@ class LevelSelect extends PureComponent {
             clearable={clearable}
             name="level"
             options={levels}
-            /* options={options} */
             onChange={this.handleChange}
-            /* value={selectedValue} */
             value={selectedOption}
             searchable={true}
           />
