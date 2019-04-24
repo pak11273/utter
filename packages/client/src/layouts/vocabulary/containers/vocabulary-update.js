@@ -387,6 +387,7 @@ class VocabularysUpdate extends Component {
                     {title: "translation", field: "translation"},
                     {
                       title: "audio",
+                      editComponent: () => <div>8null</div>,
                       field: "audioUrl",
                       filtering: false,
                       readonly: true,
@@ -446,6 +447,7 @@ class VocabularysUpdate extends Component {
                       title: "gender",
                       field: "gender",
                       lookup: {
+                        none: "",
                         male: "male",
                         female: "female",
                         neuter: "neuter"
