@@ -13,13 +13,13 @@ const customStyles = {
     ...style,
     zIndex: 11
   }),
-  /* option: (provided, state) => ({ */
-  /*   ...provided, */
-  /*   borderBottom: "1px dotted black", */
-  /*   color: state.isSelected ? "red" : "#2979FF", */
-  /*   padding: 20, */
-  /*   textAlign: "left" */
-  /* }), */
+  option: (provided, state) => ({
+    ...provided,
+    borderBottom: "1px dotted black",
+    color: state.isSelected ? "red" : "#2979FF",
+    padding: 20,
+    textAlign: "left"
+  }),
   control: styles => ({
     ...styles,
     margin: "20px auto",
@@ -39,14 +39,21 @@ subscribe(session, "levels", value => {
   })
 })
 
+/* const options = [ */
+/*   {value: "chocolate", label: "1. Chocolate"}, */
+/*   {value: "strawberry", label: "2. Strawberry"}, */
+/*   {value: "vanilla", label: "3. Vanilla"} */
+/* ] */
+
 class LevelSelect extends PureComponent {
   state = {
     level: "",
-    levels: "",
+    levels: [{}],
     clearable: true,
     values: "",
     rtl: "",
-    selectedValue: null
+    selectedValue: null,
+    selectedOption: null
   }
 
   componentDidMount = () => {
@@ -59,20 +66,37 @@ class LevelSelect extends PureComponent {
     })
   }
 
-  handleChange = e => {
-    console.log("e: ", e)
-    const index = session.levels.findIndex(item => item.title === e.value)
-    session.level = index + 1
-    this.setState(
-      {
-        selectedValue: e
-      },
-      console.log("selected: ", this.state.selectedValue)
+  /* handleChange = e => { */
+  /*   console.log("e: ", e) */
+  /*   const index = session.levels.findIndex(item => item.title === e.value) */
+  /*   session.level = index + 1 */
+  /*   this.setState( */
+  /*     { */
+  /*       selectedValue: e */
+  /*     }, */
+  /*     console.log("selected: ", this.state.selectedValue) */
+  /*   ) */
+  /*   this.props.causeRender(session.levelsIdsArr[index]) */
+  /* } */
+
+  handleChange = selectedOption => {
+    this.setState({selectedOption})
+    console.log(`Option selected:`, selectedOption)
+
+    const index = session.levels.findIndex(
+      item => item.title === selectedOption.value
     )
+    session.level = index + 1
+
     this.props.causeRender(session.levelsIdsArr[index])
+    console.log("this.state: ", this.state)
   }
 
   render() {
+    /* const {clearable, levels, selectedValue} = this.state */
+    const {clearable, levels} = this.state
+    const {selectedOption} = this.state
+
     return (
       <React.Fragment>
         <Flex flexdirection="row">
@@ -86,13 +110,22 @@ class LevelSelect extends PureComponent {
             styles={customStyles}
             id="app-select"
             simpleValue
-            clearable={this.state.clearable}
+            clearable={clearable}
             name="level"
-            options={window.app.reformedLevels}
+            options={levels}
+            /* options={options} */
             onChange={this.handleChange}
-            value={this.state.selectedValue}
+            /* value={selectedValue} */
+            value={selectedOption}
             searchable={true}
           />
+          <Typography style={{padding: "0 10px"}} variant="h6" align="center">
+            {session.level
+              ? session.level +
+                ". " +
+                session.levels[session.level ? session.level - 1 : 0].title
+              : null}
+          </Typography>
         </Flex>
       </React.Fragment>
     )
