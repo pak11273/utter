@@ -113,6 +113,7 @@ class CourseUpdate extends PureComponent {
               "vocabulary",
               "grammar",
               "examples",
+              "questions",
               "phrases",
               "notes"
             ].map((text, index) => {

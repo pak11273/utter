@@ -403,6 +403,9 @@ class VocabularysUpdate extends Component {
                         conjunction: "conjunction",
                         interjection: "interjection",
                         determiner: "determiner",
+                        alphabet: "alphabet",
+                        vowel: "vowel",
+                        consonant: "consonant",
                         other: "other"
                       }
                     },

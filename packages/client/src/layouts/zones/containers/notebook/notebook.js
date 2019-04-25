@@ -7,7 +7,7 @@ import {withStyles} from "@material-ui/core/styles"
 
 const styles = theme => ({
   root: {
-    backgroundColor: "LightGray",
+    backgroundColor: "white",
     height: "100%",
     minHeight: "900px",
     width: "100%"
