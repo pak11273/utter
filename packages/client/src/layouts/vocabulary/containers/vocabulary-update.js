@@ -46,7 +46,7 @@ const MuiEditField = props => {
   if (props.columnDef.title === "audio") {
     return null
   }
-  return <FormikMTInput {...props} />
+  return <FormikMTInput value="" {...props} />
 }
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {

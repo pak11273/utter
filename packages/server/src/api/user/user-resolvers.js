@@ -244,6 +244,7 @@ const getUserByToken = async (_, args, ctx, info) => {
       } else {
         return {username: ""}
       }
+      console.log("result: ", result)
       return result
     }
   } catch (err) {
