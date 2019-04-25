@@ -11,31 +11,53 @@ const escapeRegex = text => {
 }
 
 const getLevel = async (_, {levelId}, {user}) => {
-  const level = await Level.findById(levelId).exec()
-  if (!level) {
-    throw new Error("Cannot find level with id")
-  }
+  console.log("level: ", levelId)
+  try {
+    const level = await Level.findById(levelId).exec()
+    if (!level) {
+      throw new Error("Cannot find level with id")
+    }
 
-  return level
+    return level
+  } catch (err) {
+    console.log("err: ", err)
+    return err
+  }
 }
 
 const getLevels = async (_, args, ctx, info) => {
-  const course = await Course.findById(args.courseId)
-    .populate("levels")
-    .limit(100)
-    .lean()
+  const arrayOfErrors = []
+  console.log("args; ", args)
+  try {
+    const course = await Course.findById(args.courseId)
+      .populate("levels")
+      .limit(100)
+      .lean()
 
-  const ids = course.levelSort
+    const ids = course.levelSort
 
-  const sortedLevels = course.levels.sort(function(a, b) {
-    // Sort docs by the order of their _id values in ids.
-    return ids.indexOf(a._id.toString()) - ids.indexOf(b._id.toString())
-  })
+    const sortedLevels = course.levels.sort(function(a, b) {
+      // Sort docs by the order of their _id values in ids.
+      return ids.indexOf(a._id.toString()) - ids.indexOf(b._id.toString())
+    })
 
-  if (isEmpty(course.levels)) {
-    return {levels: []}
-  } else {
-    return {levels: sortedLevels}
+    if (isEmpty(course.levels)) {
+      return {levels: []}
+    } else {
+      return {levels: sortedLevels}
+    }
+  } catch (err) {
+    console.log("msg: ", err)
+    return err
+    /* arrayOfErrors.push({ */
+    /*   path: "levels", */
+    /*   message: err.message */
+    /* }) */
+    /* // TODO */
+    /* return { */
+    /*   levels: null, */
+    /*   errors: arrayOfErrors */
+    /* } */
   }
 }
 
@@ -117,7 +139,6 @@ const levelCreate = async (_, {input}, ctx, info) => {
     if (err) return err
     return res
   })
-
 
   const newLevel = new Level({...input, course: input.courseId})
 

@@ -87,14 +87,18 @@ const userById = async userId => {
 }
 
 const getCourse = async (_, args, {user}) => {
-  const course = await Course.findById(args._id)
-    .populate("levels")
-    .lean()
-  if (!course) {
-    throw new Error("Cannot find course with id")
-  }
+  try {
+    const course = await Course.findById(args._id)
+      .populate("levels")
+      .lean()
+    if (!course) {
+      throw new Error("Cannot find course with id")
+    }
 
-  return course
+    return course
+  } catch (err) {
+    return err
+  }
 }
 
 const courseDelete = async (_, {resourceId}, ctx) => {

@@ -169,13 +169,14 @@ class HostControls extends PureComponent {
           showIndicators={false}
           showArrows
           showStatus>
-          {session.vocabulary.map(item => {
-            return (
-              <div key={item._id}>
-                <RandomCard {...item} {...this.props} />
-              </div>
-            )
-          })}
+          {session.vocabulary &&
+            session.vocabulary.map(item => {
+              return (
+                <div key={item._id}>
+                  <RandomCard {...item} {...this.props} />
+                </div>
+              )
+            })}
         </Carousel>
       </div>
     )

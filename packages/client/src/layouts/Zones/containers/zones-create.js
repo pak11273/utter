@@ -5,8 +5,8 @@ import {withRouter} from "react-router-dom"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {compose, graphql} from "react-apollo"
-import {toast} from "react-toastify"
+import {compose, graphql, withApollo} from "react-apollo"
+/* import {toast} from "react-toastify" */
 
 import {Field, withFormik} from "formik"
 /* import cuid from "cuid" */
@@ -21,6 +21,7 @@ import {
   Span
 } from "../../../components"
 import {ZONE_CREATE_MUTATION} from "../zone-queries.js"
+import {GET_LEVELS} from "../../levels/xhr.js"
 
 import {session} from "brownies"
 import {styles} from "../styles.js"
@@ -349,6 +350,7 @@ const ZoneCreate = props => {
 }
 
 export default compose(
+  withApollo,
   graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}),
   withRouter,
   withFormik({
@@ -365,8 +367,40 @@ export default compose(
       zoneName: "",
       zoneDescription: ""
     }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      console.log("values: ", values)
+    handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
+			console.log('values: ', values);
+			
+			try {
+        const courseLevels = await props.client.query({
+          query: GET_LEVELS,
+          variables: {
+            courseId: values.course 
+          }
+        })
+
+        const {levels} = courseLevels.data.getLevels
+				const index = parseInt(values.courseLevel, 10)
+				if(!levels[index-1]) {
+          setErrors({
+            courseLevel: "This course does not contain a level with this number"
+          })
+        setSubmitting(false)
+        return null
+				}
+      } catch (err) {
+        console.log("errorsss: ", err)
+				/* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
+				/* const msg = err.message.replace('GraphQL error:', '').trim() */
+        if (err.message.indexOf("Cast to ObjectId failed for value")) {
+          setErrors({
+            courseLevel: "This course does not contain a level with this number"
+          })
+        }
+
+        setSubmitting(false)
+        return null
+      }
+			/*
       const result = await props.zoneCreate({
         variables: {
           ageGroup: values.ageGroup,
@@ -404,6 +438,7 @@ export default compose(
           hideProgressBar: true
         })
       }
+			*/
     }
   }),
   withStyles(styles)

@@ -92,7 +92,7 @@ class VocabularysUpdate extends Component {
         query: GET_COURSE,
         fetchPolicy: "no-cache",
         variables: {
-          _id: session.course._id
+          _id: session.course && session.course._id
         }
       })
       .then(res => {

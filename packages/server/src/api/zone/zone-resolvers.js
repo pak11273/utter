@@ -70,7 +70,6 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")

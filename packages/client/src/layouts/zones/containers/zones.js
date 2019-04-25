@@ -1,4 +1,4 @@
-/* import React, {useState} from "react" */
+/* import React, {useEffect} from "react" */
 import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
@@ -31,6 +31,21 @@ import {groupedOptions} from "../../../data/language-data.js"
 import appData from "../../../data/appData.js"
 
 const ZonesContainer = props => {
+  /* useEffect(() => { */
+  /*   const keys = Object.keys(session) */
+  /*   console.log("keys: ", keys) */
+  /*   const arr = ["layoutError", "level", "levels", "levelsIdsArr", "vocabulary"] */
+  /*   console.log("arr: ", arr) */
+  /*   for (var i = 0; i < keys.length; i += 1) { */
+  /*     if (arr.includes(keys[i])) { */
+  /*       console.log("key: ", keys[i]) */
+  /*       console.log("arr: ", `${arr[i]}`) */
+  /*       console.log("Deleting key", session[keys[i]]) */
+  /*       delete session[keys[i]] */
+  /*     } */
+  /*   } */
+  /* }, []) */
+
   /* const [courseOption, setCourseOption] = useState(session.user.subscription) */
   delete session.zone
 

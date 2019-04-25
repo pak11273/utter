@@ -33,11 +33,13 @@ const customStyles = {
   })
 }
 
-subscribe(session, "levels", value => {
-  window.app.reformedLevels = value.map((item, i) => {
-    return {value: item.title, label: `${++i}. ${item.title}`}
+if (session.levels) {
+  subscribe(session, "levels", value => {
+    window.app.reformedLevels = value.map((item, i) => {
+      return {value: item.title, label: `${++i}. ${item.title}`}
+    })
   })
-})
+}
 
 /* const options = [ */
 /*   {value: "chocolate", label: "1. Chocolate"}, */
@@ -57,13 +59,15 @@ class LevelSelect extends PureComponent {
   }
 
   componentDidMount = () => {
-    window.app.reformedLevels = session.levels.map((item, i) => {
-      return {value: item.title, label: `${++i}. ${item.title}`}
-    })
-    this.setState({
-      level: session.level,
-      levels: window.app.reformedLevels
-    })
+    if (session.levels) {
+      window.app.reformedLevels = session.levels.map((item, i) => {
+        return {value: item.title, label: `${++i}. ${item.title}`}
+      })
+      this.setState({
+        level: session.level,
+        levels: window.app.reformedLevels
+      })
+    }
   }
 
   handleChange = selectedOption => {

@@ -56,11 +56,11 @@ type LevelPayload {
 
 type PaginatedLevels {
   levels: [Level]
+	errors: [Error]
 }
 
 extend type Query {
   getLevel(levelId: String!): Level!
-	allLevels(page: Int, perPage: Int, sortField: String, sortOrder: String ): [Level]
   getLevels(
 		courseId: String!
   ): PaginatedLevels 
