@@ -3,6 +3,7 @@ type Vocabulary {
 	audioUrl: String
 	level: String 
 	gender: String
+	partsOfSpeech: String
 	word: String
 	translation: String
 }
@@ -17,16 +18,18 @@ input VocabularyUpdated {
 	audioUrl: String
 	level: String 
 	gender: String
+	partsOfSpeech: String
 	word: String
 	translation: String
 }
 
 input VocabularyCreateInput {
-		audioUrl: String
-		gender: String
-		level: ID! 
-		translation: String
-		word: String
+	audioUrl: String
+	gender: String
+	level: ID! 
+	partsOfSpeech: String
+	translation: String
+	word: String
 }
 
 type PaginatedVocabulary {

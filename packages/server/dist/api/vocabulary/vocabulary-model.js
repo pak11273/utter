@@ -17,6 +17,9 @@ var VocabularySchema = new _mongoose.default.Schema({
   audioUrl: {
     type: String
   },
+  partsOfSpeech: {
+    type: String
+  },
   word: {
     type: String,
     required: [true, "can't be blank"]

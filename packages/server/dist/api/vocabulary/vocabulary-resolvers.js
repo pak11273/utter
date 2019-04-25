@@ -219,69 +219,71 @@ function () {
           case 0:
             arrayOfErrors = [];
             input = args.input;
-            _context5.prev = 2;
+            console.log("input: ", input);
+            _context5.prev = 3;
 
             if (ctx.isAuth) {
-              _context5.next = 5;
+              _context5.next = 6;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 5:
+          case 6:
             userId = ctx.req.token._id;
-            _context5.next = 8;
+            _context5.next = 9;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 8:
+          case 9:
             user = _context5.sent;
             newVocabulary = new _vocabularyModel.default({
               audioUrl: input.audioUrl,
               level: input.level,
               gender: input.gender,
+              partsOfSpeech: input.partsOfSpeech,
               translation: input.translation,
               word: input.word
             });
-            _context5.next = 12;
+            _context5.next = 13;
             return newVocabulary.save();
 
-          case 12:
+          case 13:
             vocabulary = _context5.sent;
-            _context5.next = 15;
+            _context5.next = 16;
             return _levelModel.default.findById(input.level);
 
-          case 15:
+          case 16:
             level = _context5.sent;
             level.vocabulary.push(vocabulary);
             level.save();
 
             if (level) {
-              _context5.next = 20;
+              _context5.next = 21;
               break;
             }
 
             throw new Error("Level not found.");
 
-          case 20:
+          case 21:
             return _context5.abrupt("return", {
               vocabulary: vocabulary,
               errors: arrayOfErrors
             });
 
-          case 23:
-            _context5.prev = 23;
-            _context5.t0 = _context5["catch"](2);
+          case 24:
+            _context5.prev = 24;
+            _context5.t0 = _context5["catch"](3);
             throw _context5.t0;
 
-          case 26:
+          case 27:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[2, 23]]);
+    }, _callee5, null, [[3, 24]]);
   }));
 
   return function vocabularyCreate(_x12, _x13, _x14, _x15) {
@@ -455,24 +457,25 @@ function () {
         switch (_context9.prev = _context9.next) {
           case 0:
             input = _ref11.input;
-            _context9.prev = 1;
+            console.log("input: ", input);
+            _context9.prev = 2;
             arrayOfErrors = [];
             _id = input._id, update = (0, _objectWithoutProperties2.default)(input, ["_id"]);
-            _context9.next = 6;
+            _context9.next = 7;
             return _vocabularyModel.default.findByIdAndUpdate(_id, update, {
               new: true
             }).exec();
 
-          case 6:
+          case 7:
             updatedWord = _context9.sent;
             return _context9.abrupt("return", {
               vocabulary: updatedWord,
               errors: arrayOfErrors
             });
 
-          case 10:
-            _context9.prev = 10;
-            _context9.t0 = _context9["catch"](1);
+          case 11:
+            _context9.prev = 11;
+            _context9.t0 = _context9["catch"](2);
             return _context9.abrupt("return", {
               vocabulary: null,
               errors: [{
@@ -480,12 +483,12 @@ function () {
               }]
             });
 
-          case 13:
+          case 14:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[1, 10]]);
+    }, _callee9, null, [[2, 11]]);
   }));
 
   return function vocabularyUpdate(_x24, _x25) {
