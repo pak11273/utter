@@ -1,0 +1,83 @@
+type AuthPayload {
+  token: String
+	user: User
+  error: [Error]
+}
+
+input ChangePasswordInput {
+	password: String!,
+	passwordConfirmation: String,
+	token: String!
+}
+
+input ContactInput {
+  email: String!
+	message: String!
+  name: String!
+	phone: String!
+	subject: String!
+}
+
+type ContactOutput {
+	success: [String],
+	errors: [String]
+}
+
+input LoginInput {
+  identifier: String!
+  password: String!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+	passwordConfirmation: String!
+  username: String!
+	timezone: String
+}
+
+input UpdatedUserInput {
+  age: Int
+  email: String
+  firstName: String
+  lastName: String
+  contacts: [String]
+	blocked: [String]
+  isCanceled: Boolean
+  roles: [String]
+  username: String
+}
+
+type User {
+	blocked: [String]
+  contacts: [String]
+	createdCourses: [Course!]
+  createdAt: String
+  email: String! 
+	_id: ID
+  password: String
+	roles: [ String ]
+	scopes: [String]
+	subscriptions: [Course]
+  updatedAt: String
+  username: String!
+}
+
+type Query {
+	getSubscriptions(userId: ID!): User
+  getUserById(_id: ID!): User!
+  getUserByUsername(input: String!): User
+	getUserByToken(token: String!): User 
+  hello(name: String): String!
+	me: User
+}
+
+type Mutation {
+	changePassword(input: ChangePasswordInput): AuthPayload 
+  contact(input: ContactInput!): ContactOutput
+  login(input: LoginInput): AuthPayload
+	forgotPassword(email: String!): Boolean 
+	confirmEmail(token: String!): Boolean 
+  signup(input: SignupInput!): AuthPayload
+  updateMe(input: UpdatedUserInput!): User!
+}
