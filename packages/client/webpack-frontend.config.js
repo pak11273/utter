@@ -62,6 +62,7 @@ module.exports = env => {
       ]
     },
     resolve: {
+      alias: {"react-dom": "@hot-loader/react-dom"},
       extensions: [".mjs", ".js", ".jsx"] // common extensions
     },
     stats: {
