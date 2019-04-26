@@ -1,5 +1,5 @@
 /* eslint-enable no-unused-vars */
-import chalk from "chalkf
+import chalk from "chalk"
 import jwt from "jsonwebtoken"
 import {isEmpty} from "lodash"
 import * as yup from "yup"
