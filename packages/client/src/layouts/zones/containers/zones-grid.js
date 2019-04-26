@@ -6,7 +6,6 @@ import classNames from "classnames"
 import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
-/* import CircularProgress from "@material-ui/core/CircularProgress" */
 import PersonIcon from "@material-ui/icons/Person"
 import {withStyles} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
@@ -18,11 +17,9 @@ import {session} from "brownies"
 import {LoadingButton} from "../../../components"
 import {GET_ZONES} from "../zone-queries.js"
 import {styles} from "../styles.js"
-/* const drawerWidth = 240 */
 
 const ZonesGrid = props => {
   const onEnterZone = card => () => {
-    console.log("card: ", card)
     session.zone = card
     props.history.push({
       pathname: `/zone/${card._id}`,
@@ -56,16 +53,6 @@ const ZonesGrid = props => {
     }
   })
 
-  /* if (loading) */
-  /*   return ( */
-  /*     <Grid */
-  /*       container */
-  /*       alignContent="center" */
-  /*       justify="center" */
-  /*       style={{height: "300px"}}> */
-  /*       <CircularProgress style={{color: "grey"}} /> */
-  /*     </Grid> */
-  /*   ) */
   if (error) {
     return (
       <Grid>

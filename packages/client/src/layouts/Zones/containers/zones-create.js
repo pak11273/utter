@@ -21,7 +21,7 @@ import {
   Span
 } from "../../../components"
 import {ZONE_CREATE_MUTATION} from "../zone-queries.js"
-import {GET_LEVELS} from "../../levels/xhr.js"
+import {GET_LEVELS, GET_LEVEL} from "../../levels/xhr.js"
 
 import {session} from "brownies"
 import {styles} from "../styles.js"
@@ -379,6 +379,7 @@ export default compose(
         })
 
         const {levels} = courseLevels.data.getLevels
+				console.log('levle: ', levels);
 				const index = parseInt(values.courseLevel, 10)
 				if(!levels[index-1]) {
           setErrors({
@@ -387,8 +388,21 @@ export default compose(
         setSubmitting(false)
         return null
 				}
+
+        const courseLevel = await props.client.query({
+          query: GET_LEVEL,
+          variables: {
+            levelId: levels[values.courseLevel-1]._id 
+          }
+        })
+				console.log('leve blahl: ',  levels[values.courseLevel-1]._id)
+				console.log('course lvel :', courseLevel);
+
+        /* const {_id} = courseLevel.data.getLevel._id */
+        setSubmitting(false)
+        return null
       } catch (err) {
-        console.log("errorsss: ", err)
+        console.log("errors: ", err)
 				/* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
 				/* const msg = err.message.replace('GraphQL error:', '').trim() */
         if (err.message.indexOf("Cast to ObjectId failed for value")) {

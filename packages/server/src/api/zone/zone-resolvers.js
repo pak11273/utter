@@ -120,7 +120,10 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, args, ctx, info) => {
-  console.log("args: ", args)
+  var more = false
+  var {input} = args
+  console.log("input: ", input)
+
   var hostMatch = new RegExp(".", "i")
   /* var levelMatch = new RegExp(".", "i") */
   var zoneMatch = new RegExp(".", "i")
@@ -128,8 +131,6 @@ const getZones = async (_, args, ctx, info) => {
   var teachingLangMatch = new RegExp(".", "i")
   var appMatch = new RegExp(".", "i")
   var titleMatch = new RegExp(".", "i")
-  var more = false
-  var {input} = args
 
   if (input.searchInput || input.selectionBox) {
     input[input.selectionBox] = input.searchInput
@@ -141,7 +142,7 @@ const getZones = async (_, args, ctx, info) => {
     cursor = {$lt: input.cursor}
     delete input.cursor
   }
-
+console.log('curser: ', cursor);
   for (var key in input) {
     if (input[key] !== "") {
       if (key === "host" && input.searchInput !== "") {
@@ -205,13 +206,15 @@ const getZones = async (_, args, ctx, info) => {
       }
     ])
       .sort({_id: -1})
-      .limit(12)
+      .limit(4)
 
     const lastZones = await Zone.find(cursor)
       .sort({_id: -1})
       .lean()
 
     console.log("zones: ", zones)
+
+    console.log("lastZones: ", lastZones)
 
     console.log(
       "zones: ",

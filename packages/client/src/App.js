@@ -28,7 +28,7 @@ import "react-toastify/dist/ReactToastify.css"
 
 import gql from "graphql-tag"
 
-const GET_USER_BY_TOKEN = gql`
+export const GET_USER_BY_TOKEN = gql`
   query getUserByToken($token: String!) {
     getUserByToken(token: $token) {
       blocked

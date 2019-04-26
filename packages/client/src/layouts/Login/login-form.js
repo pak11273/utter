@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {local, session} from "brownies"
+import {cookies, local, session} from "brownies"
 
 import {loginSchema} from "@utterzone/common"
 import {FormikInput, Img, Section} from "../../components"
@@ -154,6 +154,9 @@ export default withRouter(
       }
       if (data.token) {
         local.AUTH_TOKEN = data.token
+				cookies._uid = data.token
+				console.log('cookie: ', cookies._uid);
+
         session.user = data.user
         props.history.push({
           pathname: "/",

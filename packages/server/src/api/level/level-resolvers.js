@@ -14,7 +14,7 @@ const getLevel = async (_, {levelId}, {user}) => {
   console.log("level: ", levelId)
   try {
     const level = await Level.findById(levelId).exec()
-    if (!level) {
+    if(!level) {
       throw new Error("Cannot find level with id")
     }
 
