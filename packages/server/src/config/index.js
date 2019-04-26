@@ -17,6 +17,7 @@ const env = process.env.NODE_ENV || "development"
 const baseConfig = {
   appName: process.env.APP_NAME,
   appURL: process.env.APP_URL,
+  sessionSecret: process.env.EXPRESS_SESSION_SECRET,
   port: process.env.PORT || 3010,
   env: {},
   expireTime: 24 * 60 * 10 // 10 days expiration

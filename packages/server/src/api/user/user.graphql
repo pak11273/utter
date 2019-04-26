@@ -69,6 +69,7 @@ type Query {
   getUserByUsername(input: String!): User
 	getUserByToken(token: String!): User 
   hello(name: String): String!
+	me: User
 }
 
 type Mutation {

@@ -9,6 +9,7 @@ import middleware from "./middleware"
 import exphbs from "express-handlebars"
 import RateLimit from "express-rate-limit"
 import RedisStore from "rate-limit-redis"
+import session from "express-session"
 
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
@@ -30,6 +31,14 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 const app = express()
+
+app.use(
+  session({
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: false
+  })
+)
 
 middleware(app)
 

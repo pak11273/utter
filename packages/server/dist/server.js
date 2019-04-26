@@ -29,6 +29,8 @@ var _expressRateLimit = _interopRequireDefault(require("express-rate-limit"));
 
 var _rateLimitRedis = _interopRequireDefault(require("rate-limit-redis"));
 
+var _expressSession = _interopRequireDefault(require("express-session"));
+
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
 // if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
@@ -52,6 +54,11 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 var app = (0, _express.default)();
+app.use((0, _expressSession.default)({
+  secret: _config.default.sessionSecret,
+  resave: false,
+  saveUninitialized: false
+}));
 (0, _middleware.default)(app); // rate limiter
 
 var limiter = new _expressRateLimit.default({

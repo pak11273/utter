@@ -31,6 +31,14 @@ import {
   changePasswordSchema
 } from "@utterzone/common"
 
+const me = async (_, __, {req}) => {
+  if (!req.session.userId) {
+    return null
+  }
+  console.log("user: ", User.findById(req.session.userId).lean())
+  return User.findById(req.session.userId).lean()
+}
+
 const confirmEmail = async (_, args, {redis, url}) => {
   const redisToken = args.input.token
   const redisKey = `${confirmEmailPrefix}${redisToken}`
@@ -174,6 +182,7 @@ const signup = async (_, args, {redis, url}, info) => {
 }
 
 const login = async (parent, args, ctx, info) => {
+  console.log("ctx: ", ctx.req)
   // decipher identifier
   const {identifier, password} = args.input
   let token = ""
@@ -222,6 +231,8 @@ const login = async (parent, args, ctx, info) => {
   }
 
   console.log("user: ", user)
+
+  ctx.req.session.userId = user._id
 
   return {
     token,
@@ -297,7 +308,8 @@ export const userResolvers = {
     getUserById,
     getUserByToken,
     getUserByUsername,
-    hello: (_, {name}) => `Hello ${name || "World"}`
+    hello: (_, {name}) => `Hello ${name || "World"}`,
+    me
   },
 
   User: {

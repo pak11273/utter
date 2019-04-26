@@ -113,6 +113,14 @@ class MainNavbar extends Component {
     this.handleMobileMenuClose()
   }
 
+  handleAccount = () => {
+    this.setState({anchorEl: null})
+    /* this.props.history.push(`/account/${this.props.user.username}`) */
+    // TODO: remove hardcoded name
+    this.props.history.push(`/account/blarney`)
+    this.handleMobileMenuClose()
+  }
+
   handleProfile = () => {
     this.setState({anchorEl: null})
     this.props.history.push(`/profile/${this.props.user.username}`)
@@ -157,6 +165,7 @@ class MainNavbar extends Component {
   }
 
   render() {
+    console.log("user: ", this.props)
     // handle login section
     const isAuthenticated = cookies._uid
 
@@ -270,14 +279,17 @@ class MainNavbar extends Component {
         transformOrigin={{vertical: "top", horizontal: "right"}}
         open={isMenuOpen}
         onClose={this.handleMenuClose}>
-        <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
         {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem>
         ) : null}
         {!isAuthenticated ? (
           <MenuItem onClick={this.login}>Login</MenuItem>
         ) : (
-          <MenuItem onClick={this.logout}>Log Out</MenuItem>
+          <div>
+            <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
+            <MenuItem onClick={this.handleAccount}>Account</MenuItem>
+            <MenuItem onClick={this.logout}>Log Out</MenuItem>
+          </div>
         )}
       </Menu>
     )

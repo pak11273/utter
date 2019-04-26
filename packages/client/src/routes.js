@@ -9,6 +9,12 @@ const getAbout = Loadable({
   delay: 200
 })
 
+const getAccount = Loadable({
+  loader: () => import(/* webpackChunkName: 'account' */ "./layouts/account"),
+  loading: Loading,
+  delay: 200
+})
+
 const getAnnouncement = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'announcement' */ "./layouts/announcement"),
@@ -139,6 +145,11 @@ export const routes = [
     component: getAbout,
     exact: true,
     path: "/about"
+  },
+  {
+    component: getAccount,
+    exact: true,
+    path: "/account/:username"
   },
   {
     component: getAnnouncement,
