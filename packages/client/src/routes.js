@@ -26,6 +26,13 @@ const getChangePassword = Loadable({
   loading: Loading
 })
 
+const getCommunity = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'community' */ "./layouts/community"),
+  loading: Loading,
+  delay: 200
+})
+
 const getConfirmEmail = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'confirm-email' */ "./layouts/confirm-email"),
@@ -159,6 +166,11 @@ export const routes = [
     exact: true,
     path: "/change-password/:token",
     component: getChangePassword
+  },
+  {
+    exact: true,
+    path: "/community",
+    component: getCommunity
   },
   {
     /* exact: true, */

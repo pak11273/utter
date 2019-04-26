@@ -148,8 +148,6 @@ class MainNavbar extends Component {
       .toLowerCase()
     if (data === "utterzone") {
       this.props.history.push("/")
-    } else if (data === "community") {
-      window.open("http://utterzone.boards.net", "_blank")
     } else {
       this.props.history.push(`/${data}`)
     }
@@ -251,16 +249,22 @@ class MainNavbar extends Component {
     const fullList = (
       <div className={classes.fullList}>
         <List>
-          {["Utterzone", "About", "Contact", "Pricing", "Courses", "Zones"].map(
-            (text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )
-          )}
+          {[
+            "Utterzone",
+            "About",
+            "Contact",
+            "Pricing",
+            "Courses",
+            "Zones",
+            "Community"
+          ].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
         </List>
         <Divider />
         <List>
@@ -405,6 +409,20 @@ class MainNavbar extends Component {
                 }}
                 to="/contact">
                 Contact
+              </StyledNavLink>
+            </Typography>
+            <Typography
+              className={classes.title}
+              variant="h6"
+              color="inherit"
+              noWrap>
+              <StyledNavLink
+                exact
+                activeStyle={{
+                  color: "red"
+                }}
+                to="community">
+                Community
               </StyledNavLink>
             </Typography>
             <Typography
