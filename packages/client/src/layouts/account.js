@@ -4,6 +4,17 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {Container, Section} from "../components"
 import {Footer, Masthead} from "../containers"
+import {Query} from "react-apollo"
+import gql from "graphql-tag"
+
+const ME_QUERY = gql`
+  {
+    me {
+      _id
+      email
+    }
+  }
+`
 
 const styles = theme => ({
   root: {
@@ -57,16 +68,35 @@ class About extends Component {
             height="400px"
             width="300px"
           />
-          <Section className={classes.section}>
-            <Typography
-              variant="h4"
-              align="center"
-              className={classes.text}
-              component="p"
-              gutterBottom>
-              Account Page
-            </Typography>
-          </Section>
+          <Query query={ME_QUERY}>
+            {({data, loading}) => {
+              if (loading) {
+                return <div>...loading</div>
+              }
+              if (!data) {
+                return (
+                  <Section className={classes.section}>
+                    <Typography
+                      variant="h4"
+                      align="center"
+                      className={classes.text}
+                      component="p"
+                      gutterBottom>
+                      undefined
+                    </Typography>
+                  </Section>
+                )
+              }
+              if (!data.me) {
+                return <div>No user data</div>
+              }
+
+              if (data.me) {
+                console.log("dat: ", data)
+                return <div>{data.me.email}</div>
+              }
+            }}
+          </Query>
           <Footer />
         </Container>
       </React.Fragment>

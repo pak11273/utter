@@ -148,6 +148,8 @@ class MainNavbar extends Component {
       .toLowerCase()
     if (data === "utterzone") {
       this.props.history.push("/")
+    } else if (data === "community") {
+      window.open("http://utterzone.boards.net", "_blank")
     } else {
       this.props.history.push(`/${data}`)
     }
@@ -205,13 +207,15 @@ class MainNavbar extends Component {
     const sideList = (
       <div className={classes.list}>
         <List>
-          {["Utterzone", "Courses", "Zones"].map((text, index) => {
+          {["Utterzone", "Community", "Courses", "Zones"].map((text, index) => {
             var icon = <MoodIcon />
             if (index === 0) {
               icon = <HomeIcon />
             } else if (index === 1) {
               icon = <LibraryBooksIcon />
             } else if (index === 2) {
+              icon = <LibraryBooksIcon />
+            } else if (index === 3) {
               icon = <QuestionAnswer />
             }
             return (

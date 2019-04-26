@@ -1,5 +1,5 @@
 /* eslint-enable no-unused-vars */
-import chalk from "chalk"
+import chalk from "chalkf
 import jwt from "jsonwebtoken"
 import {isEmpty} from "lodash"
 import * as yup from "yup"
@@ -32,6 +32,7 @@ import {
 } from "@utterzone/common"
 
 const me = async (_, __, {req}) => {
+  console.log("args: ", req.session)
   if (!req.session.userId) {
     return null
   }
