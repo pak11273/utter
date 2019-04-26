@@ -1,11 +1,11 @@
 import React from "react"
 import {Redirect} from "react-router-dom"
-import {local} from "brownies"
+import {cookies} from "brownies"
 
 import ForgotPasswordForm from "../../containers/forms/forgot-password-form.js"
 
 function forgotPassword({submit}) {
-  const loggedIn = local.AUTH_TOKEN
+  const loggedIn = cookies._uid
   if (loggedIn) {
     var redirect = <Redirect to="/" />
   } else {

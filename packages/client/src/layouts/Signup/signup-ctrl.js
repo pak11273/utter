@@ -3,14 +3,14 @@
 
 import React, {PureComponent} from "react"
 import {history, SignupConnector} from "@utterzone/connector"
-import {local} from "brownies"
+import {cookies} from "brownies"
 
 import {Footer} from "../../containers"
 import SignupView from "./signup-view.js"
 
 export default class SignupCtrl extends PureComponent {
   componentDidMount() {
-    const token = local.AUTH_TOKEN
+    const token = cookies._uid
     if (token) {
       history.push("/")
     }

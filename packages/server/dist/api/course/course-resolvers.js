@@ -190,28 +190,34 @@ function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             user = _ref3.user;
-            _context3.next = 3;
+            _context3.prev = 1;
+            _context3.next = 4;
             return _courseModel.default.findById(args._id).populate("levels").lean();
 
-          case 3:
+          case 4:
             course = _context3.sent;
 
             if (course) {
-              _context3.next = 6;
+              _context3.next = 7;
               break;
             }
 
             throw new Error("Cannot find course with id");
 
-          case 6:
+          case 7:
             return _context3.abrupt("return", course);
 
-          case 7:
+          case 10:
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](1);
+            return _context3.abrupt("return", _context3.t0);
+
+          case 13:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[1, 10]]);
   }));
 
   return function getCourse(_x3, _x4, _x5) {

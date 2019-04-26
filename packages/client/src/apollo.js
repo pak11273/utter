@@ -3,7 +3,7 @@ import {ApolloLink} from "apollo-link"
 import {InMemoryCache} from "apollo-cache-inmemory"
 import {createPersistedQueryLink} from "apollo-link-persisted-queries"
 import {HttpLink} from "apollo-link-http"
-import {local} from "brownies"
+import {cookies} from "brownies"
 import typeDefs from "./typeDefs.js"
 import resolvers from "./resolvers.js"
 
@@ -13,7 +13,7 @@ const cache = new InMemoryCache({
 })
 
 const AuthLink = (operation, forward) => {
-  const token = local.AUTH_TOKEN
+  const token = cookies._uid
   operation.setContext(context => ({
     ...context,
     headers: {
@@ -44,6 +44,6 @@ export const ApolloInstance = new ApolloClient({
 
 cache.writeData({
   data: {
-    isLoggedIn: !!local.AUTH_TOKEN
+    isLoggedIn: !!cookies._uid
   }
 })

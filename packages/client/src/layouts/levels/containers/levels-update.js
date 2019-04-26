@@ -2,7 +2,7 @@
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import {Formik} from "formik"
-import {local, session} from "brownies"
+import {cookies, session} from "brownies"
 import makeTrashable from "trashable"
 
 import Add from "@material-ui/icons/Add"
@@ -30,9 +30,7 @@ import {
   LEVEL_UPDATE,
   LEVEL_SORT
 } from "../xhr.js"
-import {
-	GET_USER_BY_TOKEN
-} from "../../../App.js"
+import {GET_USER_BY_TOKEN} from "../../../App.js"
 import {styles} from "../styles.js"
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
@@ -116,9 +114,9 @@ class LevelsUpdate extends Component {
                 courseId: session.course._id,
                 title: res.newData.title
               },
-							refetchQueries: [
-								{query: GET_USER_BY_TOKEN, variables: {token:local.AUTH_TOKEN}}
-							]
+              refetchQueries: [
+                {query: GET_USER_BY_TOKEN, variables: {token: cookies._uid}}
+              ]
             })
             this._newLevelTrash = makeTrashable(newLevel)
 

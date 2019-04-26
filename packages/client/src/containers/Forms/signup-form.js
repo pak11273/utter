@@ -10,7 +10,7 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
-import {local, session} from "brownies"
+import {cookies, session} from "brownies"
 
 import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
@@ -297,7 +297,7 @@ export default compose(
         const loginResult = await props.client.query({
           query: GET_USER_BY_TOKEN,
           variables: {
-            token: local.AUTH_TOKEN
+            token: cookies._uid
           }
         })
 
@@ -310,7 +310,7 @@ export default compose(
 
       // if signup info is legit
       if (typeof signupResult !== "object") {
-        local.AUTH_TOKEN = signupResult
+        cookies._uid = signupResult
         onComplete()
       } else {
         // if signup info is not legit

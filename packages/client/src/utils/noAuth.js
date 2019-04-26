@@ -1,10 +1,10 @@
 import React, {Component} from "react"
-import {local} from "brownies"
+import {cookies} from "brownies"
 
 const noAuth = WrappedComponent => {
   class Wrap extends Component {
     componentDidMount() {
-      const isAuthenticated = local.AUTH_TOKEN
+      const isAuthenticated = cookies._uid
       if (isAuthenticated) {
         this.props.history.push("/", {
           notification: "You are already logged in.",

@@ -502,7 +502,7 @@ function () {
             token = args.token;
 
             if (!token) {
-              _context7.next = 16;
+              _context7.next = 17;
               break;
             }
 
@@ -531,23 +531,24 @@ function () {
             });
 
           case 15:
+            console.log("result: ", result);
             return _context7.abrupt("return", result);
 
-          case 16:
-            _context7.next = 21;
+          case 17:
+            _context7.next = 22;
             break;
 
-          case 18:
-            _context7.prev = 18;
+          case 19:
+            _context7.prev = 19;
             _context7.t0 = _context7["catch"](0);
             throw _context7.t0;
 
-          case 21:
+          case 22:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[0, 18]]);
+    }, _callee7, null, [[0, 19]]);
   }));
 
   return function getUserByToken(_x19, _x20, _x21, _x22) {

@@ -46,28 +46,36 @@ function () {
           case 0:
             levelId = _ref.levelId;
             user = _ref2.user;
-            _context.next = 4;
+            console.log("level: ", levelId);
+            _context.prev = 3;
+            _context.next = 6;
             return _levelModel.default.findById(levelId).exec();
 
-          case 4:
+          case 6:
             level = _context.sent;
 
             if (level) {
-              _context.next = 7;
+              _context.next = 9;
               break;
             }
 
             throw new Error("Cannot find level with id");
 
-          case 7:
+          case 9:
             return _context.abrupt("return", level);
 
-          case 8:
+          case 12:
+            _context.prev = 12;
+            _context.t0 = _context["catch"](3);
+            console.log("err: ", _context.t0);
+            return _context.abrupt("return", _context.t0);
+
+          case 16:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee);
+    }, _callee, null, [[3, 12]]);
   }));
 
   return function getLevel(_x, _x2, _x3) {
@@ -81,15 +89,18 @@ function () {
   var _ref4 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee2(_, args, ctx, info) {
-    var course, ids, sortedLevels;
+    var arrayOfErrors, course, ids, sortedLevels;
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.next = 2;
+            arrayOfErrors = [];
+            console.log("args; ", args);
+            _context2.prev = 2;
+            _context2.next = 5;
             return _courseModel.default.findById(args.courseId).populate("levels").limit(100).lean();
 
-          case 2:
+          case 5:
             course = _context2.sent;
             ids = course.levelSort;
             sortedLevels = course.levels.sort(function (a, b) {
@@ -98,7 +109,7 @@ function () {
             });
 
             if (!(0, _isEmpty.default)(course.levels)) {
-              _context2.next = 9;
+              _context2.next = 12;
               break;
             }
 
@@ -106,17 +117,27 @@ function () {
               levels: []
             });
 
-          case 9:
+          case 12:
             return _context2.abrupt("return", {
               levels: sortedLevels
             });
 
-          case 10:
+          case 13:
+            _context2.next = 19;
+            break;
+
+          case 15:
+            _context2.prev = 15;
+            _context2.t0 = _context2["catch"](2);
+            console.log("msg: ", _context2.t0);
+            return _context2.abrupt("return", _context2.t0);
+
+          case 19:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[2, 15]]);
   }));
 
   return function getLevels(_x4, _x5, _x6, _x7) {

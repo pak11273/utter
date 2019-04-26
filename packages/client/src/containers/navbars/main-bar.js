@@ -2,8 +2,8 @@
 import React, {Component} from "react"
 import {NavLink, withRouter} from "react-router-dom"
 import styled from "styled-components"
-import {AUTH_TOKEN} from "../../layouts/login/containers/constants.js"
-import {local, session} from "brownies"
+import {_uid} from "../../layouts/login/containers/constants.js"
+import {cookies, session} from "brownies"
 
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import AssignmentIcon from "@material-ui/icons/Assignment"
@@ -99,7 +99,7 @@ class MainNavbar extends Component {
 
   logout = e => {
     e.preventDefault()
-    delete local.AUTH_TOKEN
+    delete cookies._uid
     delete session.user
     this.props.history.push("/login")
   }
@@ -158,7 +158,7 @@ class MainNavbar extends Component {
 
   render() {
     // handle login section
-    const isAuthenticated = local.AUTH_TOKEN
+    const isAuthenticated = cookies._uid
 
     /* const userLinks = ( */
     /*   <Menu> */

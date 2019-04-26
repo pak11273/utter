@@ -2,7 +2,6 @@
 
 import {NavLink} from "react-router-dom"
 import React, {Component} from "react"
-/* import {local, session} from "brownies" */
 import {withApollo} from "react-apollo"
 
 import {withStyles} from "@material-ui/core/styles"

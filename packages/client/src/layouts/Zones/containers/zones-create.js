@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {compose, graphql, withApollo} from "react-apollo"
-/* import {toast} from "react-toastify" */
+import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
 /* import cuid from "cuid" */
@@ -368,43 +368,75 @@ export default compose(
       zoneDescription: ""
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
-			console.log('values: ', values);
-			
-			try {
+      try {
         const courseLevels = await props.client.query({
           query: GET_LEVELS,
           variables: {
-            courseId: values.course 
+            courseId: values.course
           }
         })
 
         const {levels} = courseLevels.data.getLevels
-				console.log('levle: ', levels);
-				const index = parseInt(values.courseLevel, 10)
-				if(!levels[index-1]) {
+        console.log("levle: ", levels)
+        const index = parseInt(values.courseLevel, 10)
+        if (!levels[index - 1]) {
           setErrors({
             courseLevel: "This course does not contain a level with this number"
           })
-        setSubmitting(false)
-        return null
-				}
+          setSubmitting(false)
+          return null
+        }
 
         const courseLevel = await props.client.query({
           query: GET_LEVEL,
           variables: {
-            levelId: levels[values.courseLevel-1]._id 
+            levelId: levels[values.courseLevel - 1]._id
           }
         })
-				console.log('leve blahl: ',  levels[values.courseLevel-1]._id)
-				console.log('course lvel :', courseLevel);
+        console.log("leve blahl: ", levels[values.courseLevel - 1]._id)
+        console.log("course lvel :", courseLevel)
 
-        /* const {_id} = courseLevel.data.getLevel._id */
-        setSubmitting(false)
-        return null
+        const result = await props.zoneCreate({
+          variables: {
+            ageGroup: values.ageGroup,
+            app: values.app,
+            appLevel: values.appLevel,
+            course: values.course,
+            courseLevel: values.courseLevel,
+            owner: values.owner,
+            zoneName: values.zoneName,
+            zoneDescription: values.zoneDescription
+          }
+        })
+
+        const onComplete = zone => {
+          session.zone = zone.data.zoneCreate
+          props.history.push({
+            pathname: `/zone/${zone.data.zoneCreate._id}`,
+            state: {zoneId: zone.data.zoneCreate._id}
+          })
+        }
+
+        // if result is legit
+        if (result) {
+          onComplete(result)
+          toast.success("You have successfully created a zone.", {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        } else {
+          setErrors(result.ZONE_CREATE_MUTATION.errors)
+          toast.success("Could not create a zone, please try again.", {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        }
       } catch (err) {
         console.log("errors: ", err)
-				/* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
-				/* const msg = err.message.replace('GraphQL error:', '').trim() */
+        /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
+        /* const msg = err.message.replace('GraphQL error:', '').trim() */
         if (err.message.indexOf("Cast to ObjectId failed for value")) {
           setErrors({
             courseLevel: "This course does not contain a level with this number"
@@ -414,45 +446,6 @@ export default compose(
         setSubmitting(false)
         return null
       }
-			/*
-      const result = await props.zoneCreate({
-        variables: {
-          ageGroup: values.ageGroup,
-          app: values.app,
-          appLevel: values.appLevel,
-          course: values.course,
-          courseLevel: values.courseLevel,
-          owner: values.owner,
-          zoneName: values.zoneName,
-          zoneDescription: values.zoneDescription
-        }
-      })
-
-      const onComplete = zone => {
-        session.zone = zone.data.zoneCreate
-        props.history.push({
-          pathname: `/zone/${zone.data.zoneCreate._id}`,
-          state: {zoneId: zone.data.zoneCreate._id}
-        })
-      }
-
-      // if result is legit
-      if (result) {
-        onComplete(result)
-        toast.success("You have successfully created a zone.", {
-          className: "toasty",
-          bodyClassName: "toasty-body",
-          hideProgressBar: true
-        })
-      } else {
-        setErrors(result.ZONE_CREATE_MUTATION.errors)
-        toast.success("Could not create a zone, please try again.", {
-          className: "toasty",
-          bodyClassName: "toasty-body",
-          hideProgressBar: true
-        })
-      }
-			*/
     }
   }),
   withStyles(styles)

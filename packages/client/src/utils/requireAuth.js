@@ -1,12 +1,12 @@
 import React, {PureComponent} from "react"
-import {local} from "brownies"
+import {cookies} from "brownies"
 
 const requireAuth = WrappedComponent => {
   class Wrap extends PureComponent {
     componentDidMount() {}
 
     render() {
-      const isAuthenticated = local.AUTH_TOKEN
+      const isAuthenticated = cookies._uid
       if (!isAuthenticated) {
         this.props.history.push("/login", {
           notification: "Please login to access this page.",

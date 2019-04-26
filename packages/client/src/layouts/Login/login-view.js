@@ -2,7 +2,7 @@ import React, {PureComponent} from "react"
 import {Redirect} from "react-router-dom"
 import {toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.min.css"
-import {local} from "brownies"
+import {cookies} from "brownies"
 import "./forms.css"
 
 import LoginForm from "./login-form"
@@ -25,7 +25,7 @@ class Login extends PureComponent {
 
   render() {
     const {submit} = this.props
-    const loggedIn = local.AUTH_TOKEN
+    const loggedIn = cookies._uid
     if (loggedIn) {
       var redirect = <Redirect to="/" />
     } else {

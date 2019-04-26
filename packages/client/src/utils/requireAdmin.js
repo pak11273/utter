@@ -1,11 +1,11 @@
 import React, {Component} from "react"
-import {local, session} from "brownies"
+import {cookies, session} from "brownies"
 
 export default ComposedComponent => {
   class Authenticate extends Component {
     componentDidMount() {
       const {user} = session
-      const isAuthenticated = local.AUTH_TOKEN
+      const isAuthenticated = cookies._uid
       if (!isAuthenticated) {
         this.props.history.push("/login", {
           notification: "Please login to access this page."

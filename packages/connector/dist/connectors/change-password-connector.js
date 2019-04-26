@@ -97,7 +97,7 @@ function (_PureComponent) {
                 token = data.data.changePassword.token;
 
                 if (token) {
-                  _brownies.local.AUTH_TOKEN = token;
+                  _brownies.cookies._uid = token;
                 }
 
                 return _context.abrupt("return", data);

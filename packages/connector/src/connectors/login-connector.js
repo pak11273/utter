@@ -5,7 +5,6 @@ import React, {Component} from "react"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
 import isEmpty from "lodash/isEmpty"
-import {local} from "brownies"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class D extends Component {

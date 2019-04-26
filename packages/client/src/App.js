@@ -7,7 +7,7 @@ import {render} from "react-dom"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {local, session} from "brownies"
+import {cookies, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -81,7 +81,7 @@ const theme = createMuiTheme({
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   componentDidMount = async () => {
-    const token = local.AUTH_TOKEN
+    const token = cookies._uid
 
     if (!session.user) {
       const userByToken = await ApolloInstance.query({

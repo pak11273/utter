@@ -5,7 +5,7 @@ import styled from "styled-components"
 import {AppContainer} from "react-hot-loader"
 import ReactGA from "react-ga"
 import {ApolloProvider} from "react-apollo"
-import {local, session} from "brownies"
+import {session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -24,7 +24,6 @@ import {store, persistor} from "./store.js"
 /* import FlashMessagesList from "./components/flashmessages/flashmessages-list" */
 import {history} from "@utterzone/connector"
 import {ToastContainer} from "react-toastify"
-
 
 const SubRoutes = route => (
   <Route
@@ -66,7 +65,6 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
-
   render() {
     return (
       <ApolloProvider client={client}>
