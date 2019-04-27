@@ -165,7 +165,6 @@ class MainNavbar extends Component {
   }
 
   render() {
-    console.log("user: ", this.props)
     // handle login section
     const isAuthenticated = cookies._uid
 

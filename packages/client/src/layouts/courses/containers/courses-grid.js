@@ -20,13 +20,14 @@ import {compose} from "react-apollo"
 import {session} from "brownies"
 import {GET_COURSES} from "../xhr.js"
 import {useQuery} from "react-apollo-hooks"
+import {sessionDelete} from "../../../utils/session-delete.js"
 
 import {subsToSize} from "../../../utils/helpers.js"
 
 const CoursesGrid = props => {
   useEffect(() => {
-    session.levels = []
-    session.levelsIdsArr = []
+    // reset sessions, must keep "users" & "levels"
+    sessionDelete(["user", "levels"])
   }, [])
 
   const convertObjIdsToArr = arr => {
@@ -36,7 +37,6 @@ const CoursesGrid = props => {
   }
 
   const handleCourseClick = card => () => {
-		// reset sessions
     console.log("card: ", card)
     session.level = ""
     session.course = card
