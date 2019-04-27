@@ -36,6 +36,7 @@ const CoursesGrid = props => {
   }
 
   const handleCourseClick = card => () => {
+		// reset sessions
     console.log("card: ", card)
     session.level = ""
     session.course = card
