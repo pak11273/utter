@@ -44,7 +44,6 @@ const app = express()
 app.use(
   session({
     store: new RedisStore2({client: redis}),
-    httpOnly: false,
     secret: config.sessionSecret,
     resave: false,
     saveUninitialized: false

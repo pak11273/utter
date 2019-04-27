@@ -74,7 +74,6 @@ app.use((0, _expressSession.default)({
   store: new RedisStore2({
     client: _graphqlServer.redis
   }),
-  httpOnly: false,
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false
