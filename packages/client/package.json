@@ -46,6 +46,7 @@
     "react-apollo-hooks": "^0.4.4",
     "react-dom": "^16.8.4",
     "react-dropzone": "^10.0.5",
+    "react-ga": "^2.5.7",
     "react-helmet": "^5.2.0",
     "react-helmet-async": "^1.0.2",
     "react-hot-loader": "^4.8.0",

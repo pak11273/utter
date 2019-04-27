@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
 /* import styled from "styled-components" */
 /* import {hot} from "react-hot-loader/root" */
-/* import ReactGA from "react-ga" */
+import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
@@ -75,8 +75,8 @@ const theme = createMuiTheme({
 })
 
 // google analytics
-/* ReactGA.initialize("UA-125119993-1") */
-/* ReactGA.pageview(window.location.pathname + window.location.search) */
+ReactGA.initialize("UA-125119993-1")
+ReactGA.pageview(window.location.pathname + window.location.search)
 
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
