@@ -31,9 +31,11 @@ var _rateLimitRedis = _interopRequireDefault(require("rate-limit-redis"));
 
 var _expressSession = _interopRequireDefault(require("express-session"));
 
-// This code shows all console.log locations
+var RedisStore2 = require("connect-redis")(_expressSession.default); // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
 // if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
+
+
 if (!["production", "prod"].includes(process.env.NODE_ENV)) {
   ;
   ["log", "warn"].forEach(function (method) {
@@ -54,7 +56,25 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 var app = (0, _express.default)();
+/* app.use( */
+
+/*   session({ */
+
+/*     secret: config.sessionSecret, */
+
+/*     resave: false, */
+
+/*     saveUninitialized: false */
+
+/*   }) */
+
+/* ) */
+
 app.use((0, _expressSession.default)({
+  store: new RedisStore2({
+    client: _graphqlServer.redis
+  }),
+  httpOnly: false,
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false
