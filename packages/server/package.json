@@ -48,6 +48,7 @@
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",
     "cloudinary": "^1.14.0",
+    "connect-redis": "^v3.4.0",
     "cors": "^2.8.4",
     "cuid": "^2.1.6",
     "dateformat": "^3.0.3",

@@ -10,6 +10,7 @@ import exphbs from "express-handlebars"
 import RateLimit from "express-rate-limit"
 import RedisStore from "rate-limit-redis"
 import session from "express-session"
+var RedisStore2 = require("connect-redis")(session)
 
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
@@ -32,8 +33,18 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 
 const app = express()
 
+/* app.use( */
+/*   session({ */
+/*     secret: config.sessionSecret, */
+/*     resave: false, */
+/*     saveUninitialized: false */
+/*   }) */
+/* ) */
+
 app.use(
   session({
+    store: new RedisStore2({client: redis}),
+    httpOnly: false,
     secret: config.sessionSecret,
     resave: false,
     saveUninitialized: false
