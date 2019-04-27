@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import {withRouter} from "react-router-dom"
 
 import classNames from "classnames"
@@ -24,9 +24,23 @@ import {useQuery} from "react-apollo-hooks"
 import {subsToSize} from "../../../utils/helpers.js"
 
 const CoursesGrid = props => {
-  const handleImageClick = card => () => {
+  useEffect(() => {
+    session.levels = []
+    session.levelsIdsArr = []
+  }, [])
+
+  const convertObjIdsToArr = arr => {
+    return arr.map(item => {
+      return item._id
+    })
+  }
+
+  const handleCourseClick = card => () => {
+    console.log("card: ", card)
     session.level = ""
     session.course = card
+    session.levels = card.levels
+    session.levelsIdsArr = convertObjIdsToArr(card.levels)
     props.history.push({
       pathname: "/course/course-introduction",
       state: {courseId: card.id}
@@ -97,7 +111,7 @@ const CoursesGrid = props => {
               <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
                 <Card className={classes.card}>
                   <CardMedia
-                    onClick={handleImageClick(card)}
+                    onClick={handleCourseClick(card)}
                     className={classes.cardMedia}
                     image={`${card.courseImage}`}
                     title={`${card.title}`}
@@ -129,7 +143,7 @@ const CoursesGrid = props => {
                       {subsToSize(card.subscribers)}
                     </Typography>
                     <Button
-                      onClick={handleImageClick(card)}
+                      onClick={handleCourseClick(card)}
                       size="large"
                       className={classes.editButton}>
                       {" "}

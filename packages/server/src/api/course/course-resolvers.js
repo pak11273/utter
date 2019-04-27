@@ -139,7 +139,6 @@ const courseDelete = async (_, {resourceId}, ctx) => {
 }
 
 const courseUpdate = async (_, args, ctx) => {
-  console.log("args: ", args)
   try {
     if (!ctx.isAuth) {
       return new Error("You need to be registered to edit this course.")
@@ -162,7 +161,6 @@ const courseUpdate = async (_, args, ctx) => {
 }
 
 const courseCreate = async (_, args, ctx, info) => {
-  console.log("args: ", args)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
@@ -314,6 +312,7 @@ const getCourses = async (_, args, ctx, info) => {
   try {
     const courses = await Course.find(query)
       .populate("owner")
+      .populate("levels")
       .sort({_id: -1})
       .limit(4)
       .lean()

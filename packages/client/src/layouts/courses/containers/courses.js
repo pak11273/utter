@@ -138,7 +138,7 @@ const CoursesContainer = props => {
         </div>
         {/* End hero unit */}
         <Grid>
-          {<CoursesGrid search={props.status && props.status.search} />}
+          <CoursesGrid search={props.status && props.status.search} />
         </Grid>
       </main>
     </form>

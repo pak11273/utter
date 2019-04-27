@@ -97,7 +97,7 @@ class VocabularysUpdate extends Component {
       })
       .then(res => {
         session.levels = res.data.getCourse.levels
-        session.levelsIdsArr = res.data.getCourse.levelSort
+        /* session.levelsIdsArr = res.data.getCourse.levelSort */
       })
       .catch(err => console.log("err: ", err))
 
