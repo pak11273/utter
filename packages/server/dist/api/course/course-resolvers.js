@@ -352,24 +352,23 @@ function () {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            console.log("args: ", args);
-            _context6.prev = 1;
+            _context6.prev = 0;
 
             if (ctx.isAuth) {
-              _context6.next = 4;
+              _context6.next = 3;
               break;
             }
 
             return _context6.abrupt("return", new Error("You need to be registered to edit this course."));
 
-          case 4:
+          case 3:
             _args$input = args.input, _id = _args$input._id, update = (0, _objectWithoutProperties2.default)(_args$input, ["_id"]);
-            _context6.next = 7;
+            _context6.next = 6;
             return _courseModel.default.findByIdAndUpdate(_id, update, {
               new: true
             }).lean();
 
-          case 7:
+          case 6:
             course = _context6.sent;
             updatedCourse = (0, _objectSpread2.default)({}, course, {
               _id: course._id.toString(),
@@ -377,17 +376,17 @@ function () {
             });
             return _context6.abrupt("return", updatedCourse);
 
-          case 12:
-            _context6.prev = 12;
-            _context6.t0 = _context6["catch"](1);
+          case 11:
+            _context6.prev = 11;
+            _context6.t0 = _context6["catch"](0);
             throw _context6.t0;
 
-          case 15:
+          case 14:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[1, 12]]);
+    }, _callee6, null, [[0, 11]]);
   }));
 
   return function courseUpdate(_x10, _x11, _x12) {
@@ -406,25 +405,24 @@ function () {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            console.log("args: ", args);
-            _context7.prev = 1;
+            _context7.prev = 0;
 
             if (ctx.isAuth) {
-              _context7.next = 4;
+              _context7.next = 3;
               break;
             }
 
             throw new Error("You need to be registered to create a course.");
 
-          case 4:
+          case 3:
             userId = ctx.req.token._id;
-            _context7.next = 7;
+            _context7.next = 6;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
+          case 6:
             user = _context7.sent;
             newCourse = new _courseModel.default({
               courseImage: args.input.courseImage,
@@ -436,47 +434,47 @@ function () {
               usingLang: args.input.usingLang,
               owner: user._id
             });
-            _context7.next = 11;
+            _context7.next = 10;
             return newCourse.save();
 
-          case 11:
+          case 10:
             course = _context7.sent;
             createdCourse = (0, _objectSpread2.default)({}, course._doc, {
               _id: course._doc._id.toString(),
               owner: userById.bind(_this, course._doc.owner)
             });
-            _context7.next = 15;
+            _context7.next = 14;
             return _userModel.default.findById(userId);
 
-          case 15:
+          case 14:
             owner = _context7.sent;
 
             if (owner) {
-              _context7.next = 18;
+              _context7.next = 17;
               break;
             }
 
             throw new Error("User not found.");
 
-          case 18:
+          case 17:
             owner.createdCourses.push(course);
-            _context7.next = 21;
+            _context7.next = 20;
             return owner.save();
 
-          case 21:
+          case 20:
             return _context7.abrupt("return", createdCourse);
 
-          case 24:
-            _context7.prev = 24;
-            _context7.t0 = _context7["catch"](1);
+          case 23:
+            _context7.prev = 23;
+            _context7.t0 = _context7["catch"](0);
             throw _context7.t0;
 
-          case 27:
+          case 26:
           case "end":
             return _context7.stop();
         }
       }
-    }, _callee7, null, [[1, 24]]);
+    }, _callee7, null, [[0, 23]]);
   }));
 
   return function courseCreate(_x13, _x14, _x15, _x16) {
@@ -693,7 +691,7 @@ function () {
 
             _context10.prev = 12;
             _context10.next = 15;
-            return _courseModel.default.find(query).populate("owner").sort({
+            return _courseModel.default.find(query).populate("owner").populate("levels").sort({
               _id: -1
             }).limit(4).lean();
 
