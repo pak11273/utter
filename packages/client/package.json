@@ -55,6 +55,7 @@
     "react-responsive-carousel": "https://github.com/pak11273/react-responsive-carousel.git",
     "react-router-dom": "^4.3.1",
     "react-select": "^2.4.2",
+    "react-stripe-checkout": "^2.6.3",
     "react-table": "6.9.2",
     "react-toastify": "^4.5.2",
     "react-waypoint": "^9.0.1",
