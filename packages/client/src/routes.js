@@ -10,9 +10,22 @@ const getAbout = Loadable({
 })
 
 const getAccount = Loadable({
-  loader: () => import(/* webpackChunkName: 'account' */ "./layouts/account"),
+  loader: () =>
+    import(/* webpackChunkName: 'account' */ "./layouts/account/index.js"),
   loading: Loading,
   delay: 200
+})
+
+const getAccountBilling = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'account-billing' */ "./layouts/account/account-billing.js"),
+  loading: Loading
+})
+
+const getAccountSettings = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'account-settings' */ "./layouts/account/account-settings.js"),
+  loading: Loading
 })
 
 const getAnnouncement = Loadable({
@@ -166,7 +179,17 @@ export const routes = [
   {
     component: getAccount,
     exact: true,
-    path: "/account/:username"
+    path: "/account/:username",
+    routes: [
+      {
+        path: "/account/account-billing",
+        component: getAccountBilling
+      },
+      {
+        path: "/account/account-settings",
+        component: getAccountSettings
+      }
+    ]
   },
   {
     component: getAnnouncement,
