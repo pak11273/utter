@@ -15,13 +15,7 @@ import {Helmet} from "react-helmet-async"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
-import schema from "../../core/schema.js"
 import {Spacer} from "../../components"
-
-import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader
-
-// actions
-import {toggleFooter} from "../../core/actions/toggle-footer-action.js"
 
 const drawerWidth = 240
 
@@ -72,10 +66,6 @@ class Profile extends Component {
     super(props)
 
     this.state = cloneDeep(initialState)
-  }
-
-  componentDidMount() {
-    this.props.toggleFooter(false)
   }
 
   handleImageClick = e => {

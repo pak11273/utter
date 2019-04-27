@@ -234,6 +234,8 @@ const login = async (parent, args, ctx, info) => {
   console.log("user: ", user)
 
   ctx.req.session.userId = user._id
+  console.log("ctx: ", ctx.req.session)
+  console.log("ctx: ", ctx.req.session.userId)
 
   return {
     token,

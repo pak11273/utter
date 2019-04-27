@@ -112,6 +112,16 @@ const getPricing = Loadable({
   delay: 200
 })
 
+const getProfile = Loadable({
+  loader: () => import("./layouts/profile"),
+  loading: Loading
+})
+
+const getProfileSettings = Loadable({
+  loader: () => import("./layouts/profile/profile-settings.js"),
+  loading: Loading
+})
+
 const getSignup = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'signup' */ "./layouts/signup/signup-ctrl.js"),
@@ -232,6 +242,17 @@ export const routes = [
     component: getPricing,
     exact: true,
     path: "/pricing"
+  },
+  {
+    component: getProfile,
+    exact: true,
+    path: "/profile/:username",
+    routes: [
+      {
+        path: "/profile/profile-settings",
+        component: getProfileSettings
+      }
+    ]
   },
   {
     component: noAuth(getSignup),

@@ -50,6 +50,13 @@ app.use(
   })
 )
 
+// TODO: may need to add this to session optins for production
+/* cookie: { */
+/*   httpOnly: */
+/*     process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production" */
+/*       ? false : true */
+/* }, */
+
 middleware(app)
 
 // rate limiter

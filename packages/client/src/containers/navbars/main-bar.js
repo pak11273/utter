@@ -123,7 +123,7 @@ class MainNavbar extends Component {
 
   handleProfile = () => {
     this.setState({anchorEl: null})
-    this.props.history.push(`/profile/${this.props.user.username}`)
+    this.props.history.push(`/profile/${session.user.username}`)
     this.handleMobileMenuClose()
   }
 
@@ -328,7 +328,7 @@ class MainNavbar extends Component {
           <IconButton color="inherit">
             <AccountCircle />
           </IconButton>
-          <p className={classes.noMargin}>Profile</p>
+          <p className={classes.noMargin}>Settings</p>
         </MenuItem>
         {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>

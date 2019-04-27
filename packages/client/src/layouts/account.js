@@ -3,7 +3,7 @@ import {Helmet} from "react-helmet-async"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {Container, Section} from "../components"
-import {Footer, Masthead} from "../containers"
+import {Masthead} from "../containers"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
@@ -97,7 +97,6 @@ class About extends Component {
               }
             }}
           </Query>
-          <Footer />
         </Container>
       </React.Fragment>
     )
