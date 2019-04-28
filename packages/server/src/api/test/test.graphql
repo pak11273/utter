@@ -11,7 +11,7 @@ type Test {
 }
 
 extend type Query {
-	getTest(resourceID: String): Test! @hasScope(scope: "test:")
+	getTest(resourceID: String): Test! @hasRights(right: "test:")
 	getTests: [Test]
 	today: Date @formattableDate  
 	beef: String 

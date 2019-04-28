@@ -1,4 +1,4 @@
-directive @hasScope(scope: String) on FIELD_DEFINITION
+directive @hasRights(right: String) on FIELD_DEFINITION
 
 type Course {
   courseDescription: String
@@ -65,7 +65,7 @@ extend type Query {
 
 extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
-	courseDelete(resourceId: String!): Boolean @hasScope(scope: "course:delete")
+	courseDelete(resourceId: String!): Boolean @hasRights(right: "course:delete")
   courseUpdate(input: CourseUpdateInput!): Course!
 	subscribe(courseId: String!): Course 
 	unsubscribe(courseId: String!): Boolean

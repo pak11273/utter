@@ -93,7 +93,9 @@ export const UserSchema = new mongoose.Schema(
     image: String,
     hash: String,
     salt: String,
-    scopes: [{String}],
+    rights: {
+      type: [String]
+    },
     userImage: {type: String, default: "default.png"},
     facebook: {type: String, default: ""},
     fbTokens: Array,

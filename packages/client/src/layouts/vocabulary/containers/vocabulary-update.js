@@ -5,6 +5,7 @@ import {session} from "brownies"
 import {Formik} from "formik"
 import makeTrashable from "trashable"
 import Can from "../../../components/can"
+/* import {hasRole} from '../../../utils/auth.js' */
 
 import Add from "@material-ui/icons/Add"
 import Check from "@material-ui/icons/Check"

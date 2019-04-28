@@ -38,7 +38,7 @@ var _graphqlTag = _interopRequireDefault(require("graphql-tag"));
 var _normalizeErrors = require("../utils/normalize-errors");
 
 function _templateObject() {
-  var data = (0, _taggedTemplateLiteral2.default)(["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      user {\n        _id\n        username\n        email\n        roles\n        scopes\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]);
+  var data = (0, _taggedTemplateLiteral2.default)(["\n  mutation signupMutation(\n    $username: String!\n    $email: String!\n    $password: String!\n    $passwordConfirmation: String!\n    $timezone: String\n  ) {\n    signup(\n      input: {\n        username: $username\n        email: $email\n        password: $password\n        passwordConfirmation: $passwordConfirmation\n        timezone: $timezone\n      }\n    ) {\n      token\n      user {\n        _id\n        username\n        email\n        roles\n        rights\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]);
 
   _templateObject = function _templateObject() {
     return data;

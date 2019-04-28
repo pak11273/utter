@@ -6,6 +6,7 @@ import {_uid} from "../../layouts/login/containers/constants.js"
 import {cookies, session} from "brownies"
 
 import AccountCircle from "@material-ui/icons/AccountCircle"
+import AccountBalanceWallet from "@material-ui/icons/AccountBalanceWallet"
 import AssignmentIcon from "@material-ui/icons/Assignment"
 import AppBar from "@material-ui/core/AppBar"
 import Badge from "@material-ui/core/Badge"
@@ -324,11 +325,17 @@ class MainNavbar extends Component {
           </IconButton>
           <p className={classes.noMargin}>Notifications</p>
         </MenuItem>
-        <MenuItem onClick={this.handleProfileMenuOpen}>
+        <MenuItem onClick={this.handleProfile}>
           <IconButton color="inherit">
             <AccountCircle />
           </IconButton>
-          <p className={classes.noMargin}>Settings</p>
+          <p className={classes.noMargin}>Profile</p>
+        </MenuItem>
+        <MenuItem onClick={this.handleAccount}>
+          <IconButton color="inherit">
+            <AccountBalanceWallet />
+          </IconButton>
+          <p className={classes.noMargin}>Account</p>
         </MenuItem>
         {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>

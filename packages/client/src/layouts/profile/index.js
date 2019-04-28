@@ -50,7 +50,7 @@ const getUserByUsername = gql`
       email
       password
       roles
-      scopes
+      rights
       contacts
       username
       createdAt

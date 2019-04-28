@@ -68,7 +68,7 @@ const signupMutation = gql`
         username
         email
         roles
-        scopes
+        rights
       }
       error {
         path

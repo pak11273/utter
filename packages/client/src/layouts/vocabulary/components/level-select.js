@@ -59,7 +59,9 @@ class LevelSelect extends PureComponent {
   }
 
   componentDidMount = () => {
-    /* if (session.levels) { */
+    if (!session.levels) {
+      window.location.replace("/login")
+    }
     window.app.reformedLevels = session.levels.map((item, i) => {
       return {value: item.title, label: `${++i}. ${item.title}`}
     })
@@ -70,7 +72,6 @@ class LevelSelect extends PureComponent {
       },
       console.log("state; ", this.state)
     )
-    /* } */
   }
 
   handleChange = selectedOption => {

@@ -1,5 +1,4 @@
 /* eslint-disable react/no-multi-comp */
-
 import {NavLink} from "react-router-dom"
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"

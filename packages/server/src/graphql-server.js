@@ -12,7 +12,7 @@ import {restDirective} from "./directives/rest.js"
 import {DeprecatedDirective} from "./directives/deprecated/deprecated.js"
 import {FormattableDateDirective} from "./directives/formattableDate.js"
 import {AuthDirective} from "./directives/auth/auth-directive.js"
-import {hasScopeDirective} from "./directives/auth/auth-has-scope.js"
+import {hasRightsDirective} from "./directives/auth/auth-has-rights.js"
 
 // schema imports
 const appSchema = path.join(__dirname, "./api/app/app.graphql")
@@ -76,7 +76,7 @@ const schema = makeExecutableSchema({
     formattableDate: FormattableDateDirective,
     deprecated: DeprecatedDirective,
     auth: AuthDirective,
-    hasScope: hasScopeDirective
+    hasRights: hasRightsDirective
   },
   resolvers: merge(
     {},

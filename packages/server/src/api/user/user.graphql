@@ -57,7 +57,7 @@ type User {
 	_id: ID
   password: String
 	roles: [ String ]
-	scopes: [String]
+	rights: [String]
 	subscriptions: [Course]
   updatedAt: String
   username: String!

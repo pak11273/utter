@@ -6,28 +6,30 @@ import {Mutation} from "react-apollo"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import gql from "graphql-tag"
-/* import {session} from "brownies" */
+import {session} from "brownies"
 /* import {toast} from "react-toastify" */
 
 /* import {Field, withFormik} from "formik" */
 /* import isEmpty from "lodash/isEmpty" */
 /* import {courseCreateSchema} from "../yupSchemas.js" */
-import /* FormikInput, */
-/* FormikTextArea, */
-/* Span, */
-/* Img, */
-/* LoadingButton, */
-"../../components"
+import {
+  Can
+  /* FormikInput, */
+  /* FormikTextArea, */
+  /* Span, */
+  /* Img, */
+  /* LoadingButton, */
+} from "../../components"
 
 const CREATE_PAID_USER = gql`
   mutation createPaidUser($source: String!) {
     createPaidUser(source: $source) {
       _id
       email
+      roles
     }
   }
 `
-
 const styles = theme => ({
   content: {
     flexGrow: 1,
@@ -92,16 +94,25 @@ class AccountBilling extends Component {
                 <Typography align="left" variant="h6" gutterBottom>
                   Make a Payment
                 </Typography>
-                <StripeCheckout
-                  image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
-                  /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
-                  token={async token => {
-                    const response = await mutate({
-                      variables: {source: token.id}
-                    })
-                    console.log("response", response)
-                  }}
-                  stripeKey={process.env.STRIPE_PUBLISHABLE}
+                <Can
+                  id={session.user.username}
+                  matchingID={session.user.username}
+                  roles={session.user.roles}
+                  perform="account:pay-monthly"
+                  yes={() => (
+                    <StripeCheckout
+                      image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
+                      /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
+                      token={async token => {
+                        const response = await mutate({
+                          variables: {source: token.id}
+                        })
+                        console.log("response", response)
+                      }}
+                      stripeKey={process.env.STRIPE_PUBLISHABLE}
+                    />
+                  )}
+                  no={() => null}
                 />
               </div>
             )

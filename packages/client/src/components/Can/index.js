@@ -16,7 +16,10 @@ const check = (rules, roles, action, id, matchingID) => {
   // Static rules setup
   var combinedStaticRules = []
 
+  console.log("rules: ", rules)
+  console.log("roles: ", roles)
   roles.map(role => {
+    console.log("role: ", role)
     combinedStaticRules.push(rules[role].static)
   })
 

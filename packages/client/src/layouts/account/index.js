@@ -47,7 +47,7 @@ const getUserByUsername = gql`
     getUserByUsername(input: $input) {
       _id
       roles
-      scopes
+      rights
       contacts
       username
     }

@@ -25,9 +25,9 @@ const resources = [
   {zone: Zone}
 ]
 
-export class hasScopeDirective extends SchemaDirectiveVisitor {
+export class hasRightsDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(field) {
-    const expectedScope = this.args.scope
+    const expectedRight = this.args.right
     const {resolve = defaultFieldResolver} = field
 
     field.resolve = async (...args) => {
@@ -51,7 +51,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
           rules,
           user,
           resourceId,
-          expectedScope
+          expectedRight
         )
 
         if (resource instanceof Error) {
@@ -78,7 +78,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
     return true
   }
 
-  hasPermission = async (rules, user, resourceId, expectedScope) => {
+  hasPermission = async (rules, user, resourceId, expectedRight) => {
     try {
       var roles = user.roles
 
@@ -109,8 +109,8 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
 
       const allPermissions = uniq(flatten(combinedRules))
 
-      // See if user's roles has the permissions from expectedScope
-      const containsPermission = allPermissions.includes(expectedScope)
+      // See if user's roles has the permissions from expectedRight
+      const containsPermission = allPermissions.includes(expectedRight)
 
       // This is where we resolve dynamic permissions
       if (containsPermission) {
@@ -118,7 +118,7 @@ export class hasScopeDirective extends SchemaDirectiveVisitor {
 
         // Go through user dynamic permissions
         const key = dynamicKeys.find(ele => {
-          if (ele === expectedScope) return ele
+          if (ele === expectedRight) return ele
         })
         const modelSlice = key.slice(0, key.indexOf(":"))
         const modelName = modelSlice[0] + modelSlice.slice(1)
