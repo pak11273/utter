@@ -31,6 +31,8 @@ var _rateLimitRedis = _interopRequireDefault(require("rate-limit-redis"));
 
 var _expressSession = _interopRequireDefault(require("express-session"));
 
+var _stripe = _interopRequireDefault(require("./stripe.js"));
+
 var RedisStore2 = require("connect-redis")(_expressSession.default); // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
 // if (process.env.NODE_ENV !== "production" || process.env.NODE_ENV !== "prod") {
@@ -77,7 +79,18 @@ app.use((0, _expressSession.default)({
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false
-}));
+})); // TODO: may need to add this to session optins for production
+
+/* cookie: { */
+
+/*   httpOnly: */
+
+/*     process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production" */
+
+/*       ? false : true */
+
+/* }, */
+
 (0, _middleware.default)(app); // rate limiter
 
 var limiter = new _expressRateLimit.default({

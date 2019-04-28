@@ -43,6 +43,8 @@ var _userModel = _interopRequireDefault(require("./user-model.js"));
 
 var _resolverFunctions = require("../shared/resolver-functions.js");
 
+var _stripe = require("../../stripe.js");
+
 var _common = require("@utterzone/common");
 
 /* eslint-enable no-unused-vars */
@@ -272,56 +274,126 @@ function () {
   };
 }();
 
+var createPaidUser =
+/*#__PURE__*/
+function () {
+  var _ref11 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee5(_, _ref9, _ref10, __) {
+    var source, req, query, customer, user;
+    return _regenerator.default.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            source = _ref9.source;
+            req = _ref10.req;
+
+            if (!(!req.session || !req.session.userId)) {
+              _context5.next = 4;
+              break;
+            }
+
+            throw new Error("Not authenticated.");
+
+          case 4:
+            _context5.next = 6;
+            return _userModel.default.findById(req.session.userId).lean();
+
+          case 6:
+            query = _context5.sent;
+            _context5.next = 9;
+            return _stripe.stripe.customers.create({
+              email: query.email,
+              source: source,
+              plan: process.env.STRIPE_PLAN
+            });
+
+          case 9:
+            customer = _context5.sent;
+            _context5.next = 12;
+            return _userModel.default.findByIdAndUpdate(req.session.userId, {
+              stripeId: customer.id,
+              "user.roles": "paidUser"
+            }, {
+              new: true
+            }).lean();
+
+          case 12:
+            user = _context5.sent;
+
+            if (user) {
+              _context5.next = 15;
+              break;
+            }
+
+            throw new Error();
+
+          case 15:
+            return _context5.abrupt("return", user);
+
+          case 16:
+          case "end":
+            return _context5.stop();
+        }
+      }
+    }, _callee5);
+  }));
+
+  return function createPaidUser(_x13, _x14, _x15, _x16) {
+    return _ref11.apply(this, arguments);
+  };
+}();
+
 var signup =
 /*#__PURE__*/
 function () {
-  var _ref10 = (0, _asyncToGenerator2.default)(
+  var _ref13 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee6(_, args, _ref9, info) {
+  _regenerator.default.mark(function _callee7(_, args, _ref12, info) {
     var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
 
-    return _regenerator.default.wrap(function _callee6$(_context6) {
+    return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
-            redis = _ref9.redis, url = _ref9.url;
+            redis = _ref12.redis, url = _ref12.url;
             args.input["password confirmation"] = args.input.passwordConfirmation;
             token = null;
             arrayOfErrors = [];
-            _context6.prev = 4;
-            _context6.next = 7;
+            _context7.prev = 4;
+            _context7.next = 7;
             return _common.signupSchema.validate(args.input, {
               abortEarly: false
             });
 
           case 7:
-            _context6.next = 12;
+            _context7.next = 12;
             break;
 
           case 9:
-            _context6.prev = 9;
-            _context6.t0 = _context6["catch"](4);
+            _context7.prev = 9;
+            _context7.t0 = _context7["catch"](4);
 
-            if (_context6.t0) {
-              arrayOfErrors = (0, _formatYupError.formatYupError)(_context6.t0);
+            if (_context7.t0) {
+              arrayOfErrors = (0, _formatYupError.formatYupError)(_context7.t0);
             }
 
           case 12:
             _args$input = args.input, username = _args$input.username, email = _args$input.email, password = _args$input.password;
-            _context6.next = 15;
+            _context7.next = 15;
             return _userModel.default.findOne({
               email: email
             }).exec();
 
           case 15:
-            foundDupeEmail = _context6.sent;
-            _context6.next = 18;
+            foundDupeEmail = _context7.sent;
+            _context7.next = 18;
             return _userModel.default.findOne({
               username: username
             }).exec();
 
           case 18:
-            foundDupeUsername = _context6.sent;
+            foundDupeUsername = _context7.sent;
 
             if (foundDupeUsername !== null) {
               error = {
@@ -341,32 +413,32 @@ function () {
 
 
             if (!(foundDupeEmail === null && (0, _lodash.isEmpty)(arrayOfErrors))) {
-              _context6.next = 24;
+              _context7.next = 24;
               break;
             }
 
             newUser = new _userModel.default(args.input);
-            return _context6.abrupt("return", newUser.save().then(
+            return _context7.abrupt("return", newUser.save().then(
             /*#__PURE__*/
             function () {
-              var _ref11 = (0, _asyncToGenerator2.default)(
+              var _ref14 = (0, _asyncToGenerator2.default)(
               /*#__PURE__*/
-              _regenerator.default.mark(function _callee5(result) {
-                return _regenerator.default.wrap(function _callee5$(_context5) {
+              _regenerator.default.mark(function _callee6(result) {
+                return _regenerator.default.wrap(function _callee6$(_context6) {
                   while (1) {
-                    switch (_context5.prev = _context5.next) {
+                    switch (_context6.prev = _context6.next) {
                       case 0:
                         token = (0, _auth.signToken)(newUser._id);
                         result.password = null;
-                        _context5.t0 = _mail.sendConfirmEmail;
-                        _context5.t1 = newUser.email;
-                        _context5.next = 6;
+                        _context6.t0 = _mail.sendConfirmEmail;
+                        _context6.t1 = newUser.email;
+                        _context6.next = 6;
                         return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
 
                       case 6:
-                        _context5.t2 = _context5.sent;
-                        (0, _context5.t0)(_context5.t1, _context5.t2);
-                        return _context5.abrupt("return", {
+                        _context6.t2 = _context6.sent;
+                        (0, _context6.t0)(_context6.t1, _context6.t2);
+                        return _context6.abrupt("return", {
                           token: token,
                           user: result,
                           error: arrayOfErrors
@@ -374,48 +446,48 @@ function () {
 
                       case 9:
                       case "end":
-                        return _context5.stop();
+                        return _context6.stop();
                     }
                   }
-                }, _callee5);
+                }, _callee6);
               }));
 
-              return function (_x17) {
-                return _ref11.apply(this, arguments);
+              return function (_x21) {
+                return _ref14.apply(this, arguments);
               };
             }()).catch(function (err) {
               throw err;
             }));
 
           case 24:
-            return _context6.abrupt("return", {
+            return _context7.abrupt("return", {
               error: arrayOfErrors
             });
 
           case 25:
           case "end":
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, null, [[4, 9]]);
+    }, _callee7, null, [[4, 9]]);
   }));
 
-  return function signup(_x13, _x14, _x15, _x16) {
-    return _ref10.apply(this, arguments);
+  return function signup(_x17, _x18, _x19, _x20) {
+    return _ref13.apply(this, arguments);
   };
 }();
 
 var login =
 /*#__PURE__*/
 function () {
-  var _ref12 = (0, _asyncToGenerator2.default)(
+  var _ref15 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee7(parent, args, ctx, info) {
+  _regenerator.default.mark(function _callee8(parent, args, ctx, info) {
     var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
 
-    return _regenerator.default.wrap(function _callee7$(_context7) {
+    return _regenerator.default.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
             console.log("ctx: ", ctx.req); // decipher identifier
 
@@ -436,11 +508,11 @@ function () {
             } // check if passwords match
 
 
-            _context7.next = 8;
+            _context8.next = 8;
             return _userModel.default.findOne(criteria).populate("subscriptions").exec();
 
           case 8:
-            user = _context7.sent;
+            user = _context8.sent;
 
             /* const subscriptions = user.subscriptions.map(course => { */
 
@@ -454,7 +526,7 @@ function () {
             console.log("user: ", user);
 
             if (user) {
-              _context7.next = 14;
+              _context8.next = 14;
               break;
             }
 
@@ -462,12 +534,12 @@ function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context7.next = 26;
+            _context8.next = 26;
             break;
 
           case 14:
             if (user.authenticate(password)) {
-              _context7.next = 18;
+              _context8.next = 18;
               break;
             }
 
@@ -476,12 +548,12 @@ function () {
               path: "password",
               message: "Invalid Password"
             });
-            _context7.next = 26;
+            _context8.next = 26;
             break;
 
           case 18:
             if (!user.forgotPasswordLocked) {
-              _context7.next = 22;
+              _context8.next = 22;
               break;
             }
 
@@ -489,150 +561,119 @@ function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context7.next = 26;
+            _context8.next = 26;
             break;
 
           case 22:
             if (!user) {
-              _context7.next = 26;
+              _context8.next = 26;
               break;
             }
 
-            _context7.next = 25;
+            _context8.next = 25;
             return (0, _auth.signToken)(user._id);
 
           case 25:
-            token = _context7.sent;
+            token = _context8.sent;
 
           case 26:
             console.log("user: ", user);
             ctx.req.session.userId = user._id;
-            return _context7.abrupt("return", {
+            console.log("ctx: ", ctx.req.session);
+            console.log("ctx: ", ctx.req.session.userId);
+            return _context8.abrupt("return", {
               token: token,
               user: user,
               error: arrayOfErrors
             });
 
-          case 29:
+          case 31:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
       }
-    }, _callee7);
+    }, _callee8);
   }));
 
-  return function login(_x18, _x19, _x20, _x21) {
-    return _ref12.apply(this, arguments);
+  return function login(_x22, _x23, _x24, _x25) {
+    return _ref15.apply(this, arguments);
   };
 }();
 
 var getUserByToken =
 /*#__PURE__*/
 function () {
-  var _ref13 = (0, _asyncToGenerator2.default)(
+  var _ref16 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee8(_, args, ctx, info) {
+  _regenerator.default.mark(function _callee9(_, args, ctx, info) {
     var token, result, _userId, user;
 
-    return _regenerator.default.wrap(function _callee8$(_context8) {
+    return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
-        switch (_context8.prev = _context8.next) {
+        switch (_context9.prev = _context9.next) {
           case 0:
-            _context8.prev = 0;
+            _context9.prev = 0;
             token = args.token;
 
             if (!token) {
-              _context8.next = 17;
+              _context9.next = 17;
               break;
             }
 
-            _context8.next = 5;
+            _context9.next = 5;
             return _jsonwebtoken.default.verify(token, _config.default.env.JWT);
 
           case 5:
-            result = _context8.sent;
+            result = _context9.sent;
 
             if (!result) {
-              _context8.next = 14;
+              _context9.next = 14;
               break;
             }
 
             _userId = result._id;
-            _context8.next = 10;
+            _context9.next = 10;
             return _userModel.default.findById(_userId).populate("subscriptions").lean();
 
           case 10:
-            user = _context8.sent;
-            return _context8.abrupt("return", user);
+            user = _context9.sent;
+            return _context9.abrupt("return", user);
 
           case 14:
-            return _context8.abrupt("return", {
+            return _context9.abrupt("return", {
               username: ""
             });
 
           case 15:
             console.log("result: ", result);
-            return _context8.abrupt("return", result);
+            return _context9.abrupt("return", result);
 
           case 17:
-            _context8.next = 22;
+            _context9.next = 22;
             break;
 
           case 19:
-            _context8.prev = 19;
-            _context8.t0 = _context8["catch"](0);
-            throw _context8.t0;
+            _context9.prev = 19;
+            _context9.t0 = _context9["catch"](0);
+            throw _context9.t0;
 
           case 22:
           case "end":
-            return _context8.stop();
+            return _context9.stop();
         }
       }
-    }, _callee8, null, [[0, 19]]);
+    }, _callee9, null, [[0, 19]]);
   }));
 
-  return function getUserByToken(_x22, _x23, _x24, _x25) {
-    return _ref13.apply(this, arguments);
+  return function getUserByToken(_x26, _x27, _x28, _x29) {
+    return _ref16.apply(this, arguments);
   };
 }();
 
 var getUserById =
 /*#__PURE__*/
 function () {
-  var _ref14 = (0, _asyncToGenerator2.default)(
-  /*#__PURE__*/
-  _regenerator.default.mark(function _callee9(_, args, ctx, info) {
-    var result;
-    return _regenerator.default.wrap(function _callee9$(_context9) {
-      while (1) {
-        switch (_context9.prev = _context9.next) {
-          case 0:
-            _context9.next = 2;
-            return _userModel.default.findById({
-              _id: args._id
-            });
-
-          case 2:
-            result = _context9.sent;
-            return _context9.abrupt("return", result);
-
-          case 4:
-          case "end":
-            return _context9.stop();
-        }
-      }
-    }, _callee9);
-  }));
-
-  return function getUserById(_x26, _x27, _x28, _x29) {
-    return _ref14.apply(this, arguments);
-  };
-}();
-
-var getUserByUsername =
-/*#__PURE__*/
-function () {
-  var _ref15 = (0, _asyncToGenerator2.default)(
+  var _ref17 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee10(_, args, ctx, info) {
     var result;
@@ -641,8 +682,8 @@ function () {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.next = 2;
-            return _userModel.default.findOne({
-              username: args.input
+            return _userModel.default.findById({
+              _id: args._id
             });
 
           case 2:
@@ -657,46 +698,32 @@ function () {
     }, _callee10);
   }));
 
-  return function getUserByUsername(_x30, _x31, _x32, _x33) {
-    return _ref15.apply(this, arguments);
+  return function getUserById(_x30, _x31, _x32, _x33) {
+    return _ref17.apply(this, arguments);
   };
 }();
 
-var forgotPassword =
+var getUserByUsername =
 /*#__PURE__*/
 function () {
   var _ref18 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee11(_, _ref16, _ref17) {
-    var email, redis, url, user, link;
+  _regenerator.default.mark(function _callee11(_, args, ctx, info) {
+    var result;
     return _regenerator.default.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            email = _ref16.email;
-            redis = _ref17.redis, url = _ref17.url;
-            _context11.next = 4;
+            _context11.next = 2;
             return _userModel.default.findOne({
-              email: email
+              username: args.input
             });
 
+          case 2:
+            result = _context11.sent;
+            return _context11.abrupt("return", result);
+
           case 4:
-            user = _context11.sent;
-            _context11.t0 = _mail.sendForgotPasswordEmail;
-            _context11.t1 = user.email;
-            _context11.next = 9;
-            return (0, _createForgotPasswordLink.createForgotPasswordLink)(url, user._id, redis);
-
-          case 9:
-            _context11.t2 = _context11.sent;
-            _context11.next = 12;
-            return (0, _context11.t0)(_context11.t1, _context11.t2);
-
-          case 12:
-            link = _context11.sent;
-            return _context11.abrupt("return", true);
-
-          case 14:
           case "end":
             return _context11.stop();
         }
@@ -704,14 +731,61 @@ function () {
     }, _callee11);
   }));
 
-  return function forgotPassword(_x34, _x35, _x36) {
+  return function getUserByUsername(_x34, _x35, _x36, _x37) {
     return _ref18.apply(this, arguments);
   };
 }();
 
-var updateMe = function updateMe(_, _ref19, _ref20) {
-  var input = _ref19.input;
-  var user = _ref20.user;
+var forgotPassword =
+/*#__PURE__*/
+function () {
+  var _ref21 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee12(_, _ref19, _ref20) {
+    var email, redis, url, user, link;
+    return _regenerator.default.wrap(function _callee12$(_context12) {
+      while (1) {
+        switch (_context12.prev = _context12.next) {
+          case 0:
+            email = _ref19.email;
+            redis = _ref20.redis, url = _ref20.url;
+            _context12.next = 4;
+            return _userModel.default.findOne({
+              email: email
+            });
+
+          case 4:
+            user = _context12.sent;
+            _context12.t0 = _mail.sendForgotPasswordEmail;
+            _context12.t1 = user.email;
+            _context12.next = 9;
+            return (0, _createForgotPasswordLink.createForgotPasswordLink)(url, user._id, redis);
+
+          case 9:
+            _context12.t2 = _context12.sent;
+            _context12.next = 12;
+            return (0, _context12.t0)(_context12.t1, _context12.t2);
+
+          case 12:
+            link = _context12.sent;
+            return _context12.abrupt("return", true);
+
+          case 14:
+          case "end":
+            return _context12.stop();
+        }
+      }
+    }, _callee12);
+  }));
+
+  return function forgotPassword(_x38, _x39, _x40) {
+    return _ref21.apply(this, arguments);
+  };
+}();
+
+var updateMe = function updateMe(_, _ref22, _ref23) {
+  var input = _ref22.input;
+  var user = _ref23.user;
   merge(user, input);
   return user.save();
 };
@@ -719,40 +793,40 @@ var updateMe = function updateMe(_, _ref19, _ref20) {
 var getSubscriptions =
 /*#__PURE__*/
 function () {
-  var _ref22 = (0, _asyncToGenerator2.default)(
+  var _ref25 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee12(_, args, _ref21) {
+  _regenerator.default.mark(function _callee13(_, args, _ref24) {
     var user, subscriptions;
-    return _regenerator.default.wrap(function _callee12$(_context12) {
+    return _regenerator.default.wrap(function _callee13$(_context13) {
       while (1) {
-        switch (_context12.prev = _context12.next) {
+        switch (_context13.prev = _context13.next) {
           case 0:
-            user = _ref21.user;
-            _context12.prev = 1;
-            _context12.next = 4;
+            user = _ref24.user;
+            _context13.prev = 1;
+            _context13.next = 4;
             return _userModel.default.findById(userId);
 
           case 4:
-            subscriptions = _context12.sent;
-            return _context12.abrupt("return", (0, _objectSpread2.default)({}, subscriptions._doc, {
+            subscriptions = _context13.sent;
+            return _context13.abrupt("return", (0, _objectSpread2.default)({}, subscriptions._doc, {
               _id: subscriptions.id
             }));
 
           case 8:
-            _context12.prev = 8;
-            _context12.t0 = _context12["catch"](1);
-            throw _context12.t0;
+            _context13.prev = 8;
+            _context13.t0 = _context13["catch"](1);
+            throw _context13.t0;
 
           case 11:
           case "end":
-            return _context12.stop();
+            return _context13.stop();
         }
       }
-    }, _callee12, null, [[1, 8]]);
+    }, _callee13, null, [[1, 8]]);
   }));
 
-  return function getSubscriptions(_x37, _x38, _x39) {
-    return _ref22.apply(this, arguments);
+  return function getSubscriptions(_x41, _x42, _x43) {
+    return _ref25.apply(this, arguments);
   };
 }();
 
@@ -762,8 +836,8 @@ var userResolvers = {
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref23) {
-      var name = _ref23.name;
+    hello: function hello(_, _ref26) {
+      var name = _ref26.name;
       return "Hello ".concat(name || "World");
     },
     me: me
@@ -779,6 +853,7 @@ var userResolvers = {
     changePassword: changePassword,
     confirmEmail: confirmEmail,
     contact: contact,
+    createPaidUser: createPaidUser,
     forgotPassword: forgotPassword,
     signup: signup,
     login: login,

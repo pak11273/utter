@@ -1,11 +1,11 @@
 import React, {Component} from "react"
 import StripeCheckout from "react-stripe-checkout"
 /* import {withRouter} from "react-router-dom" */
-/* import {graphql} from "react-apollo" */
+import {Mutation} from "react-apollo"
 /* import Grid from "@material-ui/core/Grid" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-/* import gql from "graphql-tag" */
+import gql from "graphql-tag"
 /* import {session} from "brownies" */
 /* import {toast} from "react-toastify" */
 
@@ -18,6 +18,15 @@ import /* FormikInput, */
 /* Img, */
 /* LoadingButton, */
 "../../components"
+
+const CREATE_PAID_USER = gql`
+  mutation createPaidUser($source: String!) {
+    createPaidUser(source: $source) {
+      _id
+      email
+    }
+  }
+`
 
 const styles = theme => ({
   content: {
@@ -69,22 +78,35 @@ class AccountBilling extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
-        <Typography
-          align="center"
-          variant="h4"
-          className={classes.heading}
-          gutterBottom>
-          Billing
-        </Typography>
-        <Typography align="left" variant="h6" gutterBottom>
-          Payment
-        </Typography>
-        <StripeCheckout
-          image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
-          /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
-          token={token => console.log("tokeN", token)}
-          stripeKey={process.env.STRIPE_PUBLISHABLE}
-        />
+        <Mutation mutation={CREATE_PAID_USER}>
+          {mutate => {
+            return (
+              <div className={classes.root}>
+                <Typography
+                  align="center"
+                  variant="h4"
+                  className={classes.heading}
+                  gutterBottom>
+                  Billing
+                </Typography>
+                <Typography align="left" variant="h6" gutterBottom>
+                  Make a Payment
+                </Typography>
+                <StripeCheckout
+                  image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
+                  /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
+                  token={async token => {
+                    const response = await mutate({
+                      variables: {source: token.id}
+                    })
+                    console.log("response", response)
+                  }}
+                  stripeKey={process.env.STRIPE_PUBLISHABLE}
+                />
+              </div>
+            )
+          }}
+        </Mutation>
       </React.Fragment>
     )
   }

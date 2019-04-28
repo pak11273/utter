@@ -119,6 +119,7 @@ ObjectId.prototype.valueOf = function () {
 
 var _default = new _apolloServerExpress.ApolloServer({
   introspection: true,
+  credentials: true,
   playground: process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" ? false : true,
 
   /* schema: schemaWithMiddleware, // see TODO */

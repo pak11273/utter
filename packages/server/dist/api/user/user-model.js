@@ -83,6 +83,9 @@ var UserSchema = new _mongoose.default.Schema({
     type: [String],
     default: "registeredUser"
   },
+  stripeId: {
+    type: String
+  },
   subscriptions: [{
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Course"

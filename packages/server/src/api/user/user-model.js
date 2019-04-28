@@ -76,6 +76,9 @@ export const UserSchema = new mongoose.Schema(
       type: [String],
       default: "registeredUser"
     },
+    stripeId: {
+      type: String
+    },
     subscriptions: [
       {
         type: mongoose.Schema.Types.ObjectId,

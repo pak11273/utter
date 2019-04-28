@@ -10,6 +10,7 @@ import exphbs from "express-handlebars"
 import RateLimit from "express-rate-limit"
 import RedisStore from "rate-limit-redis"
 import session from "express-session"
+import stripe from "./stripe.js"
 var RedisStore2 = require("connect-redis")(session)
 
 // This code shows all console.log locations

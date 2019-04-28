@@ -24,6 +24,7 @@ import {
 } from "../../mail/mail"
 import User from "./user-model.js"
 import {userByToken} from "../shared/resolver-functions.js"
+import {stripe} from "../../stripe.js"
 
 import {
   signupSchema,
@@ -118,6 +119,36 @@ const changePassword = async (_, args, {redis, url}) => {
     token,
     error: []
   }
+}
+
+const createPaidUser = async (_, {source}, {req}, __) => {
+  // TODO use auth here and replace this conditional
+  if (!req.session || !req.session.userId) {
+    throw new Error("Not authenticated.")
+  }
+
+  let query = await User.findById(req.session.userId).lean()
+
+  const customer = await stripe.customers.create({
+    email: query.email,
+    source,
+    plan: process.env.STRIPE_PLAN
+  })
+
+  let user = await User.findByIdAndUpdate(
+    req.session.userId,
+    {
+      stripeId: customer.id,
+      "user.roles": "paidUser"
+    },
+    {new: true}
+  ).lean()
+
+  if (!user) {
+    throw new Error()
+  }
+
+  return user
 }
 
 const signup = async (_, args, {redis, url}, info) => {
@@ -327,6 +358,7 @@ export const userResolvers = {
     changePassword,
     confirmEmail,
     contact,
+    createPaidUser,
     forgotPassword,
     signup,
     login,
