@@ -139,10 +139,13 @@ const createPaidUser = async (_, {source}, {req}, __) => {
     req.session.userId,
     {
       stripeId: customer.id,
-      "user.roles": "paidUser"
+      $push: {roles: "paidUser"}
     },
     {new: true}
   ).lean()
+
+  console.log("user: ", user)
+  user.save()
 
   if (!user) {
     throw new Error()
