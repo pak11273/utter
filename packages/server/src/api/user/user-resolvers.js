@@ -121,7 +121,9 @@ const changePassword = async (_, args, {redis, url}) => {
   }
 }
 
-const createPaidUser = async (_, {source}, {req}, __) => {
+const createPayMonthly = async (_, {source}, {req}, __) => {
+  console.log("req: ", req.session)
+  console.log("source: ", source)
   // TODO use auth here and replace this conditional
   if (!req.session || !req.session.userId) {
     throw new Error("Not authenticated.")
@@ -139,7 +141,7 @@ const createPaidUser = async (_, {source}, {req}, __) => {
     req.session.userId,
     {
       stripeId: customer.id,
-      $push: {roles: "paidMonthly"}
+      $addToSet: {roles: "payMonthly"} // addToSet if unique
     },
     {new: true}
   ).lean()
@@ -358,7 +360,7 @@ export const userResolvers = {
     changePassword,
     confirmEmail,
     contact,
-    createPaidUser,
+    createPayMonthly,
     forgotPassword,
     signup,
     login,
