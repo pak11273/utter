@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import {Route, NavLink} from "react-router-dom"
-import {session} from "brownies"
+/* import {session} from "brownies" */
 
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
@@ -11,49 +11,16 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemText from "@material-ui/core/ListItemText"
 import {withStyles} from "@material-ui/core/styles"
 
+import {styles} from "./styles.js"
 import cloneDeep from "lodash/cloneDeep"
 /* import {Query} from "react-apollo" */
 /* import gql from "graphql-tag" */
 
 import {Spacer} from "../../components"
 
-const drawerWidth = 240
-
-const styles = theme => ({
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  list: {
-    margin: "0 auto"
-  },
-  root: {
-    display: "flex"
-  }
-})
-
 const initialState = {
   resources: ""
 }
-
-/* const getUserByUsername = gql` */
-/*   query getUserByUsername($input: String!) { */
-/*     getUserByUsername(input: $input) { */
-/*       _id */
-/*       roles */
-/*       rights */
-/*       contacts */
-/*       username */
-/*     } */
-/*   } */
-/* ` */
 
 class Account extends Component {
   locationName = this.props.path
@@ -78,7 +45,7 @@ class Account extends Component {
       />
     )
     return (
-      <React.Fragment>
+      <div style={{display: "flex", flexDirection: "row", width: "100%"}}>
         <Drawer
           className={classes.drawer}
           variant="permanent"
@@ -87,28 +54,7 @@ class Account extends Component {
           }}>
           <Spacer margin="200px 0 0 0" />
           <List className={classes.list}>
-            {["billing"].map((text, index) => {
-              if (!session.user) {
-                /*    if (text === "settings") {
-                return 
-                    <Can
-                    key={text}
-                    roles={user.roles}
-                    perform="course:update"
-                    id={user.username}
-                    matchingID={user.username}
-                    yes={() => (
-                      <ListItem button key={index}>
-                        <Link component={NavLink} to="/course/course-settings">
-                          <ListItemText primary={text} />
-                        </Link>
-                      </ListItem>
-                    )}
-                    no={() => null}
-                  /> 
-                
-              } */
-              }
+            {["settings", "billing"].map((text, index) => {
               return (
                 <ListItem button key={index}>
                   <Link component={NavLink} to={`/account/account-${text}`}>
@@ -122,47 +68,12 @@ class Account extends Component {
           <Divider />
           <Spacer margin="40px 0 0 0" />
         </Drawer>
-        {/* <Query
-          query={getUserByUsername}
-          variables={{
-            input: "pak11273"
-          }}>
-          {({loading, error, data}) => {
-            if (loading) return <Loading />
-            if (error) {
-              console.log("err: ", error)
-              return (
-                <Grid>
-                  <p>
-                    {error.graphQLErrors.map(({message}, i) => (
-                      <p
-                        style={{
-                          fontSize: "1.3em",
-                          color: "red",
-                          margin: "30px",
-                          padding: "30px",
-                          textAlign: "center"
-                        }}
-                        key={i}>
-                        {message}
-                      </p>
-                    ))}
-                  </p>
-                </Grid>
-              )
-            } 
-            if (data) {
-              return ( */}
         <Grid container justify="center" direction="column">
           {routes.map(route => (
             <SubRoutes key={route.path} {...route} />
           ))}
         </Grid>
-        {/*  )
-            }
-			  }}
-        </Query> */}
-      </React.Fragment>
+      </div>
     )
   }
 }

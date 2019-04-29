@@ -182,10 +182,12 @@ export const routes = [
     path: "/account/:username",
     routes: [
       {
+        exact: true,
         path: "/account/account-billing",
         component: getAccountBilling
       },
       {
+        exact: true,
         path: "/account/account-settings",
         component: getAccountSettings
       }

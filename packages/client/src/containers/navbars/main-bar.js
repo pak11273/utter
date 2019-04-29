@@ -116,9 +116,7 @@ class MainNavbar extends Component {
 
   handleAccount = () => {
     this.setState({anchorEl: null})
-    /* this.props.history.push(`/account/${this.props.user.username}`) */
-    // TODO: remove hardcoded name
-    this.props.history.push(`/account/blarney`)
+    this.props.history.push(`/account/account-settings`)
     this.handleMobileMenuClose()
   }
 
@@ -226,7 +224,7 @@ class MainNavbar extends Component {
         </List>
         <Divider />
         <List>
-          {["About", "Contact", "Pricing"].map((text, index) => {
+          {["Pricing"].map((text, index) => {
             var icon = <MoodIcon />
             if (index === 0) {
               icon = <InfoIcon />
@@ -267,16 +265,6 @@ class MainNavbar extends Component {
           ))}
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </div>
     )
 
@@ -387,34 +375,6 @@ class MainNavbar extends Component {
                   width="48px"
                   height="48px"
                 />
-              </StyledNavLink>
-            </Typography>
-            <Typography
-              className={classes.title}
-              variant="h6"
-              color="inherit"
-              noWrap>
-              <StyledNavLink
-                exact
-                activeStyle={{
-                  color: "red"
-                }}
-                to="/about">
-                About
-              </StyledNavLink>
-            </Typography>
-            <Typography
-              className={classes.title}
-              variant="h6"
-              color="inherit"
-              noWrap>
-              <StyledNavLink
-                exact
-                activeStyle={{
-                  color: "red"
-                }}
-                to="/contact">
-                Contact
               </StyledNavLink>
             </Typography>
             <Typography
