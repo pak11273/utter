@@ -28,6 +28,12 @@ const getAccountSettings = Loadable({
   loading: Loading
 })
 
+const getAccountThanks = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'account-thanks' */ "./layouts/account/account-thanks.js"),
+  loading: Loading
+})
+
 const getAnnouncement = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'announcement' */ "./layouts/announcement"),
@@ -190,6 +196,11 @@ export const routes = [
         exact: true,
         path: "/account/account-settings",
         component: getAccountSettings
+      },
+      {
+        exact: true,
+        path: "/account/account-thanks",
+        component: getAccountThanks
       }
     ]
   },

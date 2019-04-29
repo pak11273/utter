@@ -37,30 +37,36 @@ class AccountBilling extends PureComponent {
                       gutterBottom>
                       Billing
                     </Typography>
-                    <Typography
-                      variant="h6"
-                      align="center"
-                      color="textSecondary"
-                      paragraph>
-                      Subscribe Today!
-                    </Typography>
                     <div className={classes.heroButtons}>
                       <Grid container spacing={16} justify="center">
                         <Grid item>
-                          <StripeCheckout
-                            image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
-                            /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
-                            token={async token => {
-                              const response = await mutate({
-                                variables: {source: token.id}
-                              })
-                              // update session
-                              var {user} = session
-                              user.roles = response.data.createPayMonthly.roles
-                              session.user = user
-                            }}
-                            stripeKey={process.env.STRIPE_PUBLISHABLE}
-                          />
+                          {!session.user.roles.includes("payMonthly") && (
+                            <React.Fragment>
+                              <Typography
+                                variant="h6"
+                                align="center"
+                                color="textSecondary"
+                                paragraph>
+                                Start your Free Trial!
+                              </Typography>
+                              <StripeCheckout
+                                image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
+                                /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
+                                token={async token => {
+                                  const response = await mutate({
+                                    variables: {source: token.id}
+                                  })
+                                  // update session
+                                  var {user} = session
+                                  user.roles =
+                                    response.data.createPayMonthly.roles
+                                  session.user = user
+                                  window.location = "./account-thanks"
+                                }}
+                                stripeKey={process.env.STRIPE_PUBLISHABLE}
+                              />
+                            </React.Fragment>
+                          )}
                         </Grid>
                       </Grid>
                     </div>
