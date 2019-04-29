@@ -4,6 +4,30 @@ export const styles = theme => ({
   appBar: {
     position: "relative"
   },
+  billingHeroUnit: {
+    backgroundColor: "#2bae3a"
+  },
+  billingHeroContent: {
+    maxWidth: 960,
+    margin: "0 auto",
+    padding: `${theme.spacing.unit * 8}px ${theme.spacing.unit * 6}px ${theme
+      .spacing.unit * 6}px`
+  },
+  masthead: {
+    padding: theme.spacing.unit * 1,
+    margin: "auto",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column"
+    }
+  },
+  billingRoot: {
+    maxWidth: 960,
+    margin: "0 auto"
+  },
+  heading: {
+    color: "black"
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3
@@ -15,16 +39,6 @@ export const styles = theme => ({
   drawerPaper: {
     width: drawerWidth
   },
-  settingsContent: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-    height: "100vh",
-    overflow: "auto",
-    width: "100%"
-  },
-  icon: {
-    marginRight: theme.spacing.unit * 2
-  },
   heroUnit: {
     backgroundColor: theme.palette.background.paper
   },
@@ -35,6 +49,9 @@ export const styles = theme => ({
   },
   heroButtons: {
     marginTop: theme.spacing.unit * 4
+  },
+  icon: {
+    marginRight: theme.spacing.unit * 2
   },
   layout: {
     width: "auto",
@@ -48,6 +65,18 @@ export const styles = theme => ({
   },
   list: {
     margin: "0 auto"
+  },
+  settingsContent: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 3,
+    height: "100vh",
+    overflow: "auto",
+    width: "100%"
+  },
+  subHeading: {
+    color: "black",
+    marginTop: "40px",
+    position: "relative"
   },
   root: {
     display: "flex"

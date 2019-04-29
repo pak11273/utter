@@ -23,7 +23,7 @@ function AccountSettings(props) {
               align="center"
               color="textPrimary"
               gutterBottom>
-              Account Settings
+              My Account
             </Typography>
             <Typography
               variant="h6"
@@ -38,12 +38,12 @@ function AccountSettings(props) {
               <Grid container spacing={16} justify="center">
                 <Grid item>
                   <Button variant="contained" color="primary">
-                    Main call to action
+                    Cancel My Account
                   </Button>
                 </Grid>
                 <Grid item>
                   <Button variant="outlined" color="primary">
-                    Secondary action
+                    Start my free trial!
                   </Button>
                 </Grid>
               </Grid>
@@ -51,7 +51,7 @@ function AccountSettings(props) {
           </div>
         </div>
         <div>
-          <h5>under construction</h5>
+          <h6 style={{display: "none"}}>TODO</h6>
         </div>
       </main>
     </React.Fragment>
