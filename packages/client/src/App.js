@@ -7,7 +7,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {cookies, session} from "brownies"
+import {cookies, session, subscribe} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -27,6 +27,7 @@ import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 import gql from "graphql-tag"
+import {sessionDelete} from "./utils/session-delete.js"
 
 export const GET_USER_BY_TOKEN = gql`
   query getUserByToken($token: String!) {
@@ -81,6 +82,14 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   componentDidMount = async () => {
+    // delete session if user cookies is deleted
+    subscribe(cookies, "_uid", value => {
+      console.log("value: ", value)
+      if (!value) {
+        sessionDelete()
+        window.location = "/login"
+      }
+    })
     const token = cookies._uid
 
     if (!session.user) {

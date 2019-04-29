@@ -7,7 +7,7 @@ import {session} from "brownies"
  * @returns {undefined}
  */
 
-export const sessionDelete = dontArr => {
+export const sessionDelete = (dontArr = []) => {
   Object.keys(session).map(item => {
     console.log("hmm: ", dontArr.indexOf(item))
     if (dontArr.indexOf(item) === -1) {
