@@ -7,7 +7,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.hasScopeDirective = void 0;
+exports.hasRightsDirective = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -68,23 +68,23 @@ var resources = [{
   zone: _zoneModel.default
 }];
 
-var hasScopeDirective =
+var hasRightsDirective =
 /*#__PURE__*/
 function (_SchemaDirectiveVisit) {
-  (0, _inherits2.default)(hasScopeDirective, _SchemaDirectiveVisit);
+  (0, _inherits2.default)(hasRightsDirective, _SchemaDirectiveVisit);
 
-  function hasScopeDirective() {
+  function hasRightsDirective() {
     var _getPrototypeOf2;
 
     var _this;
 
-    (0, _classCallCheck2.default)(this, hasScopeDirective);
+    (0, _classCallCheck2.default)(this, hasRightsDirective);
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(hasScopeDirective)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(hasRightsDirective)).call.apply(_getPrototypeOf2, [this].concat(args)));
     (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "arrayContainsAnotherArray", function (needle, haystack) {
       for (var i = 0; i < needle.length; i++) {
         if (haystack.indexOf(needle[i]) === -1) return false;
@@ -97,7 +97,7 @@ function (_SchemaDirectiveVisit) {
     function () {
       var _ref = (0, _asyncToGenerator2.default)(
       /*#__PURE__*/
-      _regenerator.default.mark(function _callee(rules, user, resourceId, expectedScope) {
+      _regenerator.default.mark(function _callee(rules, user, resourceId, expectedRight) {
         var roles, dynamicRules, combinedDynamicRules, dynamicKeys, combinedRules, allPermissions, containsPermission, userId, key, modelSlice, modelName, Model, result;
         return _regenerator.default.wrap(function _callee$(_context) {
           while (1) {
@@ -126,9 +126,9 @@ function (_SchemaDirectiveVisit) {
                 });
                 combinedRules.push(dynamicKeys); //append dynamic keys
 
-                allPermissions = (0, _lodash.uniq)((0, _lodash.flatten)(combinedRules)); // See if user's roles has the permissions from expectedScope
+                allPermissions = (0, _lodash.uniq)((0, _lodash.flatten)(combinedRules)); // See if user's roles has the permissions from expectedRight
 
-                containsPermission = allPermissions.includes(expectedScope); // This is where we resolve dynamic permissions
+                containsPermission = allPermissions.includes(expectedRight); // This is where we resolve dynamic permissions
 
                 if (!containsPermission) {
                   _context.next = 29;
@@ -138,7 +138,7 @@ function (_SchemaDirectiveVisit) {
                 userId = user._id; // Go through user dynamic permissions
 
                 key = dynamicKeys.find(function (ele) {
-                  if (ele === expectedScope) return ele;
+                  if (ele === expectedRight) return ele;
                 });
                 modelSlice = key.slice(0, key.indexOf(":"));
                 modelName = modelSlice[0] + modelSlice.slice(1);
@@ -194,12 +194,12 @@ function (_SchemaDirectiveVisit) {
     return _this;
   }
 
-  (0, _createClass2.default)(hasScopeDirective, [{
+  (0, _createClass2.default)(hasRightsDirective, [{
     key: "visitFieldDefinition",
     value: function visitFieldDefinition(field) {
       var _this2 = this;
 
-      var expectedScope = this.args.scope;
+      var expectedRight = this.args.right;
       var _field$resolve = field.resolve,
           resolve = _field$resolve === void 0 ? _graphql.defaultFieldResolver : _field$resolve;
       field.resolve =
@@ -254,7 +254,7 @@ function (_SchemaDirectiveVisit) {
 
               case 11:
                 _context2.next = 13;
-                return _this2.hasPermission(_rolesSchema.default, user, resourceId, expectedScope);
+                return _this2.hasPermission(_rolesSchema.default, user, resourceId, expectedRight);
 
               case 13:
                 resource = _context2.sent;
@@ -295,7 +295,7 @@ function (_SchemaDirectiveVisit) {
       }));
     }
   }]);
-  return hasScopeDirective;
+  return hasRightsDirective;
 }(_apolloServer.SchemaDirectiveVisitor);
 
-exports.hasScopeDirective = hasScopeDirective;
+exports.hasRightsDirective = hasRightsDirective;

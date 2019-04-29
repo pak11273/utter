@@ -274,7 +274,7 @@ function () {
   };
 }();
 
-var createPaidUser =
+var createPayMonthly =
 /*#__PURE__*/
 function () {
   var _ref11 = (0, _asyncToGenerator2.default)(
@@ -313,7 +313,10 @@ function () {
             _context5.next = 12;
             return _userModel.default.findByIdAndUpdate(req.session.userId, {
               stripeId: customer.id,
-              "user.roles": "paidUser"
+              $addToSet: {
+                roles: "payMonthly" // addToSet if unique
+
+              }
             }, {
               new: true
             }).lean();
@@ -339,7 +342,7 @@ function () {
     }, _callee5);
   }));
 
-  return function createPaidUser(_x13, _x14, _x15, _x16) {
+  return function createPayMonthly(_x13, _x14, _x15, _x16) {
     return _ref11.apply(this, arguments);
   };
 }();
@@ -853,7 +856,7 @@ var userResolvers = {
     changePassword: changePassword,
     confirmEmail: confirmEmail,
     contact: contact,
-    createPaidUser: createPaidUser,
+    createPayMonthly: createPayMonthly,
     forgotPassword: forgotPassword,
     signup: signup,
     login: login,

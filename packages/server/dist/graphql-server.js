@@ -31,7 +31,7 @@ var _formattableDate = require("./directives/formattableDate.js");
 
 var _authDirective = require("./directives/auth/auth-directive.js");
 
-var _authHasScope = require("./directives/auth/auth-has-scope.js");
+var _authHasRights = require("./directives/auth/auth-has-rights.js");
 
 var _appResolvers = require("./api/app/app-resolvers.js");
 
@@ -103,7 +103,7 @@ var schema = (0, _apolloServer.makeExecutableSchema)({
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.AuthDirective,
-    hasScope: _authHasScope.hasScopeDirective
+    hasRights: _authHasRights.hasRightsDirective
   },
   resolvers: (0, _merge.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _postResolvers.postResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
 });

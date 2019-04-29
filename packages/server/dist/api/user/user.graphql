@@ -57,7 +57,7 @@ type User {
 	_id: ID
   password: String
 	roles: [ String ]
-	scopes: [String]
+	rights: [String]
 	subscriptions: [Course]
   updatedAt: String
   username: String!
@@ -75,7 +75,7 @@ type Query {
 type Mutation {
 	changePassword(input: ChangePasswordInput): AuthPayload 
   contact(input: ContactInput!): ContactOutput
-	createPaidUser(source: String!): User
+	createPayMonthly(source: String!): User
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
 	confirmEmail(token: String!): Boolean 

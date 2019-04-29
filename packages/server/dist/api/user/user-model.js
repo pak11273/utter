@@ -98,9 +98,9 @@ var UserSchema = new _mongoose.default.Schema({
   image: String,
   hash: String,
   salt: String,
-  scopes: [{
-    String: String
-  }],
+  rights: {
+    type: [String]
+  },
   userImage: {
     type: String,
     default: "default.png"
