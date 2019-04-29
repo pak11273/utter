@@ -14,7 +14,7 @@ import cloneDeep from "lodash/cloneDeep"
 import {Query} from "react-apollo"
 import gql from "graphql-tag"
 
-import {Spacer} from "../../components"
+import {Loading, Spacer} from "../../components"
 
 const drawerWidth = 240
 
@@ -125,7 +125,7 @@ class Account extends Component {
             input: "pak11273"
           }}>
           {({loading, error, data}) => {
-            if (loading) return <Grid>loading...</Grid>
+            if (loading) return <Loading />
             if (error) {
               console.log("err: ", error)
               return (
