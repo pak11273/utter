@@ -35,7 +35,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3
   },
   heading: {
-    color: "white"
+    color: "black"
   },
   heroUnit: {
     backgroundColor: "#2bae3a"
@@ -75,7 +75,6 @@ class AccountBilling extends Component {
   }
 
   render() {
-    console.log('key": ', process.env.STRIPE_PUBLISHABLE)
     const {classes} = this.props
     return (
       <React.Fragment>
@@ -91,7 +90,7 @@ class AccountBilling extends Component {
                   Billing
                 </Typography>
                 <Typography align="left" variant="h6" gutterBottom>
-                  Make a Payment
+                  Start Subscribing
                 </Typography>
                 {/* {hasRole(session.user, ["payMonthly"]) && ( */}
                 <StripeCheckout
@@ -101,7 +100,6 @@ class AccountBilling extends Component {
                     const response = await mutate({
                       variables: {source: token.id}
                     })
-                    console.log("response", response)
                     // update session
                     var {user} = session
                     user.roles = response.data.createPayMonthly.roles

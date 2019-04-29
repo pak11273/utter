@@ -524,7 +524,7 @@ export default compose(
         })
       } else {
         setErrors(course.COURSE_CREATE_MUTATION.errors)
-        toast.success("Something went wrong. Could not create a course.", {
+        toast.error("Something went wrong. Could not create a course.", {
           className: "toasty",
           bodyClassName: "toasty-body",
           hideProgressBar: true

@@ -177,7 +177,7 @@ export const routes = [
     path: "/about"
   },
   {
-    component: getAccount,
+    component: requireAuth(getAccount),
     exact: true,
     path: "/account/:username",
     routes: [

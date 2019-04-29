@@ -49,7 +49,7 @@ var roles = {
       "course:delete": matchID
     }]
   },
-  paidMonthly: {
+  payMonthly: {
     static: [{
       "account:pay-monthly": matchID
     }]

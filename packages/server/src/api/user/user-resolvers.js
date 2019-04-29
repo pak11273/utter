@@ -122,9 +122,6 @@ const changePassword = async (_, args, {redis, url}) => {
 }
 
 const createPayMonthly = async (_, {source}, {req}, __) => {
-  console.log("req: ", req.session)
-  console.log("source: ", source)
-  // TODO use auth here and replace this conditional
   if (!req.session || !req.session.userId) {
     throw new Error("Not authenticated.")
   }

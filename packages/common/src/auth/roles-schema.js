@@ -52,7 +52,7 @@ const roles = {
       }
     ]
   },
-  paidMonthly: {
+  payMonthly: {
     static: [
       {
         "account:pay-monthly": matchID

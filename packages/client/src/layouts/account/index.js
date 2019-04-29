@@ -1,5 +1,6 @@
 import React, {Component} from "react"
 import {Route, NavLink} from "react-router-dom"
+import {session} from "brownies"
 
 import Divider from "@material-ui/core/Divider"
 import Drawer from "@material-ui/core/Drawer"
@@ -11,10 +12,10 @@ import ListItemText from "@material-ui/core/ListItemText"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
-import {Query} from "react-apollo"
-import gql from "graphql-tag"
+/* import {Query} from "react-apollo" */
+/* import gql from "graphql-tag" */
 
-import {Loading, Spacer} from "../../components"
+import {Spacer} from "../../components"
 
 const drawerWidth = 240
 
@@ -42,17 +43,17 @@ const initialState = {
   resources: ""
 }
 
-const getUserByUsername = gql`
-  query getUserByUsername($input: String!) {
-    getUserByUsername(input: $input) {
-      _id
-      roles
-      rights
-      contacts
-      username
-    }
-  }
-`
+/* const getUserByUsername = gql` */
+/*   query getUserByUsername($input: String!) { */
+/*     getUserByUsername(input: $input) { */
+/*       _id */
+/*       roles */
+/*       rights */
+/*       contacts */
+/*       username */
+/*     } */
+/*   } */
+/* ` */
 
 class Account extends Component {
   locationName = this.props.path
@@ -87,7 +88,8 @@ class Account extends Component {
           <Spacer margin="200px 0 0 0" />
           <List className={classes.list}>
             {["billing"].map((text, index) => {
-              /*    if (text === "settings") {
+              if (!session.user) {
+                /*    if (text === "settings") {
                 return 
                     <Can
                     key={text}
@@ -106,6 +108,7 @@ class Account extends Component {
                   /> 
                 
               } */
+              }
               return (
                 <ListItem button key={index}>
                   <Link component={NavLink} to={`/account/account-${text}`}>
@@ -119,7 +122,7 @@ class Account extends Component {
           <Divider />
           <Spacer margin="40px 0 0 0" />
         </Drawer>
-        <Query
+        {/* <Query
           query={getUserByUsername}
           variables={{
             input: "pak11273"
@@ -147,18 +150,18 @@ class Account extends Component {
                   </p>
                 </Grid>
               )
-            }
+            } 
             if (data) {
-              return (
-                <Grid container justify="center" direction="column">
-                  {routes.map(route => (
-                    <SubRoutes key={route.path} {...route} />
-                  ))}
-                </Grid>
-              )
+              return ( */}
+        <Grid container justify="center" direction="column">
+          {routes.map(route => (
+            <SubRoutes key={route.path} {...route} />
+          ))}
+        </Grid>
+        {/*  )
             }
-          }}
-        </Query>
+			  }}
+        </Query> */}
       </React.Fragment>
     )
   }
