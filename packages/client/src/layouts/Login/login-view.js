@@ -9,7 +9,6 @@ import LoginForm from "./login-form"
 
 class Login extends PureComponent {
   componentDidMount() {
-    console.log("props: ", this.props)
     // notify user auth warning
     if (this.props && this.props.location) {
       const {state} = this.props.location

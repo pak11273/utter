@@ -30,7 +30,7 @@ import {
   LEVEL_UPDATE,
   LEVEL_SORT
 } from "../xhr.js"
-import {GET_USER_BY_TOKEN} from "../../../App.js"
+import {GET_USER_BY_TOKEN} from "../../../graphql/queries/user-queries.js"
 import {styles} from "../styles.js"
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {

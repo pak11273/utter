@@ -110,14 +110,10 @@ export default compose(
   graphql(LOGIN_MUTATION, {
     options: {
       update: (proxy, {data}) => {
-        console.log("data: ", data)
-        /* const data = proxy.readQuery({query}) */
-        /* do something with data.login here */
         if (!data || !data.login) {
           return
         }
-
-        proxy.writeQuery({ME_QUERY, data: {me: data.lgoin}})
+        proxy.writeQuery({ME_QUERY, data: {me: data.login}})
       }
     }
   }),
@@ -138,8 +134,10 @@ export default compose(
             password: values.password
           }
         })
+
         const {error} = response.data.login
         const {token} = response.data.login
+
         if (!isEmpty(error)) {
           return normalizeErrors(error)
         }
