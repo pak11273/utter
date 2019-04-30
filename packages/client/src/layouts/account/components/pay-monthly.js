@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography"
 import StripeCheckout from "react-stripe-checkout"
 import {Mutation} from "react-apollo"
 /* import {styles} from "../styles.js" */
-import {CREATE_PAY_MONTHLY} from "../xhr.js"
+import {CREATE_PAY_MONTHLY} from "../../../graphql/mutations/account-mutations.js"
 
 export const PayMonthly = () => (
   <Mutation mutation={CREATE_PAY_MONTHLY}>

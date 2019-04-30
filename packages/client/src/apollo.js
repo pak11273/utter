@@ -8,8 +8,8 @@ import typeDefs from "./typeDefs.js"
 import resolvers from "./resolvers.js"
 
 const cache = new InMemoryCache({
-  dataIdFromObject: object => object.key || null,
-  addTypename: false
+  dataIdFromObject: object => object.key || null
+  /* addTypename: false */
 })
 
 const AuthLink = (operation, forward) => {

@@ -1,5 +1,5 @@
 import gql from "graphql-tag"
-import {accountFragment} from "./fragments.js"
+import {accountFragment} from "../../graphql/fragments/user-fragments.js"
 
 export const CREATE_PAY_MONTHLY = gql`
   mutation createPayMonthly($source: String!, $ccLast4: String) {
