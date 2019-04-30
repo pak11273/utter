@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Link = styled.a`
   color: ${props => props.color};
@@ -13,12 +13,5 @@ const Link = styled.a`
   text-align: ${props => props.textalign};
   width: ${props => props.width};
 `
-
-Text.defaultProps = {
-  color: '#333',
-  cursor: 'pointer',
-  fontsize: '1.8rem',
-  padding: '20px'
-}
 
 export default Link
