@@ -3,6 +3,10 @@ import {createGlobalStyle} from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
 
+	*:focus {
+		outline: 0
+	} 
+
   body, h1, h2, h3, h4, h6, div, p, li {
     box-sizing: border-box;
     font-family: 'Helvetica Arial sans-serif';
