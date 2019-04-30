@@ -183,17 +183,33 @@ const createPayMonthly = async (_, {source, ccLast4}, {req}, __) => {
 
   let query = await User.findById(req.session.userId).lean()
 
-  const customer = await stripe.customers.create({
-    email: query.email,
-    source,
-    plan: process.env.STRIPE_PLAN
-  })
+  let stripeId = query.stripeId
+  if (!stripeId) {
+    const customer = await stripe.customers.create({
+      email: query.email,
+      source,
+      plan: process.env.STRIPE_PLAN
+    })
+    stripeId = customer.id
+  } else {
+    await stripe.customers.update(stripeId, {
+      source
+    })
+    await stripe.subscriptions.create({
+      customer: stripeId,
+      items: [
+        {
+          plan: process.env.STRIPE_PLAN
+        }
+      ]
+    })
+  }
 
   let user = await User.findByIdAndUpdate(
     req.session.userId,
     {
       ccLast4: ccLast4,
-      stripeId: customer.id,
+      stripeId: stripeId,
       $addToSet: {roles: "payMonthly"} // addToSet if unique
     },
     {new: true}
