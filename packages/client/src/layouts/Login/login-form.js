@@ -13,7 +13,7 @@ import {cookies, session} from "brownies"
 
 import {loginSchema} from "@utterzone/common"
 import {LOGIN_MUTATION} from "../../graphql/mutations/user-mutations.js"
-import {ME_QUERY} from "../../graphql/queries/user-queries.js"
+/* import {ME_QUERY} from "../../graphql/queries/user-queries.js" */
 import {FormikInput, Img, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
@@ -107,16 +107,17 @@ class LoginForm extends PureComponent {
 export default compose(
   withRouter,
   withApollo,
-  graphql(LOGIN_MUTATION, {
-    options: {
-      update: (proxy, {data}) => {
-        if (!data || !data.login) {
-          return
-        }
-        proxy.writeQuery({ME_QUERY, data: {me: data.login}})
-      }
-    }
-  }),
+  graphql(LOGIN_MUTATION),
+  /* { */
+  /* options: { */
+  /* update: (proxy, {data}) => { */
+  /* if (!data || !data.login) { */
+  /* return */
+  /* } */
+  /* proxy.writeQuery({ME_QUERY, data: {me: data.login}}) */
+  /* } */
+  /* } */
+  /* }), */
   withStyles(styles),
   withFormik({
     validationSchema: loginSchema,

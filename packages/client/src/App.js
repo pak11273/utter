@@ -60,7 +60,6 @@ class App extends Component {
   componentDidMount = async () => {
     // delete session if user cookies is deleted
     subscribe(cookies, "_uid", value => {
-      console.log("value: ", value)
       if (!value) {
         sessionDelete()
         window.location = "/login"

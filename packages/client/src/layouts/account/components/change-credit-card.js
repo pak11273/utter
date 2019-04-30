@@ -31,7 +31,6 @@ export const ChangeCreditCard = () => {
                 {/* TODO: update cache when changing cc, instead of reloading page */}
                 <Query query={ME_QUERY}>
                   {(data, loading) => {
-                    console.log("data: ", data)
                     if (loading) {
                       return <LoaderCircle />
                     }
@@ -74,7 +73,6 @@ export const ChangeCreditCard = () => {
                         variables: {source: token.id, ccLast4: token.card.last4}
                       })
                       // update session
-                      console.log("response: ", response)
                       var {user} = session
                       user.ccLast4 = response.data.changeCreditCard.ccLast4
                       session.user = user

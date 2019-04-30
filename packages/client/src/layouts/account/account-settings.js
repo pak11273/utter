@@ -30,9 +30,8 @@ function AccountSettings(props) {
               align="center"
               color="textSecondary"
               paragraph>
-              Aenean vulputate eleifend tellus. Vestibulum dapibus nunc ac
-              augue. Donec venenatis vulputate lorem. Quisque rutrum.
-              Pellentesque auctor neque nec urna.
+              Your account will be deactivated and all payments will stop. You
+              will not be able to login with your credentials.
             </Typography>
             <div className={classes.heroButtons}>
               <Grid container spacing={16} justify="center">

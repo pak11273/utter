@@ -24,6 +24,7 @@ export const PayMonthly = () => (
                 Start your Free Trial!
               </Typography>
               <StripeCheckout
+                amount={1200}
                 image="https://www.gmkfreelogos.com/logos/D/img/DKP_-_uz-Logo.gif"
                 /* image="https://st2.depositphotos.com/5943796/11454/v/950/depositphotos_114540072-stock-illustration-initial-letter-uz-red-swoosh.jpg" */
                 token={async token => {
