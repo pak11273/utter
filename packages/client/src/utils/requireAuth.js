@@ -3,7 +3,6 @@ import {cookies} from "brownies"
 
 const requireAuth = WrappedComponent => {
   class Wrap extends PureComponent {
-    componentDidMount() {}
 
     render() {
       const isAuthenticated = cookies._uid

@@ -2,6 +2,7 @@ import React from "react"
 import {session} from "brownies"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
+import {LoaderCircle} from "../../../components"
 /* import {withStyles} from "@material-ui/core/styles" */
 import StripeCheckout from "react-stripe-checkout"
 import {Mutation, Query} from "react-apollo"
@@ -25,16 +26,23 @@ export const ChangeCreditCard = () => (
               </Typography>
               {/* for paid users only to see */}
               <Query query={ME_QUERY}>
-                {data => {
-                  return (
-                    <Typography
-                      variant="h6"
-                      align="center"
-                      color="textPrimary"
-                      gutterBottom>
-                      {data.me && data.me.ccLast4}
-                    </Typography>
-                  )
+                {(data, loading) => {
+                  if (loading) {
+                    return <LoaderCircle />
+                  }
+                  if (data.data && data.data.me) {
+                    return (
+                      <Typography
+                        variant="h6"
+                        align="center"
+                        color="textPrimary"
+                        gutterBottom>
+                        xxxx-xxxx-xxxx-
+                        {data.data.me.ccLast4}
+                      </Typography>
+                    )
+                  }
+                  return null
                 }}
               </Query>
             </Grid>

@@ -5,6 +5,7 @@ import React, {Component} from "react"
 import gql from "graphql-tag"
 import {normalizeErrors} from "../utils/normalize-errors"
 import isEmpty from "lodash/isEmpty"
+import {ME_QUERY} from "@utterzone/client/src/graphql/queries/user-queries.js"
 
 /* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
 export class D extends Component {
@@ -14,7 +15,7 @@ export class D extends Component {
         variables: {
           identifier: values["username or email"],
           password: values.password
-        } 
+        }
       })
       const error = response.data.login.error
       const token = response.data.login.token
@@ -61,4 +62,17 @@ const loginMutation = gql`
   }
 `
 
-export const LoginConnector = graphql(loginMutation)(D)
+export const LoginConnector = graphql(loginMutation, {
+  options: {
+    update: (proxy, {data}) => {
+      console.log("data: ", data)
+      /* const data = proxy.readQuery({query}) */
+      /* do something with data.login here */
+      if (!data || !data.login) {
+        return
+      }
+
+      proxy.writeQuery({ME_QUERY, data: {me: data.lgoin}})
+    }
+  }
+})(D)

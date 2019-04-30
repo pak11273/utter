@@ -9,9 +9,7 @@ import {session} from "brownies"
 
 export const sessionDelete = (dontArr = []) => {
   Object.keys(session).map(item => {
-    console.log("hmm: ", dontArr.indexOf(item))
     if (dontArr.indexOf(item) === -1) {
-      console.log("item: ", item)
       delete session[item]
     }
   })

@@ -41,6 +41,8 @@ var _normalizeErrors = require("../utils/normalize-errors");
 
 var _isEmpty = _interopRequireDefault(require("lodash/isEmpty"));
 
+var _userQueries = require("@utterzone/client/src/graphql/queries/user-queries.js");
+
 function _templateObject() {
   var data = (0, _taggedTemplateLiteral2.default)(["\n  mutation loginMutation($identifier: String!, $password: String!) {\n    login(input: {identifier: $identifier, password: $password}) {\n      token\n      user {\n        _id\n        username\n        roles\n        rights\n        subscriptions {\n          _id\n          title\n          levels {\n            _id\n          }\n        }\n      }\n      error {\n        path\n        message\n      }\n    }\n  }\n"]);
 
@@ -140,5 +142,26 @@ function (_Component) {
 
 exports.D = D;
 var loginMutation = (0, _graphqlTag.default)(_templateObject());
-var LoginConnector = (0, _reactApollo.graphql)(loginMutation)(D);
+var LoginConnector = (0, _reactApollo.graphql)(loginMutation, {
+  options: {
+    update: function update(proxy, _ref2) {
+      var data = _ref2.data;
+      console.log("data: ", data);
+      /* const data = proxy.readQuery({query}) */
+
+      /* data.todos.push(createTodo) */
+
+      if (!data || !data.login) {
+        return;
+      }
+
+      proxy.writeQuery({
+        ME_QUERY: _userQueries.ME_QUERY,
+        data: {
+          me: data.lgoin
+        }
+      });
+    }
+  }
+})(D);
 exports.LoginConnector = LoginConnector;

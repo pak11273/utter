@@ -7,7 +7,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {cookies, session, subscribe} from "brownies"
+import {cookies, subscribe} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -90,16 +90,18 @@ class App extends Component {
         window.location = "/login"
       }
     })
-    const token = cookies._uid
 
-    if (!session.user) {
-      const userByToken = await ApolloInstance.query({
-        query: GET_USER_BY_TOKEN,
-        variables: {token}
-      })
+    /* const token = cookies._uid */
 
-      session.user = userByToken.data.getUserByToken
-    }
+    // TODO trash
+    /* if (!session.user) { */
+    /*   const userByToken = await ApolloInstance.query({ */
+    /*     query: GET_USER_BY_TOKEN, */
+    /*     variables: {token} */
+    /*   }) */
+
+    /*   session.user = userByToken.data.getUserByToken */
+    /* } */
   }
 
   render() {

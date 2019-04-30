@@ -257,13 +257,6 @@ const login = async (parent, args, ctx, info) => {
     .populate("subscriptions")
     .exec()
 
-  /* const subscriptions = user.subscriptions.map(course => { */
-  /* return */
-
-  /*     levels: course.find() */
-  /*   } */
-  /* }) */
-
   if (!user) {
     arrayOfErrors.push({
       path: "identifier",
@@ -280,9 +273,8 @@ const login = async (parent, args, ctx, info) => {
   } else if (user) {
     // assign valid user info
     token = await signToken(user._id)
+    ctx.req.session.userId = user._id
   }
-
-  ctx.req.session.userId = user._id
 
   return {
     token,

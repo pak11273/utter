@@ -9,27 +9,30 @@ import LoginForm from "./login-form"
 
 class Login extends PureComponent {
   componentDidMount() {
-    const {state} = this.props.location
-    if (state) {
-      const {notification} = state
-      if (notification) {
-        toast[state.type || "info"](notification, {
-          className: "toasty",
-          bodyClassName: "toasty-body",
-          hideProgressBar: true
-        })
+    console.log("props: ", this.props)
+    // notify user auth warning
+    if (this.props && this.props.location) {
+      const {state} = this.props.location
+      if (state) {
+        const {notification} = state
+        if (notification) {
+          toast[state.type || "info"](notification, {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        }
       }
+      this.props.history.replace("/login", {notification: null})
     }
-    this.props.history.replace("/login", {notification: null})
   }
 
   render() {
-    const {submit} = this.props
     const loggedIn = cookies._uid
     if (loggedIn) {
       var redirect = <Redirect to="/" />
     } else {
-      redirect = <LoginForm submit={submit} />
+      redirect = <LoginForm />
     }
     return <React.Fragment>{redirect}</React.Fragment>
   }

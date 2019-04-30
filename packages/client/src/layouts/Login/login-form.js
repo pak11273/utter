@@ -1,6 +1,9 @@
 import React, {PureComponent} from "react"
+import {compose, graphql, withApollo} from "react-apollo"
 import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
+import isEmpty from "lodash/isEmpty"
+import {normalizeErrors} from "../../utils/normalize-errors"
 
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
@@ -9,47 +12,13 @@ import {withStyles} from "@material-ui/core/styles"
 import {cookies, session} from "brownies"
 
 import {loginSchema} from "@utterzone/common"
+import {LOGIN_MUTATION} from "../../graphql/mutations/user-mutations.js"
+import {ME_QUERY} from "../../graphql/queries/user-queries.js"
 import {FormikInput, Img, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
-// actions
+import {styles} from "./styles.js"
 import "./forms.css"
-
-const styles = () => ({
-  button: {
-    right: "0px",
-    bottom: "-60px",
-    position: "absolute"
-  },
-  forgot: {
-    position: "absolute",
-    right: "0px",
-    top: "13px"
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-    height: "100%",
-    margin: "0 auto",
-    width: "100%"
-  },
-  formContainer: {
-    margin: "0 auto",
-    position: "relative",
-    width: "260px"
-  },
-  leftSide: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-  section: {
-    justifyContent: "center",
-    margin: "100px auto",
-    maxWidth: 1240
-  }
-})
 
 class LoginForm extends PureComponent {
   render() {
@@ -135,7 +104,24 @@ class LoginForm extends PureComponent {
   }
 }
 
-export default withRouter(
+export default compose(
+  withRouter,
+  withApollo,
+  graphql(LOGIN_MUTATION, {
+    options: {
+      update: (proxy, {data}) => {
+        console.log("data: ", data)
+        /* const data = proxy.readQuery({query}) */
+        /* do something with data.login here */
+        if (!data || !data.login) {
+          return
+        }
+
+        proxy.writeQuery({ME_QUERY, data: {me: data.lgoin}})
+      }
+    }
+  }),
+  withStyles(styles),
   withFormik({
     validationSchema: loginSchema,
     validateOnChange: false,
@@ -145,7 +131,27 @@ export default withRouter(
       password: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      const data = await props.submit(values)
+      const submit = async () => {
+        const response = await props.mutate({
+          variables: {
+            identifier: values["username or email"],
+            password: values.password
+          }
+        })
+        const {error} = response.data.login
+        const {token} = response.data.login
+        if (!isEmpty(error)) {
+          return normalizeErrors(error)
+        }
+        return {
+          ...response.data.login,
+          token,
+          error
+        }
+      }
+
+      const data = await submit(values)
+
       if (!data.token) {
         if (data.identifier) {
           data["username or email"] = data.identifier
@@ -162,5 +168,5 @@ export default withRouter(
         })
       }
     }
-  })(withStyles(styles)(LoginForm))
-)
+  })
+)(LoginForm)
