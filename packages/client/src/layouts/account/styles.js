@@ -40,7 +40,8 @@ export const styles = theme => ({
     width: drawerWidth
   },
   heroUnit: {
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
+    marginBottom: "30px"
   },
   heroContent: {
     maxWidth: 600,

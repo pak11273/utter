@@ -34,6 +34,7 @@ export const GET_USER_BY_TOKEN = gql`
     getUserByToken(token: $token) {
       blocked
       contacts
+      ccLast4
       createdCourses {
         _id
       }

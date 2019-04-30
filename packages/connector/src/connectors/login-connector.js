@@ -14,7 +14,7 @@ export class D extends Component {
         variables: {
           identifier: values["username or email"],
           password: values.password
-        }
+        } 
       })
       const error = response.data.login.error
       const token = response.data.login.token

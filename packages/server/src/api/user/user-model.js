@@ -57,6 +57,7 @@ export const UserSchema = new mongoose.Schema(
       index: true
     },
     bio: String,
+    ccLast4: String,
     email: {
       type: String,
       lowercase: true,

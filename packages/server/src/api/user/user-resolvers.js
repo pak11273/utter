@@ -33,11 +33,9 @@ import {
 } from "@utterzone/common"
 
 const me = async (_, __, {req}) => {
-  console.log("args: ", req.session)
   if (!req.session.userId) {
     return null
   }
-  console.log("user: ", User.findById(req.session.userId).lean())
   return User.findById(req.session.userId).lean()
 }
 
@@ -47,7 +45,6 @@ const confirmEmail = async (_, args, {redis, url}) => {
   const userId = await redis.get(redisKey)
 
   if (!userId) {
-    console.log("no user")
     arrayOfErrors.push({
       path: "password",
       message: expiredKeyError
@@ -57,7 +54,6 @@ const confirmEmail = async (_, args, {redis, url}) => {
       error: arrayOfErrors
     }
   }
-  console.log("args: ", args)
   // change confirm to true
   /* User.updateOne(). */
 }
@@ -70,6 +66,32 @@ const contact = async (_, args, {redis, url}) => {
   }
 }
 
+const changeCreditCard = async (_, {source, ccLast4}, {req}, __) => {
+  if (!req.session || !req.session.userId) {
+    throw new Error("Not authenticated.")
+  }
+
+  let user = await User.findByIdAndUpdate(
+    req.session.userId,
+    {
+      ccLast4
+    },
+    {new: true}
+  ).lean()
+
+  if (!user || !user.stripeId || !user.roles.includes("payMonthly")) {
+    throw new Error()
+  }
+
+  const customer = await stripe.customers.update(user.stripeId, {source})
+
+  if (!customer) {
+    throw new Error()
+  }
+
+  return user
+}
+
 const changePassword = async (_, args, {redis, url}) => {
   let token = null
   var arrayOfErrors = []
@@ -78,7 +100,6 @@ const changePassword = async (_, args, {redis, url}) => {
   const userId = await redis.get(redisKey)
 
   if (!userId) {
-    console.log("no user")
     arrayOfErrors.push({
       path: "password",
       message: expiredKeyError
@@ -121,7 +142,8 @@ const changePassword = async (_, args, {redis, url}) => {
   }
 }
 
-const createPayMonthly = async (_, {source}, {req}, __) => {
+const createPayMonthly = async (_, {source, ccLast4}, {req}, __) => {
+  console.log("ccLast4: ", ccLast4)
   if (!req.session || !req.session.userId) {
     throw new Error("Not authenticated.")
   }
@@ -137,6 +159,7 @@ const createPayMonthly = async (_, {source}, {req}, __) => {
   let user = await User.findByIdAndUpdate(
     req.session.userId,
     {
+      ccLast4: ccLast4,
       stripeId: customer.id,
       $addToSet: {roles: "payMonthly"} // addToSet if unique
     },
@@ -213,7 +236,6 @@ const signup = async (_, args, {redis, url}, info) => {
 }
 
 const login = async (parent, args, ctx, info) => {
-  console.log("ctx: ", ctx.req)
   // decipher identifier
   const {identifier, password} = args.input
   let token = ""
@@ -241,7 +263,6 @@ const login = async (parent, args, ctx, info) => {
   /*     levels: course.find() */
   /*   } */
   /* }) */
-  console.log("user: ", user)
 
   if (!user) {
     arrayOfErrors.push({
@@ -261,11 +282,7 @@ const login = async (parent, args, ctx, info) => {
     token = await signToken(user._id)
   }
 
-  console.log("user: ", user)
-
   ctx.req.session.userId = user._id
-  console.log("ctx: ", ctx.req.session)
-  console.log("ctx: ", ctx.req.session.userId)
 
   return {
     token,
@@ -288,7 +305,6 @@ const getUserByToken = async (_, args, ctx, info) => {
       } else {
         return {username: ""}
       }
-      console.log("result: ", result)
       return result
     }
   } catch (err) {
@@ -347,13 +363,13 @@ export const userResolvers = {
 
   User: {
     contacts: user => {
-      console.log("friends")
       // TODO: Query db for contacts
       return ["Tom", "Bob", "Harry"]
     }
   },
 
   Mutation: {
+    changeCreditCard,
     changePassword,
     confirmEmail,
     contact,
