@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react"
 import {session} from "brownies"
-import CssBaseline from "@material-ui/core/CssBaseline"
 /* import Grid from "@material-ui/core/Grid" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
@@ -10,14 +9,24 @@ import {styles} from "./styles.js"
 
 import {ChangeCreditCard} from "./components/change-credit-card.js"
 import {PayMonthly} from "./components/pay-monthly.js"
+import {ReactivateAccount} from "./components/reactivate-account.js"
 
 class AccountBilling extends PureComponent {
   render() {
     const {classes} = this.props
 
+    let status
+
+    if (session.user.isCanceled) {
+      status = <ReactivateAccount classes={classes} />
+    } else if (!session.user.roles.includes("payMonthly")) {
+      status = <PayMonthly classes={classes} />
+    } else {
+      status = <ChangeCreditCard classes={classes} />
+    }
+
     return (
       <React.Fragment>
-        <CssBaseline />
         <main className={classes.settingsContent}>
           {/* Hero unit */}
           <div className={classes.heroUnit}>
@@ -33,11 +42,7 @@ class AccountBilling extends PureComponent {
               <div className={classes.heroButtons} />
             </div>
           </div>
-          {!session.user.roles.includes("payMonthly") ? (
-            <PayMonthly classes={classes} />
-          ) : (
-            <ChangeCreditCard classes={classes} />
-          )}
+          {status}
         </main>
       </React.Fragment>
     )

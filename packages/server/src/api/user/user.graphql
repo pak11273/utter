@@ -56,6 +56,7 @@ type User {
   createdAt: String
   email: String! 
 	_id: ID
+	isCanceled: Boolean
   password: String
 	roles: [ String ]
 	rights: [String]
@@ -74,6 +75,7 @@ type Query {
 }
 
 type Mutation {
+	cancelPayMonthly: User
 	changePassword(input: ChangePasswordInput): AuthPayload 
   contact(input: ContactInput!): ContactOutput
 	changeCreditCard(source: String!, ccLast4: String): User

@@ -66,6 +66,39 @@ const contact = async (_, args, {redis, url}) => {
   }
 }
 
+const cancelPayMonthly = async (_, __, {req}, ___) => {
+  // TODO: delay cancellation until their subscription is over
+  if (!req.session || !req.session.userId) {
+    throw new Error("Not authenticated.")
+  }
+
+  let user = await User.findByIdAndUpdate(
+    req.session.userId,
+    {
+      isCanceled: true,
+      ccLast4: null,
+      $pull: {roles: "payMonthly"}
+    },
+    {new: true}
+  ).lean()
+
+  if (!user || !user.stripeId || !user.roles.includes("payMonthly")) {
+    throw new Error()
+  }
+
+  const customer = await stripe.customers.retreive(user.stripeId)
+
+  const [subscription] = customer.subscriptions.data
+
+  await stripe.subscriptions.del(subscription.id)
+
+  if (customer.default_source) {
+    await stripe.customers.deleteCard(user.stripeId, customer.default_source)
+  }
+
+  return user
+}
+
 const changeCreditCard = async (_, {source, ccLast4}, {req}, __) => {
   if (!req.session || !req.session.userId) {
     throw new Error("Not authenticated.")
@@ -361,6 +394,7 @@ export const userResolvers = {
   },
 
   Mutation: {
+    cancelPayMonthly,
     changeCreditCard,
     changePassword,
     confirmEmail,
