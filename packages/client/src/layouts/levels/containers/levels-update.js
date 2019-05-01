@@ -23,13 +23,13 @@ import {withStyles} from "@material-ui/core/styles"
 import MaterialTable, {MTableEditRow} from "material-table"
 import {courseLevelSchema} from "../../yupSchemas.js"
 import {FormikMTInput} from "../../../components"
+import {GET_LEVELS} from "../../../graphql/queries/level-queries.js"
 import {
-  GET_LEVELS,
   LEVEL_CREATE,
   LEVEL_DELETE,
   LEVEL_UPDATE,
   LEVEL_SORT
-} from "../xhr.js"
+} from "../../../graphql/mutations/level-mutations.js"
 import {GET_USER_BY_TOKEN} from "../../../graphql/queries/user-queries.js"
 import {styles} from "../styles.js"
 

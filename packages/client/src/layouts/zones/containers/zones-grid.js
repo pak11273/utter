@@ -15,15 +15,16 @@ import Typography from "@material-ui/core/Typography"
 import {useQuery} from "react-apollo-hooks"
 import {session} from "brownies"
 import {LoadingButton} from "../../../components"
-import {GET_ZONES} from "../zone-queries.js"
+import {GET_ZONES} from "../../../graphql/queries/zone-queries.js"
 import {styles} from "../styles.js"
 
 const ZonesGrid = props => {
   const onEnterZone = card => () => {
+    console.log("card: ", card)
     session.zone = card
     props.history.push({
       pathname: `/zone/${card._id}`,
-      state: {zoneeId: card.id}
+      state: {zoneeId: card._id}
     })
   }
 

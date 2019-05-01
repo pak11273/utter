@@ -221,6 +221,7 @@ class Home extends Component {
               container
               className={classes.section}
               spacing={24}>
+              {/* TODO: sponsorship feature
               <h3 style={{fontSize: "2em"}}>Can&apos;t afford the program?</h3>
               <p style={{fontSize: "1.33em"}}>
                 Get sponsored. There are many people who are willing to support
@@ -231,6 +232,7 @@ class Home extends Component {
               <Button size="medium" variant="outlined">
                 <NavLink to="/sponsorship">Find out more</NavLink>
               </Button>
+							*/}
             </Grid>
           </Section>
           <Footer />

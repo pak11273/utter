@@ -6,6 +6,10 @@ const zoneDescriptionNotLongEnough =
   "Zone descriptions must be at least 30 characters"
 const zoneDescriptionTooLong = "Zone descriptions cannot exceed 110 characters"
 
+export const rezoneSchema = yup.object().shape({
+  username: yup.string().required("A username is required")
+})
+
 export const zoneCreateSchema = yup.object().shape({
   app: yup.string().required("An app is required"),
   course: yup.string().required("A course you subscribe to is required"),

@@ -75,11 +75,11 @@ const zoneCreate = async (_, args, {req}, info) => {
       throw new Error("Not authenticated.")
     }
 
-    const findZone = await Zone.findOne({ownerId: req.session.userId}).lean()
-    console.log("found one: ", findZone)
-    if (!findZone) {
-      throw new Error("You can only host one zone at a time.")
-    }
+    // TODO: uncomment for production
+    /* const findZone = await Zone.find({owner: req.session.userId}) */
+    /* if (findZone[0] instanceof mongoose.Document) { */
+    /*   throw new Error("You can only host one zone at a time.") */
+    /* } */
 
     const user = await User.findById(req.session.userId, (err, res) => {
       if (err) return err
@@ -250,6 +250,13 @@ const getZones = async (_, args, ctx, info) => {
   }
 }
 
+const rezone = async (_, args, ctx, info) => {
+  // build query object
+  const query = {}
+  query.owner = ctx.user
+  //TODO
+}
+
 export const zoneResolvers = {
   Query: {
     getZones,
@@ -257,15 +264,9 @@ export const zoneResolvers = {
     getZoneLevels
   },
   Mutation: {
+    rezone,
     zoneDelete,
     zoneUpdate,
     zoneCreate
   }
-  /* Zone: { */
-  /*   async owner(zone) { */
-  /*     const populated = await zone.populate("owner").execPopulate() */
-
-  /*     return populated.owner */
-  /*   } */
-  /* } */
 }

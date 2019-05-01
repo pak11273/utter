@@ -18,8 +18,8 @@ import {
   FormikTextArea,
   LoadingButton
 } from "../../../components"
-import {ZONE_CREATE_MUTATION} from "../zone-queries.js"
-import {GET_LEVELS, GET_LEVEL} from "../../levels/xhr.js"
+import {ZONE_CREATE_MUTATION} from "../../../graphql/queries/zone-queries.js"
+import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {options} from "../options.js"
 
 import {session} from "brownies"
@@ -277,6 +277,8 @@ export default compose(
         const {levels} = courseLevels.data.getLevels
         console.log("levle: ", levels)
         const index = parseInt(values.courseLevel, 10)
+        console.log("inde: ", index)
+        console.log("thing: ", levels[3 - 1])
         if (!levels[index - 1]) {
           setErrors({
             courseLevel: "This course does not contain a level with this number"
@@ -291,8 +293,9 @@ export default compose(
             levelId: levels[values.courseLevel - 1]._id
           }
         })
-        console.log("leve blahl: ", levels[values.courseLevel - 1]._id)
+
         console.log("course lvel :", courseLevel)
+        session.vocabulary = courseLevel.data.getLevel.vocabulary
 
         const result = await props.zoneCreate({
           variables: {
@@ -333,13 +336,24 @@ export default compose(
         }
       } catch (err) {
         console.log("errors: ", err)
-        /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
-        /* const msg = err.message.replace('GraphQL error:', '').trim() */
-        if (err.message.indexOf("Cast to ObjectId failed for value")) {
-          setErrors({
-            courseLevel: "This course does not contain a level with this number"
-          })
-        }
+        // TODO: uncomment when launching
+        /* /1* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); *1/ */
+        /* const msg = err.message.replace("GraphQL error:", "").trim() */
+        /* if (err.message.indexOf("You can only host")) { */
+        /*   props.history.push({ */
+        /*     pathname: "/zones/rezone" */
+        /*     /1* state: {courseId: course.data.courseCreate._id} *1/ */
+        /*   }) */
+        /*   toast.warn(msg, { */
+        /*     className: "toasty", */
+        /*     bodyClassName: "toasty-body", */
+        /*     hideProgressBar: true */
+        /*   }) */
+        /* } else if (err.message.indexOf("Cast to ObjectId failed for value")) { */
+        /*   setErrors({ */
+        /*     courseLevel: "This course does not contain a level with this number" */
+        /*   }) */
+        /* } */
 
         setSubmitting(false)
         return null

@@ -5,7 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha ./test/test-config.js './test/**/*.js' --require @babel/register",
+    "test": "./node_modules/.bin/mocha ./test/test-config.js './test/**/*.js' --require @babel/register --watch",
     "debugFile": "node --inspect --inspect-brk ../server/src/server.js",
     "debug": "npm run webpack -- --inspect --debug-brk",
     "prod": "rimraf ./dist && ../../node_modules/webpack/bin/webpack.js --config ./webpack-frontend.config.js --env.prod -p --mode production",

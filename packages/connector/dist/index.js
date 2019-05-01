@@ -28,18 +28,6 @@ Object.keys(_levelsConnector).forEach(function (key) {
   });
 });
 
-var _loginConnector = require("./connectors/login-connector.js");
-
-Object.keys(_loginConnector).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _loginConnector[key];
-    }
-  });
-});
-
 var _changePasswordConnector = require("./connectors/change-password-connector.js");
 
 Object.keys(_changePasswordConnector).forEach(function (key) {

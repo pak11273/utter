@@ -27,10 +27,6 @@ import {styles} from "../styles.js"
 const CoursesContainer = props => {
   delete session.course
 
-  /* const getSubscribedCourses = () => { */
-  /*   setSelectionBox("utterzone") */
-  /* } */
-
   const {classes, handleSubmit, handleChange, values} = props
   return (
     <form className={classes.root} autoComplete="off" onSubmit={handleSubmit}>

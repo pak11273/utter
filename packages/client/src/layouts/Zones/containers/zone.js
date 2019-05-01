@@ -69,10 +69,6 @@ class Zone extends Component {
   state = cloneDeep(initialState)
 
   componentDidMount() {
-    /* this.state.client.join(this.props.zone, this.props.user.username, () => */
-    /*   console.log("User joined this zone!") */
-    /* ) */
-
     this.state.client.usersList(usersList => {
       this.setState({
         usersList

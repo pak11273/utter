@@ -23,7 +23,6 @@ const styles = theme => ({
 
 class Notebook extends PureComponent {
   render() {
-    console.log("member props: ", this.props)
     const {classes} = this.props
     return (
       <div className={classes.root}>

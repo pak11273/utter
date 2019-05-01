@@ -113,14 +113,21 @@ const getLevels = Loadable({
 })
 
 const getHome = Loadable({
-  loader: () => import(/* webpackChunkName: 'contact' */ "./layouts/home"),
+  loader: () => import(/* webpackChunkName: 'home' */ "./layouts/home"),
   loading: Loading,
   delay: 200
 })
 
 const getLogin = Loadable({
   loader: () =>
-    import(/* webpackChunkName: 'contact' */ "./layouts/login/login-ctrl.js"),
+    import(/* webpackChunkName: 'login-ctrl' */ "./layouts/login/login-ctrl.js"),
+  loading: Loading,
+  delay: 200
+})
+
+const getRezone = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'rezone' */ "./layouts/zones/components/rezone.js"),
   loading: Loading,
   delay: 200
 })
@@ -309,6 +316,11 @@ export const routes = [
     component: getLogin,
     exact: true,
     path: "/login"
+  },
+  {
+    component: requireAuth(getRezone),
+    exact: true,
+    path: "/zones/rezone"
   },
   {
     component: requireAuth(getZoneCtrl),
