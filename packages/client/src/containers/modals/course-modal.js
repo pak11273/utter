@@ -9,15 +9,9 @@ import DialogContentText from "@material-ui/core/DialogContentText"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import {compose, graphql, withApollo} from "react-apollo"
 import {session} from "brownies"
-import gql from "graphql-tag"
 import {toast} from "react-toastify"
-import {GET_COURSES} from "../../layouts/courses/xhr.js"
-
-const COURSE_DELETE = gql`
-  mutation courseDeleteMutation($resourceId: String!) {
-    courseDelete(resourceId: $resourceId)
-  }
-`
+import {GET_COURSES} from "../../graphql/queries/course-queries.js"
+import {COURSE_DELETE} from "../../graphql/mutations/course-mutations.js"
 
 export class ModalContainer extends Component {
   render() {

@@ -17,18 +17,13 @@ import {session} from "brownies"
 import gql from "graphql-tag"
 import {compose, Mutation, Query, withApollo} from "react-apollo"
 import {Can, Img, LoadingButton} from "../../../components"
-import {GET_COURSES} from "../xhr.js"
+import {
+  GET_COURSE,
+  GET_COURSES
+} from "../../../graphql/queries/course-queries.js"
+import {COURSE_UPDATE} from "../../../graphql/mutations/course-mutations.js"
 import {styles} from "../styles.js"
 
-const GET_COURSE = gql`
-  query getCourse($_id: ID!) {
-    getCourse(_id: $_id) {
-      _id
-      title
-      courseDescription
-    }
-  }
-`
 const SUBSCRIBE_MUTATION = gql`
   mutation subscribe($courseId: String!) {
     subscribe(courseId: $courseId) {
@@ -40,30 +35,6 @@ const SUBSCRIBE_MUTATION = gql`
 const UNSUBSCRIBE_MUTATION = gql`
   mutation unsubscribe($courseId: String!) {
     unsubscribe(courseId: $courseId)
-  }
-`
-const COURSE_UPDATE = gql`
-  mutation courseUpdate($_id: ID, $title: String, $courseDescription: String) {
-    courseUpdate(
-      input: {_id: $_id, title: $title, courseDescription: $courseDescription}
-    ) {
-      courseDescription
-      courseImage
-      courseMode
-      title
-      _id
-      levels {
-        _id
-      }
-      owner {
-        _id
-        username
-      }
-      resource
-      subscribers
-      teachingLang
-      usingLang
-    }
   }
 `
 

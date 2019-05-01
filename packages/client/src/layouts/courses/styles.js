@@ -1,13 +1,6 @@
 const drawerWidth = 240
 
 export const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
   card: {
     minHeight: "240px",
     display: "flex",
@@ -21,15 +14,6 @@ export const styles = theme => ({
     "&:hover": {
       cursor: "pointer"
     }
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  cardTitle: {
-    height: "54px",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    whiteSpace: "nowrap"
   },
   cardUsername: {
     whiteSpace: "nowrap",
@@ -48,6 +32,13 @@ export const styles = theme => ({
   },
   drawerPaper: {
     width: drawerWidth
+  },
+  editButton: {
+    color: "white",
+    backgroundColor: "#ff7f7e",
+    "&:hover": {
+      backgroundColor: "#c56564"
+    }
   },
   errorClass: {
     boxShadow: `0px 0px 2px 1px ${theme.palette.error.main}`,
@@ -93,6 +84,9 @@ export const styles = theme => ({
   },
   heroButtons: {
     marginTop: theme.spacing.unit * 4
+  },
+  icon: {
+    marginRight: theme.spacing.unit * 2
   },
   inputHeader: {
     background: "white",

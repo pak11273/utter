@@ -16,146 +16,40 @@ import Link from "@material-ui/core/Link"
 import {GraphError, Spacer} from "../../../components"
 import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
-import cloneDeep from "lodash/cloneDeep"
 /* import update from "immutability-helper" */
 
 import {Query} from "react-apollo"
-import gql from "graphql-tag"
 
 /* import isEmpty from "lodash/isEmpty" */
+import {styles} from "../styles.js"
+import {GET_CREATED_COURSES} from "../../../graphql/queries/course-queries.js"
 
-const drawerWidth = 240
-const styles = theme => ({
-  actions: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
-  card: {
-    minHeight: "300px",
-    display: "flex",
-    flexDirection: "column"
-  },
-  cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`
-  },
-  cardMedia: {
-    paddingTop: "56.25%", // 16:9
-    "&:hover": {
-      cursor: "pointer"
-    }
-  },
-  cardContent: {
-    flexGrow: 1
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3
-  },
-  editButton: {
-    color: "white",
-    backgroundColor: "#ff7f7e",
-    "&:hover": {
-      backgroundColor: "#c56564"
-    }
-  },
-  root: {
-    display: "flex",
-    flexGrow: 1,
-    width: "100%"
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0
-  },
-  drawerPaper: {
-    width: drawerWidth
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120
-  },
-  heroUnit: {
-    backgroundColor: theme.palette.background.paper
-  },
-  heroContent: {
-    maxWidth: 600,
-    margin: "0 auto",
-    padding: `${theme.spacing.unit * 8}px 0 ${theme.spacing.unit * 6}px`
-  },
-  heroButtons: {
-    marginTop: theme.spacing.unit * 4
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2
-  },
-  searchField: {
-    marginTop: "7px"
-  },
-
-  icon: {
-    marginRight: theme.spacing.unit * 2
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3,
-    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
-      width: 1100,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  }
-})
-
-const GET_CREATED_COURSES = gql`
-  query getCreatedCourses($cursor: String) {
-    getCreatedCourses(cursor: $cursor) {
-      courses {
-        _id
-        courseImage
-        courseDescription
-        title
-        courseMode
-        owner {
-          username
-        }
-      }
-      cursor
-    }
-  }
-`
-
-const initialState = {
-  search: "",
-  owner: "",
-  courseInput: "",
-  title: "",
-  selectionBox: "title",
-  resources: [],
-  teachingLang: "",
-  usingLang: "",
-  items: "",
-  next: "",
-  resetCursor: ""
+const convertObjIdsToArr = arr => {
+  return arr.map(item => {
+    return item._id
+  })
 }
 
-/* const convertObjIdsToArr = arr => { */
-/*   return arr.map(item => { */
-/*     return item._id */
-/*   }) */
-/* } */
-
 class CoursesCreatedContainer extends PureComponent {
-  state = cloneDeep(initialState)
+  state = {
+    search: "",
+    owner: "",
+    courseInput: "",
+    title: "",
+    selectionBox: "title",
+    resources: [],
+    teachingLang: "",
+    usingLang: "",
+    items: "",
+    next: "",
+    resetCursor: ""
+  }
 
   handleImageClick = card => {
     session.level = ""
     session.course = card
     session.levels = card.levels
-    /* session.levelsIdsArr = convertObjIdsToArr(card.levels) */
+    session.levelsIdsArr = convertObjIdsToArr(card.levels)
     this.props.history.push({
       pathname: "/course/course-introduction",
       state: {courseId: card._id}
