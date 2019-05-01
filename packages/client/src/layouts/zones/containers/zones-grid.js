@@ -28,6 +28,7 @@ const ZonesGrid = props => {
   }
 
   const {data, error, loading, fetchMore} = useQuery(GET_ZONES, {
+    fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     variables: {
       cursor: "",

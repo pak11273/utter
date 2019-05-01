@@ -7,7 +7,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {cookies, subscribe} from "brownies"
+import {cookies, local, session, subscribe} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -23,7 +23,7 @@ import {routes} from "./routes"
 import {MainNavbar} from "./containers"
 import {Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
-import {ToastContainer} from "react-toastify"
+import {ToastContainer, toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
 import {sessionDelete} from "./utils/session-delete.js"
@@ -66,17 +66,31 @@ class App extends Component {
       }
     })
 
-    /* const token = cookies._uid */
+    if (!session.user) {
+      // auto redirects to login
+      delete cookies._uid
+      delete session.user
+    }
 
-    // TODO trash
-    /* if (!session.user) { */
-    /*   const userByToken = await ApolloInstance.query({ */
-    /*     query: GET_USER_BY_TOKEN, */
-    /*     variables: {token} */
-    /*   }) */
-
-    /*   session.user = userByToken.data.getUserByToken */
-    /* } */
+    // Broad cast that your're opening a page.
+    local.openpages = Date.now()
+    var onLocalStorageEvent = e => {
+      if (e.key === "openpages") {
+        // Listen if anybody else opening the same page!
+        localStorage.page_available = Date.now()
+      }
+      if (e.key === "page_available") {
+        toast.warn(
+          "Sessions cannot be duplicated.  Open with a different browser to keep sessions.",
+          {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          }
+        )
+      }
+    }
+    window.addEventListener("storage", onLocalStorageEvent, false)
   }
 
   render() {

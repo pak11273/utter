@@ -55,6 +55,7 @@ type User {
 	createdCourses: [Course!]
   createdAt: String
   email: String! 
+	hostedZone: Zone!
 	_id: ID
 	isCanceled: Boolean
   password: String

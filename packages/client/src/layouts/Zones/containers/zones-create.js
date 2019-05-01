@@ -10,49 +10,20 @@ import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
 /* import cuid from "cuid" */
-import styled from "styled-components"
 import {zoneCreateSchema} from "@utterzone/common"
 import appData from "../../../data/appData.js"
 import {
   FormikInput,
   FormikSelect,
   FormikTextArea,
-  LoadingButton,
-  Span
+  LoadingButton
 } from "../../../components"
 import {ZONE_CREATE_MUTATION} from "../zone-queries.js"
 import {GET_LEVELS, GET_LEVEL} from "../../levels/xhr.js"
+import {options} from "../options.js"
 
 import {session} from "brownies"
-import {styles} from "../styles.js"
-
-const DisplayCount = styled.div`
-  font-size: 0.8rem;
-  position: absolute;
-  right: 2%;
-  top: 6px;
-
-  @media (min-width: 330px) {
-    right: 10%;
-  }
-
-  @media (min-width: 640px) {
-    right: 2%;
-  }
-
-  @media (min-width: 740px) {
-    right: 10%;
-  }
-`
-const StyledSpan = styled(Span)`
-  display: none;
-  font-size: 0.6rem;
-  padding: 0 0 0 10px;
-
-  @media (min-width: 640px) {
-    display: ${props => props.display640};
-  }
-`
+import {DisplayCount, StyledSpan, styles} from "../styles.js"
 
 const ZoneCreate = props => {
   const subscribedOptions =
@@ -255,80 +226,7 @@ const ZoneCreate = props => {
                 type="text"
                 component={FormikSelect}
                 {...props}
-                options={[
-                  {
-                    value: "any age",
-                    label: "any age",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 0-2",
-                    label: "ages 0-2",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 3+",
-                    label: "ages 3+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 7+",
-                    label: "ages 7+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 12+",
-                    label: "ages 12+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 16+",
-                    label: "ages 16+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 18+",
-                    label: "ages 18+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 18+",
-                    label: "ages 18+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 30+",
-                    label: "ages 30+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 40+",
-                    label: "ages 40+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 50+",
-                    label: "ages 50+",
-                    className: "ageHeader",
-                    disabled: false
-                  },
-                  {
-                    value: "ages 60+",
-                    label: "ages 60+",
-                    className: "ageHeader",
-                    disabled: false
-                  }
-                ]}
+                options={options}
               />
             </Grid>
             <Grid item xs={12} align="center">

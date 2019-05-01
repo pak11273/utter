@@ -69,15 +69,19 @@ const zoneUpdate = (_, {input}) => {
   return Zone.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const zoneCreate = async (_, args, ctx, info) => {
+const zoneCreate = async (_, args, {req}, info) => {
   try {
-    if (!ctx.isAuth) {
-      throw new Error("You need to be registered to create a course.")
+    if (!req.session || !req.session.userId) {
+      throw new Error("Not authenticated.")
     }
 
-    const userId = ctx.req.token._id
+    const findZone = await Zone.findOne({ownerId: req.session.userId}).lean()
+    console.log("found one: ", findZone)
+    if (!findZone) {
+      throw new Error("You can only host one zone at a time.")
+    }
 
-    const user = await User.findById(userId, (err, res) => {
+    const user = await User.findById(req.session.userId, (err, res) => {
       if (err) return err
       return res
     })
@@ -142,7 +146,7 @@ const getZones = async (_, args, ctx, info) => {
     cursor = {$lt: input.cursor}
     delete input.cursor
   }
-console.log('curser: ', cursor);
+  console.log("curser: ", cursor)
   for (var key in input) {
     if (input[key] !== "") {
       if (key === "host" && input.searchInput !== "") {

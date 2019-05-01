@@ -142,14 +142,22 @@ const initialState = {
   resetCursor: ""
 }
 
+/* const convertObjIdsToArr = arr => { */
+/*   return arr.map(item => { */
+/*     return item._id */
+/*   }) */
+/* } */
+
 class CoursesCreatedContainer extends PureComponent {
   state = cloneDeep(initialState)
 
   handleImageClick = card => {
+    session.level = ""
     session.course = card
-
+    session.levels = card.levels
+    /* session.levelsIdsArr = convertObjIdsToArr(card.levels) */
     this.props.history.push({
-      pathname: "/course/course-settings",
+      pathname: "/course/course-introduction",
       state: {courseId: card._id}
     })
   }

@@ -2,6 +2,7 @@ import mongoose, {Schema} from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import bcrypt from "bcrypt"
 import Course from "../course/course-model.js"
+import Zone from "../zone/zone-model.js"
 
 export const UserSchema = new mongoose.Schema(
   {
@@ -33,6 +34,10 @@ export const UserSchema = new mongoose.Schema(
     forgotPasswordLocked: {
       type: Boolean,
       default: false
+    },
+    hostedZone: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Zone"
     },
     gender: {
       type: String,

@@ -17,7 +17,7 @@ import Typography from "@material-ui/core/Typography"
 
 import {LoadingButton} from "../../../components"
 import {compose} from "react-apollo"
-import {session} from "brownies"
+/* import {session} from "brownies" */
 import {GET_COURSES} from "../xhr.js"
 import {useQuery} from "react-apollo-hooks"
 import {sessionDelete} from "../../../utils/session-delete.js"
@@ -30,21 +30,22 @@ const CoursesGrid = props => {
     sessionDelete(["user", "levels"])
   }, [])
 
-  const convertObjIdsToArr = arr => {
-    return arr.map(item => {
-      return item._id
-    })
-  }
+  /* const convertObjIdsToArr = arr => { */
+  /*   return arr.map(item => { */
+  /*     return item._id */
+  /*   }) */
+  /* } */
 
   const handleCourseClick = card => () => {
-    session.level = ""
-    session.course = card
-    session.levels = card.levels
-    session.levelsIdsArr = convertObjIdsToArr(card.levels)
-    props.history.push({
-      pathname: "/course/course-introduction",
-      state: {courseId: card.id}
-    })
+    console.log("card: ", card)
+    /* session.level = "" */
+    /* session.course = card */
+    /* session.levels = card.levels */
+    /* session.levelsIdsArr = convertObjIdsToArr(card.levels) */
+    /* props.history.push({ */
+    /*   pathname: "/course/course-introduction", */
+    /*   state: {courseId: card.id} */
+    /* }) */
   }
 
   const {data, error, loading, fetchMore} = useQuery(GET_COURSES, {

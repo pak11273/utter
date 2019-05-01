@@ -1,3 +1,6 @@
+import styled from "styled-components"
+import {Span} from "../../components"
+
 const drawerWidth = 240
 
 export const styles = theme => ({
@@ -140,3 +143,32 @@ export const styles = theme => ({
     position: "relative"
   }
 })
+
+export const DisplayCount = styled.div`
+  font-size: 0.8rem;
+  position: absolute;
+  right: 2%;
+  top: 6px;
+
+  @media (min-width: 330px) {
+    right: 10%;
+  }
+
+  @media (min-width: 640px) {
+    right: 2%;
+  }
+
+  @media (min-width: 740px) {
+    right: 10%;
+  }
+`
+
+export const StyledSpan = styled(Span)`
+  display: none;
+  font-size: 0.6rem;
+  padding: 0 0 0 10px;
+
+  @media (min-width: 640px) {
+    display: ${props => props.display640};
+  }
+`

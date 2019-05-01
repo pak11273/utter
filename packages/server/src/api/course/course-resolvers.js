@@ -199,6 +199,7 @@ const courseCreate = async (_, args, ctx, info) => {
     if (!owner) {
       throw new Error("User not found.")
     }
+
     owner.createdCourses.push(course)
 
     await owner.save()
