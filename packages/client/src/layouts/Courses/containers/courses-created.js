@@ -45,7 +45,7 @@ class CoursesCreatedContainer extends PureComponent {
     resetCursor: ""
   }
 
-  handleImageClick = card => {
+  handleImageClick = card => () => {
     session.level = ""
     session.course = card
     session.levels = card.levels
@@ -157,7 +157,7 @@ class CoursesCreatedContainer extends PureComponent {
                               lg={3}>
                               <Card className={classes.card}>
                                 <CardMedia
-                                  onClick={() => this.handleImageClick(card)}
+                                  onClick={this.handleImageClick(card)}
                                   className={classes.cardMedia}
                                   image={`${card.courseImage}`}
                                   title={`${card.title}`}
@@ -172,7 +172,7 @@ class CoursesCreatedContainer extends PureComponent {
                                 </CardContent>
                                 <CardActions className={classes.actions}>
                                   <Button
-                                    onClick={() => this.handleImageClick(card)}
+                                    onClick={this.handleImageClick(card)}
                                     size="large"
                                     className={classes.editButton}>
                                     Edit

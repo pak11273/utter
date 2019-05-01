@@ -60,14 +60,26 @@ export const GET_CREATED_COURSES = gql`
       courses {
         _id
         courseImage
-        courseDescription
-        title
         courseMode
+        title
+        courseDescription
+        levels {
+          _id
+          title
+        }
+        resource
+        usingLang
+        subscribers
+        teachingLang
         owner {
           username
+          subscriptions {
+            _id
+          }
         }
       }
       cursor
+      more
     }
   }
 `
