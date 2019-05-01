@@ -25,6 +25,7 @@ import Typography from "@material-ui/core/Typography"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
+import {isOwner} from "../../utils/auth.js"
 
 import classNames from "classnames"
 import {styles} from "./styles.js"
@@ -58,17 +59,16 @@ const RandomCard = ({
   const toggleTranslate = () => {
     const a = new Audio(audioUrl)
     a.play()
-    if (state.translation === "translation") {
+    changeState({
+      ...state,
+      translation
+    })
+    setTimeout(() => {
       changeState({
         ...state,
-        translation
+        translation: false
       })
-    } else {
-      changeState({
-        ...state,
-        translation
-      })
-    }
+    }, 10000)
   }
 
   if (
@@ -159,6 +159,15 @@ const RandomCard = ({
 }
 
 class HostControls extends PureComponent {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isOwner: isOwner(session.user, session.zone),
+      randomVocabulary: session.vocabulary || []
+    }
+  }
+
   render() {
     console.log("props: ", this.props)
     return (
@@ -167,16 +176,15 @@ class HostControls extends PureComponent {
           infiniteLoop={true}
           showThumbs={false}
           showIndicators={false}
-          showArrows
+          showArrows={this.state.isOwner}
           showStatus>
-          {session.vocabulary &&
-            session.vocabulary.map(item => {
-              return (
-                <div key={item._id}>
-                  <RandomCard {...item} {...this.props} />
-                </div>
-              )
-            })}
+          {this.state.randomVocabulary.map(item => {
+            return (
+              <div key={item._id}>
+                <RandomCard {...item} {...this.props} />
+              </div>
+            )
+          })}
         </Carousel>
       </div>
     )

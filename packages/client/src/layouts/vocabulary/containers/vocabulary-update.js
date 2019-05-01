@@ -483,7 +483,7 @@ class VocabularysUpdate extends Component {
                   options={{
                     actionsColumnIndex: -1,
                     filtering: true,
-                    pageSize: 5,
+                    pageSize: 10,
                     showTitle: false,
                     sorting: true,
                     rowStyle: x => {
