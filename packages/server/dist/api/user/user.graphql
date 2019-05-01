@@ -51,10 +51,13 @@ input UpdatedUserInput {
 type User {
 	blocked: [String]
   contacts: [String]
+	ccLast4: String
 	createdCourses: [Course!]
   createdAt: String
   email: String! 
+	hostedZone: Zone!
 	_id: ID
+	isCanceled: Boolean
   password: String
 	roles: [ String ]
 	rights: [String]
@@ -73,9 +76,11 @@ type Query {
 }
 
 type Mutation {
+	cancelPayMonthly: User
 	changePassword(input: ChangePasswordInput): AuthPayload 
   contact(input: ContactInput!): ContactOutput
-	createPayMonthly(source: String!): User
+	changeCreditCard(source: String!, ccLast4: String): User
+	createPayMonthly(source: String!, ccLast4: String): User
   login(input: LoginInput): AuthPayload
 	forgotPassword(email: String!): Boolean 
 	confirmEmail(token: String!): Boolean 

@@ -49,7 +49,7 @@ function () {
             console.log("level: ", levelId);
             _context.prev = 3;
             _context.next = 6;
-            return _levelModel.default.findById(levelId).exec();
+            return _levelModel.default.findById(levelId).populate("vocabulary").lean();
 
           case 6:
             level = _context.sent;

@@ -224,27 +224,27 @@ var zoneUpdate = function zoneUpdate(_, _ref8) {
 var zoneCreate =
 /*#__PURE__*/
 function () {
-  var _ref9 = (0, _asyncToGenerator2.default)(
+  var _ref10 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
-  _regenerator.default.mark(function _callee5(_, args, ctx, info) {
-    var userId, user, input, newZone, zone, createdZone;
+  _regenerator.default.mark(function _callee5(_, args, _ref9, info) {
+    var req, user, input, newZone, zone, createdZone;
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.prev = 0;
+            req = _ref9.req;
+            _context5.prev = 1;
 
-            if (ctx.isAuth) {
-              _context5.next = 3;
+            if (!(!req.session || !req.session.userId)) {
+              _context5.next = 4;
               break;
             }
 
-            throw new Error("You need to be registered to create a course.");
+            throw new Error("Not authenticated.");
 
-          case 3:
-            userId = ctx.req.token._id;
+          case 4:
             _context5.next = 6;
-            return _userModel.default.findById(userId, function (err, res) {
+            return _userModel.default.findById(req.session.userId, function (err, res) {
               if (err) return err;
               return res;
             });
@@ -277,7 +277,7 @@ function () {
 
           case 16:
             _context5.prev = 16;
-            _context5.t0 = _context5["catch"](0);
+            _context5.t0 = _context5["catch"](1);
             throw _context5.t0;
 
           case 19:
@@ -285,18 +285,18 @@ function () {
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[0, 16]]);
+    }, _callee5, null, [[1, 16]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {
-    return _ref9.apply(this, arguments);
+    return _ref10.apply(this, arguments);
   };
 }();
 
 var getZoneLevels =
 /*#__PURE__*/
 function () {
-  var _ref10 = (0, _asyncToGenerator2.default)(
+  var _ref11 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee6(_, args, ctx, info) {
     var query;
@@ -317,14 +317,14 @@ function () {
   }));
 
   return function getZoneLevels(_x13, _x14, _x15, _x16) {
-    return _ref10.apply(this, arguments);
+    return _ref11.apply(this, arguments);
   };
 }();
 
 var getZones =
 /*#__PURE__*/
 function () {
-  var _ref11 = (0, _asyncToGenerator2.default)(
+  var _ref12 = (0, _asyncToGenerator2.default)(
   /*#__PURE__*/
   _regenerator.default.mark(function _callee7(_, args, ctx, info) {
     var more, input, hostMatch, zoneMatch, usingLangMatch, teachingLangMatch, appMatch, titleMatch, cursor, key, zones, lastZones, lastZone, obj;
@@ -360,7 +360,7 @@ function () {
               delete input.cursor;
             }
 
-            console.log('curser: ', cursor);
+            console.log("curser: ", cursor);
 
             for (key in input) {
               if (input[key] !== "") {
@@ -492,7 +492,35 @@ function () {
   }));
 
   return function getZones(_x17, _x18, _x19, _x20) {
-    return _ref11.apply(this, arguments);
+    return _ref12.apply(this, arguments);
+  };
+}();
+
+var rezone =
+/*#__PURE__*/
+function () {
+  var _ref13 = (0, _asyncToGenerator2.default)(
+  /*#__PURE__*/
+  _regenerator.default.mark(function _callee8(_, args, ctx, info) {
+    var query;
+    return _regenerator.default.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            // build query object
+            query = {};
+            query.owner = ctx.user; //TODO
+
+          case 2:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8);
+  }));
+
+  return function rezone(_x21, _x22, _x23, _x24) {
+    return _ref13.apply(this, arguments);
   };
 }();
 
@@ -503,21 +531,10 @@ var zoneResolvers = {
     getZoneLevels: getZoneLevels
   },
   Mutation: {
+    rezone: rezone,
     zoneDelete: zoneDelete,
     zoneUpdate: zoneUpdate,
     zoneCreate: zoneCreate
-    /* Zone: { */
-
-    /*   async owner(zone) { */
-
-    /*     const populated = await zone.populate("owner").execPopulate() */
-
-    /*     return populated.owner */
-
-    /*   } */
-
-    /* } */
-
   }
 };
 exports.zoneResolvers = zoneResolvers;

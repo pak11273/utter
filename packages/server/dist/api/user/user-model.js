@@ -17,6 +17,8 @@ var _bcrypt = _interopRequireDefault(require("bcrypt"));
 
 var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
+var _zoneModel = _interopRequireDefault(require("../zone/zone-model.js"));
+
 var UserSchema = new _mongoose.default.Schema({
   age: {
     type: Number
@@ -41,6 +43,10 @@ var UserSchema = new _mongoose.default.Schema({
     type: Boolean,
     default: false
   },
+  hostedZone: {
+    type: _mongoose.default.Schema.Types.ObjectId,
+    ref: "Zone"
+  },
   gender: {
     type: String,
     enum: ["male", "female"]
@@ -64,6 +70,7 @@ var UserSchema = new _mongoose.default.Schema({
     index: true
   },
   bio: String,
+  ccLast4: String,
   email: {
     type: String,
     lowercase: true,

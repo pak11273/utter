@@ -68,6 +68,7 @@ extend type Query {
 }
 
 extend type Mutation {
+	rezone(owner: ID): Zone! 
   zoneCreate(input: ZoneCreateInput!): Zone! 
 	zoneDelete(_id: String!): Boolean
   zoneUpdate(input: ZoneUpdated!): Zone!
