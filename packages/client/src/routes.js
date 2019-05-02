@@ -138,6 +138,11 @@ const getPricing = Loadable({
   delay: 200
 })
 
+const getPrivateZone = Loadable({
+  loader: () => import("./layouts/zones/components/private-zone.js"),
+  loading: Loading
+})
+
 const getProfile = Loadable({
   loader: () => import("./layouts/profile"),
   loading: Loading
@@ -285,6 +290,11 @@ export const routes = [
     component: getPricing,
     exact: true,
     path: "/pricing"
+  },
+  {
+    component: getPrivateZone,
+    exact: true,
+    path: "/zones/private"
   },
   {
     component: getProfile,

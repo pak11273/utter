@@ -5,6 +5,7 @@
 		"block-scoped-var": 0,
 		"camelcase": 0,
 		"consistent-return": 0,
+		"func-names": 0,
 		"no-alert": 0,
 		"no-console": 0,
 		"no-nested-ternary": 0,

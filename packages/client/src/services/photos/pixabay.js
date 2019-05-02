@@ -1,3 +1,5 @@
+/* eslint-disable */
+import {PhotoAbstract} from "./photo-abstract.js"
 // api notes
 // returns json
 // 5000 requests per hour by api key
@@ -7,8 +9,8 @@
 
 // params
 // https://pixabay/
-{
-  /* 
+
+/* 
 key=api
 q= search term ie. "yellow+flower"
 lang= default: en
@@ -24,18 +26,38 @@ per_page= <3-200: defaul: 20>
 X-RateLimit-Remaining	The number of requests remaining in the current rate limit window.
 X-RateLimit-Reset	The remaining time in seconds after which the current rate limit window resets.
 */
-}
 
-var API_KEY = "12284340-ae329c7f48e191cb0c76643cd"
-var URL =
-  "https://pixabay.com/api/?key=" +
-  API_KEY +
-  "&q=" +
-  encodeURIComponent("red roses")
-$.getJSON(URL, function(data) {
-  if (parseInt(data.totalHits) > 0)
-    $.each(data.hits, function(i, hit) {
-      console.log(hit.pageURL)
-    })
-  else console.log("No hits")
-})
+/* var URL = */
+/*   "https://pixabay.com/api/?key=" + */
+/*   API_KEY + */
+/*   "&q=" + */
+
+/*   encodeURIComponent("red roses") */
+/* $.getJSON(URL, function(data) { */
+/*   if (parseInt(data.totalHits) > 0) */
+/*     $.each(data.hits, function(i, hit) { */
+/*       console.log(hit.pageURL) */
+/*     }) */
+/*   else console.log("No hits") */
+/* }) */
+
+export class Pixabay extends PhotoAbstract {
+  constructor(data) {
+    super(data)
+    this.data = data
+    this.words = []
+
+    this.words = PhotoAbstract.convertData(data)
+  }
+
+  async fetchPics(data) {
+    const head = "head"
+    const url = `https://pixabay.com/api/?key=${
+      process.env.PIXABAY_API_KEY
+    }=${head}&image_type=photo&pretty=true`
+
+    const fetched = await fetch(url)
+
+    console.log("fetched: ", fetched)
+  }
+}
