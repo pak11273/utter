@@ -22,7 +22,7 @@ import {
   FormikTextArea,
   LoadingButton
 } from "../../../components"
-import {ZONE_CREATE_MUTATION} from "../../../graphql/queries/zone-queries.js"
+import {ZONE_CREATE_MUTATION} from "../../../graphql/mutations/zone-mutaions.js"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {options} from "../options.js"
 
@@ -32,17 +32,16 @@ import "../overrides.css"
 
 const ZoneCreate = props => {
   const [state, changeState] = useState({
-    checkedA: true,
-    checkedB: false,
-    password: "notapplicable"
+    public: true,
+    reserved: false
   })
 
   const handleChange = name => event => {
     changeState({
       ...state,
-      [name]: event.target.checked,
-      password: "cassword"
+      [name]: event.target.checked
     })
+    props.setFieldValue("reserved", event.target.checked)
   }
 
   const subscribedOptions =
@@ -234,18 +233,18 @@ const ZoneCreate = props => {
                   control={
                     <Switch
                       disableRipple
-                      checked={state.checkedB}
-                      onChange={handleChange("checkedB")}
-                      value="checkedB"
+                      checked={state.reserved}
+                      onChange={handleChange("reserved")}
+                      value="reserved"
                     />
                   }
                   label="Private Zone"
                 />
-                {state.checkedB && (
+                {state.reserved && (
                   <Flex flexdirection="row">
                     <Field
                       className="custom_input"
-                      name={state.password}
+                      name="password"
                       type="text"
                       component={FormikInput}
                       style={{width: "100px"}}
@@ -288,6 +287,8 @@ export default compose(
       course: "",
       courseLevel: "",
       owner: session.user._id,
+      reserved: false,
+      password: "",
       zoneName: "",
       zoneDescription: ""
     }),
@@ -320,6 +321,7 @@ export default compose(
 
         session.vocabulary = courseLevel.data.getLevel.vocabulary
 
+        console.log("values; ", values)
         const result = await props.zoneCreate({
           variables: {
             ageGroup: values.ageGroup,
@@ -328,6 +330,8 @@ export default compose(
             course: values.course,
             courseLevel: values.courseLevel,
             owner: values.owner,
+            reserved: values.reserved,
+            password: values.password,
             zoneName: values.zoneName,
             zoneDescription: values.zoneDescription
           }

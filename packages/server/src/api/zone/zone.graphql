@@ -11,7 +11,7 @@ type Zone {
 	occupants: Int
   owner: User
 	password: String
-	private: Boolean
+	reserved: Boolean
   teachingLang: String
   usingLang: String
 	zoneCourse: Course
@@ -46,6 +46,8 @@ input ZoneCreateInput {
 	ageGroup: String
 	members: Int
 	owner: String!
+	password: String
+	reserved: Boolean
   zoneId: String
 	zoneImage: String
   zoneName: String!

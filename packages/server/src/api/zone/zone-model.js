@@ -48,7 +48,7 @@ const ZoneSchema = mongoose.Schema(
       type: String,
       default: ""
     },
-    private: {
+    reserved: {
       type: Boolean,
       default: false
     },

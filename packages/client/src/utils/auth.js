@@ -1,6 +1,4 @@
 export const isOwner = (user, resource) => {
-  console.log("user: ", user)
-  console.log("resource: ", resource)
   return (
     user._id === resource.owner._id || user.username === resource.owner.username
   )

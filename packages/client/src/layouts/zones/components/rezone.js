@@ -11,7 +11,7 @@ import {Field, withFormik} from "formik"
 /* import cuid from "cuid" */
 import {rezoneSchema} from "@utterzone/common"
 import {FormikInput, LoadingButton} from "../../../components"
-import {ZONE_CREATE_MUTATION} from "../../../graphql/queries/zone-queries.js"
+import {ZONE_CREATE_MUTATION} from "../../../graphql/mutations/zone-mutaions.js"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 
 import {session} from "brownies"

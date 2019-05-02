@@ -70,6 +70,7 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, {req}, info) => {
+  console.log("args: ", args)
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
@@ -94,6 +95,8 @@ const zoneCreate = async (_, args, {req}, info) => {
       courseLevel: +input.courseLevel,
       ageGroup: input.ageGroup,
       owner: input.owner,
+      password: input.password,
+      reserved: input.reserved,
       zoneName: input.zoneName,
       zoneDescription: input.zoneDescription,
       teachingLang: input.teachingLang,
