@@ -18,10 +18,10 @@ var rezoneSchema = yup.object().shape({
 });
 exports.rezoneSchema = rezoneSchema;
 var zoneCreateSchema = yup.object().shape({
+  ageGroup: yup.string().required("Age restrictions are required"),
   app: yup.string().required("An app is required"),
   course: yup.string().required("A course you subscribe to is required"),
   courseLevel: yup.string().required("A course level is required"),
-  ageGroup: yup.string().required("Age restrictions are required"),
   zoneName: yup.string().min(3, zoneNotLongEnough).max(40, zoneTooLong).required("A zone name is required"),
   zoneDescription: yup.string().min(30, zoneDescriptionNotLongEnough).max(110, zoneDescriptionTooLong).required("A zone description is required")
 });

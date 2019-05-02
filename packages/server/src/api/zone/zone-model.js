@@ -44,6 +44,14 @@ const ZoneSchema = mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User"
     },
+    password: {
+      type: String,
+      default: ""
+    },
+    private: {
+      type: Boolean,
+      default: false
+    },
     zoneImage: {
       type: String,
       default:

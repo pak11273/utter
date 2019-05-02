@@ -1,8 +1,11 @@
-import React from "react"
+import React, {useState} from "react"
 import {Helmet} from "react-helmet-async"
 import {withRouter} from "react-router-dom"
 
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import FormGroup from "@material-ui/core/FormGroup"
 import Grid from "@material-ui/core/Grid"
+import Switch from "@material-ui/core/Switch"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {compose, graphql, withApollo} from "react-apollo"
@@ -13,6 +16,7 @@ import {Field, withFormik} from "formik"
 import {zoneCreateSchema} from "@utterzone/common"
 import appData from "../../../data/appData.js"
 import {
+  Flex,
   FormikInput,
   FormikSelect,
   FormikTextArea,
@@ -24,8 +28,23 @@ import {options} from "../options.js"
 
 import {session} from "brownies"
 import {DisplayCount, StyledSpan, styles} from "../styles.js"
+import "../overrides.css"
 
 const ZoneCreate = props => {
+  const [state, changeState] = useState({
+    checkedA: true,
+    checkedB: false,
+    password: "notapplicable"
+  })
+
+  const handleChange = name => event => {
+    changeState({
+      ...state,
+      [name]: event.target.checked,
+      password: "cassword"
+    })
+  }
+
   const subscribedOptions =
     session.user && session.user.subscriptions
       ? session.user.subscriptions.map(item => {
@@ -35,27 +54,6 @@ const ZoneCreate = props => {
           }
         })
       : [{}]
-  /* const [owner, setOwner] = useState(session.user._id) */
-
-  /* const initialState = { */
-  /*   ageGroup: "Any age", */
-  /*   cdn: {}, */
-  /*   charCount: 0, */
-  /*   course: "", */
-  /*   zoneId: cuid(), */
-  /*   zoneRef: "", */
-  /*   displayName: "", */
-  /*   errors: {}, */
-  /*   levels: [{level: 1, cuid: cuid()}], */
-  /*   appLevel: "", */
-  /*   loading: false, */
-  /*   owner: "", */
-  /*   public_id: "", */
-  /*   secure_url: "", */
-  /*   signature: "", */
-  /*   terms: [{word: "Change me", translation: "Change me", audio: "audio.mp3"}], */
-  /*   url: "" */
-  /* } */
 
   const {classes, handleSubmit, isSubmitting} = props
   const {zoneName, zoneDescription} = props.values
@@ -188,10 +186,11 @@ const ZoneCreate = props => {
                 Apps will use the course information from this level.
               </p>
               <Field
+                className="custom_input"
                 name="courseLevel"
                 type="text"
                 component={FormikInput}
-                style={{width: "80px"}}
+                style={{width: "100px"}}
               />
               {/* <Field
                   name="courseLevel"
@@ -228,6 +227,33 @@ const ZoneCreate = props => {
                 {...props}
                 options={options}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      disableRipple
+                      checked={state.checkedB}
+                      onChange={handleChange("checkedB")}
+                      value="checkedB"
+                    />
+                  }
+                  label="Private Zone"
+                />
+                {state.checkedB && (
+                  <Flex flexdirection="row">
+                    <Field
+                      className="custom_input"
+                      name={state.password}
+                      type="text"
+                      component={FormikInput}
+                      style={{width: "100px"}}
+                    />
+                    <p style={{padding: "10px"}}>require a zone password</p>
+                  </Flex>
+                )}
+              </FormGroup>
             </Grid>
             <Grid item xs={12} align="center">
               <LoadingButton
@@ -275,10 +301,8 @@ export default compose(
         })
 
         const {levels} = courseLevels.data.getLevels
-        console.log("levle: ", levels)
         const index = parseInt(values.courseLevel, 10)
-        console.log("inde: ", index)
-        console.log("thing: ", levels[3 - 1])
+        session.level = index
         if (!levels[index - 1]) {
           setErrors({
             courseLevel: "This course does not contain a level with this number"
@@ -294,7 +318,6 @@ export default compose(
           }
         })
 
-        console.log("course lvel :", courseLevel)
         session.vocabulary = courseLevel.data.getLevel.vocabulary
 
         const result = await props.zoneCreate({

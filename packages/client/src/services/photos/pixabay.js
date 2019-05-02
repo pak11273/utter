@@ -39,6 +39,3 @@ $.getJSON(URL, function(data) {
     })
   else console.log("No hits")
 })
-
-
-

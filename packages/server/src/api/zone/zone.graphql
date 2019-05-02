@@ -10,6 +10,8 @@ type Zone {
 	maxOccupants: Int
 	occupants: Int
   owner: User
+	password: String
+	private: Boolean
   teachingLang: String
   usingLang: String
 	zoneCourse: Course
