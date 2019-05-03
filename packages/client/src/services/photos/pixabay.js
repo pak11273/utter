@@ -67,7 +67,7 @@ export class Pixabay extends PhotoAbstract {
             return {...dataItem, ...item}
           })
           resolve(imageUrls)
-        }, 15000)
+        }, 1000)
       })
     })
 

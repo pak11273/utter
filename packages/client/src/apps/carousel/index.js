@@ -176,7 +176,7 @@ class HostControls extends PureComponent {
   componentDidMount() {
     // get app info and load app here
     const PAdapter = new PhotoAdapter(session.vocabulary)
-    PAdapter.functions("fetchPics").then(res => {
+    PAdapter.functions("fetchPixabay").then(res => {
       session.carousel = res
       this.setState({
         randomVocabulary: res,

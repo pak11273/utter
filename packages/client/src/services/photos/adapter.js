@@ -14,11 +14,9 @@ export class PhotoAdapter {
     /* const googleService = new Google(data) */
 
     this.functions = function(method) {
-      switch (method) {
-        case "fetchPics":
-          return pixabayService.fetchPics(data)
-        default:
-          return null
+      if (method === "fetchPixabay") {
+        return  pixabayService.fetchPics(data)
+        /* return pixabayService.fetchPics(data) */
       }
     }
   }
