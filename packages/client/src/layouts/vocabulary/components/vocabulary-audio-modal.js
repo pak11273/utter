@@ -214,7 +214,9 @@ class VocabularyAudioModal extends Component {
               }
             })
             .then(res => {
+              console.log("res: ", res)
               this.props.causeRender(
+                // TODO: fix
                 res.data.vocabularyAudioSave.vocabulary.level
               )
             })

@@ -15,8 +15,7 @@ export class PhotoAdapter {
 
     this.functions = function(method) {
       if (method === "fetchPixabay") {
-        return  pixabayService.fetchPics(data)
-        /* return pixabayService.fetchPics(data) */
+        return pixabayService.fetchPics(data)
       }
     }
   }

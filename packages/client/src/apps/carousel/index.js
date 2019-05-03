@@ -27,6 +27,7 @@ import Typography from "@material-ui/core/Typography"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
 import {isOwner} from "../../utils/auth.js"
+import {LoaderCircle} from "../../components"
 
 import classNames from "classnames"
 import {styles} from "./styles.js"
@@ -175,6 +176,7 @@ class HostControls extends PureComponent {
 
   componentDidMount() {
     // get app info and load app here
+    // TODO: only host should load pics
     const PAdapter = new PhotoAdapter(session.vocabulary)
     PAdapter.functions("fetchPixabay").then(res => {
       session.carousel = res
@@ -194,9 +196,27 @@ class HostControls extends PureComponent {
           showIndicators={false}
           showArrows={this.state.isOwner}
           showStatus>
-          {this.state.loading && <h1>Loading Pictures</h1>}
+          {this.state.loading && (
+            <Card className={this.props.classes.card}>
+              <CardContent>
+                <div
+                  style={{
+                    display: "flex",
+                    flexGrow: 1,
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "547px"
+                  }}>
+                  <div style={{padding: "50px"}}>Loading Pictures</div>
+                  <LoaderCircle />
+                </div>
+              </CardContent>
+            </Card>
+          )}
           {!this.state.loading &&
             this.state.randomVocabulary.map(item => {
+              console.log("item: ", item)
               return (
                 <div key={item[0]._id}>
                   <RandomCard {...item[0]} {...this.props} />
