@@ -8,7 +8,11 @@ export class PhotoAbstract {
       )
     }
   }
+
   // parent functions
+  /**
+   *  converts array of Objects to an array of strings(word)
+   */
   static convertData(arr) {
     return arr.map(x => x.word)
   }

@@ -46,33 +46,35 @@ export class Pixabay extends PhotoAbstract {
     super(data)
     this.data = data
     this.loading = false
+    this.words = PhotoAbstract.convertData(data)
+    this.fetched = this.fetchPics(data)
+    this.foo = "hello"
+
+    this.fetchPics = this.fetchPics.bind(this)
   }
 
+	test() {
+
+    console.log("hahahah: ", this.foo)
+	}
+
   async fetchPics(data) {
-    console.log("data: ", data)
+    console.log("foo: ", this.foo)
+    console.log("this: ", this)
     this.loading = true
-    const words = PhotoAbstract.convertData(data)
-
-    const arr = await words.map(async word => {
-      return new Promise(resolve => {
-        setTimeout(async () => {
-          const url = `https://pixabay.com/api/?key=${
-            process.env.PIXABAY_API_KEY
-          }&q=${word}&image_type=photo&pretty=true&per_page=${encodeURIComponent(
-            10
-          )}`
-          const response = await fetch(url)
-          const fetched = await response.json()
-
-          const imageUrl = fetched.hits.map(item => {
-            resolve(item.webformatURL)
-          })
-        }, 15000)
-      })
-    })
-
+    const head = "dogs"
+    console.log("foo: ")
+    const url = `https://pixabay.com/api/?key=${
+      process.env.PIXABAY_API_KEY
+    }&q=${encodeURIComponent(
+      head
+    )}&image_type=photo&pretty=true&per_page=${encodeURIComponent(per)}`
+    /* webformatURL */
+    const response = await fetch(url)
+    const fetched = await response.json()
     this.loading = false
-    console.log("arr: ", arr)
-    return await Promise.all(arr)
+    return fetched.hits.map(item => {
+      return item.webformatURL
+    })
   }
 }

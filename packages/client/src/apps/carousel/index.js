@@ -1,8 +1,6 @@
 import React, {useState, PureComponent} from "react"
 import {session} from "brownies"
 import {PhotoAdapter} from "../../services/photos/adapter.js"
-import {Pixabay} from "../../services/photos/pixabay.js"
-/* import {Google} from "../../services/photos/google.js" */
 
 import CardHeader from "@material-ui/core/CardHeader"
 import Collapse from "@material-ui/core/Collapse"
@@ -201,18 +199,14 @@ class CarouselContainer extends PureComponent {
 
   render() {
     const PAdapter = new PhotoAdapter(session.vocabulary)
-    console.log("adapat: ", PAdapter.arr)
-
-    const Pixa = new Pixabay(session.vocabulary)
-    const pics = Pixa.fetchPics()
-    console.log("pics: ", pics)
+    PAdapter.functions("fetchPics").then(res => console.log("res: ", res))
 
     const {classes} = this.props
     return (
       <Grid container className={classes.root}>
         <Grid item xs={12} align="right">
           <Typography className={classes.appTitle} gutterBottom component="p">
-            CAROUSEL
+            Carousel
           </Typography>
         </Grid>
         <Grid item xs={12}>

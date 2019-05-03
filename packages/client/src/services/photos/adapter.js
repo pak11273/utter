@@ -1,4 +1,4 @@
-/* import {Pixabay} from "./pixabay.js" */
+import {Pixabay} from "./pixabay.js"
 
 // TODO: get photos from an array of search terms
 // generate a mapping to that array to another array of image urls
@@ -9,5 +9,19 @@
 /* import {Pixabay} from "./pixabay.js" */
 
 export class PhotoAdapter {
+  constructor(data) {
+    const pixabayService = new Pixabay(data)
+    /* const googleService = new Google(data) */
+
+    this.functions = function(method) {
+      switch (method) {
+        case "fetchPics":
+          return pixabayService.fetchPics(data)
+        default:
+          return null
+      }
+    }
+  }
+
   /* const Pixa = new Pixabay() */
 }
