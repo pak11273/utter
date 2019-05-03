@@ -56,6 +56,14 @@ var ZoneSchema = _mongoose.default.Schema({
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"
   },
+  password: {
+    type: String,
+    default: ""
+  },
+  reserved: {
+    type: Boolean,
+    default: false
+  },
   zoneImage: {
     type: String,
     default: "https://res.cloudinary.com/dgvw5b6pf/image/upload/v1545873897/game-thumbnails/jon-tyson-762647-unsplash_vlvsyk"

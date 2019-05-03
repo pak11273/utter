@@ -233,23 +233,24 @@ function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             req = _ref9.req;
-            _context5.prev = 1;
+            console.log("args: ", args);
+            _context5.prev = 2;
 
             if (!(!req.session || !req.session.userId)) {
-              _context5.next = 4;
+              _context5.next = 5;
               break;
             }
 
             throw new Error("Not authenticated.");
 
-          case 4:
-            _context5.next = 6;
+          case 5:
+            _context5.next = 7;
             return _userModel.default.findById(req.session.userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 6:
+          case 7:
             user = _context5.sent;
             input = args.input;
             newZone = new _zoneModel.default({
@@ -258,15 +259,17 @@ function () {
               courseLevel: +input.courseLevel,
               ageGroup: input.ageGroup,
               owner: input.owner,
+              password: input.password,
+              reserved: input.reserved,
               zoneName: input.zoneName,
               zoneDescription: input.zoneDescription,
               teachingLang: input.teachingLang,
               usingLang: input.usingLang
             });
-            _context5.next = 11;
+            _context5.next = 12;
             return newZone.save();
 
-          case 11:
+          case 12:
             zone = _context5.sent;
             createdZone = (0, _objectSpread2.default)({}, zone._doc, {
               _id: zone._doc._id.toString(),
@@ -275,17 +278,17 @@ function () {
             });
             return _context5.abrupt("return", createdZone);
 
-          case 16:
-            _context5.prev = 16;
-            _context5.t0 = _context5["catch"](1);
+          case 17:
+            _context5.prev = 17;
+            _context5.t0 = _context5["catch"](2);
             throw _context5.t0;
 
-          case 19:
+          case 20:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[1, 16]]);
+    }, _callee5, null, [[2, 17]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {

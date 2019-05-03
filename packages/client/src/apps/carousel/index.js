@@ -33,7 +33,7 @@ import {styles} from "./styles.js"
 import "./overrides.css"
 
 // images
-import busyPeopleImg from "../../assets/images/busy-people.jpg"
+/* import busyPeopleImg from "../../assets/images/busy-people.jpg" */
 
 const RandomCard = ({
   audioUrl,
@@ -42,7 +42,8 @@ const RandomCard = ({
   translation,
   word,
   phrase,
-  question
+  question,
+  webformatURL
 }) => {
   const [state, changeState] = useState({
     state: {
@@ -51,6 +52,8 @@ const RandomCard = ({
     }
   })
   const handleExpandClick = () => {
+    console.log("web: ", webformatURL)
+    console.log("typeof: ", typeof webformatURL)
     changeState({
       ...state,
       expanded: !state.expanded
@@ -82,7 +85,7 @@ const RandomCard = ({
     media = (
       <CardMedia
         className={classes.media}
-        image={`${busyPeopleImg}`}
+        image={webformatURL}
         title="Paella dish"
       />
     )
@@ -164,13 +167,25 @@ class HostControls extends PureComponent {
     super(props)
 
     this.state = {
+      loading: true,
       isOwner: isOwner(session.user, session.zone),
-      randomVocabulary: session.vocabulary || []
+      randomVocabulary: session.carousel
     }
   }
 
+  componentDidMount() {
+    // get app info and load app here
+    const PAdapter = new PhotoAdapter(session.vocabulary)
+    PAdapter.functions("fetchPics").then(res => {
+      session.carousel = res
+      this.setState({
+        randomVocabulary: res,
+        loading: false
+      })
+    })
+  }
+
   render() {
-    console.log("props: ", this.props)
     return (
       <div>
         <Carousel
@@ -179,13 +194,15 @@ class HostControls extends PureComponent {
           showIndicators={false}
           showArrows={this.state.isOwner}
           showStatus>
-          {this.state.randomVocabulary.map(item => {
-            return (
-              <div key={item._id}>
-                <RandomCard {...item} {...this.props} />
-              </div>
-            )
-          })}
+          {this.state.loading && <h1>Loading Pictures</h1>}
+          {!this.state.loading &&
+            this.state.randomVocabulary.map(item => {
+              return (
+                <div key={item[0]._id}>
+                  <RandomCard {...item[0]} {...this.props} />
+                </div>
+              )
+            })}
         </Carousel>
       </div>
     )
@@ -193,14 +210,7 @@ class HostControls extends PureComponent {
 }
 
 class CarouselContainer extends PureComponent {
-  componentDidMount() {
-    // get app info and load app here
-  }
-
   render() {
-    const PAdapter = new PhotoAdapter(session.vocabulary)
-    PAdapter.functions("fetchPics").then(res => console.log("res: ", res))
-
     const {classes} = this.props
     return (
       <Grid container className={classes.root}>

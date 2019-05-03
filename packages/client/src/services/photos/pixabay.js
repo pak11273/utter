@@ -49,30 +49,31 @@ export class Pixabay extends PhotoAbstract {
   }
 
   async fetchPics(data) {
-    console.log("data: ", data)
     this.loading = true
     const words = PhotoAbstract.convertData(data)
 
-    const arr = await words.map(async word => {
+    const arr = await data.map(async dataItem => {
       return new Promise(resolve => {
         setTimeout(async () => {
           const url = `https://pixabay.com/api/?key=${
             process.env.PIXABAY_API_KEY
-          }&q=${word}&image_type=photo&pretty=true&per_page=${encodeURIComponent(
-            10
-          )}`
+          }&q=${
+            dataItem.word
+          }&image_type=photo&pretty=true&per_page=${encodeURIComponent(10)}`
           const response = await fetch(url)
           const fetched = await response.json()
 
-          const imageUrl = fetched.hits.map(item => {
-            resolve(item.webformatURL)
+          const imageUrls = fetched.hits.map(item => {
+            return {...dataItem, ...item}
           })
+          resolve(imageUrls)
         }, 15000)
       })
     })
 
+    const urls = await Promise.all(arr)
+
     this.loading = false
-    console.log("arr: ", arr)
-    return await Promise.all(arr)
+    return urls
   }
 }
