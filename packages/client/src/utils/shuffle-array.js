@@ -1,6 +1,17 @@
-export const shuffleArray = (array) => {
-	    for (let i = array.length - 1; i > 0; i--) {
-				        const j = Math.floor(Math.random() * (i + 1));
-				        [array[i], array[j]] = [array[j], array[i]];
-				    }
+/* eslint no-plusplus:0 */
+export const shuffleArray = arr => {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
+}
+
+// another version: slightly slower but more readable
+export const shuffleArray2 = arr => {
+  arr
+    .map(a => ({sort: Math.random(), value: a}))
+    .sort((a, b) => a.sort - b.sort)
+    .map(a => a.value)
+  return arr
 }

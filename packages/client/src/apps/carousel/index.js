@@ -26,15 +26,12 @@ import Typography from "@material-ui/core/Typography"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
-import {isOwner} from "../../utils/auth.js"
+import {isOwner, shuffleArray} from "../../utils"
 import {LoaderCircle} from "../../components"
 
 import classNames from "classnames"
 import {styles} from "./styles.js"
 import "./overrides.css"
-
-// images
-/* import busyPeopleImg from "../../assets/images/busy-people.jpg" */
 
 const RandomCard = ({
   audioUrl,
@@ -96,7 +93,7 @@ const RandomCard = ({
     <Card className={classes.card}>
       <CardHeader
         avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar}>
+          <Avatar aria-label="level" className={classes.avatar}>
             {session.level}
           </Avatar>
         }
@@ -216,10 +213,11 @@ class HostControls extends PureComponent {
           )}
           {!this.state.loading &&
             this.state.randomVocabulary.map(item => {
-              console.log("item: ", item)
+              const arr = shuffleArray(item)
+              console.log("arr: ", arr)
               return (
-                <div key={item[0]._id}>
-                  <RandomCard {...item[0]} {...this.props} />
+                <div key={arr[0]._id}>
+                  <RandomCard {...arr[0]} {...this.props} />
                 </div>
               )
             })}
