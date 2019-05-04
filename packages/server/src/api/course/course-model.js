@@ -2,6 +2,7 @@ import mongoose, {Schema} from "mongoose"
 import User from "../user/user-model.js"
 import {TermSchema} from "../term/term-model.js"
 import Level from "../level/level-model.js"
+import mongoosePaginate from "mongoose-paginate-v2"
 
 const CourseSchema = mongoose.Schema(
   {
@@ -64,7 +65,8 @@ const CourseSchema = mongoose.Schema(
   {timestamps: true}
 )
 
-CourseSchema.index({title: "text", courseDescription: "text"})
+// all indexes will be searched by $text operator, the more indexes, the slower $text becomes
+CourseSchema.index({title: "text", resource: "text"})
 
 CourseSchema.statics.findByUsername = function(username, callback) {
   var query = this.findOne()
@@ -80,5 +82,7 @@ CourseSchema.virtual("id").get(function() {
 CourseSchema.set("toJSON", {
   virtuals: true
 })
+
+CourseSchema.plugin(mongoosePaginate)
 
 export default mongoose.model("Course", CourseSchema)

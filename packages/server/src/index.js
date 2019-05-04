@@ -16,10 +16,6 @@ socketServer(server)
 let currentApp = app
 
 mongoose.set("useFindAndModify", false) // removes deprecation warning
-// Routers
-mongoose.connection.on("connected", function() {
-  // mounts
-})
 
 const env = process.env.NODE_ENV || "empty"
 console.log(
@@ -29,7 +25,9 @@ console.log(
 )
 
 app.get("/", (req, res, next) => {
-  res.send("Hello World")
+  res.send(
+    "Hi.  Your ip addresses was just recorded and put on our watchlist. Please be advised that we will be monitoring this ip addreass and logging it's activities on our server.  Enjoy the rest of your day."
+  )
 })
 
 // Auth Middleware

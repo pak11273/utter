@@ -10,6 +10,7 @@ import {userByToken} from "../shared/resolver-functions.js"
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
+
 /* 
 ** 
 ** @coursesById
@@ -86,10 +87,8 @@ const userById = async userId => {
 }
 
 const getCourse = async (_, args, {user}) => {
-  console.log("args: ", args)
   try {
     const course = await Course.findById(args._id)
-      .populate("owner")
       .populate("levels")
       .lean()
     if (!course) {
@@ -273,121 +272,75 @@ const getCreatedCourses = async (_, args, ctx, info) => {
   }
 }
 
-const getCourses = async (_, {input}, ctx, info) => {
-  console.log("ionput: ", input)
-  /* const query = {resource: "h-dog", owner: "5caa11c126bd462e4023657b"} */
-
-  const options = {
-    lean: true,
-    page: input.page,
-    limit: 12,
-    populate: "owner",
-    collation: {
-      locale: "en"
-    }
+const getCourses = async (_, args, ctx, info) => {
+  var more = false
+  var input = args.input
+  if (input.searchInput || input.selectionBox) {
+    input[input.selectionBox] = input.searchInput
+    delete input.searchInput
+    delete input.selectionBox
   }
-
-  // we don't need page or cursor in our query
   var query = {}
-  delete input.page
-  delete input.cursor
   for (var key in input) {
     input[key] !== "" ? (query[key] = input[key]) : null
   }
 
-  // fuzzy search on searchInput
-  input.searchInput
-    ? (query[input.selectionBox] = new RegExp(
-        escapeRegex(input.searchInput),
-        "gi"
-      ))
+  query.title
+    ? (query.title = new RegExp(escapeRegex(query.title), "gi"))
     : null
 
-  delete query.searchInput
-  delete query.selectionBox
+  if (query.owner) {
+    query.owner = await User.findOne({username: query.owner}, (err, docs) => {
+      if (err) {
+        throw err
+      }
+      if (!isEmpty(docs)) {
+        var owner = docs._id
+        query.owner = docs._id
+      }
+    })
+  }
 
-  /* end fuzzy search */
+  query.resource
+    ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))
+    : null
 
-  console.log("quer; ", query)
+  if (query.cursor) {
+    query._id = {$lt: query.cursor || null}
+    delete query.cursor
+  }
 
-  return Course.paginate(query, options, function(err, result) {
-    console.log("results count: ", result.totalDocs)
+  try {
+    const courses = await Course.find(query)
+      .populate("owner")
+      .populate("levels")
+      .sort({_id: -1})
+      .limit(24)
+      .lean()
 
-    return {
-      page: result.page,
-      courses: result.docs,
-      more: result.hasNextPage
+    const lastCourses = await Course.find(query)
+      .sort({_id: -1})
+      .lean()
+
+    if (lastCourses.length !== 0) {
+      var lastCourse = lastCourses[lastCourses.length - 1]._id
+    } else {
+      lastCourse = {}
     }
-  })
+
+    let obj = courses.find(o => o._id.toString() === lastCourse._id.toString())
+
+    if (obj) {
+      more = false
+    } else {
+      more = true
+    }
+
+    return {courses, more}
+  } catch (err) {
+    throw err
+  }
 }
-
-/* const getCourses = async (_, args, ctx, info) => { */
-/*   var more = false */
-/*   var input = args.input */
-/*   if (input.searchInput || input.selectionBox) { */
-/*     input[input.selectionBox] = input.searchInput */
-/*     delete input.searchInput */
-/*     delete input.selectionBox */
-/*   } */
-/*   var query = {} */
-/*   for (var key in input) { */
-/*     input[key] !== "" ? (query[key] = input[key]) : null */
-/*   } */
-
-/*   query.title */
-/*     ? (query.title = new RegExp(escapeRegex(query.title), "gi")) : null */
-
-/*   if (query.owner) { */
-/*     query.owner = await User.findOne({username: query.owner}, (err, docs) => { */
-/*       if (err) { */
-/*         throw err */
-/*       } */
-/*       if (!isEmpty(docs)) { */
-/*         var owner = docs._id */
-/*         query.owner = docs._id */
-/*       } */
-/*     }) */
-/*   } */
-
-/*   query.resource */
-/*     ? (query.resource = new RegExp(escapeRegex(query.resource), "gi"))  : null */
-
-/*   if (query.cursor) { */
-/*     query._id = {$lt: query.cursor || null} */
-/*     delete query.cursor */
-/*   } */
-
-/*   try { */
-/*     const courses = await Course.find(query) */
-/*       .populate("owner") */
-/*       .populate("levels") */
-/*       .sort({_id: -1}) */
-/*       .limit(24) */
-/*       .lean() */
-
-/*     const lastCourses = await Course.find(query) */
-/*       .sort({_id: -1}) */
-/*       .lean() */
-
-/*     if (lastCourses.length !== 0) { */
-/*       var lastCourse = lastCourses[lastCourses.length - 1]._id */
-/*     } else { */
-/*       lastCourse = {} */
-/*     } */
-
-/*     let obj = courses.find(o => o._id.toString() === lastCourse._id.toString()) */
-
-/*     if (obj) { */
-/*       more = false */
-/*     } else { */
-/*       more = true */
-/*     } */
-
-/*     return {courses, more} */
-/*   } catch (err) { */
-/*     throw err */
-/*   } */
-/* } */
 
 const subscribe = async (_, args, ctx, info) => {
   const course = await Course.findOneAndUpdate(

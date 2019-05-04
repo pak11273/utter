@@ -30,6 +30,7 @@ input CourseUpdateInput {
 }
 
 input GetCoursesInput {
+	page: Int
     cursor: String
 		searchInput: String
 		selectionBox: String
@@ -48,6 +49,7 @@ input CourseCreateInput {
 }
 
 type PaginatedCourses {
+	page: Int
   courses: [Course!]! 
   cursor: String
 	more: Boolean

@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 import chalk from "chalk"
 import path from "path"
 import {redis} from "./graphql-server"
-import apiRouter from "./api"
+import apiRouter from "./api/index.js"
 import config from "./config"
 import express from "express"
 import middleware from "./middleware"
@@ -77,7 +77,7 @@ app.use(limiter)
 
 // Routers
 mongoose.connection.on("connected", function() {
-  app.use("/api", apiRouter)
+  app.use("/api", apiRouter) // moved to index
 })
 
 // handlebars setup

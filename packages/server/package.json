@@ -5,7 +5,7 @@
   "repository": "git@github.com:pak11273/server-boilerplate.git",
   "author": "pak11273 <pak11273@gmail.com>",
   "scripts": {
-    "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files",
+    "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files --no-comments",
     "bserver": "nodemon -e graphql,ql,js --watch src src/index.js  --exec babel-node --presets=es2015,stage-2,stage-0",
     "dserver": "NODE_ENV=development nodemon -e graphql,ql,js --watch src src/index.js  --exec babel-node",
     "tserver": "NODE_ENV=test nodemon -e graphql,ql,js --watch src src/index.js  --exec babel-node",
@@ -68,6 +68,7 @@
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.11",
     "mongoose": "^5.3.6",
+    "mongoose-paginate-v2": "^1.2.1",
     "mongoose-unique-validator": "^2.0.2",
     "mongoose-validator": "^2.1.0",
     "morgan": "^1.9.1",

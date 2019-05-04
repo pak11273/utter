@@ -72,6 +72,9 @@ export const UserSchema = new mongoose.Schema(
       maxlength: [255, "can't be more than 255 characters"],
       index: true
     },
+    nativeLange: {
+      type: String
+    },
     reset_password_token: {
       type: String
     },
