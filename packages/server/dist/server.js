@@ -67,15 +67,12 @@ var sess = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: false,
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 };
 
 if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
-  sess.cookie.secure = true;
-  sess.cookie.httpOnly = false;
 }
 
 app.use((0, _expressSession.default)(sess));
