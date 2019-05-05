@@ -395,6 +395,24 @@ const getSubscriptions = async (_, args, {user}) => {
   }
 }
 
+const removeSubscription = async (_, args, {req}) => {
+  console.log("input: ", args)
+  let user = await User.findByIdAndUpdate(
+    req.session.userId,
+    {
+      $pull: {subscriptions: {_id: args.subscribedCourse}}
+    },
+    {new: true}
+  )
+    .populate("subscriptions")
+    .populate("levels")
+    .lean()
+
+  console.log("user; ", user)
+
+  return user
+}
+
 export const userResolvers = {
   Query: {
     getSubscriptions,
@@ -420,6 +438,7 @@ export const userResolvers = {
     contact,
     createPayMonthly,
     forgotPassword,
+    removeSubscription,
     signup,
     login,
     updateMe

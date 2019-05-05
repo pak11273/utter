@@ -37,6 +37,13 @@ const getLevels = async (_, args, ctx, info) => {
       .limit(100)
       .lean()
 
+    console.log("coursse; ", course)
+    if (!course) {
+      throw new Error(
+        "This course has been removed by the author.  It will be removed from your subscriptions.  Please select a different course."
+      )
+    }
+
     const ids = course.levelSort
 
     const sortedLevels = course.levels.sort(function(a, b) {

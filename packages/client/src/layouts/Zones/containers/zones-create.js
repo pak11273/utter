@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid"
 import Switch from "@material-ui/core/Switch"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {compose, graphql, withApollo} from "react-apollo"
+import {compose, withApollo} from "react-apollo"
 import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
@@ -23,6 +23,7 @@ import {
   LoadingButton
 } from "../../../components"
 import {ZONE_CREATE_MUTATION} from "../../../graphql/mutations/zone-mutaions.js"
+import {REMOVE_SUBSCRIPTION} from "../../../graphql/mutations/user-mutations.js"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {options} from "../options.js"
 
@@ -35,6 +36,16 @@ const ZoneCreate = props => {
     public: true,
     reserved: false
   })
+
+  /* useEffect(() => { */
+  /* 	// TODO: Check use subscriptions to ensure subscribed courses are still active.  Remove any courses that can't be found from user subscriptions */
+
+  /* 	// get courses o */
+
+  /* 	session.user.subscriptions.map(() => { */
+  /* 			GET_COURSE */
+  /* 	}) */
+  /* },[]) */
 
   const handleChange = name => event => {
     changeState({
@@ -274,7 +285,6 @@ const ZoneCreate = props => {
 
 export default compose(
   withApollo,
-  graphql(ZONE_CREATE_MUTATION, {name: "zoneCreate"}),
   withRouter,
   withFormik({
     validationSchema: zoneCreateSchema,
@@ -293,13 +303,16 @@ export default compose(
       zoneDescription: ""
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
+      console.log("values: ", values)
       try {
         const courseLevels = await props.client.query({
+          fetchPolicy: "network-only",
           query: GET_LEVELS,
           variables: {
             courseId: values.course
           }
         })
+        console.log("levels: ", courseLevels)
 
         const {levels} = courseLevels.data.getLevels
         const index = parseInt(values.courseLevel, 10)
@@ -322,7 +335,8 @@ export default compose(
         session.vocabulary = courseLevel.data.getLevel.vocabulary
 
         console.log("values; ", values)
-        const result = await props.zoneCreate({
+        const result = await props.client.mutate({
+          mutation: ZONE_CREATE_MUTATION,
           variables: {
             ageGroup: values.ageGroup,
             app: values.app,
@@ -362,11 +376,27 @@ export default compose(
           })
         }
       } catch (err) {
-        console.log("errors: ", err)
+        const msg = err.message.replace("GraphQL error:", "").trim()
+        if (err.message.indexOf("was not found")) {
+          // remove course from user subscriptions
+          const checkSubs = await props.client.mutate({
+            mutation: REMOVE_SUBSCRIPTION,
+            variables: {
+              subscribedCourse: values.course
+            }
+          })
+
+          session.user = checkSubs.data.removeSubscription
+
+          toast.warn(msg, {
+            autoClose: 15000,
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        }
         // TODO: uncomment when launching
-        /* /1* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); *1/ */
-        /* const msg = err.message.replace("GraphQL error:", "").trim() */
-        /* if (err.message.indexOf("You can only host")) { */
+        /*  else if (err.message.indexOf("You can only host")) { */
         /*   props.history.push({ */
         /*     pathname: "/zones/rezone" */
         /*     /1* state: {courseId: course.data.courseCreate._id} *1/ */

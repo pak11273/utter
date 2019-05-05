@@ -70,13 +70,14 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, {req}, info) => {
-  console.log("req.session: ", req.session)
+	console.log('args; ', args);
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
     }
 
-    // TODO: uncomment for production
+		// TODO: uncomment when launching 
+    // prohibit multiple hosting
     /* const findZone = await Zone.find({owner: req.session.userId}) */
     /* if (findZone[0] instanceof mongoose.Document) { */
     /*   throw new Error("You can only host one zone at a time.") */
@@ -127,7 +128,6 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, {input}, ctx, info) => {
-  console.log("input: ", input)
   const options = {
     lean: true,
     page: input.page,
@@ -167,8 +167,6 @@ const getZones = async (_, {input}, ctx, info) => {
   /* end fuzzy search */
 
   return Zone.paginate(query, options, function(err, result) {
-    console.log("result: ", result)
-    console.log("result: ", result.totalDocs)
     return {
       page: result.page,
       zones: result.docs,
