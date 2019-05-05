@@ -61,7 +61,8 @@ _mongoose.default.connection.on("connected", function () {
 
 var sess = {
   store: new MongoStore({
-    mongooseConnection: _mongoose.default.connection
+    mongooseConnection: _mongoose.default.connection,
+    ttl: 10000 * 60 * 60 * 24 * 7
   }),
   secret: _config.default.sessionSecret,
   resave: false,
