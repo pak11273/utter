@@ -1,4 +1,5 @@
 import mongoose, {Schema} from "mongoose"
+import mongoosePaginate from "mongoose-paginate-v2"
 import User from "../user/user-model.js"
 import Course from "../course/course-model.js"
 import {TermSchema} from "../term/term-model.js"
@@ -11,8 +12,7 @@ const ZoneSchema = mongoose.Schema(
       default: "Any age"
     },
     app: {
-      type: String,
-      default: "Total Recall"
+      type: String
     },
     banned: [
       {
@@ -83,6 +83,14 @@ const ZoneSchema = mongoose.Schema(
   {timestamps: true}
 )
 
+// all indexes will be searched by $text operator, the more indexes, the slower $text becomes
+ZoneSchema.index({
+  app: "text",
+  usingLang: "text",
+  teachingLang: "text",
+  zoneName: "text"
+})
+
 ZoneSchema.index({zoneName: "text", zoneDescription: "text"})
 
 ZoneSchema.statics.findByUsername = function(username, callback) {
@@ -99,5 +107,7 @@ ZoneSchema.virtual("id").get(function() {
 ZoneSchema.set("toJSON", {
   virtuals: true
 })
+
+ZoneSchema.plugin(mongoosePaginate)
 
 export default mongoose.model("Zone", ZoneSchema)

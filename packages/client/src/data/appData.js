@@ -1,12 +1,12 @@
 export default [
   {
-    value: "carousel",
+    value: "Carousel",
     label: "Carousel",
     className: "appHeader",
     disabled: false
   },
   {
-    value: "chat",
+    value: "General Chat",
     label: "General Chat",
     className: "appHeader",
     disabled: false

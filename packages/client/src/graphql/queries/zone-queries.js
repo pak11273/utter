@@ -4,7 +4,6 @@ export const GET_ZONES = gql`
   query getZones(
     $app: String
     $subscriptions: String
-    $cursor: String
     $page: Int
     $searchInput: String
     $selectionBox: String
@@ -15,7 +14,6 @@ export const GET_ZONES = gql`
       input: {
         app: $app
         subscriptions: $subscriptions
-        cursor: $cursor
         page: $page
         searchInput: $searchInput
         selectionBox: $selectionBox
@@ -24,7 +22,6 @@ export const GET_ZONES = gql`
       }
     ) {
       page
-      cursor
       more
       zones {
         ageGroup
@@ -36,11 +33,13 @@ export const GET_ZONES = gql`
         }
         course {
           _id
+          title
         }
         courseLevel
         _id
         owner {
           _id
+          username
         }
         ownerCourse {
           _id

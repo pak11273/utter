@@ -164,7 +164,7 @@ class SignupForm extends PureComponent {
               This first beta is limited to only 100 users. We are looking for
               serious language learners who will be putting the time into
               testing our platform to aid in their language learning journey.
-              You have a increased chance of a beta spot if we see you are
+              You have an increased chance of a beta spot if we see you are
               genuine and want to test out something new. We want a reasonable
               amount of time spent on our platform for positive test results.
             </Typography>

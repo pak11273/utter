@@ -126,131 +126,55 @@ const getZoneLevels = async (_, args, ctx, info) => {
   query.owner = ctx.user
 }
 
-const getZones = async (_, args, ctx, info) => {
-  var more = false
-  var {input} = args
+const getZones = async (_, {input}, ctx, info) => {
   console.log("input: ", input)
-
-  var hostMatch = new RegExp(".", "i")
-  /* var levelMatch = new RegExp(".", "i") */
-  var zoneMatch = new RegExp(".", "i")
-  var usingLangMatch = new RegExp(".", "i")
-  var teachingLangMatch = new RegExp(".", "i")
-  var appMatch = new RegExp(".", "i")
-  var titleMatch = new RegExp(".", "i")
-
-  if (input.searchInput || input.selectionBox) {
-    input[input.selectionBox] = input.searchInput
-    delete input.selectionBox
+  const options = {
+    lean: true,
+    page: input.page,
+    limit: 6,
+    populate: "owner",
+    collation: {
+      locale: "en"
+    }
   }
 
-  var cursor = {null: null}
-  if (input.cursor) {
-    cursor = {$lt: input.cursor}
-    delete input.cursor
-  }
-  console.log("curser: ", cursor)
+  // we don't need page or cursor in our query
+  delete input.page
+  var query = {}
+
   for (var key in input) {
-    if (input[key] !== "") {
-      if (key === "host" && input.searchInput !== "") {
-        hostMatch = input[key]
-      }
-      /* if (key === "level" && input.searchInput !== "") { */
-      /*   levelMatch = +input[key] */
-      /* } */
-      if (key === "zoneName" && input.searchInput !== "") {
-        zoneMatch = new RegExp(input[key], "i")
-      }
-      if (key === "usingLang") {
-        usingLangMatch = input[key]
-      }
-      if (key === "teachingLang") {
-        teachingLangMatch = input[key]
-      }
-      if (key === "app") {
-        appMatch = input[key]
-      }
-      if (key === "subscriptions") {
-        titleMatch = input[key]
-      }
-    }
-    delete input.searchInput
+    input[key] !== "" ? (query[key] = input[key]) : null
   }
 
-  try {
-    const zones = await Zone.aggregate([
-      {
-        $lookup: {
-          from: "users",
-          localField: "owner",
-          foreignField: "_id",
-          as: "ownerCourse"
-        }
-      },
-      {$unwind: "$ownerCourse"},
-      {
-        $lookup: {
-          from: "courses",
-          localField: "course",
-          foreignField: "_id",
-          as: "zoneCourse"
-        }
-      },
-      {$unwind: "$zoneCourse"},
-      {
-        $match: {
-          $and: [
-            cursor,
-            {app: appMatch},
-            /* {courseLevel: levelMatch}, */
-            {zoneName: zoneMatch},
-            {"ownerCourse.username": hostMatch},
-            {"zoneCourse.usingLang": usingLangMatch},
-            {"zoneCourse.teachingLang": teachingLangMatch},
-            {"zoneCourse.title": titleMatch}
-          ]
-        }
-      }
-    ])
-      .sort({_id: -1})
-      .limit(4)
+  // $text search
+  input.searchInput
+    ? (query = {...query, ...{$text: {$search: input.searchInput}}})
+    : null
 
-    const lastZones = await Zone.find(cursor)
-      .sort({_id: -1})
-      .lean()
+  /* query = {$"and": searchArr} */
 
-    console.log("zones: ", zones)
+  // fuzzy search on searchInput with regex // shelved because its too slow
+  /* input.searchInput */
+  /*   ? (query[input.selectionBox] = new RegExp( */
+  /*       escapeRegex(input.searchInput), */
+  /*       "gi" */
+  /*     ))   : null */
+  /* {$text: {$search: searchString}} */
 
-    console.log("lastZones: ", lastZones)
+  delete query.searchInput
+  delete query.selectionBox
 
-    console.log(
-      "zones: ",
-      zones.map(item => {
-        return item._id
-      })
-    )
+  /* end fuzzy search */
 
-    if (lastZones.length !== 0) {
-      var lastZone = lastZones[lastZones.length - 1]._id
-    } else {
-      lastZone = {}
+  return Zone.paginate(query, options, function(err, result) {
+    console.log("result: ", result)
+    console.log("result: ", result.totalDocs)
+    return {
+      page: result.page,
+      zones: result.docs,
+      more: result.hasNextPage
     }
-
-    console.log("last zone: ", lastZone)
-
-    let obj = zones.find(o => o._id.toString() === lastZone._id.toString())
-
-    if (obj) {
-      more = false
-    } else {
-      more = true
-    }
-    console.log("more: ", more)
-
-    return {zones, more}
-  } catch (err) {
-    throw err
-  }
+  })
 }
 
 const rezone = async (_, args, ctx, info) => {

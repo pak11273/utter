@@ -14,6 +14,7 @@ export const styles = theme => ({
   card2: {
     height: "370px",
     maxWidth: "300px",
+    minWidth: "200px",
     display: "flex",
     flexDirection: "column"
   },
@@ -31,7 +32,8 @@ export const styles = theme => ({
     wordBreak: "break-all"
   },
   cardGrid: {
-    padding: `${theme.spacing.unit * 8}px 0`
+    padding: `${theme.spacing.unit * 8}px 0`,
+    width: "100% !important"
   },
   cardMedia: {
     paddingTop: "56.25%", // 16:9

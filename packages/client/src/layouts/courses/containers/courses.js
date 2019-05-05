@@ -151,7 +151,6 @@ export default compose(withRouter)(
     }),
 
     handleSubmit: async (values, {setStatus}) => {
-      console.log("values: ", values)
       // pass this object to grid
       const search = {
         title: values.title,

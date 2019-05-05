@@ -4,7 +4,7 @@ type Course {
   courseDescription: String
   courseImage: String
   courseMode: String!
-  title: String!
+  title: String
   createdAt: String 
   _id: ID!
   levels: [Level]

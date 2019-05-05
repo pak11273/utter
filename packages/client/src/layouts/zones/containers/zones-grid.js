@@ -33,7 +33,6 @@ const ZonesGrid = props => {
     notifyOnNetworkStatusChange: true,
     variables: {
       page: 1,
-      cursor: "",
       searchInput:
         props.search && props.search.searchInput
           ? props.search.searchInput
@@ -89,10 +88,10 @@ const ZonesGrid = props => {
   return (
     <div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={8} style={{position: "relative"}}>
+        <Grid container spacing={40} style={{position: "relative"}}>
           {data.getZones &&
             data.getZones.zones.map((card, i) => (
-              <Grid item key={card._id} xs={12} sm={12} md={3} lg={2}>
+              <Grid item key={card._id} xs={12} sm={6} md={3} lg={2}>
                 <Card className={classes.card2}>
                   <CardContent className={classes.cardContent}>
                     <Typography
@@ -112,7 +111,7 @@ const ZonesGrid = props => {
                       className={classes.cardUsername}
                       gutterBottom
                       variant="caption">
-                      by: {card.ownerCourse && card.ownerCourse.username}
+                      by: {card.owner && card.owner.username}
                     </Typography>
                   </CardContent>
                   <div style={{padding: "0 0 0 20px"}}>App: {card.app}</div>
@@ -123,18 +122,16 @@ const ZonesGrid = props => {
                       overflow: "hidden",
                       whiteSpace: "nowrap"
                     }}>
-                    Course: {(card.zoneCourse && card.zoneCourse.title) || ""}
+                    Course: {(card.course && card.course.title) || ""}
                   </div>
                   <div style={{padding: "0 0 0 20px"}}>
                     Level: {(card && card.courseLevel) || ""}
                   </div>
                   <div style={{padding: "0 0 0 20px"}}>
-                    Using:{" "}
-                    {(card.zoneCourse && card.zoneCourse.usingLang) || ""}
+                    Using: {(card && card.usingLang) || ""}
                   </div>
                   <div style={{padding: "0 0 0 20px"}}>
-                    Teaching:{" "}
-                    {(card.zoneCourse && card.zoneCourse.teachingLang) || ""}
+                    Teaching: {(card && card.teachingLang) || ""}
                   </div>
                   <div style={{display: "flex", padding: "10px 0 0 20px"}}>
                     <PersonIcon />
@@ -182,11 +179,7 @@ const ZonesGrid = props => {
                       onClick={() =>
                         fetchMore({
                           variables: {
-                            page: 2,
-                            cursor:
-                              data.getZones.zones[
-                                data.getZones.zones.length - 1
-                              ]._id
+                            page: data.getZones.page + 1
                           },
                           updateQuery: (prev, {fetchMoreResult}) => {
                             if (!fetchMoreResult) return prev

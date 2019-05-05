@@ -273,8 +273,6 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, {input}, ctx, info) => {
-  /* const query = {resource: "h-dog", owner: "5caa11c126bd462e4023657b"} */
-
   const options = {
     lean: true,
     page: input.page,

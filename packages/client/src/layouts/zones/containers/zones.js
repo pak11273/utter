@@ -64,7 +64,7 @@ const ZonesContainer = props => {
         })
       : [{}]
 */
-  const {classes, handleChange, handleSubmit, values} = props
+  const {classes, handleChange, handleSubmit, setFieldValue, values} = props
   return (
     <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
       <Drawer
@@ -78,12 +78,18 @@ const ZonesContainer = props => {
           <Typography variant="h6" align="center" gutterBottom>
             I speak:
           </Typography>
-          <Field name="usingLang" component={Using} options={groupedOptions} />
+          <Field
+            name="usingLang"
+            onChange={setFieldValue}
+            component={Using}
+            options={groupedOptions}
+          />
           <Typography variant="h6" align="center" gutterBottom>
             I want to learn:
           </Typography>
           <Field
             name="teachingLang"
+            onChange={setFieldValue}
             component={Teaching}
             options={groupedOptions}
           />
@@ -164,12 +170,7 @@ const ZonesContainer = props => {
                         id="outlined-filter-simple"
                       />
                     }>
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value="host">Host</MenuItem>
                     <MenuItem value="zoneName">Zone Name</MenuItem>
-                    {/* <MenuItem value="level">Course Level</MenuItem> */}
                   </Select>
                 </FormControl>
                 <LoadingButton
@@ -203,7 +204,8 @@ export default withRouter(
       searchInput: "",
       selectionBox: "",
       teachingLang: "",
-      usingLang: ""
+      usingLang: "",
+      zoneName: "zoneName"
     }),
     handleSubmit: async (values, {setStatus}) => {
       setStatus({loading: true})
@@ -213,7 +215,8 @@ export default withRouter(
         searchInput: values.searchInput,
         selectionBox: values.selectionBox,
         teachingLang: values.teachingLang,
-        usingLang: values.usingLang
+        usingLang: values.usingLang,
+        zoneName: values.zonename
       }
       setStatus({search})
     }
