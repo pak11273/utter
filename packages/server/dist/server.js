@@ -61,17 +61,19 @@ _mongoose.default.connection.on("connected", function () {
 
 var sess = {
   store: new MongoStore({
-    mongooseConnection: _mongoose.default.connection,
-    ttl: 10000 * 60 * 60 * 24 * 7
+    mongooseConnection: _mongoose.default.connection
   }),
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false,
-  cookie: {}
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
 };
 
 if (sess.cookie && process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
+  sess.httpOnly = false;
   sess.cookie.secure = true;
 }
 
