@@ -276,7 +276,7 @@ const getCourses = async (_, {input}, ctx, info) => {
   const options = {
     lean: true,
     page: input.page,
-    limit: 12,
+    limit: 24,
     populate: "owner",
     collation: {
       locale: "en"
