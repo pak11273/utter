@@ -42,14 +42,13 @@ var sess = {
   cookie: {}
 }
 
-/* if ( */
-/*   (sess.cookie && process.env.NODE_ENV === "prod") || */
-/*   process.env.NODE_ENV === "production" */
-/* ) { */
-
-app.set("trust proxy", 1)
-sess.cookie.secure = true
-/* } */
+if (
+  (sess.cookie && process.env.NODE_ENV === "prod") ||
+  process.env.NODE_ENV === "production"
+) {
+  app.set("trust proxy", 1)
+  sess.cookie.secure = true
+}
 
 app.use(session(sess))
 
