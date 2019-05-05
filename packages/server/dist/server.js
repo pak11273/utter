@@ -54,14 +54,21 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 var app = (0, _express.default)();
-app.use((0, _expressSession.default)({
+var sess = {
   store: new RedisStore2({
     client: _graphqlServer.redis
   }),
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false
-}));
+};
+
+if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+  sess.cookie.secure = true;
+}
+
+app.use((0, _expressSession.default)(sess));
 (0, _middleware.default)(app);
 var limiter = new _expressRateLimit.default({
   store: new _rateLimitRedis.default({

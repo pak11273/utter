@@ -212,7 +212,7 @@ var zoneCreate = function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             req = _ref9.req;
-            console.log("args: ", args);
+            console.log("req.session: ", req.session);
             _context5.prev = 2;
 
             if (!(!req.session || !req.session.userId)) {
