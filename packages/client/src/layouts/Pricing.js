@@ -41,7 +41,7 @@ const BetaModal = () => {
         style={{display: "flex", margin: "40px", justifyContent: "center"}}>
         <Button color="secondary" variant="contained">
           <NavLink style={{color: "white"}} to="/application">
-            Register
+            Apply
           </NavLink>
         </Button>
       </DialogActions>
