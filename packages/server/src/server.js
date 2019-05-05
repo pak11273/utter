@@ -34,29 +34,19 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 
 const app = express()
 
-/* app.use( */
-/*   session({ */
-/*     secret: config.sessionSecret, */
-/*     resave: false, */
-/*     saveUninitialized: false */
-/*   }) */
-/* ) */
+var sess = {
+  store: new RedisStore2({client: redis}),
+  secret: config.sessionSecret,
+  resave: false,
+  saveUninitialized: false
+}
 
-app.use(
-  session({
-    store: new RedisStore2({client: redis}),
-    secret: config.sessionSecret,
-    resave: false,
-    saveUninitialized: false
-  })
-)
+if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1)
+  sess.cookie.secure = true
+}
 
-// TODO: may need to add this to session optins for production
-/* cookie: { */
-/*   httpOnly: */
-/*     process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production" */
-/*       ? false : true */
-/* }, */
+app.use(session(sess))
 
 middleware(app)
 

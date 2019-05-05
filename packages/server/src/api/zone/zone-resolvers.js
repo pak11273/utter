@@ -70,7 +70,7 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, {req}, info) => {
-  console.log("args: ", args)
+  console.log("req.session: ", req.session)
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
