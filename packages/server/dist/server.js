@@ -60,10 +60,11 @@ var sess = {
   }),
   secret: _config.default.sessionSecret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {}
 };
 
-if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
+if (sess.cookie && process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
   sess.cookie.secure = true;
 }
