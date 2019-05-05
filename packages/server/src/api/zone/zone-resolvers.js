@@ -70,13 +70,14 @@ const zoneUpdate = (_, {input}) => {
 }
 
 const zoneCreate = async (_, args, {req}, info) => {
-	console.log('args; ', args);
+  console.log("args; ", args)
+  console.log("req; ", req.session)
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
     }
 
-		// TODO: uncomment when launching 
+    // TODO: uncomment when launching
     // prohibit multiple hosting
     /* const findZone = await Zone.find({owner: req.session.userId}) */
     /* if (findZone[0] instanceof mongoose.Document) { */

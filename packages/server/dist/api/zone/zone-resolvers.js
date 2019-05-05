@@ -212,24 +212,25 @@ var zoneCreate = function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             req = _ref9.req;
-            console.log('args; ', args);
-            _context5.prev = 2;
+            console.log("args; ", args);
+            console.log("req; ", req.session);
+            _context5.prev = 3;
 
             if (!(!req.session || !req.session.userId)) {
-              _context5.next = 5;
+              _context5.next = 6;
               break;
             }
 
             throw new Error("Not authenticated.");
 
-          case 5:
-            _context5.next = 7;
+          case 6:
+            _context5.next = 8;
             return _userModel.default.findById(req.session.userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
+          case 8:
             user = _context5.sent;
             input = args.input;
             newZone = new _zoneModel.default({
@@ -245,10 +246,10 @@ var zoneCreate = function () {
               teachingLang: input.teachingLang,
               usingLang: input.usingLang
             });
-            _context5.next = 12;
+            _context5.next = 13;
             return newZone.save();
 
-          case 12:
+          case 13:
             zone = _context5.sent;
             createdZone = (0, _objectSpread2.default)({}, zone._doc, {
               _id: zone._doc._id.toString(),
@@ -257,17 +258,17 @@ var zoneCreate = function () {
             });
             return _context5.abrupt("return", createdZone);
 
-          case 17:
-            _context5.prev = 17;
-            _context5.t0 = _context5["catch"](2);
+          case 18:
+            _context5.prev = 18;
+            _context5.t0 = _context5["catch"](3);
             throw _context5.t0;
 
-          case 20:
+          case 21:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[2, 17]]);
+    }, _callee5, null, [[3, 18]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {

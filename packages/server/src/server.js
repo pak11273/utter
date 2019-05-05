@@ -11,7 +11,6 @@ import RateLimit from "express-rate-limit"
 import RedisStore from "rate-limit-redis"
 import session from "express-session"
 import stripe from "./stripe.js"
-/* var RedisStore2 = require("connect-redis")(session) */
 const MongoStore = require("connect-mongo")(session)
 
 // This code shows all console.log locations
@@ -42,7 +41,6 @@ mongoose.connection.on("connected", function() {
 
 var sess = {
   store: new MongoStore({mongooseConnection: mongoose.connection}),
-  /* store: new RedisStore2({client: redis}), */
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
