@@ -146,7 +146,7 @@ class CoursesCreatedContainer extends PureComponent {
                           classes.cardGrid
                         )}>
                         {/* End hero unit */}
-                        <Grid container spacing={8}>
+                        <Grid container spacing={40}>
                           {data.getCreatedCourses.courses.map(card => (
                             <Grid
                               item
@@ -164,6 +164,7 @@ class CoursesCreatedContainer extends PureComponent {
                                 />
                                 <CardContent className={classes.cardContent}>
                                   <Typography
+                                    className={classes.gridTitle}
                                     gutterBottom
                                     variant="h6"
                                     component="h6">

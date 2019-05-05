@@ -86,7 +86,6 @@ const userById = async userId => {
 }
 
 const getCourse = async (_, args, {user}) => {
-  console.log("args: ", args)
   try {
     const course = await Course.findById(args._id)
       .populate("owner")
@@ -274,7 +273,6 @@ const getCreatedCourses = async (_, args, ctx, info) => {
 }
 
 const getCourses = async (_, {input}, ctx, info) => {
-  console.log("ionput: ", input)
   /* const query = {resource: "h-dog", owner: "5caa11c126bd462e4023657b"} */
 
   const options = {
@@ -289,7 +287,6 @@ const getCourses = async (_, {input}, ctx, info) => {
 
   // we don't need page or cursor in our query
   delete input.page
-  delete input.cursor
   var query = {}
 
   for (var key in input) {
@@ -316,13 +313,7 @@ const getCourses = async (_, {input}, ctx, info) => {
 
   /* end fuzzy search */
 
-  /* query = {usingLang: "croatian", $text: {$search: input.searchInput}} */
-
-  console.log("quer; ", query)
-
   return Course.paginate(query, options, function(err, result) {
-    console.log("results count: ", result.totalDocs)
-
     return {
       page: result.page,
       courses: result.docs,

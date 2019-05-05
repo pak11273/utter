@@ -29,7 +29,6 @@ export const GET_COURSE = gql`
 export const GET_COURSES = gql`
   query getCourses(
     $page: Int
-    $cursor: String
     $searchInput: String
     $selectionBox: String
     $usingLang: String!
@@ -38,7 +37,6 @@ export const GET_COURSES = gql`
     getCourses(
       input: {
         page: $page
-        cursor: $cursor
         searchInput: $searchInput
         selectionBox: $selectionBox
         usingLang: $usingLang
@@ -67,7 +65,6 @@ export const GET_COURSES = gql`
         }
       }
       page
-      cursor
       more
     }
   }

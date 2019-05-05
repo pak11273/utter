@@ -53,7 +53,6 @@ const CoursesGrid = props => {
     fetchPolicy: "network-only",
     variables: {
       page: 1,
-      cursor: "",
       searchInput:
         props.search && props.search.searchInput
           ? props.search.searchInput
@@ -71,16 +70,6 @@ const CoursesGrid = props => {
     }
   })
 
-  /* if (loading) */
-  /*   return ( */
-  /*     <Grid */
-  /*       container */
-  /*       alignContent="center" */
-  /*       justify="center" */
-  /*       style={{height: "300px"}}> */
-  /*       <CircularProgress style={{color: "grey"}} /> */
-  /*     </Grid> */
-  /*   ) */
   if (error) {
     return (
       <Grid>
@@ -107,7 +96,7 @@ const CoursesGrid = props => {
   return (
     <div>
       <div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={8} style={{position: "relative"}}>
+        <Grid container spacing={40} style={{position: "relative"}}>
           {data.getCourses &&
             data.getCourses.courses.map((card, i) => (
               <Grid item key={card._id} xs={12} sm={6} md={3} lg={3}>
@@ -164,11 +153,7 @@ const CoursesGrid = props => {
                       onClick={() => {
                         fetchMore({
                           variables: {
-                            page: data.getCourses.page + 1,
-                            cursor:
-                              data.getCourses.courses[
-                                data.getCourses.courses.length - 1
-                              ]._id
+                            page: data.getCourses.page + 1
                           },
                           updateQuery: (prev, {fetchMoreResult}) => {
                             if (!fetchMoreResult) return prev
