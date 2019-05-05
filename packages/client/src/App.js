@@ -68,7 +68,7 @@ class App extends Component {
 
     if (!session.user) {
       // auto redirects to login
-      /* delete cookies._uid */
+      delete cookies._uid
       delete session.user
     }
 
