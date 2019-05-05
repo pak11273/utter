@@ -285,6 +285,7 @@ const signup = async (_, args, {redis, url}, info) => {
 }
 
 const login = async (parent, args, ctx, info) => {
+  console.log("ctx.req: ", ctx.req.session)
   // decipher identifier
   const {identifier, password} = args.input
   let token = ""
@@ -324,6 +325,8 @@ const login = async (parent, args, ctx, info) => {
     token = await signToken(user._id)
     ctx.req.session.userId = user._id
   }
+
+  console.log("ctx.req 2: ", ctx.req.session)
 
   return {
     token,

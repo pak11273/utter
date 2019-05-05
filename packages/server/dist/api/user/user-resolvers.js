@@ -620,6 +620,7 @@ var login = function () {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
+            console.log("ctx.req: ", ctx.req.session);
             _args$input2 = args.input, identifier = _args$input2.identifier, password = _args$input2.password;
             token = "";
             arrayOfErrors = [];
@@ -636,14 +637,14 @@ var login = function () {
               });
             }
 
-            _context10.next = 7;
+            _context10.next = 8;
             return _userModel.default.findOne(criteria).populate("subscriptions").exec();
 
-          case 7:
+          case 8:
             user = _context10.sent;
 
             if (user) {
-              _context10.next = 12;
+              _context10.next = 13;
               break;
             }
 
@@ -651,12 +652,12 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context10.next = 25;
+            _context10.next = 26;
             break;
 
-          case 12:
+          case 13:
             if (user.authenticate(password)) {
-              _context10.next = 16;
+              _context10.next = 17;
               break;
             }
 
@@ -664,12 +665,12 @@ var login = function () {
               path: "password",
               message: "Invalid Password"
             });
-            _context10.next = 25;
+            _context10.next = 26;
             break;
 
-          case 16:
+          case 17:
             if (!user.forgotPasswordLocked) {
-              _context10.next = 20;
+              _context10.next = 21;
               break;
             }
 
@@ -677,30 +678,31 @@ var login = function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context10.next = 25;
+            _context10.next = 26;
             break;
 
-          case 20:
+          case 21:
             if (!user) {
-              _context10.next = 25;
+              _context10.next = 26;
               break;
             }
 
-            _context10.next = 23;
+            _context10.next = 24;
             return (0, _auth.signToken)(user._id);
 
-          case 23:
+          case 24:
             token = _context10.sent;
             ctx.req.session.userId = user._id;
 
-          case 25:
+          case 26:
+            console.log("ctx.req 2: ", ctx.req.session);
             return _context10.abrupt("return", {
               token: token,
               user: user,
               error: arrayOfErrors
             });
 
-          case 26:
+          case 28:
           case "end":
             return _context10.stop();
         }
