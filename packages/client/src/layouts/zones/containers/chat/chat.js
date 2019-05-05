@@ -325,7 +325,7 @@ class Chat extends PureComponent {
           </div>
           <ChatPanel>
             <Scrollable
-              innerRef={panel => {
+              ref={panel => {
                 this.panel = panel
               }}>
               <List>

@@ -212,11 +212,10 @@ class HostControls extends PureComponent {
             </Card>
           )}
           {!this.state.loading &&
-            this.state.randomVocabulary.map(item => {
+            this.state.randomVocabulary.map((item, i) => {
               const arr = shuffleArray(item)
-              console.log("arr: ", arr)
               return (
-                <div key={arr[0]._id}>
+                <div key={i}>
                   <RandomCard {...arr[0]} {...this.props} />
                 </div>
               )
