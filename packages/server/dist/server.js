@@ -33,7 +33,7 @@ var _expressSession = _interopRequireDefault(require("express-session"));
 
 var _stripe = _interopRequireDefault(require("./stripe.js"));
 
-var RedisStore2 = require("connect-redis")(_expressSession.default);
+var MongoStore = require("connect-mongo")(_expressSession.default);
 
 if (!["production", "prod"].includes(process.env.NODE_ENV)) {
   ;
@@ -54,9 +54,14 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 var app = (0, _express.default)();
+
+_mongoose.default.connection.on("connected", function () {
+  app.use("/api", _index.default);
+});
+
 var sess = {
-  store: new RedisStore2({
-    client: _graphqlServer.redis
+  store: new MongoStore({
+    mongooseConnection: _mongoose.default.connection
   }),
   secret: _config.default.sessionSecret,
   resave: false,
@@ -80,10 +85,6 @@ var limiter = new _expressRateLimit.default({
   delayMs: 0
 });
 app.use(limiter);
-
-_mongoose.default.connection.on("connected", function () {
-  app.use("/api", _index.default);
-});
 
 var hbs = _expressHandlebars.default.create({});
 
