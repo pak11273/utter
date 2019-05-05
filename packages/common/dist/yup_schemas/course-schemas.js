@@ -13,9 +13,6 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 
 var yup = _interopRequireWildcard(require("yup"));
 
-/* const invalidLogin = "invalid login" */
-
-/* export const invalidEmail = "email must be a valid email" */
 var titleNotLongEnough = "Course titles must be at least 10 characters";
 exports.titleNotLongEnough = titleNotLongEnough;
 var descriptionNotLongEnough = "Course description must be at least 100 characters";

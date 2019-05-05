@@ -9,6 +9,5 @@ exports.history = void 0;
 
 var _createBrowserHistory = _interopRequireDefault(require("history/createBrowserHistory"));
 
-/* eslint-disable no-void */
 var history = (0, _createBrowserHistory.default)();
 exports.history = history;

@@ -49,12 +49,7 @@ function _templateObject() {
   return data;
 }
 
-/* import history from "../index.js" */
-
-/* NOTE: Since this will file will be used by both client and app, it cannot use React or React Native Commands ie. <div> <View> */
-var F =
-/*#__PURE__*/
-function (_PureComponent) {
+var F = function (_PureComponent) {
   (0, _inherits2.default)(F, _PureComponent);
 
   function F() {
@@ -69,12 +64,8 @@ function (_PureComponent) {
     }
 
     _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(F)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "submit",
-    /*#__PURE__*/
-    function () {
-      var _ref = (0, _asyncToGenerator2.default)(
-      /*#__PURE__*/
-      _regenerator.default.mark(function _callee(values) {
+    (0, _defineProperty2.default)((0, _assertThisInitialized2.default)(_this), "submit", function () {
+      var _ref = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee(values) {
         var _ref2, forgotPassword;
 
         return _regenerator.default.wrap(function _callee$(_context) {
