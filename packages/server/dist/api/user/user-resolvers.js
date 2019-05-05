@@ -924,14 +924,52 @@ var getSubscriptions = function () {
   };
 }();
 
+var removeSubscription = function () {
+  var _ref32 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee16(_, args, _ref31) {
+    var req, user;
+    return _regenerator.default.wrap(function _callee16$(_context16) {
+      while (1) {
+        switch (_context16.prev = _context16.next) {
+          case 0:
+            req = _ref31.req;
+            console.log("input: ", args);
+            _context16.next = 4;
+            return _userModel.default.findByIdAndUpdate(req.session.userId, {
+              $pull: {
+                subscriptions: {
+                  _id: args.subscribedCourse
+                }
+              }
+            }, {
+              new: true
+            }).populate("subscriptions").populate("levels").lean();
+
+          case 4:
+            user = _context16.sent;
+            console.log("user; ", user);
+            return _context16.abrupt("return", user);
+
+          case 7:
+          case "end":
+            return _context16.stop();
+        }
+      }
+    }, _callee16);
+  }));
+
+  return function removeSubscription(_x52, _x53, _x54) {
+    return _ref32.apply(this, arguments);
+  };
+}();
+
 var userResolvers = {
   Query: {
     getSubscriptions: getSubscriptions,
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref31) {
-      var name = _ref31.name;
+    hello: function hello(_, _ref33) {
+      var name = _ref33.name;
       return "Hello ".concat(name || "World");
     },
     me: me
@@ -949,6 +987,7 @@ var userResolvers = {
     contact: contact,
     createPayMonthly: createPayMonthly,
     forgotPassword: forgotPassword,
+    removeSubscription: removeSubscription,
     signup: signup,
     login: login,
     updateMe: updateMe

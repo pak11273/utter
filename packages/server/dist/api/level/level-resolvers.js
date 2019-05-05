@@ -94,13 +94,23 @@ var getLevels = function () {
 
           case 5:
             course = _context2.sent;
+            console.log("coursse; ", course);
+
+            if (course) {
+              _context2.next = 9;
+              break;
+            }
+
+            throw new Error("This course has been removed by the author.  It will be removed from your subscriptions.  Please select a different course.");
+
+          case 9:
             ids = course.levelSort;
             sortedLevels = course.levels.sort(function (a, b) {
               return ids.indexOf(a._id.toString()) - ids.indexOf(b._id.toString());
             });
 
             if (!(0, _isEmpty.default)(course.levels)) {
-              _context2.next = 12;
+              _context2.next = 15;
               break;
             }
 
@@ -108,27 +118,27 @@ var getLevels = function () {
               levels: []
             });
 
-          case 12:
+          case 15:
             return _context2.abrupt("return", {
               levels: sortedLevels
             });
 
-          case 13:
-            _context2.next = 19;
+          case 16:
+            _context2.next = 22;
             break;
 
-          case 15:
-            _context2.prev = 15;
+          case 18:
+            _context2.prev = 18;
             _context2.t0 = _context2["catch"](2);
             console.log("msg: ", _context2.t0);
             return _context2.abrupt("return", _context2.t0);
 
-          case 19:
+          case 22:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[2, 15]]);
+    }, _callee2, null, [[2, 18]]);
   }));
 
   return function getLevels(_x4, _x5, _x6, _x7) {

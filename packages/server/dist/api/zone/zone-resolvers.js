@@ -212,7 +212,7 @@ var zoneCreate = function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             req = _ref9.req;
-            console.log("req.session: ", req.session);
+            console.log('args; ', args);
             _context5.prev = 2;
 
             if (!(!req.session || !req.session.userId)) {
@@ -306,7 +306,6 @@ var getZones = function () {
         switch (_context7.prev = _context7.next) {
           case 0:
             input = _ref12.input;
-            console.log("input: ", input);
             options = {
               lean: true,
               page: input.page,
@@ -331,8 +330,6 @@ var getZones = function () {
             delete query.searchInput;
             delete query.selectionBox;
             return _context7.abrupt("return", _zoneModel.default.paginate(query, options, function (err, result) {
-              console.log("result: ", result);
-              console.log("result: ", result.totalDocs);
               return {
                 page: result.page,
                 zones: result.docs,
@@ -340,7 +337,7 @@ var getZones = function () {
               };
             }));
 
-          case 10:
+          case 9:
           case "end":
             return _context7.stop();
         }
