@@ -41,14 +41,13 @@ mongoose.connection.on("connected", function() {
 
 var sess = {
   store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: 10000 * 60 * 60 * 24 * 7
+    mongooseConnection: mongoose.connection
   }),
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    /* maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days */
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }
 
