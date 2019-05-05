@@ -4,7 +4,6 @@ import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 import {compose, withApollo} from "react-apollo"
 
-import Checkbox from "@material-ui/core/Checkbox"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
@@ -12,11 +11,14 @@ import {withStyles} from "@material-ui/core/styles"
 import cloneDeep from "lodash/cloneDeep"
 import {cookies, session} from "brownies"
 
-import Terms from "../../documents/terms-and-conditions.js"
-/* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
 import {signupSchema} from "@utterzone/common"
-import {FormikInput, Img, LoadingButton, Section} from "../../components"
-import visitingImg from "../../assets/images/walking-around.jpg"
+import {
+  FormikInput,
+  FormikTextArea,
+  LoadingButton,
+  Section
+} from "../components"
+/* import visitingImg from "../../assets/images/walking-around.jpg" */
 import gql from "graphql-tag"
 
 const NEW_SIGNUP = gql`
@@ -79,45 +81,16 @@ class SignupForm extends PureComponent {
     this.state = cloneDeep(initialState)
   }
 
-  agreeTerms = () => {
-    if (this.setState) {
-      this.setState({
-        agreementChecked: true
-      })
-    }
-  }
-
-  disagreeTerms = () => {
-    if (this.setState) {
-      this.setState({
-        agreementChecked: false
-      })
-    }
-  }
-
-  handleCheckbox = e => {
-    e.preventDefault()
-    const {agreementChecked} = this.state
-    if (this.setState) {
-      this.setState({
-        agreementChecked: !agreementChecked
-      })
-    }
-  }
-
   render() {
     const {
       classes,
       /* errors, */
-      /* handleCheckbox, */
       /* handleBlur, */
       handleSubmit
       /* Message, */
       /* touched */
       /* values */
     } = this.props
-
-    const {agreementChecked} = this.state
 
     return (
       <Section className={classes.section}>
@@ -140,18 +113,18 @@ class SignupForm extends PureComponent {
             md={6}
             align="center"
             className={classes.leftSide}>
-            <Img
+            {/*      <Img
               alt="Join our Community"
               margin="0 0 40px 0"
               src={`${visitingImg}`}
-            />
+            /> */}
             <Typography
               align="center"
               variant="h4"
               color="inherit"
               gutterBottom
               noWrap>
-              Join our Community
+              What to expect
             </Typography>
             <Typography
               align="center"
@@ -159,7 +132,66 @@ class SignupForm extends PureComponent {
               color="inherit"
               gutterBottom
               style={{margin: "0 0 50px 0"}}>
-              Become part of a growing community of avid learners like yourself
+              This platform is designed for people who want to learn a new
+              language. More specifally, it is a platform to help language
+              learners practice speaking their target language.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              This beta is used to test out the early stages of our platform on
+              real users. By gathering your feedback we can build a supepior
+              product. We are hoping for a short beta so that we can go live to
+              a bigger audience.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h4"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Increase your chances
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              This first beta is limited to only 100 users. We are looking for
+              serious language learners who will be putting the time into
+              testing our platform to aid in their language learning journey.
+              You have a increased chance of a beta spot if we see you are
+              genuine and want to test out something new. We want a reasonable
+              amount of time spent on our platform for positive test results.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h4"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              What we are not
+            </Typography>
+            <Typography
+              align="center"
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              This is not a &quot;one stop&quot; language learning platform. We
+              are exclusively focusing on one aspect of language learning.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h4"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Good Luck!
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
@@ -167,14 +199,22 @@ class SignupForm extends PureComponent {
               <form onSubmit={handleSubmit}>
                 <div className={classes.form}>
                   <Typography variant="h4" color="inherit" gutterBottom noWrap>
-                    Registration
+                    Beta Application
                   </Typography>
                   <Typography component="p" color="inherit" noWrap>
-                    username
+                    First Name
                   </Typography>
                   <Field
                     name="username"
-                    placeholder="username"
+                    placeholder="firstname"
+                    component={FormikInput}
+                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    Last Name
+                  </Typography>
+                  <Field
+                    name="username"
+                    placeholder="lastname"
                     component={FormikInput}
                   />
                   <Typography component="p" color="inherit" noWrap>
@@ -186,79 +226,50 @@ class SignupForm extends PureComponent {
                     component={FormikInput}
                   />
                   <Typography component="p" color="inherit" noWrap>
-                    password
-                  </Typography>
-                  <Typography
-                    style={{fontSize: "8px"}}
-                    component="p"
-                    color="inherit"
-                    noWrap>
-                    (Must contain 1 lowercase, 1 uppercase and 1 special)
-                    character
+                    What country do you live in?
                   </Typography>
                   <Field
-                    name="password"
-                    placeholder="password"
-                    autoComplete="new-password"
-                    type="password"
+                    name="country"
+                    placeholder="country"
                     component={FormikInput}
                   />
                   <Typography component="p" color="inherit" noWrap>
-                    password confirmation
+                    Why are you learning a new language?
                   </Typography>
                   <Field
-                    name="password confirmation"
-                    placeholder="password confirmation"
-                    autoComplete="new-password"
-                    type="password"
+                    name="why"
+                    component={FormikTextArea}
+                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    What is your native tongue?
+                  </Typography>
+                  <Field
+                    name="nativeLang"
+                    placeholder="nativeLang"
                     component={FormikInput}
                   />
-                  {/*  <div>
-			  <Typography
-                      component="p"
-                      color="inherit"
-                      gutterBottom
-                      noWrap>
-                      timezone
-                    </Typography>
-                    <Field
-                      name="timezone"
-                      type="text"
-                      component={FormikSelect}
-                      options={timezones}
-                    /> 
-
-                    {errors.timezone &&
-                      touched.timezone && (
-                        <Message
-                          className="error-msg"
-                          error
-                          content={errors.timezone}
-                        />
-                      )} 
-                  </div> */}
-                </div>
-                <div className={classes.agreement}>
-                  <Checkbox
-                    checked={this.state.agreementChecked}
-                    onClick={this.handleCheckbox}
-                    value="I agree to the"
-                  />
-                  <Terms
-                    agree={() => this.agreeTerms()}
-                    disagree={() => this.disagreeTerms()}
-                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    How many languages can you currently speak fluently?
+                  </Typography>
+                  <Typography component="p" color="inherit" noWrap>
+                    What language are you currently trying to learn?
+                  </Typography>
+                  <Typography component="p" color="inherit" noWrap>
+                    How long have you been actively learning this language?
+                  </Typography>
+                  <Typography component="p" color="inherit" noWrap>
+                    How many hours do you spend a day learning a new language?
+                  </Typography>
                 </div>
                 <LoadingButton
                   floated="right"
                   fontSize="1.5rem"
                   style={{margin: "30px 0 0 0"}}
                   className={classes.button}
-                  disabled={!agreementChecked}
                   color="primary"
                   variant="contained"
                   type="submit">
-                  Join
+                  Apply
                 </LoadingButton>
               </form>
             </div>

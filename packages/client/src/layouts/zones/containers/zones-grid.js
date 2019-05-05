@@ -32,6 +32,7 @@ const ZonesGrid = props => {
     fetchPolicy: "network-only",
     notifyOnNetworkStatusChange: true,
     variables: {
+      page: 1,
       cursor: "",
       searchInput:
         props.search && props.search.searchInput
@@ -111,7 +112,7 @@ const ZonesGrid = props => {
                       className={classes.cardUsername}
                       gutterBottom
                       variant="caption">
-                      by: {card.ownerCourse.username}
+                      by: {card.ownerCourse && card.ownerCourse.username}
                     </Typography>
                   </CardContent>
                   <div style={{padding: "0 0 0 20px"}}>App: {card.app}</div>
@@ -181,6 +182,7 @@ const ZonesGrid = props => {
                       onClick={() =>
                         fetchMore({
                           variables: {
+                            page: 2,
                             cursor:
                               data.getZones.zones[
                                 data.getZones.zones.length - 1

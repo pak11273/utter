@@ -37,6 +37,7 @@ const CoursesGrid = props => {
   }
 
   const handleCourseClick = card => () => {
+    console.log("card: ", card)
     session.level = ""
     session.course = card
     session.levels = card.levels
@@ -51,6 +52,7 @@ const CoursesGrid = props => {
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
     variables: {
+      page: 1,
       cursor: "",
       searchInput:
         props.search && props.search.searchInput
@@ -128,7 +130,7 @@ const CoursesGrid = props => {
                       className={classes.cardUsername}
                       gutterBottom
                       variant="caption">
-                      by: {card.owner.username}
+                      by: {card.owner && card.owner.username}
                     </Typography>
                     <Typography
                       className={classes.cardUsername}
@@ -162,6 +164,7 @@ const CoursesGrid = props => {
                       onClick={() => {
                         fetchMore({
                           variables: {
+                            page: data.getCourses.page + 1,
                             cursor:
                               data.getCourses.courses[
                                 data.getCourses.courses.length - 1

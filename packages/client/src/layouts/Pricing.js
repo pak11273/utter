@@ -33,14 +33,14 @@ const BetaModal = () => {
           style={{fontSize: 30, justifyContent: "center", display: "flex"}}>
           Closed Beta
         </DialogTitle>
-        <DialogContentText>
-          No fees during beta. Limited to the first 1000 registrations.
+        <DialogContentText style={{textAlign: "center"}}>
+          No fees during beta.
         </DialogContentText>
       </DialogContent>
       <DialogActions
         style={{display: "flex", margin: "40px", justifyContent: "center"}}>
         <Button color="secondary" variant="contained">
-          <NavLink style={{color: "white"}} to="/signup">
+          <NavLink style={{color: "white"}} to="/application">
             Register
           </NavLink>
         </Button>
@@ -139,7 +139,7 @@ class Pricing extends PureComponent {
                 align="center"
                 color="textSecondary"
                 component="p">
-                Obtain a priceless skill for the price of a Starbucks coffee.
+                Obtain a priceless skill for the price of a cup of coffee.
               </Typography>
               <Typography
                 variant="h6"

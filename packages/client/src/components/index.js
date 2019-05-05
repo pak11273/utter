@@ -51,7 +51,7 @@ import State from "./buttons/state.js"
 import subscriptions from "./selects/subscriptions.js"
 import Subtitle from "./Text/Subtitle.js"
 import Table from "./Table.js"
-import teaching from "./selects/teaching.js"
+import Teaching from "./selects/teaching.js"
 import Tbody from "./Tbody.js"
 import Td from "./Td.js"
 import Text from "./Text/Text.js"
@@ -123,7 +123,7 @@ export {
   subscriptions,
   Subtitle,
   Table,
-  teaching,
+  Teaching,
   Tbody,
   Td,
   Thead,

@@ -49,6 +49,7 @@ module.exports = env => {
             "/api/events",
             "/api/vocab",
             "/api/zones",
+            "/api/test",
             "/cdn",
             "/graphql",
             "/socket.io",

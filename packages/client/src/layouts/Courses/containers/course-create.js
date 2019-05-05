@@ -26,7 +26,7 @@ import {
   Span,
   Img,
   LoadingButton,
-  teaching,
+  Teaching,
   Using
 } from "../../../components"
 
@@ -415,7 +415,7 @@ class CourseCreate extends Component {
                 <Field
                   error={errors.teachingLang}
                   name="teachingLang"
-                  component={teaching}
+                  component={Teaching}
                   addTeachingLang={this.addTeachingLang}
                   onChange={setFieldValue}
                   options={groupedOptions}

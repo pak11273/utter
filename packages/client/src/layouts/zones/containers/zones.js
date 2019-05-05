@@ -22,7 +22,7 @@ import {
   /* levels, */
   LoadingButton,
   /* subscriptions, */
-  teaching,
+  Teaching,
   Using
 } from "../../../components"
 import {styles} from "../styles.js"
@@ -84,7 +84,7 @@ const ZonesContainer = props => {
           </Typography>
           <Field
             name="teachingLang"
-            component={teaching}
+            component={Teaching}
             options={groupedOptions}
           />
           <Typography variant="h6" align="center" gutterBottom>

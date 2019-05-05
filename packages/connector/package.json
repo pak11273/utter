@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "license": "PROPIETARY",
   "scripts": {
-    "babel": "rm -rf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files"
+    "babel": "rm -rf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files --no-comments"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

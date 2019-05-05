@@ -4,14 +4,31 @@ export const GET_COURSE = gql`
   query getCourse($_id: ID!) {
     getCourse(_id: $_id) {
       _id
+      courseImage
+      courseMode
       title
       courseDescription
+      levels {
+        _id
+        title
+      }
+      resource
+      usingLang
+      subscribers
+      teachingLang
+      owner {
+        username
+        subscriptions {
+          _id
+        }
+      }
     }
   }
 `
 
 export const GET_COURSES = gql`
   query getCourses(
+    $page: Int
     $cursor: String
     $searchInput: String
     $selectionBox: String
@@ -20,6 +37,7 @@ export const GET_COURSES = gql`
   ) {
     getCourses(
       input: {
+        page: $page
         cursor: $cursor
         searchInput: $searchInput
         selectionBox: $selectionBox
@@ -48,6 +66,7 @@ export const GET_COURSES = gql`
           }
         }
       }
+      page
       cursor
       more
     }

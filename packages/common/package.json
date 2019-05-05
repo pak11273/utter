@@ -10,7 +10,7 @@
     "yup": "^0.26.6"
   },
   "scripts": {
-    "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files"
+    "babel": "rimraf ./dist && babel -e graphql,ql,js src --out-dir dist --copy-files --no-comments"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

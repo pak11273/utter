@@ -40,6 +40,13 @@ const getAnnouncement = Loadable({
   loading: Loading
 })
 
+const getApplication = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'application' */ "./layouts/application"),
+  loading: Loading,
+  delay: 200
+})
+
 const getChangePassword = Loadable({
   loader: () => import("./layouts/change_password/change-password-ctrl.js"),
   loading: Loading
@@ -215,6 +222,11 @@ export const routes = [
         component: getAccountThanks
       }
     ]
+  },
+  {
+    exact: true,
+    path: "/application",
+    component: getApplication
   },
   {
     component: getAnnouncement,

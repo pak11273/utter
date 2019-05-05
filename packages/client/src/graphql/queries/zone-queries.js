@@ -5,6 +5,7 @@ export const GET_ZONES = gql`
     $app: String
     $subscriptions: String
     $cursor: String
+    $page: Int
     $searchInput: String
     $selectionBox: String
     $teachingLang: String!
@@ -15,12 +16,14 @@ export const GET_ZONES = gql`
         app: $app
         subscriptions: $subscriptions
         cursor: $cursor
+        page: $page
         searchInput: $searchInput
         selectionBox: $selectionBox
         teachingLang: $teachingLang
         usingLang: $usingLang
       }
     ) {
+      page
       cursor
       more
       zones {
