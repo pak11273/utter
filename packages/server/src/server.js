@@ -11,7 +11,8 @@ import RateLimit from "express-rate-limit"
 import RedisStore from "rate-limit-redis"
 import session from "express-session"
 import stripe from "./stripe.js"
-var RedisStore2 = require("connect-redis")(session)
+/* var RedisStore2 = require("connect-redis")(session) */
+const MongoStore = require("connect-mongo")(session)
 
 // This code shows all console.log locations
 // https://remysharp.com/2014/05/23/where-is-that-console-log
@@ -34,8 +35,14 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 
 const app = express()
 
+// Routers
+mongoose.connection.on("connected", function() {
+  app.use("/api", apiRouter) // moved to index
+})
+
 var sess = {
-  store: new RedisStore2({client: redis}),
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
+  /* store: new RedisStore2({client: redis}), */
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
@@ -68,11 +75,6 @@ const limiter = new RateLimit({
 
 //  apply to all requests
 app.use(limiter)
-
-// Routers
-mongoose.connection.on("connected", function() {
-  app.use("/api", apiRouter) // moved to index
-})
 
 // handlebars setup
 const hbs = exphbs.create({
