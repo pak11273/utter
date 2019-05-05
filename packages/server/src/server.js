@@ -38,13 +38,18 @@ var sess = {
   store: new RedisStore2({client: redis}),
   secret: config.sessionSecret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {}
 }
 
-if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
-  app.set("trust proxy", 1)
-  sess.cookie.secure = true
-}
+/* if ( */
+/*   (sess.cookie && process.env.NODE_ENV === "prod") || */
+/*   process.env.NODE_ENV === "production" */
+/* ) { */
+
+app.set("trust proxy", 1)
+sess.cookie.secure = true
+/* } */
 
 app.use(session(sess))
 
