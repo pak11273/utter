@@ -54,6 +54,7 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 var app = (0, _express.default)();
+(0, _middleware.default)(app);
 
 _mongoose.default.connection.on("connected", function () {
   app.use("/api", _index.default);
@@ -73,10 +74,10 @@ var sess = {
 
 if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1);
+  sess.cookie.secure = true;
 }
 
 app.use((0, _expressSession.default)(sess));
-(0, _middleware.default)(app);
 var limiter = new _expressRateLimit.default({
   store: new _rateLimitRedis.default({
     client: _graphqlServer.redis

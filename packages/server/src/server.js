@@ -34,6 +34,8 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 
 const app = express()
 
+middleware(app)
+
 // Routers
 mongoose.connection.on("connected", function() {
   app.use("/api", apiRouter) // moved to index
@@ -53,12 +55,10 @@ var sess = {
 
 if (process.env.NODE_ENV === "prod" || process.env.NODE_ENV === "production") {
   app.set("trust proxy", 1)
-  /* sess.cookie.secure = true */
+  sess.cookie.secure = true
 }
 
 app.use(session(sess))
-
-middleware(app)
 
 // rate limiter
 
