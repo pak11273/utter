@@ -45,11 +45,11 @@ var sess = {
   store: new MongoStore({
     mongooseConnection: mongoose.connection
   }),
+  proxy: true,
   secret: config.sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: false,
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }

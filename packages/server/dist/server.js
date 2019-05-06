@@ -64,11 +64,11 @@ var sess = {
   store: new MongoStore({
     mongooseConnection: _mongoose.default.connection
   }),
+  proxy: true,
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    httpOnly: false,
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 };
