@@ -10,19 +10,10 @@ import config from "../config"
 export default app => {
   app.use(
     cors({
-      credentials: true,
-      origin: "https://utterzone.com"
-      /* origin: */
-      /*   process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod" */
-      /*     ? [ */
-      /*         "https://utterzone.com", */
-      /*         /\.utterzone\.com$/, */
-      /*         "https://utterzone.com:80", */
-      /*         "https://utterzone:443" */
-      /*       ] : ["http://localhost:8080", "http://192.168.68.8:8080"] */
+      origin: "https://utterzone.com",
+      credentials: true
     })
   )
-  /* app.options("/graphql") */
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())

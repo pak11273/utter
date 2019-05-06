@@ -25,8 +25,8 @@ require("dotenv").config();
 
 var _default = function _default(app) {
   app.use((0, _cors.default)({
-    credentials: true,
-    origin: "https://utterzone.com"
+    origin: "https://utterzone.com",
+    credentials: true
   }));
   app.use((0, _morgan.default)("dev"));
   app.use(_bodyParser.default.urlencoded({
