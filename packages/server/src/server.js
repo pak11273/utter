@@ -33,7 +33,6 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 const app = express()
-app.set("trust proxy", 1)
 
 middleware(app)
 

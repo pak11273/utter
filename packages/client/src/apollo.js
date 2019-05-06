@@ -30,7 +30,8 @@ const httpLink = new HttpLink({
     process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
       ? /* ? process.env.REACT_APP_SERVER_URL */
         "https://api.utterzone.com/graphql"
-      : "/graphql"
+      : "/graphql",
+  credentials: "same-origin"
 })
 
 const persistLink = createPersistedQueryLink()
