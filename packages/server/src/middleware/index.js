@@ -20,7 +20,7 @@ export default app => {
     },
     credentials: true
   }
-  app.options("*", cors())
+  app.options("*", cors(corsOptions))
 
   app.use(cors({corsOptions}))
 
