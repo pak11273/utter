@@ -21,7 +21,7 @@ export default app => {
     credentials: true
   }
   app.options("*", cors(corsOptions))
-  app.use(cors())
+  app.use(cors(corsOptions))
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
