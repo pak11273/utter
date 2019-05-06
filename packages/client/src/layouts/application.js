@@ -236,10 +236,7 @@ class SignupForm extends PureComponent {
                   <Typography component="p" color="inherit" noWrap>
                     Why are you learning a new language?
                   </Typography>
-                  <Field
-                    name="why"
-                    component={FormikTextArea}
-                  />
+                  <Field name="why" component={FormikTextArea} />
                   <Typography component="p" color="inherit" noWrap>
                     What is your native tongue?
                   </Typography>
@@ -311,7 +308,6 @@ export default compose(
           announcement: "Please check your email to confirm your address."
         })
       }
-      console.log("sinpu: ", signupResult)
       // if signup info is legit
       if (typeof signupResult !== "object") {
         cookies._uid = signupResult

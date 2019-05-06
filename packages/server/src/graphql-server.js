@@ -113,8 +113,8 @@ export default new ApolloServer({
   context: ({req, res}) => ({
     redis,
     url:
-      process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-        ? "https://" + process.env.SERVER_URL
+      process.env.NODE_ENV === "production"
+        ? process.env.REACT_APP_CLIENT_URL
         : req.protocol + "://" + req.get("host"),
     req,
     isAuth: req.isAuth
