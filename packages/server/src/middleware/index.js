@@ -19,6 +19,7 @@ export default app => {
     },
     credentials: true
   }
+  app.options("/graphql", cors())
 
   app.use(cors({corsOptions}))
 
