@@ -18,7 +18,7 @@ export default app => {
       callback(new Error("Not allowed by CORS"))
     }
   }
-  app.options("*", cors())
+  app.options("*", cors({origin: "https://utterzone"}))
   app.use(cors(corsOptions))
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
