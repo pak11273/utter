@@ -11,16 +11,14 @@ import config from "../config"
 export default app => {
   var whitelist = ["https://utterzone.com", "http://192.168.68.8:8080"]
   var corsOptions = {
-    origin: function(origin, callback) {
-      if (whitelist.indexOf(origin) !== -1) {
-        callback(null, true)
-      } else {
-        callback(new Error("Not allowed by CORS"))
-      }
-    },
-    credentials: true
+    credentials: true,
+    origin: (origin, callback) => {
+      if (whitelist.includes(origin)) return callback(null, true)
+
+      callback(new Error("Not allowed by CORS"))
+    }
   }
-  app.options("*", cors(corsOptions))
+  app.options("*", cors())
   app.use(cors(corsOptions))
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
