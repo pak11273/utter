@@ -32,9 +32,7 @@ var _default = function _default(app) {
       callback(new Error("Not allowed by CORS"));
     }
   };
-  app.options("*", (0, _cors.default)({
-    origin: "https://utterzone"
-  }));
+  app.options("*", (0, _cors.default)(corsOptions));
   app.use((0, _cors.default)(corsOptions));
   app.use((0, _morgan.default)("dev"));
   app.use(_bodyParser.default.urlencoded({
