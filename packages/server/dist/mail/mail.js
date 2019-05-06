@@ -65,6 +65,8 @@ var sendContactEmail = function sendContactEmail(args) {
 exports.sendContactEmail = sendContactEmail;
 
 var sendConfirmEmail = function sendConfirmEmail(recipient, link) {
+  console.log("recipient: ", recipient);
+  console.log("link: ", link);
   var data = {
     from: process.env.APP_EMAIL,
     to: recipient,

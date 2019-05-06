@@ -300,7 +300,6 @@ export default compose(
           announcement: "Please check your email to confirm your address."
         })
       }
-      console.log("sinpu: ", signupResult)
       // if signup info is legit
       if (typeof signupResult !== "object") {
         cookies._uid = signupResult

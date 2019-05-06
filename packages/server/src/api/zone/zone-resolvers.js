@@ -129,11 +129,10 @@ const getZoneLevels = async (_, args, ctx, info) => {
 }
 
 const getZones = async (_, {input}, ctx, info) => {
-  console.log("ctx: ", ctx.req.session)
   const options = {
     lean: true,
     page: input.page,
-    limit: 2,
+    limit: 24,
     populate: "owner",
     collation: {
       locale: "en"

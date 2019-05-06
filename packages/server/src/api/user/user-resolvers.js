@@ -223,6 +223,7 @@ const createPayMonthly = async (_, {source, ccLast4}, {req}, __) => {
 }
 
 const signup = async (_, args, {redis, url}, info) => {
+  console.log("args: ", args)
   args.input["password confirmation"] = args.input.passwordConfirmation
 
   let token = null

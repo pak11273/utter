@@ -497,42 +497,43 @@ var signup = function () {
         switch (_context9.prev = _context9.next) {
           case 0:
             redis = _ref17.redis, url = _ref17.url;
+            console.log("args: ", args);
             args.input["password confirmation"] = args.input.passwordConfirmation;
             token = null;
             arrayOfErrors = [];
-            _context9.prev = 4;
-            _context9.next = 7;
+            _context9.prev = 5;
+            _context9.next = 8;
             return _common.signupSchema.validate(args.input, {
               abortEarly: false
             });
 
-          case 7:
-            _context9.next = 12;
+          case 8:
+            _context9.next = 13;
             break;
 
-          case 9:
-            _context9.prev = 9;
-            _context9.t0 = _context9["catch"](4);
+          case 10:
+            _context9.prev = 10;
+            _context9.t0 = _context9["catch"](5);
 
             if (_context9.t0) {
               arrayOfErrors = (0, _formatYupError.formatYupError)(_context9.t0);
             }
 
-          case 12:
+          case 13:
             _args$input = args.input, username = _args$input.username, email = _args$input.email, password = _args$input.password;
-            _context9.next = 15;
+            _context9.next = 16;
             return _userModel.default.findOne({
               email: email
             }).exec();
 
-          case 15:
+          case 16:
             foundDupeEmail = _context9.sent;
-            _context9.next = 18;
+            _context9.next = 19;
             return _userModel.default.findOne({
               username: username
             }).exec();
 
-          case 18:
+          case 19:
             foundDupeUsername = _context9.sent;
 
             if (foundDupeUsername !== null) {
@@ -552,7 +553,7 @@ var signup = function () {
             }
 
             if (!(foundDupeEmail === null && (0, _lodash.isEmpty)(arrayOfErrors))) {
-              _context9.next = 24;
+              _context9.next = 25;
               break;
             }
 
@@ -594,17 +595,17 @@ var signup = function () {
               throw err;
             }));
 
-          case 24:
+          case 25:
             return _context9.abrupt("return", {
               error: arrayOfErrors
             });
 
-          case 25:
+          case 26:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[4, 9]]);
+    }, _callee9, null, [[5, 10]]);
   }));
 
   return function signup(_x25, _x26, _x27, _x28) {

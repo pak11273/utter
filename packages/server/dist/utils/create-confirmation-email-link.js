@@ -22,18 +22,19 @@ var createEmailConfirmLink = function () {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
+            console.log("ur: ", url);
             id = (0, _uuid.v4)();
-            _context.next = 3;
+            _context.next = 4;
             return redis.set("".concat(_constants.confirmEmailPrefix).concat(id), userId, "ex", 60 * 60 * 24);
 
-          case 3:
+          case 4:
             if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
               url = process.env.REACT_APP_CLIENT_URL;
             }
 
             return _context.abrupt("return", "".concat(url, "/confirm-email/").concat(id));
 
-          case 5:
+          case 6:
           case "end":
             return _context.stop();
         }

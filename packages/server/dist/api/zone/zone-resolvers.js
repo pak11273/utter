@@ -307,11 +307,10 @@ var getZones = function () {
         switch (_context7.prev = _context7.next) {
           case 0:
             input = _ref12.input;
-            console.log("ctx: ", ctx.req.session);
             options = {
               lean: true,
               page: input.page,
-              limit: 2,
+              limit: 24,
               populate: "owner",
               collation: {
                 locale: "en"
@@ -339,7 +338,7 @@ var getZones = function () {
               };
             }));
 
-          case 10:
+          case 9:
           case "end":
             return _context7.stop();
         }

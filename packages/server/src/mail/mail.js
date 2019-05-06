@@ -49,6 +49,8 @@ export const sendContactEmail = args => {
 }
 
 export const sendConfirmEmail = (recipient, link) => {
+  console.log("recipient: ", recipient)
+  console.log("link: ", link)
   const data = {
     from: process.env.APP_EMAIL,
     to: recipient,
