@@ -133,7 +133,7 @@ const getZones = async (_, {input}, ctx, info) => {
   const options = {
     lean: true,
     page: input.page,
-    limit: 24,
+    limit: 2,
     populate: "owner",
     collation: {
       locale: "en"

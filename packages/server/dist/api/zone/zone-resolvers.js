@@ -311,7 +311,7 @@ var getZones = function () {
             options = {
               lean: true,
               page: input.page,
-              limit: 24,
+              limit: 2,
               populate: "owner",
               collation: {
                 locale: "en"
