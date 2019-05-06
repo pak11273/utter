@@ -54,6 +54,7 @@ if (!["production", "prod"].includes(process.env.NODE_ENV)) {
 }
 
 var app = (0, _express.default)();
+app.set("trust proxy", 1);
 (0, _middleware.default)(app);
 
 _mongoose.default.connection.on("connected", function () {
@@ -64,7 +65,6 @@ var sess = {
   store: new MongoStore({
     mongooseConnection: _mongoose.default.connection
   }),
-  proxy: true,
   secret: _config.default.sessionSecret,
   resave: false,
   saveUninitialized: false,
