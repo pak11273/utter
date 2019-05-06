@@ -22,7 +22,7 @@ export default app => {
   }
   app.options("*", cors(corsOptions))
 
-  app.use(cors({corsOptions}))
+  app.use(cors(corsOptions))
 
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))

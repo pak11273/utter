@@ -36,9 +36,7 @@ var _default = function _default(app) {
     credentials: true
   };
   app.options("*", (0, _cors.default)(corsOptions));
-  app.use((0, _cors.default)({
-    corsOptions: corsOptions
-  }));
+  app.use((0, _cors.default)(corsOptions));
   app.use((0, _morgan.default)("dev"));
   app.use(_bodyParser.default.urlencoded({
     extended: true
