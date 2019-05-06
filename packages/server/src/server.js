@@ -49,6 +49,7 @@ var sess = {
   resave: false,
   saveUninitialized: false,
   cookie: {
+    httpOnly: false,
     maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
   }
 }
