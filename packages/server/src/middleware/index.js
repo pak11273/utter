@@ -8,12 +8,20 @@ import passport from "passport"
 
 import config from "../config"
 export default app => {
-  app.use(
-    cors({
-      origin: "https://utterzone.com",
-      credentials: true
-    })
-  )
+  var whitelist = ["https://utterzone.com", "http://192.168.68.8:8080"]
+  var corsOptions = {
+    origin: function(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
+    },
+    credentials: true
+  }
+
+  app.use(cors({corsOptions}))
+
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
   app.use(bodyParser.json())
