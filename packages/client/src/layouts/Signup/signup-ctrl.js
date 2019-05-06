@@ -2,7 +2,7 @@
 /* eslint react/prefer-stateless-function: 0 */
 
 import React, {PureComponent} from "react"
-import {history, SignupConnector} from "@utterzone/connector"
+import {history} from "@utterzone/connector"
 import {cookies} from "brownies"
 
 import {Footer} from "../../containers"
@@ -19,9 +19,7 @@ export default class SignupCtrl extends PureComponent {
   render() {
     return (
       <React.Fragment>
-        <SignupConnector>
-          {({submit}) => <SignupView submit={submit} />}
-        </SignupConnector>
+        <SignupView />
         <Footer style={{width: "100%"}} />
       </React.Fragment>
     )

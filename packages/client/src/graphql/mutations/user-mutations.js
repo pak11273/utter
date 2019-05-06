@@ -26,6 +26,7 @@ export const LOGIN_MUTATION = gql`
       token
       user {
         _id
+        confirmed
         isCanceled
         username
         roles
@@ -37,6 +38,39 @@ export const LOGIN_MUTATION = gql`
             _id
           }
         }
+      }
+      error {
+        path
+        message
+      }
+    }
+  }
+`
+
+export const SIGNUP_MUTATION = gql`
+  mutation signupMutation(
+    $username: String!
+    $email: String!
+    $password: String!
+    $passwordConfirmation: String!
+    $timezone: String
+  ) {
+    signup(
+      input: {
+        username: $username
+        email: $email
+        password: $password
+        passwordConfirmation: $passwordConfirmation
+        timezone: $timezone
+      }
+    ) {
+      token
+      user {
+        _id
+        username
+        email
+        roles
+        rights
       }
       error {
         path

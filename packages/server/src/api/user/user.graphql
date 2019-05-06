@@ -1,4 +1,5 @@
 type AuthPayload {
+	confirmed: Boolean
   token: String
 	user: User
   error: [Error]
@@ -52,6 +53,7 @@ type User {
 	blocked: [String]
   contacts: [String]
 	ccLast4: String
+	confirmed: Boolean
 	createdCourses: [Course!]
   createdAt: String
   email: String! 

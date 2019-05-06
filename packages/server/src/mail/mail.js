@@ -48,9 +48,7 @@ export const sendContactEmail = args => {
   })
 }
 
-export const sendConfirmEmail = (recipient, link) => {
-  console.log("recipient: ", recipient)
-  console.log("link: ", link)
+export const sendConfirmEmail = async (recipient, link) => {
   const data = {
     from: process.env.APP_EMAIL,
     to: recipient,
@@ -67,6 +65,7 @@ export const sendConfirmEmail = (recipient, link) => {
       console.log("Email sent: " + info.response)
     }
   })
+  return link
 }
 
 export const sendForgotPasswordEmail = function(recipient, link) {

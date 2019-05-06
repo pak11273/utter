@@ -10,64 +10,16 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import cloneDeep from "lodash/cloneDeep"
-import {cookies, session} from "brownies"
+import isEmpty from "lodash/isEmpty"
 
+import {normalizeErrors} from "../../utils/normalize-errors"
 import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
 import {signupSchema} from "@utterzone/common"
 import {FormikInput, Img, LoadingButton, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
-import gql from "graphql-tag"
-
-const NEW_SIGNUP = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      _id
-      roles
-      rights
-      username
-    }
-  }
-`
-const styles = () => ({
-  agreement: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  button: {
-    right: "0px",
-    bottom: "-60px",
-    position: "absolute"
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-    height: "100%",
-    margin: "0 auto",
-    width: "100%"
-  },
-  formContainer: {
-    margin: "0 auto",
-    position: "relative",
-    width: "260px"
-  },
-  leftSide: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-  section: {
-    justifyContent: "center",
-    margin: "50px auto 100px",
-    maxWidth: 1240
-  }
-})
+import {SIGNUP_MUTATION} from "../../graphql/mutations/user-mutations.js"
+import {styles} from "./styles.js"
 
 const initialState = {
   agreementChecked: false
@@ -106,16 +58,7 @@ class SignupForm extends PureComponent {
   }
 
   render() {
-    const {
-      classes,
-      /* errors, */
-      /* handleCheckbox, */
-      /* handleBlur, */
-      handleSubmit
-      /* Message, */
-      /* touched */
-      /* values */
-    } = this.props
+    const {classes, handleSubmit} = this.props
 
     const {agreementChecked} = this.state
 
@@ -285,28 +228,48 @@ export default compose(
       timezone: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
-      const signupResult = await props.submit(values)
-      const onComplete = async () => {
-        const loginResult = await props.client.query({
-          query: NEW_SIGNUP,
+      const submit = async () => {
+        const response = await props.client.mutate({
+          mutation: SIGNUP_MUTATION,
           variables: {
-            token: cookies._uid
+            username: values.username,
+            email: values.email,
+            password: values.password,
+            passwordConfirmation: values["password confirmation"],
+            timezone: values.timezone
           }
         })
 
-        session.user = loginResult.data.getUserByToken
+        const {error} = response.data.signup
+        const {token} = response.data.signup
 
+        if (!isEmpty(error)) {
+          return normalizeErrors(error)
+        }
+        return {
+          ...response.data.signup,
+          token,
+          error
+        }
+      }
+
+      const data = await submit(values)
+
+      if (!isEmpty(data)) {
+        setErrors(data)
+      }
+
+      const onComplete = async () => {
         props.history.push("/a/confirm-email", {
           announcement: "Please check your email to confirm your address."
         })
       }
       // if signup info is legit
-      if (typeof signupResult !== "object") {
-        cookies._uid = signupResult
+      if (data.token) {
         onComplete()
       } else {
         // if signup info is not legit
-        setErrors(signupResult)
+        return setErrors(data)
       }
     }
   })

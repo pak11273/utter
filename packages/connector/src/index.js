@@ -1,4 +1,3 @@
-export * from "./connectors/signup-connector.js"
 export * from "./connectors/levels-connector.js"
 export * from "./connectors/change-password-connector.js"
 export * from "./connectors/forgot-password-connector.js"

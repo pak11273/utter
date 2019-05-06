@@ -150,6 +150,10 @@ export default compose(
       }
 
       const data = await submit(values)
+      console.log("data: ", data)
+      if (!data.user.confirmed) {
+        throw new Error("Please confirm your email to log in")
+      }
 
       if (!data.token) {
         if (data.identifier) {

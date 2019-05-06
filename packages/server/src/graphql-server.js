@@ -108,14 +108,13 @@ export default new ApolloServer({
       ? false
       : true,
 
-  /* schema: schemaWithMiddleware, // see TODO */
   schema,
   context: ({req, res}) => ({
     redis,
-    url:
-      process.env.NODE_ENV === "production"
-        ? process.env.REACT_APP_CLIENT_URL
-        : req.protocol + "://" + req.get("host"),
+    /* url: */
+    /*   process.env.NODE_ENV === "production" */
+    /*     ? process.env.REACT_APP_CLIENT_URL : req.protocol + "://" + req.get("host"), */
+    url: req.protocol + "://" + req.get("host"),
     req,
     isAuth: req.isAuth
   })

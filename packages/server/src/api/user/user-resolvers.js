@@ -258,16 +258,21 @@ const signup = async (_, args, {redis, url}, info) => {
   // Valid with unique email
   if (foundDupeEmail === null && isEmpty(arrayOfErrors)) {
     const newUser = new User(args.input)
+
+    console.log("newUser: ", newUser)
     return newUser
       .save()
       .then(async result => {
         token = signToken(newUser._id)
         result.password = null
 
-        sendConfirmEmail(
+        const link = await sendConfirmEmail(
           newUser.email,
           await createEmailConfirmLink(url, newUser._id, redis)
         )
+
+        console.log("link : ", link)
+        console.log('arrayOfErrors" ', arrayOfErrors)
 
         return {
           token,

@@ -7,7 +7,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {cookies, local, session, subscribe} from "brownies"
+/* import {cookies, subscribe} from "brownies" */
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -23,10 +23,10 @@ import {routes} from "./routes"
 import {MainNavbar} from "./containers"
 import {Section} from "./components"
 import NavbarSpacer from "./components/spacers/spacer-navbar.js"
-import {ToastContainer, toast} from "react-toastify"
+import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-import {sessionDelete} from "./utils/session-delete.js"
+/* import {sessionDelete} from "./utils/session-delete.js" */
 
 const SubRoutes = route => (
   <Route
@@ -58,39 +58,38 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   componentDidMount = async () => {
+    // TODO: interferes when someone signs up and has another tab open and then lands on the confirmed email page.
     // delete session if user cookies is deleted
-    subscribe(cookies, "_uid", value => {
-      if (!value) {
-        sessionDelete()
-        window.location = "/login"
-      }
-    })
-
-    if (!session.user) {
-      // auto redirects to login
-      delete cookies._uid
-      delete session.user
-    }
-
-    // Broad cast that your're opening a page.
-    local.openpages = Date.now()
-    var onLocalStorageEvent = e => {
-      if (e.key === "openpages") {
-        // Listen if anybody else opening the same page!
-        localStorage.page_available = Date.now()
-      }
-      if (e.key === "page_available") {
-        toast.warn(
-          "Sessions cannot be duplicated.  Open with a different browser to keep sessions.",
-          {
-            className: "toasty",
-            bodyClassName: "toasty-body",
-            hideProgressBar: true
-          }
-        )
-      }
-    }
-    window.addEventListener("storage", onLocalStorageEvent, false)
+    /* subscribe(cookies, "_uid", value => { */
+    /*   if (!value) { */
+    /*     sessionDelete() */
+    /*     window.location = "/login" */
+    /*   } */
+    /* }) */
+    /* if (!session.user) { */
+    /*   // auto redirects to login */
+    /*   delete cookies._uid */
+    /*   delete session.user */
+    /* } */
+    // Broadcast that your're opening a page.
+    /* local.openpages = Date.now() */
+    /* var onLocalStorageEvent = e => { */
+    /*   if (e.key === "openpages") { */
+    /*     // Listen if anybody else opening the same page! */
+    /*     localStorage.page_available = Date.now() */
+    /*   } */
+    /*   if (e.key === "page_available") { */
+    /*     toast.warn( */
+    /*       "Sessions cannot be duplicated.  Open with a different browser to keep sessions.", */
+    /*       { */
+    /*         className: "toasty", */
+    /*         bodyClassName: "toasty-body", */
+    /*         hideProgressBar: true */
+    /*       } */
+    /*     ) */
+    /*   } */
+    /* } */
+    /* window.addEventListener("storage", onLocalStorageEvent, false) */
   }
 
   render() {
