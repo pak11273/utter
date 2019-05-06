@@ -7,6 +7,7 @@ import mongoose from "mongoose"
 import passport from "passport"
 
 import config from "../config"
+
 export default app => {
   var whitelist = ["https://utterzone.com", "http://192.168.68.8:8080"]
   var corsOptions = {
@@ -19,7 +20,7 @@ export default app => {
     },
     credentials: true
   }
-  app.options("/graphql", cors({corsOptions}))
+  app.options("*", cors())
 
   app.use(cors({corsOptions}))
 

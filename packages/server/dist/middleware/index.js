@@ -35,9 +35,7 @@ var _default = function _default(app) {
     },
     credentials: true
   };
-  app.options("/graphql", (0, _cors.default)({
-    corsOptions: corsOptions
-  }));
+  app.options("*", (0, _cors.default)());
   app.use((0, _cors.default)({
     corsOptions: corsOptions
   }));
