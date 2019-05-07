@@ -108,16 +108,6 @@ export default compose(
   withRouter,
   withApollo,
   graphql(LOGIN_MUTATION),
-  /* { */
-  /* options: { */
-  /* update: (proxy, {data}) => { */
-  /* if (!data || !data.login) { */
-  /* return */
-  /* } */
-  /* proxy.writeQuery({ME_QUERY, data: {me: data.login}}) */
-  /* } */
-  /* } */
-  /* }), */
   withStyles(styles),
   withFormik({
     validationSchema: loginSchema,
@@ -150,7 +140,7 @@ export default compose(
       }
 
       const data = await submit(values)
-      console.log("data: ", data)
+
       if (!data.user.confirmed) {
         throw new Error("Please confirm your email to log in")
       }

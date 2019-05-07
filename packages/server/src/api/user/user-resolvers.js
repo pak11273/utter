@@ -223,7 +223,6 @@ const createPayMonthly = async (_, {source, ccLast4}, {req}, __) => {
 }
 
 const signup = async (_, args, {redis, url}, info) => {
-  console.log("args: ", args)
   args.input["password confirmation"] = args.input.passwordConfirmation
 
   let token = null
@@ -259,7 +258,6 @@ const signup = async (_, args, {redis, url}, info) => {
   if (foundDupeEmail === null && isEmpty(arrayOfErrors)) {
     const newUser = new User(args.input)
 
-    console.log("newUser: ", newUser)
     return newUser
       .save()
       .then(async result => {
@@ -270,9 +268,6 @@ const signup = async (_, args, {redis, url}, info) => {
           newUser.email,
           await createEmailConfirmLink(url, newUser._id, redis)
         )
-
-        console.log("link : ", link)
-        console.log('arrayOfErrors" ', arrayOfErrors)
 
         return {
           token,

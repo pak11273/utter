@@ -8,7 +8,7 @@ export const createForgotPasswordLink = async (url, userId, redis) => {
     process.env.NODE_ENV === "production" ||
     process.env.NODE_ENV === "prod"
   ) {
-    url = process.env.REACT_APP_CLIENT_URL
+    url = process.env.APP_URL
   }
   return `${url}/change-password/${id}`
 }

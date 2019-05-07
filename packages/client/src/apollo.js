@@ -28,7 +28,7 @@ const AuthLink = (operation, forward) => {
 const httpLink = new HttpLink({
   uri:
     process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod"
-      ? /* ? process.env.REACT_APP_SERVER_URL */
+      ? /* ? process.env.APP_URL */
         "https://api.utterzone.com/graphql"
       : "/graphql",
   credentials: "include"

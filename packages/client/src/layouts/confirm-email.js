@@ -7,13 +7,6 @@ import {withStyles} from "@material-ui/core/styles"
 /* import gql from "graphql-tag" */
 import {Container, Section} from "../components"
 
-/* const CONFIRM_EMAIL = gql` */
-/* 	mutation confirmEmail($token: String) { */
-/* 		confirmEmai(token: $token) { */
-/* 		} */
-/* 	} */
-/* ` */
-
 const styles = theme => ({
   root: {
     backgroundColor: "black",
@@ -41,22 +34,39 @@ const styles = theme => ({
 })
 
 class ConfirmEmail extends Component {
+  state = {
+    confirmation: ""
+  }
+
   componentDidMount = async () => {
-    /* const result = await this.props.client.mutate({ */
-    /*   mutation: CONFIRM_EMAIL, */
-    /*   variables: { */
-    /*     token: this.props.match.params.token */
-    /*   } */
-    /* }) */
-    /* if (result) { */
-    /*   if (result.data.confirmEmail > 0) { */
-    /*     console.log("result: ", result) */
-    /*   } */
-    /* } */
+    const apiUrl = process.env.API_URL
+    console.log("api: ", apiUrl)
+    console.log("props; ", this.props)
+    if (process.env.NODE_ENV === "production") {
+      fetch(
+        `${apiUrl}:3010/api/users/confirm/${this.props.match.params.token}`
+      ).then(async res => {
+        this.setState({
+          confirmation: await res.text()
+        })
+      })
+    } else {
+      fetch(
+        `http://192.168.68.8:3010/api/users/confirm/${
+          this.props.match.params.token
+        }`
+      ).then(async res => {
+        this.setState({
+          confirmation: await res.text()
+        })
+      })
+    }
   }
 
   render() {
     const {classes} = this.props
+    const {confirmation} = this.state
+    /* Your email account has been confirmed. */
     return (
       <React.Fragment>
         <Helmet>
@@ -76,7 +86,7 @@ class ConfirmEmail extends Component {
               align="center"
               className={classes.text}
               gutterBottom>
-              Your email account has been confirmed.
+              {confirmation}
             </Typography>
           </Section>
         </Container>
