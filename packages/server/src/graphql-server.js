@@ -114,8 +114,7 @@ export default new ApolloServer({
     url:
       process.env.NODE_ENV === "production"
         ? process.env.APP_URL
-        : req.protocol + "://" + req.get("host"),
-    /* url: req.protocol + "://" + req.get("host"), */
+        : req.protocol + "://" + req.get("host"), // server ip
     req,
     isAuth: req.isAuth
   })

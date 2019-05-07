@@ -40,15 +40,25 @@ class ConfirmEmail extends Component {
 
   componentDidMount = async () => {
     const apiUrl = process.env.API_URL
-    console.log("api: ", apiUrl)
-    console.log("props; ", this.props)
     if (process.env.NODE_ENV === "production") {
-      fetch(
+      const controller = new AbortController()
+      const signal = controller.signal
+
+      const fetchPromise = fetch(
         `${apiUrl}:3010/api/users/confirm/${this.props.match.params.token}`
-      ).then(async res => {
+      )
+
+      // 5 second timeout:
+      const timeoutId = setTimeout(() => controller.abort(), 5000)
+
+      fetchPromise.then(async res => {
+        // completed request before timeout fired
         this.setState({
           confirmation: await res.text()
         })
+
+        // If you only wanted to timeout the request, not the response, add:
+        clearTimeout(timeoutId)
       })
     } else {
       fetch(

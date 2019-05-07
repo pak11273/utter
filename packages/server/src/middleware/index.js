@@ -10,8 +10,6 @@ import config from "../config"
 
 export default app => {
   var whitelist = [
-    "https://utterzone.com:80",
-    "https://utterzone.com:443",
     "https://utterzone.com",
     "http://192.168.68.8:8080"
   ]
