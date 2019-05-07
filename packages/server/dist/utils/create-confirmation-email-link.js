@@ -27,10 +27,9 @@ var createEmailConfirmLink = function () {
             return redis.set("".concat(_constants.confirmEmailPrefix).concat(id), userId, "ex", 60 * 60 * 24);
 
           case 3:
-            console.log("link: ", "".concat(url, "/confirm-email/").concat(id));
             return _context.abrupt("return", "".concat(url, "/confirm-email/").concat(id));
 
-          case 5:
+          case 4:
           case "end":
             return _context.stop();
         }
