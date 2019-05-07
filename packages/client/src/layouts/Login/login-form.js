@@ -5,7 +5,7 @@ import {withFormik, Field} from "formik"
 import isEmpty from "lodash/isEmpty"
 import {normalizeErrors} from "../../utils/normalize-errors"
 
-import Button from "@material-ui/core/Button"
+/* import Button from "@material-ui/core/Button" */
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
@@ -14,13 +14,17 @@ import {cookies, session} from "brownies"
 import {loginSchema} from "@utterzone/common"
 import {LOGIN_MUTATION} from "../../graphql/mutations/user-mutations.js"
 /* import {ME_QUERY} from "../../graphql/queries/user-queries.js" */
-import {FormikInput, Img, Section} from "../../components"
+import {FormikInput, Img, LoadingButton, Section} from "../../components"
 import visitingImg from "../../assets/images/walking-around.jpg"
 
 import {styles} from "./styles.js"
 import "./forms.css"
 
 class LoginForm extends PureComponent {
+  state = {
+    isSubmitting: this.props.isSubmitting
+  }
+
   render() {
     const {classes, handleSubmit} = this.props
     return (
@@ -88,13 +92,16 @@ class LoginForm extends PureComponent {
                     <a href="/forgot-password"> Forgot Password? </a>
                   </div>
                 </div>
-                <Button
+                <LoadingButton
+                  className={classes.button}
+                  type="submit"
                   variant="contained"
                   color="primary"
-                  className={classes.button}
-                  type="submit">
+                  size="large"
+                  loading={this.state.isSubmitting}
+                  disabled={this.state.isSubmitting}>
                   submit
-                </Button>
+                </LoadingButton>
               </form>
             </div>
           </Grid>
@@ -140,7 +147,7 @@ export default compose(
       }
 
       const data = await submit(values)
-      if (!data.user.confirmed) {
+      if (data.user && !data.user.confirmed) {
         props.history.push({
           pathname: "/renew-confirmation",
           state: "renewConfirmation"
@@ -153,6 +160,10 @@ export default compose(
           data["username or email"] = data.identifier
         }
         setErrors(data)
+        this.setState({
+          isSubmitting: false
+        })
+        return
       }
       if (data.token) {
         cookies._uid = data.token
