@@ -310,7 +310,7 @@ export const routes = [
     path: "/pricing"
   },
   {
-    component: getPrivateZone,
+    component: requireAuth(getPrivateZone),
     exact: true,
     path: "/zones/private"
   },

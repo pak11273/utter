@@ -3,8 +3,7 @@ import {cookies} from "brownies"
 
 const requireAuth = WrappedComponent => {
   class Wrap extends PureComponent {
-
-    render() {
+    componentDidMount = () => {
       const isAuthenticated = cookies._uid
       if (!isAuthenticated) {
         this.props.history.push("/login", {
@@ -12,6 +11,9 @@ const requireAuth = WrappedComponent => {
           type: "warn"
         })
       }
+    }
+
+    render() {
       return <WrappedComponent {...this.props} />
     }
   }
