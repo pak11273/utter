@@ -9,7 +9,6 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import cloneDeep from "lodash/cloneDeep"
 import isEmpty from "lodash/isEmpty"
 
 import {normalizeErrors} from "../../utils/normalize-errors"
@@ -21,14 +20,10 @@ import visitingImg from "../../assets/images/walking-around.jpg"
 import {SIGNUP_MUTATION} from "../../graphql/mutations/user-mutations.js"
 import {styles} from "./styles.js"
 
-const initialState = {
-  agreementChecked: false
-}
-
 class SignupForm extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = cloneDeep(initialState)
+  state = {
+    agreementChecked: false,
+    isSubmitting: this.props.isSubmitting
   }
 
   agreeTerms = () => {
@@ -197,7 +192,8 @@ class SignupForm extends PureComponent {
                   fontSize="1.5rem"
                   style={{margin: "30px 0 0 0"}}
                   className={classes.button}
-                  disabled={!agreementChecked}
+                  disabled={!agreementChecked || this.state.isSubmitting}
+                  loading={this.state.isSubmitting}
                   color="primary"
                   variant="contained"
                   type="submit">
@@ -256,6 +252,9 @@ export default compose(
       const data = await submit(values)
 
       if (!isEmpty(data)) {
+        this.setState({
+          isSubmitting: false
+        })
         setErrors(data)
       }
 
@@ -269,6 +268,9 @@ export default compose(
         onComplete()
       } else {
         // if signup info is not legit
+        this.setState({
+          isSubmitting: false
+        })
         return setErrors(data)
       }
     }
