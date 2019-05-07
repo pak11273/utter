@@ -53,7 +53,7 @@ class SignupForm extends PureComponent {
   }
 
   render() {
-    const {classes, handleSubmit} = this.props
+    const {classes, handleSubmit, isSubmitting} = this.props
 
     const {agreementChecked} = this.state
 
@@ -192,8 +192,8 @@ class SignupForm extends PureComponent {
                   fontSize="1.5rem"
                   style={{margin: "30px 0 0 0"}}
                   className={classes.button}
-                  disabled={!agreementChecked || this.state.isSubmitting}
-                  loading={this.state.isSubmitting}
+                  disabled={!agreementChecked || isSubmitting}
+                  loading={isSubmitting}
                   color="primary"
                   variant="contained"
                   type="submit">
@@ -223,7 +223,8 @@ export default compose(
       "password confirmation": "",
       timezone: ""
     }),
-    handleSubmit: async (values, {props, setErrors}) => {
+    handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
+      console.log("props: ", props)
       const submit = async () => {
         const response = await props.client.mutate({
           mutation: SIGNUP_MUTATION,
@@ -252,9 +253,7 @@ export default compose(
       const data = await submit(values)
 
       if (!isEmpty(data)) {
-        this.setState({
-          isSubmitting: false
-        })
+        setSubmitting(false)
         setErrors(data)
       }
 
@@ -267,10 +266,7 @@ export default compose(
       if (data.token) {
         onComplete()
       } else {
-        // if signup info is not legit
-        this.setState({
-          isSubmitting: false
-        })
+        setSubmitting(false)
         return setErrors(data)
       }
     }
