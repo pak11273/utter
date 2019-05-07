@@ -28,7 +28,7 @@ var createForgotPasswordLink = function () {
 
           case 3:
             if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod") {
-              url = process.env.REACT_APP_CLIENT_URL;
+              url = process.env.APP_URL;
             }
 
             return _context.abrupt("return", "".concat(url, "/change-password/").concat(id));

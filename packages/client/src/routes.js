@@ -132,6 +132,12 @@ const getLogin = Loadable({
   delay: 200
 })
 
+const getRenewConfirmEmail = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'renew' */ "./layouts/renew-confirmation.js"),
+  loading: Loading
+})
+
 const getRezone = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'rezone' */ "./layouts/zones/components/rezone.js"),
@@ -243,7 +249,7 @@ export const routes = [
     component: getCommunity
   },
   {
-    /* exact: true, */
+    exact: true,
     path: "/confirm-email/:token",
     component: getConfirmEmail
   },
@@ -338,6 +344,11 @@ export const routes = [
     component: getLogin,
     exact: true,
     path: "/login"
+  },
+  {
+    exact: true,
+    path: "/renew-confirmation",
+    component: getRenewConfirmEmail
   },
   {
     component: requireAuth(getRezone),

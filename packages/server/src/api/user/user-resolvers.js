@@ -414,6 +414,20 @@ const removeSubscription = async (_, args, {req}) => {
   return user
 }
 
+const renewConfirmation = async (_, args, {redis, url}, info) => {
+  console.log("args: ", args)
+  try {
+    const link = await sendConfirmEmail(
+      newUser.email,
+      await createEmailConfirmLink(url, newUser._id, redis)
+    )
+
+    if (link) return true
+  } catch (err) {
+    throw err
+  }
+}
+
 export const userResolvers = {
   Query: {
     getSubscriptions,
@@ -440,6 +454,7 @@ export const userResolvers = {
     createPayMonthly,
     forgotPassword,
     removeSubscription,
+    renewConfirmation,
     signup,
     login,
     updateMe

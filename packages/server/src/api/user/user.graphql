@@ -88,5 +88,6 @@ type Mutation {
 	confirmEmail(token: String!): Boolean 
   signup(input: SignupInput!): AuthPayload
 	removeSubscription(subscribedCourse: String): User 
+	renewConfirmation(email: String): Boolean 
   updateMe(input: UpdatedUserInput!): User!
 }

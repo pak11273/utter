@@ -490,50 +490,49 @@ var createPayMonthly = function () {
 
 var signup = function () {
   var _ref18 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee9(_, args, _ref17, info) {
-    var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
+    var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, _newUser;
 
     return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
             redis = _ref17.redis, url = _ref17.url;
-            console.log("args: ", args);
             args.input["password confirmation"] = args.input.passwordConfirmation;
             token = null;
             arrayOfErrors = [];
-            _context9.prev = 5;
-            _context9.next = 8;
+            _context9.prev = 4;
+            _context9.next = 7;
             return _common.signupSchema.validate(args.input, {
               abortEarly: false
             });
 
-          case 8:
-            _context9.next = 13;
+          case 7:
+            _context9.next = 12;
             break;
 
-          case 10:
-            _context9.prev = 10;
-            _context9.t0 = _context9["catch"](5);
+          case 9:
+            _context9.prev = 9;
+            _context9.t0 = _context9["catch"](4);
 
             if (_context9.t0) {
               arrayOfErrors = (0, _formatYupError.formatYupError)(_context9.t0);
             }
 
-          case 13:
+          case 12:
             _args$input = args.input, username = _args$input.username, email = _args$input.email, password = _args$input.password;
-            _context9.next = 16;
+            _context9.next = 15;
             return _userModel.default.findOne({
               email: email
             }).exec();
 
-          case 16:
+          case 15:
             foundDupeEmail = _context9.sent;
-            _context9.next = 19;
+            _context9.next = 18;
             return _userModel.default.findOne({
               username: username
             }).exec();
 
-          case 19:
+          case 18:
             foundDupeUsername = _context9.sent;
 
             if (foundDupeUsername !== null) {
@@ -553,34 +552,39 @@ var signup = function () {
             }
 
             if (!(foundDupeEmail === null && (0, _lodash.isEmpty)(arrayOfErrors))) {
-              _context9.next = 25;
+              _context9.next = 24;
               break;
             }
 
-            newUser = new _userModel.default(args.input);
-            return _context9.abrupt("return", newUser.save().then(function () {
+            _newUser = new _userModel.default(args.input);
+            return _context9.abrupt("return", _newUser.save().then(function () {
               var _ref19 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(result) {
+                var link;
                 return _regenerator.default.wrap(function _callee8$(_context8) {
                   while (1) {
                     switch (_context8.prev = _context8.next) {
                       case 0:
-                        token = (0, _auth.signToken)(newUser._id);
+                        token = (0, _auth.signToken)(_newUser._id);
                         result.password = null;
                         _context8.t0 = _mail.sendConfirmEmail;
-                        _context8.t1 = newUser.email;
+                        _context8.t1 = _newUser.email;
                         _context8.next = 6;
-                        return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
+                        return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, _newUser._id, redis);
 
                       case 6:
                         _context8.t2 = _context8.sent;
-                        (0, _context8.t0)(_context8.t1, _context8.t2);
+                        _context8.next = 9;
+                        return (0, _context8.t0)(_context8.t1, _context8.t2);
+
+                      case 9:
+                        link = _context8.sent;
                         return _context8.abrupt("return", {
                           token: token,
                           user: result,
                           error: arrayOfErrors
                         });
 
-                      case 9:
+                      case 11:
                       case "end":
                         return _context8.stop();
                     }
@@ -595,17 +599,17 @@ var signup = function () {
               throw err;
             }));
 
-          case 25:
+          case 24:
             return _context9.abrupt("return", {
               error: arrayOfErrors
             });
 
-          case 26:
+          case 25:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9, null, [[5, 10]]);
+    }, _callee9, null, [[4, 9]]);
   }));
 
   return function signup(_x25, _x26, _x27, _x28) {
@@ -963,14 +967,66 @@ var removeSubscription = function () {
   };
 }();
 
+var renewConfirmation = function () {
+  var _ref34 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee17(_, args, _ref33, info) {
+    var redis, url, link;
+    return _regenerator.default.wrap(function _callee17$(_context17) {
+      while (1) {
+        switch (_context17.prev = _context17.next) {
+          case 0:
+            redis = _ref33.redis, url = _ref33.url;
+            console.log("args: ", args);
+            _context17.prev = 2;
+            _context17.t0 = _mail.sendConfirmEmail;
+            _context17.t1 = newUser.email;
+            _context17.next = 7;
+            return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
+
+          case 7:
+            _context17.t2 = _context17.sent;
+            _context17.next = 10;
+            return (0, _context17.t0)(_context17.t1, _context17.t2);
+
+          case 10:
+            link = _context17.sent;
+
+            if (!link) {
+              _context17.next = 13;
+              break;
+            }
+
+            return _context17.abrupt("return", true);
+
+          case 13:
+            _context17.next = 18;
+            break;
+
+          case 15:
+            _context17.prev = 15;
+            _context17.t3 = _context17["catch"](2);
+            throw _context17.t3;
+
+          case 18:
+          case "end":
+            return _context17.stop();
+        }
+      }
+    }, _callee17, null, [[2, 15]]);
+  }));
+
+  return function renewConfirmation(_x55, _x56, _x57, _x58) {
+    return _ref34.apply(this, arguments);
+  };
+}();
+
 var userResolvers = {
   Query: {
     getSubscriptions: getSubscriptions,
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref33) {
-      var name = _ref33.name;
+    hello: function hello(_, _ref35) {
+      var name = _ref35.name;
       return "Hello ".concat(name || "World");
     },
     me: me
@@ -989,6 +1045,7 @@ var userResolvers = {
     createPayMonthly: createPayMonthly,
     forgotPassword: forgotPassword,
     removeSubscription: removeSubscription,
+    renewConfirmation: renewConfirmation,
     signup: signup,
     login: login,
     updateMe: updateMe

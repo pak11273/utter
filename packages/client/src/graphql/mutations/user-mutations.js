@@ -47,6 +47,14 @@ export const LOGIN_MUTATION = gql`
   }
 `
 
+export const RENEW_CONFIRAMTION = gql`
+  mutation renewConfirmation($redisKey: String) {
+    renewConfirmation(email: $redisKey) {
+      Boolean
+    }
+  }
+`
+
 export const SIGNUP_MUTATION = gql`
   mutation signupMutation(
     $username: String!

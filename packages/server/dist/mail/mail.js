@@ -7,6 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.sendForgotPasswordEmail = exports.sendConfirmEmail = exports.sendContactEmail = exports.transporter = void 0;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
 var _nodemailer = _interopRequireDefault(require("nodemailer"));
 
 var _nodemailerExpressHandlebars = _interopRequireDefault(require("nodemailer-express-handlebars"));
@@ -64,26 +68,43 @@ var sendContactEmail = function sendContactEmail(args) {
 
 exports.sendContactEmail = sendContactEmail;
 
-var sendConfirmEmail = function sendConfirmEmail(recipient, link) {
-  console.log("recipient: ", recipient);
-  console.log("link: ", link);
-  var data = {
-    from: process.env.APP_EMAIL,
-    to: recipient,
-    template: "confirmation-email",
-    subject: "Please confirm your email account",
-    context: {
-      confirmEmailUrl: link
-    }
+var sendConfirmEmail = function () {
+  var _ref = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee(recipient, link) {
+    var data;
+    return _regenerator.default.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            data = {
+              from: process.env.APP_EMAIL,
+              to: recipient,
+              template: "confirmation-email",
+              subject: "Please confirm your email account",
+              context: {
+                confirmEmailUrl: link
+              }
+            };
+            transporter.sendMail(data, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log("Email sent: " + info.response);
+              }
+            });
+            return _context.abrupt("return", link);
+
+          case 3:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function sendConfirmEmail(_x, _x2) {
+    return _ref.apply(this, arguments);
   };
-  transporter.sendMail(data, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });
-};
+}();
 
 exports.sendConfirmEmail = sendConfirmEmail;
 

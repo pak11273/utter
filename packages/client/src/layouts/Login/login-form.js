@@ -105,8 +105,8 @@ class LoginForm extends PureComponent {
 }
 
 export default compose(
-  withRouter,
   withApollo,
+  withRouter,
   graphql(LOGIN_MUTATION),
   withStyles(styles),
   withFormik({
@@ -140,9 +140,12 @@ export default compose(
       }
 
       const data = await submit(values)
-
       if (!data.user.confirmed) {
-        throw new Error("Please confirm your email to log in")
+        props.history.push({
+          pathname: "/renew-confirmation",
+          state: "renewConfirmation"
+        })
+        return
       }
 
       if (!data.token) {
