@@ -118,7 +118,7 @@ var _default = new _apolloServerExpress.ApolloServer({
         res = _ref.res;
     return {
       redis: _redis.redis,
-      url: req.protocol + "://" + req.get("host"),
+      url: process.env.NODE_ENV === "production" ? process.env.APP_URL : req.protocol + "://" + req.get("host"),
       req: req,
       isAuth: req.isAuth
     };
