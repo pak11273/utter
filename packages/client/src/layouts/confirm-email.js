@@ -45,7 +45,7 @@ class ConfirmEmail extends Component {
       const signal = controller.signal
 
       const fetchPromise = fetch(
-        `${apiUrl}:3010/api/users/confirm/${this.props.match.params.token}`
+        `${apiUrl}/api/users/confirm/${this.props.match.params.token}`
       )
 
       // 5 second timeout:
