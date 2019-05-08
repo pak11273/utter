@@ -77,7 +77,7 @@ class BetaApplication extends PureComponent {
   }
 
   render() {
-    const {classes, handleSubmit} = this.props
+    const {classes, handleSubmit, isSubmitting} = this.props
 
     return (
       <Section className={classes.section}>
@@ -403,6 +403,8 @@ class BetaApplication extends PureComponent {
                 <LoadingButton
                   floated="right"
                   fontSize="1.5rem"
+                  loading={isSubmitting}
+                  disabled={isSubmitting}
                   style={{margin: "30px 0 0 0"}}
                   className={classes.button}
                   color="primary"
@@ -442,27 +444,34 @@ export default compose(
       nativeLang: "",
       whyLearning: ""
     }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      console.log("values: ", values)
-      console.log("props: ", props)
-      console.log("setErrors: ", setErrors)
-      /* const info = {email: "john@doe.com"} */
-
+    handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
       // Add beta user to sendinblue (applications so we can send out emails)
-      /* const res = await fetch("https://api.sendinblue.com/v3/contacts", { */
-      /*   method: "POST", // or 'PUT' */
-      /*   body: JSON.stringify(info), // data can be `string` or {object}! */
-      /*   headers: { */
-      /*     "Content-Type": "application/json", */
-      /*     "api-key": process.env.SEND_IN_BLUE_API_KEY */
-      /*   } */
-      /* }) */
+      const info = {
+        listIds: ["8"], // 8 = "betaTesters"
+        email: values.email,
+        fname: values.firstName,
+        lname: values.lastName
+      }
 
-      /* console.log("response: ", JSON.stringify(res)) */
+      const res = await fetch("https://api.sendinblue.com/v3/contacts", {
+        method: "POST", // or 'PUT'
+        body: JSON.stringify(info), // data can be `string` or {object}!
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": process.env.SEND_IN_BLUE_API_KEY
+        }
+      })
+      const data = await res.json()
 
-      const signupResult = await props.submit(values)
-      console.log("signupResult: ", signupResult)
-      const onComplete = async () => {
+      if (data.code) {
+        setErrors({email: data.message})
+        setSubmitting(false)
+      }
+      // Add beta user to sendinblue (applications so we can send out emails)
+
+      /* const signupResult = await props.submit(values) */
+      /* console.log("signupResult: ", signupResult) */
+      const submit = async () => {
         const loginResult = await props.client.query({
           query: BETA_SIGNUP,
           variables: {
@@ -497,7 +506,7 @@ export default compose(
         /*   // if signup info is not legit */
         /*   setErrors(signupResult) */
       }
-      console.log("onComplete: ", onComplete)
+      console.log("submit: ", submit)
     }
   })
 )(BetaApplication)
