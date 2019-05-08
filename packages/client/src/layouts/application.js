@@ -493,7 +493,7 @@ export default compose(
         if (betaResult.data.betaSignup) {
           props.history.push("/a/confirm-email", {
             announcement:
-              "thank you for submitting your application.  we will continue correspondence through email."
+              "Thank you for submitting your application.  We will continue correspondence through email."
           })
         }
         setErrors(betaResult.errors)

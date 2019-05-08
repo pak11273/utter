@@ -9,6 +9,7 @@ const webpack = require("webpack")
 const ProgressBarPlugin = require("progress-bar-webpack-plugin")
 const nodeExternals = require("webpack-node-externals")
 const Dotenv = require("dotenv-webpack")
+const WebappWebpackPlugin = require("webapp-webpack-plugin")
 
 module.exports = env => {
   const {getIfUtils, removeEmpty} = require("webpack-config-utils")
@@ -181,9 +182,10 @@ module.exports = env => {
       new HtmlWebpackPlugin({
         template: "index.html"
         // inject: 'head'
-        // favicon: './assets/images/favicon.ico',
+        /* favicon: "./src/favicons/favicon.ico" */
         // inject: false
       }),
+      new WebappWebpackPlugin("./assets/images/logo.png"), // svg works too!
       // ifProd(new webpack.optimize.UglifyJsPlugin({sourceMap: true})), //minify everything
       new CompressionPlugin({
         filename: "[path].gz[query]",

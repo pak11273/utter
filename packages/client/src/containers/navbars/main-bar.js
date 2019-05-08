@@ -41,7 +41,7 @@ import Typography from "@material-ui/core/Typography"
 import {Logo} from "../../components"
 
 // images
-import Graphic from "../../assets/images/logo.svg"
+import Graphic from "../../assets/images/navbar_logo.png"
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -55,7 +55,8 @@ const styles = theme => ({
     width: "100%"
   },
   appBar: {
-    backgroundColor: theme.palette.error.red,
+    /* backgroundColor: theme.palette.error.red, */
+    backgroundColor: "white",
     zIndex: theme.zIndex.drawer + 1
   },
   grow: {
