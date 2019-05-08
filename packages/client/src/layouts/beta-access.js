@@ -8,13 +8,14 @@ import {withStyles} from "@material-ui/core/styles"
 import {BETA_ACCESS} from "../graphql/queries/user-queries.js"
 import {betaAccessSchema} from "@utterzone/common"
 
-import {Formik, Field} from "formik"
+/* import {Formik, Field} from "formik" */
+import {Formik} from "formik"
 
 import {
   Container,
-  Flex,
-  FormikInput,
-  LoadingButton,
+  /* Flex, */
+  /* FormikInput, */
+  /* LoadingButton, */
   Section
 } from "../components"
 
@@ -64,7 +65,7 @@ class BetaAccess extends Component {
 
   render() {
     const {classes} = this.props
-    const {confirmation} = this.state
+    /* const {confirmation} = this.state */
     return (
       <React.Fragment>
         <Container className={classes.root}>
@@ -95,8 +96,18 @@ class BetaAccess extends Component {
                   actions.setSubmitting(false)
                 }
               }}
-              render={({errors, handleChange, handleSubmit, isSubmitting}) => (
+              /* render={({errors, handleChange, handleSubmit, isSubmitting}) => ( */
+              render={({handleSubmit}) => (
                 <form onSubmit={handleSubmit}>
+                  <Typography
+                    variant="h4"
+                    align="center"
+                    className={classes.text}
+                    gutterBottom>
+                    This area will be opened on June 1
+                  </Typography>
+                  {/*
+									TODO: open on May 30
                   <Typography
                     variant="h4"
                     align="center"
@@ -121,8 +132,9 @@ class BetaAccess extends Component {
                       variant="contained"
                       type="submit">
                       Submit
-                    </LoadingButton>
+                    </LoadingButton> 
                   </Flex>
+								*/}
                   <Typography
                     variant="h6"
                     align="center"
