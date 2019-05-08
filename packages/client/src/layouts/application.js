@@ -200,7 +200,7 @@ class BetaApplication extends PureComponent {
               <a
                 style={{color: "blue"}}
                 href="http://utterzone.boards.net/"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 target="_blank">
                 forums
               </a>
@@ -469,11 +469,9 @@ export default compose(
       }
       // Add beta user to sendinblue (applications so we can send out emails)
 
-      /* const signupResult = await props.submit(values) */
-      /* console.log("signupResult: ", signupResult) */
       const submit = async () => {
-        const loginResult = await props.client.query({
-          query: BETA_SIGNUP,
+        const betaResult = await props.client.mutate({
+          mutation: BETA_SIGNUP,
           variables: {
             ageGroup: values.age,
             country: values.country,
@@ -490,23 +488,18 @@ export default compose(
             whyLearning: values.whyLearning
           }
         })
-        console.log("loginResult: ", loginResult)
+        console.log("betaResult: ", betaResult)
 
-        /*   session.user = loginResult.data.getUserByToken */
-
-        /*   props.history.push("/a/confirm-email", { */
-        /*     announcement: "Please check your email to confirm your address." */
-        /*   }) */
-        /* } */
-        /* // if signup info is legit */
-        /* if (typeof signupResult !== "object") { */
-        /*   cookies._uid = signupResult */
-        /*   onComplete() */
-        /* } else { */
-        /*   // if signup info is not legit */
-        /*   setErrors(signupResult) */
+        if (betaResult.data.betaSignup) {
+          props.history.push("/a/confirm-email", {
+            announcement:
+              "thank you for submitting your application.  we will continue correspondence through email."
+          })
+        }
+        setErrors(betaResult.errors)
       }
-      console.log("submit: ", submit)
+      const result = await submit(values)
+      console.log("submit", result)
     }
   })
 )(BetaApplication)

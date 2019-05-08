@@ -31,7 +31,10 @@ class Members extends PureComponent {
           {this.props.usersList.map((user, i) => [
             <Grid item key={i} xs={12} sm={2} lg={1}>
               <Paper className={classes.paper}>
-                <a href="/pak11273" target="_blank">
+                <a
+                  href="/pak11273"
+                  rel="nofollow noopener noreferrer"
+                  target="_blank">
                   <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
                 </a>
                 <MemberModal username={user} />

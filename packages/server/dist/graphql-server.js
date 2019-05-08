@@ -35,6 +35,8 @@ var _authHasRights = require("./directives/auth/auth-has-rights.js");
 
 var _appResolvers = require("./api/app/app-resolvers.js");
 
+var _betaTesterResolvers = require("./api/beta/beta-tester-resolvers.js");
+
 var _courseResolvers = require("./api/course/course-resolvers.js");
 
 var _levelResolvers = require("./api/level/level-resolvers.js");
@@ -52,6 +54,8 @@ var _vocabularyResolvers = require("./api/vocabulary/vocabulary-resolvers.js");
 var _zoneResolvers = require("./api/zone/zone-resolvers.js");
 
 var appSchema = _path.default.join(__dirname, "./api/app/app.graphql");
+
+var betaTesterSchema = _path.default.join(__dirname, "./api/beta/beta-tester.graphql");
 
 var courseSchema = _path.default.join(__dirname, "./api/course/course.graphql");
 
@@ -73,6 +77,8 @@ var zoneSchema = _path.default.join(__dirname, "./api/zone/zone.graphql");
 
 var appTypeDefs = _fs.default.readFileSync(appSchema, "utf8");
 
+var betaTesterTypeDefs = _fs.default.readFileSync(betaTesterSchema, "utf8");
+
 var courseTypeDefs = _fs.default.readFileSync(courseSchema, "utf8");
 
 var levelTypeDefs = _fs.default.readFileSync(levelSchema, "utf8");
@@ -93,14 +99,14 @@ var zoneTypeDefs = _fs.default.readFileSync(zoneSchema, "utf8");
 
 var baseSchema = "\n  schema {\n    query: Query,\n    mutation: Mutation\n  }\n";
 var schema = (0, _apolloServer.makeExecutableSchema)({
-  typeDefs: [baseSchema, userTypeDefs, courseTypeDefs, levelTypeDefs, postTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
+  typeDefs: [baseSchema, betaTesterTypeDefs, userTypeDefs, courseTypeDefs, levelTypeDefs, postTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
   schemaDirectives: {
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.AuthDirective,
     hasRights: _authHasRights.hasRightsDirective
   },
-  resolvers: (0, _merge.default)({}, _userResolvers.userResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _postResolvers.postResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
+  resolvers: (0, _merge.default)({}, _betaTesterResolvers.betaTesterResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _postResolvers.postResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _userResolvers.userResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
 });
 var ObjectId = _mongoose.default.Types.ObjectId;
 

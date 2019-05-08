@@ -5,29 +5,18 @@ import {
   duplicateEmail,
   duplicateUsername
 } from "../shared/error-messages.js"
-import {createEmailConfirmLink} from "../../utils/create-confirmation-email-link.js"
 import {confirmEmailPrefix} from "../../constants"
 import {formatYupError} from "../../utils/format-yup-error.js"
-import {
-  sendContactEmail,
-  sendConfirmEmail,
-  sendForgotPasswordEmail
-} from "../../mail/mail"
+import {sendContactEmail, sendForgotPasswordEmail} from "../../mail/mail"
 import {userByToken} from "../shared/resolver-functions.js"
 
 import {signupSchema} from "@utterzone/common"
+import BetaTester from "../beta/beta-tester-model.js"
 
-const betaSignup = async (_, args, {redis, url}, info) => {
-  console.log("args: ", args)
+const betaSignup = async (_, {input}, {redis, url}, info) => {
   try {
-    const betaTester = new BetaTester()
+    const betaTester = new BetaTester(input)
     await betaTester.save()
-
-    /* const link = await sendConfirmEmail( */
-    /*   newUser.email, */
-    /*   await createEmailConfirmLink(url, newUser._id, redis) */
-    /* ) */
-
     if (betaTester) return true
     return false
   } catch (err) {
@@ -35,7 +24,7 @@ const betaSignup = async (_, args, {redis, url}, info) => {
   }
 }
 
-export const userResolvers = {
+export const betaTesterResolvers = {
   Query: {},
 
   Mutation: {

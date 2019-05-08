@@ -49,7 +49,7 @@ const styles = theme => ({
 class BetaAccess extends Component {
   state = {
     confirmation:
-      "Enter your access code. Once your code has been verified you will then be able to sign up."
+      "Enter your beta key. Once your key has been verified you will then be able to sign up."
   }
 
   componentDidMount = async () => {
@@ -107,7 +107,7 @@ class BetaAccess extends Component {
                   <Flex flexdirection="row" justifycontent="center">
                     <TextField
                       id="outlined-name"
-                      label="Enter code"
+                      label="Enter key"
                       onChange={props.handleChange}
                       value={props.values.name}
                       className={classes.textField}

@@ -10,7 +10,10 @@ export default () => (
     </p>
     <h6>Privacy and Copyright Protection</h6>
     <p>
-      <a href="/privacy-policy" target="_blank">
+      <a
+        href="/privacy-policy"
+        rel="nofollow noopener noreferrer"
+        target="_blank">
         Utterzone’s privacy policies
       </a>{" "}
       explain how we treat your personal data and protect your privacy when you

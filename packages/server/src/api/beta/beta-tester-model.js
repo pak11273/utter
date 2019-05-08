@@ -26,8 +26,7 @@ export const BetaTesterSchema = new mongoose.Schema(
       type: String
     },
     gender: {
-      type: String,
-      enum: ["male", "female"]
+      type: String
     },
     howLongLearning: String,
     lastName: {

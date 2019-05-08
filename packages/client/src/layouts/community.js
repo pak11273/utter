@@ -12,6 +12,7 @@ const styles = theme => ({
   },
   link: {
     color: "red",
+    visited: "yellow",
     fontSize: theme.spacing.unit * 4
   },
   text: {
@@ -75,7 +76,8 @@ class About extends Component {
             <a
               className={classes.link}
               href="http://utterzone.boards.net"
-              target="_blannk">
+              rel="noopener noreferrer"
+              target="_blank">
               Go the Forums!
             </a>
           </Section>

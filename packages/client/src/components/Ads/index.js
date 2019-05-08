@@ -1,10 +1,10 @@
-import React, {Component} from "react"
+import React from "react"
 import styled from "styled-components"
 
-import {Img, Text} from "../../components"
+import {Img, Text} from ".."
 
 // ad rotator
-import {ad} from "../../services/index.js"
+/* import {ad} from "../../services/index.js" */
 
 const StyledAd = styled.div`
   align-items: ${props => props.alignitems};
@@ -22,14 +22,14 @@ StyledAd.defaultProps = {
   padding: "40px"
 }
 
-function Ad(props) {
-  const today = ad.today()
+function Ad() {
+  /* const today = ad.today() */
   return (
     <StyledAd>
       <Text fontsize="1.4rem" textalign="center" padding="10px 10px 30px 10px">
         {" "}
       </Text>
-      <a rel="external" target="_blank">
+      <a rel="nofollow noopener noreferrer" target="_blank">
         <Img width="400" height="300" />
       </a>
       <br />

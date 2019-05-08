@@ -29,14 +29,12 @@ export const BETA_SIGNUP = gql`
         gender: $gender
         howLongLearning: $howLongLearning
         lastName: $lastName
-        languagesFluent: $languageFluent
+        languagesFluent: $languagesFluent
         linkedIn: $linkedIn
         nativeLang: $nativeLang
         whyLearning: $whyLearning
       }
-    ) {
-      Boolean
-    }
+    )
   }
 `
 

@@ -207,7 +207,7 @@ class Home extends Component {
               </p>
               <Button size="medium" variant="outlined">
                 <a
-                  rel="noopener noreferrer"
+                  rel="nofollow noopener noreferrer"
                   href="https://medium.com/speak-a-language"
                   target="_blank">
                   Articles

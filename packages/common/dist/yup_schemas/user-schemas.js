@@ -5,7 +5,7 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.betaSignupSchema = exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = void 0;
+exports.betaSignupSchema = exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.maxChars = exports.minChars = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = void 0;
 
 var yup = _interopRequireWildcard(require("yup"));
 
@@ -16,6 +16,10 @@ var emailNotLongEnough = "email must be at least 3 characters";
 exports.emailNotLongEnough = emailNotLongEnough;
 var passwordNotLongEnough = "password must be at least 8 characters";
 exports.passwordNotLongEnough = passwordNotLongEnough;
+var minChars = "Must be a minimum of 3 characters";
+exports.minChars = minChars;
+var maxChars = "Cannot exceed 255 characters";
+exports.maxChars = maxChars;
 var PasswordValidation = yup.string().min(8, passwordNotLongEnough).max(255).matches(/[a-z]/, "One lowercase character is required.").matches(/[A-Z]/, "One uppercase character is required.").matches(/[a-zA-Z]+[^a-zA-Z\s]+/, "A number or special char (@,!,#, etc) is required.").required("Password is required");
 exports.PasswordValidation = PasswordValidation;
 var changePasswordSchema = yup.object().shape({
@@ -37,7 +41,13 @@ var signupSchema = yup.object().shape({
 exports.signupSchema = signupSchema;
 var betaSignupSchema = yup.object().shape({
   email: yup.string().min(3, emailNotLongEnough).max(255).email(invalidEmail).required("Email is required"),
-  firstName: yup.string().min(1).max(255).required("A first name is required"),
-  lastName: yup.string().min(1).max(255).required("A last name is required")
+  firstName: yup.string().min(1, "minimum of one character").max(255, maxChars).required("A first name is required"),
+  lastName: yup.string().min(1, "minimum of one character").max(255, maxChars).required("A last name is required"),
+  linkedIn: yup.string().max(255, maxChars),
+  whyLearning: yup.string().max(1400, "maximum of 1400 characters"),
+  nativeLang: yup.string().max(255, maxChars),
+  currentlyLearning: yup.string().max(255, maxChars),
+  howLongLearning: yup.string().max(255, maxChars),
+  dayLearningHrs: yup.string().max(255, maxChars)
 });
 exports.betaSignupSchema = betaSignupSchema;
