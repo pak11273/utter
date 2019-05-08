@@ -7,7 +7,7 @@ const requireBeta = WrappedComponent => {
       const isAuthenticated = cookies._uid
       if (!isAuthenticated) {
         this.props.history.push("/login", {
-          notification: "Please login to access this page.",
+          notification: "This page requires a beta key",
           type: "warn"
         })
       }

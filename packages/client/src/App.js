@@ -12,8 +12,8 @@ import {HelmetProvider} from "react-helmet-async"
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
 import Grid from "@material-ui/core/Grid"
-import blue from "@material-ui/core/colors/blue"
-import yellow from "@material-ui/core/colors/yellow"
+import cyan from "@material-ui/core/colors/cyan"
+import blueGrey from "@material-ui/core/colors/blueGrey"
 import red from "@material-ui/core/colors/red"
 
 import {ApolloInstance} from "./apollo.js"
@@ -41,8 +41,8 @@ const theme = createMuiTheme({
     useNextVariants: true
   },
   palette: {
-    primary: yellow,
-    secondary: blue,
+    primary: cyan,
+    secondary: blueGrey,
     error: red
   },
   status: {

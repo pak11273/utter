@@ -1,4 +1,5 @@
 import React, {Component} from "react"
+import Button from "@material-ui/core/Button"
 import {Helmet} from "react-helmet-async"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
@@ -11,9 +12,7 @@ const styles = theme => ({
     height: "100%"
   },
   link: {
-    color: "red",
-    visited: "yellow",
-    fontSize: theme.spacing.unit * 4
+    fontSize: theme.spacing.unit * 3
   },
   text: {
     color: "white"
@@ -74,11 +73,12 @@ class About extends Component {
               and just talk about language learning in general.
             </Typography>
             <a
-              className={classes.link}
-              href="http://utterzone.boards.net"
               rel="noopener noreferrer"
-              target="_blank">
-              Go the Forums!
+              target="_blank"
+              href="http://utterzone.boards.net">
+              <Button className={classes.link} color="primary">
+                Check out the Forum
+              </Button>
             </a>
           </Section>
           <Footer />
