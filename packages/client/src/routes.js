@@ -1,7 +1,8 @@
 import Loading from "./components/loaders/layout-loader.js"
 import Loadable from "react-loadable"
 import requireAuth from "./utils/requireAuth.js"
-import noAuth from "./utils/noAuth.js"
+import requireBeta from "./utils/requireBeta.js"
+/* import noAuth from "./utils/noAuth.js" */
 
 const getAbout = Loadable({
   loader: () => import(/* webpackChunkName: 'about' */ "./layouts/about"),
@@ -43,6 +44,12 @@ const getAnnouncement = Loadable({
 const getApplication = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'application' */ "./layouts/application"),
+  loading: Loading,
+  delay: 200
+})
+
+const getBeta = Loadable({
+  loader: () => import(/* webpackChunkName: 'beta' */ "./layouts/beta-access"),
   loading: Loading,
   delay: 200
 })
@@ -240,6 +247,11 @@ export const routes = [
   },
   {
     exact: true,
+    path: "/beta-access",
+    component: getBeta
+  },
+  {
+    exact: true,
     path: "/change-password/:token",
     component: getChangePassword
   },
@@ -326,7 +338,9 @@ export const routes = [
     ]
   },
   {
-    component: noAuth(getSignup),
+    // TODO: remove when launching with stripe
+    /* component: noAuth(getSignup), */
+    component: requireBeta(getSignup),
     exact: true,
     path: "/signup"
   },

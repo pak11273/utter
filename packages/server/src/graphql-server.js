@@ -16,6 +16,7 @@ import {hasRightsDirective} from "./directives/auth/auth-has-rights.js"
 
 // schema imports
 const appSchema = path.join(__dirname, "./api/app/app.graphql")
+const betaTesterSchema = path.join(__dirname, "./api/beta/beta-tester.graphql")
 const courseSchema = path.join(__dirname, "./api/course/course.graphql")
 const levelSchema = path.join(__dirname, "./api/level/level.graphql")
 const postSchema = path.join(__dirname, "./api/post/post.graphql")
@@ -31,6 +32,7 @@ const zoneSchema = path.join(__dirname, "./api/zone/zone.graphql")
 
 // type defs
 const appTypeDefs = fs.readFileSync(appSchema, "utf8")
+const betaTesterTypeDefs = fs.readFileSync(betaTesterSchema, "utf8")
 const courseTypeDefs = fs.readFileSync(courseSchema, "utf8")
 const levelTypeDefs = fs.readFileSync(levelSchema, "utf8")
 const postTypeDefs = fs.readFileSync(postSchema, "utf8")
@@ -43,6 +45,7 @@ const zoneTypeDefs = fs.readFileSync(zoneSchema, "utf8")
 
 // resolver imports
 import {appResolvers} from "./api/app/app-resolvers.js"
+import {betaTesterResolvers} from "./api/beta/beta-tester-resolvers.js"
 import {courseResolvers} from "./api/course/course-resolvers.js"
 import {levelResolvers} from "./api/level/level-resolvers.js"
 import {postResolvers} from "./api/post/post-resolvers.js"
@@ -62,6 +65,7 @@ const baseSchema = `
 const schema = makeExecutableSchema({
   typeDefs: [
     baseSchema,
+    betaTesterTypeDefs,
     userTypeDefs,
     courseTypeDefs,
     levelTypeDefs,
@@ -80,12 +84,13 @@ const schema = makeExecutableSchema({
   },
   resolvers: merge(
     {},
-    userResolvers,
+    betaTesterResolvers,
     courseResolvers,
     levelResolvers,
     postResolvers,
     termResolvers,
     testResolvers,
+    userResolvers,
     vocabularyResolvers,
     zoneResolvers
   )

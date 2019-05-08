@@ -1,0 +1,40 @@
+input BetaTesterSignupInput {
+  ageGroup: String
+  chosen: Boolean
+  country: String
+  currentlyLearning: String
+  dayLearningHrs: String
+  email: String 
+  firstName: String
+  gender: String
+  howLongLearning: String
+  lastName: String
+  languagesFluent: String
+  linkedIn: String
+  nativeLang: String
+  whyLearning: String
+}
+
+type BetaTester {
+	_id: ID
+  ageGroup: String
+  chosen: Boolean
+  country: String
+  currentlyLearning: String
+  dayLearningHrs: String
+  email: String 
+  firstName: String
+  gender: String
+  howLongLearning: String
+  lastName: String
+  languagesFluent: String
+  linkedIn: String
+  nativeLang: String
+  whyLearning: String
+  createdAt: String
+  updatedAt: String
+}
+
+extend type Mutation {
+  betaSignup(input: BetaTesterSignupInput!): BetaTester
+}

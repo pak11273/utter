@@ -122,7 +122,6 @@ const CoursesContainer = props => {
         </div>
         {/* End hero unit */}
         <Grid>
-          {console.log("status: ", props.status)}
           <CoursesGrid search={props.status && props.status.search} />
         </Grid>
       </main>

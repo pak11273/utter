@@ -1,5 +1,45 @@
 import gql from "graphql-tag"
 
+export const BETA_SIGNUP = gql`
+  mutation betaSignup(
+    $ageGroup: String
+    $chosen: Boolean
+    $country: String
+    $currentlyLearning: String
+    $dayLearningHrs: String
+    $email: String
+    $firstName: String
+    $gender: String
+    $howLongLearning: String
+    $lastName: String
+    $languagesFluent: String
+    $linkedIn: String
+    $nativeLang: String
+    $whyLearning: String
+  ) {
+    betaSignup(
+      input: {
+        ageGroup: $ageGroup
+        chosen: $chosen
+        country: $country
+        currentlyLearning: $currentlyLearning
+        dayLearningHrs: $dayLearningHrs
+        email: $email
+        firstName: $firstName
+        gender: $gender
+        howLongLearning: $howLongLearning
+        lastName: $lastName
+        languagesFluent: $languageFluent
+        linkedIn: $linkedIn
+        nativeLang: $nativeLang
+        whyLearning: $whyLearning
+      }
+    ) {
+      Boolean
+    }
+  }
+`
+
 export const REMOVE_SUBSCRIPTION = gql`
   mutation removeSubscription($subscribedCourse: String) {
     removeSubscription(subscribedCourse: $subscribedCourse) {

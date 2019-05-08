@@ -23,7 +23,6 @@ import {styles} from "./styles.js"
 class SignupForm extends PureComponent {
   state = {
     agreementChecked: false,
-    isSubmitting: this.props.isSubmitting
   }
 
   agreeTerms = () => {

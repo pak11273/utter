@@ -120,6 +120,12 @@ class MainNavbar extends Component {
     this.handleMobileMenuClose()
   }
 
+  handleBeta = () => {
+    this.setState({anchorEl: null})
+    this.props.history.push("/beta-access")
+    this.handleMobileMenuClose()
+  }
+
   handleProfile = () => {
     this.setState({anchorEl: null})
     this.props.history.push(`/profile/${session.user.username}`)
@@ -275,8 +281,12 @@ class MainNavbar extends Component {
         transformOrigin={{vertical: "top", horizontal: "right"}}
         open={isMenuOpen}
         onClose={this.handleMenuClose}>
-        {!isAuthenticated ? (
+        {/* TODO: reinstate after beta */}
+        {/*  {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem>
+        ) : null} */}
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.handleBeta}>Beta</MenuItem>
         ) : null}
         {!isAuthenticated ? (
           <MenuItem onClick={this.login}>Login</MenuItem>
@@ -325,12 +335,21 @@ class MainNavbar extends Component {
           </IconButton>
           <p className={classes.noMargin}>Account</p>
         </MenuItem>
-        {!isAuthenticated ? (
+        {/* TODO: reinstate after beta */}
+        {/*   {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>
             <IconButton color="inherit">
               <AssignmentIcon />
             </IconButton>
             <p className={classes.noMargin}>Sign Up</p>
+          </MenuItem>
+        ) : null} */}
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.handleBeta}>
+            <IconButton color="inherit">
+              <AssignmentIcon />
+            </IconButton>
+            <p className={classes.noMargin}>Beta</p>
           </MenuItem>
         ) : null}
         {!isAuthenticated ? (

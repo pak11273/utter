@@ -53,3 +53,22 @@ export const signupSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Passwords do not match")
     .required("Password confirmation is required")
 })
+
+export const betaSignupSchema = yup.object().shape({
+  email: yup
+    .string()
+    .min(3, emailNotLongEnough)
+    .max(255)
+    .email(invalidEmail)
+    .required("Email is required"),
+  firstName: yup
+    .string()
+    .min(1)
+    .max(255)
+    .required("A first name is required"),
+  lastName: yup
+    .string()
+    .min(1)
+    .max(255)
+    .required("A last name is required")
+})

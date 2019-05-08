@@ -8,38 +8,24 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import cloneDeep from "lodash/cloneDeep"
-import {cookies, session} from "brownies"
+/* import {cookies, session} from "brownies" */
+/* import {cookies} from "brownies" */
 
-import {signupSchema} from "@utterzone/common"
+import {betaSignupSchema} from "@utterzone/common"
 import {
   FormikInput,
+  FormikSelect,
   FormikTextArea,
   LoadingButton,
   Section
 } from "../components"
 /* import visitingImg from "../../assets/images/walking-around.jpg" */
-import gql from "graphql-tag"
+/* import gql from "graphql-tag" */
+import {BETA_SIGNUP} from "../graphql/mutations/user-mutations.js"
 
-const NEW_SIGNUP = gql`
-  query getUserByToken($token: String!) {
-    getUserByToken(token: $token) {
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      _id
-      roles
-      rights
-      username
-    }
-  }
-`
 const styles = () => ({
-  agreement: {
-    display: "flex",
-    justifyContent: "flex-end"
+  bottom: {
+    marginBottom: "30px"
   },
   button: {
     right: "0px",
@@ -57,40 +43,41 @@ const styles = () => ({
   formContainer: {
     margin: "0 auto",
     position: "relative",
-    width: "260px"
+    width: "500px"
   },
   leftSide: {
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "center"
+    flexDirection: "column"
+  },
+  required: {
+    color: "red",
+    fontSize: ".6em"
   },
   section: {
     justifyContent: "center",
     margin: "50px auto 100px",
     maxWidth: 1240
+  },
+  top: {
+    marginTop: "30px"
   }
 })
 
-const initialState = {
-  agreementChecked: false
-}
+class BetaApplication extends PureComponent {
+  state = {
+    age: "",
+    gender: "",
+    languagesFluent: ""
+  }
 
-class SignupForm extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = cloneDeep(initialState)
+  componentDidMount = () => {}
+
+  handleChange = event => {
+    this.setState({[event.target.name]: event.target.value})
   }
 
   render() {
-    const {
-      classes,
-      /* errors, */
-      /* handleBlur, */
-      handleSubmit
-      /* Message, */
-      /* touched */
-      /* values */
-    } = this.props
+    const {classes, handleSubmit} = this.props
 
     return (
       <Section className={classes.section}>
@@ -103,21 +90,10 @@ class SignupForm extends PureComponent {
           <meta name="description" content="Affordable language learning" />
           <meta name="author" content="Isaac Pak" />
           <title>Utterzone | Sign Up</title>
-          <link rel="canonical" href="https://utter.zone/signup" />
+          <link rel="canonical" href="https://utterzone.com/application" />
         </Helmet>
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            sm={12}
-            md={6}
-            align="center"
-            className={classes.leftSide}>
-            {/*      <Img
-              alt="Join our Community"
-              margin="0 0 40px 0"
-              src={`${visitingImg}`}
-            /> */}
+          <Grid item xs={12} sm={12} md={6} className={classes.leftSide}>
             <Typography
               align="center"
               variant="h4"
@@ -127,7 +103,6 @@ class SignupForm extends PureComponent {
               What to expect
             </Typography>
             <Typography
-              align="center"
               variant="h6"
               color="inherit"
               gutterBottom
@@ -137,7 +112,6 @@ class SignupForm extends PureComponent {
               learners practice speaking their target language.
             </Typography>
             <Typography
-              align="center"
               variant="h6"
               color="inherit"
               gutterBottom
@@ -156,7 +130,6 @@ class SignupForm extends PureComponent {
               Increase your chances
             </Typography>
             <Typography
-              align="center"
               variant="h6"
               color="inherit"
               gutterBottom
@@ -164,7 +137,7 @@ class SignupForm extends PureComponent {
               This first beta is limited to only 100 users. We are looking for
               serious language learners who will be putting the time into
               testing our platform to aid in their language learning journey.
-              You have an increased chance of a beta spot if we see you are
+              You have an increased chance at a beta spot if we see you are
               genuine and want to test out something new. We want a reasonable
               amount of time spent on our platform for positive test results.
             </Typography>
@@ -177,13 +150,60 @@ class SignupForm extends PureComponent {
               What we are not
             </Typography>
             <Typography
-              align="center"
               variant="h6"
               color="inherit"
               gutterBottom
               style={{margin: "0 0 50px 0"}}>
               This is not a &quot;one stop&quot; language learning platform. We
-              are exclusively focusing on one aspect of language learning.
+              are emphasizing our focus on helping people practice their
+              speaking. Our goal is not making one an expert in a new language.
+              Rather we would like to see people be able to have a normal
+              conversation with a new language. Meet new people, make new
+              friends.
+            </Typography>
+            <Typography
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              We are hoping to start beta mid June. Once we have all the beta
+              testers picked we will be sending out emails prior launch. The
+              emails will contain your beta test code that will allow you to
+              sign up. Once registed you may begin to use the platform.
+            </Typography>
+            <Typography
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              This is not a dating platform. There are plans in the future to
+              create some areas for this but for now we would ask that use the
+              plethora of apps that already provide this.
+            </Typography>
+            <Typography
+              align="center"
+              variant="h4"
+              color="inherit"
+              gutterBottom
+              noWrap>
+              Application deadline - June 1
+            </Typography>
+            <Typography
+              variant="h6"
+              color="inherit"
+              gutterBottom
+              style={{margin: "0 0 50px 0"}}>
+              If you are not chosen for beta all is not lost. You will receive
+              emails which will inform you of any openings and when round 2 will
+              start. So please stay tuned. In the meantime, you can ask
+              questions or discuss with fellow learners on the{" "}
+              <a
+                style={{color: "blue"}}
+                href="http://utterzone.boards.net/"
+                rel="noopener noreferrer"
+                target="_blank">
+                forums
+              </a>
             </Typography>
             <Typography
               align="center"
@@ -202,33 +222,113 @@ class SignupForm extends PureComponent {
                     Beta Application
                   </Typography>
                   <Typography component="p" color="inherit" noWrap>
-                    First Name
+                    First Name{" "}
+                    <span className={classes.required}>required</span>
                   </Typography>
                   <Field
-                    name="username"
-                    placeholder="firstname"
+                    name="firstName"
+                    placeholder="first name"
+                    component={FormikInput}
+                  />
+                  <Typography
+                    className={classes.top}
+                    component="p"
+                    color="inherit"
+                    noWrap>
+                    Last Name <span className={classes.required}>required</span>
+                  </Typography>
+                  <Field
+                    name="lastName"
+                    placeholder="last name"
+                    component={FormikInput}
+                  />
+                  <Typography
+                    className={classes.top}
+                    component="p"
+                    color="inherit"
+                    noWrap>
+                    Gender
+                  </Typography>
+
+                  <Field
+                    {...this.props}
+                    name="gender"
+                    type="text"
+                    component={FormikSelect}
+                    options={[
+                      {label: "male", value: "male"},
+                      {label: "female", value: "female"}
+                    ]}
+                  />
+
+                  {/* <FormControl className={classes.margin}>
+                    <Select
+                      name="gender"
+                      value={this.state.gender}
+                      className={classes.bottom}
+                      onChange={this.handleChange}
+                      input={
+                        <BootstrapInput
+                          name="gender"
+                          id="age-customized-select"
+                        />
+                      }>
+                      <MenuItem value="male">male</MenuItem>
+                      <MenuItem value="female">female</MenuItem>
+                    </Select>
+                  </FormControl> */}
+
+                  <Typography
+                    className={classes.top}
+                    component="p"
+                    color="inherit"
+                    noWrap>
+                    Age Group
+                  </Typography>
+                  <Field
+                    {...this.props}
+                    name="ageGroup"
+                    type="text"
+                    component={FormikSelect}
+                    options={[
+                      {label: "under10", value: "under 10"},
+                      {label: "under20", value: "under 20"},
+                      {label: "under30", value: "under 30"},
+                      {label: "under40", value: "under 40"},
+                      {label: "over40", value: "over 40"}
+                    ]}
+                  />
+
+                  <Typography
+                    className={classes.top}
+                    component="p"
+                    color="inherit"
+                    noWrap>
+                    linkedIn profile
+                  </Typography>
+                  <Field
+                    className={classes.bottom}
+                    name="linkedIn"
+                    placeholder="linkedIn"
                     component={FormikInput}
                   />
                   <Typography component="p" color="inherit" noWrap>
-                    Last Name
-                  </Typography>
-                  <Field
-                    name="username"
-                    placeholder="lastname"
-                    component={FormikInput}
-                  />
-                  <Typography component="p" color="inherit" noWrap>
-                    email
+                    email <span className={classes.required}>required</span>
                   </Typography>
                   <Field
                     name="email"
                     placeholder="email"
                     component={FormikInput}
                   />
-                  <Typography component="p" color="inherit" noWrap>
+                  <Typography
+                    className={classes.top}
+                    component="p"
+                    color="inherit"
+                    noWrap>
                     What country do you live in?
                   </Typography>
                   <Field
+                    className={classes.bottom}
                     name="country"
                     placeholder="country"
                     component={FormikInput}
@@ -236,27 +336,69 @@ class SignupForm extends PureComponent {
                   <Typography component="p" color="inherit" noWrap>
                     Why are you learning a new language?
                   </Typography>
-                  <Field name="why" component={FormikTextArea} />
+                  <Field
+                    className={classes.bottom}
+                    name="whyLearning"
+                    component={FormikTextArea}
+                  />
                   <Typography component="p" color="inherit" noWrap>
                     What is your native tongue?
                   </Typography>
                   <Field
+                    className={classes.bottom}
                     name="nativeLang"
-                    placeholder="nativeLang"
+                    placeholder="example: English"
+                    component={FormikInput}
+                  />
+                  <Typography component="p" color="inherit">
+                    Not including your native tongue, how many languages can you
+                    currently speak fluently?
+                  </Typography>
+
+                  <Field
+                    {...this.props}
+                    name="languagesFluent"
+                    type="text"
+                    component={FormikSelect}
+                    options={[
+                      {label: "One", value: "One"},
+                      {label: "Two", value: "Two"},
+                      {label: "Three", value: "Three"},
+                      {label: "Four", value: "Four"},
+                      {label: "Five or more", value: "Five or more"}
+                    ]}
+                  />
+
+                  <Typography
+                    className={classes.top}
+                    component="p"
+                    color="inherit">
+                    What languages are you currently trying to learn?
+                  </Typography>
+                  <Field
+                    className={classes.bottom}
+                    name="currentlyLearning"
+                    component={FormikTextArea}
+                  />
+                  <Typography component="p" color="inherit" noWrap>
+                    How long have you been actively learning your current target
+                    language?
+                  </Typography>
+                  <Field
+                    className={classes.bottom}
+                    name="howLongLearning"
+                    placeholder="example: 1 yr"
                     component={FormikInput}
                   />
                   <Typography component="p" color="inherit" noWrap>
-                    How many languages can you currently speak fluently?
-                  </Typography>
-                  <Typography component="p" color="inherit" noWrap>
-                    What language are you currently trying to learn?
-                  </Typography>
-                  <Typography component="p" color="inherit" noWrap>
-                    How long have you been actively learning this language?
-                  </Typography>
-                  <Typography component="p" color="inherit" noWrap>
                     How many hours do you spend a day learning a new language?
                   </Typography>
+                  <Field
+                    className={classes.bottom}
+                    name="dayLearningHrs"
+                    placeholder="example: 1 hr"
+                    component={FormikInput}
+                  />
                 </div>
                 <LoadingButton
                   floated="right"
@@ -282,40 +424,80 @@ export default compose(
   withRouter,
   withStyles(styles),
   withFormik({
-    validationSchema: signupSchema,
+    validationSchema: betaSignupSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      username: "",
+      ageGroup: "",
+      country: "",
+      currentlyLearning: "",
+      dayLearningHrs: "",
       email: "",
-      password: "",
-      "password confirmation": "",
-      timezone: ""
+      firstName: "",
+      gender: "",
+      howLongLearning: "",
+      lastName: "",
+      languagesFluent: "",
+      linkedIn: "",
+      nativeLang: "",
+      whyLearning: ""
     }),
     handleSubmit: async (values, {props, setErrors}) => {
+      console.log("values: ", values)
+      console.log("props: ", props)
+      console.log("setErrors: ", setErrors)
+      /* const info = {email: "john@doe.com"} */
+
+      // Add beta user to sendinblue (applications so we can send out emails)
+      /* const res = await fetch("https://api.sendinblue.com/v3/contacts", { */
+      /*   method: "POST", // or 'PUT' */
+      /*   body: JSON.stringify(info), // data can be `string` or {object}! */
+      /*   headers: { */
+      /*     "Content-Type": "application/json", */
+      /*     "api-key": process.env.SEND_IN_BLUE_API_KEY */
+      /*   } */
+      /* }) */
+
+      /* console.log("response: ", JSON.stringify(res)) */
+
       const signupResult = await props.submit(values)
+      console.log("signupResult: ", signupResult)
       const onComplete = async () => {
         const loginResult = await props.client.query({
-          query: NEW_SIGNUP,
+          query: BETA_SIGNUP,
           variables: {
-            token: cookies._uid
+            ageGroup: values.age,
+            country: values.country,
+            currentlyLearning: values.currentlyLearning,
+            dayLearningHrs: values.dayLearningHrs,
+            email: values.email,
+            firstName: values.firstName,
+            gender: values.gender,
+            howLongLearning: values.howLongLearning,
+            lastName: values.lastName,
+            languagesFluent: values.languagesFluent,
+            linkedIn: values.linkedIn,
+            nativeLang: values.nativeLang,
+            whyLearning: values.whyLearning
           }
         })
+        console.log("loginResult: ", loginResult)
 
-        session.user = loginResult.data.getUserByToken
+        /*   session.user = loginResult.data.getUserByToken */
 
-        props.history.push("/a/confirm-email", {
-          announcement: "Please check your email to confirm your address."
-        })
+        /*   props.history.push("/a/confirm-email", { */
+        /*     announcement: "Please check your email to confirm your address." */
+        /*   }) */
+        /* } */
+        /* // if signup info is legit */
+        /* if (typeof signupResult !== "object") { */
+        /*   cookies._uid = signupResult */
+        /*   onComplete() */
+        /* } else { */
+        /*   // if signup info is not legit */
+        /*   setErrors(signupResult) */
       }
-      // if signup info is legit
-      if (typeof signupResult !== "object") {
-        cookies._uid = signupResult
-        onComplete()
-      } else {
-        // if signup info is not legit
-        setErrors(signupResult)
-      }
+      console.log("onComplete: ", onComplete)
     }
   })
-)(SignupForm)
+)(BetaApplication)
