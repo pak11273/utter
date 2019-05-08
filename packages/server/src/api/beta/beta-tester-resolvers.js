@@ -13,6 +13,18 @@ import {userByToken} from "../shared/resolver-functions.js"
 import {signupSchema} from "@utterzone/common"
 import BetaTester from "../beta/beta-tester-model.js"
 
+const betaAccess = async (_, {key}, {redis, url}, info) => {
+  console.log("key: ", key)
+  try {
+    if (key === process.env.BETA_KEY) {
+      return "access"
+    }
+    return "you don't have access"
+  } catch (err) {
+    throw err
+  }
+}
+
 const betaSignup = async (_, {input}, {redis, url}, info) => {
   try {
     const betaTester = new BetaTester(input)
@@ -25,7 +37,9 @@ const betaSignup = async (_, {input}, {redis, url}, info) => {
 }
 
 export const betaTesterResolvers = {
-  Query: {},
+  Query: {
+    betaAccess
+  },
 
   Mutation: {
     betaSignup

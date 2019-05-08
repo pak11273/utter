@@ -38,6 +38,12 @@ export const BETA_SIGNUP = gql`
   }
 `
 
+export const BETA_ACCESS = gql`
+  mutation betaAccess($key: String) {
+    betaAccess(key: $key)
+  }
+`
+
 export const REMOVE_SUBSCRIPTION = gql`
   mutation removeSubscription($subscribedCourse: String) {
     removeSubscription(subscribedCourse: $subscribedCourse) {

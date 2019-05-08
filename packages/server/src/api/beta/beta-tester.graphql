@@ -35,6 +35,10 @@ type BetaTester {
   updatedAt: String
 }
 
+extend type Query {
+	betaAccess(key: String): String 
+}
+
 extend type Mutation {
   betaSignup(input: BetaTesterSignupInput!): Boolean 
 }

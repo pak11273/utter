@@ -8,6 +8,10 @@ export const passwordNotLongEnough = "password must be at least 8 characters"
 export const minChars = "Must be a minimum of 3 characters"
 export const maxChars = "Cannot exceed 255 characters"
 
+export const betaAccessSchema = yup.object().shape({
+  key: yup.string().required("A beta key is required")
+})
+
 export const PasswordValidation = yup
   .string()
   .min(8, passwordNotLongEnough)

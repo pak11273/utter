@@ -5,7 +5,7 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.renewConfirmationSchema = exports.betaSignupSchema = exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.maxChars = exports.minChars = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = void 0;
+exports.renewConfirmationSchema = exports.betaSignupSchema = exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.betaAccessSchema = exports.maxChars = exports.minChars = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = void 0;
 
 var yup = _interopRequireWildcard(require("yup"));
 
@@ -20,6 +20,10 @@ var minChars = "Must be a minimum of 3 characters";
 exports.minChars = minChars;
 var maxChars = "Cannot exceed 255 characters";
 exports.maxChars = maxChars;
+var betaAccessSchema = yup.object().shape({
+  key: yup.string().required("A beta key is required")
+});
+exports.betaAccessSchema = betaAccessSchema;
 var PasswordValidation = yup.string().min(8, passwordNotLongEnough).max(255).matches(/[a-z]/, "One lowercase character is required.").matches(/[A-Z]/, "One uppercase character is required.").matches(/[a-zA-Z]+[^a-zA-Z\s]+/, "A number or special char (@,!,#, etc) is required.").required("Password is required");
 exports.PasswordValidation = PasswordValidation;
 var changePasswordSchema = yup.object().shape({

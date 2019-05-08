@@ -4,14 +4,22 @@ import React, {PureComponent} from "react"
 const requireBeta = WrappedComponent => {
   class Wrap extends PureComponent {
     componentDidMount = () => {
-      // TODO: change before sending out beta links
-      /* const isAuthenticated = cookies._uid */
-      /* if (!isAuthenticated) { */
-      /*   this.props.history.push("/login", { */
-      /*     notification: "This page requires a beta key", */
-      /*     type: "warn" */
-      /*   }) */
-      /* } */
+      console.log('notificaiton"', this.props)
+
+      var isAuthenticated = false
+      if (
+        this.props.location.state &&
+        this.props.location.state.notification === "therecanonlybeone"
+      ) {
+        isAuthenticated = true
+      }
+
+      if (!isAuthenticated) {
+        this.props.history.push("/login", {
+          notification: "This page requires a beta access",
+          type: "warn"
+        })
+      }
     }
 
     render() {

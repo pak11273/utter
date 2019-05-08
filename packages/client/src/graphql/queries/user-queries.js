@@ -1,6 +1,11 @@
 import gql from "graphql-tag"
 import {accountFragment} from "../fragments/user-fragments.js"
 
+export const BETA_ACCESS = gql`
+  query betaAccess($key: String) {
+    betaAccess(key: $key)
+  }
+`
 export const ME_QUERY = gql`
   query me {
     me {

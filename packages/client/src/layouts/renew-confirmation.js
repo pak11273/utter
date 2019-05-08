@@ -56,32 +56,7 @@ const styles = theme => ({
 class ConfirmEmail extends Component {
   state = {
     confirmation:
-      "Did you lose your confirmation email?  We can send you another one."
-  }
-
-  componentDidMount = async () => {
-    const apiUrl = process.env.API_URL
-    console.log("api: ", apiUrl)
-    console.log("props; ", this.props)
-    /* if (process.env.NODE_ENV === "production") { */
-    /*   fetch( */
-    /*     `${apiUrl}:3010/api/users/confirm/${this.props.match.params.token}` */
-    /*   ).then(async res => { */
-    /*     this.setState({ */
-    /*       confirmation: await res.text() */
-    /*     }) */
-    /*   }) */
-    /* } else { */
-    /*   fetch( */
-    /*     `http://192.168.68.8:3010/api/users/confirm/${ */
-    /*       this.props.match.params.token */
-    /*     }` */
-    /*   ).then(async res => { */
-    /*     this.setState({ */
-    /*       confirmation: await res.text() */
-    /*     }) */
-    /*   }) */
-    /* } */
+      "We need to confirm your eamil address.  Did you lose your confirmation email?  We can send you another one."
   }
 
   render() {
@@ -103,7 +78,6 @@ class ConfirmEmail extends Component {
                 })
 
                 if (result.data.errors) {
-                  console.log("cat")
                   toast.error(result.data.errors[0].message, {
                     className: "toasty",
                     bodyClassName: "toasty-body",
