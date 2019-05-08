@@ -298,7 +298,7 @@ export const routes = [
     ]
   },
   {
-    component: getCourses,
+    component: requireAuth(getCourses),
     exact: true,
     path: "/courses"
   },
@@ -380,9 +380,9 @@ export const routes = [
     path: "/zone/:id"
   },
   {
+    component: requireAuth(getZones),
     exact: true,
-    path: "/zones",
-    component: getZones
+    path: "/zones"
   }
   /* { */
   /*   path: "/reset-password", */
