@@ -20,6 +20,7 @@ import {formatYupError} from "../../utils/format-yup-error.js"
 import {
   sendContactEmail,
   sendConfirmEmail,
+  sendReConfirmEmail,
   sendForgotPasswordEmail
 } from "../../mail/mail"
 import User from "./user-model.js"
@@ -397,7 +398,6 @@ const getSubscriptions = async (_, args, {user}) => {
 }
 
 const removeSubscription = async (_, args, {req}) => {
-  console.log("input: ", args)
   let user = await User.findByIdAndUpdate(
     req.session.userId,
     {
@@ -409,22 +409,25 @@ const removeSubscription = async (_, args, {req}) => {
     .populate("levels")
     .lean()
 
-  console.log("user; ", user)
-
   return user
 }
 
-const renewConfirmation = async (_, args, {redis, url}, info) => {
-  console.log("args: ", args)
+const renewConfirmation = async (_, {email}, {redis, url}, info) => {
   try {
-    const link = await sendConfirmEmail(
-      newUser.email,
-      await createEmailConfirmLink(url, newUser._id, redis)
-    )
+    const registeredUser = await User.findOne({email: email}).exec()
 
-    if (link) return true
+    if (registeredUser) {
+      const link = await sendReConfirmEmail(
+        registeredUser.email,
+        await createEmailConfirmLink(url, registeredUser._id, redis)
+      )
+
+      if (link) return true
+    }
+
+    return false
   } catch (err) {
-    throw err
+    return err
   }
 }
 

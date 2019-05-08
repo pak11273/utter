@@ -80,3 +80,12 @@ export const betaSignupSchema = yup.object().shape({
   howLongLearning: yup.string().max(255, maxChars),
   dayLearningHrs: yup.string().max(255, maxChars)
 })
+
+export const renewConfirmationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .min(3, emailNotLongEnough)
+    .max(255)
+    .email(invalidEmail)
+    .required("Email is required")
+})

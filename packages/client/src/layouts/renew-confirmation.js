@@ -1,17 +1,27 @@
 import React, {Component} from "react"
 import {compose, withApollo} from "react-apollo"
 
-import Button from "@material-ui/core/Button"
-import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import {Formik} from "formik"
+import {Formik, Field} from "formik"
+import {toast} from "react-toastify"
+import {RENEW_CONFIRAMTION} from "../graphql/mutations/user-mutations.js"
+import {renewConfirmationSchema} from "@utterzone/common"
 
 /* import gql from "graphql-tag" */
-import {Container, Flex, Section} from "../components"
+import {
+  Container,
+  Flex,
+  FormikInput,
+  LoadingButton,
+  Section
+} from "../components"
 
 const styles = theme => ({
+  button: {
+    margin: "30px"
+  },
   root: {
     backgroundColor: "black",
     height: "100%"
@@ -82,18 +92,52 @@ class ConfirmEmail extends Component {
         <Container className={classes.root}>
           <Section className={classes.section}>
             <Formik
-              initialValues={{name: ""}}
-              onSubmit={(values, actions) => {
-                // validationSchema: ??
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2))
+              validationSchema={renewConfirmationSchema}
+              initialValues={{email: ""}}
+              onSubmit={async (values, actions) => {
+                const result = await this.props.client.mutate({
+                  mutation: RENEW_CONFIRAMTION,
+                  variables: {
+                    email: values.email
+                  }
+                })
+
+                if (result.data.errors) {
+                  console.log("cat")
+                  toast.error(result.data.errors[0].message, {
+                    className: "toasty",
+                    bodyClassName: "toasty-body",
+                    hideProgressBar: true
+                  })
                   actions.setSubmitting(false)
-                }, 1000)
-                // TODO
-                /* Your email account has been confirmed. */
+                  return
+                }
+
+                if (result.data.renewConfirmation) {
+                  setTimeout(() => {
+                    actions.setSubmitting(false)
+                    toast.success("A confirmation email has been sent.", {
+                      className: "toasty",
+                      bodyClassName: "toasty-body",
+                      hideProgressBar: true
+                    })
+                    actions.resetForm()
+                  }, 3000)
+                  return
+                }
+
+                toast.error("No email on file with that address.", {
+                  className: "toasty",
+                  bodyClassName: "toasty-body",
+                  hideProgressBar: true
+                })
+
+                setTimeout(() => {
+                  actions.setSubmitting(false)
+                }, 3000)
               }}
-              render={props => (
-                <form onSubmit={props.handleSubmit}>
+              render={({errors, handleChange, handleSubmit, isSubmitting}) => (
+                <form onSubmit={handleSubmit}>
                   <Typography
                     variant="h6"
                     align="center"
@@ -102,25 +146,23 @@ class ConfirmEmail extends Component {
                     {confirmation}
                   </Typography>
                   <Flex flexdirection="row" justifycontent="center">
-                    <TextField
-                      id="outlined-name"
-                      label="Email Address"
-                      onChange={props.handleChange}
-                      value={props.values.name}
+                    <Field
                       className={classes.textField}
-                      margin="normal"
-                      variant="outlined"
+                      name="email"
+                      onChange={handleChange}
+                      placeholder="email address"
+                      component={FormikInput}
                     />
-                    {props.errors.name && (
-                      <div id="feedback">{props.errors.name}</div>
-                    )}
-                    <Button
-                      type="submit"
-                      variant="contained"
+                    {errors.name && <div id="feedback">{errors.name}</div>}
+                    <LoadingButton
+                      loading={isSubmitting}
+                      disabled={isSubmitting}
+                      className={classes.button}
                       color="primary"
-                      className={classes.button}>
-                      Submit
-                    </Button>
+                      variant="contained"
+                      type="submit">
+                      Apply
+                    </LoadingButton>
                   </Flex>
                 </form>
               )}

@@ -68,6 +68,26 @@ export const sendConfirmEmail = async (recipient, link) => {
   return link
 }
 
+export const sendReConfirmEmail = async (recipient, link) => {
+  const data = {
+    from: process.env.APP_EMAIL,
+    to: recipient,
+    template: "reconfirmation-email",
+    subject: "Please confirm your email account",
+    context: {
+      confirmEmailUrl: link
+    }
+  }
+  transporter.sendMail(data, function(error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log("Email sent: " + info.response)
+    }
+  })
+  return link
+}
+
 export const sendForgotPasswordEmail = function(recipient, link) {
   const data = {
     from: process.env.APP_EMAIL,

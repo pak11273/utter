@@ -5,7 +5,7 @@ var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWild
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.betaSignupSchema = exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.maxChars = exports.minChars = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = void 0;
+exports.renewConfirmationSchema = exports.betaSignupSchema = exports.signupSchema = exports.loginSchema = exports.changePasswordSchema = exports.PasswordValidation = exports.maxChars = exports.minChars = exports.passwordNotLongEnough = exports.emailNotLongEnough = exports.invalidEmail = void 0;
 
 var yup = _interopRequireWildcard(require("yup"));
 
@@ -51,3 +51,7 @@ var betaSignupSchema = yup.object().shape({
   dayLearningHrs: yup.string().max(255, maxChars)
 });
 exports.betaSignupSchema = betaSignupSchema;
+var renewConfirmationSchema = yup.object().shape({
+  email: yup.string().min(3, emailNotLongEnough).max(255).email(invalidEmail).required("Email is required")
+});
+exports.renewConfirmationSchema = renewConfirmationSchema;

@@ -110,7 +110,7 @@ export default withRouter(
     handleSubmit: async (values, {props, setErrors}) => {
       values.token = props.token
       const onComplete = () => {
-        props.history.push("/")
+        props.history.push("/login")
       }
       const data = await props.submit(values)
       const errors = data.data.changePassword.error
