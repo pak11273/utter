@@ -29,51 +29,93 @@ var _common = require("@utterzone/common");
 
 var _betaTesterModel = _interopRequireDefault(require("../beta/beta-tester-model.js"));
 
-var betaSignup = function () {
+var betaAccess = function () {
   var _ref3 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee(_, _ref, _ref2, info) {
-    var input, redis, url, betaTester;
+    var key, redis, url;
     return _regenerator.default.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            input = _ref.input;
+            key = _ref.key;
             redis = _ref2.redis, url = _ref2.url;
-            _context.prev = 2;
-            betaTester = new _betaTesterModel.default(input);
-            _context.next = 6;
-            return betaTester.save();
+            console.log("key: ", key);
+            _context.prev = 3;
 
-          case 6:
-            if (!betaTester) {
-              _context.next = 8;
+            if (!(key === process.env.BETA_KEY)) {
+              _context.next = 6;
               break;
             }
 
-            return _context.abrupt("return", true);
+            return _context.abrupt("return", "access");
 
-          case 8:
-            return _context.abrupt("return", false);
+          case 6:
+            return _context.abrupt("return", "you don't have access");
 
-          case 11:
-            _context.prev = 11;
-            _context.t0 = _context["catch"](2);
+          case 9:
+            _context.prev = 9;
+            _context.t0 = _context["catch"](3);
             throw _context.t0;
 
-          case 14:
+          case 12:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[2, 11]]);
+    }, _callee, null, [[3, 9]]);
   }));
 
-  return function betaSignup(_x, _x2, _x3, _x4) {
+  return function betaAccess(_x, _x2, _x3, _x4) {
     return _ref3.apply(this, arguments);
   };
 }();
 
+var betaSignup = function () {
+  var _ref6 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee2(_, _ref4, _ref5, info) {
+    var input, redis, url, betaTester;
+    return _regenerator.default.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            input = _ref4.input;
+            redis = _ref5.redis, url = _ref5.url;
+            _context2.prev = 2;
+            betaTester = new _betaTesterModel.default(input);
+            _context2.next = 6;
+            return betaTester.save();
+
+          case 6:
+            if (!betaTester) {
+              _context2.next = 8;
+              break;
+            }
+
+            return _context2.abrupt("return", true);
+
+          case 8:
+            return _context2.abrupt("return", false);
+
+          case 11:
+            _context2.prev = 11;
+            _context2.t0 = _context2["catch"](2);
+            throw _context2.t0;
+
+          case 14:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2, null, [[2, 11]]);
+  }));
+
+  return function betaSignup(_x5, _x6, _x7, _x8) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
 var betaTesterResolvers = {
-  Query: {},
+  Query: {
+    betaAccess: betaAccess
+  },
   Mutation: {
     betaSignup: betaSignup
   }

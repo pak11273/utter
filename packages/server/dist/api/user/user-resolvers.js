@@ -490,7 +490,7 @@ var createPayMonthly = function () {
 
 var signup = function () {
   var _ref18 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee9(_, args, _ref17, info) {
-    var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, _newUser;
+    var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
 
     return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
@@ -556,20 +556,20 @@ var signup = function () {
               break;
             }
 
-            _newUser = new _userModel.default(args.input);
-            return _context9.abrupt("return", _newUser.save().then(function () {
+            newUser = new _userModel.default(args.input);
+            return _context9.abrupt("return", newUser.save().then(function () {
               var _ref19 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(result) {
                 var link;
                 return _regenerator.default.wrap(function _callee8$(_context8) {
                   while (1) {
                     switch (_context8.prev = _context8.next) {
                       case 0:
-                        token = (0, _auth.signToken)(_newUser._id);
+                        token = (0, _auth.signToken)(newUser._id);
                         result.password = null;
                         _context8.t0 = _mail.sendConfirmEmail;
-                        _context8.t1 = _newUser.email;
+                        _context8.t1 = newUser.email;
                         _context8.next = 6;
-                        return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, _newUser._id, redis);
+                        return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
 
                       case 6:
                         _context8.t2 = _context8.sent;
@@ -937,8 +937,7 @@ var removeSubscription = function () {
         switch (_context16.prev = _context16.next) {
           case 0:
             req = _ref31.req;
-            console.log("input: ", args);
-            _context16.next = 4;
+            _context16.next = 3;
             return _userModel.default.findByIdAndUpdate(req.session.userId, {
               $pull: {
                 subscriptions: {
@@ -949,12 +948,11 @@ var removeSubscription = function () {
               new: true
             }).populate("subscriptions").populate("levels").lean();
 
-          case 4:
+          case 3:
             user = _context16.sent;
-            console.log("user; ", user);
             return _context16.abrupt("return", user);
 
-          case 7:
+          case 5:
           case "end":
             return _context16.stop();
         }
@@ -968,54 +966,66 @@ var removeSubscription = function () {
 }();
 
 var renewConfirmation = function () {
-  var _ref34 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee17(_, args, _ref33, info) {
-    var redis, url, link;
+  var _ref35 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee17(_, _ref33, _ref34, info) {
+    var email, redis, url, registeredUser, link;
     return _regenerator.default.wrap(function _callee17$(_context17) {
       while (1) {
         switch (_context17.prev = _context17.next) {
           case 0:
-            redis = _ref33.redis, url = _ref33.url;
-            console.log("args: ", args);
+            email = _ref33.email;
+            redis = _ref34.redis, url = _ref34.url;
             _context17.prev = 2;
-            _context17.t0 = _mail.sendConfirmEmail;
-            _context17.t1 = newUser.email;
-            _context17.next = 7;
-            return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, newUser._id, redis);
+            _context17.next = 5;
+            return _userModel.default.findOne({
+              email: email
+            }).exec();
 
-          case 7:
+          case 5:
+            registeredUser = _context17.sent;
+
+            if (!registeredUser) {
+              _context17.next = 17;
+              break;
+            }
+
+            _context17.t0 = _mail.sendReConfirmEmail;
+            _context17.t1 = registeredUser.email;
+            _context17.next = 11;
+            return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, registeredUser._id, redis);
+
+          case 11:
             _context17.t2 = _context17.sent;
-            _context17.next = 10;
+            _context17.next = 14;
             return (0, _context17.t0)(_context17.t1, _context17.t2);
 
-          case 10:
+          case 14:
             link = _context17.sent;
 
             if (!link) {
-              _context17.next = 13;
+              _context17.next = 17;
               break;
             }
 
             return _context17.abrupt("return", true);
 
-          case 13:
-            _context17.next = 18;
-            break;
+          case 17:
+            return _context17.abrupt("return", false);
 
-          case 15:
-            _context17.prev = 15;
+          case 20:
+            _context17.prev = 20;
             _context17.t3 = _context17["catch"](2);
-            throw _context17.t3;
+            return _context17.abrupt("return", _context17.t3);
 
-          case 18:
+          case 23:
           case "end":
             return _context17.stop();
         }
       }
-    }, _callee17, null, [[2, 15]]);
+    }, _callee17, null, [[2, 20]]);
   }));
 
   return function renewConfirmation(_x55, _x56, _x57, _x58) {
-    return _ref34.apply(this, arguments);
+    return _ref35.apply(this, arguments);
   };
 }();
 
@@ -1025,8 +1035,8 @@ var userResolvers = {
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref35) {
-      var name = _ref35.name;
+    hello: function hello(_, _ref36) {
+      var name = _ref36.name;
       return "Hello ".concat(name || "World");
     },
     me: me

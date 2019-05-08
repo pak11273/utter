@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.sendForgotPasswordEmail = exports.sendConfirmEmail = exports.sendContactEmail = exports.transporter = void 0;
+exports.sendForgotPasswordEmail = exports.sendReConfirmEmail = exports.sendConfirmEmail = exports.sendContactEmail = exports.transporter = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -107,6 +107,46 @@ var sendConfirmEmail = function () {
 }();
 
 exports.sendConfirmEmail = sendConfirmEmail;
+
+var sendReConfirmEmail = function () {
+  var _ref2 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee2(recipient, link) {
+    var data;
+    return _regenerator.default.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            data = {
+              from: process.env.APP_EMAIL,
+              to: recipient,
+              template: "reconfirmation-email",
+              subject: "Please confirm your email account",
+              context: {
+                confirmEmailUrl: link
+              }
+            };
+            transporter.sendMail(data, function (error, info) {
+              if (error) {
+                console.log(error);
+              } else {
+                console.log("Email sent: " + info.response);
+              }
+            });
+            return _context2.abrupt("return", link);
+
+          case 3:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+
+  return function sendReConfirmEmail(_x3, _x4) {
+    return _ref2.apply(this, arguments);
+  };
+}();
+
+exports.sendReConfirmEmail = sendReConfirmEmail;
 
 var sendForgotPasswordEmail = function sendForgotPasswordEmail(recipient, link) {
   var data = {
