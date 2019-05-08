@@ -88,9 +88,9 @@ class LoginForm extends PureComponent {
                     type="password"
                     component={FormikInput}
                   />
-                  <div className={classes.forgot}>
+                  <Typography className={classes.forgot} color="inherit" noWrap>
                     <a href="/forgot-password"> Forgot Password? </a>
-                  </div>
+                  </Typography>
                 </div>
                 <LoadingButton
                   className={classes.button}

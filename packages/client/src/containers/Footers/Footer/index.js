@@ -100,10 +100,8 @@ const styles = theme => ({
     color: "white"
   },
   fontSecondary: {
-    /* color: "rgba(247, 247, 247, 0.41)" */
-    color: "yellow",
     "&:hover": {
-      color: "red"
+      color: theme.palette.primary.light
     }
   },
   footer: {
@@ -173,6 +171,7 @@ class Footer extends Component {
                       <Typography
                         key={link}
                         variant="subtitle1"
+                        color="primary"
                         className={classes.fontSecondary}>
                         {item}
                       </Typography>

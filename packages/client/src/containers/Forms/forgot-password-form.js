@@ -72,9 +72,13 @@ class ForgotPasswordForm extends PureComponent {
                 color="inherit"
                 gutterBottom
                 noWrap>
-                We need to confirm your account before changing your password.
+                Enter your email address below
               </Typography>
-              <Field name="email" placeholder="email" component={FormikInput} />
+              <Field
+                name="email"
+                placeholder="email address"
+                component={FormikInput}
+              />
               <Button style={{margin: "40px"}} fontSize="1.5rem" type="submit">
                 Reset Password
               </Button>
