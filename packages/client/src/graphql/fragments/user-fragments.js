@@ -10,6 +10,7 @@ export const accountFragment = gql`
     createdCourses {
       _id
     }
+    isCanceled
     rights
     roles
     subscriptions {

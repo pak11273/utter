@@ -59,8 +59,6 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   componentDidMount = async () => {
-    // TODO: interferes when someone signs up and has another tab open and then lands on the confirmed email page.
-    // delete session if user cookies is deleted
     subscribe(cookies, "_uid", value => {
       if (!value) {
         sessionDelete()
@@ -69,12 +67,14 @@ class App extends Component {
     })
 
     if (cookies._uid && !session.user) {
-      console.log("this: ", this.props)
       const user = await ApolloInstance.query({
         query: ME_QUERY
       })
       session.user = user.data.me
     }
+
+		// TODO: keep users from opening up sessions in new tabs
+    // delete session if user cookies is deleted
     /* if (!session.user) { */
     /*   // auto redirects to login */
     /*   delete cookies._uid */
