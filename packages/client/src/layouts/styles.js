@@ -48,6 +48,10 @@ export const styles = theme => ({
     fontSize: "30px",
     textAlign: "center"
   },
+  image: {
+    width: 128,
+    height: 128
+  },
   level: {
     display: "flex",
     alignItems: "center",
@@ -91,6 +95,28 @@ export const styles = theme => ({
   root: {
     margin: "0 auto",
     width: "100%"
+  },
+  section_odd: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: theme.spacing.unit * 2,
+    margin: "10px auto 50px",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column-reverse",
+      height: "480px"
+    }
+  },
+  section: {
+    flexDirection: "row",
+    justifyContent: "center",
+    padding: theme.spacing.unit * 2,
+    margin: "10px auto 50px",
+    maxWidth: 900,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column",
+      height: "480px"
+    }
   },
   text: {
     color: "white"

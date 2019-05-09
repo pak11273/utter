@@ -115,6 +115,12 @@ const getCourseUpdate = Loadable({
   delay: 200
 })
 
+const getFeatures = Loadable({
+  loader: () => import(/* webpackChunkName: 'features' */ "./layouts/features"),
+  loading: Loading,
+  delay: 200
+})
+
 const getForgotPassword = Loadable({
   loader: () => import("./layouts/forgot_password/forgot-password-ctrl.js"),
   loading: Loading,
@@ -343,6 +349,11 @@ export const routes = [
     component: requireBeta(getSignup),
     exact: true,
     path: "/signup"
+  },
+  {
+    exact: true,
+    path: "/features",
+    component: getFeatures
   },
   {
     exact: true,
