@@ -313,7 +313,6 @@ const getCourses = async (_, {input}, ctx, info) => {
   /* end fuzzy search */
 
   return Course.paginate(query, options, function(err, result) {
-    console.log("result: ", result)
     return {
       page: result.page,
       courses: result.docs,
