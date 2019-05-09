@@ -648,8 +648,15 @@ var login = function () {
           case 8:
             user = _context10.sent;
 
+            if (user.isCanceled) {
+              arrayOfErrors.push({
+                path: "identifier",
+                message: "This account has been canceled."
+              });
+            }
+
             if (user) {
-              _context10.next = 13;
+              _context10.next = 14;
               break;
             }
 
@@ -657,12 +664,12 @@ var login = function () {
               path: "identifier",
               message: "invalid username or email"
             });
-            _context10.next = 26;
+            _context10.next = 27;
             break;
 
-          case 13:
+          case 14:
             if (user.authenticate(password)) {
-              _context10.next = 17;
+              _context10.next = 18;
               break;
             }
 
@@ -670,12 +677,12 @@ var login = function () {
               path: "password",
               message: "Invalid Password"
             });
-            _context10.next = 26;
+            _context10.next = 27;
             break;
 
-          case 17:
+          case 18:
             if (!user.forgotPasswordLocked) {
-              _context10.next = 21;
+              _context10.next = 22;
               break;
             }
 
@@ -683,23 +690,23 @@ var login = function () {
               path: "identifier",
               message: _errorMessages.passwordLocked
             });
-            _context10.next = 26;
+            _context10.next = 27;
             break;
 
-          case 21:
+          case 22:
             if (!user) {
-              _context10.next = 26;
+              _context10.next = 27;
               break;
             }
 
-            _context10.next = 24;
+            _context10.next = 25;
             return (0, _auth.signToken)(user._id);
 
-          case 24:
+          case 25:
             token = _context10.sent;
             ctx.req.session.userId = user._id;
 
-          case 26:
+          case 27:
             console.log("ctx.req 2: ", ctx.req.session);
             return _context10.abrupt("return", {
               token: token,
@@ -707,7 +714,7 @@ var login = function () {
               error: arrayOfErrors
             });
 
-          case 28:
+          case 29:
           case "end":
             return _context10.stop();
         }
