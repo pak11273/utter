@@ -20,7 +20,6 @@ import {styles} from "../styles.js"
 
 const ZonesGrid = props => {
   const onEnterZone = card => () => {
-    console.log("card: ", card)
     session.zone = card
     props.history.push({
       pathname: `/zone/${card._id}`,

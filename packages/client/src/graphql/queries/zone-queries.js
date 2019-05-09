@@ -26,11 +26,6 @@ export const GET_ZONES = gql`
       zones {
         ageGroup
         app
-        zoneCourse {
-          title
-          usingLang
-          teachingLang
-        }
         course {
           _id
           title

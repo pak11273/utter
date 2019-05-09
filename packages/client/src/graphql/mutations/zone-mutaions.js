@@ -38,8 +38,9 @@ export const ZONE_CREATE_MUTATION = gql`
       owner {
         username
       }
-			password
-			reserved
+      password
+      reserved
+      zoneName
     }
   }
 `

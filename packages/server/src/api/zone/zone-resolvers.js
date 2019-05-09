@@ -69,31 +69,32 @@ const zoneUpdate = (_, {input}) => {
   return Zone.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const zoneCreate = async (_, args, {req}, info) => {
-  console.log("args; ", args)
-  console.log("req; ", req.session)
+const zoneCreate = async (_, {input}, {req}, info) => {
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
     }
 
-    // TODO: uncomment when launching
     // prohibit multiple hosting
-    /* const findZone = await Zone.find({owner: req.session.userId}) */
-    /* if (findZone[0] instanceof mongoose.Document) { */
-    /*   throw new Error("You can only host one zone at a time.") */
-    /* } */
+    const findZone = await Zone.find({owner: req.session.userId})
+    if (findZone[0] instanceof mongoose.Document) {
+      throw new Error("You can only host one zone at a time.")
+    }
 
     const user = await User.findById(req.session.userId, (err, res) => {
       if (err) return err
       return res
     })
 
-    const {input} = args
+    const course = await Course.findById(input.course, (err, res) => {
+      if (err) return err
+      return res
+    })
 
     const newZone = new Zone({
       app: input.app,
-      course: input.course,
+      course: course._id,
+      zoneName: course.zoneName,
       courseLevel: +input.courseLevel,
       ageGroup: input.ageGroup,
       owner: input.owner,
@@ -101,8 +102,8 @@ const zoneCreate = async (_, args, {req}, info) => {
       reserved: input.reserved,
       zoneName: input.zoneName,
       zoneDescription: input.zoneDescription,
-      teachingLang: input.teachingLang,
-      usingLang: input.usingLang
+      teachingLang: course.teachingLang,
+      usingLang: course.usingLang
     })
 
     const zone = await newZone.save()
@@ -133,7 +134,7 @@ const getZones = async (_, {input}, ctx, info) => {
     lean: true,
     page: input.page,
     limit: 24,
-    populate: "owner",
+    populate: ["owner", "course"],
     collation: {
       locale: "en"
     }

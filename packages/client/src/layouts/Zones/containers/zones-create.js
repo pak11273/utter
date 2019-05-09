@@ -303,7 +303,6 @@ export default compose(
       zoneDescription: ""
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
-      console.log("values: ", values)
       try {
         const courseLevels = await props.client.query({
           fetchPolicy: "network-only",
@@ -312,7 +311,6 @@ export default compose(
             courseId: values.course
           }
         })
-        console.log("levels: ", courseLevels)
 
         const {levels} = courseLevels.data.getLevels
         const index = parseInt(values.courseLevel, 10)
@@ -334,7 +332,6 @@ export default compose(
 
         session.vocabulary = courseLevel.data.getLevel.vocabulary
 
-        console.log("values; ", values)
         const result = await props.client.mutate({
           mutation: ZONE_CREATE_MUTATION,
           variables: {
@@ -394,23 +391,21 @@ export default compose(
             bodyClassName: "toasty-body",
             hideProgressBar: true
           })
+        } else if (err.message.indexOf("You can only host")) {
+          props.history.push({
+            pathname: "/zones/rezone"
+            /* state: {courseId: course.data.courseCreate._id} */
+          })
+          toast.warn(msg, {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        } else if (err.message.indexOf("Cast to ObjectId failed for value")) {
+          setErrors({
+            courseLevel: "This course does not contain a level with this number"
+          })
         }
-        // TODO: uncomment when launching
-        /*  else if (err.message.indexOf("You can only host")) { */
-        /*   props.history.push({ */
-        /*     pathname: "/zones/rezone" */
-        /*     /1* state: {courseId: course.data.courseCreate._id} *1/ */
-        /*   }) */
-        /*   toast.warn(msg, { */
-        /*     className: "toasty", */
-        /*     bodyClassName: "toasty-body", */
-        /*     hideProgressBar: true */
-        /*   }) */
-        /* } else if (err.message.indexOf("Cast to ObjectId failed for value")) { */
-        /*   setErrors({ */
-        /*     courseLevel: "This course does not contain a level with this number" */
-        /*   }) */
-        /* } */
 
         setSubmitting(false)
         return null
