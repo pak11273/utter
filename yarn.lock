@@ -10971,7 +10971,7 @@ marker-clusterer-plus@2.1.4:
   resolved "https://registry.yarnpkg.com/marker-clusterer-plus/-/marker-clusterer-plus-2.1.4.tgz#f8eff74d599dab3b7d0e3fed5264ea0e704f5d67"
   integrity sha1-+O/3TVmdqzt9Dj/tUmTqDnBPXWc=
 
-material-table@^1.35.0:
+material-table@^1.36.0:
   version "1.36.1"
   resolved "https://registry.yarnpkg.com/material-table/-/material-table-1.36.1.tgz#2d553f68527cf3edccf2d58f65c93005c5bbf38e"
   integrity sha512-hFXosDACBGzZHQ1nZE8alON97DzJUjSdrf+534Q+1nrOoKOnBpw+hgrKE/0Bd6fkLbl1qJdap0geXEWqCQWF6Q==
