@@ -19,22 +19,9 @@ export const ME_QUERY = gql`
 export const GET_USER_BY_TOKEN = gql`
   query getUserByToken($token: String!) {
     getUserByToken(token: $token) {
-      blocked
-      contacts
-      createdCourses {
-        _id
-      }
-      _id
-      roles
-      rights
-      subscriptions {
-        _id
-        title
-        levels {
-          _id
-        }
-      }
-      username
+      ...UserInfo
     }
   }
+
+  ${accountFragment}
 `

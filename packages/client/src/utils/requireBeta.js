@@ -4,7 +4,6 @@ import React, {PureComponent} from "react"
 const requireBeta = WrappedComponent => {
   class Wrap extends PureComponent {
     componentDidMount = () => {
-      console.log('notificaiton"', this.props)
 
       var isAuthenticated = false
       if (

@@ -7,7 +7,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-/* import {cookies, subscribe} from "brownies" */
+import {cookies, session, subscribe} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -26,7 +26,8 @@ import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-/* import {sessionDelete} from "./utils/session-delete.js" */
+import {sessionDelete} from "./utils/session-delete.js"
+import {ME_QUERY} from "./graphql/queries/user-queries.js"
 
 const SubRoutes = route => (
   <Route
@@ -60,12 +61,20 @@ class App extends Component {
   componentDidMount = async () => {
     // TODO: interferes when someone signs up and has another tab open and then lands on the confirmed email page.
     // delete session if user cookies is deleted
-    /* subscribe(cookies, "_uid", value => { */
-    /*   if (!value) { */
-    /*     sessionDelete() */
-    /*     window.location = "/login" */
-    /*   } */
-    /* }) */
+    subscribe(cookies, "_uid", value => {
+      if (!value) {
+        sessionDelete()
+        window.location = "/login"
+      }
+    })
+
+    if (cookies._uid && !session.user) {
+      console.log("this: ", this.props)
+      const user = await ApolloInstance.query({
+        query: ME_QUERY
+      })
+      session.user = user.data.me
+    }
     /* if (!session.user) { */
     /*   // auto redirects to login */
     /*   delete cookies._uid */

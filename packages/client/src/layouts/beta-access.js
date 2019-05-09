@@ -106,7 +106,6 @@ class BetaAccess extends Component {
                         gutterBottom>
                         {confirmation}
                       </Typography>
-                      )
                       <Flex flexdirection="row" justifycontent="center">
                         <Field
                           className={classes.textField}

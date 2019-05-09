@@ -22,7 +22,7 @@ import {styles} from "./styles.js"
 
 class SignupForm extends PureComponent {
   state = {
-    agreementChecked: false,
+    agreementChecked: false
   }
 
   agreeTerms = () => {
@@ -223,7 +223,6 @@ export default compose(
       timezone: ""
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
-      console.log("props: ", props)
       const submit = async () => {
         const response = await props.client.mutate({
           mutation: SIGNUP_MUTATION,
