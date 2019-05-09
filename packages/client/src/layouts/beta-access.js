@@ -8,14 +8,13 @@ import {withStyles} from "@material-ui/core/styles"
 import {BETA_ACCESS} from "../graphql/queries/user-queries.js"
 import {betaAccessSchema} from "@utterzone/common"
 
-/* import {Formik, Field} from "formik" */
-import {Formik} from "formik"
+import {Formik, Field} from "formik"
 
 import {
   Container,
-  /* Flex, */
-  /* FormikInput, */
-  /* LoadingButton, */
+  Flex,
+  FormikInput,
+  LoadingButton,
   Section
 } from "../components"
 
@@ -65,7 +64,7 @@ class BetaAccess extends Component {
 
   render() {
     const {classes} = this.props
-    /* const {confirmation} = this.state */
+    const {confirmation} = this.state
     return (
       <React.Fragment>
         <Container className={classes.root}>
@@ -96,9 +95,39 @@ class BetaAccess extends Component {
                   actions.setSubmitting(false)
                 }
               }}
-              /* render={({errors, handleChange, handleSubmit, isSubmitting}) => ( */
-              render={({handleSubmit}) => (
+              render={({errors, handleChange, handleSubmit, isSubmitting}) => (
                 <form onSubmit={handleSubmit}>
+                  {process.env.NODE_ENV !== "production" && (
+                    <div>
+                      <Typography
+                        variant="h4"
+                        align="center"
+                        className={classes.text}
+                        gutterBottom>
+                        {confirmation}
+                      </Typography>
+                      )
+                      <Flex flexdirection="row" justifycontent="center">
+                        <Field
+                          className={classes.textField}
+                          name="key"
+                          onChange={handleChange}
+                          placeholder="Enter Key"
+                          component={FormikInput}
+                        />
+                        {errors.name && <div id="feedback">{errors.name}</div>}
+                        <LoadingButton
+                          loading={isSubmitting}
+                          disabled={isSubmitting}
+                          className={classes.button}
+                          color="primary"
+                          variant="contained"
+                          type="submit">
+                          Submit
+                        </LoadingButton>
+                      </Flex>
+                    </div>
+                  )}
                   <Typography
                     variant="h4"
                     align="center"
@@ -106,35 +135,6 @@ class BetaAccess extends Component {
                     gutterBottom>
                     This area will be opened on June 1
                   </Typography>
-                  {/*
-									TODO: open on May 30
-                  <Typography
-                    variant="h4"
-                    align="center"
-                    className={classes.text}
-                    gutterBottom>
-                    {confirmation}
-                  </Typography>
-                  <Flex flexdirection="row" justifycontent="center">
-                    <Field
-                      className={classes.textField}
-                      name="key"
-                      onChange={handleChange}
-                      placeholder="Enter Key"
-                      component={FormikInput}
-                    />
-                    {errors.name && <div id="feedback">{errors.name}</div>}
-                    <LoadingButton
-                      loading={isSubmitting}
-                      disabled={isSubmitting}
-                      className={classes.button}
-                      color="primary"
-                      variant="contained"
-                      type="submit">
-                      Submit
-                    </LoadingButton> 
-                  </Flex>
-								*/}
                   <Typography
                     variant="h6"
                     align="center"

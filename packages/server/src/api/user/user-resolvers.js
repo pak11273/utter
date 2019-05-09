@@ -309,6 +309,13 @@ const login = async (parent, args, ctx, info) => {
     .populate("subscriptions")
     .exec()
 
+  if (user.isCanceled) {
+    arrayOfErrors.push({
+      path: "identifier",
+      message: "This account has been canceled."
+    })
+  }
+
   if (!user) {
     arrayOfErrors.push({
       path: "identifier",

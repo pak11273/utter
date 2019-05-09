@@ -56,7 +56,7 @@ function AccountSettings(props) {
               align="center"
               color="textSecondary"
               paragraph>
-              Your account will be deactivated and all payments will stop. You
+              Your account will be deactivated. You
               will not be able to login with your current credentials.
             </Typography>
             <Grid container spacing={16} justify="center">
