@@ -331,6 +331,8 @@ export default compose(
           }
         })
 
+        console.log("courseLevel: ", courseLevel)
+
         session.vocabulary = courseLevel.data.getLevel.vocabulary
 
         const result = await props.client.mutate({
