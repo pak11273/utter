@@ -154,19 +154,20 @@ var getCourse = function () {
             throw new Error("Cannot find course with id");
 
           case 7:
+            console.log("course: ", course);
             return _context3.abrupt("return", course);
 
-          case 10:
-            _context3.prev = 10;
+          case 11:
+            _context3.prev = 11;
             _context3.t0 = _context3["catch"](1);
             return _context3.abrupt("return", _context3.t0);
 
-          case 13:
+          case 14:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3, null, [[1, 10]]);
+    }, _callee3, null, [[1, 11]]);
   }));
 
   return function getCourse(_x3, _x4, _x5) {
@@ -556,7 +557,7 @@ var getCourses = function () {
               lean: true,
               page: input.page,
               limit: 24,
-              populate: "owner",
+              populate: ["owner", "levels"],
               collation: {
                 locale: "en"
               }
