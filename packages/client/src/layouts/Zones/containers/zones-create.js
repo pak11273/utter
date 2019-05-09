@@ -1,11 +1,12 @@
-import React, {useState} from "react"
+/* import React, {useState} from "react" */
+import React from "react"
 import {Helmet} from "react-helmet-async"
 import {withRouter} from "react-router-dom"
 
-import FormControlLabel from "@material-ui/core/FormControlLabel"
-import FormGroup from "@material-ui/core/FormGroup"
+/* import FormControlLabel from "@material-ui/core/FormControlLabel" */
+/* import FormGroup from "@material-ui/core/FormGroup" */
 import Grid from "@material-ui/core/Grid"
-import Switch from "@material-ui/core/Switch"
+/* import Switch from "@material-ui/core/Switch" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {compose, withApollo} from "react-apollo"
@@ -16,7 +17,7 @@ import {Field, withFormik} from "formik"
 import {zoneCreateSchema} from "@utterzone/common"
 import appData from "../../../data/appData.js"
 import {
-  Flex,
+  /* Flex, */
   FormikInput,
   FormikSelect,
   FormikTextArea,
@@ -32,10 +33,10 @@ import {DisplayCount, StyledSpan, styles} from "../styles.js"
 import "../overrides.css"
 
 const ZoneCreate = props => {
-  const [state, changeState] = useState({
-    public: true,
-    reserved: false
-  })
+  /* const [state, changeState] = useState({ */
+  /*   public: true, */
+  /*   reserved: false */
+  /* }) */
 
   /* useEffect(() => { */
   /* 	// TODO: Check use subscriptions to ensure subscribed courses are still active.  Remove any courses that can't be found from user subscriptions */
@@ -47,13 +48,13 @@ const ZoneCreate = props => {
   /* 	}) */
   /* },[]) */
 
-  const handleChange = name => event => {
-    changeState({
-      ...state,
-      [name]: event.target.checked
-    })
-    props.setFieldValue("reserved", event.target.checked)
-  }
+  /* const handleChange = name => event => { */
+  /*   changeState({ */
+  /*     ...state, */
+  /*     [name]: event.target.checked */
+  /*   }) */
+  /*   props.setFieldValue("reserved", event.target.checked) */
+  /* } */
 
   const subscribedOptions =
     session.user && session.user.subscriptions
@@ -238,7 +239,7 @@ const ZoneCreate = props => {
                 options={options}
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <FormGroup row>
                 <FormControlLabel
                   control={
@@ -264,7 +265,7 @@ const ZoneCreate = props => {
                   </Flex>
                 )}
               </FormGroup>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} align="center">
               <LoadingButton
                 variant="contained"

@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.zoneResolvers = void 0;
 
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
+
 var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/objectWithoutProperties"));
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
@@ -205,51 +207,71 @@ var zoneUpdate = function zoneUpdate(_, _ref8) {
 };
 
 var zoneCreate = function () {
-  var _ref10 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee5(_, args, _ref9, info) {
-    var req, user, input, newZone, zone, createdZone;
+  var _ref11 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee5(_, _ref9, _ref10, info) {
+    var input, req, _ref12, findZone, user, course, newZone, zone, createdZone;
+
     return _regenerator.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            req = _ref9.req;
-            console.log("args; ", args);
-            console.log("req; ", req.session);
-            _context5.prev = 3;
+            input = _ref9.input;
+            req = _ref10.req;
+            _context5.prev = 2;
 
             if (!(!req.session || !req.session.userId)) {
-              _context5.next = 6;
+              _context5.next = 5;
               break;
             }
 
             throw new Error("Not authenticated.");
 
-          case 6:
-            _context5.next = 8;
+          case 5:
+            _context5.next = 7;
+            return _zoneModel.default.find({
+              owner: req.session.userId
+            });
+
+          case 7:
+            findZone = _context5.sent;
+
+            if (!(findZone[0] instanceof _mongoose.default.Document)) {
+              _context5.next = 10;
+              break;
+            }
+
+            throw new Error("You can only host one zone at a time.");
+
+          case 10:
+            _context5.next = 12;
             return _userModel.default.findById(req.session.userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 8:
+          case 12:
             user = _context5.sent;
-            input = args.input;
-            newZone = new _zoneModel.default({
+            _context5.next = 15;
+            return _courseModel.default.findById(input.course, function (err, res) {
+              if (err) return err;
+              return res;
+            });
+
+          case 15:
+            course = _context5.sent;
+            newZone = new _zoneModel.default((_ref12 = {
               app: input.app,
-              course: input.course,
+              course: course._id,
+              zoneName: course.zoneName,
               courseLevel: +input.courseLevel,
               ageGroup: input.ageGroup,
               owner: input.owner,
               password: input.password,
-              reserved: input.reserved,
-              zoneName: input.zoneName,
-              zoneDescription: input.zoneDescription,
-              teachingLang: input.teachingLang,
-              usingLang: input.usingLang
-            });
-            _context5.next = 13;
+              reserved: input.reserved
+            }, (0, _defineProperty2.default)(_ref12, "zoneName", input.zoneName), (0, _defineProperty2.default)(_ref12, "zoneDescription", input.zoneDescription), (0, _defineProperty2.default)(_ref12, "teachingLang", course.teachingLang), (0, _defineProperty2.default)(_ref12, "usingLang", course.usingLang), _ref12));
+            _context5.next = 19;
             return newZone.save();
 
-          case 13:
+          case 19:
             zone = _context5.sent;
             createdZone = (0, _objectSpread2.default)({}, zone._doc, {
               _id: zone._doc._id.toString(),
@@ -258,26 +280,26 @@ var zoneCreate = function () {
             });
             return _context5.abrupt("return", createdZone);
 
-          case 18:
-            _context5.prev = 18;
-            _context5.t0 = _context5["catch"](3);
+          case 24:
+            _context5.prev = 24;
+            _context5.t0 = _context5["catch"](2);
             throw _context5.t0;
 
-          case 21:
+          case 27:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[3, 18]]);
+    }, _callee5, null, [[2, 24]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {
-    return _ref10.apply(this, arguments);
+    return _ref11.apply(this, arguments);
   };
 }();
 
 var getZoneLevels = function () {
-  var _ref11 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee6(_, args, ctx, info) {
+  var _ref13 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee6(_, args, ctx, info) {
     var query;
     return _regenerator.default.wrap(function _callee6$(_context6) {
       while (1) {
@@ -295,23 +317,23 @@ var getZoneLevels = function () {
   }));
 
   return function getZoneLevels(_x13, _x14, _x15, _x16) {
-    return _ref11.apply(this, arguments);
+    return _ref13.apply(this, arguments);
   };
 }();
 
 var getZones = function () {
-  var _ref13 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee7(_, _ref12, ctx, info) {
+  var _ref15 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee7(_, _ref14, ctx, info) {
     var input, options, query, key;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            input = _ref12.input;
+            input = _ref14.input;
             options = {
               lean: true,
               page: input.page,
               limit: 24,
-              populate: "owner",
+              populate: ["owner", "course"],
               collation: {
                 locale: "en"
               }
@@ -347,12 +369,12 @@ var getZones = function () {
   }));
 
   return function getZones(_x17, _x18, _x19, _x20) {
-    return _ref13.apply(this, arguments);
+    return _ref15.apply(this, arguments);
   };
 }();
 
 var rezone = function () {
-  var _ref14 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(_, args, ctx, info) {
+  var _ref16 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(_, args, ctx, info) {
     var query;
     return _regenerator.default.wrap(function _callee8$(_context8) {
       while (1) {
@@ -370,7 +392,7 @@ var rezone = function () {
   }));
 
   return function rezone(_x21, _x22, _x23, _x24) {
-    return _ref14.apply(this, arguments);
+    return _ref16.apply(this, arguments);
   };
 }();
 

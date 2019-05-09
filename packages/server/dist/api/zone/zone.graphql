@@ -14,7 +14,6 @@ type Zone {
 	reserved: Boolean
   teachingLang: String
   usingLang: String
-	zoneCourse: Course
 	ownerCourse: User 
   zoneDescription: String
   zoneImage: String

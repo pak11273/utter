@@ -4,11 +4,11 @@ export default [
     label: "Carousel",
     className: "appHeader",
     disabled: false
-  },
-  {
-    value: "General Chat",
-    label: "General Chat",
-    className: "appHeader",
-    disabled: false
   }
+  /* { */
+  /*   value: "General Chat", */
+  /*   label: "General Chat", */
+  /*   className: "appHeader", */
+  /*   disabled: false */
+  /* } */
 ]
