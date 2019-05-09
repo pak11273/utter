@@ -94,6 +94,7 @@ const getCourse = async (_, args, {user}) => {
     if (!course) {
       throw new Error("Cannot find course with id")
     }
+    console.log("course: ", course)
 
     return course
   } catch (err) {
@@ -277,7 +278,7 @@ const getCourses = async (_, {input}, ctx, info) => {
     lean: true,
     page: input.page,
     limit: 24,
-    populate: "owner",
+    populate: ["owner", "levels"],
     collation: {
       locale: "en"
     }
@@ -312,6 +313,7 @@ const getCourses = async (_, {input}, ctx, info) => {
   /* end fuzzy search */
 
   return Course.paginate(query, options, function(err, result) {
+    console.log("result: ", result)
     return {
       page: result.page,
       courses: result.docs,

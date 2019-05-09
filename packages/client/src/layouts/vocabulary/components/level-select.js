@@ -41,12 +41,6 @@ if (session.levels) {
   })
 }
 
-/* const options = [ */
-/*   {value: "chocolate", label: "1. Chocolate"}, */
-/*   {value: "strawberry", label: "2. Strawberry"}, */
-/*   {value: "vanilla", label: "3. Vanilla"} */
-/* ] */
-
 class LevelSelect extends PureComponent {
   state = {
     level: "",
@@ -62,13 +56,20 @@ class LevelSelect extends PureComponent {
     if (!session.levels) {
       window.location.replace("/login")
     }
-    window.app.reformedLevels = session.levels.map((item, i) => {
+
+    const {levels} = session
+    const reformed = levels.map((item, i) => {
       return {value: item.title, label: `${++i}. ${item.title}`}
     })
-    this.setState({
-      level: session.level,
-      levels: window.app.reformedLevels
-    })
+    window.app.reformedLevels = reformed
+    console.log("window: ", window.app.reformedLevels)
+    this.setState(
+      {
+        level: session.level,
+        levels: window.app.reformedLevels
+      },
+      () => console.log("state: ", this.state)
+    )
   }
 
   handleChange = selectedOption => {

@@ -37,6 +37,7 @@ const CoursesGrid = props => {
   }
 
   const handleCourseClick = card => () => {
+    console.log("card: ", card)
     session.level = ""
     session.course = card
     session.levels = card.levels
