@@ -10,8 +10,10 @@ import Check from "@material-ui/icons/Check"
 import Clear from "@material-ui/icons/Clear"
 import ChevronLeft from "@material-ui/icons/ChevronLeft"
 import ChevronRight from "@material-ui/icons/ChevronRight"
+import {CircularProgress} from "@material-ui/core"
 import Delete from "@material-ui/icons/Delete"
 import Edit from "@material-ui/icons/Edit"
+import {fade} from "@material-ui/core/styles/colorManipulator"
 import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
 import LastPage from "@material-ui/icons/LastPage"
@@ -33,6 +35,29 @@ import {
 import {GET_USER_BY_TOKEN} from "../../../graphql/queries/user-queries.js"
 import {styles} from "../styles.js"
 
+const OverlayOverride = props => {
+  return (
+    <div
+      style={{
+        display: "table",
+        width: "100%",
+        height: "100%",
+        backgroundColor: fade(props.theme.palette.background.paper, 0.7)
+      }}>
+      <div
+        style={{
+          display: "table-cell",
+          width: "100%",
+          height: "100%",
+          verticalAlign: "middle",
+          textAlign: "center"
+        }}>
+        <CircularProgress />
+      </div>
+    </div>
+  )
+}
+
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
   return (
     <Formik
@@ -42,6 +67,15 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
         if (props.mode === "update") {
           delete values.tableData
         }
+        if (props.mode === "add") {
+          if (!props.data) {
+            props.data = {}
+          }
+        }
+
+        console.log("values: ", values)
+        console.log("props.mode: ", props.mode)
+        console.log("props.data: ", props.data)
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
@@ -316,7 +350,8 @@ class LevelsUpdate extends Component {
                   ]}
                   components={{
                     EditRow: MuiTableEditRow,
-                    EditField: FormikMTInput
+                    EditField: FormikMTInput,
+                    OverlayLoading: OverlayOverride
                   }}
                   data={this.state.levels}
                   options={{

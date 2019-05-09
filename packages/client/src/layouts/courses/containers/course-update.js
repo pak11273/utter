@@ -110,12 +110,12 @@ class CourseUpdate extends PureComponent {
               "introduction",
               "settings",
               "levels",
-              "vocabulary",
-              "grammar",
-              "examples",
-              "questions",
-              "phrases",
-              "notes"
+              "vocabulary"
+              /* "grammar", */
+              /* "examples", */
+              /* "questions", */
+              /* "phrases", */
+              /* "notes" */
             ].map((text, index) => {
               if (text === "settings") {
                 return (

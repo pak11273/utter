@@ -12,8 +12,10 @@ import Check from "@material-ui/icons/Check"
 import Clear from "@material-ui/icons/Clear"
 import ChevronLeft from "@material-ui/icons/ChevronLeft"
 import ChevronRight from "@material-ui/icons/ChevronRight"
+import {CircularProgress} from "@material-ui/core"
 import Delete from "@material-ui/icons/Delete"
 import Edit from "@material-ui/icons/Edit"
+import {fade} from "@material-ui/core/styles/colorManipulator"
 import Filter from "@material-ui/icons/FilterList"
 import FirstPage from "@material-ui/icons/FirstPage"
 import Grid from "@material-ui/core/Grid"
@@ -48,6 +50,29 @@ const MuiEditField = props => {
     return null
   }
   return <FormikMTInput value="" {...props} />
+}
+
+const OverlayOverride = props => {
+  return (
+    <div
+      style={{
+        display: "table",
+        width: "100%",
+        height: "100%",
+        backgroundColor: fade(props.theme.palette.background.paper, 0.7)
+      }}>
+      <div
+        style={{
+          display: "table-cell",
+          width: "100%",
+          height: "100%",
+          verticalAlign: "middle",
+          textAlign: "center"
+        }}>
+        <CircularProgress />
+      </div>
+    </div>
+  )
 }
 
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
@@ -362,7 +387,8 @@ class VocabularysUpdate extends Component {
                       </Flex>
                     ),
                     EditRow: MuiTableEditRow,
-                    EditField: MuiEditField
+                    EditField: MuiEditField,
+                    OverlayLoading: OverlayOverride
                   }}
                   icons={{
                     Add: () => <Add />,
