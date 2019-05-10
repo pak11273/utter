@@ -15,7 +15,6 @@ export class PhotoAdapter {
 
     this.functions = function(method) {
       if (method === "fetchPixabay") {
-        console.log("pixa fetchpics: ", data)
         return pixabayService.fetchPics(data)
       }
     }

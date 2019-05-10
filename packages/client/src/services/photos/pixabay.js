@@ -64,12 +64,15 @@ export class Pixabay extends PhotoAbstract {
           }&image_type=photo&pretty=true&per_page=${encodeURIComponent(
             10
           )}&safesearch=true`
+          console.log("url: ", url)
           const response = await fetch(url)
           const fetched = await response.json()
 
           const imageUrls = fetched.hits.map(item => {
             return {...dataItem, ...item}
           })
+
+          console.log("image: ", imageUrls)
           resolve(imageUrls)
         }, 1000)
       })
