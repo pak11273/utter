@@ -42,12 +42,6 @@ export const options = [
     disabled: false
   },
   {
-    value: "ages 18+",
-    label: "ages 18+",
-    className: "ageHeader",
-    disabled: false
-  },
-  {
     value: "ages 30+",
     label: "ages 30+",
     className: "ageHeader",
