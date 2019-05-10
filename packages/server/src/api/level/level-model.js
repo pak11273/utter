@@ -35,9 +35,10 @@ export const LevelSchema = new mongoose.Schema({
       audioUrl: {type: String}
     }
   ],
-	modifier: {
-    type: String
-	},
+  modifier: {
+    type: String,
+    default: ""
+  },
   phrases: [
     {
       type: {type: String},

@@ -334,6 +334,7 @@ export default compose(
         console.log("courseLevel: ", courseLevel)
 
         session.vocabulary = courseLevel.data.getLevel.vocabulary
+        session.modifier = courseLevel.data.getLevel.modifier
 
         const result = await props.client.mutate({
           mutation: ZONE_CREATE_MUTATION,

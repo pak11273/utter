@@ -174,7 +174,10 @@ class HostControls extends PureComponent {
   componentDidMount() {
     // get app info and load app here
     // TODO: only host should load pics
-    const PAdapter = new PhotoAdapter(session.vocabulary)
+    const PAdapter = new PhotoAdapter({
+      vocabulary: session.vocabulary,
+      modifier: session.modifier
+    })
     PAdapter.functions("fetchPixabay").then(res => {
       session.carousel = res
       this.setState({

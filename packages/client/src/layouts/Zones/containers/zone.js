@@ -16,24 +16,6 @@ import Chat from "./chat/chat.js"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
 import {session} from "brownies"
-/* import "react-select/dist/react-select.css" // comment out exclude node_modules for css-loader */
-
-/* const getCourse = gql` */
-/*   query getCourse($courseId: String) { */
-/*     getCourse(courseId: $courseId) { */
-/*       course { */
-/*         id */
-/*         courseImage */
-/*         courseName */
-/*         courseMode */
-/*         owner { */
-/*           username */
-/*         } */
-/*       } */
-/*     } */
-/*   } */
-
-/* ` */
 
 const styles = theme => ({
   app: {

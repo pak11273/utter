@@ -1,5 +1,6 @@
 /* eslint-disable */
 import {PhotoAbstract} from "./photo-abstract.js"
+import {session} from "brownies"
 // api notes
 // returns json
 // 5000 requests per hour by api key
@@ -50,14 +51,15 @@ export class Pixabay extends PhotoAbstract {
 
   async fetchPics(data) {
     this.loading = true
-    const words = PhotoAbstract.convertData(data)
+    const words = PhotoAbstract.convertData(data.vocabulary)
 
-    const arr = await data.map(async dataItem => {
+    const arr = await data.vocabulary.map(async dataItem => {
       return new Promise(resolve => {
+        const modifier = data.modifier || ""
         setTimeout(async () => {
           const url = `https://pixabay.com/api/?key=${
             process.env.PIXABAY_API_KEY
-          }&q=${
+          }&q=${modifier}%20${
             dataItem.word
           }&image_type=photo&pretty=true&per_page=${encodeURIComponent(
             10
