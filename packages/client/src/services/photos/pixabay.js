@@ -60,7 +60,7 @@ export class Pixabay extends PhotoAbstract {
           const url = `https://pixabay.com/api/?key=${
             process.env.PIXABAY_API_KEY
           }&q=${modifier}%20${
-            dataItem.word
+            dataItem.translation
           }&image_type=photo&pretty=true&per_page=${encodeURIComponent(
             10
           )}&safesearch=true`
