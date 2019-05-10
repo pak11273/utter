@@ -4,15 +4,15 @@ import {withRouter} from "react-router-dom"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {compose, graphql, withApollo} from "react-apollo"
+import {compose, withApollo} from "react-apollo"
 import {toast} from "react-toastify"
 
 import {Field, withFormik} from "formik"
 /* import cuid from "cuid" */
 import {rezoneSchema} from "@utterzone/common"
 import {FormikInput, LoadingButton} from "../../../components"
-import {ZONE_CREATE_MUTATION} from "../../../graphql/mutations/zone-mutaions.js"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
+import {REZONE} from "../../../graphql/queries/zone-queries.js"
 
 import {session} from "brownies"
 import {styles} from "../styles.js"
@@ -31,14 +31,17 @@ const Rezone = props => {
                 variant="h4"
                 className={classes.heading}
                 gutterBottom>
-                Return to Zone
+                Are you are hosting a Zone?
               </Typography>
               <Typography
                 align="center"
                 variant="h6"
-                className={classes.heading}
+                className={classes.subHeading}
+                style={{color: "white"}}
                 gutterBottom>
-                Got cut from your zone? You can get back to it from here.
+                Got cut from your zone? You can get back to it from here. If you
+                would like to destroy your zone you can do so once you back
+                inside the zone.
               </Typography>
             </Grid>
           </div>
@@ -85,78 +88,62 @@ const Rezone = props => {
 
 export default compose(
   withApollo,
-  graphql(ZONE_CREATE_MUTATION, {name: "rezone"}),
   withRouter,
   withFormik({
     validationSchema: rezoneSchema,
     validateOnChange: false,
     validateOnBlur: false,
     mapPropsToValues: () => ({
-      ageGroup: "",
-      app: "",
-      appLevel: 1,
-      course: "",
-      courseLevel: "",
       owner: session.user._id,
-      zoneName: "",
-      zoneDescription: ""
+      username: ""
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
+      const onComplete = (zone, courseLevel, courseLevels) => {
+        // rehydrate host session
+        session.levels = courseLevels
+        session.zone = zone.data.rezone
+        session.level = zone.data.rezone.courseLevel
+        session.vocabulary = courseLevel.data.getLevel.vocabulary
+        session.modifier =
+          courseLevels.data.getLevels.levels[session.level - 1].modifier
+        toast.success("You have successfully reconnected to your zone.", {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+        props.history.push({
+          pathname: `/zone/${zone.data.rezone._id}`,
+          state: {zoneId: zone.data.rezone._id}
+        })
+      }
       try {
-        const courseLevels = await props.client.query({
-          query: GET_LEVELS,
+        const result = await props.client.query({
+          query: REZONE,
           variables: {
-            courseId: values.course
+            username: values.username
           }
         })
-
-        const {levels} = courseLevels.data.getLevels
-        console.log("levle: ", levels)
-        const index = parseInt(values.courseLevel, 10)
-        console.log("inde: ", index)
-        console.log("thing: ", levels[3 - 1])
-        if (!levels[index - 1]) {
-          setErrors({
-            courseLevel: "This course does not contain a level with this number"
-          })
-          setSubmitting(false)
-          return null
-        }
-
-        const courseLevel = await props.client.query({
-          query: GET_LEVEL,
-          variables: {
-            levelId: levels[values.courseLevel - 1]._id
-          }
-        })
-        console.log("leve blahl: ", levels[values.courseLevel - 1]._id)
-        console.log("course lvel :", courseLevel)
-
-        const result = await props.rezone({
-          variables: {
-            owner: values.owner
-          }
-        })
-
-        // TODO vocabulary will be lost so host must GET_VOCAB again before entering zone.
-        const onComplete = zone => {
-          session.zone = zone.data.rezone
-          props.history.push({
-            pathname: `/zone/${zone.data.rezone._id}`,
-            state: {zoneId: zone.data.rezone._id}
-          })
-        }
 
         // if result is legit
         if (result) {
-          onComplete(result)
-          toast.success("You have successfully reconnected to your zone.", {
-            className: "toasty",
-            bodyClassName: "toasty-body",
-            hideProgressBar: true
+          const courseLevels = await props.client.query({
+            fetchPolicy: "network-only",
+            query: GET_LEVELS,
+            variables: {
+              courseId: result.data.rezone.course._id
+            }
           })
+
+          const courseLevel = await props.client.query({
+            query: GET_LEVEL,
+            variables: {
+              levelId: courseLevels.data.getLevels.levels[session.level - 1]._id
+            }
+          })
+
+          onComplete(result, courseLevel, courseLevels)
         } else {
-          setErrors(result.ZONE_CREATE_MUTATION.errors)
+          setErrors(result.REZONE.errors)
           toast.success("Could not create a zone, please try again.", {
             className: "toasty",
             bodyClassName: "toasty-body",
@@ -164,18 +151,13 @@ export default compose(
           })
         }
       } catch (err) {
-        console.log("errors: ", err)
         /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
         const msg = err.message.replace("GraphQL error:", "").trim()
-        if (err.message.indexOf("You can only host")) {
+        if (err.message.indexOf("You can only host") !== -1) {
           toast.warn(msg, {
             className: "toasty",
             bodyClassName: "toasty-body",
             hideProgressBar: true
-          })
-        } else if (err.message.indexOf("Cast to ObjectId failed for value")) {
-          setErrors({
-            courseLevel: "This course does not contain a level with this number"
           })
         }
 

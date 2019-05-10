@@ -11,13 +11,13 @@ type Zone {
 	occupants: Int
   owner: User
 	password: String
-	reserved: Boolean
+	private: Boolean
   teachingLang: String
   usingLang: String
 	ownerCourse: User 
   zoneDescription: String
   zoneImage: String
-  zoneName: String!
+  zoneName: String
 }
 
 input GetZonesInput {
@@ -33,7 +33,6 @@ input GetZonesInput {
 
 input ZoneUpdated {
   _id: ID!
-  zoneId: String
   zoneName: String
   zonedescription: String
   favorite: Boolean
@@ -48,8 +47,7 @@ input ZoneCreateInput {
 	members: Int
 	owner: String!
 	password: String
-	reserved: Boolean
-  zoneId: String
+	private: Boolean
 	zoneImage: String
   zoneName: String!
   zoneDescription: String
@@ -71,10 +69,10 @@ extend type Query {
 	getZoneLevels(zoneId: String!): Zone!
   getZones(input: GetZonesInput!): PaginatedZones  
   getZoneCount: Int
+	rezone(username: String): Zone! 
 }
 
 extend type Mutation {
-	rezone(owner: ID): Zone! 
   zoneCreate(input: ZoneCreateInput!): Zone! 
 	zoneDelete(_id: String!): Boolean
   zoneUpdate(input: ZoneUpdated!): Zone!

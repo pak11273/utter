@@ -35,7 +35,7 @@ import "../overrides.css"
 const ZoneCreate = props => {
   /* const [state, changeState] = useState({ */
   /*   public: true, */
-  /*   reserved: false */
+  /*   private: false */
   /* }) */
 
   /* useEffect(() => { */
@@ -53,7 +53,7 @@ const ZoneCreate = props => {
   /*     ...state, */
   /*     [name]: event.target.checked */
   /*   }) */
-  /*   props.setFieldValue("reserved", event.target.checked) */
+  /*   props.setFieldValue("private", event.target.checked) */
   /* } */
 
   const subscribedOptions =
@@ -245,14 +245,14 @@ const ZoneCreate = props => {
                   control={
                     <Switch
                       disableRipple
-                      checked={state.reserved}
-                      onChange={handleChange("reserved")}
-                      value="reserved"
+                      checked={state.private}
+                      onChange={handleChange("private")}
+                      value="private"
                     />
                   }
                   label="Private Zone"
                 />
-                {state.reserved && (
+                {state.private && (
                   <Flex flexdirection="row">
                     <Field
                       className="custom_input"
@@ -298,7 +298,7 @@ export default compose(
       course: "",
       courseLevel: "",
       owner: session.user._id,
-      reserved: false,
+      private: false,
       password: "",
       zoneName: "",
       zoneDescription: ""
@@ -331,8 +331,6 @@ export default compose(
           }
         })
 
-        console.log("courseLevel: ", courseLevel)
-
         session.vocabulary = courseLevel.data.getLevel.vocabulary
         session.modifier = courseLevel.data.getLevel.modifier
 
@@ -345,7 +343,7 @@ export default compose(
             course: values.course,
             courseLevel: values.courseLevel,
             owner: values.owner,
-            reserved: values.reserved,
+            private: values.private,
             password: values.password,
             zoneName: values.zoneName,
             zoneDescription: values.zoneDescription
@@ -353,6 +351,9 @@ export default compose(
         })
 
         const onComplete = zone => {
+          var {user} = session
+          user.hostedZone = zone.data.zoneCreate
+          session.user = user
           session.zone = zone.data.zoneCreate
           props.history.push({
             pathname: `/zone/${zone.data.zoneCreate._id}`,
@@ -378,7 +379,8 @@ export default compose(
         }
       } catch (err) {
         const msg = err.message.replace("GraphQL error:", "").trim()
-        if (err.message.indexOf("was not found")) {
+        console.log("err: ", err.message)
+        if (err.message.indexOf("was not found") !== -1) {
           // remove course from user subscriptions
           const checkSubs = await props.client.mutate({
             mutation: REMOVE_SUBSCRIPTION,
@@ -395,7 +397,7 @@ export default compose(
             bodyClassName: "toasty-body",
             hideProgressBar: true
           })
-        } else if (err.message.indexOf("You can only host")) {
+        } else if (err.message.indexOf("You can only host") !== -1) {
           props.history.push({
             pathname: "/zones/rezone"
             /* state: {courseId: course.data.courseCreate._id} */

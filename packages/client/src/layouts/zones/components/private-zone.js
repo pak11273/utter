@@ -22,7 +22,7 @@ import "../overrides.css"
 const ZoneCreate = props => {
   /* const [state, changeState] = useState({ */
   /*   public: true, */
-  /*   reserved: false */
+  /*   private: false */
   /* }) */
 
   /* const handleChange = name => event => { */
@@ -30,7 +30,7 @@ const ZoneCreate = props => {
   /*     ...state, */
   /*     [name]: event.target.checked */
   /*   }) */
-  /*   props.setFieldValue("reserved", event.target.checked) */
+  /*   props.setFieldValue("private", event.target.checked) */
   /* } */
 
   const {classes, handleSubmit, isSubmitting} = props
@@ -129,7 +129,7 @@ export default compose(
       course: "",
       courseLevel: "",
       owner: session.user._id,
-      reserved: false,
+      private: false,
       password: "",
       zoneName: "",
       zoneDescription: ""
@@ -172,7 +172,7 @@ export default compose(
             course: values.course,
             courseLevel: values.courseLevel,
             owner: values.owner,
-            reserved: values.reserved,
+            private: values.private,
             password: values.password,
             zoneName: values.zoneName,
             zoneDescription: values.zoneDescription

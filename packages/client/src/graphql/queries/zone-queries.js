@@ -1,4 +1,5 @@
 import gql from "graphql-tag"
+import {zoneFragment} from "../fragments/zone-fragments.js"
 
 export const GET_ZONES = gql`
   query getZones(
@@ -48,4 +49,13 @@ export const GET_ZONES = gql`
       }
     }
   }
+`
+
+export const REZONE = gql`
+  query rezone($username: String) {
+    rezone(username: $username) {
+      ...ZoneInfo
+    }
+  }
+  ${zoneFragment}
 `

@@ -121,6 +121,12 @@ const ZonesContainer = props => {
             </Typography>
           </Link>
           <Spacer margin="40px 0 0 0" />
+          <Link component={RouterLink} to="/zones/rezone">
+            <Typography align="center" gutterBottom>
+              Rezone
+            </Typography>
+          </Link>
+          <Spacer margin="40px 0 0 0" />
           {/* TODO private zone feature
           <Link component={RouterLink} to="/zones/private">
             <Typography align="center" gutterBottom>

@@ -93,6 +93,14 @@ export const LOGIN_MUTATION = gql`
         _id
         confirmed
         isCanceled
+        hostedZone {
+          _id
+          courseLevel
+          zoneName
+          course {
+            _id
+          }
+        }
         username
         roles
         rights

@@ -4,7 +4,6 @@ import {Redirect} from "react-router-dom"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
-import cloneDeep from "lodash/cloneDeep"
 import {Helmet} from "react-helmet-async"
 import socket from "../../../services/socketio"
 /* import {history} from "@utterzone/connector" */
@@ -35,31 +34,35 @@ const styles = theme => ({
 
 const Loader = () => <div>Loading...</div>
 
-const initialState = {
-  resources: "",
-  receiveMsg: "",
-  user: {name: "beef"},
-  usersList: [],
-  isRegisterInProcess: false,
-  chatrooms: null,
-  client: socket()
-}
-
 class Zone extends Component {
   locationName = this.props.path
 
-  state = cloneDeep(initialState)
+  state = {
+    resources: "",
+    receiveMsg: "",
+    user: {name: "beef"},
+    usersList: [],
+    isRegisterInProcess: false,
+    chatrooms: null,
+    client: socket()
+  }
 
   componentDidMount() {
     this.state.client.usersList(usersList => {
-      this.setState({
-        usersList
-      })
+      this.setState(
+        {
+          usersList
+        },
+        console.log("userlist; ", usersList)
+      )
     })
 
     this.state.client.newMessage(data => {
       this.setState({receiveMsg: data})
     })
+
+    // TODO:  if this is card author then hydrate session
+    console.log("card: ", this.props)
   }
 
   componentWillUnmount() {

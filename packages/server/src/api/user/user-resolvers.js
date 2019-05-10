@@ -287,7 +287,6 @@ const signup = async (_, args, {redis, url}, info) => {
 }
 
 const login = async (parent, args, ctx, info) => {
-  console.log("ctx.req: ", ctx.req.session)
   // decipher identifier
   const {identifier, password} = args.input
   let token = ""
@@ -306,8 +305,10 @@ const login = async (parent, args, ctx, info) => {
   }
   // check if passwords match
   let user = await User.findOne(criteria)
+    .populate("hostedZone")
     .populate("subscriptions")
     .exec()
+  console.log("user: ", user)
 
   if (user.isCanceled) {
     arrayOfErrors.push({
@@ -334,8 +335,6 @@ const login = async (parent, args, ctx, info) => {
     token = await signToken(user._id)
     ctx.req.session.userId = user._id
   }
-
-  console.log("ctx.req 2: ", ctx.req.session)
 
   return {
     token,

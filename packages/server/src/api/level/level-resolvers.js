@@ -30,14 +30,12 @@ const getLevel = async (_, {levelId}, {user}) => {
 
 const getLevels = async (_, args, ctx, info) => {
   const arrayOfErrors = []
-  console.log("args; ", args)
   try {
     const course = await Course.findById(args.courseId)
       .populate("levels")
       .limit(100)
       .lean()
 
-    console.log("coursse; ", course)
     if (!course) {
       throw new Error(
         "This course has been removed by the author.  It will be removed from your subscriptions.  Please select a different course."

@@ -99,7 +99,7 @@ const zoneCreate = async (_, {input}, {req}, info) => {
       ageGroup: input.ageGroup,
       owner: input.owner,
       password: input.password,
-      reserved: input.reserved,
+      private: input.private,
       zoneName: input.zoneName,
       zoneDescription: input.zoneDescription,
       teachingLang: course.teachingLang,
@@ -177,21 +177,24 @@ const getZones = async (_, {input}, ctx, info) => {
   })
 }
 
-const rezone = async (_, args, ctx, info) => {
+const rezone = async (_, __, {req}, info) => {
   // build query object
   const query = {}
-  query.owner = ctx.user
-  //TODO
+  query.owner = req.session
+  const hostedZone = await Zone.findOne({owner: req.session.userId})
+    .populate("owner")
+    .exec()
+  return hostedZone
 }
 
 export const zoneResolvers = {
   Query: {
     getZones,
     getZone,
-    getZoneLevels
+    getZoneLevels,
+    rezone
   },
   Mutation: {
-    rezone,
     zoneDelete,
     zoneUpdate,
     zoneCreate

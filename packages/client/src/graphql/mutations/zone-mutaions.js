@@ -1,4 +1,5 @@
 import gql from "graphql-tag"
+import {zoneFragment} from "../fragments/zone-fragments.js"
 
 export const ZONE_CREATE_MUTATION = gql`
   mutation zoneCreate(
@@ -7,7 +8,7 @@ export const ZONE_CREATE_MUTATION = gql`
     $course: String
     $courseLevel: String
     $owner: String!
-    $reserved: Boolean
+    $private: Boolean
     $password: String
     $zoneName: String!
     $zoneDescription: String
@@ -21,7 +22,7 @@ export const ZONE_CREATE_MUTATION = gql`
         course: $course
         courseLevel: $courseLevel
         owner: $owner
-        reserved: $reserved
+        private: $private
         password: $password
         zoneName: $zoneName
         zoneDescription: $zoneDescription
@@ -29,18 +30,8 @@ export const ZONE_CREATE_MUTATION = gql`
         usingLang: $usingLang
       }
     ) {
-      _id
-      app
-      courseLevel
-      ageGroup
-      zoneName
-      zoneDescription
-      owner {
-        username
-      }
-      password
-      reserved
-      zoneName
+      ...ZoneInfo
     }
   }
+  ${zoneFragment}
 `

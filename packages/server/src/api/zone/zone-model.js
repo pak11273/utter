@@ -48,7 +48,7 @@ const ZoneSchema = mongoose.Schema(
       type: String,
       default: ""
     },
-    reserved: {
+    private: {
       type: Boolean,
       default: false
     },
@@ -83,6 +83,17 @@ const ZoneSchema = mongoose.Schema(
   {timestamps: true}
 )
 
+const addZoneToUser = async zone => {
+  try {
+    const updated = await User.findByIdAndUpdate(zone.owner, {
+      hostedZone: zone._id
+    }).exec()
+    return updated
+  } catch (err) {
+    return err
+  }
+}
+
 // all indexes will be searched by $text operator, the more indexes, the slower $text becomes
 ZoneSchema.index({
   app: "text",
@@ -107,6 +118,8 @@ ZoneSchema.virtual("id").get(function() {
 ZoneSchema.set("toJSON", {
   virtuals: true
 })
+
+ZoneSchema.post("save", addZoneToUser)
 
 ZoneSchema.plugin(mongoosePaginate)
 
