@@ -43,6 +43,27 @@ export const BETA_ACCESS = gql`
     betaAccess(key: $key)
   }
 `
+export const CHANGE_PASSWORD = gql`
+  mutation changePassword(
+    $password: String!
+    $passwordConfirmation: String
+    $token: String!
+  ) {
+    changePassword(
+      input: {
+        password: $password
+        passwordConfirmation: $passwordConfirmation
+        token: $token
+      }
+    ) {
+      token
+      error {
+        path
+        message
+      }
+    }
+  }
+`
 
 export const REMOVE_SUBSCRIPTION = gql`
   mutation removeSubscription($subscribedCourse: String) {

@@ -126,10 +126,10 @@ const changeCreditCard = async (_, {source, ccLast4}, {req}, __) => {
   return user
 }
 
-const changePassword = async (_, args, {redis, url}) => {
+const changePassword = async (_, {input}, {redis, url}) => {
   let token = null
   var arrayOfErrors = []
-  const redisToken = args.input.token
+  const redisToken = input.token
   const redisKey = `${forgotPasswordPrefix}${redisToken}`
   const userId = await redis.get(redisKey)
 
@@ -145,8 +145,8 @@ const changePassword = async (_, args, {redis, url}) => {
   }
 
   try {
-    args.input["password confirmation"] = args.input.passwordConfirmation
-    await changePasswordSchema.validate(args.input, {
+    input["password confirmation"] = input.passwordConfirmation
+    await changePasswordSchema.validate(input, {
       abortEarly: false
     })
   } catch (err) {
@@ -160,7 +160,7 @@ const changePassword = async (_, args, {redis, url}) => {
   }
 
   let user = await User.findById(userId).exec()
-  const hashedPassword = user.encryptPassword(args.input.password)
+  const hashedPassword = user.encryptPassword(input.password)
   const updatePromise = User.findByIdAndUpdate(userId, {
     $set: {forgotPasswordLocked: false, password: hashedPassword}
   })

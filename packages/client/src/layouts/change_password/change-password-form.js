@@ -1,4 +1,5 @@
 import React, {PureComponent} from "react"
+import {withApollo} from "react-apollo"
 import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 
@@ -7,8 +8,10 @@ import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
+import {toast} from "react-toastify"
 import {changePasswordSchema} from "@utterzone/common"
 import {FormikInput, Img, Section, Spacer} from "../../components"
+import {CHANGE_PASSWORD} from "../../graphql/mutations/user-mutations.js"
 
 import "./forms.css"
 
@@ -98,27 +101,51 @@ class ChangePasswordForm extends PureComponent {
   }
 }
 
-export default withRouter(
-  withFormik({
-    validationSchema: changePasswordSchema,
-    validateOnChange: false,
-    validateOnBlur: false,
-    mapPropsToValues: () => ({
-      password: "",
-      "password confirmation": ""
-    }),
-    handleSubmit: async (values, {props, setErrors}) => {
-      values.token = props.token
-      const onComplete = () => {
-        props.history.push("/login")
+export default withApollo(
+  withRouter(
+    withFormik({
+      validationSchema: changePasswordSchema,
+      validateOnChange: false,
+      validateOnBlur: false,
+      mapPropsToValues: () => ({
+        password: "",
+        "password confirmation": ""
+      }),
+      handleSubmit: async (values, {props}) => {
+        console.log("values: ", values)
+        console.log("prps: ", props)
+        const data = await props.client.mutate({
+          mutation: CHANGE_PASSWORD,
+          variables: {
+            password: values.password,
+            passwordConfirmation: values["password confirmation"],
+            token: props.token
+          }
+        })
+
+        const onComplete = () => {
+          toast.success(
+            "Password change successful.  Try logging in with your new password.",
+            {
+              className: "toasty",
+              bodyClassName: "toasty-body",
+              hideProgressBar: true
+            }
+          )
+          props.history.push("/login")
+        }
+
+        if (data.data.changePasswor && data.data.changePassword.error) {
+          toast.warn(data.data.changePassword.error[0].message, {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+          props.history.push("/forgot-password")
+        } else {
+          onComplete()
+        }
       }
-      const data = await props.submit(values)
-      const errors = data.data.changePassword.error
-      if (errors[0]) {
-        setErrors(errors[0])
-      } else {
-        onComplete()
-      }
-    }
-  })(withStyles(styles)(ChangePasswordForm))
+    })(withStyles(styles)(ChangePasswordForm))
+  )
 )
