@@ -266,7 +266,7 @@ var zoneCreate = function () {
               ageGroup: input.ageGroup,
               owner: input.owner,
               password: input.password,
-              reserved: input.reserved
+              private: input.private
             }, (0, _defineProperty2.default)(_ref12, "zoneName", input.zoneName), (0, _defineProperty2.default)(_ref12, "zoneDescription", input.zoneDescription), (0, _defineProperty2.default)(_ref12, "teachingLang", course.teachingLang), (0, _defineProperty2.default)(_ref12, "usingLang", course.usingLang), _ref12));
             _context5.next = 19;
             return newZone.save();
@@ -374,16 +374,25 @@ var getZones = function () {
 }();
 
 var rezone = function () {
-  var _ref16 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(_, args, ctx, info) {
-    var query;
+  var _ref17 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(_, __, _ref16, info) {
+    var req, query, hostedZone;
     return _regenerator.default.wrap(function _callee8$(_context8) {
       while (1) {
         switch (_context8.prev = _context8.next) {
           case 0:
+            req = _ref16.req;
             query = {};
-            query.owner = ctx.user;
+            query.owner = req.session;
+            _context8.next = 5;
+            return _zoneModel.default.findOne({
+              owner: req.session.userId
+            }).populate("owner").exec();
 
-          case 2:
+          case 5:
+            hostedZone = _context8.sent;
+            return _context8.abrupt("return", hostedZone);
+
+          case 7:
           case "end":
             return _context8.stop();
         }
@@ -392,7 +401,7 @@ var rezone = function () {
   }));
 
   return function rezone(_x21, _x22, _x23, _x24) {
-    return _ref16.apply(this, arguments);
+    return _ref17.apply(this, arguments);
   };
 }();
 
@@ -400,10 +409,10 @@ var zoneResolvers = {
   Query: {
     getZones: getZones,
     getZone: getZone,
-    getZoneLevels: getZoneLevels
+    getZoneLevels: getZoneLevels,
+    rezone: rezone
   },
   Mutation: {
-    rezone: rezone,
     zoneDelete: zoneDelete,
     zoneUpdate: zoneUpdate,
     zoneCreate: zoneCreate

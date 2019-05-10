@@ -99,9 +99,7 @@ export default compose(
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
       const onComplete = (zone, courseLevel, courseLevels) => {
-        console.log("courseLevel: ", courseLevel)
-        console.log("courseLevels: ", courseLevels)
-        // rehydrate host session
+        // rehydrate levels and vocabulary 
         session.levels = courseLevels
         session.vocabulary = courseLevel.data.getLevel.vocabulary
         session.modifier =
@@ -138,14 +136,12 @@ export default compose(
             }
           })
 
-          console.log("levels:", courseLevels)
           const courseLevel = await props.client.query({
             query: GET_LEVEL,
             variables: {
               levelId: courseLevels.data.getLevels.levels[session.level - 1]._id
             }
           })
-          console.log("course:", courseLevel)
 
           onComplete(zone, courseLevel, courseLevels)
         } else {

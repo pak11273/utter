@@ -87,30 +87,28 @@ var getLevels = function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             arrayOfErrors = [];
-            console.log("args; ", args);
-            _context2.prev = 2;
-            _context2.next = 5;
+            _context2.prev = 1;
+            _context2.next = 4;
             return _courseModel.default.findById(args.courseId).populate("levels").limit(100).lean();
 
-          case 5:
+          case 4:
             course = _context2.sent;
-            console.log("coursse; ", course);
 
             if (course) {
-              _context2.next = 9;
+              _context2.next = 7;
               break;
             }
 
             throw new Error("This course has been removed by the author.  It will be removed from your subscriptions.  Please select a different course.");
 
-          case 9:
+          case 7:
             ids = course.levelSort;
             sortedLevels = course.levels.sort(function (a, b) {
               return ids.indexOf(a._id.toString()) - ids.indexOf(b._id.toString());
             });
 
             if (!(0, _isEmpty.default)(course.levels)) {
-              _context2.next = 15;
+              _context2.next = 13;
               break;
             }
 
@@ -118,27 +116,27 @@ var getLevels = function () {
               levels: []
             });
 
-          case 15:
+          case 13:
             return _context2.abrupt("return", {
               levels: sortedLevels
             });
 
-          case 16:
-            _context2.next = 22;
+          case 14:
+            _context2.next = 20;
             break;
 
-          case 18:
-            _context2.prev = 18;
-            _context2.t0 = _context2["catch"](2);
+          case 16:
+            _context2.prev = 16;
+            _context2.t0 = _context2["catch"](1);
             console.log("msg: ", _context2.t0);
             return _context2.abrupt("return", _context2.t0);
 
-          case 22:
+          case 20:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2, null, [[2, 18]]);
+    }, _callee2, null, [[1, 16]]);
   }));
 
   return function getLevels(_x4, _x5, _x6, _x7) {

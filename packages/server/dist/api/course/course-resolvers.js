@@ -560,6 +560,9 @@ var getCourses = function () {
               populate: ["owner", "levels"],
               collation: {
                 locale: "en"
+              },
+              sort: {
+                subscribers: "desc"
               }
             };
             delete input.page;

@@ -1,5 +1,7 @@
 import React, {Component} from "react"
 import {Redirect} from "react-router-dom"
+import {withApollo} from "react-apollo"
+import {toast} from "react-toastify"
 
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
@@ -15,6 +17,9 @@ import Chat from "./chat/chat.js"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
 import {session} from "brownies"
+
+import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
+import {REZONE} from "../../../graphql/queries/zone-queries.js"
 
 const styles = theme => ({
   app: {
@@ -47,7 +52,7 @@ class Zone extends Component {
     client: socket()
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.state.client.usersList(usersList => {
       this.setState(
         {
@@ -61,8 +66,68 @@ class Zone extends Component {
       this.setState({receiveMsg: data})
     })
 
-    // TODO:  if this is card author then hydrate session
-    console.log("card: ", this.props)
+    // rehydrate levels and vocabulary
+    const {zoneId} = this.props.history.location.state
+    const hostedZoneId = session.user.hostedZone._id
+    if (zoneId === hostedZoneId) {
+      const onComplete = (zone, courseLevel, courseLevels) => {
+        console.log("hi")
+        session.levels = courseLevels
+        session.vocabulary = courseLevel.data.getLevel.vocabulary
+        session.modifier =
+          courseLevels.data.getLevels.levels[session.level - 1].modifier
+
+        toast.success("You have successfully reconnected to your zone.", {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      }
+
+      try {
+        const zone = await this.props.client.query({
+          query: REZONE,
+          variables: {
+            username: session.user.username
+          }
+        })
+
+        // rehydrate zone
+        session.zone = zone.data.rezone
+        session.level = zone.data.rezone.courseLevel
+        console.log("zone: ", zone)
+
+        // if zone is legit
+        if (zone) {
+          const courseLevels = await this.props.client.query({
+            fetchPolicy: "network-only",
+            query: GET_LEVELS,
+            variables: {
+              courseId: zone.data.rezone.course._id
+            }
+          })
+
+          const courseLevel = await this.props.client.query({
+            query: GET_LEVEL,
+            variables: {
+              levelId: courseLevels.data.getLevels.levels[session.level - 1]._id
+            }
+          })
+
+          onComplete(zone, courseLevel, courseLevels)
+        }
+      } catch (err) {
+        /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
+        const msg = err.message.replace("GraphQL error:", "").trim()
+        if (err.message.indexOf("You can only host") !== -1) {
+          toast.warn(msg, {
+            className: "toasty",
+            bodyClassName: "toasty-body",
+            hideProgressBar: true
+          })
+        }
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -160,4 +225,4 @@ class Zone extends Component {
   }
 }
 
-export default withStyles(styles)(Zone)
+export default withStyles(styles)(withApollo(Zone))

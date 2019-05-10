@@ -626,7 +626,6 @@ var login = function () {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
-            console.log("ctx.req: ", ctx.req.session);
             _args$input2 = args.input, identifier = _args$input2.identifier, password = _args$input2.password;
             token = "";
             arrayOfErrors = [];
@@ -643,11 +642,12 @@ var login = function () {
               });
             }
 
-            _context10.next = 8;
-            return _userModel.default.findOne(criteria).populate("subscriptions").exec();
+            _context10.next = 7;
+            return _userModel.default.findOne(criteria).populate("hostedZone").populate("subscriptions").exec();
 
-          case 8:
+          case 7:
             user = _context10.sent;
+            console.log("user: ", user);
 
             if (user.isCanceled) {
               arrayOfErrors.push({
@@ -708,14 +708,13 @@ var login = function () {
             ctx.req.session.userId = user._id;
 
           case 27:
-            console.log("ctx.req 2: ", ctx.req.session);
             return _context10.abrupt("return", {
               token: token,
               user: user,
               error: arrayOfErrors
             });
 
-          case 29:
+          case 28:
           case "end":
             return _context10.stop();
         }

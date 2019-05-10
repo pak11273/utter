@@ -23,7 +23,7 @@ const ZonesGrid = props => {
     session.zone = card
     props.history.push({
       pathname: `/zone/${card._id}`,
-      state: {zoneeId: card._id}
+      state: {zoneId: card._id}
     })
   }
 
