@@ -281,6 +281,9 @@ const getCourses = async (_, {input}, ctx, info) => {
     populate: ["owner", "levels"],
     collation: {
       locale: "en"
+    },
+    sort: {
+      subscribers: "desc"
     }
   }
 
