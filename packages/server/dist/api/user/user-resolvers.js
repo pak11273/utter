@@ -297,25 +297,26 @@ var changeCreditCard = function () {
 }();
 
 var changePassword = function () {
-  var _ref13 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee6(_, args, _ref12) {
-    var redis, url, token, arrayOfErrors, redisToken, redisKey, userId, user, hashedPassword, updatePromise, deleteKeyPromise;
+  var _ref14 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee6(_, _ref12, _ref13) {
+    var input, redis, url, token, arrayOfErrors, redisToken, redisKey, userId, user, hashedPassword, updatePromise, deleteKeyPromise;
     return _regenerator.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            redis = _ref12.redis, url = _ref12.url;
+            input = _ref12.input;
+            redis = _ref13.redis, url = _ref13.url;
             token = null;
             arrayOfErrors = [];
-            redisToken = args.input.token;
+            redisToken = input.token;
             redisKey = "".concat(_constants.forgotPasswordPrefix).concat(redisToken);
-            _context6.next = 7;
+            _context6.next = 8;
             return redis.get(redisKey);
 
-          case 7:
+          case 8:
             userId = _context6.sent;
 
             if (userId) {
-              _context6.next = 11;
+              _context6.next = 12;
               break;
             }
 
@@ -328,24 +329,24 @@ var changePassword = function () {
               error: arrayOfErrors
             });
 
-          case 11:
-            _context6.prev = 11;
-            args.input["password confirmation"] = args.input.passwordConfirmation;
-            _context6.next = 15;
-            return _common.changePasswordSchema.validate(args.input, {
+          case 12:
+            _context6.prev = 12;
+            input["password confirmation"] = input.passwordConfirmation;
+            _context6.next = 16;
+            return _common.changePasswordSchema.validate(input, {
               abortEarly: false
             });
 
-          case 15:
-            _context6.next = 22;
+          case 16:
+            _context6.next = 23;
             break;
 
-          case 17:
-            _context6.prev = 17;
-            _context6.t0 = _context6["catch"](11);
+          case 18:
+            _context6.prev = 18;
+            _context6.t0 = _context6["catch"](12);
 
             if (!_context6.t0) {
-              _context6.next = 22;
+              _context6.next = 23;
               break;
             }
 
@@ -354,13 +355,13 @@ var changePassword = function () {
               error: arrayOfErrors
             });
 
-          case 22:
-            _context6.next = 24;
+          case 23:
+            _context6.next = 25;
             return _userModel.default.findById(userId).exec();
 
-          case 24:
+          case 25:
             user = _context6.sent;
-            hashedPassword = user.encryptPassword(args.input.password);
+            hashedPassword = user.encryptPassword(input.password);
             updatePromise = _userModel.default.findByIdAndUpdate(userId, {
               $set: {
                 forgotPasswordLocked: false,
@@ -369,37 +370,37 @@ var changePassword = function () {
             });
             token = (0, _auth.signToken)(user._id);
             deleteKeyPromise = redis.del(redisKey);
-            _context6.next = 31;
+            _context6.next = 32;
             return Promise.all([updatePromise, deleteKeyPromise]);
 
-          case 31:
+          case 32:
             return _context6.abrupt("return", {
               token: token,
               error: []
             });
 
-          case 32:
+          case 33:
           case "end":
             return _context6.stop();
         }
       }
-    }, _callee6, null, [[11, 17]]);
+    }, _callee6, null, [[12, 18]]);
   }));
 
   return function changePassword(_x18, _x19, _x20) {
-    return _ref13.apply(this, arguments);
+    return _ref14.apply(this, arguments);
   };
 }();
 
 var createPayMonthly = function () {
-  var _ref16 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee7(_, _ref14, _ref15, __) {
+  var _ref17 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee7(_, _ref15, _ref16, __) {
     var source, ccLast4, req, query, stripeId, customer, user;
     return _regenerator.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            source = _ref14.source, ccLast4 = _ref14.ccLast4;
-            req = _ref15.req;
+            source = _ref15.source, ccLast4 = _ref15.ccLast4;
+            req = _ref16.req;
             console.log("ccLast4: ", ccLast4);
 
             if (!(!req.session || !req.session.userId)) {
@@ -484,19 +485,19 @@ var createPayMonthly = function () {
   }));
 
   return function createPayMonthly(_x21, _x22, _x23, _x24) {
-    return _ref16.apply(this, arguments);
+    return _ref17.apply(this, arguments);
   };
 }();
 
 var signup = function () {
-  var _ref18 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee9(_, args, _ref17, info) {
+  var _ref19 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee9(_, args, _ref18, info) {
     var redis, url, token, arrayOfErrors, _args$input, username, email, password, foundDupeEmail, foundDupeUsername, error, newUser;
 
     return _regenerator.default.wrap(function _callee9$(_context9) {
       while (1) {
         switch (_context9.prev = _context9.next) {
           case 0:
-            redis = _ref17.redis, url = _ref17.url;
+            redis = _ref18.redis, url = _ref18.url;
             args.input["password confirmation"] = args.input.passwordConfirmation;
             token = null;
             arrayOfErrors = [];
@@ -558,7 +559,7 @@ var signup = function () {
 
             newUser = new _userModel.default(args.input);
             return _context9.abrupt("return", newUser.save().then(function () {
-              var _ref19 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(result) {
+              var _ref20 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee8(result) {
                 var link;
                 return _regenerator.default.wrap(function _callee8$(_context8) {
                   while (1) {
@@ -593,7 +594,7 @@ var signup = function () {
               }));
 
               return function (_x29) {
-                return _ref19.apply(this, arguments);
+                return _ref20.apply(this, arguments);
               };
             }()).catch(function (err) {
               throw err;
@@ -613,12 +614,12 @@ var signup = function () {
   }));
 
   return function signup(_x25, _x26, _x27, _x28) {
-    return _ref18.apply(this, arguments);
+    return _ref19.apply(this, arguments);
   };
 }();
 
 var login = function () {
-  var _ref20 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee10(parent, args, ctx, info) {
+  var _ref21 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee10(parent, args, ctx, info) {
     var _args$input2, identifier, password, token, arrayOfErrors, username, email, criteria, user;
 
     return _regenerator.default.wrap(function _callee10$(_context10) {
@@ -723,12 +724,12 @@ var login = function () {
   }));
 
   return function login(_x30, _x31, _x32, _x33) {
-    return _ref20.apply(this, arguments);
+    return _ref21.apply(this, arguments);
   };
 }();
 
 var getUserByToken = function () {
-  var _ref21 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee11(_, args, ctx, info) {
+  var _ref22 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee11(_, args, ctx, info) {
     var token, result, _userId, user;
 
     return _regenerator.default.wrap(function _callee11$(_context11) {
@@ -788,12 +789,12 @@ var getUserByToken = function () {
   }));
 
   return function getUserByToken(_x34, _x35, _x36, _x37) {
-    return _ref21.apply(this, arguments);
+    return _ref22.apply(this, arguments);
   };
 }();
 
 var getUserById = function () {
-  var _ref22 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee12(_, args, ctx, info) {
+  var _ref23 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee12(_, args, ctx, info) {
     var result;
     return _regenerator.default.wrap(function _callee12$(_context12) {
       while (1) {
@@ -817,12 +818,12 @@ var getUserById = function () {
   }));
 
   return function getUserById(_x38, _x39, _x40, _x41) {
-    return _ref22.apply(this, arguments);
+    return _ref23.apply(this, arguments);
   };
 }();
 
 var getUserByUsername = function () {
-  var _ref23 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee13(_, args, ctx, info) {
+  var _ref24 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee13(_, args, ctx, info) {
     var result;
     return _regenerator.default.wrap(function _callee13$(_context13) {
       while (1) {
@@ -846,19 +847,19 @@ var getUserByUsername = function () {
   }));
 
   return function getUserByUsername(_x42, _x43, _x44, _x45) {
-    return _ref23.apply(this, arguments);
+    return _ref24.apply(this, arguments);
   };
 }();
 
 var forgotPassword = function () {
-  var _ref26 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee14(_, _ref24, _ref25) {
+  var _ref27 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee14(_, _ref25, _ref26) {
     var email, redis, url, user, link;
     return _regenerator.default.wrap(function _callee14$(_context14) {
       while (1) {
         switch (_context14.prev = _context14.next) {
           case 0:
-            email = _ref24.email;
-            redis = _ref25.redis, url = _ref25.url;
+            email = _ref25.email;
+            redis = _ref26.redis, url = _ref26.url;
             _context14.next = 4;
             return _userModel.default.findOne({
               email: email
@@ -889,25 +890,25 @@ var forgotPassword = function () {
   }));
 
   return function forgotPassword(_x46, _x47, _x48) {
-    return _ref26.apply(this, arguments);
+    return _ref27.apply(this, arguments);
   };
 }();
 
-var updateMe = function updateMe(_, _ref27, _ref28) {
-  var input = _ref27.input;
-  var user = _ref28.user;
+var updateMe = function updateMe(_, _ref28, _ref29) {
+  var input = _ref28.input;
+  var user = _ref29.user;
   merge(user, input);
   return user.save();
 };
 
 var getSubscriptions = function () {
-  var _ref30 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee15(_, args, _ref29) {
+  var _ref31 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee15(_, args, _ref30) {
     var user, subscriptions;
     return _regenerator.default.wrap(function _callee15$(_context15) {
       while (1) {
         switch (_context15.prev = _context15.next) {
           case 0:
-            user = _ref29.user;
+            user = _ref30.user;
             _context15.prev = 1;
             _context15.next = 4;
             return _userModel.default.findById(userId);
@@ -932,18 +933,18 @@ var getSubscriptions = function () {
   }));
 
   return function getSubscriptions(_x49, _x50, _x51) {
-    return _ref30.apply(this, arguments);
+    return _ref31.apply(this, arguments);
   };
 }();
 
 var removeSubscription = function () {
-  var _ref32 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee16(_, args, _ref31) {
+  var _ref33 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee16(_, args, _ref32) {
     var req, user;
     return _regenerator.default.wrap(function _callee16$(_context16) {
       while (1) {
         switch (_context16.prev = _context16.next) {
           case 0:
-            req = _ref31.req;
+            req = _ref32.req;
             _context16.next = 3;
             return _userModel.default.findByIdAndUpdate(req.session.userId, {
               $pull: {
@@ -968,19 +969,19 @@ var removeSubscription = function () {
   }));
 
   return function removeSubscription(_x52, _x53, _x54) {
-    return _ref32.apply(this, arguments);
+    return _ref33.apply(this, arguments);
   };
 }();
 
 var renewConfirmation = function () {
-  var _ref35 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee17(_, _ref33, _ref34, info) {
+  var _ref36 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee17(_, _ref34, _ref35, info) {
     var email, redis, url, registeredUser, link;
     return _regenerator.default.wrap(function _callee17$(_context17) {
       while (1) {
         switch (_context17.prev = _context17.next) {
           case 0:
-            email = _ref33.email;
-            redis = _ref34.redis, url = _ref34.url;
+            email = _ref34.email;
+            redis = _ref35.redis, url = _ref35.url;
             _context17.prev = 2;
             _context17.next = 5;
             return _userModel.default.findOne({
@@ -1032,7 +1033,7 @@ var renewConfirmation = function () {
   }));
 
   return function renewConfirmation(_x55, _x56, _x57, _x58) {
-    return _ref35.apply(this, arguments);
+    return _ref36.apply(this, arguments);
   };
 }();
 
@@ -1042,8 +1043,8 @@ var userResolvers = {
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref36) {
-      var name = _ref36.name;
+    hello: function hello(_, _ref37) {
+      var name = _ref37.name;
       return "Hello ".concat(name || "World");
     },
     me: me
