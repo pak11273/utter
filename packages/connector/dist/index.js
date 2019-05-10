@@ -16,18 +16,6 @@ Object.keys(_levelsConnector).forEach(function (key) {
   });
 });
 
-var _changePasswordConnector = require("./connectors/change-password-connector.js");
-
-Object.keys(_changePasswordConnector).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function get() {
-      return _changePasswordConnector[key];
-    }
-  });
-});
-
 var _forgotPasswordConnector = require("./connectors/forgot-password-connector.js");
 
 Object.keys(_forgotPasswordConnector).forEach(function (key) {
