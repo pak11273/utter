@@ -99,10 +99,10 @@ export default compose(
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
       const onComplete = (zone, courseLevel, courseLevels) => {
+        console.log("courseLevel: ", courseLevel)
+        console.log("courseLevels: ", courseLevels)
         // rehydrate host session
         session.levels = courseLevels
-        session.zone = zone.data.rezone
-        session.level = zone.data.rezone.courseLevel
         session.vocabulary = courseLevel.data.getLevel.vocabulary
         session.modifier =
           courseLevels.data.getLevels.levels[session.level - 1].modifier
@@ -117,33 +117,39 @@ export default compose(
         })
       }
       try {
-        const result = await props.client.query({
+        const zone = await props.client.query({
           query: REZONE,
           variables: {
             username: values.username
           }
         })
 
-        // if result is legit
-        if (result) {
+        // rehydrate zone
+        session.zone = zone.data.rezone
+        session.level = zone.data.rezone.courseLevel
+
+        // if zone is legit
+        if (zone) {
           const courseLevels = await props.client.query({
             fetchPolicy: "network-only",
             query: GET_LEVELS,
             variables: {
-              courseId: result.data.rezone.course._id
+              courseId: zone.data.rezone.course._id
             }
           })
 
+          console.log("levels:", courseLevels)
           const courseLevel = await props.client.query({
             query: GET_LEVEL,
             variables: {
               levelId: courseLevels.data.getLevels.levels[session.level - 1]._id
             }
           })
+          console.log("course:", courseLevel)
 
-          onComplete(result, courseLevel, courseLevels)
+          onComplete(zone, courseLevel, courseLevels)
         } else {
-          setErrors(result.REZONE.errors)
+          setErrors(zone.REZONE.errors)
           toast.success("Could not create a zone, please try again.", {
             className: "toasty",
             bodyClassName: "toasty-body",
