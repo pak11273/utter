@@ -20,13 +20,14 @@ type Phrases {
 }
 
 type Level {
+  _id: ID
 	course: String
   createdAt: Int
 	cuid: String
 	examples: [Example]
 	grammar: [Grammar]
 	id: ID!
-  _id: ID
+	modifier: String
 	notes: String 
 	phrases: [Phrases]
   updatedAt: String
@@ -37,11 +38,13 @@ type Level {
 input LevelUpdateInput {
   _id: ID
   title: String
+	modifier: String
 }
 
 input LevelCreateInput {
 	courseId: String
   title: String
+	modifier: String
 }
 
 input LevelSortInput {

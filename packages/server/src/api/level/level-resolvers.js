@@ -140,6 +140,7 @@ const levelUpdate = async (_, {input}) => {
 }
 
 const levelCreate = async (_, {input}, ctx, info) => {
+  console.log("input: ", input)
   let arrayOfErrors = []
   const token = ctx.req.headers.authorization
   if (token === "null") {

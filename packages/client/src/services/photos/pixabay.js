@@ -59,7 +59,9 @@ export class Pixabay extends PhotoAbstract {
             process.env.PIXABAY_API_KEY
           }&q=${
             dataItem.word
-          }&image_type=photo&pretty=true&per_page=${encodeURIComponent(10)}`
+          }&image_type=photo&pretty=true&per_page=${encodeURIComponent(
+            10
+          )}&safesearch=true`
           const response = await fetch(url)
           const fetched = await response.json()
 

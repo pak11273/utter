@@ -6,6 +6,7 @@ export const GET_LEVEL = gql`
       _id
       course
       title
+      modifier
       vocabulary {
         _id
         audioUrl
@@ -26,6 +27,7 @@ export const GET_LEVELS = gql`
         _id
         course
         title
+        modifier
       }
     }
   }

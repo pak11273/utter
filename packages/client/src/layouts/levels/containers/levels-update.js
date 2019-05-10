@@ -73,9 +73,6 @@ const MuiTableEditRow = ({onEditingApproved, ...props}) => {
           }
         }
 
-        console.log("values: ", values)
-        console.log("props.mode: ", props.mode)
-        console.log("props.data: ", props.data)
         onEditingApproved(props.mode, values, props.data)
       }}
       render={({submitForm}) => (
@@ -146,7 +143,8 @@ class LevelsUpdate extends Component {
               mutation: LEVEL_CREATE,
               variables: {
                 courseId: session.course._id,
-                title: res.newData.title
+                title: res.newData.title,
+                modifier: res.newData.modifier
               },
               refetchQueries: [
                 {query: GET_USER_BY_TOKEN, variables: {token: cookies._uid}}
@@ -205,7 +203,8 @@ class LevelsUpdate extends Component {
               mutation: LEVEL_UPDATE,
               variables: {
                 _id: newData._id,
-                title: newData.title
+                title: newData.title,
+                modifier: newData.modifier
               }
             })
           })
@@ -342,11 +341,11 @@ class LevelsUpdate extends Component {
                       readonly: true,
                       render: rowData => rowData && rowData.tableData.id + 1
                     },
-                    /* { */
-                    /*   title: "id", */
-                    /*   render: rowData => rowData && rowData._id */
-                    /* }, */
-                    {title: "title", field: "title"}
+                    {title: "title", field: "title"},
+                    {
+                      title: "modifier",
+                      field: "modifier"
+                    }
                   ]}
                   components={{
                     EditRow: MuiTableEditRow,
