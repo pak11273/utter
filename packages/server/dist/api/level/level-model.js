@@ -62,6 +62,10 @@ var LevelSchema = new _mongoose.default.Schema({
       type: String
     }
   }],
+  modifier: {
+    type: String,
+    default: ""
+  },
   phrases: [{
     type: {
       type: String

@@ -309,45 +309,46 @@ var levelCreate = function () {
         switch (_context6.prev = _context6.next) {
           case 0:
             input = _ref11.input;
+            console.log("input: ", input);
             arrayOfErrors = [];
             token = ctx.req.headers.authorization;
 
             if (!(token === "null")) {
-              _context6.next = 5;
+              _context6.next = 6;
               break;
             }
 
             return _context6.abrupt("return", new Error("You need to be registered to view this resource."));
 
-          case 5:
-            _context6.next = 7;
+          case 6:
+            _context6.next = 8;
             return (0, _resolverFunctions.userByToken)(token, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
+          case 8:
             user = _context6.sent;
             newLevel = new _levelModel.default((0, _objectSpread2.default)({}, input, {
               course: input.courseId
             }));
-            _context6.next = 11;
+            _context6.next = 12;
             return newLevel.save();
 
-          case 11:
+          case 12:
             level = _context6.sent;
-            _context6.next = 14;
+            _context6.next = 15;
             return _courseModel.default.findById(input.courseId);
 
-          case 14:
+          case 15:
             course = _context6.sent;
             course.levels.push(level);
-            _context6.next = 18;
+            _context6.next = 19;
             return course.save();
 
-          case 18:
+          case 19:
             if (course) {
-              _context6.next = 22;
+              _context6.next = 23;
               break;
             }
 
@@ -355,16 +356,16 @@ var levelCreate = function () {
               path: "level",
               message: "Course was not found."
             });
-            _context6.next = 23;
+            _context6.next = 24;
             break;
 
-          case 22:
+          case 23:
             return _context6.abrupt("return", {
               level: level,
               errors: arrayOfErrors
             });
 
-          case 23:
+          case 24:
           case "end":
             return _context6.stop();
         }
