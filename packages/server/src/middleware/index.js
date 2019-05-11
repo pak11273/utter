@@ -21,7 +21,8 @@ export default app => {
 
       callback(new Error("Not allowed by CORS"))
     },
-    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"],
+    preflightContinue: true
   }
   app.options("*", cors(corsOptions))
   app.use(cors(corsOptions))
