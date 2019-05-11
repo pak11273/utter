@@ -24,16 +24,18 @@ var _config = _interopRequireDefault(require("../config"));
 require("dotenv").config();
 
 var _default = function _default(app) {
-  var whitelist = ["https://utterzone.com", "http://192.168.68.8:8080"];
+  var whitelist = ["https://utterzone.com", "https://www.utterzone.com", "http://192.168.68.8:8080"];
   var corsOptions = {
     credentials: true,
     origin: function origin(_origin, callback) {
-      if (whitelist.includes(_origin)) return callback(null, true);
-      callback(new Error("Not allowed by CORS"));
-    },
-    methods: ["POST", "GET", "OPTIONS"]
+      if (whitelist.indexOf(_origin) !== -1 || !_origin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    }
   };
-  app.options("*", (0, _cors.default)(corsOptions));
+  app.options("*", (0, _cors.default)());
   app.use((0, _cors.default)(corsOptions));
   app.use((0, _morgan.default)("dev"));
   app.use(_bodyParser.default.urlencoded({

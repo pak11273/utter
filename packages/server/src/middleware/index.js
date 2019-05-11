@@ -16,11 +16,18 @@ export default app => {
   ]
   var corsOptions = {
     credentials: true,
-    origin: (origin, callback) => {
-      if (whitelist.includes(origin)) return callback(null, true)
-
-      callback(new Error("Not allowed by CORS"))
+    origin: function(origin, callback) {
+      if (whitelist.indexOf(origin) !== -1 || !origin) {
+        callback(null, true)
+      } else {
+        callback(new Error("Not allowed by CORS"))
+      }
     }
+    /* origin: (origin, callback) => { */
+    /*   if (whitelist.includes(origin)) return callback(null, true) */
+
+    /*   callback(new Error("Not allowed by CORS")) */
+    /* } */
     /* methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"] */
   }
   app.options("*", cors())
