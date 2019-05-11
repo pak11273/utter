@@ -12,6 +12,7 @@ export default app => {
   var whitelist = [
     "https://utterzone.com",
     "https://www.utterzone.com",
+    "https://www.utterzone.com/login",
     "http://192.168.68.8:8080"
   ]
   var corsOptions = {
