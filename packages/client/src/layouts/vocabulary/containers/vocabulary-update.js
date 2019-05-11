@@ -8,6 +8,7 @@ import Can from "../../../components/can"
 /* import {hasRole} from '../../../utils/auth.js' */
 
 import Add from "@material-ui/icons/Add"
+/* import Button from "@material-ui/core/Button" */
 import Check from "@material-ui/icons/Check"
 import Clear from "@material-ui/icons/Clear"
 import ChevronLeft from "@material-ui/icons/ChevronLeft"
@@ -25,21 +26,22 @@ import Mic from "@material-ui/icons/Mic"
 import Play from "@material-ui/icons/PlayArrow"
 import Paper from "@material-ui/core/Paper"
 import Search from "@material-ui/icons/Search"
+/* import Tooltip from "@material-ui/core/Tooltip" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {getPublicId} from "../../../utils/cloudinary-utils.js"
 
 import {courseVocabularySchema} from "../yupSchemas.js"
 import MaterialTable, {MTableEditRow, MTableToolbar} from "material-table"
+import {GET_VOCABULARIES} from "../../../graphql/queries/vocabulary-queries.js"
 import {
-  GET_VOCABULARIES,
   VOCABULARY_AUDIO_DELETE,
   VOCABULARY_CREATE,
   VOCABULARY_DELETE,
   VOCABULARY_UPDATE
-} from "../xhr.js"
+} from "../../../graphql/mutations/vocabulary-mutations.js"
 
-import {GET_COURSE} from "../../courses/xhr.js"
+import {GET_COURSE} from "../../../graphql/queries/course-queries.js"
 
 import {styles} from "../../styles.js"
 import {LevelSelect, VocabularyAudioModal} from "../components"
@@ -151,6 +153,7 @@ class VocabularysUpdate extends Component {
                 audioUrl: newData.audioUrl || null,
                 gender: newData.gender || "none",
                 level: session.levelsIdsArr[session.level - 1],
+                keyword: newData.keyword || "",
                 partsOfSpeech: newData.partsOfSpeech || "none",
                 word: newData.word,
                 translation: newData.translation
@@ -193,6 +196,7 @@ class VocabularysUpdate extends Component {
                 _id: newData._id,
                 audioUrl: newData.audioUrl,
                 gender: newData.gender,
+                keyword: newData.keyword,
                 word: newData.word,
                 partsOfSpeech: newData.partsOfSpeech || "none",
                 translation: newData.translation
@@ -410,12 +414,12 @@ class VocabularysUpdate extends Component {
                       readonly: true,
                       render: () => session.level
                     },
-                    {
-                      title: "id",
-                      render: rowData => rowData && rowData._id
-                    },
                     {title: "word", field: "word"},
                     {title: "translation", field: "translation"},
+                    {
+                      title: "keyword",
+                      field: "keyword"
+                    },
                     {
                       title: "parts of speech",
                       field: "partsOfSpeech",

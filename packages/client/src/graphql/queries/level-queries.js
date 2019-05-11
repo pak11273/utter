@@ -12,6 +12,7 @@ export const GET_LEVEL = gql`
         audioUrl
         level
         gender
+        keyword
         partsOfSpeech
         word
         translation

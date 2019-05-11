@@ -2,6 +2,7 @@ type Vocabulary {
 	_id: ID
 	audioUrl: String
 	level: String 
+	keyword: String 
 	gender: String
 	partsOfSpeech: String
 	word: String
@@ -18,6 +19,7 @@ input VocabularyUpdated {
 	audioUrl: String
 	level: String 
 	gender: String
+	keyword: String 
 	partsOfSpeech: String
 	word: String
 	translation: String
@@ -27,6 +29,7 @@ input VocabularyCreateInput {
 	audioUrl: String
 	gender: String
 	level: ID! 
+	keyword: String 
 	partsOfSpeech: String
 	translation: String
 	word: String

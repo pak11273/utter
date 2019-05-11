@@ -15,6 +15,9 @@ const VocabularySchema = new mongoose.Schema({
   gender: {
     type: String
   },
+  keyword: {
+    type: String
+  },
   level: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Level"

@@ -50,18 +50,19 @@ export class Pixabay extends PhotoAbstract {
   }
 
   async fetchPics(data) {
+    console.log("data: ", data)
     this.loading = true
     const words = PhotoAbstract.convertData(data.vocabulary)
 
     const arr = await data.vocabulary.map(async dataItem => {
+      console.log("dataitem: ", dataItem)
+      const keyword = dataItem.keyword ? dataItem.keyword : dataItem.translation
       return new Promise(resolve => {
         const modifier = data.modifier || ""
         setTimeout(async () => {
           const url = `https://pixabay.com/api/?key=${
             process.env.PIXABAY_API_KEY
-          }&q=${modifier}%20${
-            dataItem.translation
-          }&image_type=photo&pretty=true&per_page=${encodeURIComponent(
+          }&q=${modifier}%20${keyword}&image_type=photo&pretty=true&per_page=${encodeURIComponent(
             10
           )}&safesearch=true`
           console.log("url: ", url)

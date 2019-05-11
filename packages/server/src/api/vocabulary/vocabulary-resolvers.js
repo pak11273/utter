@@ -80,11 +80,9 @@ const vocabularyAudioDelete = async (_, args, ctx, info) => {
   }
 }
 
-const vocabularyCreate = async (_, args, ctx, info) => {
+const vocabularyCreate = async (_, {input}, ctx, info) => {
   const arrayOfErrors = []
 
-  const {input} = args
-  console.log("input: ", input)
   try {
     if (!ctx.isAuth) {
       throw new Error("You need to be registered to create a course.")
@@ -101,6 +99,7 @@ const vocabularyCreate = async (_, args, ctx, info) => {
       audioUrl: input.audioUrl,
       level: input.level,
       gender: input.gender,
+      keyword: input.keyword,
       partsOfSpeech: input.partsOfSpeech,
       translation: input.translation,
       word: input.word

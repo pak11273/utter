@@ -39,9 +39,9 @@ const Rezone = props => {
                 className={classes.subHeading}
                 style={{color: "white"}}
                 gutterBottom>
-                Got cut from your zone? You can get back to it from here. If you
-                would like to destroy your zone you can do so once you back
-                inside the zone.
+                If you lost connection to your zone you can get back to it from
+                here. If you would like to destroy your zone you can do so once
+                you back inside the zone.
               </Typography>
             </Grid>
           </div>
@@ -99,8 +99,8 @@ export default compose(
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
       const onComplete = (zone, courseLevel, courseLevels) => {
-        // rehydrate levels and vocabulary 
-        session.levels = courseLevels
+        // rehydrate levels and vocabulary
+        session.levels = courseLevels.data.getLevels.levels
         session.vocabulary = courseLevel.data.getLevel.vocabulary
         session.modifier =
           courseLevels.data.getLevels.levels[session.level - 1].modifier
@@ -135,6 +135,7 @@ export default compose(
               courseId: zone.data.rezone.course._id
             }
           })
+          console.log("getleve: ", courseLevels)
 
           const courseLevel = await props.client.query({
             query: GET_LEVEL,
