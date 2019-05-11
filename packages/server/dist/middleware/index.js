@@ -30,7 +30,8 @@ var _default = function _default(app) {
     origin: function origin(_origin, callback) {
       if (whitelist.includes(_origin)) return callback(null, true);
       callback(new Error("Not allowed by CORS"));
-    }
+    },
+    methods: ["POST", "GET", "OPTIONS"]
   };
   app.options("*", (0, _cors.default)(corsOptions));
   app.use((0, _cors.default)(corsOptions));
