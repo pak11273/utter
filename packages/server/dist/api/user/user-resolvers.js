@@ -66,7 +66,7 @@ var me = function () {
             return _context.abrupt("return", null);
 
           case 3:
-            return _context.abrupt("return", _userModel.default.findById(req.session.userId).lean());
+            return _context.abrupt("return", _userModel.default.findById(req.session.userId).populate("subscriptions").lean());
 
           case 4:
           case "end":
