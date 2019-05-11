@@ -12,7 +12,6 @@ export default app => {
   var whitelist = [
     "https://utterzone.com",
     "https://www.utterzone.com",
-    "https://www.utterzone.com/login",
     "http://192.168.68.8:8080"
   ]
   var corsOptions = {
@@ -21,8 +20,8 @@ export default app => {
       if (whitelist.includes(origin)) return callback(null, true)
 
       callback(new Error("Not allowed by CORS"))
-    }
-    /* methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"] */
+    },
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
   }
   app.options("*", cors(corsOptions))
   app.use(cors(corsOptions))
