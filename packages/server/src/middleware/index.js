@@ -21,10 +21,9 @@ export default app => {
 
       callback(new Error("Not allowed by CORS"))
     },
-    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"],
-    preflightContinue: true
+    methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"]
   }
-  app.options("*", cors(corsOptions))
+  app.options("*", cors())
   app.use(cors(corsOptions))
   app.use(morgan("dev"))
   app.use(bodyParser.urlencoded({extended: true}))
