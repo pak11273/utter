@@ -134,94 +134,95 @@ class Chat extends PureComponent {
     }
   }
 
-  /* componentDidMount() { */
-  /*   this.props.registerHandler(this.onMessageReceived) */
-  /*   this.scrollChatToBottom() */
+  componentDidMount() {
+    console.log("props: ", this.props)
+    /*   this.props.registerHandler(this.onMessageReceived) */
+    /*   this.scrollChatToBottom() */
 
-  /*   var {props} = this */
-  /*   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
-  /*     console.log("getUserMedia supported.") */
-  /*     navigator.mediaDevices */
-  /*       .getUserMedia({audio: true}) */
-  /*       // Success callback */
-  /*       .then(stream => { */
-  /*         const recorder = RecordRTC(stream, {type: "audio"}) */
-  /*         var record = document.querySelector(".record") */
-  /*         var stop = document.querySelector(".stop") */
-  /*         var soundClips = document.querySelector(".sound-clips") */
-  /*         record.onclick = () => { */
-  /*           if (soundClips.childNodes.length === 1) { */
-  /*             record.disabled = true */
-  /*             alert( */
-  /*               "You can only record 1 audio clip at a time.  Delete your audio clip to record another." */
-  /*             ) */
-  /*           } else { */
-  /*             recorder.startRecording() */
-  /*             console.log("recorder started") */
-  /*             record.style.background = "green" */
-  /*             record.style.color = "black" */
-  /*           } */
-  /*         } */
+    /*   var {props} = this */
+    /*   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
+    /*     console.log("getUserMedia supported.") */
+    /*     navigator.mediaDevices */
+    /*       .getUserMedia({audio: true}) */
+    /*       // Success callback */
+    /*       .then(stream => { */
+    /*         const recorder = RecordRTC(stream, {type: "audio"}) */
+    /*         var record = document.querySelector(".record") */
+    /*         var stop = document.querySelector(".stop") */
+    /*         var soundClips = document.querySelector(".sound-clips") */
+    /*         record.onclick = () => { */
+    /*           if (soundClips.childNodes.length === 1) { */
+    /*             record.disabled = true */
+    /*             alert( */
+    /*               "You can only record 1 audio clip at a time.  Delete your audio clip to record another." */
+    /*             ) */
+    /*           } else { */
+    /*             recorder.startRecording() */
+    /*             console.log("recorder started") */
+    /*             record.style.background = "green" */
+    /*             record.style.color = "black" */
+    /*           } */
+    /*         } */
 
-  /*         stop.onclick = () => { */
-  /*           var audio = document.createElement("audio") */
-  /*           var clipContainer = document.createElement("Article") */
-  /*           var deleteButton = document.createElement("button") */
+    /*         stop.onclick = () => { */
+    /*           var audio = document.createElement("audio") */
+    /*           var clipContainer = document.createElement("Article") */
+    /*           var deleteButton = document.createElement("button") */
 
-  /*           recorder.stopRecording(audioURL => { */
-  /*             audio.src = audioURL */
+    /*           recorder.stopRecording(audioURL => { */
+    /*             audio.src = audioURL */
 
-  /*             /1* var recordedBlob = recorder.getBlob() *1/ */
-  /*             recorder.getDataURL(dataUrl => { */
-  /*               var files = { */
-  /*                 audio: { */
-  /*                   /1* author: props.userReducer.userProfile.username, *1/ */
-  /*                   author: "chino", */
-  /*                   /1* room: props.socketReducer.joined_room, *1/ */
-  /*                   /1* name: "file" + fileCounter++ + ".wav", *1/ */
-  /*                   type: "audio/wav", */
-  /*                   dataUrl */
-  /*                 } */
-  /*               } */
-  /*               // add blob to redux */
-  /*               props.actions.loadAudioBlob(files) */
-  /*             }) */
-  /*           }) */
-  /*           console.log("recorder stopped") */
-  /*           record.style.background = "" */
-  /*           record.style.color = "" */
+    /*             /1* var recordedBlob = recorder.getBlob() *1/ */
+    /*             recorder.getDataURL(dataUrl => { */
+    /*               var files = { */
+    /*                 audio: { */
+    /*                   /1* author: props.userReducer.userProfile.username, *1/ */
+    /*                   author: "chino", */
+    /*                   /1* room: props.socketReducer.joined_room, *1/ */
+    /*                   /1* name: "file" + fileCounter++ + ".wav", *1/ */
+    /*                   type: "audio/wav", */
+    /*                   dataUrl */
+    /*                 } */
+    /*               } */
+    /*               // add blob to redux */
+    /*               props.actions.loadAudioBlob(files) */
+    /*             }) */
+    /*           }) */
+    /*           console.log("recorder stopped") */
+    /*           record.style.background = "" */
+    /*           record.style.color = "" */
 
-  /*           clipContainer.classList.add("clip") */
-  /*           clipContainer.setAttribute( */
-  /*             "style", */
-  /*             "display: flex; justify-content: center; padding-top: 20px; width: 270px" */
-  /*           ) */
-  /*           audio.setAttribute("controls", "") */
-  /*           deleteButton.innerHTML = "DEL" */
+    /*           clipContainer.classList.add("clip") */
+    /*           clipContainer.setAttribute( */
+    /*             "style", */
+    /*             "display: flex; justify-content: center; padding-top: 20px; width: 270px" */
+    /*           ) */
+    /*           audio.setAttribute("controls", "") */
+    /*           deleteButton.innerHTML = "DEL" */
 
-  /*           clipContainer.appendChild(audio) */
-  /*           clipContainer.appendChild(deleteButton) */
-  /*           deleteButton.setAttribute( */
-  /*             "style", */
-  /*             "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;" */
-  /*           ) */
-  /*           soundClips.appendChild(clipContainer) */
+    /*           clipContainer.appendChild(audio) */
+    /*           clipContainer.appendChild(deleteButton) */
+    /*           deleteButton.setAttribute( */
+    /*             "style", */
+    /*             "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;" */
+    /*           ) */
+    /*           soundClips.appendChild(clipContainer) */
 
-  /*           deleteButton.onclick = e => { */
-  /*             var evtTgt = e.target */
-  /*             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode) */
-  /*             record.disabled = false */
-  /*           } */
-  /*         } */
-  /*       }) */
-  /*       // Error callback */
-  /*       .catch(err => { */
-  /*         console.log("The following gUM error occured: " + err) */
-  /*       }) */
-  /*   } else { */
-  /*     console.log("getUserMedia not supported on your browser!") */
-  /*   } */
-  /* } */
+    /*           deleteButton.onclick = e => { */
+    /*             var evtTgt = e.target */
+    /*             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode) */
+    /*             record.disabled = false */
+    /*           } */
+    /*         } */
+    /*       }) */
+    /*       // Error callback */
+    /*       .catch(err => { */
+    /*         console.log("The following gUM error occured: " + err) */
+    /*       }) */
+    /*   } else { */
+    /*     console.log("getUserMedia not supported on your browser!") */
+    /*   } */
+  }
 
   /* componentWillReceiveProps(props) { */
   /*   if (props.receiveMsg.data) { */
@@ -311,8 +312,19 @@ class Chat extends PureComponent {
           justifyContent: "center"
         }}>
         <ChatWindow>
-          <div style={{display: "flex", flexDirection: "row"}}>
-            <div style={{padding: "13px", minWidth: "250px"}}>
+          <div
+            style={{
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "row"
+            }}>
+            <div
+              style={{
+                position: "absolute",
+                left: "15px",
+                minWidth: "250px",
+                top: "25px"
+              }}>
               <Typography className={classes.outputText}>
                 ({this.props.usersList.length}) {this.props.zone.zoneName}
               </Typography>

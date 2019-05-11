@@ -37,7 +37,9 @@ const me = async (_, __, {req}) => {
   if (!req.session.userId) {
     return null
   }
-  return User.findById(req.session.userId).lean()
+  return User.findById(req.session.userId)
+    .populate("subscriptions")
+    .lean()
 }
 
 const confirmEmail = async (_, args, {redis, url}) => {

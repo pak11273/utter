@@ -49,7 +49,8 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
-    client: socket()
+    client: socket(),
+    host: false
   }
 
   async componentDidMount() {
@@ -66,10 +67,18 @@ class Zone extends Component {
       this.setState({receiveMsg: data})
     })
 
-    // rehydrate levels and vocabulary
+    // rehydrate levels and vocabulary for returning hosts
     const {zoneId} = this.props.history.location.state
     const hostedZoneId = session.user.hostedZone._id
-    if (zoneId === hostedZoneId) {
+    if (zoneId === hostedZoneId || session.zone._id === hostedZoneId) {
+      this.setState(
+        {
+          host: true
+        },
+        console.log(" host ", this.state)
+      )
+    }
+    if (this.state.host) {
       const onComplete = (zone, courseLevel, courseLevels) => {
         console.log("hi")
         session.levels = courseLevels
@@ -202,6 +211,7 @@ class Zone extends Component {
             md={6}
             lg={4}>
             <Chat
+              host={this.state.host}
               onLeave={() =>
                 this.onLeaveZone(zone.id, () => history.push("/zones"))
               }

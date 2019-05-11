@@ -10,7 +10,9 @@ export const accountFragment = gql`
     createdCourses {
       _id
     }
-    hostedZone
+    hostedZone {
+      _id
+    }
     isCanceled
     rights
     roles

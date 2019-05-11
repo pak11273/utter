@@ -1,4 +1,5 @@
 /* import React, {useState} from "react" */
+/* import React, {useEffect} from "react" */
 import React from "react"
 import {Helmet} from "react-helmet-async"
 import {withRouter} from "react-router-dom"
@@ -34,11 +35,23 @@ import "../overrides.css"
 
 const ZoneCreate = props => {
   /* const [state, changeState] = useState({ */
-  /*   public: true, */
-  /*   private: false */
+  /*   /1* public: true, *1/ */
+  /*   /1* private: false *1/ */
   /* }) */
 
-  /* useEffect(() => { */
+  // If user opens new tab, user's subscriptions will get null fields.  Check for title and rehydrate if null.
+  const subs = session.user.subscriptions
+
+  subs.map(async item => {
+    const keys = Object.keys(item)
+    const nulls = keys.map(key => {
+      if (key === "title" && !item[key]) {
+        return null
+      }
+    })
+    console.log("null: ", nulls)
+  })
+
   /* 	// TODO: Check use subscriptions to ensure subscribed courses are still active.  Remove any courses that can't be found from user subscriptions */
 
   /* 	// get courses o */
@@ -46,7 +59,6 @@ const ZoneCreate = props => {
   /* 	session.user.subscriptions.map(() => { */
   /* 			GET_COURSE */
   /* 	}) */
-  /* },[]) */
 
   /* const handleChange = name => event => { */
   /*   changeState({ */
@@ -315,6 +327,9 @@ export default compose(
 
         const {levels} = courseLevels.data.getLevels
         const index = parseInt(values.courseLevel, 10)
+        console.log("props: ", props)
+        console.log("values: ", values)
+        session.host = "na"
         session.level = index
         if (!levels[index - 1]) {
           setErrors({
