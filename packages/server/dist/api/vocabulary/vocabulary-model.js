@@ -27,6 +27,9 @@ var VocabularySchema = new _mongoose.default.Schema({
   gender: {
     type: String
   },
+  keyword: {
+    type: String
+  },
   level: {
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "Level"
