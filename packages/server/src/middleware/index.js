@@ -16,8 +16,8 @@ export default app => {
       if (whitelist.includes(origin)) return callback(null, true)
 
       callback(new Error("Not allowed by CORS"))
-    },
-    methods: ["POST", "GET", "OPTIONS"]
+    }
+    /* methods: ["POST", "PUT", "GET", "DELETE", "OPTIONS"] */
   }
   app.options("*", cors(corsOptions))
   app.use(cors(corsOptions))
