@@ -1,20 +1,7 @@
 import React, {Component} from "react"
 import Select from "react-select"
 import Box from "../Boxes"
-
-const customStyles = {
-  control: styles => ({
-    ...styles,
-    margin: "20px auto",
-    padding: "3px",
-    position: "relative",
-    width: "200px",
-    height: "50px",
-    borderWidth: "1px",
-    borderColor: "rgba(0, 0, 0, 0.87)",
-    borderRadius: "5px"
-  })
-}
+import {customStyles} from "./styles.js"
 
 class Using extends Component {
   constructor(props) {
