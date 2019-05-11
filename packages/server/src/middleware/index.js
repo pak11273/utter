@@ -11,8 +11,8 @@ import config from "../config"
 export default app => {
   var whitelist = [
     "https://utterzone.com",
-    "https://www.utterzone.com",
-    "http://192.168.68.8:8080"
+    "http://192.168.68.8:8080",
+    /\.utterzone\.com$/
   ]
   var corsOptions = {
     credentials: true,
