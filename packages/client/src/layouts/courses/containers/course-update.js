@@ -162,7 +162,7 @@ class CourseUpdate extends PureComponent {
           <Spacer margin="40px 0 0 0" />
           <div align="center">
             <Link component={NavLink} to="/courses/created">
-              My Created Courses
+              <Typography>My Created Courses</Typography>
             </Link>
           </div>
         </Drawer>
