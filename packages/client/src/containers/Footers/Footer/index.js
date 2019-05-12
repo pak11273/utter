@@ -119,19 +119,23 @@ const styles = theme => ({
 const footers = [
   {
     title: "Company",
-    description: ["About Us", "Contact"]
+    /* description: ["About Us", "Contact"] */
+    description: ["Contact"]
   },
   {
     title: "Features",
-    description: ["Apps", "Learning Platform", "Social Learning"]
+    /* description: ["Apps", "Learning Platform", "Social Learning"] */
+    description: [""]
   },
   {
     title: "Resources",
-    description: ["FAQ", "Blog"]
+    /* description: ["FAQ", "Blog"] */
+    description: [""]
   },
   {
     title: "Legal",
-    description: ["Privacy policy", "Terms of use"]
+    /* description: ["Privacy policy", "Terms of use"] */
+    description: [""]
   }
 ]
 
@@ -142,7 +146,7 @@ class Footer extends Component {
       <StyledFooter {...this.props}>
         <footer className={classNames(classes.footer, classes.layout)}>
           <Grid container spacing={32} justify="space-evenly">
-            {footers.map(footer => (
+            {footers.map((footer, i) => (
               <Grid item xs key={footer.title}>
                 <Typography
                   className={classes.fontPrimary}
@@ -153,7 +157,7 @@ class Footer extends Component {
                 {footer.description.map(item => {
                   var newStr = item.replace(/\s+/g, "-")
                   var link = "/" + newStr.toLowerCase()
-                  switch (item) {
+                  /* switch (item) {
                     case "About Us":
                       link = "/about"
                       break
@@ -161,7 +165,7 @@ class Footer extends Component {
                       link = "https://medium.com"
                       break
                     default:
-                  }
+                  } */
                   return (
                     <Link
                       component={RouterLink}
@@ -169,7 +173,8 @@ class Footer extends Component {
                       className={classes.navHover}
                       to={`${link}`}>
                       <Typography
-                        key={link}
+                        /* key={link} */
+                        key={i}
                         variant="subtitle1"
                         color="primary"
                         className={classes.fontSecondary}>

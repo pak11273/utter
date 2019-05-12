@@ -97,7 +97,7 @@ class BetaAccess extends Component {
               }}
               render={({errors, handleChange, handleSubmit, isSubmitting}) => (
                 <form onSubmit={handleSubmit}>
-                  {process.env.NODE_ENV === "production" && (
+                  {process.env.NODE_ENV !== "production" && (
                     <div>
                       <Typography
                         variant="h4"

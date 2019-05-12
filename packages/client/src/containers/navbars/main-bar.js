@@ -461,7 +461,7 @@ class MainNavbar extends Component {
                 </Badge>
               </IconButton> */}
               <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={0} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
