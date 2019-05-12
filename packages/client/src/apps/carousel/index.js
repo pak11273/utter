@@ -26,12 +26,34 @@ import Typography from "@material-ui/core/Typography"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
-import {isOwner, shuffleArray} from "../../utils"
+/* import {isOwner, shuffleArray} from "../../utils" */
+import {isOwner} from "../../utils"
 import {LoaderCircle} from "../../components"
 
 /* import classNames from "classnames" */
 import {styles} from "./styles.js"
 import "./overrides.css"
+
+const loadingCard = (
+  <Card className={this.props.classes.card}>
+    <CardContent>
+      <div
+        style={{
+          display: "flex",
+          flexGrow: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "547px"
+        }}>
+        <Typography gutterBottom variant="h4">
+          Loading Pictures
+        </Typography>
+        <LoaderCircle />
+      </div>
+    </CardContent>
+  </Card>
+)
 
 const RandomCard = ({
   audioUrl,
@@ -164,15 +186,17 @@ class HostControls extends PureComponent {
     super(props)
 
     this.state = {
+      count: 0,
       loading: true,
       isOwner: isOwner(session.user, session.zone),
-      randomVocabulary: session.carousel
+      shuffledCarousel: session.carousel,
+      showArrows: true,
+      shuffing: false
     }
   }
 
   componentDidMount() {
     // get app info and load app here
-    // TODO: only host should load pics
     const PAdapter = new PhotoAdapter({
       vocabulary: session.vocabulary,
       modifier: session.modifier
@@ -180,50 +204,72 @@ class HostControls extends PureComponent {
     PAdapter.functions("fetchPixabay").then(res => {
       session.carousel = res
       this.setState({
-        randomVocabulary: res,
+        shuffledCarousel: res,
         loading: false
       })
     })
   }
 
+  onChange = count => {
+    this.setState(
+      {
+        count
+      },
+      () => console.log("count: ", count)
+    )
+  }
+
   render() {
+    console.log("STATE: ", this.state)
+    console.log(loadingCard)
+    let slides
+    if (this.state.loading) {
+      /* slides = loadingCard */
+      ;<h1>hi</h1>
+    }
+    /* {this.state.shuffling && ( */
+    /*   <Card className={this.props.classes.card}> */
+    /*     <CardContent> */
+    /*       <div */
+    /*         style={{ */
+    /*           display: "flex", */
+    /*           flexGrow: 1, */
+    /*           flexDirection: "column", */
+    /*           justifyContent: "center", */
+    /*           alignItems: "center", */
+    /*           height: "547px" */
+    /*         }}> */
+    /*         <Typography gutterBottom variant="h4"> */
+    /*           Shuffling Pictures */
+    /*         </Typography> */
+    /*         <LoaderCircle /> */
+    /*       </div> */
+    /*     </CardContent> */
+    /*   </Card> */
+    /* )} */
+
+    /* slides = this.state.shuffledCarousel.map((item, i) => { */
+    /*   return ( */
+    /*     <div key={i}> */
+    /*       <RandomCard {...item[0]} {...this.props} /> */
+    /*     </div> */
+    /*   ) */
+    /* }) */
+
+    console.log("rando: ", RandomCard)
+    console.log("slides; ", slides)
+    console.log("slides; ", this.state.isOwner)
+    console.log("slides; ", this.state.showArrows)
     return (
       <div>
         <Carousel
           infiniteLoop={true}
+          onChange={count => this.onChange(count)}
           showThumbs={false}
           showIndicators={false}
-          showArrows={this.state.isOwner}
+          showArrows={this.state.isOwner && this.state.showArrows}
           showStatus>
-          {this.state.loading && (
-            <Card className={this.props.classes.card}>
-              <CardContent>
-                <div
-                  style={{
-                    display: "flex",
-                    flexGrow: 1,
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "547px"
-                  }}>
-                  <Typography gutterBottom variant="h4">
-                    Loading Pictures
-                  </Typography>
-                  <LoaderCircle />
-                </div>
-              </CardContent>
-            </Card>
-          )}
-          {!this.state.loading &&
-            this.state.randomVocabulary.map((item, i) => {
-              const arr = shuffleArray(item)
-              return (
-                <div key={i}>
-                  <RandomCard {...arr[0]} {...this.props} />
-                </div>
-              )
-            })}
+          <h1>hello</h1>
         </Carousel>
       </div>
     )

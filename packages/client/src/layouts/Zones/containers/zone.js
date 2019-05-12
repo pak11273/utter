@@ -71,12 +71,9 @@ class Zone extends Component {
     const {zoneId} = this.props.history.location.state
     const hostedZoneId = session.user.hostedZone._id
     if (zoneId === hostedZoneId || session.zone._id === hostedZoneId) {
-      this.setState(
-        {
-          host: true
-        },
-        console.log(" host ", this.state)
-      )
+      this.setState({
+        host: true
+      })
     }
     if (this.state.host) {
       const onComplete = (zone, courseLevel, courseLevels) => {

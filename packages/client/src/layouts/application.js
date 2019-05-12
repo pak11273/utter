@@ -449,8 +449,8 @@ export default compose(
       const info = {
         listIds: ["8"], // 8 = "betaTesters"
         email: values.email,
-        fname: values.firstName,
-        lname: values.lastName
+        FIRSTNAME: values.firstName,
+        LASTNAME: values.lastName
       }
 
       const res = await fetch("https://api.sendinblue.com/v3/contacts", {

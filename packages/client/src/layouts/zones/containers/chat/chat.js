@@ -135,10 +135,8 @@ class Chat extends PureComponent {
   }
 
   componentDidMount() {
-    console.log("props: ", this.props)
     /*   this.props.registerHandler(this.onMessageReceived) */
     /*   this.scrollChatToBottom() */
-
     /*   var {props} = this */
     /*   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
     /*     console.log("getUserMedia supported.") */
@@ -163,15 +161,12 @@ class Chat extends PureComponent {
     /*             record.style.color = "black" */
     /*           } */
     /*         } */
-
     /*         stop.onclick = () => { */
     /*           var audio = document.createElement("audio") */
     /*           var clipContainer = document.createElement("Article") */
     /*           var deleteButton = document.createElement("button") */
-
     /*           recorder.stopRecording(audioURL => { */
     /*             audio.src = audioURL */
-
     /*             /1* var recordedBlob = recorder.getBlob() *1/ */
     /*             recorder.getDataURL(dataUrl => { */
     /*               var files = { */
@@ -191,7 +186,6 @@ class Chat extends PureComponent {
     /*           console.log("recorder stopped") */
     /*           record.style.background = "" */
     /*           record.style.color = "" */
-
     /*           clipContainer.classList.add("clip") */
     /*           clipContainer.setAttribute( */
     /*             "style", */
@@ -199,7 +193,6 @@ class Chat extends PureComponent {
     /*           ) */
     /*           audio.setAttribute("controls", "") */
     /*           deleteButton.innerHTML = "DEL" */
-
     /*           clipContainer.appendChild(audio) */
     /*           clipContainer.appendChild(deleteButton) */
     /*           deleteButton.setAttribute( */
@@ -207,7 +200,6 @@ class Chat extends PureComponent {
     /*             "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;" */
     /*           ) */
     /*           soundClips.appendChild(clipContainer) */
-
     /*           deleteButton.onclick = e => { */
     /*             var evtTgt = e.target */
     /*             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode) */
