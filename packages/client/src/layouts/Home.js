@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import {NavLink} from "react-router-dom"
+import {Helmet} from "react-helmet-async"
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 
@@ -57,6 +58,20 @@ class Home extends Component {
     const {classes} = this.props
     return (
       <React.Fragment>
+        <Helmet>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          />
+          <meta
+            name="description"
+            content="Language learning is one of the most difficult skills to aquire, but also one of the most rewarding.  Our goal is to help you have a meaningful conversation in your new language in the most effective and beneficial way through online social learning platform."
+          />
+          <meta name="author" content="Isaac Pak" />
+          <title>Utterzone | Home</title>
+          <link rel="canonical" href="https://utter.zone/home" />
+        </Helmet>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
           height="760px"
