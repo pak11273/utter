@@ -3,16 +3,16 @@ import {session} from "brownies"
 import {PhotoAdapter} from "../../services/photos/adapter.js"
 
 import CardHeader from "@material-ui/core/CardHeader"
-import Collapse from "@material-ui/core/Collapse"
+/* import Collapse from "@material-ui/core/Collapse" */
 import Avatar from "@material-ui/core/Avatar"
-import IconButton from "@material-ui/core/IconButton"
+/* import IconButton from "@material-ui/core/IconButton" */
 /* import FavoriteIcon from "@material-ui/icons/Favorite" */
 /* import ShareIcon from "@material-ui/icons/Share" */
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
+/* import ExpandMoreIcon from "@material-ui/icons/ExpandMore" */
+/* import MoreVertIcon from "@material-ui/icons/MoreVert" */
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
-import CardActions from "@material-ui/core/CardActions"
+/* import CardActions from "@material-ui/core/CardActions" */
 import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
 /* import ExpansionPanel from "@material-ui/core/ExpansionPanel" */
@@ -29,7 +29,7 @@ import {Carousel} from "react-responsive-carousel"
 import {isOwner, shuffleArray} from "../../utils"
 import {LoaderCircle} from "../../components"
 
-import classNames from "classnames"
+/* import classNames from "classnames" */
 import {styles} from "./styles.js"
 import "./overrides.css"
 
@@ -49,14 +49,14 @@ const RandomCard = ({
       expanded: false
     }
   })
-  const handleExpandClick = () => {
-    console.log("web: ", webformatURL)
-    console.log("typeof: ", typeof webformatURL)
-    changeState({
-      ...state,
-      expanded: !state.expanded
-    })
-  }
+  /* const handleExpandClick = () => { */
+  /*   console.log("web: ", webformatURL) */
+  /*   console.log("typeof: ", typeof webformatURL) */
+  /*   changeState({ */
+  /*     ...state, */
+  /*     expanded: !state.expanded */
+  /*   }) */
+  /* } */
 
   const toggleTranslate = () => {
     const a = new Audio(audioUrl)
@@ -97,11 +97,12 @@ const RandomCard = ({
             {session.level}
           </Avatar>
         }
-        action={
+        /*  action={
           <IconButton onClick={() => alert("You don't belong here!")}>
             <MoreVertIcon />
           </IconButton>
         }
+				*/
         title={word || phrase || question}
         subheader={partsOfSpeech}
       />
@@ -119,13 +120,14 @@ const RandomCard = ({
           </Button>
         </div>
       </CardContent>
+      {/*
       <CardActions className={classes.actions} disableActionSpacing>
-        {/*  <IconButton aria-label="Add to favorites">
+          <IconButton aria-label="Add to favorites">
 							          <FavoriteIcon />
 												        </IconButton>
 																		 <IconButton aria-label="Share">
 																		           <ShareIcon />
-																							         </IconButton> */}
+																							         </IconButton> 
         <IconButton
           className={classNames(classes.expand, {
             [classes.expandOpen]: state.expanded
@@ -155,7 +157,7 @@ const RandomCard = ({
             ante. Vivamus elementum semper nisi.
           </Typography>
         </CardContent>
-      </Collapse>
+      </Collapse> */}
     </Card>
   )
 }
