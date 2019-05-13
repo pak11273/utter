@@ -166,10 +166,10 @@ class BetaApplication extends PureComponent {
               color="inherit"
               gutterBottom
               style={{margin: "0 0 50px 0"}}>
-              We are hoping to start beta mid June. Once we have all the beta
-              testers picked we will be sending out emails prior launch. The
-              emails will contain your beta test code that will allow you to
-              sign up. Once registed you may begin to use the platform.
+              Once we have all the beta testers picked we will be sending out
+              emails prior launch. The emails will contain your beta test code
+              that will allow you to sign up. Once registed you may begin to use
+              the platform.
             </Typography>
             <Typography
               variant="h6"
@@ -186,7 +186,7 @@ class BetaApplication extends PureComponent {
               color="inherit"
               gutterBottom
               noWrap>
-              Application deadline - June 1
+              Application deadline - May 25
             </Typography>
             <Typography
               variant="h6"

@@ -1,5 +1,4 @@
-import {Component} from 'react'
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Flex = styled.div`
   align-items: ${props => props.alignitems};
@@ -22,6 +21,10 @@ const Flex = styled.div`
 
   @media (min-width: 640px) {
     margin: ${props => props.margin640};
+    align-items: ${props => props.alignitems640};
+    flex-direction: ${props => props.flexdirection640};
+    justify-content: ${props => props.justifycontent640};
+    width: ${props => props.width640};
   }
 
   @media (min-width: 768px) {
@@ -41,13 +44,13 @@ const Flex = styled.div`
   }
 `
 Flex.defaultProps = {
-  alignitems: 'center',
-  background: 'transparent',
-  display: 'flex',
-  flexdirection: 'column',
-  justifycontent: 'flex-start',
-  overflow: 'hidden',
-  width: '100%'
+  alignitems: "center",
+  background: "transparent",
+  display: "flex",
+  flexdirection: "column",
+  justifycontent: "flex-start",
+  overflow: "hidden",
+  width: "100%"
 }
 
 export default Flex

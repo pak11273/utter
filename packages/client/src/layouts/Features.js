@@ -11,7 +11,7 @@ import {Container, Img, Line, Section} from "../components"
 import {Footer, Masthead} from "../containers"
 
 // images
-import busyPeopleImg from "../assets/images/busy-people.jpg"
+import busyPeopleImg from "../assets/images/busy-people.png"
 import homeMastheadImg from "../assets/images/two-guys.jpg"
 import embarrassedImg from "../assets/images/embarrassed.jpg"
 import visitingImg from "../assets/images/walking-around.jpg"
@@ -92,7 +92,8 @@ class Home extends Component {
                     align="center"
                     gutterBottom
                     variant="h6"
-                    paragraph></Typography>
+                    paragraph
+                  />
                 </Grid>
               </Grid>
             </Grid>
@@ -112,7 +113,7 @@ class Home extends Component {
                     gutterBottom
                     variant="h4"
                     component="h2">
-			UtterZone Apps
+                    UtterZone Apps
                   </Typography>
                   <Typography
                     align="center"
@@ -120,7 +121,9 @@ class Home extends Component {
                     variant="h6"
                     paragraph>
                     Apps are used to build structure to your learning. We plan
-                    on creating the most effective apps so you will stay focused and interested during your time learning with others.</Typography>
+                    on creating the most effective apps so you will stay focused
+                    and interested during your time learning with others.
+                  </Typography>
                 </Grid>
               </Grid>
             </Grid>
