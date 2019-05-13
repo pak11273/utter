@@ -104,11 +104,6 @@ export default compose(
         session.vocabulary = courseLevel.data.getLevel.vocabulary
         session.modifier =
           courseLevels.data.getLevels.levels[session.level - 1].modifier
-        toast.success("You have successfully reconnected to your zone.", {
-          className: "toasty",
-          bodyClassName: "toasty-body",
-          hideProgressBar: true
-        })
         props.history.push({
           pathname: `/zone/${zone.data.rezone._id}`,
           state: {zoneId: zone.data.rezone._id}
