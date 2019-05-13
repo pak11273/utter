@@ -15,7 +15,7 @@ import {loginSchema} from "@utterzone/common"
 import {LOGIN_MUTATION} from "../../graphql/mutations/user-mutations.js"
 /* import {ME_QUERY} from "../../graphql/queries/user-queries.js" */
 import {FormikInput, Img, LoadingButton, Section} from "../../components"
-import visitingImg from "../../assets/images/walking-around.jpg"
+import loginImg from "../../assets/images/login_graphic.png"
 
 import {styles} from "./styles.js"
 import "./forms.css"
@@ -41,7 +41,8 @@ class LoginForm extends PureComponent {
               centered
               alt="Explore a New World"
               margin="0 0 40px 0"
-              src={`${visitingImg}`}
+              width="470px"
+              src={`${loginImg}`}
             />
             <Typography
               align="center"
