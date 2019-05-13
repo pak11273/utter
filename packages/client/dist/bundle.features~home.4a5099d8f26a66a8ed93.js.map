@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack:///./assets/images/busy-people.png"],"names":["module","exports","__webpack_require__","p"],"mappings":"+EAAAA,EAAAC,QAAiBC,EAAAC,EAAuB","file":"bundle.features~home.4a5099d8f26a66a8ed93.js","sourcesContent":["module.exports = __webpack_public_path__ + \"busy-people.png\";"],"sourceRoot":""}
