@@ -3,16 +3,16 @@ import {session} from "brownies"
 import {PhotoAdapter} from "../../services/photos/adapter.js"
 
 import CardHeader from "@material-ui/core/CardHeader"
-import Collapse from "@material-ui/core/Collapse"
+/* import Collapse from "@material-ui/core/Collapse" */
 import Avatar from "@material-ui/core/Avatar"
-import IconButton from "@material-ui/core/IconButton"
+/* import IconButton from "@material-ui/core/IconButton" */
 /* import FavoriteIcon from "@material-ui/icons/Favorite" */
 /* import ShareIcon from "@material-ui/icons/Share" */
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
-import MoreVertIcon from "@material-ui/icons/MoreVert"
+/* import ExpandMoreIcon from "@material-ui/icons/ExpandMore" */
+/* import MoreVertIcon from "@material-ui/icons/MoreVert" */
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
-import CardActions from "@material-ui/core/CardActions"
+/* import CardActions from "@material-ui/core/CardActions" */
 import CardContent from "@material-ui/core/CardContent"
 import CardMedia from "@material-ui/core/CardMedia"
 /* import ExpansionPanel from "@material-ui/core/ExpansionPanel" */
@@ -29,7 +29,7 @@ import {Carousel} from "react-responsive-carousel"
 import {isOwner, shuffleArray} from "../../utils"
 import {LoaderCircle} from "../../components"
 
-import classNames from "classnames"
+/* import classNames from "classnames" */
 import {styles} from "./styles.js"
 import "./overrides.css"
 
@@ -49,14 +49,12 @@ const RandomCard = ({
       expanded: false
     }
   })
-  const handleExpandClick = () => {
-    console.log("web: ", webformatURL)
-    console.log("typeof: ", typeof webformatURL)
-    changeState({
-      ...state,
-      expanded: !state.expanded
-    })
-  }
+  /* const handleExpandClick = () => { */
+  /*   changeState({ */
+  /*     ...state, */
+  /*     expanded: !state.expanded */
+  /*   }) */
+  /* } */
 
   const toggleTranslate = () => {
     const a = new Audio(audioUrl)
@@ -97,11 +95,11 @@ const RandomCard = ({
             {session.level}
           </Avatar>
         }
-        action={
+        /* action={
           <IconButton onClick={() => alert("You don't belong here!")}>
             <MoreVertIcon />
           </IconButton>
-        }
+        } */
         title={word || phrase || question}
         subheader={partsOfSpeech}
       />
@@ -119,13 +117,13 @@ const RandomCard = ({
           </Button>
         </div>
       </CardContent>
-      <CardActions className={classes.actions} disableActionSpacing>
-        {/*  <IconButton aria-label="Add to favorites">
-							          <FavoriteIcon />
-												        </IconButton>
-																		 <IconButton aria-label="Share">
-																		           <ShareIcon />
-																							         </IconButton> */}
+      {/*  <CardActions className={classes.actions} disableActionSpacing>
+          <IconButton aria-label="Add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+		 <IconButton aria-label="Share">
+          <ShareIcon />
+        </IconButton> 
         <IconButton
           className={classNames(classes.expand, {
             [classes.expandOpen]: state.expanded
@@ -136,7 +134,7 @@ const RandomCard = ({
           <ExpandMoreIcon />
         </IconButton>
       </CardActions>
-      <Collapse in={state.expanded} timeout="auto" unmountOnExit>
+        <Collapse in={state.expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Level Notes:</Typography>
           <Typography paragraph>
@@ -156,6 +154,7 @@ const RandomCard = ({
           </Typography>
         </CardContent>
       </Collapse>
+		*/}
     </Card>
   )
 }
@@ -165,15 +164,17 @@ class HostControls extends PureComponent {
     super(props)
 
     this.state = {
+      count: 0,
       loading: true,
       isOwner: isOwner(session.user, session.zone),
-      randomVocabulary: session.carousel
+      shuffledCarousel: session.carousel,
+      showArrows: true,
+      shuffing: false
     }
   }
 
   componentDidMount() {
     // get app info and load app here
-    // TODO: only host should load pics
     const PAdapter = new PhotoAdapter({
       vocabulary: session.vocabulary,
       modifier: session.modifier
@@ -181,48 +182,106 @@ class HostControls extends PureComponent {
     PAdapter.functions("fetchPixabay").then(res => {
       session.carousel = res
       this.setState({
-        randomVocabulary: res,
+        shuffledCarousel: res,
         loading: false
       })
     })
   }
 
+  checkState = (current, total) => {
+    console.log("current: ", current)
+    console.log("total: ", total)
+    if (current === total + 1) {
+      this.setState(
+        {
+          showArrows: false
+        },
+        this.shufflePics()
+      )
+    }
+  }
+
+  onChange = count => {
+    this.setState({
+      count
+    })
+  }
+
+  shufflePics = () => {
+    const pics = session.vocabulary
+    shuffleArray(pics)
+    this.setState(
+      {
+        showArrows: true
+      },
+      console.log("statetaeta: ", this.state)
+    )
+  }
+
   render() {
+    console.log("STATE: ", this.state)
+    let slides
+    if (this.state.loading) {
+      slides = (
+        <Card className={this.props.classes.card}>
+          <CardContent>
+            <div
+              style={{
+                display: "flex",
+                flexGrow: 1,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "547px"
+              }}>
+              <Typography gutterBottom variant="h4">
+                Loading Pictures
+              </Typography>
+              <LoaderCircle />
+            </div>
+          </CardContent>
+        </Card>
+      )
+    }
+    /* {this.state.shuffling && ( */
+    /*   <Card className={this.props.classes.card}> */
+    /*     <CardContent> */
+    /*       <div */
+    /*         style={{ */
+    /*           display: "flex", */
+    /*           flexGrow: 1, */
+    /*           flexDirection: "column", */
+    /*           justifyContent: "center", */
+    /*           alignItems: "center", */
+    /*           height: "547px" */
+    /*         }}> */
+    /*         <Typography gutterBottom variant="h4"> */
+    /*           Shuffling Pictures */
+    /*         </Typography> */
+    /*         <LoaderCircle /> */
+    /*       </div> */
+    /*     </CardContent> */
+    /*   </Card> */
+    /* )} */
+    /* {!this.state.loading && */
+    /*   this.state.shuffledCarousel.map((item, i) => { */
+    /*     return ( */
+    /*       <div key={i}> */
+    /*         <RandomCard {...item[0]} {...this.props} /> */
+    /*       </div> */
+    /*     ) */
+    /*   })} */
     return (
       <div>
         <Carousel
           infiniteLoop={true}
+          onChange={count => this.onChange(count)}
           showThumbs={false}
           showIndicators={false}
-          showArrows={this.state.isOwner}
-          showStatus>
-          {this.state.loading && (
-            <Card className={this.props.classes.card}>
-              <CardContent>
-                <div
-                  style={{
-                    display: "flex",
-                    flexGrow: 1,
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "547px"
-                  }}>
-                  <div style={{padding: "50px"}}>Loading Pictures</div>
-                  <LoaderCircle />
-                </div>
-              </CardContent>
-            </Card>
-          )}
-          {!this.state.loading &&
-            this.state.randomVocabulary.map((item, i) => {
-              const arr = shuffleArray(item)
-              return (
-                <div key={i}>
-                  <RandomCard {...arr[0]} {...this.props} />
-                </div>
-              )
-            })}
+          showArrows={this.state.isOwner && this.state.showArrows}
+          showStatus
+          statusFormatter={(current, total) => this.checkState(current, total)}>
+          {slides}
         </Carousel>
       </div>
     )

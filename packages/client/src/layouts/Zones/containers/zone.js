@@ -6,11 +6,9 @@ import {toast} from "react-toastify"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
-import {Helmet} from "react-helmet-async"
 import socket from "../../../services/socketio"
 /* import {history} from "@utterzone/connector" */
 
-import {Spacer} from "../../../components"
 import AppContainer from "../../../apps/app-container"
 /* import schema from "../../../core/schema.js" */
 import Chat from "./chat/chat.js"
@@ -53,13 +51,13 @@ class Zone extends Component {
     host: false
   }
 
-  async componentDidMount() {
+  componentDidMount = () => {
     this.state.client.usersList(usersList => {
       this.setState(
         {
           usersList
         },
-        console.log("userlist; ", usersList)
+        console.log("userlist; ", this.state.usersList)
       )
     })
 
@@ -69,70 +67,74 @@ class Zone extends Component {
 
     // rehydrate levels and vocabulary for returning hosts
     const {zoneId} = this.props.history.location.state
-    const hostedZoneId = session.user.hostedZone._id
+    const hostedZoneId = session.user.hostedZone && session.user.hostedZone._id
     if (zoneId === hostedZoneId || session.zone._id === hostedZoneId) {
-      this.setState({
-        host: true
-      })
-    }
-    if (this.state.host) {
-      const onComplete = (zone, courseLevel, courseLevels) => {
-        console.log("hi")
-        session.levels = courseLevels
-        session.vocabulary = courseLevel.data.getLevel.vocabulary
-        session.modifier =
-          courseLevels.data.getLevels.levels[session.level - 1].modifier
+      this.setState(
+        {
+          host: true
+        },
+        async () => {
+          if (this.state.host) {
+            const onComplete = (zone, courseLevel, courseLevels) => {
+              session.levels = courseLevels
+              session.vocabulary = courseLevel.data.getLevel.vocabulary
+              session.modifier =
+                courseLevels.data.getLevels.levels[session.level - 1].modifier
 
-        toast.success("You have successfully reconnected to your zone.", {
-          className: "toasty",
-          bodyClassName: "toasty-body",
-          hideProgressBar: true
-        })
-      }
+              toast.success("You have successfully reconnected to your zone.", {
+                className: "toasty",
+                bodyClassName: "toasty-body",
+                hideProgressBar: true
+              })
+            }
 
-      try {
-        const zone = await this.props.client.query({
-          query: REZONE,
-          variables: {
-            username: session.user.username
+            try {
+              const zone = await this.props.client.query({
+                query: REZONE,
+                variables: {
+                  username: session.user.username
+                }
+              })
+
+              // rehydrate zone
+              session.zone = zone.data.rezone
+              session.level = zone.data.rezone.courseLevel
+              console.log("zone: ", zone)
+
+              // if zone is legit
+              if (zone) {
+                const courseLevels = await this.props.client.query({
+                  fetchPolicy: "network-only",
+                  query: GET_LEVELS,
+                  variables: {
+                    courseId: zone.data.rezone.course._id
+                  }
+                })
+
+                const courseLevel = await this.props.client.query({
+                  query: GET_LEVEL,
+                  variables: {
+                    levelId:
+                      courseLevels.data.getLevels.levels[session.level - 1]._id
+                  }
+                })
+
+                onComplete(zone, courseLevel, courseLevels)
+              }
+            } catch (err) {
+              /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
+              const msg = err.message.replace("GraphQL error:", "").trim()
+              if (err.message.indexOf("You can only host") !== -1) {
+                toast.warn(msg, {
+                  className: "toasty",
+                  bodyClassName: "toasty-body",
+                  hideProgressBar: true
+                })
+              }
+            }
           }
-        })
-
-        // rehydrate zone
-        session.zone = zone.data.rezone
-        session.level = zone.data.rezone.courseLevel
-        console.log("zone: ", zone)
-
-        // if zone is legit
-        if (zone) {
-          const courseLevels = await this.props.client.query({
-            fetchPolicy: "network-only",
-            query: GET_LEVELS,
-            variables: {
-              courseId: zone.data.rezone.course._id
-            }
-          })
-
-          const courseLevel = await this.props.client.query({
-            query: GET_LEVEL,
-            variables: {
-              levelId: courseLevels.data.getLevels.levels[session.level - 1]._id
-            }
-          })
-
-          onComplete(zone, courseLevel, courseLevels)
         }
-      } catch (err) {
-        /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
-        const msg = err.message.replace("GraphQL error:", "").trim()
-        if (err.message.indexOf("You can only host") !== -1) {
-          toast.warn(msg, {
-            className: "toasty",
-            bodyClassName: "toasty-body",
-            hideProgressBar: true
-          })
-        }
-      }
+      )
     }
   }
 
@@ -178,21 +180,6 @@ class Zone extends Component {
     /* this.state.client.connected(zone) */
     return (
       <React.Fragment>
-        <Helmet>
-          <meta charset="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <meta
-            name="description"
-            content="Edit your course.  Add material that you are using from another learning resource and make it your own.  Create a strategy that think makes the most sense and is pedagogically sound."
-          />
-          <meta name="author" content="Isaac Pak" />
-          <title>Utterzone | Course Edit</title>
-          <link rel="canonical" href="https://utter.zone/course/:id" />
-        </Helmet>
-        <Spacer margin="8px" />
         <Grid container className={classes.root}>
           <Grid item xs={12} sm={12} md={6} lg={8} className={classes.app}>
             <AppContainer />

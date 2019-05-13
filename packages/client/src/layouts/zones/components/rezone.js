@@ -135,7 +135,6 @@ export default compose(
               courseId: zone.data.rezone.course._id
             }
           })
-          console.log("getleve: ", courseLevels)
 
           const courseLevel = await props.client.query({
             query: GET_LEVEL,
