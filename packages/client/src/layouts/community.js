@@ -1,10 +1,12 @@
 import React, {Component} from "react"
+/* import {NavLink} from "react-router-dom" */
 import Button from "@material-ui/core/Button"
 import {Helmet} from "react-helmet-async"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {Container, Section} from "../components"
+import {Container} from "../components"
 import {Footer, Masthead} from "../containers"
+import CommunityImg from "../assets/images/community_header.png"
 
 const styles = theme => ({
   root: {
@@ -48,39 +50,45 @@ class About extends Component {
           />
           <meta
             name="description"
-            content="We aim to make the world a better place with communication."
+            content="Join a community of language learners and discuss everything about learning languages on our forum.  We welcome conversations about our platform and welcome any constructive feedback."
           />
           <meta name="author" content="Isaac Pak" />
           <title>Utterzone | About</title>
-          <link rel="canonical" href="https://utter.zone/about" />
+          <link rel="canonical" href="https://UtterZone/community" />
         </Helmet>
         <Container className={classes.root}>
           <Masthead
-            className={classes.masthead}
-            background={`url("https://ico.ku.edu.tr/wp-content/uploads/2014/08/ICO_Studying-400x400.jpg") #000 no-repeat center/contain`}
-            height="400px"
-            width="300px"
-          />
-          <Section className={classes.section}>
+            background={`url(${CommunityImg}) center/cover`}
+            height="760px"
+            padding="300px 20px 100px 20px">
             <Typography
-              variant="h6"
-              align="center"
+              variant="h4"
+              align="left"
+              style={{
+                maxWidth: "900px"
+              }}
+              className={classes.text}>
+              Have any questions, ideas or need technical support?
+            </Typography>
+            <Typography
+              variant="h4"
+              align="left"
+              style={{
+                maxWidth: "900px"
+              }}
               className={classes.text}
-              component="p"
               gutterBottom>
-              Have any questions, ideas or need technical support? Go check out
-              our support forum. You can also use the forum to chat with others
-              and just talk about language learning in general.
+              Go check out our support forum.
             </Typography>
             <a
               rel="noopener noreferrer"
               target="_blank"
               href="http://utterzone.boards.net">
               <Button className={classes.link} color="primary">
-                Check out the Forum
+                UtterZone Forum
               </Button>
             </a>
-          </Section>
+          </Masthead>
           <Footer />
         </Container>
       </React.Fragment>

@@ -11,6 +11,7 @@ const Masthead = styled.div`
   height: ${props => props.height};
   justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
+  max-width: ${props => props.maxwidth};
   overflow: hidden;
   padding: ${props => props.padding};
   position: relative;

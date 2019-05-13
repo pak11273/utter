@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import {NavLink} from "react-router-dom"
+/* import {NavLink} from "react-router-dom" */
 import {Helmet} from "react-helmet-async"
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
@@ -17,71 +17,7 @@ import busyPeopleImg from "../assets/images/busy-people.png"
 import homeMastheadImg from "../assets/images/home_header.jpg"
 import embarrassedImg from "../assets/images/embarrassed.png"
 import visitingImg from "../assets/images/walk-around.png"
-
-const styles = theme => ({
-  root: {
-    height: "100%"
-  },
-  section_odd: {
-    flexDirection: "row",
-    height: "450px",
-    justifyContent: "center",
-    padding: theme.spacing.unit * 2,
-    margin: "10px auto 50px",
-    maxWidth: 1330,
-    [`@media (max-width:770px)`]: {
-      flexDirection: "column-reverse",
-      height: "680px"
-    }
-  },
-  section: {
-    flexDirection: "row",
-    height: "450px",
-    justifyContent: "center",
-    padding: theme.spacing.unit * 2,
-    margin: "10px auto 50px",
-    maxWidth: 1330,
-    [`@media (max-width:770px)`]: {
-      flexDirection: "column",
-      height: "680px"
-    }
-  },
-  social_section: {
-    flexDirection: "row",
-    height: "450px",
-    /* justifyContent: "center", */
-    padding: theme.spacing.unit * 2,
-    /* margin: "10px auto 50px", */
-    maxWidth: 1330,
-    [`@media (max-width:770px)`]: {
-      flexDirection: "column",
-      height: "900px"
-    }
-  },
-  image: {
-    width: 128,
-    height: 128
-  },
-  section_text: {
-    fontSize: "1.5em"
-  },
-  stay_informed: {
-    flexDirection: "row",
-    height: "450px",
-    padding: theme.spacing.unit * 2,
-    justifyContent: "center",
-    textAlign: "center",
-    maxWidth: 900,
-    marginTop: "120px",
-    [`@media (max-width:770px)`]: {
-      flexDirection: "column",
-      height: "630px"
-    }
-  },
-  text: {
-    color: "white"
-  }
-})
+import {styles} from "./styles.js"
 
 class Home extends Component {
   render() {
@@ -100,7 +36,7 @@ class Home extends Component {
           />
           <meta name="author" content="Isaac Pak" />
           <title>Utterzone | Home</title>
-          <link rel="canonical" href="https://utter.zone/home" />
+          <link rel="canonical" href="https://UtterZone/home" />
         </Helmet>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
@@ -120,15 +56,22 @@ class Home extends Component {
             gutterBottom>
             Not speaking your new language yet?
           </Typography>
-          <Button color="primary" size="medium" variant="outlined">
+          <Typography
+            variant="h4"
+            align="center"
+            className={classes.text}
+            gutterBottom>
+            We can help.
+          </Typography>
+          {/* <Button color="primary" size="medium" variant="outlined">
             <NavLink style={{color: "white", fontSize: "1.4rem"}} to="/about">
               Learn More
             </NavLink>
-          </Button>
+          </Button> */}
         </Masthead>
         <Container className={classes.root}>
           <Section
-            className={classes.section}
+            className={classes.section_home}
             height="600px"
             style={{marginTop: "100px"}}>
             <Grid item xs={12}>
@@ -160,7 +103,7 @@ class Home extends Component {
               </Grid>
             </Grid>
           </Section>
-          <Section className={classes.section_odd} height="600px">
+          <Section className={classes.section_odd_home} height="600px">
             <Grid item xs={12} container>
               <Grid container direction="column" spacing={16}>
                 <Grid item xs>
@@ -191,7 +134,7 @@ class Home extends Component {
               />
             </Grid>
           </Section>
-          <Section className={classes.section} height="600px">
+          <Section className={classes.section_home} height="600px">
             <Grid item xs={12}>
               <Img
                 height="100%"

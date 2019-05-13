@@ -107,6 +107,18 @@ export const styles = theme => ({
       height: "480px"
     }
   },
+  section_odd_home: {
+    flexDirection: "row",
+    height: "450px",
+    justifyContent: "center",
+    padding: theme.spacing.unit * 2,
+    margin: "10px auto 50px",
+    maxWidth: 1330,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column-reverse",
+      height: "680px"
+    }
+  },
   section: {
     flexDirection: "row",
     justifyContent: "center",
@@ -117,6 +129,46 @@ export const styles = theme => ({
       flexDirection: "column",
       height: "480px"
     }
+  },
+  section_home: {
+    flexDirection: "row",
+    height: "450px",
+    justifyContent: "center",
+    padding: theme.spacing.unit * 2,
+    margin: "10px auto 50px",
+    maxWidth: 1330,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column",
+      height: "680px"
+    }
+  },
+  stay_informed: {
+    flexDirection: "row",
+    height: "450px",
+    padding: theme.spacing.unit * 2,
+    justifyContent: "center",
+    textAlign: "center",
+    maxWidth: 900,
+    marginTop: "120px",
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column",
+      height: "630px"
+    }
+  },
+  social_section: {
+    flexDirection: "row",
+    height: "450px",
+    /* justifyContent: "center", */
+    padding: theme.spacing.unit * 2,
+    /* margin: "10px auto 50px", */
+    maxWidth: 1330,
+    [`@media (max-width:770px)`]: {
+      flexDirection: "column",
+      height: "900px"
+    }
+  },
+  section_text: {
+    fontSize: "1.5em"
   },
   text: {
     color: "white"
