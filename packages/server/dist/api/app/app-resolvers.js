@@ -68,33 +68,31 @@ var getApp = function () {
 
 var getPixabayData = function () {
   var _ref5 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee2(_, args, _ref4) {
-    var user, url, response, fetched;
+    var user, url, response, headers, fetched;
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             user = _ref4.user;
-            console.log("args; ", args);
-            url = "https://pixabay.com/api/?key=".concat(process.env.PIXABAY_API_KEY, "&q=admin&image_type=photo&pretty=true&per_page=").concat(encodeURIComponent(1));
-            console.log("url: ", url);
-            _context2.next = 6;
+            url = "https://pixabay.com/api/?key=".concat(process.env.PIXABAY_API_KEY, "&q=undefinedquery");
+            _context2.next = 4;
             return (0, _nodeFetch.default)(url);
 
-          case 6:
+          case 4:
             response = _context2.sent;
-            _context2.next = 9;
+            headers = response.headers.raw();
+            _context2.next = 8;
             return response.json();
 
-          case 9:
+          case 8:
             fetched = _context2.sent;
-            console.log("fetched: ", fetched);
             return _context2.abrupt("return", {
-              rateLimit: "hello",
-              remaining: "hi",
-              reset: "bye"
+              rateLimit: headers["x-ratelimit-limit"][0],
+              remaining: headers["x-ratelimit-remaining"][0],
+              reset: headers["x-ratelimit-reset"][0]
             });
 
-          case 12:
+          case 10:
           case "end":
             return _context2.stop();
         }
