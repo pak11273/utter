@@ -99,14 +99,14 @@ var zoneTypeDefs = _fs.default.readFileSync(zoneSchema, "utf8");
 
 var baseSchema = "\n  schema {\n    query: Query,\n    mutation: Mutation\n  }\n";
 var schema = (0, _apolloServer.makeExecutableSchema)({
-  typeDefs: [baseSchema, betaTesterTypeDefs, userTypeDefs, courseTypeDefs, levelTypeDefs, postTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
+  typeDefs: [baseSchema, appTypeDefs, betaTesterTypeDefs, userTypeDefs, courseTypeDefs, levelTypeDefs, postTypeDefs, sharedTypeDefs, termTypeDefs, testTypeDefs, vocabularyTypeDefs, zoneTypeDefs],
   schemaDirectives: {
     formattableDate: _formattableDate.FormattableDateDirective,
     deprecated: _deprecated.DeprecatedDirective,
     auth: _authDirective.AuthDirective,
     hasRights: _authHasRights.hasRightsDirective
   },
-  resolvers: (0, _merge.default)({}, _betaTesterResolvers.betaTesterResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _postResolvers.postResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _userResolvers.userResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
+  resolvers: (0, _merge.default)({}, _appResolvers.appResolvers, _betaTesterResolvers.betaTesterResolvers, _courseResolvers.courseResolvers, _levelResolvers.levelResolvers, _postResolvers.postResolvers, _termResolvers.termResolvers, _testResolvers.testResolvers, _userResolvers.userResolvers, _vocabularyResolvers.vocabularyResolvers, _zoneResolvers.zoneResolvers)
 });
 var ObjectId = _mongoose.default.Types.ObjectId;
 

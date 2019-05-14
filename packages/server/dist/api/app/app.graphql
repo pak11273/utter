@@ -30,6 +30,12 @@ type PaginatedApps {
   cursor: String
 }
 
+type PixabayOutput {
+	rateLimit: String
+	remaining: String
+	reset: String
+}
+
 extend type Query {
   getApp(appId: String!): App!
 	getAppLevels(appId: String!): App!
@@ -46,6 +52,7 @@ extend type Query {
     author: String!
 	): PaginatedApps 
   getAppCount: Int
+	getPixabayData: PixabayOutput 
 }
 
 extend type Mutation {

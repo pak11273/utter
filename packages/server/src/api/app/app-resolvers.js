@@ -1,6 +1,7 @@
 import {isEmpty} from "lodash"
 import mongoose from "mongoose"
 import App from "./app-model"
+import fetch from "node-fetch"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
