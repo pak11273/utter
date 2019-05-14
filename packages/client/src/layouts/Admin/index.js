@@ -62,15 +62,6 @@ class AdminUpdate extends PureComponent {
     this.state = cloneDeep(initialCoursesContainerState)
   }
 
-  componentDidMount() {
-    console.log("yes?")
-  }
-
-  handleImageClick = e => {
-    e.preventDefault()
-    // TODO
-  }
-
   render() {
     const {classes} = this.props
     const SubRoutes = route => (

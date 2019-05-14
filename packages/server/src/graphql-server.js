@@ -65,6 +65,7 @@ const baseSchema = `
 const schema = makeExecutableSchema({
   typeDefs: [
     baseSchema,
+    appTypeDefs,
     betaTesterTypeDefs,
     userTypeDefs,
     courseTypeDefs,
@@ -84,6 +85,7 @@ const schema = makeExecutableSchema({
   },
   resolvers: merge(
     {},
+    appResolvers,
     betaTesterResolvers,
     courseResolvers,
     levelResolvers,

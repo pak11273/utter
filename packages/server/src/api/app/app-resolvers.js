@@ -16,6 +16,24 @@ const getApp = async (_, {appId}, {user}) => {
   return app
 }
 
+const getPixabayData = async (_, args, {user}) => {
+  console.log("args; ", args)
+
+  const url = `https://pixabay.com/api/?key=${
+    process.env.PIXABAY_API_KEY
+  }&q=admin&image_type=photo&pretty=true&per_page=${encodeURIComponent(1)}`
+  console.log("url: ", url)
+  const response = await fetch(url)
+  const fetched = await response.json()
+  console.log("fetched: ", fetched)
+
+  return {
+    rateLimit: "hello",
+    remaining: "hi",
+    reset: "bye"
+  }
+}
+
 const appDelete = async (_, {id}, ctx) => {
   console.log("id: ", id)
   const app = await App.findById(id).exec()
@@ -142,6 +160,7 @@ const getApps = async (_, args, ctx, info) => {
 
 export const appResolvers = {
   Query: {
+    getPixabayData,
     getCreatedApps,
     getApps,
     getApp,
