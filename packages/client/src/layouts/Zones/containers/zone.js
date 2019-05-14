@@ -99,7 +99,6 @@ class Zone extends Component {
               // rehydrate zone
               session.zone = zone.data.rezone
               session.level = zone.data.rezone.courseLevel
-              console.log("zone: ", zone)
 
               // if zone is legit
               if (zone) {

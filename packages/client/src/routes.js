@@ -1,5 +1,6 @@
 import Loading from "./components/loaders/layout-loader.js"
 import Loadable from "react-loadable"
+import requireAdmin from "./utils/requireAdmin.js"
 import requireAuth from "./utils/requireAuth.js"
 import requireBeta from "./utils/requireBeta.js"
 /* import noAuth from "./utils/noAuth.js" */
@@ -32,6 +33,23 @@ const getAccountSettings = Loadable({
 const getAccountThanks = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'account-thanks' */ "./layouts/account/account-thanks.js"),
+  loading: Loading
+})
+
+const getAdminCarousel = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'admin' */ "./layouts/admin/containers/admin-carousel.js"),
+  loading: Loading
+})
+
+const getAdminSettings = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'admin' */ "./layouts/admin/containers/admin-settings.js"),
+  loading: Loading
+})
+
+const getAdminUpdate = Loadable({
+  loader: () => import(/* webpackChunkName: 'admin' */ "./layouts/admin"),
   loading: Loading
 })
 
@@ -248,6 +266,23 @@ export const routes = [
     component: getApplication
   },
   {
+    component: requireAdmin(getAdminUpdate),
+    exact: true,
+    path: "/admin/*",
+    routes: [
+      {
+        component: getAdminSettings,
+        exact: true,
+        path: "/admin/admin-settings"
+      },
+      {
+        component: getAdminCarousel,
+        exact: true,
+        path: "/admin/admin-carousel"
+      }
+    ]
+  },
+  {
     component: getAnnouncement,
     path: "/a"
   },
@@ -292,12 +327,12 @@ export const routes = [
         path: "/course/course-introduction"
       },
       {
-        component: getLevels,
+        component: requireAuth(getLevels),
         exact: true,
         path: "/course/course-levels"
       },
       {
-        component: getVocabulary,
+        component: requireAuth(getVocabulary),
         exact: true,
         path: "/course/course-vocabulary"
       }

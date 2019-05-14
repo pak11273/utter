@@ -64,6 +64,7 @@ class CourseUpdate extends PureComponent {
   }
 
   componentDidMount = async () => {
+    console.log("yes?")
     session.layoutError = null
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -179,7 +180,7 @@ class CourseUpdate extends PureComponent {
             />
             <meta name="author" content="Isaac Pak" />
             <title>Utterzone | Courses</title>
-            <link rel="canonical" href="https://utter.zone/courses" />
+            <link rel="canonical" href="https://utterzone.com/courses" />
           </Helmet>
           {routes.map((route, i) => (
             <React.Fragment key={i}>

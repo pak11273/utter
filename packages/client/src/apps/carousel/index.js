@@ -192,19 +192,15 @@ class HostControls extends PureComponent {
   resetOwner = () => {
     setTimeout(
       () =>
-        this.setState(
-          {
-            isOwner: true,
-            loading: false
-          },
-          console.log("owner: ", this.state)
-        ),
+        this.setState({
+          isOwner: true,
+          loading: false
+        }),
       3000
     )
   }
 
   shufflePics = async count => {
-    console.log("count: ", count)
     if (count === 0) {
       // mix cards
       this.setState(
@@ -213,14 +209,24 @@ class HostControls extends PureComponent {
           loading: true
         },
         () => {
-					// shuffle cards
-					this.resetOwner()
-				}
+          // shuffle cards
+          const newCarousel = session.carousel
+          console.log("newCarousel: ", newCarousel)
+          const shuffledCarousel = newCarousel.map(item => {
+            return shuffleArray(item)
+          })
+          console.log("shuffledArray: ", shuffledCarousel)
+          this.setState({
+            randomVocabulary: shuffledCarousel
+          })
+          this.resetOwner()
+        }
       )
     }
   }
 
   render() {
+    console.log("random: ", this.state.randomVocabulary)
     return (
       <div>
         <Carousel

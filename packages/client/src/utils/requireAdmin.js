@@ -1,10 +1,15 @@
 import React, {Component} from "react"
-import {cookies, session} from "brownies"
+import {cookies} from "brownies"
+import {withApollo} from "react-apollo"
+import {ME_QUERY} from "../graphql/queries/user-queries.js"
 
-export default ComposedComponent => {
+const requireAdmin = ComposedComponent => {
   class Authenticate extends Component {
-    componentDidMount() {
-      const {user} = session
+    state = {
+      me: false
+    }
+
+    componentDidMount = async () => {
       const isAuthenticated = cookies._uid
       if (!isAuthenticated) {
         this.props.history.push("/login", {
@@ -12,21 +17,30 @@ export default ComposedComponent => {
         })
       }
 
-      // TODO: implement Can authorize component instead of this naive admin check
-      if (!user.roles.includes("superAdmin")) {
+      this.me = await this.props.client.query({
+        query: ME_QUERY
+      })
+
+      if (!this.me.data.me.roles.includes("uzAdmin")) {
         this.props.history.push("/", {
           notification: "You need to be an admin to access this page",
           type: "warn"
         })
       } else {
-        this.props.history.push("/dashboard")
+        this.setState({
+          me: true
+        })
       }
     }
 
     render() {
-      return <ComposedComponent {...this.props} />
+      let rendered = <div />
+      this.state.me ? (rendered = <ComposedComponent {...this.props} />) : null
+      return rendered
     }
   }
 
-  return Authenticate
+  return withApollo(Authenticate)
 }
+
+export default requireAdmin

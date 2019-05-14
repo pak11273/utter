@@ -1,5 +1,8 @@
 /* eslint no-plusplus:0 */
 export const shuffleArray = arr => {
+  if (!arr) {
+    return [{partsOfSpeech: "alphabet", word: "no entry"}]
+  }
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
     ;[arr[i], arr[j]] = [arr[j], arr[i]]
