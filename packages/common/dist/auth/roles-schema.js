@@ -42,6 +42,14 @@ var roles = {
       "course:delete": matchID
     }]
   },
+  uzAdmin: {
+    static: [""],
+    dynamic: [{
+      "admin:read-settings": matchID
+    }, {
+      "admin:delete": matchID
+    }]
+  },
   payMonthly: {
     static: [{
       "account:pay-monthly": matchID

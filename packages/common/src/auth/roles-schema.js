@@ -52,6 +52,17 @@ const roles = {
       }
     ]
   },
+  uzAdmin: {
+    static: [""],
+    dynamic: [
+      {
+        "admin:read-settings": matchID
+      },
+      {
+        "admin:delete": matchID
+      }
+    ]
+  },
   payMonthly: {
     static: [
       {
