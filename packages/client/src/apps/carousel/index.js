@@ -167,6 +167,7 @@ class HostControls extends PureComponent {
     super(props)
 
     this.state = {
+      count: 0,
       loading: true,
       isOwner: isOwner(session.user, session.zone),
       randomVocabulary: session.carousel
@@ -175,7 +176,6 @@ class HostControls extends PureComponent {
 
   componentDidMount() {
     // get app info and load app here
-    // TODO: only host should load pics
     const PAdapter = new PhotoAdapter({
       vocabulary: session.vocabulary,
       modifier: session.modifier
@@ -189,11 +189,43 @@ class HostControls extends PureComponent {
     })
   }
 
+  resetOwner = () => {
+    setTimeout(
+      () =>
+        this.setState(
+          {
+            isOwner: true,
+            loading: false
+          },
+          console.log("owner: ", this.state)
+        ),
+      3000
+    )
+  }
+
+  shufflePics = async count => {
+    console.log("count: ", count)
+    if (count === 0) {
+      // mix cards
+      this.setState(
+        {
+          isOwner: false,
+          loading: true
+        },
+        () => {
+					// shuffle cards
+					this.resetOwner()
+				}
+      )
+    }
+  }
+
   render() {
     return (
       <div>
         <Carousel
           infiniteLoop={true}
+          onChange={count => this.shufflePics(count)}
           showThumbs={false}
           showIndicators={false}
           showArrows={this.state.isOwner}
@@ -210,12 +242,15 @@ class HostControls extends PureComponent {
                     alignItems: "center",
                     height: "547px"
                   }}>
-                  <div style={{padding: "50px"}}>Loading Pictures</div>
+                  <Typography gutterBottom variant="h6">
+                    Loading Pictures
+                  </Typography>
                   <LoaderCircle />
                 </div>
               </CardContent>
             </Card>
           )}
+          {/* if last card, card "shuffling pictures" hide controls, finish > controls appear */}
           {!this.state.loading &&
             this.state.randomVocabulary.map((item, i) => {
               const arr = shuffleArray(item)
