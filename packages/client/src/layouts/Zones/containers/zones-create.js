@@ -40,17 +40,16 @@ const ZoneCreate = props => {
   /* }) */
 
   // If user opens new tab, user's subscriptions will get null fields.  Check for title and rehydrate if null.
-  const subs = session.user.subscriptions
+  /* const subs = session.user.subscriptions */
 
-  subs.map(async item => {
-    const keys = Object.keys(item)
-    const nulls = keys.map(key => {
-      if (key === "title" && !item[key]) {
-        return null
-      }
-    })
-    console.log("null: ", nulls)
-  })
+  /* subs.map(async item => { */
+  /*   const keys = Object.keys(item) */
+  /*   const nulls = keys.map(key => { */
+  /*     if (key === "title" && !item[key]) { */
+  /*       return null */
+  /*     } */
+  /*   }) */
+  /* }) */
 
   /* 	// TODO: Check use subscriptions to ensure subscribed courses are still active.  Remove any courses that can't be found from user subscriptions */
 
@@ -327,16 +326,13 @@ export default compose(
 
         const {levels} = courseLevels.data.getLevels
         const index = parseInt(values.courseLevel, 10)
-        console.log("props: ", props)
-        console.log("values: ", values)
-        session.host = "na"
         session.level = index
         if (!levels[index - 1]) {
           setErrors({
             courseLevel: "This course does not contain a level with this number"
           })
           setSubmitting(false)
-          return null
+          return
         }
 
         const courseLevel = await props.client.query({
@@ -379,11 +375,6 @@ export default compose(
         // if result is legit
         if (result) {
           onComplete(result)
-          toast.success("You have successfully created a zone.", {
-            className: "toasty",
-            bodyClassName: "toasty-body",
-            hideProgressBar: true
-          })
         } else {
           setErrors(result.ZONE_CREATE_MUTATION.errors)
           toast.success("Could not create a zone, please try again.", {
@@ -394,7 +385,6 @@ export default compose(
         }
       } catch (err) {
         const msg = err.message.replace("GraphQL error:", "").trim()
-        console.log("err: ", err.message)
         if (err.message.indexOf("was not found") !== -1) {
           // remove course from user subscriptions
           const checkSubs = await props.client.mutate({
@@ -422,7 +412,10 @@ export default compose(
             bodyClassName: "toasty-body",
             hideProgressBar: true
           })
-        } else if (err.message.indexOf("Cast to ObjectId failed for value")) {
+        } else if (
+          err.message.indexOf("Cast to ObjectId failed for value") !== -1
+        ) {
+          console.log("nope")
           setErrors({
             courseLevel: "This course does not contain a level with this number"
           })
