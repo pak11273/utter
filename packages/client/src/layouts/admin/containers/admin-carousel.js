@@ -19,17 +19,22 @@ import {styles} from "../styles.js"
 
 class getAdminCarousel extends PureComponent {
   state = {
-    rate: null,
-    limit: null,
-    reset: null
+    rate: "refresh",
+    limit: "refresh",
+    reset: "0"
   }
 
   getPixaBayData = async () => {
     const data = await this.props.client.query({
-      query: GET_PIXABAY_DATA
+      query: GET_PIXABAY_DATA,
+      fetchPolicy: "network-only"
     })
 
-    console.log("data: ", data)
+    this.setState({
+      rate: data.data.getPixabayData.rateLimit,
+      remaining: data.data.getPixabayData.remaining,
+      reset: Math.floor(data.data.getPixabayData.reset / 60)
+    })
   }
 
   render() {
@@ -66,13 +71,13 @@ class getAdminCarousel extends PureComponent {
                         limit.
                       </Typography>
                       <Typography variant="h5" component="h2">
-                        limit: {this.state.limit}
+                        limit: {this.state.rate}
                       </Typography>
                       <Typography variant="h5" component="h2">
                         remaining: {this.state.remaining}
                       </Typography>
                       <Typography variant="h5" component="h2">
-                        reset: {this.state.reset}
+                        reset: {this.state.reset} mins
                       </Typography>
                     </CardContent>
                     <CardActions>

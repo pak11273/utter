@@ -18,20 +18,17 @@ const getApp = async (_, {appId}, {user}) => {
 }
 
 const getPixabayData = async (_, args, {user}) => {
-  console.log("args; ", args)
-
   const url = `https://pixabay.com/api/?key=${
     process.env.PIXABAY_API_KEY
-  }&q=admin&image_type=photo&pretty=true&per_page=${encodeURIComponent(1)}`
-  console.log("url: ", url)
+  }&q=undefinedquery`
   const response = await fetch(url)
+  const headers = response.headers.raw()
   const fetched = await response.json()
-  console.log("fetched: ", fetched)
 
   return {
-    rateLimit: "hello",
-    remaining: "hi",
-    reset: "bye"
+    rateLimit: headers["x-ratelimit-limit"][0],
+    remaining: headers["x-ratelimit-remaining"][0],
+    reset: headers["x-ratelimit-reset"][0]
   }
 }
 
