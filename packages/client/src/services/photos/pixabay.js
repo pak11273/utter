@@ -25,7 +25,7 @@ export class Pixabay extends PhotoAbstract {
           const url = `https://pixabay.com/api/?key=${
             process.env.PIXABAY_API_KEY
           }&q=${keyword}&image_type=photo&pretty=true&per_page=${encodeURIComponent(
-            200
+            100
           )}&safesearch=true`
           console.log("url: ", url)
           const response = await fetch(url)
