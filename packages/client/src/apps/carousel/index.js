@@ -26,8 +26,8 @@ import Typography from "@material-ui/core/Typography"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
-/* import {isOwner, shuffleArray} from "../../utils" */
-import {shuffleArray} from "../../utils"
+import {isOwner, shuffleArray} from "../../utils"
+/* import {shuffleArray} from "../../utils" */
 import {LoaderCircle} from "../../components"
 
 /* import classNames from "classnames" */
@@ -165,7 +165,7 @@ class HostControls extends PureComponent {
     this.state = {
       count: 0,
       loading: true,
-      isOwner: false,
+      isOwner: isOwner(session.user, session.zone),
       randomVocabulary: session.carousel
     }
   }
@@ -229,7 +229,7 @@ class HostControls extends PureComponent {
           onChange={count => this.shufflePics(count)}
           showThumbs={false}
           showIndicators={false}
-          showArrows={this.state.isOwner}
+          showArrows={this.state.isOwner && !this.state.loading}
           showStatus>
           {this.state.loading && (
             <Card className={this.props.classes.card}>
