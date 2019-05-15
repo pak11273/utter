@@ -76,7 +76,6 @@ class Zone extends Component {
         async () => {
           if (this.state.host) {
             const onComplete = (zone, courseLevel, courseLevels) => {
-              console.log("courseLvels: ", courseLevels)
               session.levels = courseLevels.data.getLevels.levels
               session.vocabulary = courseLevel.data.getLevel.vocabulary
               session.modifier =
@@ -147,6 +146,7 @@ class Zone extends Component {
       if (err) return console.error(err)
       return onLeaveSuccess()
     })
+    // TODO notify remaining occupants that host has left the zone.
   }
 
   getZones = () => {

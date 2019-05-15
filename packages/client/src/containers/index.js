@@ -1,4 +1,5 @@
 import ChatPanel from "./ChatPanel"
+import ChatModal from "./modals/chat-modal.js"
 import Container from "./Container"
 import CourseModal from "./modals/course-modal.js"
 import Footer from "./Footers/Footer"
@@ -13,6 +14,7 @@ import Staticbar from "./Sidebar/Staticbar.js"
 import Speaker from "./Speaker"
 
 export {
+  ChatModal,
   ChatPanel,
   Container,
   CourseModal,

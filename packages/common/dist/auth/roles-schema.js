@@ -40,6 +40,8 @@ var roles = {
       "course:update-vocabulary": matchID
     }, {
       "course:delete": matchID
+    }, {
+      "zone:delete": matchID
     }]
   },
   uzAdmin: {

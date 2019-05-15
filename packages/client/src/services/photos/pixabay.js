@@ -12,8 +12,6 @@ export class Pixabay extends PhotoAbstract {
     this.keyCount = 0
 
     this.keys = process.env.PIXABAY_API_KEYS.split(",")
-    console.log("keys: ", this.keys)
-    console.log("key Count: ", this.keyCount)
   }
 
   async fetchPics(data) {
@@ -32,7 +30,6 @@ export class Pixabay extends PhotoAbstract {
           }&q=${keyword}&image_type=photo&pretty=true&per_page=${encodeURIComponent(
             100
           )}&safesearch=true`
-          console.log("url: ", url)
           const response = await fetch(url)
           const fetched = await response.json()
 

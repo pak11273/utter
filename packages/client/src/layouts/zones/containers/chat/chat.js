@@ -3,10 +3,12 @@
 /* import cuid from "cuid" */
 /* import RecordRTC from "recordrtc" */
 import React, {PureComponent} from "react"
+import {withRouter} from "react-router-dom"
+import {withApollo} from "react-apollo"
 /* import filename from "../../../../assets/images/play.svg" */
 /* import schema from "../../../../core/schema.js" */
 import Button from "@material-ui/core/Button"
-import {Box} from "../../../../components"
+import {Can, Box} from "../../../../components"
 import styled from "styled-components"
 import ceoImg from "../../../../assets/images/ceo.jpg"
 import TextField from "@material-ui/core/TextField"
@@ -22,7 +24,11 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import SendIcon from "@material-ui/icons/Send"
 import Typography from "@material-ui/core/Typography"
+import {session} from "brownies"
 
+import {ChatModal} from "../../../../containers"
+
+import {ZONE_DELETE} from "../../../../graphql/mutations/zone-mutaions.js"
 /* import Overlay from './Overlay'; */
 
 // actions
@@ -129,8 +135,10 @@ class Chat extends PureComponent {
     /* const {chatHistory} = props */
 
     this.state = {
+      open: false,
       chatHistory: [],
-      input: ""
+      input: "",
+      loading: false
     }
   }
 
@@ -279,7 +287,41 @@ class Chat extends PureComponent {
   /*   this.panel.scrollTo(0, this.panel.scrollHeight) */
   /* } */
 
+  handleClickOpen = () => {
+    this.setState({
+      open: true
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
+  }
+
+  onLeave = async () => {
+    this.setState({
+      loading: true
+    })
+    const result = await this.props.client.mutate({
+      mutation: ZONE_DELETE,
+      variables: {
+        _id: session.zone._id
+      }
+    })
+
+    if (result) {
+      console.log("yep")
+      this.setState({
+        loading: false
+      })
+      // push to zone listings
+      this.props.history.push("/zones")
+    }
+  }
+
   render() {
+    const {user, zone} = session
     const {classes} = this.props
     /* const {username} = this.props.user */
     /* const Msg = ({author, audio, msg}) => ( */
@@ -321,11 +363,24 @@ class Chat extends PureComponent {
                 ({this.props.usersList.length}) {this.props.zone.zoneName}
               </Typography>
             </div>
-            <div style={{paddingTop: "20px"}}>
-              <Button color="secondary" onClick={this.props.onLeave}>
-                Leave Zone
-              </Button>
-            </div>
+            <Can
+              roles={user && user.roles}
+              perform="zone:delete"
+              id={user && user.username}
+              matchingID={zone.owner.username}
+              yes={() => (
+                <div style={{paddingTop: "20px"}}>
+                  <Button onClick={this.handleClickOpen}>Terminate Zone</Button>
+                </div>
+              )}
+              no={() => null}
+            />
+            <ChatModal
+              open={this.state.open}
+              handleClose={this.handleClose}
+              loading={this.state.loading}
+              onLeave={this.onLeave}
+            />
           </div>
           <ChatPanel>
             <Scrollable
@@ -402,4 +457,4 @@ class Chat extends PureComponent {
   }
 }
 
-export default withStyles(styles)(Chat)
+export default withRouter(withApollo(withStyles(styles)(Chat)))

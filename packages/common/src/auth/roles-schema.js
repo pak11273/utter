@@ -49,6 +49,9 @@ const roles = {
       },
       {
         "course:delete": matchID
+      },
+      {
+        "zone:delete": matchID
       }
     ]
   },

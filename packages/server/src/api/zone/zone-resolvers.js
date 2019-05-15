@@ -48,20 +48,24 @@ const getZone = async (_, {zoneId}, {user}) => {
   return zone
 }
 
-const zoneDelete = async (_, {id}, ctx) => {
-  const zone = await Zone.findById(id).exec()
-  /* Zone.findOneAndDelete({owner: user._id && id: id}) { */
-  /* } */
+const zoneDelete = async (_, {_id}, {req}) => {
+  try {
+    if (!req.session || !req.session.userId) {
+      throw new Error("Not authenticated.")
+    }
 
-  if (!zone) {
-    throw new Error("No zone found.")
+    const zone = await Zone.findOneAndDelete({owner: req.session.userId}).exec()
+
+    if (!zone) {
+      throw new Error("We could not find this zone.")
+    }
+
+    if (zone) {
+      return true
+    }
+  } catch (err) {
+    return err
   }
-
-  if (zone.owner === id) {
-    // TODO: delete zone
-  }
-
-  return zone
 }
 
 const zoneUpdate = (_, {input}) => {

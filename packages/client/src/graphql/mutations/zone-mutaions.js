@@ -35,3 +35,9 @@ export const ZONE_CREATE_MUTATION = gql`
   }
   ${zoneFragment}
 `
+
+export const ZONE_DELETE = gql`
+  mutation zoneDelete($_id: String!) {
+    zoneDelete(_id: $_id)
+  }
+`
