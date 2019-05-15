@@ -78,7 +78,7 @@ class About extends Component {
               }}
               className={classes.text}
               gutterBottom>
-              Go check out our support forum.
+              Come check out our support forum.
             </Typography>
             <a
               rel="noopener noreferrer"

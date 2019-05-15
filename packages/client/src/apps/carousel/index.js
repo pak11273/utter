@@ -26,7 +26,8 @@ import Typography from "@material-ui/core/Typography"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
-import {isOwner, shuffleArray} from "../../utils"
+/* import {isOwner, shuffleArray} from "../../utils" */
+import {shuffleArray} from "../../utils"
 import {LoaderCircle} from "../../components"
 
 /* import classNames from "classnames" */
@@ -140,12 +141,7 @@ const RandomCard = ({
       </CardActions>
       <Collapse in={state.expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Level Notes:</Typography>
-          <Typography paragraph>
-            Fusce risus nisl, viverra et, tempor et, pretium in, sapien. Ut
-            varius tincidunt libero. Phasellus blandit leo ut odio. Nullam quis
-            ante. Vivamus elementum semper nisi.
-          </Typography>
+          <Typography paragraph>Word Study:</Typography>
           <Typography paragraph>
             Fusce risus nisl, viverra et, tempor et, pretium in, sapien. Ut
             varius tincidunt libero. Phasellus blandit leo ut odio. Nullam quis
@@ -169,7 +165,7 @@ class HostControls extends PureComponent {
     this.state = {
       count: 0,
       loading: true,
-      isOwner: isOwner(session.user, session.zone),
+      isOwner: false,
       randomVocabulary: session.carousel
     }
   }
@@ -184,7 +180,8 @@ class HostControls extends PureComponent {
       session.carousel = res
       this.setState({
         randomVocabulary: res,
-        loading: false
+        loading: false,
+        isOwner: true
       })
     })
   }

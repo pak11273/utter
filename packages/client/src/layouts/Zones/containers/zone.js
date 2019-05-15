@@ -76,7 +76,8 @@ class Zone extends Component {
         async () => {
           if (this.state.host) {
             const onComplete = (zone, courseLevel, courseLevels) => {
-              session.levels = courseLevels.data.getLevels
+              console.log("courseLvels: ", courseLevels)
+              session.levels = courseLevels.data.getLevels.levels
               session.vocabulary = courseLevel.data.getLevel.vocabulary
               session.modifier =
                 courseLevels.data.getLevels.levels[session.level - 1].modifier

@@ -8,6 +8,12 @@ export class Pixabay extends PhotoAbstract {
     super(data)
     this.data = data
     this.loading = false
+    this.keys = process.env.PIXABAY_API_KEYS
+    this.keyCount = 0
+
+    this.keys = process.env.PIXABAY_API_KEYS.split(",")
+    console.log("keys: ", this.keys)
+    console.log("key Count: ", this.keyCount)
   }
 
   async fetchPics(data) {
@@ -18,23 +24,28 @@ export class Pixabay extends PhotoAbstract {
 
     const arr = await data.vocabulary.map(async dataItem => {
       const keyword = dataItem.keyword ? dataItem.keyword : dataItem.translation
-      console.log("keyword: ", keyword)
       return new Promise(resolve => {
         const modifier = data.modifier || ""
         setTimeout(async () => {
           const url = `https://pixabay.com/api/?key=${
-            process.env.PIXABAY_API_KEY
+            this.keys[this.keyCount]
           }&q=${keyword}&image_type=photo&pretty=true&per_page=${encodeURIComponent(
             100
           )}&safesearch=true`
           console.log("url: ", url)
           const response = await fetch(url)
           const fetched = await response.json()
-          console.log("fetched: ", fetched)
 
           const imageUrls = fetched.hits.map(item => {
             return {...dataItem, ...item}
           })
+
+          // rotate keys TODO: this needs to function on the backend
+          if (this.keyCount + 1 !== this.keyCount.length - 1) {
+            this.keyCount + 1
+          } else {
+            this.keyCount = 0
+          }
 
           resolve(imageUrls)
         }, 1000)

@@ -62,14 +62,10 @@ class LevelSelect extends PureComponent {
       return {value: item.title, label: `${++i}. ${item.title}`}
     })
     window.app.reformedLevels = reformed
-    console.log("window: ", window.app.reformedLevels)
-    this.setState(
-      {
-        level: session.level,
-        levels: window.app.reformedLevels
-      },
-      () => console.log("state: ", this.state)
-    )
+    this.setState({
+      level: session.level,
+      levels: window.app.reformedLevels
+    })
   }
 
   handleChange = selectedOption => {
