@@ -211,6 +211,7 @@ class HostControls extends PureComponent {
         () => {
           // shuffle cards
           const newCarousel = session.carousel
+          shuffleArray(newCarousel)
           console.log("newCarousel: ", newCarousel)
           const shuffledCarousel = newCarousel.map(item => {
             return shuffleArray(item)
