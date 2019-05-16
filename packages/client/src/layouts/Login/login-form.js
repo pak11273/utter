@@ -21,12 +21,8 @@ import {styles} from "./styles.js"
 import "./forms.css"
 
 class LoginForm extends PureComponent {
-  state = {
-    isSubmitting: this.props.isSubmitting
-  }
-
   render() {
-    const {classes, handleSubmit} = this.props
+    const {classes, handleSubmit, isSubmitting} = this.props
     return (
       <Section className={classes.section}>
         <Grid container>
@@ -99,8 +95,8 @@ class LoginForm extends PureComponent {
                   variant="contained"
                   color="primary"
                   size="large"
-                  loading={this.state.isSubmitting}
-                  disabled={this.state.isSubmitting}>
+                  loading={isSubmitting}
+                  disabled={isSubmitting}>
                   submit
                 </LoadingButton>
               </form>
@@ -125,7 +121,7 @@ export default compose(
       "username or email": "",
       password: ""
     }),
-    handleSubmit: async (values, {props, setErrors}) => {
+    handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
       const submit = async () => {
         const response = await props.mutate({
           variables: {
@@ -161,9 +157,7 @@ export default compose(
           data["username or email"] = data.identifier
         }
         setErrors(data)
-        this.setState({
-          isSubmitting: false
-        })
+        setSubmitting(false)
         return
       }
       if (data.token) {
