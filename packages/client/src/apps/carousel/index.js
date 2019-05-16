@@ -251,7 +251,6 @@ class HostControls extends PureComponent {
               </CardContent>
             </Card>
           )}
-          {/* if last card, card "shuffling pictures" hide controls, finish > controls appear */}
           {!this.state.loading &&
             this.state.randomVocabulary.map((item, i) => {
               const arr = shuffleArray(item)

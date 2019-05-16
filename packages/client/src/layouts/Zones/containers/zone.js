@@ -7,10 +7,7 @@ import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
 import socket from "../../../services/socketio"
-/* import {history} from "@utterzone/connector" */
-
 import AppContainer from "../../../apps/app-container"
-/* import schema from "../../../core/schema.js" */
 import Chat from "./chat/chat.js"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
@@ -174,10 +171,12 @@ class Zone extends Component {
   }
 
   render() {
-    const {classes, zone} = this.props
+    const {classes} = this.props
+    const {zone} = session
     const {username} = (session && session.user) || {username: ""}
     /* const {chatHistory} = history.location.state */
     /* this.state.client.connected(zone) */
+    console.log("props: ", this.props)
     return (
       <React.Fragment>
         <Grid container className={classes.root}>
@@ -197,13 +196,13 @@ class Zone extends Component {
             <Chat
               host={this.state.host}
               onLeave={() =>
-                this.onLeaveZone(zone.id, () => history.push("/zones"))
+                this.onLeaveZone(zone._id, () => history.push("/zones"))
               }
               user={this.state.user}
               registerHandler={this.state.client.registerHandler}
               unregisterHandler={this.state.client.unregisterHandler}
               onSendMessage={(message, cb) =>
-                this.state.client.createMessage(username, zone.id, message, cb)
+                this.state.client.createMessage(username, zone._id, message, cb)
               }
               receiveMsg={this.state.receiveMsg}
               zone="changeme"

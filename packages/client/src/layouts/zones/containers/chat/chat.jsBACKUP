@@ -1,7 +1,7 @@
 /* eslint no-debugger: 0 */
 
 /* import cuid from "cuid" */
-import RecordRTC from "recordrtc"
+/* import RecordRTC from "recordrtc" */
 import React, {PureComponent} from "react"
 import {withRouter} from "react-router-dom"
 import {withApollo} from "react-apollo"
@@ -143,141 +143,149 @@ class Chat extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.registerHandler(this.onMessageReceived)
-    this.scrollChatToBottom()
-    var {props} = this
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      console.log("getUserMedia supported.")
-      navigator.mediaDevices
-        .getUserMedia({audio: true})
-        // Success callback
-        .then(stream => {
-          const recorder = RecordRTC(stream, {type: "audio"})
-          var record = document.querySelector(".record")
-          var stop = document.querySelector(".stop")
-          var soundClips = document.querySelector(".sound-clips")
-          record.onclick = () => {
-            if (soundClips.childNodes.length === 1) {
-              record.disabled = true
-              alert(
-                "You can only record 1 audio clip at a time.  Delete your audio clip to record another."
-              )
-            } else {
-              recorder.startRecording()
-              console.log("recorder started")
-              record.style.background = "green"
-              record.style.color = "black"
-            }
-          }
-          stop.onclick = () => {
-            var audio = document.createElement("audio")
-            var clipContainer = document.createElement("Article")
-            var deleteButton = document.createElement("button")
-            recorder.stopRecording(audioURL => {
-              audio.src = audioURL
-              /* var recordedBlob = recorder.getBlob() */
-              recorder.getDataURL(dataUrl => {
-                var files = {
-                  audio: {
-                    /* author: props.userReducer.userProfile.username, */
-                    author: "beano",
-                    /* room: props.socketReducer.joined_room, */
-                    /* name: "file" + fileCounter++ + ".wav", */
-                    type: "audio/wav",
-                    dataUrl
-                  }
-                }
-                // add blob to redux
-                props.actions.loadAudioBlob(files)
-              })
-            })
-            console.log("recorder stopped")
-            record.style.background = ""
-            record.style.color = ""
-            clipContainer.classList.add("clip")
-            clipContainer.setAttribute(
-              "style",
-              "display: flex; justify-content: center; padding-top: 20px; width: 270px"
-            )
-            audio.setAttribute("controls", "")
-            deleteButton.innerHTML = "DEL"
-            clipContainer.appendChild(audio)
-            clipContainer.appendChild(deleteButton)
-            deleteButton.setAttribute(
-              "style",
-              "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;"
-            )
-            soundClips.appendChild(clipContainer)
-            deleteButton.onclick = e => {
-              var evtTgt = e.target
-              evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode)
-              record.disabled = false
-            }
-          }
-        })
-        // Error callback
-        .catch(err => {
-          console.log("The following gUM error occured: " + err)
-        })
-    } else {
-      console.log("getUserMedia not supported on your browser!")
-    }
+    /*   this.props.registerHandler(this.onMessageReceived) */
+    /*   this.scrollChatToBottom() */
+    /*   var {props} = this */
+    /*   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
+    /*     console.log("getUserMedia supported.") */
+    /*     navigator.mediaDevices */
+    /*       .getUserMedia({audio: true}) */
+    /*       // Success callback */
+    /*       .then(stream => { */
+    /*         const recorder = RecordRTC(stream, {type: "audio"}) */
+    /*         var record = document.querySelector(".record") */
+    /*         var stop = document.querySelector(".stop") */
+    /*         var soundClips = document.querySelector(".sound-clips") */
+    /*         record.onclick = () => { */
+    /*           if (soundClips.childNodes.length === 1) { */
+    /*             record.disabled = true */
+    /*             alert( */
+    /*               "You can only record 1 audio clip at a time.  Delete your audio clip to record another." */
+    /*             ) */
+    /*           } else { */
+    /*             recorder.startRecording() */
+    /*             console.log("recorder started") */
+    /*             record.style.background = "green" */
+    /*             record.style.color = "black" */
+    /*           } */
+    /*         } */
+    /*         stop.onclick = () => { */
+    /*           var audio = document.createElement("audio") */
+    /*           var clipContainer = document.createElement("Article") */
+    /*           var deleteButton = document.createElement("button") */
+    /*           recorder.stopRecording(audioURL => { */
+    /*             audio.src = audioURL */
+    /*             /1* var recordedBlob = recorder.getBlob() *1/ */
+    /*             recorder.getDataURL(dataUrl => { */
+    /*               var files = { */
+    /*                 audio: { */
+    /*                   /1* author: props.userReducer.userProfile.username, *1/ */
+    /*                   author: "chino", */
+    /*                   /1* room: props.socketReducer.joined_room, *1/ */
+    /*                   /1* name: "file" + fileCounter++ + ".wav", *1/ */
+    /*                   type: "audio/wav", */
+    /*                   dataUrl */
+    /*                 } */
+    /*               } */
+    /*               // add blob to redux */
+    /*               props.actions.loadAudioBlob(files) */
+    /*             }) */
+    /*           }) */
+    /*           console.log("recorder stopped") */
+    /*           record.style.background = "" */
+    /*           record.style.color = "" */
+    /*           clipContainer.classList.add("clip") */
+    /*           clipContainer.setAttribute( */
+    /*             "style", */
+    /*             "display: flex; justify-content: center; padding-top: 20px; width: 270px" */
+    /*           ) */
+    /*           audio.setAttribute("controls", "") */
+    /*           deleteButton.innerHTML = "DEL" */
+    /*           clipContainer.appendChild(audio) */
+    /*           clipContainer.appendChild(deleteButton) */
+    /*           deleteButton.setAttribute( */
+    /*             "style", */
+    /*             "font-size: 10px; border-radius: 50%; width: 30px; height: 30px; padding: 3px; background: red; outline: none; border-color: transparent; margin: 12px; cursor: pointer;" */
+    /*           ) */
+    /*           soundClips.appendChild(clipContainer) */
+    /*           deleteButton.onclick = e => { */
+    /*             var evtTgt = e.target */
+    /*             evtTgt.parentNode.parentNode.removeChild(evtTgt.parentNode) */
+    /*             record.disabled = false */
+    /*           } */
+    /*         } */
+    /*       }) */
+    /*       // Error callback */
+    /*       .catch(err => { */
+    /*         console.log("The following gUM error occured: " + err) */
+    /*       }) */
+    /*   } else { */
+    /*     console.log("getUserMedia not supported on your browser!") */
+    /*   } */
   }
 
-  componentWillReceiveProps(props) {
-    if (props.receiveMsg.data) {
-      this.setState({
-        chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
-      })
-    }
-  }
+  /* componentWillReceiveProps(props) { */
+  /*   if (props.receiveMsg.data) { */
+  /*     this.setState({ */
+  /*       chatHistory: [...this.state.chatHistory, props.receiveMsg.data] */
+  /*     }) */
+  /*   } */
+  /* } */
 
-  componentDidUpdate() {
-    this.scrollChatToBottom()
-  }
+  /* componentDidUpdate() { */
+  /*   this.scrollChatToBottom() */
+  /* } */
 
-  componentWillUnmount() {
-    /* this.props.unregisterHandler() */
-  }
+  /* componentWillUnmount() { */
+  /*   /1* this.props.unregisterHandler() *1/ */
+  /* } */
 
-  onInput = e => {
-    this.setState({
-      input: e.target.value
-    })
-  }
+  /* onInput = e => { */
+  /*   this.setState({ */
+  /*     input: e.target.value */
+  /*   }) */
+  /* } */
 
-  onSendMessage = () => {
-    if (!this.state.input) return
+  /* onSendMessage = () => { */
+  /*   if (!this.state.input) return */
 
-    this.props.onSendMessage(this.state.input, err => {
-      if (err) return console.error(err)
-      return this.setState({input: ""})
-    })
+  /*   this.props.onSendMessage(this.state.input, err => { */
+  /*     if (err) return console.error(err) */
+  /*     return this.setState({input: ""}) */
+  /*   }) */
 
-    /* const audio = this.props.socketReducer.audioBlob */
+  /* const audio = this.props.socketReducer.audioBlob */
 
-    // send audio file
-    /* if (audio) { */
-    /*   this.props.actions.addAudio({ */
-    /*     author: audio.audio.author, */
-    /*     dataUrl: audio.audio.dataUrl */
-    /*   }) */
-    /*   this.props.actions.sendAudioBlob(audio) */
-    /* } */
+  // send audio file
+  /* if (audio) { */
+  /*   this.props.actions.addAudio({ */
+  /*     author: audio.audio.author, */
+  /*     dataUrl: audio.audio.dataUrl */
+  /*   }) */
+  /*   this.props.actions.sendAudioBlob(audio) */
+  /* } */
 
-    // TODO: remove the soundclips
-    var soundClips = document.querySelector(".sound-clips")
-    if (soundClips.firstChild) {
-      soundClips.removeChild(soundClips.firstChild)
-    }
+  // TODO: remove the soundclips
+  /* var soundClips = document.querySelector(".sound-clips") */
+  /* if (soundClips.firstChild) { */
+  /*   soundClips.removeChild(soundClips.firstChild) */
+  /* } */
 
-    // delete the audio
-    /* this.props.actions.deleteAudioBlob() */
-  }
+  // delete the audio
+  /* this.props.actions.deleteAudioBlob() */
+  /* } */
 
-  onMessageReceived(entry) {
-    this.updateChatHistory(entry)
-  }
+  /* onMessageReceived(entry) { */
+  /*   this.updateChatHistory(entry) */
+  /* } */
+
+  /* updateChatHistory(entry) { */
+  /*   this.setState({chatHistory: this.state.chatHistory.concat(entry)}) */
+  /* } */
+
+  /* scrollChatToBottom() { */
+  /*   this.panel.scrollTo(0, this.panel.scrollHeight) */
+  /* } */
 
   handleClickOpen = () => {
     this.setState({
@@ -310,14 +318,6 @@ class Chat extends PureComponent {
       // push to zone listings
       this.props.history.push("/zones")
     }
-  }
-
-  scrollChatToBottom() {
-    this.panel.scrollTo(0, this.panel.scrollHeight)
-  }
-
-  updateChatHistory(entry) {
-    this.setState({chatHistory: this.state.chatHistory.concat(entry)})
   }
 
   render() {

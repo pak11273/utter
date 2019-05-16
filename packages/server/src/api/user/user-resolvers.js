@@ -34,6 +34,7 @@ import {
 } from "@utterzone/common"
 
 const me = async (_, __, {req}) => {
+  console.log("req: ", req.session)
   if (!req.session.userId) {
     return null
   }
