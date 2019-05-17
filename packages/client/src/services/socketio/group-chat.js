@@ -12,16 +12,8 @@ export default zoneId => {
 
   const socket = io(url)
 
-  const newMessage = ({username, msg, zoneId}) => {
-    return socket.on("newMessage", ({username, msg, zoneId}) => {
-      console.log("hahahahahahahaha")
-
-      return {
-        username,
-        msg,
-        zoneId
-      }
-    })
+  const newMessage = onMsgReceived => {
+    socket.on("newMessage", onMsgReceived)
   }
 
   const createMessage = obj => {
@@ -45,12 +37,6 @@ export default zoneId => {
   socket.on("error", err => {
     console.log("received socket error:")
     console.log(err)
-  })
-
-  socket.on("newMessage", ({username, msg, zoneId}) => {
-    console.log("username: ", username)
-    console.log("new message: ", msg)
-    console.log("zoneId: ", zoneId)
   })
 
   return {

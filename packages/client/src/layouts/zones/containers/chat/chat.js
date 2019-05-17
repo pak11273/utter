@@ -23,7 +23,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import SendIcon from "@material-ui/icons/Send"
-import Typography from "@material-ui/core/Typography"
+/* import Typography from "@material-ui/core/Typography" */
 import {session} from "brownies"
 
 import {ChatModal} from "../../../../containers"
@@ -108,16 +108,16 @@ const styles = theme => ({
   },
   iconSmall: {
     fontSize: 20
-  },
-  outputText: {
-    fontSize: "1rem",
-    whiteSpace: "normal",
-    wordBreak: "break-all",
-    overflow: "initial",
-    width: "100%",
-    height: "auto",
-    color: "#3e3e3e"
   }
+  /* outputText: { */
+  /*   fontSize: "1rem", */
+  /*   whiteSpace: "normal", */
+  /*   wordBreak: "break-all", */
+  /*   overflow: "initial", */
+  /*   width: "100%", */
+  /*   height: "auto", */
+  /*   color: "#3e3e3e" */
+  /* } */
 })
 
 class Chat extends PureComponent {
@@ -135,8 +135,7 @@ class Chat extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.registerHandler &&
-      this.props.registerHandler(this.onMessageReceived)
+    this.props.newMessage && this.props.newMessage(this.onMsgReceived)
     this.scrollChatToBottom()
     var {props} = this
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -218,7 +217,8 @@ class Chat extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    if (props.receiveMsg.data) {
+    console.log("props: ", props.receiveMsg)
+    if (props.newMessage.data) {
       this.setState({
         chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
       })
@@ -230,7 +230,7 @@ class Chat extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.props.unregisterHandler()
+    /* this.props.unregisterHandler() */
   }
 
   onInput = e => {
@@ -268,7 +268,8 @@ class Chat extends PureComponent {
     /* this.props.actions.deleteAudioBlob() */
   }
 
-  onMessageReceived(entry) {
+  onMsgReceived = entry => {
+    console.log("entry: ", entry)
     this.updateChatHistory(entry)
   }
 
@@ -296,7 +297,6 @@ class Chat extends PureComponent {
     })
 
     if (result) {
-      console.log("yep")
       this.setState({
         loading: false
       })
@@ -305,12 +305,12 @@ class Chat extends PureComponent {
     }
   }
 
-  scrollChatToBottom() {
-    this.panel.scrollTo(0, this.panel.scrollHeight)
+  updateChatHistory = entry => {
+    this.setState({chatHistory: this.state.chatHistory.concat(entry)})
   }
 
-  updateChatHistory(entry) {
-    this.setState({chatHistory: this.state.chatHistory.concat(entry)})
+  scrollChatToBottom = () => {
+    this.panel.scrollTo(0, this.panel.scrollHeight)
   }
 
   render() {
@@ -381,7 +381,7 @@ class Chat extends PureComponent {
                 this.panel = panel
               }}>
               <List>
-                {this.state.chatHistory.map(({username, event}, i) => [
+                {this.state.chatHistory.map(({username, msg, event}, i) => [
                   <NoDots key={i}>
                     <ListItem button style={{color: "#fafafa"}}>
                       <ListItemAvatar>
@@ -389,11 +389,7 @@ class Chat extends PureComponent {
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${username} ${event || ""}`}
-                        secondary={
-                          <Typography className={classes.outputText}>
-                            wtf
-                          </Typography>
-                        }
+                        secondary={msg && msg}
                       />
                       <ListItemSecondaryAction>
                         <div className={classes.more}>:</div>

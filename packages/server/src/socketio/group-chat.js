@@ -23,9 +23,6 @@ export default async server => {
     })
 
     socket.on("createMessage", ({username, msg, zoneId}, cb) => {
-      console.log("zoneid: ", typeof zoneId)
-      console.log("usern: ", username)
-      console.log("msg: ", msg)
       io.to(zoneId).emit("newMessage", {
         username,
         msg,

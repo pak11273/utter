@@ -207,9 +207,7 @@ class Zone extends Component {
                   cb
                 })
               }
-              receiveMsg={() => {
-                this.state.socketio.newMessage
-              }}
+              newMessage={this.state.socketio.newMessage}
               zone="changeme"
               /* usersList={this.state.usersList} */
             />
