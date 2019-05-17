@@ -57,18 +57,19 @@ var me = function () {
         switch (_context.prev = _context.next) {
           case 0:
             req = _ref.req;
+            console.log("req: ", req.session);
 
             if (req.session.userId) {
-              _context.next = 3;
+              _context.next = 4;
               break;
             }
 
             return _context.abrupt("return", null);
 
-          case 3:
+          case 4:
             return _context.abrupt("return", _userModel.default.findById(req.session.userId).populate("subscriptions").lean());
 
-          case 4:
+          case 5:
           case "end":
             return _context.stop();
         }
