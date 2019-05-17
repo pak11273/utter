@@ -6,7 +6,8 @@ import app from "./server.js"
 import config from "./config"
 import graphqlServer from "./graphql-server.js"
 import {decodeToken, hydrateUser} from "./auth"
-import socketServer from "./socketio/socket-server.js"
+/* import socketServer from "./socketio/socket-server.js" */
+import socketServer from "./socketio/group-chat.js"
 import {isAuth} from "./auth"
 
 const server = http.createServer(app)

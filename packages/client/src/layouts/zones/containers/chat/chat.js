@@ -31,14 +31,6 @@ import {ChatModal} from "../../../../containers"
 import {ZONE_DELETE} from "../../../../graphql/mutations/zone-mutaions.js"
 /* import Overlay from './Overlay'; */
 
-// actions
-/* import {updateReviewList} from "../../../../containers/Pictures/actions.js" */
-/* import {addAudio, addMsg, setCurrentMsg, updateMsg} from "./actions.js" */
-/* import /1* deleteAudioBlob, *1/ */
-/* loadAudioBlob, */
-/* sendAudioBlob, */
-/* sendMsg */
-/* "../../../../services/socketio/actions.js" */
 /* import "./styles.css" */
 
 const ChatWindow = styled.div`
@@ -143,7 +135,8 @@ class Chat extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.registerHandler(this.onMessageReceived)
+    console.log("props: ", this.props)
+    /* this.props.registerHandler(this.onMessageReceived) */
     this.scrollChatToBottom()
     var {props} = this
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -248,6 +241,7 @@ class Chat extends PureComponent {
 
   onSendMessage = () => {
     if (!this.state.input) return
+    console.log("input; ", this.state.input)
 
     this.props.onSendMessage(this.state.input, err => {
       if (err) return console.error(err)
@@ -359,9 +353,9 @@ class Chat extends PureComponent {
                 minWidth: "250px",
                 top: "25px"
               }}>
-              <Typography className={classes.outputText}>
+              {/*  <Typography className={classes.outputText}>
                 ({this.props.usersList.length}) {this.props.zone.zoneName}
-              </Typography>
+              </Typography> */}
             </div>
             <Can
               roles={user && user.roles}
@@ -397,6 +391,9 @@ class Chat extends PureComponent {
                       <ListItemText
                         primary={`${username} ${event}`}
                         secondary={
+                          /* <Typography className={classes.outputText}>
+                            {message}
+                          </Typography> */
                           <Typography className={classes.outputText}>
                             {message}
                           </Typography>

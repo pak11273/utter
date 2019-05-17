@@ -6,7 +6,7 @@ import {toast} from "react-toastify"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 
-import socket from "../../../services/socketio"
+import socket from "../../../services/socketio/group-chat.js"
 import AppContainer from "../../../apps/app-container"
 import Chat from "./chat/chat.js"
 import Members from "./members/members.js"
@@ -44,26 +44,30 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
-    client: socket(),
+    socketio: null,
     host: false
   }
 
   componentDidMount = () => {
-    this.state.client.usersList(usersList => {
-      this.setState(
-        {
-          usersList
-        },
-        console.log("userlist; ", this.state.usersList)
-      )
+    const {zoneId} = this.props.history.location.state
+    this.setState({
+      socketio: socket(zoneId)
     })
 
-    this.state.client.newMessage(data => {
-      this.setState({receiveMsg: data})
-    })
+    /* this.state.socketio.usersList(usersList => { */
+    /*   this.setState( */
+    /*     { */
+    /*       usersList */
+    /*     }, */
+    /*     console.log("userlist; ", this.state.usersList) */
+    /*   ) */
+    /* }) */
+
+    /* this.state.socketio.newMessage(data => { */
+    /*   this.setState({receiveMsg: data}) */
+    /* }) */
 
     // rehydrate levels and vocabulary for returning hosts
-    const {zoneId} = this.props.history.location.state
     const hostedZoneId = session.user.hostedZone && session.user.hostedZone._id
     if (zoneId === hostedZoneId || session.zone._id === hostedZoneId) {
       this.setState(
@@ -139,7 +143,7 @@ class Zone extends Component {
   }
 
   onLeaveZone = (zoneId, onLeaveSuccess) => {
-    this.state.client.leave(zoneId, err => {
+    this.state.socketio.leave(zoneId, err => {
       if (err) return console.error(err)
       return onLeaveSuccess()
     })
@@ -156,7 +160,7 @@ class Zone extends Component {
     const onRegisterResponse = user =>
       this.sejState({isRegisterInProcess: false, user})
     this.setState({isRegisterInProcess: true})
-    this.state.client.register(name, (err, user) => {
+    this.state.socketio.register(name, (err, user) => {
       if (err) return onRegisterResponse(null)
       return onRegisterResponse(user)
     })
@@ -175,8 +179,7 @@ class Zone extends Component {
     const {zone} = session
     const {username} = (session && session.user) || {username: ""}
     /* const {chatHistory} = history.location.state */
-    /* this.state.client.connected(zone) */
-    console.log("props: ", this.props)
+    /* this.state.socketio.connected(zone) */
     return (
       <React.Fragment>
         <Grid container className={classes.root}>
@@ -199,14 +202,19 @@ class Zone extends Component {
                 this.onLeaveZone(zone._id, () => history.push("/zones"))
               }
               user={this.state.user}
-              registerHandler={this.state.client.registerHandler}
-              unregisterHandler={this.state.client.unregisterHandler}
+              /* registerHandler={socketio.registerHandler} */
+              /* unregisterHandler={socketio.unregisterHandler} */
               onSendMessage={(message, cb) =>
-                this.state.client.createMessage(username, zone._id, message, cb)
+                this.state.socketio.createMessage({
+                  username,
+                  zoneId: zone._id,
+                  message,
+                  cb
+                })
               }
               receiveMsg={this.state.receiveMsg}
               zone="changeme"
-              usersList={this.state.usersList}
+              /* usersList={this.state.usersList} */
             />
           </Grid>
           <Grid item xs={12}>

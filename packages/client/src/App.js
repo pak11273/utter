@@ -7,7 +7,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {cookies, session} from "brownies"
+import {session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -26,7 +26,7 @@ import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-import {sessionDelete} from "./utils/session-delete.js"
+import {ME_QUERY} from "./graphql/queries/user-queries.js"
 
 const SubRoutes = route => (
   <Route
@@ -58,11 +58,11 @@ ReactGA.pageview(window.location.pathname + window.location.search)
 // wrapped in AppContainer for react-hot-loader
 class App extends Component {
   componentDidMount = async () => {
-    // check if user has cookies session enabled
-    if (!cookies.connect) {
-      delete cookies._uid
-      delete session.user
-      sessionDelete()
+    if (!session.user) {
+      const user = await ApolloInstance.query({
+        query: ME_QUERY
+      })
+      session.user = user.data.me
     }
 
     // TODO: keep users from opening up sessions in new tabs
