@@ -44,16 +44,12 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
-    socketio: null,
+    socketio: socket(this.props.history.location.state),
     host: false
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const {zoneId} = this.props.history.location.state
-    this.setState({
-      socketio: socket(zoneId)
-    })
-
     /* this.state.socketio.usersList(usersList => { */
     /*   this.setState( */
     /*     { */
@@ -61,10 +57,6 @@ class Zone extends Component {
     /*     }, */
     /*     console.log("userlist; ", this.state.usersList) */
     /*   ) */
-    /* }) */
-
-    /* this.state.socketio.newMessage(data => { */
-    /*   this.setState({receiveMsg: data}) */
     /* }) */
 
     // rehydrate levels and vocabulary for returning hosts
@@ -139,7 +131,12 @@ class Zone extends Component {
   }
 
   componentWillUnmount() {
+    alert("i left the chat")
     // TODO memory leak in console.  Kill socket.io connection??
+    // TODO remove socket listeners
+
+    /* socket.off('newMessage') */
+    /* socket.off('createMessage') */
   }
 
   onLeaveZone = (zoneId, onLeaveSuccess) => {
@@ -202,8 +199,6 @@ class Zone extends Component {
                 this.onLeaveZone(zone._id, () => history.push("/zones"))
               }
               user={this.state.user}
-              /* registerHandler={socketio.registerHandler} */
-              /* unregisterHandler={socketio.unregisterHandler} */
               onSendMessage={(message, cb) =>
                 this.state.socketio.createMessage({
                   username,
@@ -212,7 +207,9 @@ class Zone extends Component {
                   cb
                 })
               }
-              receiveMsg={this.state.receiveMsg}
+              receiveMsg={() => {
+                this.state.socketio.newMessage
+              }}
               zone="changeme"
               /* usersList={this.state.usersList} */
             />

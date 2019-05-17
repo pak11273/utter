@@ -3,7 +3,7 @@
 
 import io from "socket.io-client"
 
-export default zone => {
+export default zoneId => {
   var url = ""
 
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod")
@@ -12,8 +12,16 @@ export default zone => {
 
   const socket = io(url)
 
-  const newMessage = msg => {
-    console.log("new message: ", msg)
+  const newMessage = ({username, msg, zoneId}) => {
+    return socket.on("newMessage", ({username, msg, zoneId}) => {
+      console.log("hahahahahahahaha")
+
+      return {
+        username,
+        msg,
+        zoneId
+      }
+    })
   }
 
   const createMessage = obj => {
@@ -29,17 +37,20 @@ export default zone => {
   }
 
   socket.on("connect", () => {
-    console.log("user connected")
-
-    socket.emit("join", zone, () => {
-      console.log("user has joined zone: ", zone)
+    socket.emit("join", zoneId, () => {
+      console.log("user has joined zone: ", zoneId)
     })
   })
 
+  socket.on("error", err => {
+    console.log("received socket error:")
+    console.log(err)
+  })
+
   socket.on("newMessage", ({username, msg, zoneId}) => {
-    console.log("username; ", username)
-    console.log("new msg: ", msg)
-    console.log("new zone: ", zoneId)
+    console.log("username: ", username)
+    console.log("new message: ", msg)
+    console.log("zoneId: ", zoneId)
   })
 
   return {

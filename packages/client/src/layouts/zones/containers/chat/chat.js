@@ -135,8 +135,8 @@ class Chat extends PureComponent {
   }
 
   componentDidMount() {
-    console.log("props: ", this.props)
-    /* this.props.registerHandler(this.onMessageReceived) */
+    this.props.registerHandler &&
+      this.props.registerHandler(this.onMessageReceived)
     this.scrollChatToBottom()
     var {props} = this
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -230,7 +230,7 @@ class Chat extends PureComponent {
   }
 
   componentWillUnmount() {
-    /* this.props.unregisterHandler() */
+    this.props.unregisterHandler()
   }
 
   onInput = e => {
@@ -241,7 +241,6 @@ class Chat extends PureComponent {
 
   onSendMessage = () => {
     if (!this.state.input) return
-    console.log("input; ", this.state.input)
 
     this.props.onSendMessage(this.state.input, err => {
       if (err) return console.error(err)
@@ -382,20 +381,17 @@ class Chat extends PureComponent {
                 this.panel = panel
               }}>
               <List>
-                {this.state.chatHistory.map(({username, message, event}, i) => [
+                {this.state.chatHistory.map(({username, event}, i) => [
                   <NoDots key={i}>
                     <ListItem button style={{color: "#fafafa"}}>
                       <ListItemAvatar>
                         <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
                       </ListItemAvatar>
                       <ListItemText
-                        primary={`${username} ${event}`}
+                        primary={`${username} ${event || ""}`}
                         secondary={
-                          /* <Typography className={classes.outputText}>
-                            {message}
-                          </Typography> */
                           <Typography className={classes.outputText}>
-                            {message}
+                            wtf
                           </Typography>
                         }
                       />
