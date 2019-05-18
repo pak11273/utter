@@ -31,6 +31,7 @@ import InputLine from "./Inputs/InputLine.js"
 import Label from "./Text/Label.js"
 import Ol from "./OrderedList.js"
 import Section from "./section.js"
+import Subscribe from "./subscribe"
 import Line from "./Line.js"
 import Link from "./Link.js"
 import Logo from "./Logo.js"
@@ -121,6 +122,7 @@ export {
   Span,
   State,
   subscriptions,
+  Subscribe,
   Subtitle,
   Table,
   Teaching,

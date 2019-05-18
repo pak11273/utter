@@ -58,6 +58,17 @@ export const styles = theme => ({
     justifyContent: "center",
     height: "100%"
   },
+  "popup-content": {
+    position: "fixed",
+    background: "#f83d23",
+    width: "100px",
+    height: "100px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxShadow: "0 0 6px #000",
+    color: "#fff"
+  },
   title: {
     alignItems: "center",
     display: "flex",
@@ -93,6 +104,7 @@ export const styles = theme => ({
     margin: "0 auto"
   },
   root: {
+    position: "relative",
     margin: "0 auto",
     width: "100%"
   },

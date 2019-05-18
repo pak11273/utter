@@ -4,24 +4,50 @@ import {Helmet} from "react-helmet-async"
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 
+import Button from "@material-ui/core/Button"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
-import Button from "@material-ui/core/Button"
 
-import {Container, Flex, Img, Line, Section} from "../components"
+import {Container, Flex, Img, Line, Section, Subscribe} from "../components"
 import {Footer, Masthead} from "../containers"
+import {styles} from "./styles.js"
 
 // images
 import busyPeopleImg from "../assets/images/busy-people.png"
 import homeMastheadImg from "../assets/images/home_header.jpg"
 import embarrassedImg from "../assets/images/embarrassed.png"
 import visitingImg from "../assets/images/walk-around.png"
-import {styles} from "./styles.js"
 
 class Home extends Component {
+  state = {
+    showSubscribe: false
+  }
+
+  componentDidMount() {
+    this.forceUpdate()
+    window.addEventListener("scroll", this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll)
+  }
+
+  handleScroll = () => {
+    if (window.pageYOffset > 900) {
+      this.setState({
+        showSubscribe: true
+      })
+    } else {
+      this.setState({
+        showSubscribe: false
+      })
+    }
+  }
+
   render() {
     const {classes} = this.props
+
     return (
       <React.Fragment>
         <Helmet>
@@ -40,8 +66,8 @@ class Home extends Component {
         </Helmet>
         <Masthead
           background={`url(${homeMastheadImg}) center/cover`}
-          height="760px"
-          padding="320px 20px 100px 20px">
+          justifycontent="center"
+          height="590px">
           <Typography
             variant="h2"
             align="center"
@@ -245,6 +271,8 @@ class Home extends Component {
             </Grid>
           </Section>
 							*/}
+          {this.state && this.state.showSubscribe && <Subscribe />}
+
           <Footer />
         </Container>
       </React.Fragment>
