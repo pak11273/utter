@@ -27,6 +27,8 @@ var _resolverFunctions = require("../shared/resolver-functions.js");
 
 var _common = require("@utterzone/common");
 
+var _userModel = _interopRequireDefault(require("../user/user-model.js"));
+
 var _betaTesterModel = _interopRequireDefault(require("../beta/beta-tester-model.js"));
 
 var betaAccess = function () {
@@ -112,9 +114,60 @@ var betaSignup = function () {
   };
 }();
 
+var getBetaTesters = function () {
+  var _ref8 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee3(_, args, _ref7, __) {
+    var req, user, betaTesters;
+    return _regenerator.default.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            req = _ref7.req;
+
+            if (req.session.userId) {
+              _context3.next = 3;
+              break;
+            }
+
+            return _context3.abrupt("return", null);
+
+          case 3:
+            _context3.next = 5;
+            return _userModel.default.findById(req.session.userId).lean();
+
+          case 5:
+            user = _context3.sent;
+            console.log("user: ", user);
+
+            if (!(user.roles.indexOf("uzAdmin") !== -1)) {
+              _context3.next = 13;
+              break;
+            }
+
+            _context3.next = 10;
+            return _betaTesterModel.default.find().lean();
+
+          case 10:
+            betaTesters = _context3.sent;
+            console.log("beta: ", betaTesters);
+            return _context3.abrupt("return", betaTesters);
+
+          case 13:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+
+  return function getBetaTesters(_x9, _x10, _x11, _x12) {
+    return _ref8.apply(this, arguments);
+  };
+}();
+
 var betaTesterResolvers = {
   Query: {
-    betaAccess: betaAccess
+    betaAccess: betaAccess,
+    getBetaTesters: getBetaTesters
   },
   Mutation: {
     betaSignup: betaSignup

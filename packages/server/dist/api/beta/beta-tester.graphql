@@ -37,6 +37,7 @@ type BetaTester {
 
 extend type Query {
 	betaAccess(key: String): String 
+	getBetaTesters: [BetaTester] 
 }
 
 extend type Mutation {
