@@ -1,6 +1,30 @@
 import gql from "graphql-tag"
 import {accountFragment} from "../fragments/user-fragments.js"
 
+export const GET_BETA_TESTERS = gql`
+  query getBetaTesters {
+    getBetaTesters {
+      _id
+      ageGroup
+      chosen
+      country
+      currentlyLearning
+      dayLearningHrs
+      email
+      firstName
+      gender
+      howLongLearning
+      lastName
+      languagesFluent
+      linkedIn
+      nativeLang
+      whyLearning
+      createdAt
+      updatedAt
+    }
+  }
+`
+
 export const BETA_ACCESS = gql`
   query betaAccess($key: String) {
     betaAccess(key: $key)

@@ -11,6 +11,7 @@ import {sendContactEmail, sendForgotPasswordEmail} from "../../mail/mail"
 import {userByToken} from "../shared/resolver-functions.js"
 
 import {signupSchema} from "@utterzone/common"
+import User from "../user/user-model.js"
 import BetaTester from "../beta/beta-tester-model.js"
 
 const betaAccess = async (_, {key}, {redis, url}, info) => {
@@ -36,9 +37,25 @@ const betaSignup = async (_, {input}, {redis, url}, info) => {
   }
 }
 
+const getBetaTesters = async (_, args, {req}, __) => {
+  if (!req.session.userId) {
+    return null
+  }
+  const user = await User.findById(req.session.userId).lean()
+  // get user, if role uzAdmin, return users
+  console.log("user: ", user)
+
+  if (user.roles.indexOf("uzAdmin") !== -1) {
+    const betaTesters = await BetaTester.find().lean()
+    console.log("beta: ", betaTesters)
+    return betaTesters
+  }
+}
+
 export const betaTesterResolvers = {
   Query: {
-    betaAccess
+    betaAccess,
+    getBetaTesters
   },
 
   Mutation: {

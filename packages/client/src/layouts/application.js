@@ -351,8 +351,7 @@ class BetaApplication extends PureComponent {
                     component={FormikInput}
                   />
                   <Typography component="p" color="inherit">
-                    Not including your native tongue, how many languages can you
-                    currently speak fluently?
+                    How many languages can you currently speak fluently?
                   </Typography>
 
                   <Field

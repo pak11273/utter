@@ -48,6 +48,12 @@ const getAdminSettings = Loadable({
   loading: Loading
 })
 
+const getAdminBetaTesters = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'admin-beta-testers' */ "./layouts/admin/containers/admin-beta-testers.js"),
+  loading: Loading
+})
+
 const getAdminUpdate = Loadable({
   loader: () => import(/* webpackChunkName: 'admin' */ "./layouts/admin"),
   loading: Loading
@@ -274,6 +280,11 @@ export const routes = [
         component: getAdminSettings,
         exact: true,
         path: "/admin/admin-settings"
+      },
+      {
+        component: getAdminBetaTesters,
+        exact: true,
+        path: "/admin/admin-beta-testers"
       },
       {
         component: getAdminCarousel,

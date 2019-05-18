@@ -103,8 +103,7 @@ export const styles = theme => ({
     }
   },
   root: {
-    display: "flex",
-    flexGrow: 1,
+    margin: "0 auto",
     width: "100%"
   },
   selectEmpty: {
