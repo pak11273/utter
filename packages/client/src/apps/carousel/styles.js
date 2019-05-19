@@ -27,7 +27,7 @@ export const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     margin: "30px auto 30px",
-    maxWidth: 532,
+    maxWidth: 412,
     minHeight: 370
   },
   cardActions: {
@@ -47,12 +47,28 @@ export const styles = theme => ({
   cardTitle: {
     height: "100%"
   },
+  loadingCard: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "30px auto 30px",
+    maxWidth: 532,
+    minHeight: 370
+  },
   media: {
     height: 0,
     paddingTop: "56.25%" // 16:9
   },
+  randomCard: {
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "30px auto 30px",
+    maxWidth: 412,
+    minHeight: 370
+  },
   root: {
     backgroundColor: "#3e3e3e",
-    minHeight: "533px"
+    minHeight: 588,
+    minWidth: 800
   }
 })

@@ -91,7 +91,7 @@ const RandomCard = ({
   }
 
   return (
-    <Card className={classes.card}>
+    <Card className={classes.randomCard}>
       <CardHeader
         avatar={
           <Avatar aria-label="level" className={classes.avatar}>
@@ -224,17 +224,17 @@ class HostControls extends PureComponent {
   render() {
     console.log(RandomCard)
     return (
-      <div>
-        <Carousel
-          infiniteLoop={true}
-          onChange={count => this.shufflePics(count)}
-          showThumbs={false}
-          showIndicators={false}
-          showArrows={this.state.isOwner && !this.state.loading}
-          showStatus>
-          {/*      {this.state.loading && ( */}
-          <Card className={this.props.classes.card}>
-            <CardContent style={{alignItems: "center"}}>
+      <Carousel
+        width="100%"
+        infiniteLoop={true}
+        onChange={count => this.shufflePics(count)}
+        showThumbs={false}
+        showIndicators={false}
+        showArrows={this.state.isOwner && !this.state.loading}
+        showStatus>
+        {this.state.loading && (
+          <Card className={this.props.classes.loadingCard}>
+            <CardContent>
               <Flex flexdirection="column" justifycontent="center">
                 <Typography gutterBottom variant="h6">
                   Loading Pictures
@@ -243,18 +243,17 @@ class HostControls extends PureComponent {
               </Flex>
             </CardContent>
           </Card>
-          {/*   )}  
-          {!this.state.loading &&
-            this.state.randomVocabulary.map((item, i) => {
-              const arr = shuffleArray(item)
-              return (
-                <div key={i}>
-                  <RandomCard {...arr[0]} {...this.props} />
-                </div>
-              )
-            })}  */}
-        </Carousel>
-      </div>
+        )}
+        {!this.state.loading &&
+          this.state.randomVocabulary.map((item, i) => {
+            const arr = shuffleArray(item)
+            return (
+              <div key={i}>
+                <RandomCard {...arr[0]} {...this.props} />
+              </div>
+            )
+          })}
+      </Carousel>
     )
   }
 }
