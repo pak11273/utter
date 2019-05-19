@@ -31,7 +31,7 @@ const Rezone = props => {
                 variant="h4"
                 className={classes.heading}
                 gutterBottom>
-                Are you are hosting a Zone?
+                Are you currently hosting a Zone?
               </Typography>
               <Typography
                 align="center"

@@ -70,6 +70,42 @@ export const styles = theme => ({
     width: drawerWidth,
     flexShrink: 0
   },
+  drawerLeftOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerLeftClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: theme.spacing.unit * 7 + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing.unit * 9 + 1
+    }
+  },
+  drawerRightOpen: {
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  drawerRightClose: {
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    overflowX: "hidden",
+    width: theme.spacing.unit * 7 + 1,
+    [theme.breakpoints.up("sm")]: {
+      width: theme.spacing.unit * 9 + 1
+    }
+  },
   drawerPaper: {
     width: drawerWidth
   },
@@ -109,8 +145,12 @@ export const styles = theme => ({
       marginRight: "auto"
     }
   },
+  rightDrawerText: {
+    paddingTop: "5px"
+  },
   root: {
-    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
     flexGrow: 1,
     width: "100%"
   },

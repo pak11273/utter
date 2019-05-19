@@ -4,7 +4,7 @@ import {withApollo} from "react-apollo"
 import {toast} from "react-toastify"
 
 import {withStyles} from "@material-ui/core/styles"
-/* import Grid from "@material-ui/core/Grid" */
+import Grid from "@material-ui/core/Grid"
 
 import socket from "../../../services/socketio/group-chat.js"
 import AppContainer from "../../../apps/app-container"
@@ -22,9 +22,8 @@ import InboxIcon from "@material-ui/icons/MoveToInbox"
 import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
 import MailIcon from "@material-ui/icons/Mail"
-import Typography from "@material-ui/core/Typography"
 
-import {Flex, Spacer} from "../../../components"
+import {Spacer} from "../../../components"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
 import {session} from "brownies"
@@ -63,7 +62,6 @@ class Zone extends Component {
     chatrooms: null,
     socketio: socket(this.props.history.location.state),
     host: false,
-    leftOpen: false,
     rightOpen: false
   }
 
@@ -190,20 +188,6 @@ class Zone extends Component {
     return this.state.isRegisterInProcess ? <Loader /> : renderUserSelection()
   }
 
-  handleDrawerLeftOpen = () => {
-    this.setState(
-      {leftOpen: true},
-      console.log("rightdraser open: ", this.state.leftOpen)
-    )
-  }
-
-  handleDrawerLeftClose = () => {
-    this.setState(
-      {leftOpen: false},
-      console.log("rightdraser close: ", this.state.leftOpen)
-    )
-  }
-
   handleDrawerRightOpen = () => {
     this.setState(
       {rightOpen: true},
@@ -219,144 +203,153 @@ class Zone extends Component {
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, theme} = this.props
+    console.log("direction", theme.direction)
     const {zone} = session
     const {username} = (session && session.user) || {username: ""}
     /* const {chatHistory} = history.location.state */
     /* this.state.socketio.connected(zone) */
     return (
-      <Flex className={classes.root}>
-        <Drawer
-          variant="permanent"
-          className={classNames(classes.drawer, {
-            [classes.drawerLeOpen]: this.state.leftOpen,
-            [classes.drawerLeftClose]: !this.state.leftOpen
-          })}
-          classes={{
-            paper: classNames({
-              [classes.drawerLeOpen]: this.state.leftOpen,
-              [classes.drawerLeftClose]: !this.state.leftOpen
-            })
-          }}
-          open={this.state.open}>
-          <div className={classes.toolbar}>
-            <Spacer margin="64px 0 0 0" />
-            {!this.state.leftOpen ? (
-              <IconButton onClick={this.handleDrawerLeftOpen}>
-                <ChevronRightIcon />
-              </IconButton>
-            ) : (
-              <IconButton onClick={this.handleDrawerLeftClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            )}
-          </div>
-          <Divider />
-          <List>
-            {["Contacts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["Sponsors"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-        <Flex direction="column">
-          <AppContainer />
-          <Members usersList={this.state.usersList} />
-        </Flex>
-        <Flex
-          style={{
-            background: "LightGray"
-          }}>
-          <Chat
-            host={this.state.host}
-            onLeave={() =>
-              this.onLeaveZone(zone._id, () => history.push("/zones"))
-            }
-            user={this.state.user}
-            onSendMessage={(message, cb) =>
-              this.state.socketio.createMessage({
-                username,
-                zoneId: zone._id,
-                message,
-                cb
-              })
-            }
-            newMessage={this.state.socketio.newMessage}
-            zone="changeme"
-            /* usersList={this.state.usersList} */
-          />
-          <Notebook />
-        </Flex>
-        {/* Right Drawer */}
-        <Drawer
-          anchor="right"
-          variant="permanent"
-          className={classNames(classes.drawer, {
-            [classes.drawerRightOpen]: this.state.rightOpen,
-            [classes.drawerRightClose]: !this.state.rightOpen
-          })}
-          classes={{
-            paper: classNames({
-              [classes.drawerRightOpen]: this.state.rightOpen,
-              [classes.drawerRightClose]: !this.state.rightOpen
-            })
-          }}
-          open={this.state.rightOpen}>
-          <div className={classes.toolbar}>
-            <Spacer margin="64px 0 0 0" />
-            {!this.state.rightOpen ? (
-              <IconButton onClick={this.handleDrawerRightOpen}>
-                <ChevronLeftIcon />
-              </IconButton>
-            ) : (
-              <IconButton onClick={this.handleDrawerRightClose}>
-                <ChevronRightIcon />
-              </IconButton>
-            )}
-          </div>
-          <Divider />
-          <Typography className={classes.rightDrawerText} align="center">
-            Friends
-          </Typography>
-          <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <Typography className={classes.rightDrawerText} align="center">
-            Zone
-          </Typography>
-          <List>
-            {["guests", "Trash", "Spam"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-              </ListItem>
-            ))}
-          </List>
-        </Drawer>
-      </Flex>
+      <React.Fragment>
+        <Grid container className={classes.root}>
+          <Grid item xs={12} sm={12} md={6} lg={8} className={classes.app}>
+            <Drawer
+              variant="permanent"
+              className={classNames(classes.drawer, {
+                [classes.drawerOpen]: this.state.open,
+                [classes.drawerClose]: !this.state.open
+              })}
+              classes={{
+                paper: classNames({
+                  [classes.drawerOpen]: this.state.open,
+                  [classes.drawerClose]: !this.state.open
+                })
+              }}
+              open={this.state.open}>
+              <div className={classes.toolbar}>
+                <IconButton onClick={this.handleDrawerClose}>
+                  {theme.direction === "rtl" ? (
+                    <ChevronRightIcon />
+                  ) : (
+                    <ChevronLeftIcon />
+                  )}
+                </IconButton>
+              </div>
+              <Divider />
+              <List>
+                {["What", "Starred", "Send email", "Drafts"].map(
+                  (text, index) => (
+                    <ListItem button key={text}>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  )
+                )}
+              </List>
+              <Divider />
+              <List>
+                {["All mail", "Trash", "Spam"].map((text, index) => (
+                  <ListItem button key={text}>
+                    <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                    <ListItemText primary={text} />
+                  </ListItem>
+                ))}
+              </List>
+            </Drawer>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={8} className={classes.app}>
+            <AppContainer />
+            <Members usersList={this.state.usersList} />
+          </Grid>
+          <Grid
+            style={{
+              background: "LightGray"
+            }}
+            item
+            xs={12}
+            sm={12}
+            md={6}
+            lg={4}>
+            <Chat
+              host={this.state.host}
+              onLeave={() =>
+                this.onLeaveZone(zone._id, () => history.push("/zones"))
+              }
+              user={this.state.user}
+              onSendMessage={(message, cb) =>
+                this.state.socketio.createMessage({
+                  username,
+                  zoneId: zone._id,
+                  message,
+                  cb
+                })
+              }
+              newMessage={this.state.socketio.newMessage}
+              zone="changeme"
+              /* usersList={this.state.usersList} */
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={6} lg={8} className={classes.app}>
+            {/* Right Drawer */}
+            <Drawer
+              anchor="right"
+              variant="permanent"
+              className={classNames(classes.drawer, {
+                [classes.drawerRightOpen]: this.state.rightOpen,
+                [classes.drawerRightClose]: !this.state.rightOpen
+              })}
+              classes={{
+                paper: classNames({
+                  [classes.drawerRightOpen]: this.state.rightOpen,
+                  [classes.drawerRightClose]: !this.state.rightOpen
+                })
+              }}
+              open={this.state.rightOpen}>
+              <div className={classes.toolbar}>
+                <Spacer margin="64px 0 0 0" />
+                {!this.state.rightOpen ? (
+                  <IconButton onClick={this.handleDrawerRightOpen}>
+                    <ChevronLeftIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton onClick={this.handleDrawerRightClose}>
+                    <ChevronRightIcon />
+                  </IconButton>
+                )}
+              </div>
+              <Divider />
+              <List>
+                {["Inbox", "Starred", "Send email", "Drafts"].map(
+                  (text, index) => (
+                    <ListItem button key={text}>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                    </ListItem>
+                  )
+                )}
+              </List>
+              <Divider />
+              <List>
+                {["guests", "Trash", "Spam"].map((text, index) => (
+                  <ListItem button key={text}>
+                    <ListItemIcon>
+                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    </ListItemIcon>
+                  </ListItem>
+                ))}
+              </List>
+            </Drawer>
+          </Grid>
+          <Grid item xs={12}>
+            <Notebook />
+          </Grid>
+        </Grid>
+      </React.Fragment>
     )
   }
 }

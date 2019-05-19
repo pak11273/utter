@@ -48,7 +48,7 @@ const ChatPanel = styled.div`
   display: inline-flex;
   flex-direction: column;
   justify-content: flex-end;
-  height: 100%;
+  max-height: 532px;
   width: 100%;
   box-sizing: border-box;
   z-index: 1;

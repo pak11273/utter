@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react"
 
-import Grid from "@material-ui/core/Grid"
+import {Flex} from "../../components"
 
 import Loadable from "react-loadable"
 import Loading from "../../components/loaders/layout-loader.js"
@@ -17,9 +17,9 @@ class AppContainer extends PureComponent {
 
   render() {
     return (
-      <Grid align="center">
+      <Flex>
         <GetCarousel />
-      </Grid>
+      </Flex>
     )
   }
 }
