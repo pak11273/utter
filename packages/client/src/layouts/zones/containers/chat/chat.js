@@ -336,7 +336,8 @@ class Chat extends PureComponent {
           display: "flex",
           height: "100%",
           flexDirection: "row",
-          justifyContent: "center"
+          justifyContent: "center",
+          width: "100%"
         }}>
         <ChatWindow>
           <div
