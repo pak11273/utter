@@ -36,14 +36,28 @@ class Subscribe extends PureComponent {
     this.setState({open: false})
   }
 
+  handleSubmit = e => {
+    e.preventDefault()
+    const data = new FormData(e.target)
+    console.log("this.state: ", this.state)
+    data.append("name", this.state.name)
+
+    fetch(
+      "https://pak11273.campayn.com/contacts/signup_form_add_contact/89609",
+      {
+        method: "POST",
+        body: data,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    )
+  }
+
   render() {
     const {classes} = this.props
     return (
-      <form
-        id="signupSubscriberForm"
-        method="post"
-        action="https://pak11273.campayn.com/contacts/signup_form_add_contact/89609">
-        <input type="hidden" name="formId" value="84355" readOnly />
+      <React.Fragment>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -58,27 +72,30 @@ class Subscribe extends PureComponent {
               Subscribe if you would like to hear about our latest news,
               promotions, updates, research and development.
             </DialogContentText>
-            <FormControl style={{marginTop: "20px", width: "100%"}}>
-              <InputLabel htmlFor="component-simple">Email Address</InputLabel>
-              <Input
-                required
-                autoFocus
-                id="component-simple"
-                name="email"
-                onChange={this.handleChange}
-                type="email"
-                value={this.state.name}
-              />
-            </FormControl>
+            <form onSubmit={this.handleSubmit} id="signupSubscriberForm">
+              <input type="hidden" name="formId" value="84355" readOnly />
+              <FormControl style={{marginTop: "20px", width: "100%"}}>
+                <InputLabel htmlFor="component-simple">
+                  Email Address
+                </InputLabel>
+                <Input
+                  required
+                  autoFocus
+                  id="component-simple"
+                  name="email"
+                  onChange={this.handleChange}
+                  type="email"
+                  value={this.state.name}
+                />
+              </FormControl>
+            </form>
           </DialogContent>
           <DialogActions
             style={{
               padding: "0 14px 22px 10px",
               justifyContent: "space-between"
             }}>
-            <Button
-              /* onClick={this.handleClose} */ color="primary"
-              type="submit">
+            <Button onClick={this.handleSubmit} color="primary" type="submit">
               Subscribe
             </Button>
             <p>
@@ -117,7 +134,7 @@ class Subscribe extends PureComponent {
           />
           <span style={{fontSize: "1.5em"}}>Stay Informed</span>
         </Button>
-      </form>
+      </React.Fragment>
     )
   }
 }
