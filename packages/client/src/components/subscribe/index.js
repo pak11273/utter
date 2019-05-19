@@ -33,7 +33,7 @@ class Subscribe extends PureComponent {
     /* this.setState({open: true}) */
 
     // campayn's hosted subscriber page
-    window.location.href = "https://cm.pn/4csy"
+    window.location.href = "http://cm.pn/4csy"
   }
 
   handleClose = () => {
