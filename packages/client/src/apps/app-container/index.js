@@ -17,7 +17,7 @@ class AppContainer extends PureComponent {
 
   render() {
     return (
-      <Flex >
+      <Flex>
         <GetCarousel />
       </Flex>
     )

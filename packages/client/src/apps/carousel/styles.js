@@ -69,6 +69,6 @@ export const styles = theme => ({
   root: {
     backgroundColor: "#3e3e3e",
     minHeight: 588,
-    minWidth: 800
+    minWidth: 800,
   }
 })

@@ -1,7 +1,9 @@
 import styled from "styled-components"
 import {Span} from "../../components"
 
-const drawerWidth = 240
+const drawerWidth = 172
+const leftdrawerWidth = 172
+const rightdrawerWidth = 172
 
 export const styles = theme => ({
   actions: {
@@ -62,6 +64,10 @@ export const styles = theme => ({
     overflow: "hidden",
     textOverflow: "ellipsis"
   },
+  closeArrow: {
+    display: "flex",
+    margin: "0 auto"
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing.unit * 3
@@ -71,7 +77,7 @@ export const styles = theme => ({
     flexShrink: 0
   },
   drawerLeftOpen: {
-    width: drawerWidth,
+    width: leftdrawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -85,11 +91,11 @@ export const styles = theme => ({
     overflowX: "hidden",
     width: theme.spacing.unit * 7 + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 9 + 1
+      width: theme.spacing.unit * 7 + 1
     }
   },
   drawerRightOpen: {
-    width: drawerWidth,
+    width: rightdrawerWidth,
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen
@@ -103,7 +109,7 @@ export const styles = theme => ({
     overflowX: "hidden",
     width: theme.spacing.unit * 7 + 1,
     [theme.breakpoints.up("sm")]: {
-      width: theme.spacing.unit * 9 + 1
+      width: theme.spacing.unit * 7 + 1
     }
   },
   drawerPaper: {
@@ -146,7 +152,7 @@ export const styles = theme => ({
     }
   },
   rightDrawerText: {
-    paddingTop: "5px"
+    paddingTop: "10px"
   },
   root: {
     flexDirection: "row",

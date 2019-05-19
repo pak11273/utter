@@ -403,6 +403,9 @@ class Chat extends PureComponent {
             <InputPanel>
               <TextField
                 fullWidth
+                inputProps={{
+                  maxLength: 255
+                }}
                 multiline
                 rows={2}
                 rowsMax={2}

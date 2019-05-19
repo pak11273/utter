@@ -222,7 +222,6 @@ class HostControls extends PureComponent {
   }
 
   render() {
-    console.log(RandomCard)
     return (
       <Carousel
         width="100%"

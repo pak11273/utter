@@ -22,7 +22,6 @@ import InboxIcon from "@material-ui/icons/MoveToInbox"
 import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
 import MailIcon from "@material-ui/icons/Mail"
-import Typography from "@material-ui/core/Typography"
 
 import {Flex, Spacer} from "../../../components"
 import Members from "./members/members.js"
@@ -63,7 +62,7 @@ class Zone extends Component {
     chatrooms: null,
     socketio: socket(this.props.history.location.state),
     host: false,
-    leftOpen: false,
+    leftOpen: true,
     rightOpen: false
   }
 
@@ -239,14 +238,18 @@ class Zone extends Component {
             })
           }}
           open={this.state.open}>
-          <div className={classes.toolbar}>
+          <div>
             <Spacer margin="64px 0 0 0" />
             {!this.state.leftOpen ? (
-              <IconButton onClick={this.handleDrawerLeftOpen}>
+              <IconButton
+                className={classes.closeArrow}
+                onClick={this.handleDrawerLeftOpen}>
                 <ChevronRightIcon />
               </IconButton>
             ) : (
-              <IconButton onClick={this.handleDrawerLeftClose}>
+              <IconButton
+                className={classes.closeArrow}
+                onClick={this.handleDrawerLeftClose}>
                 <ChevronLeftIcon />
               </IconButton>
             )}
@@ -264,7 +267,7 @@ class Zone extends Component {
           </List>
           <Divider />
           <List>
-            {["Sponsors"].map((text, index) => (
+            {[""].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -274,7 +277,7 @@ class Zone extends Component {
             ))}
           </List>
         </Drawer>
-        <Flex direction="column">
+        <Flex direction="column" width="100%">
           <AppContainer />
           <Members usersList={this.state.usersList} />
         </Flex>
@@ -317,35 +320,23 @@ class Zone extends Component {
             })
           }}
           open={this.state.rightOpen}>
-          <div className={classes.toolbar}>
+          <div>
             <Spacer margin="64px 0 0 0" />
             {!this.state.rightOpen ? (
-              <IconButton onClick={this.handleDrawerRightOpen}>
+              <IconButton
+                className={classes.closeArrow}
+                onClick={this.handleDrawerRightOpen}>
                 <ChevronLeftIcon />
               </IconButton>
             ) : (
-              <IconButton onClick={this.handleDrawerRightClose}>
+              <IconButton
+                className={classes.closeArrow}
+                onClick={this.handleDrawerRightClose}>
                 <ChevronRightIcon />
               </IconButton>
             )}
           </div>
           <Divider />
-          <Typography className={classes.rightDrawerText} align="center">
-            Friends
-          </Typography>
-          <List>
-            {["Cathy", "Bart", "Ralph"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <Typography className={classes.rightDrawerText} align="center">
-            Zone
-          </Typography>
           <List>
             {["Gina", "Barry", "Bo"].map((text, index) => (
               <ListItem button key={text}>
