@@ -29,7 +29,11 @@ class Subscribe extends PureComponent {
   }
 
   handleClickOpen = () => {
-    this.setState({open: true})
+    // TODO: this opens up the modal to a custom subscription box.  currently using campayn's hosted option.
+    /* this.setState({open: true}) */
+
+    // campayn's hosted subscriber page
+    window.location.href = "https://cm.pn/4csy"
   }
 
   handleClose = () => {
@@ -41,13 +45,15 @@ class Subscribe extends PureComponent {
     const data = new FormData(e.target)
     console.log("this.state: ", this.state)
     data.append("name", this.state.name)
+    data.append("formId", 84377)
 
     fetch(
-      "https://pak11273.campayn.com/contacts/signup_form_add_contact/89609",
+      "https://pak11273.campayn.com/contacts/signup_form_add_contact/89623",
       {
         method: "POST",
         body: data,
         headers: {
+          Origin: "https://192.168.68.8:8080",
           "Content-Type": "application/json"
         }
       }
@@ -132,7 +138,7 @@ class Subscribe extends PureComponent {
               width: "60px"
             }}
           />
-          <span style={{fontSize: "1.5em"}}>Stay Informed</span>
+          <span style={{fontSize: "1.5em"}}>Utterzone Newsletter</span>
         </Button>
       </React.Fragment>
     )
