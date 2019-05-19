@@ -334,7 +334,7 @@ class Zone extends Component {
             Friends
           </Typography>
           <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+            {["Cathy", "Bart", "Ralph"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -347,7 +347,7 @@ class Zone extends Component {
             Zone
           </Typography>
           <List>
-            {["guests", "Trash", "Spam"].map((text, index) => (
+            {["Gina", "Barry", "Bo"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}

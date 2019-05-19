@@ -12,6 +12,7 @@ const Flex = styled.div`
   height: ${props => props.height};
   justify-content: ${props => props.justifycontent};
   margin: ${props => props.margin};
+  min-height: ${props => props.minheight};
   min-width: ${props => props.minwidth};
   max-width: ${props => props.maxwidth};
   padding: ${props => props.padding};

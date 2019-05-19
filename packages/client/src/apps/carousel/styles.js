@@ -23,13 +23,19 @@ export const styles = theme => ({
   },
 
   card: {
-    margin: "30px auto 0",
-    marginBottom: 30,
-    maxWidth: 600
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "30px auto 30px",
+    maxWidth: 532,
+    minHeight: 370
   },
   cardActions: {
     display: "flex",
     justifyContent: "center"
+  },
+  cardContent: {
+    flexGrow: 1
   },
   cardMedia: {
     /* paddingTop: "56.25%", // 16:9 */
@@ -37,9 +43,6 @@ export const styles = theme => ({
     "&:hover": {
       cursor: "pointer"
     }
-  },
-  cardContent: {
-    flexGrow: 1
   },
   cardTitle: {
     height: "100%"
@@ -49,6 +52,7 @@ export const styles = theme => ({
     paddingTop: "56.25%" // 16:9
   },
   root: {
-    backgroundColor: "#3e3e3e"
+    backgroundColor: "#3e3e3e",
+    minHeight: "533px"
   }
 })

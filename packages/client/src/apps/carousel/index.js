@@ -18,7 +18,7 @@ import CardMedia from "@material-ui/core/CardMedia"
 /* import ExpansionPanel from "@material-ui/core/ExpansionPanel" */
 /* import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions" */
 /* import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails" */
-import Grid from "@material-ui/core/Grid"
+/* import Grid from "@material-ui/core/Grid" */
 /* import IconButton from "@material-ui/core/IconButton" */
 import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline"
 import {withStyles} from "@material-ui/core/styles"
@@ -28,7 +28,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"
 import {Carousel} from "react-responsive-carousel"
 import {isOwner, shuffleArray} from "../../utils"
 /* import {shuffleArray} from "../../utils" */
-import {LoaderCircle} from "../../components"
+import {Flex, LoaderCircle} from "../../components"
 
 /* import classNames from "classnames" */
 import {styles} from "./styles.js"
@@ -222,6 +222,7 @@ class HostControls extends PureComponent {
   }
 
   render() {
+    console.log(RandomCard)
     return (
       <div>
         <Carousel
@@ -231,26 +232,18 @@ class HostControls extends PureComponent {
           showIndicators={false}
           showArrows={this.state.isOwner && !this.state.loading}
           showStatus>
-          {this.state.loading && (
-            <Card className={this.props.classes.card}>
-              <CardContent>
-                <div
-                  style={{
-                    display: "flex",
-                    flexGrow: 1,
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "547px"
-                  }}>
-                  <Typography gutterBottom variant="h6">
-                    Loading Pictures
-                  </Typography>
-                  <LoaderCircle />
-                </div>
-              </CardContent>
-            </Card>
-          )}
+          {/*      {this.state.loading && ( */}
+          <Card className={this.props.classes.card}>
+            <CardContent style={{alignItems: "center"}}>
+              <Flex flexdirection="column" justifycontent="center">
+                <Typography gutterBottom variant="h6">
+                  Loading Pictures
+                </Typography>
+                <LoaderCircle />
+              </Flex>
+            </CardContent>
+          </Card>
+          {/*   )}  
           {!this.state.loading &&
             this.state.randomVocabulary.map((item, i) => {
               const arr = shuffleArray(item)
@@ -259,7 +252,7 @@ class HostControls extends PureComponent {
                   <RandomCard {...arr[0]} {...this.props} />
                 </div>
               )
-            })}
+            })}  */}
         </Carousel>
       </div>
     )
@@ -270,16 +263,16 @@ class CarouselContainer extends PureComponent {
   render() {
     const {classes} = this.props
     return (
-      <Grid container className={classes.root}>
-        <Grid item xs={12} align="right">
+      <Flex className={classes.root}>
+        <Flex>
           <Typography className={classes.appTitle} gutterBottom component="p">
             Carousel
           </Typography>
-        </Grid>
-        <Grid item xs={12}>
+        </Flex>
+        <Flex>
           <HostControls {...this.props} {...this.state} />
-        </Grid>
-      </Grid>
+        </Flex>
+      </Flex>
     )
   }
 }
