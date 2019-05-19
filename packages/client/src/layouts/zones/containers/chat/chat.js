@@ -367,7 +367,7 @@ class Chat extends PureComponent {
                   <Button onClick={this.handleClickOpen}>Terminate Zone</Button>
                 </div>
               )}
-              no={() => null}
+              no={() => <div style={{padding: "28px"}} />}
             />
             <ChatModal
               open={this.state.open}
