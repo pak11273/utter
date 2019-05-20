@@ -3,7 +3,6 @@
 import io from "socket.io-client"
 
 export default zone => {
-  console.log("zone: ", zone)
   let url
 
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod")
@@ -11,6 +10,12 @@ export default zone => {
   else url = "http://192.168.68.8:3010"
 
   const socket = io(url)
+
+  socket.on("connect", () => {
+    socket.emit("join", zone, () => {
+      console.log("user register to send request: ", zone)
+    })
+  })
 
   console.log(socket)
 }

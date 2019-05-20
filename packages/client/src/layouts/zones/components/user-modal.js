@@ -1,4 +1,5 @@
 import React from "react"
+import {NavLink} from "react-router-dom"
 
 import AddIcon from "@material-ui/icons/Add"
 import Avatar from "@material-ui/core/Avatar"
@@ -20,7 +21,6 @@ import {LoadingButton} from "../../../components"
 
 export default props => {
   const {classes, onClose, selectedValue, ...other} = props
-  console.log("modal props: ", props)
 
   /* <Dialog
       open={props.open}
@@ -56,19 +56,21 @@ export default props => {
   return (
     <Dialog
       open={props.open}
-      onClose={props.handleClose}
+      onClose={onClose}
       aria-labelledby="simple-dialog-title"
       {...other}>
       <DialogActions>
-        <LoadingButton
-          disabled={props.loading}
-          loading={props.loading}
-          color="secondary"
-          variant="contained"
-          onClick={props.onLeave}
-          autoFocus>
-          View Profile
-        </LoadingButton>
+        <NavLink target="_blank" to={`/profile/${props.username}`}>
+          <LoadingButton
+            disabled={props.loading}
+            loading={props.loading}
+            color="secondary"
+            variant="contained"
+            onClick={NavLink}
+            autoFocus>
+            View Profile
+          </LoadingButton>
+        </NavLink>
         <LoadingButton
           disabled={props.loading}
           loading={props.loading}

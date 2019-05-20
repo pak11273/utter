@@ -83,12 +83,9 @@ class Zone extends Component {
 
     const {zoneId} = this.props.history.location.state
     this.state.socketio.usersList(usersList => {
-      this.setState(
-        {
-          usersList
-        },
-        console.log("userlist; ", this.state.usersList)
-      )
+      this.setState({
+        usersList
+      })
     })
 
     // rehydrate levels and vocabulary for returning hosts
@@ -192,13 +189,10 @@ class Zone extends Component {
   }
 
   openModal = item => {
-    console.log("item; ", item)
-    this.setState(
-      {
-        open: true
-      },
-      () => console.log("state: ", this.state)
-    )
+    console.log("item: ", item)
+    this.setState({
+      open: true
+    })
   }
 
   register = name => {
@@ -220,31 +214,19 @@ class Zone extends Component {
   }
 
   handleDrawerLeftOpen = () => {
-    this.setState(
-      {leftOpen: true},
-      console.log("rightdraser open: ", this.state.leftOpen)
-    )
+    this.setState({leftOpen: true})
   }
 
   handleDrawerLeftClose = () => {
-    this.setState(
-      {leftOpen: false},
-      console.log("rightdraser close: ", this.state.leftOpen)
-    )
+    this.setState({leftOpen: false})
   }
 
   handleDrawerRightOpen = () => {
-    this.setState(
-      {rightOpen: true},
-      console.log("rightdraser open: ", this.state.rightOpen)
-    )
+    this.setState({rightOpen: true})
   }
 
   handleDrawerRightClose = () => {
-    this.setState(
-      {rightOpen: false},
-      console.log("rightdraser close: ", this.state.rightOpen)
-    )
+    this.setState({rightOpen: false})
   }
 
   render() {
