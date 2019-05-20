@@ -55,6 +55,7 @@ export default props => {
 
   return (
     <Dialog
+      open={props.open}
       onClose={props.handleClose}
       aria-labelledby="simple-dialog-title"
       {...other}>
@@ -78,7 +79,10 @@ export default props => {
           Add Friend
         </LoadingButton>
       </DialogActions>
-      <DialogTitle id="simple-dialog-title"> (avatar)User Name</DialogTitle>
+      <DialogTitle id="simple-dialog-title">
+        {" "}
+        (avatar) {props.username}
+      </DialogTitle>
       <div>
         <List>
           <ListItem button onClick={() => console.log("bye")}>

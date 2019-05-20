@@ -6,14 +6,16 @@ import app from "./server.js"
 import config from "./config"
 import graphqlServer from "./graphql-server.js"
 import {decodeToken, hydrateUser} from "./auth"
-/* import socketServer from "./socketio/socket-server.js" */
-import socketServer from "./socketio/group-chat.js"
+/* import socketZoneChat from "./socketio/socket-server.js" */
+import socketZoneChat from "./socketio/group-chat.js"
+import socketContactRequest from "./socketio/send-request.js"
 import {isAuth} from "./auth"
 
 const server = http.createServer(app)
 
-// socketio instance
-socketServer(server)
+// socketio instances
+socketZoneChat(server)
+socketContactRequest(server)
 
 let currentApp = app
 

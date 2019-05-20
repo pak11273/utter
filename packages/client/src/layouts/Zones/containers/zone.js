@@ -7,6 +7,7 @@ import {withStyles} from "@material-ui/core/styles"
 /* import Grid from "@material-ui/core/Grid" */
 
 import socket from "../../../services/socketio/group-chat.js"
+import contactRequestSocket from "../../../services/socketio/send-request.js"
 import AppContainer from "../../../apps/app-container"
 /* import Button from "@material-ui/core/Button" */
 import Avatar from "@material-ui/core/Avatar"
@@ -76,9 +77,9 @@ class Zone extends Component {
   }
 
   componentDidMount = async () => {
-    console.log("statret: ", this.props)
-		// TODO: if user already in zone, can't reenter
-		/* this.state.socketio.getUser */
+    console.log("contactRequestSocket: ", contactRequestSocket)
+    // TODO: if user already in zone, can't reenter
+    /* this.state.socketio.getUser */
 
     const {zoneId} = this.props.history.location.state
     this.state.socketio.usersList(usersList => {
@@ -190,8 +191,8 @@ class Zone extends Component {
     })
   }
 
-  openModal = () => {
-    console.log("hello")
+  openModal = item => {
+    console.log("item; ", item)
     this.setState(
       {
         open: true
@@ -366,14 +367,18 @@ class Zone extends Component {
             )}
           </div>
           <Divider />
-          <UserModal open={this.state.open} handleClose={this.handleClose} />
           <List dense={true}>
             {this.state.usersList.map((item, index) => (
               <ListItem
-                onClick={this.openModal}
+                onClick={() => this.openModal(item)}
                 button
                 style={{color: "#fafafa"}}
                 key={index}>
+                <UserModal
+                  username={item}
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                />
                 <ListItemAvatar>
                   <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
                 </ListItemAvatar>
