@@ -23,7 +23,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import Avatar from "@material-ui/core/Avatar"
 import SendIcon from "@material-ui/icons/Send"
-/* import Typography from "@material-ui/core/Typography" */
+import Typography from "@material-ui/core/Typography"
 import {session} from "brownies"
 
 import {ChatModal} from "../../../../containers"
@@ -353,9 +353,9 @@ class Chat extends PureComponent {
                 minWidth: "250px",
                 top: "25px"
               }}>
-              {/*  <Typography className={classes.outputText}>
+              <Typography className={classes.outputText}>
                 ({this.props.usersList.length}) {this.props.zone.zoneName}
-              </Typography> */}
+              </Typography>
             </div>
             <Can
               roles={user && user.roles}
@@ -363,11 +363,20 @@ class Chat extends PureComponent {
               id={user && user.username}
               matchingID={zone.owner.username}
               yes={() => (
-                <div style={{paddingTop: "20px"}}>
+                <div>
+                  <Typography
+                    style={{paddingTop: "28px"}}
+                    className={classes.outputText}>
+                    {session.zone.zoneName}
+                  </Typography>
                   <Button onClick={this.handleClickOpen}>Terminate Zone</Button>
                 </div>
               )}
-              no={() => <div style={{padding: "28px"}} />}
+              no={() => (
+                <Typography style={{padding: "28px"}}>
+                  {session.zone.zoneName}
+                </Typography>
+              )}
             />
             <ChatModal
               open={this.state.open}
@@ -384,7 +393,10 @@ class Chat extends PureComponent {
               <List>
                 {this.state.chatHistory.map(({username, msg, event}, i) => [
                   <NoDots key={i}>
-                    <ListItem button style={{color: "#fafafa"}}>
+                    <ListItem
+                      onClick={() => console.log("chat icon was clicked!")}
+                      button
+                      style={{color: "#fafafa"}}>
                       <ListItemAvatar>
                         <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
                       </ListItemAvatar>

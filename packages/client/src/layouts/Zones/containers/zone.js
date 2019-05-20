@@ -9,6 +9,7 @@ import {withStyles} from "@material-ui/core/styles"
 import socket from "../../../services/socketio/group-chat.js"
 import AppContainer from "../../../apps/app-container"
 /* import Button from "@material-ui/core/Button" */
+import Avatar from "@material-ui/core/Avatar"
 import Chat from "./chat/chat.js"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
@@ -16,6 +17,7 @@ import classNames from "classnames"
 import Drawer from "@material-ui/core/Drawer"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
@@ -23,6 +25,7 @@ import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
 import MailIcon from "@material-ui/icons/Mail"
 
+import ceoImg from "../../../assets/images/ceo.jpg"
 import {Flex, Spacer} from "../../../components"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
@@ -30,6 +33,7 @@ import {session} from "brownies"
 
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
+import UserModal from "../components/user-modal.js"
 import {styles} from "../styles.js"
 
 /* const styles = theme => ({ */
@@ -66,21 +70,25 @@ class Zone extends Component {
       zoneName: this.props.history.location.state.zoneName
     }),
     host: false,
+    open: false,
     leftOpen: true,
     rightOpen: false
   }
 
   componentDidMount = async () => {
     console.log("statret: ", this.props)
+		// TODO: if user already in zone, can't reenter
+		/* this.state.socketio.getUser */
+
     const {zoneId} = this.props.history.location.state
-    /* this.state.socketio.usersList(usersList => { */
-    /*   this.setState( */
-    /*     { */
-    /*       usersList */
-    /*     }, */
-    /*     console.log("userlist; ", this.state.usersList) */
-    /*   ) */
-    /* }) */
+    this.state.socketio.usersList(usersList => {
+      this.setState(
+        {
+          usersList
+        },
+        console.log("userlist; ", this.state.usersList)
+      )
+    })
 
     // rehydrate levels and vocabulary for returning hosts
     const hostedZoneId = session.user.hostedZone && session.user.hostedZone._id
@@ -154,7 +162,7 @@ class Zone extends Component {
   }
 
   componentWillUnmount() {
-    alert("i left the chat")
+    alert("You are leaving the chat")
     // TODO memory leak in console.  Kill socket.io connection??
     // TODO remove socket listeners
 
@@ -174,6 +182,22 @@ class Zone extends Component {
     this.state.client.getZones((err, chatrooms) => {
       this.setState({chatrooms})
     })
+  }
+
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
+  }
+
+  openModal = () => {
+    console.log("hello")
+    this.setState(
+      {
+        open: true
+      },
+      () => console.log("state: ", this.state)
+    )
   }
 
   register = name => {
@@ -306,7 +330,7 @@ class Zone extends Component {
             }
             newMessage={this.state.socketio.newMessage}
             zone="changeme"
-            /* usersList={this.state.usersList} */
+            usersList={this.state.usersList}
           />
           <Notebook />
         </Flex>
@@ -342,12 +366,17 @@ class Zone extends Component {
             )}
           </div>
           <Divider />
-          <List>
-            {["Gina", "Barry", "Bo"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
+          <UserModal open={this.state.open} handleClose={this.handleClose} />
+          <List dense={true}>
+            {this.state.usersList.map((item, index) => (
+              <ListItem
+                onClick={this.openModal}
+                button
+                style={{color: "#fafafa"}}
+                key={index}>
+                <ListItemAvatar>
+                  <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
+                </ListItemAvatar>
               </ListItem>
             ))}
           </List>

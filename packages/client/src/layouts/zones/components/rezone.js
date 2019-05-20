@@ -106,7 +106,10 @@ export default compose(
           courseLevels.data.getLevels.levels[session.level - 1].modifier
         props.history.push({
           pathname: `/zone/${zone.data.rezone._id}`,
-          state: {zoneId: zone.data.rezone._id}
+          state: {
+            zoneId: zone.data.rezone._id,
+            zoneName: zone.data.rezone.zoneName
+          }
         })
       }
       try {

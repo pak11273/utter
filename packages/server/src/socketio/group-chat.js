@@ -24,15 +24,22 @@ export default async server => {
       socket.join(zone.zoneId)
 
       console.log("zone: ", zone)
-      Users.addUserData(
-        zone.socketId,
-        zone.zoneId,
-        zone.zoneName,
-        zone.username
-      )
+
+      Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username)
+
       console.log("Users: ", Users)
 
+      io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
+
       cb()
+    })
+
+    socket.on("disconnect", () => {
+      var user = Users.removeUserId(socket.id)
+
+      if (user) {
+        io.to(user.zoneId).emit("usersList", Users.getUsersList(user.zoneId))
+      }
     })
 
     socket.on("createMessage", ({username, msg, zoneId}, cb) => {

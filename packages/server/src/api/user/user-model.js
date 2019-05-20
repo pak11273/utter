@@ -17,8 +17,14 @@ export const UserSchema = new mongoose.Schema(
     ],
     contacts: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User"
+        },
+        username: {
+          type: String,
+          default: ""
+        }
       }
     ],
     confirmed: {
@@ -53,6 +59,10 @@ export const UserSchema = new mongoose.Schema(
     lastName: {
       type: String
     },
+    totalRequests: {
+      type: Number,
+      default: 0
+    },
     username: {
       type: String,
       lowercase: true,
@@ -85,6 +95,26 @@ export const UserSchema = new mongoose.Schema(
       type: [String],
       default: "registeredUser"
     },
+    sentRequest: [
+      {
+        username: {
+          type: String,
+          default: ""
+        }
+      }
+    ],
+    request: [
+      {
+        userId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: User
+        },
+        username: {
+          type: String,
+          default: ""
+        }
+      }
+    ],
     stripeId: {
       type: String
     },

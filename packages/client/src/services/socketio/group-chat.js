@@ -1,6 +1,6 @@
-/* eslint-disable no-unused-vars */
-// client side
+/* eslint-disable no-plusplus */
 
+// client side
 import io from "socket.io-client"
 
 export default zone => {
@@ -16,15 +16,19 @@ export default zone => {
     socket.on("newMessage", onMsgReceived)
   }
 
-  const createMessage = obj => {
+  const usersList = cb => {
+    socket.on("usersList", cb)
+  }
+
+  const createMessage = zone => {
     socket.emit(
       "createMessage",
       {
-        username: obj.username,
-        zoneId: obj.zoneId,
-        msg: obj.message
+        username: zone.username,
+        zoneId: zone.zoneId,
+        msg: zone.message
       },
-      obj.cb
+      zone.cb
     )
   }
 
@@ -41,6 +45,7 @@ export default zone => {
 
   return {
     createMessage,
-    newMessage
+    newMessage,
+    usersList
   }
 }
