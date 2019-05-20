@@ -1,4 +1,4 @@
-class SocketUsers {
+class Users {
   constructor() {
     this.users = []
   }
@@ -38,4 +38,4 @@ class SocketUsers {
   }
 }
 
-export default SocketUsers
+export default Users

@@ -20,14 +20,18 @@ import {styles} from "../styles.js"
 
 const ZonesGrid = props => {
   const onEnterZone = card => () => {
+    console.log("card: ", card)
     if (card.owner._id === session.user._id) {
-      props.history.push("/zones/rezone")
+      props.history.push({
+        pathname: "/zones/rezone",
+        state: {zoneId: card._id, zoneName: card.zoneName}
+      })
       return
     }
     session.zone = card
     props.history.push({
       pathname: `/zone/${card._id}`,
-      state: {zoneId: card._id}
+      state: {zoneId: card._id, zoneName: card.zoneName}
     })
   }
 

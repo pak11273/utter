@@ -60,13 +60,18 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
-    socketio: socket(this.props.history.location.state),
+    socketio: socket({
+      username: session.user.username,
+      zoneId: this.props.history.location.state.zoneId,
+      zoneName: this.props.history.location.state.zoneName
+    }),
     host: false,
     leftOpen: true,
     rightOpen: false
   }
 
   componentDidMount = async () => {
+    console.log("statret: ", this.props)
     const {zoneId} = this.props.history.location.state
     /* this.state.socketio.usersList(usersList => { */
     /*   this.setState( */

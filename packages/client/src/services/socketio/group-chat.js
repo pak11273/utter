@@ -3,7 +3,7 @@
 
 import io from "socket.io-client"
 
-export default zoneId => {
+export default zone => {
   var url = ""
 
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod")
@@ -29,8 +29,8 @@ export default zoneId => {
   }
 
   socket.on("connect", () => {
-    socket.emit("join", zoneId, () => {
-      console.log("user has joined zone: ", zoneId)
+    socket.emit("join", zone, () => {
+      console.log("user has joined zone: ", zone)
     })
   })
 

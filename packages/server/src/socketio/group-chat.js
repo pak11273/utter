@@ -1,5 +1,8 @@
 // server side
 import socket from "socket.io"
+import SocketUsers from "../socketio/users.js"
+
+const Users = new SocketUsers()
 
 const handleEvent = (zoneId, createEntry) => {
   // append event to chat history
@@ -17,8 +20,18 @@ export default async server => {
   io.on("connection", socket => {
     console.log("user connected")
 
-    socket.on("join", (obj, cb) => {
-      socket.join(obj.zoneId)
+    socket.on("join", (zone, cb) => {
+      socket.join(zone.zoneId)
+
+      console.log("zone: ", zone)
+      Users.addUserData(
+        zone.socketId,
+        zone.zoneId,
+        zone.zoneName,
+        zone.username
+      )
+      console.log("Users: ", Users)
+
       cb()
     })
 
