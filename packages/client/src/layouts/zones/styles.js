@@ -2,6 +2,7 @@ import styled from "styled-components"
 import {Span} from "../../components"
 
 const drawerWidth = 172
+const zonesDrawerWidth = 240
 const leftdrawerWidth = 172
 const rightdrawerWidth = 172
 
@@ -44,7 +45,9 @@ export const styles = theme => ({
     }
   },
   cardContent: {
-    flexGrow: 1
+    padding: theme.spacing.unit * 3,
+    flexGrow: 1,
+    width: "100%"
   },
   cardTitle: {
     height: "54px",
@@ -70,7 +73,12 @@ export const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3
+    padding: theme.spacing.unit * 3,
+    width: "100%"
+  },
+  zonesDrawer: {
+    width: zonesDrawerWidth,
+    flexShrink: 0
   },
   drawer: {
     width: drawerWidth,
@@ -111,6 +119,9 @@ export const styles = theme => ({
     [theme.breakpoints.up("sm")]: {
       width: theme.spacing.unit * 7 + 1
     }
+  },
+  zonesDrawerPaper: {
+    width: zonesDrawerWidth
   },
   drawerPaper: {
     width: drawerWidth
@@ -155,6 +166,7 @@ export const styles = theme => ({
     paddingTop: "10px"
   },
   root: {
+    display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
     flexGrow: 1,

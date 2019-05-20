@@ -103,6 +103,8 @@ export const styles = theme => ({
     }
   },
   root: {
+    alignItems: "flex-start",
+    flexDirection: "row",
     display: "flex",
     flexGrow: 1,
     width: "100%"

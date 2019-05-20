@@ -68,10 +68,10 @@ const ZonesContainer = props => {
   return (
     <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
       <Drawer
-        className={classes.drawer}
+        className={classes.zonesDrawer}
         variant="permanent"
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.zonesDrawerPaper
         }}>
         <Spacer margin="100px 0 0 0" />
         <div align="center">
