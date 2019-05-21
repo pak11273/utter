@@ -203,7 +203,6 @@ class Zone extends Component {
   }
 
   handleClose = () => {
-    console.log("hellol")
     this.setState({
       open: false
     })

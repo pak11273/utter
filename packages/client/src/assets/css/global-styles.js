@@ -11,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Helvetica Arial sans-serif';
     color: #777;
+		overflow-y: auto !important;
   }
 
   h1 {
@@ -69,5 +70,6 @@ export const GlobalStyle = createGlobalStyle`
 		font-family: Arial;
 		padding-left: 30px;
 	}
+
 
 `

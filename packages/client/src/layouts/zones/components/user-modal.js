@@ -17,6 +17,7 @@ import PersonIcon from "@material-ui/icons/Person"
 /* import Typography from "@material-ui/core/Typography" */
 /* import blue from "@material-ui/core/colors/blue" */
 
+/* import {session} from "brownies" */
 import {LoadingButton} from "../../../components"
 
 export default props => {
