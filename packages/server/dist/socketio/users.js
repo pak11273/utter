@@ -11,13 +11,13 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _createClass2 = _interopRequireDefault(require("@babel/runtime/helpers/createClass"));
 
-var Users = function () {
-  function Users() {
-    (0, _classCallCheck2.default)(this, Users);
+var SocketUsers = function () {
+  function SocketUsers() {
+    (0, _classCallCheck2.default)(this, SocketUsers);
     this.users = [];
   }
 
-  (0, _createClass2.default)(Users, [{
+  (0, _createClass2.default)(SocketUsers, [{
     key: "addUserData",
     value: function addUserData(socketId, zoneId, zoneName, username) {
       var users = {
@@ -28,6 +28,27 @@ var Users = function () {
       };
       this.users.push(users);
       return users;
+    }
+  }, {
+    key: "removeUser",
+    value: function removeUser(id) {
+      var user = this.getUser(id);
+
+      if (user) {
+        this.users.filter(function (user) {
+          return user.id !== id;
+        });
+      }
+
+      return user;
+    }
+  }, {
+    key: "getUser",
+    value: function getUser(id) {
+      var getUser = this.users.filter(function (userId) {
+        return userId.user === id;
+      })[0];
+      return getUser;
     }
   }, {
     key: "removeUserId",
@@ -63,8 +84,8 @@ var Users = function () {
       return namesArr;
     }
   }]);
-  return Users;
+  return SocketUsers;
 }();
 
-var _default = Users;
+var _default = SocketUsers;
 exports.default = _default;

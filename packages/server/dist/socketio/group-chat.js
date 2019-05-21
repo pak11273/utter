@@ -15,6 +15,10 @@ var _objectSpread2 = _interopRequireDefault(require("@babel/runtime/helpers/obje
 
 var _socket = _interopRequireDefault(require("socket.io"));
 
+var _users = _interopRequireDefault(require("../socketio/users.js"));
+
+var Users = new _users.default();
+
 var handleEvent = function handleEvent(zoneId, createEntry) {
   var entry = (0, _objectSpread2.default)({
     user: user
@@ -36,9 +40,31 @@ var _default = function () {
             io = (0, _socket.default)(server);
             io.on("connection", function (socket) {
               console.log("user connected");
-              socket.on("join", function (obj, cb) {
-                socket.join(obj.zoneId);
+              socket.on("join", function (zone, cb) {
+                socket.join(zone.zoneId);
+                console.log("zone: ", zone);
+                Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username);
+                console.log("Users: ", Users);
+                io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId));
                 cb();
+              });
+              socket.on("joinContactRequest", function (zone, cb) {
+                socket.join(zone.zoneId);
+                cb();
+              });
+              socket.on("sendContactRequest", function (zone, cb) {
+                io.to(zone.contact).emit("newContactRequest", {
+                  from: zone.sender,
+                  to: zone.contact
+                });
+                cb();
+              });
+              socket.on("disconnect", function () {
+                var user = Users.removeUserId(socket.id);
+
+                if (user) {
+                  io.to(user.zoneId).emit("usersList", Users.getUsersList(user.zoneId));
+                }
               });
               socket.on("createMessage", function (_ref2, cb) {
                 var username = _ref2.username,

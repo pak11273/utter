@@ -28,8 +28,14 @@ var UserSchema = new _mongoose.default.Schema({
     ref: "User"
   }],
   contacts: [{
-    type: _mongoose.default.Schema.Types.ObjectId,
-    ref: "User"
+    userId: {
+      type: _mongoose.default.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    username: {
+      type: String,
+      default: ""
+    }
   }],
   confirmed: {
     type: Boolean,
@@ -60,6 +66,10 @@ var UserSchema = new _mongoose.default.Schema({
   },
   lastName: {
     type: String
+  },
+  totalRequests: {
+    type: Number,
+    default: 0
   },
   username: {
     type: String,
@@ -93,6 +103,22 @@ var UserSchema = new _mongoose.default.Schema({
     type: [String],
     default: "registeredUser"
   },
+  sentRequest: [{
+    username: {
+      type: String,
+      default: ""
+    }
+  }],
+  request: [{
+    userId: {
+      type: _mongoose.default.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    username: {
+      type: String,
+      default: ""
+    }
+  }],
   stripeId: {
     type: String
   },
