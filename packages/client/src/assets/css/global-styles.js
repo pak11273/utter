@@ -4,14 +4,31 @@ import {createGlobalStyle} from "styled-components"
 export const GlobalStyle = createGlobalStyle`
 
 	*:focus {
-		outline: 0
+		outline: 0,
 	} 
+
+	/* HIDE SCROLLBAR */
+
+	html {
+		overflow: scroll;
+		overflow-x: hidden;
+	}
+		::-webkit-scrollbar {
+		width: 0px; /* remove scrollbar space /
+		background: transparent; / optional: just make scrollbar invisible /
+	}
+
+	/ optional: show position indicator in red */
+		::-webkit-scrollbar-thumb {
+		background: #FF0000;
+	}
+
+	/* HIDE SCROLLBAR */
 
   body, h1, h2, h3, h4, h6, div, p, li {
     box-sizing: border-box;
     font-family: 'Helvetica Arial sans-serif';
     color: #777;
-		overflow-y: auto !important;
   }
 
   h1 {
