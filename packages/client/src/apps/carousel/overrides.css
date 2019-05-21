@@ -19,3 +19,14 @@
 	  padding: 8px;
 	  content: '';
 }
+
+/* Fix for IE10 */
+/* .carousel .slide { */
+/* 	  width: 100%; */
+/* } */
+
+/* Fix for IE10 */
+/* .carousel .slide img { */
+/* 		width: 100% !important; */
+/* 		height: auto !important; */
+/* } */

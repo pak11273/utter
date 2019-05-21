@@ -172,6 +172,16 @@ export const styles = theme => ({
     flexGrow: 1,
     width: "100%"
   },
+  rootZone: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    flexGrow: 1,
+    width: "100%",
+    [theme.breakpoints.down(1024 + theme.spacing.unit * 3 * 2)]: {
+      flexDirection: "column"
+    }
+  },
   rootZoneCreate: {
     maxWidth: 960,
     margin: "0 auto"
@@ -201,6 +211,13 @@ export const styles = theme => ({
     color: "black",
     marginTop: "40px",
     position: "relative"
+  },
+  toolbar: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
+    ...theme.mixins.toolbar
   }
 })
 

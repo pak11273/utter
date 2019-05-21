@@ -112,7 +112,6 @@ const RandomCard = ({
         <div
           style={{
             display: "flex",
-            flexGrow: 1,
             flexDirection: "column",
             justifycontent: "center"
           }}>

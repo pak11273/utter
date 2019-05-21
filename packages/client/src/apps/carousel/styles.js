@@ -51,7 +51,7 @@ export const styles = theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    margin: "30px auto 30px",
+    margin: "30px",
     maxWidth: 532,
     minHeight: 370
   },
@@ -69,6 +69,6 @@ export const styles = theme => ({
   root: {
     backgroundColor: "#3e3e3e",
     minHeight: 588,
-    minWidth: 800,
+    minWidth: 320
   }
 })

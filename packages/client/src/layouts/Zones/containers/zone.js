@@ -257,7 +257,7 @@ class Zone extends Component {
     /* const {chatHistory} = history.location.state */
     /* this.state.socketio.connected(zone) */
     return (
-      <Flex className={classes.root}>
+      <Flex className={classes.rootZone}>
         <Drawer
           variant="permanent"
           className={classNames(classes.drawer, {
@@ -310,7 +310,7 @@ class Zone extends Component {
             ))}
           </List>
         </Drawer>
-        <Flex direction="column" width="100%">
+        <Flex direction="column">
           <AppContainer />
           <Members usersList={this.state.usersList} />
         </Flex>
