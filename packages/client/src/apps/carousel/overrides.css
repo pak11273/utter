@@ -1,3 +1,7 @@
+.carousel.carousel-slider {
+	width: "600px";
+}
+
 .carousel .control-prev.control-arrow:before {
 	  transform: rotate(135deg);
 	  -webkit-transform: rotate(135deg);
