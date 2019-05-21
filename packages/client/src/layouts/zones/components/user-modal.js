@@ -20,7 +20,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import {LoadingButton} from "../../../components"
 
 export default props => {
-  const {classes, onClose, selectedValue, ...other} = props
+  const {open, onClose} = props
 
   /* <Dialog
       open={props.open}
@@ -54,11 +54,7 @@ export default props => {
     </Dialog> */
 
   return (
-    <Dialog
-      open={props.open}
-      onClose={onClose}
-      aria-labelledby="simple-dialog-title"
-      {...other}>
+    <Dialog open={open} onClose={onClose} aria-labelledby="simple-dialog-title">
       <DialogActions>
         <NavLink target="_blank" to={`/profile/${props.username}`}>
           <LoadingButton
@@ -81,10 +77,7 @@ export default props => {
           Add Friend
         </LoadingButton>
       </DialogActions>
-      <DialogTitle id="simple-dialog-title">
-        {" "}
-        (avatar) {props.username}
-      </DialogTitle>
+      <DialogTitle id="simple-dialog-title">{props.username}</DialogTitle>
       <div>
         <List>
           <ListItem button onClick={() => console.log("bye")}>

@@ -34,6 +34,12 @@ export default async server => {
       cb()
     })
 
+    socket.on("joinContactRequest", (zone, cb) => {
+      socket.join(zone.zoneId)
+
+      cb()
+    })
+
     socket.on("disconnect", () => {
       var user = Users.removeUserId(socket.id)
 

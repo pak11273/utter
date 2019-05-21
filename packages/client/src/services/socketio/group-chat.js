@@ -36,6 +36,10 @@ export default zone => {
     socket.emit("join", zone, () => {
       console.log("user has joined zone: ", zone)
     })
+
+    socket.emit("joinContactRequest", zone, () => {
+      console.log("user register to send request: ", zone)
+    })
   })
 
   socket.on("error", err => {

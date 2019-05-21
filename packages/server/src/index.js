@@ -8,14 +8,12 @@ import graphqlServer from "./graphql-server.js"
 import {decodeToken, hydrateUser} from "./auth"
 /* import socketZoneChat from "./socketio/socket-server.js" */
 import socketZoneChat from "./socketio/group-chat.js"
-import socketContactRequest from "./socketio/send-request.js"
 import {isAuth} from "./auth"
 
 const server = http.createServer(app)
 
 // socketio instances
 socketZoneChat(server)
-socketContactRequest(server)
 
 let currentApp = app
 
