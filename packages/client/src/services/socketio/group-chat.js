@@ -32,6 +32,17 @@ export default zone => {
     )
   }
 
+  const sendContactRequest = (contact, sender) => {
+    socket.emit(
+      "sendContactRequest",
+      {
+        contact,
+        sender
+      },
+      () => console.log("sup homie")
+    )
+  }
+
   socket.on("connect", () => {
     socket.emit("join", zone, () => {
       console.log("user has joined zone: ", zone)
@@ -39,6 +50,10 @@ export default zone => {
 
     socket.emit("joinContactRequest", zone, () => {
       console.log("user register to send request: ", zone)
+    })
+
+    socket.on("newContactRequest", contact => {
+      console.log("friend: ", contact)
     })
   })
 
@@ -50,6 +65,7 @@ export default zone => {
   return {
     createMessage,
     newMessage,
+    sendContactRequest,
     usersList
   }
 }

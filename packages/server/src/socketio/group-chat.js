@@ -40,6 +40,15 @@ export default async server => {
       cb()
     })
 
+    socket.on("sendContactRequest", (zone, cb) => {
+      io.to(zone.contact).emit("newContactRequest", {
+        from: zone.sender,
+        to: zone.contact
+      })
+
+      cb()
+    })
+
     socket.on("disconnect", () => {
       var user = Users.removeUserId(socket.id)
 

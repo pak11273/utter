@@ -1,5 +1,14 @@
 import gql from "graphql-tag"
 
+export const ADD_CONTACT = gql`
+  mutation addContact($sender: String, $contact: String) {
+    addContact(sender: $sender, contact: $contact) {
+			_id
+			username
+		}
+  }
+`
+
 export const BETA_SIGNUP = gql`
   mutation betaSignup(
     $ageGroup: String

@@ -20,7 +20,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import {LoadingButton} from "../../../components"
 
 export default props => {
-  const {open, onClose} = props
+  const {addContact, open, onClose} = props
 
   /* <Dialog
       open={props.open}
@@ -53,6 +53,7 @@ export default props => {
       </DialogActions>
     </Dialog> */
 
+  console.log("username: ", props.username)
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="simple-dialog-title">
       <DialogActions>
@@ -72,9 +73,9 @@ export default props => {
           loading={props.loading}
           color="primary"
           variant="contained"
-          onClick={props.onLeave}
+          onClick={addContact(props.username)}
           autoFocus>
-          Add Friend
+          Add Contact
         </LoadingButton>
       </DialogActions>
       <DialogTitle id="simple-dialog-title">{props.username}</DialogTitle>

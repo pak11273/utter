@@ -78,6 +78,7 @@ type Query {
 }
 
 type Mutation {
+	addContact(contact: String, sender: String): User 
 	cancelPayMonthly: User
 	changePassword(input: ChangePasswordInput): AuthPayload 
   contact(input: ContactInput!): ContactOutput

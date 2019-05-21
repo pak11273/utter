@@ -43,6 +43,14 @@ const me = async (_, __, {req}) => {
     .lean()
 }
 
+const addContact = async (_, args, {redis, url}) => {
+  console.log("args; ", args)
+  return {
+    _id: "blah",
+    username: "fomasa"
+  }
+}
+
 const confirmEmail = async (_, args, {redis, url}) => {
   const redisToken = args.input.token
   const redisKey = `${confirmEmailPrefix}${redisToken}`
@@ -458,6 +466,7 @@ export const userResolvers = {
   },
 
   Mutation: {
+    addContact,
     cancelPayMonthly,
     changeCreditCard,
     changePassword,

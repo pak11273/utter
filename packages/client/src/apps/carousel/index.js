@@ -224,7 +224,6 @@ class HostControls extends PureComponent {
   render() {
     return (
       <Carousel
-        width="100%"
         infiniteLoop={true}
         onChange={count => this.shufflePics(count)}
         showThumbs={false}
