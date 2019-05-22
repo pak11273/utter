@@ -34,13 +34,15 @@ export default async server => {
       cb()
     })
 
-    socket.on("joinContactRequest", (zone, cb) => {
-      socket.join(zone.zoneId)
+    socket.on("joinAddContact", (zone, cb) => {
+      console.log("socket join add contact: ", zone.username)
+      socket.join(zone.username)
 
       cb()
     })
 
     socket.on("sendContactRequest", (zone, cb) => {
+      console.log("zone contact: ", zone)
       io.to(zone.contact).emit("newContactRequest", {
         from: zone.sender,
         to: zone.contact

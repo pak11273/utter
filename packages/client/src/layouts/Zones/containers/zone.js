@@ -369,11 +369,18 @@ class Zone extends Component {
             )}
           </div>
           <Divider />
-          <List dense={true}>
+          <List
+            style={{
+              alignItems: "flex-start",
+              display: "flex",
+              flexWrap: "wrap"
+            }}
+            dense={true}>
             {this.state.usersList.map((item, index) => (
               <React.Fragment key={item}>
+                {console.log("item: ", item)}
                 <UserModal
-                  username={item}
+                  username="bob"
                   open={this.state.open}
                   onClose={this.handleClose}
                   addContact={this.addContact}
@@ -381,7 +388,11 @@ class Zone extends Component {
                 <ListItem
                   onClick={this.openModal}
                   button
-                  style={{color: "#fafafa"}}
+                  style={{
+                    color: "#fafafa",
+                    padding: "10px",
+                    width: "56px"
+                  }}
                   key={index}>
                   <ListItemAvatar>
                     <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
