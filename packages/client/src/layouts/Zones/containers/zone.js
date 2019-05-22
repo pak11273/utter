@@ -26,7 +26,7 @@ import IconButton from "@material-ui/core/IconButton"
 import MailIcon from "@material-ui/icons/Mail"
 
 import ceoImg from "../../../assets/images/ceo.jpg"
-import {Flex, Spacer} from "../../../components"
+import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
 import {session} from "brownies"
@@ -34,7 +34,7 @@ import {session} from "brownies"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {ADD_CONTACT} from "../../../graphql/mutations/user-mutations.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
-import UserModal from "../components/user-modal.js"
+/* import UserModal from "../components/user-modal.js" */
 import {styles} from "../styles.js"
 
 /* const styles = theme => ({ */
@@ -59,6 +59,7 @@ class Zone extends Component {
   locationName = this.props.path
 
   state = {
+    arrowRef: null,
     resources: "",
     receiveMsg: "",
     user: {name: "beef"},
@@ -168,7 +169,6 @@ class Zone extends Component {
   }
 
   addContact = username => async () => {
-    console.log("whateve", username)
     const result = await this.props.client.mutate({
       mutation: ADD_CONTACT,
       variables: {
@@ -176,8 +176,6 @@ class Zone extends Component {
         contact: username
       }
     })
-
-    console.log("result: ", result)
 
     if (result) {
       const data = result.data.addContact
@@ -202,14 +200,19 @@ class Zone extends Component {
     })
   }
 
+  handleArrowRef = node => {
+    this.setState({
+      arrowRef: node
+    })
+  }
+
   handleClose = () => {
     this.setState({
       open: false
     })
   }
 
-  openModal = item => {
-    console.log("item: ", item)
+  openModal = () => {
     this.setState({
       open: true
     })
@@ -376,28 +379,28 @@ class Zone extends Component {
               flexWrap: "wrap"
             }}
             dense={true}>
+            {/* <UserModal
+              username="bob"
+              open={this.state.open}
+              onClose={this.handleClose}
+              addContact={this.addContact}
+            /> */}
             {this.state.usersList.map((item, index) => (
               <React.Fragment key={item}>
-                {console.log("item: ", item)}
-                <UserModal
-                  username="bob"
-                  open={this.state.open}
-                  onClose={this.handleClose}
-                  addContact={this.addContact}
-                />
-                <ListItem
-                  onClick={this.openModal}
-                  button
-                  style={{
-                    color: "#fafafa",
-                    padding: "10px",
-                    width: "56px"
-                  }}
-                  key={index}>
-                  <ListItemAvatar>
-                    <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
-                  </ListItemAvatar>
-                </ListItem>
+                <ZoneMembersTooltip username={item}>
+                  <ListItem
+                    button
+                    style={{
+                      color: "#fafafa",
+                      padding: "10px",
+                      width: "56px"
+                    }}
+                    key={index}>
+                    <ListItemAvatar>
+                      <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
+                    </ListItemAvatar>
+                  </ListItem>
+                </ZoneMembersTooltip>
               </React.Fragment>
             ))}
           </List>

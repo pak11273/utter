@@ -68,6 +68,7 @@ import Select from "./Select.js"
 import Spacer from "./spacers"
 import Wrapper from "./Wrapper.js"
 import Zone from "./Zone.js"
+import ZoneMembersTooltip from "./tooltips/zone-members-tooltip.js"
 
 export {
   AbsolutePosition,
@@ -137,5 +138,6 @@ export {
   Title,
   Using,
   Wrapper,
-  Zone
+  Zone,
+  ZoneMembersTooltip
 }

@@ -14,21 +14,31 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemText from "@material-ui/core/ListItemText"
 import PersonIcon from "@material-ui/icons/Person"
+import Paper from "@material-ui/core/Paper"
 import {withStyles} from "@material-ui/core/styles"
 /* import Typography from "@material-ui/core/Typography" */
 /* import blue from "@material-ui/core/colors/blue" */
 
 /* import {session} from "brownies" */
+import Draggable from "react-draggable"
 import {LoadingButton} from "../../../components"
 
 const styles = {
   root: {
-    backgroundColor: "transparent"
+    backgroundColor: "rgba(0,0,0,0.5)"
   },
   paper: {
     boxShadow: "none",
     overflow: "hidden"
   }
+}
+
+const PaperComponent = props => {
+  return (
+    <Draggable>
+      <Paper {...props} />
+    </Draggable>
+  )
 }
 
 const UserModal = props => {
@@ -78,30 +88,33 @@ const UserModal = props => {
           root: classes.paper
         }
       }}
+      PaperComponent={PaperComponent}
       open={open}
       onClose={onClose}
       aria-labelledby="simple-dialog-title">
       <DialogActions>
-        <NavLink target="_blank" to={`/profile/${props.username}`}>
+        <div style={{paddingTop: "20px"}}>
+          <NavLink target="_blank" to={`/profile/${props.username}`}>
+            <LoadingButton
+              disabled={props.loading}
+              loading={props.loading}
+              color="secondary"
+              variant="contained"
+              onClick={NavLink}
+              autoFocus>
+              View Profile
+            </LoadingButton>
+          </NavLink>
           <LoadingButton
             disabled={props.loading}
             loading={props.loading}
-            color="secondary"
+            color="primary"
             variant="contained"
-            onClick={NavLink}
+            onClick={addContact(props.username)}
             autoFocus>
-            View Profile
+            Add Contact
           </LoadingButton>
-        </NavLink>
-        <LoadingButton
-          disabled={props.loading}
-          loading={props.loading}
-          color="primary"
-          variant="contained"
-          onClick={addContact(props.username)}
-          autoFocus>
-          Add Contact
-        </LoadingButton>
+        </div>
       </DialogActions>
       <DialogTitle id="simple-dialog-title">{props.username}</DialogTitle>
       <div>
