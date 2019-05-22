@@ -44,10 +44,51 @@ const me = async (_, __, {req}) => {
 }
 
 const addContact = async (_, args, {redis, url}) => {
-  console.log("args; ", args)
-  return {
-    _id: "blah",
-    username: "fomasa"
+  try {
+    console.log("args; ", args)
+    const senderInfo = await User.findOne({username: args.sender}).lean()
+    const contact = await User.update(
+      {
+        username: args.contact,
+        "request.userId": {$ne: senderInfo._id},
+        "contacts.userId": {$ne: senderInfo._id}
+      },
+      {
+        $push: {
+          request: {
+            userId: senderInfo._id,
+            username: args.sender
+          }
+        },
+        $inc: {totalRequests: 1}
+      },
+      {new: true}
+    )
+
+    if (args.sender) {
+      const senderUpdated = await User.update(
+        {
+          username: args.sender,
+          "sentRequest.username": {$ne: args.contact}
+        },
+        {
+          $push: {
+            sentRequest: {
+              username: args.contact
+            }
+          }
+        },
+        {new: true}
+      )
+      console.log("senderupdateated: ", senderUpdated)
+    }
+
+    return {
+      _id: contact._id,
+      username: args.sender
+    }
+  } catch (err) {
+    return err
   }
 }
 

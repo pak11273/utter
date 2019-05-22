@@ -32,7 +32,6 @@ import Notebook from "./notebook/notebook.js"
 import {session} from "brownies"
 
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
-import {ADD_CONTACT} from "../../../graphql/mutations/user-mutations.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
 import {styles} from "../styles.js"
 
@@ -165,24 +164,6 @@ class Zone extends Component {
 
     /* socket.off('newMessage') */
     /* socket.off('createMessage') */
-  }
-
-  addContact = username => async () => {
-    const result = await this.props.client.mutate({
-      mutation: ADD_CONTACT,
-      variables: {
-        sender: session.user.username,
-        contact: username
-      }
-    })
-
-    if (result) {
-      const data = result.data.addContact
-      this.state.socketio.sendContactRequest(
-        data.username,
-        session.user.username
-      )
-    }
   }
 
   onLeaveZone = (zoneId, onLeaveSuccess) => {
@@ -380,7 +361,9 @@ class Zone extends Component {
             dense={true}>
             {this.state.usersList.map((item, index) => (
               <React.Fragment key={item}>
-                <ZoneMembersTooltip username={item}>
+                <ZoneMembersTooltip
+                  username={item}
+                  socketio={this.state.socketio}>
                   <ListItem
                     button
                     style={{

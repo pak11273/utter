@@ -39,7 +39,7 @@ export default zone => {
         contact,
         sender
       },
-      () => console.log("sup homie")
+      () => console.log("request was sent")
     )
   }
 

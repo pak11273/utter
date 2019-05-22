@@ -2,6 +2,7 @@
 
 import React, {PureComponent} from "react"
 import {NavLink} from "react-router-dom"
+import {withApollo} from "react-apollo"
 
 import Button from "@material-ui/core/Button"
 /* import IconButton from "@material-ui/core/IconButton" */
@@ -13,6 +14,8 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 /* import LoadingButton from "../buttons/loading-button.js" */
+import {session} from "brownies"
+import {ADD_CONTACT} from "../../graphql/mutations/user-mutations.js"
 import Flex from "../Flex"
 
 const styles = () => {
@@ -30,9 +33,28 @@ class ZoneMembersTooltip extends PureComponent {
     this.setState({open: !this.state.open})
   }
 
+  addContact = async username => {
+    const result = await this.props.client.mutate({
+      mutation: ADD_CONTACT,
+      variables: {
+        sender: session.user.username,
+        contact: username
+      }
+    })
+
+    if (result) {
+      console.log("result: ", result)
+      const data = result.data.addContact
+      this.props.socketio.sendContactRequest(
+        data.username,
+        session.user.username
+      )
+    }
+  }
+
   render() {
     const {classes} = this.props
-    console.log("zone members: ", this.props)
+    console.log("props: ", this.props)
 
     return (
       <Tooltip
@@ -72,25 +94,29 @@ class ZoneMembersTooltip extends PureComponent {
               </ListItem> */}
               <ListItem>
                 <Flex flexdirection="row">
-                  <NavLink
-                    target="_blank"
-                    to={`/profile/${this.props.username}`}>
-                    <Button
-                      color="secondary"
-                      variant="contained"
-                      onClick={NavLink}
-                      size="small"
-                      style={{marginRight: "10px"}}>
-                      View Profile
-                    </Button>
-                  </NavLink>
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    onClick={() => this.addContact(this.props.username)}
-                    size="small">
-                    Add Contact
-                  </Button>
+                  {session.user.username !== this.props.username && (
+                    <React.Fragment>
+                      <NavLink
+                        target="_blank"
+                        to={`/profile/${this.props.username}`}>
+                        <Button
+                          color="secondary"
+                          variant="contained"
+                          onClick={NavLink}
+                          size="small"
+                          style={{marginRight: "10px"}}>
+                          View Profile
+                        </Button>
+                      </NavLink>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        onClick={() => this.addContact(this.props.username)}
+                        size="small">
+                        Add Contact
+                      </Button>
+                    </React.Fragment>
+                  )}
                 </Flex>
               </ListItem>
             </List>
@@ -102,4 +128,4 @@ class ZoneMembersTooltip extends PureComponent {
   }
 }
 
-export default withStyles(styles)(ZoneMembersTooltip)
+export default withStyles(styles)(withApollo(ZoneMembersTooltip))
