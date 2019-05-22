@@ -34,7 +34,6 @@ import {session} from "brownies"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {ADD_CONTACT} from "../../../graphql/mutations/user-mutations.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
-/* import UserModal from "../components/user-modal.js" */
 import {styles} from "../styles.js"
 
 /* const styles = theme => ({ */
@@ -379,12 +378,6 @@ class Zone extends Component {
               flexWrap: "wrap"
             }}
             dense={true}>
-            {/* <UserModal
-              username="bob"
-              open={this.state.open}
-              onClose={this.handleClose}
-              addContact={this.addContact}
-            /> */}
             {this.state.usersList.map((item, index) => (
               <React.Fragment key={item}>
                 <ZoneMembersTooltip username={item}>
