@@ -14,6 +14,9 @@ export const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1
   },
+  backdrop: {
+    backgroundColor: "green"
+  },
   card2: {
     height: "370px",
     maxWidth: "300px",

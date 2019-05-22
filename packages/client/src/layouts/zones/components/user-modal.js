@@ -14,14 +14,25 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemText from "@material-ui/core/ListItemText"
 import PersonIcon from "@material-ui/icons/Person"
+import {withStyles} from "@material-ui/core/styles"
 /* import Typography from "@material-ui/core/Typography" */
 /* import blue from "@material-ui/core/colors/blue" */
 
 /* import {session} from "brownies" */
 import {LoadingButton} from "../../../components"
 
-export default props => {
-  const {addContact, open, onClose} = props
+const styles = {
+  root: {
+    backgroundColor: "transparent"
+  },
+  paper: {
+    boxShadow: "none",
+    overflow: "hidden"
+  }
+}
+
+const UserModal = props => {
+  const {classes, addContact, open, onClose} = props
 
   /* <Dialog
       open={props.open}
@@ -56,7 +67,20 @@ export default props => {
 
   console.log("username: ", props.username)
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="simple-dialog-title">
+    <Dialog
+      BackdropProps={{
+        classes: {
+          root: classes.root
+        }
+      }}
+      PaperProps={{
+        classes: {
+          root: classes.paper
+        }
+      }}
+      open={open}
+      onClose={onClose}
+      aria-labelledby="simple-dialog-title">
       <DialogActions>
         <NavLink target="_blank" to={`/profile/${props.username}`}>
           <LoadingButton
@@ -111,3 +135,5 @@ export default props => {
     </Dialog>
   )
 }
+
+export default withStyles(styles)(UserModal)
