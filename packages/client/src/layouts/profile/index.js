@@ -100,7 +100,7 @@ class Profile extends Component {
           }}>
           <Spacer margin="200px 0 0 0" />
           <List className={classes.list}>
-            {["profile", "settings"].map((text, index) => {
+            {["profile"].map((text, index) => {
               /*    if (text === "settings") {
                 return 
                     <Can
