@@ -96,7 +96,8 @@ class MainNavbar extends Component {
     top: false,
     left: false,
     bottom: false,
-    right: false
+    right: false,
+    notifications: ["whateva foo"]
   }
 
   logout = e => {
@@ -107,7 +108,10 @@ class MainNavbar extends Component {
   }
 
   handleProfileMenuOpen = event => {
-    this.setState({anchorEl: event.currentTarget})
+    this.setState({
+      anchorEl: event.currentTarget,
+      navbarIcon: "settings"
+    })
   }
 
   handleMenuClose = () => {
@@ -119,6 +123,14 @@ class MainNavbar extends Component {
     this.setState({anchorEl: null})
     this.props.history.push(`/account/account-settings`)
     this.handleMobileMenuClose()
+  }
+
+  handleNotificationOpen = event => {
+    event.persist()
+    this.setState({
+      anchorEl: event.currentTarget,
+      navbarIcon: "notifications"
+    })
   }
 
   handleBeta = () => {
@@ -291,13 +303,26 @@ class MainNavbar extends Component {
         ) : null}
         {!isAuthenticated ? (
           <MenuItem onClick={this.login}>Login</MenuItem>
-        ) : (
+        ) : this.state.navbarIcon === "settings" ? (
           <div>
             <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
             <MenuItem onClick={this.handleAccount}>Account</MenuItem>
             <MenuItem onClick={this.logout}>Log Out</MenuItem>
           </div>
-        )}
+        ) : null}
+        {!isAuthenticated ? (
+          <MenuItem onClick={this.login}>Login</MenuItem>
+        ) : this.state.navbarIcon === "notifications" ? (
+          <div style={{width: "400px"}}>
+            {this.state.notifications.map((item, i) => {
+              return (
+                <MenuItem key={i} onClick={() => "alert!"}>
+                  {item}
+                </MenuItem>
+              )
+            })}
+          </div>
+        ) : null}
       </Menu>
     )
 
@@ -460,8 +485,8 @@ class MainNavbar extends Component {
                   <MailIcon />
                 </Badge>
               </IconButton> */}
-              <IconButton color="inherit">
-                <Badge badgeContent={0} color="secondary">
+              <IconButton color="inherit" onClick={this.handleNotificationOpen}>
+                <Badge badgeContent={33} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>

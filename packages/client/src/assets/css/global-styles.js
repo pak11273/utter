@@ -3,6 +3,10 @@ import {createGlobalStyle} from "styled-components"
 
 export const GlobalStyle = createGlobalStyle`
 
+	* {
+	outline: none;
+	}
+
 	*:focus {
 		outline: 0,
 	} 
