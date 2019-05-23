@@ -84,24 +84,90 @@ var me = function () {
 
 var addContact = function () {
   var _ref4 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee2(_, args, _ref3) {
-    var redis, url;
+    var redis, url, senderInfo, _contact, senderUpdated;
+
     return _regenerator.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             redis = _ref3.redis, url = _ref3.url;
+            _context2.prev = 1;
             console.log("args; ", args);
-            return _context2.abrupt("return", {
-              _id: "blah",
-              username: "fomasa"
+            _context2.next = 5;
+            return _userModel.default.findOne({
+              username: args.sender
+            }).lean();
+
+          case 5:
+            senderInfo = _context2.sent;
+            _context2.next = 8;
+            return _userModel.default.update({
+              username: args.contact,
+              "request.userId": {
+                $ne: senderInfo._id
+              },
+              "contacts.userId": {
+                $ne: senderInfo._id
+              }
+            }, {
+              $push: {
+                request: {
+                  userId: senderInfo._id,
+                  username: args.sender
+                }
+              },
+              $inc: {
+                totalRequests: 1
+              }
+            }, {
+              new: true
             });
 
-          case 3:
+          case 8:
+            _contact = _context2.sent;
+
+            if (!args.sender) {
+              _context2.next = 14;
+              break;
+            }
+
+            _context2.next = 12;
+            return _userModel.default.update({
+              username: args.sender,
+              "sentRequest.username": {
+                $ne: args.contact
+              }
+            }, {
+              $push: {
+                sentRequest: {
+                  username: args.contact
+                }
+              }
+            }, {
+              new: true
+            });
+
+          case 12:
+            senderUpdated = _context2.sent;
+            console.log("senderupdateated: ", senderUpdated);
+
+          case 14:
+            return _context2.abrupt("return", {
+              _id: _contact._id,
+              username: args.sender
+            });
+
+          case 17:
+            _context2.prev = 17;
+            _context2.t0 = _context2["catch"](1);
+            return _context2.abrupt("return", _context2.t0);
+
+          case 20:
           case "end":
             return _context2.stop();
         }
       }
-    }, _callee2);
+    }, _callee2, null, [[1, 17]]);
   }));
 
   return function addContact(_x4, _x5, _x6) {

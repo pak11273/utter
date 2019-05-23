@@ -48,11 +48,13 @@ var _default = function () {
                 io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId));
                 cb();
               });
-              socket.on("joinContactRequest", function (zone, cb) {
-                socket.join(zone.zoneId);
+              socket.on("joinAddContact", function (zone, cb) {
+                console.log("socket join add contact: ", zone.username);
+                socket.join(zone.username);
                 cb();
               });
               socket.on("sendContactRequest", function (zone, cb) {
+                console.log("zone contact: ", zone);
                 io.to(zone.contact).emit("newContactRequest", {
                   from: zone.sender,
                   to: zone.contact
