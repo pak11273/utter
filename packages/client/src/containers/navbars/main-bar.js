@@ -46,6 +46,7 @@ import Graphic from "../../assets/images/navbar_logo.png"
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
   color: #003478;
+  text-decoration: none;
   &:hover {
     text-decoration: underline;
   }
@@ -97,7 +98,7 @@ class MainNavbar extends Component {
     left: false,
     bottom: false,
     right: false,
-    notifications: ["whateva foo"]
+    notifications: ["You have no notifications."]
   }
 
   logout = e => {
