@@ -37,18 +37,53 @@ const betaSignup = async (_, {input}, {redis, url}, info) => {
   }
 }
 
+const betaUpdate = async (_, {input}, {redis, url}, info) => {
+  console.log("input: ", input)
+  try {
+    const betaTester = await BetaTester.findOneAndUpdate(
+      {_id: input._id},
+      {
+        ageGroup: input.ageGroup,
+        chosen: input.chosen,
+        country: input.country,
+        currentlyLearning: input.currentlyLearning,
+        dayLearningHrs: input.dayLearningHrs,
+        email: input.email,
+        gender: input.gender,
+        howLongLearning: input.howLongLearning,
+        lastName: input.lastName,
+        linkedIn: input.linkedIn,
+        languagesFluent: input.languagesFluent,
+        nativeLang: input.nativeLang,
+        whyLearning: input.whyLearning
+      },
+      {new: true}
+    ).exec()
+    console.log("betatester: ", betaTester)
+    if (betaTester) return betaTester
+  } catch (err) {
+    throw err
+  }
+}
+
 const getBetaTesters = async (_, args, {req}, __) => {
   if (!req.session.userId) {
     return null
   }
   const user = await User.findById(req.session.userId).lean()
   // get user, if role uzAdmin, return users
-  console.log("user: ", user)
 
   if (user.roles.indexOf("uzAdmin") !== -1) {
     const betaTesters = await BetaTester.find().lean()
-    console.log("beta: ", betaTesters)
-    return betaTesters
+    var formatted = betaTesters.map(item => {
+      var createdAt = new Date(item.createdAt).toDateString()
+      var updatedAt = new Date(item.updatedAt).toDateString()
+      item.createdAt = createdAt
+      item.updatedAt = updatedAt
+      return item
+    })
+
+    return formatted
   }
 }
 
@@ -59,6 +94,7 @@ export const betaTesterResolvers = {
   },
 
   Mutation: {
-    betaSignup
+    betaSignup,
+    betaUpdate
   }
 }

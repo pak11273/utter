@@ -11,7 +11,7 @@ import ChevronRight from "@material-ui/icons/ChevronRight"
 import {CircularProgress} from "@material-ui/core"
 import Delete from "@material-ui/icons/Delete"
 import Edit from "@material-ui/icons/Edit"
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder"
+import KeyboardArrowDown from "@material-ui/icons/KeyboardArrowDown"
 import {Formik} from "formik"
 import {fade} from "@material-ui/core/styles/colorManipulator"
 import FirstPage from "@material-ui/icons/FirstPage"
@@ -23,11 +23,13 @@ import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
 import MaterialTable, {MTableEditRow} from "material-table"
+import makeTrashable from "trashable"
 import {FormikMTInput} from "../../../components"
 
 import {GET_BETA_TESTERS} from "../../../graphql/queries/user-queries.js"
+import {BETA_UPDATE} from "../../../graphql/mutations/user-mutations.js"
 
-const FavoriteIcon = () => <FavoriteBorder />
+const KeyboardArrowDownIcon = () => <KeyboardArrowDown />
 
 const OverlayOverride = props => {
   return (
@@ -55,7 +57,7 @@ const OverlayOverride = props => {
 const MuiTableEditRow = ({onEditingApproved, ...props}) => {
   return (
     <Formik
-      /* validationSchema={courseLevelSchema} */
+      /* validationSchema={betaTestersSchema} */
       initialValues={props.data}
       onSubmit={values => {
         if (props.mode === "update") {
@@ -100,6 +102,50 @@ class AdminBetaTesters extends PureComponent {
         }
       })
       .catch(err => console.log("err: ", err))
+
+    this.can = {
+      onRowUpdate: (newData, oldData) => {
+        const update = new Promise(async resolve => {
+          const {testers} = this.state
+          const index = testers.indexOf(oldData)
+          testers[index] = newData
+          setTimeout(() => {
+            this.setState({testers})
+            resolve()
+          }, 1000)
+          const data = await this.props.client.mutate({
+            mutation: BETA_UPDATE,
+            variables: {
+              _id: newData._id,
+              ageGroup: newData.ageGroup,
+              chosen: newData.chosen === "true",
+              country: newData.country,
+              currentlyLearning: newData.currentlyLearning,
+              dayLearningHrs: newData.dayLearningHrs,
+              email: newData.email,
+              firstName: newData.firstName,
+              gender: newData.gender,
+              howLongLearning: newData.howLongLearning,
+              lastName: newData.lastName,
+              languagesFluent: newData.languagesFluent,
+              linkedIn: newData.linkedIn,
+              nativeLang: newData.nativeLang,
+              whyLearning: newData.whyLearning
+            }
+          })
+          this.setState({
+            testers: data.betaUpdate
+          })
+        })
+
+        this._updateTrash = makeTrashable(update)
+        return update
+      }
+    }
+  }
+
+  componentWillUnmount = () => {
+    this._updateTrash && this._updateTrash.trash()
   }
 
   render() {
@@ -150,9 +196,20 @@ class AdminBetaTesters extends PureComponent {
                     Search: () => <Search />
                   }}
                   columns={[
-                    {title: "_id", field: "_id"},
+                    {
+                      title: "_id",
+                      field: "_id",
+                      readonly: true
+                    },
                     {title: "ageGroup", field: "ageGroup"},
-                    {title: "chosen", field: "chosen"},
+                    {
+                      title: "chosen",
+                      field: "chosen",
+                      lookup: {
+                        true: "true",
+                        false: "false"
+                      }
+                    },
                     {title: "country", field: "country"},
                     {title: "currentlyLearning", field: "currentlyLearning"},
                     {title: "dayLearningHrs", field: "dayLearningHrs"},
@@ -164,13 +221,21 @@ class AdminBetaTesters extends PureComponent {
                     {title: "languagesFluent", field: "languagesFluent"},
                     {title: "linkedIn", field: "linkedIn"},
                     {title: "nativeLang", field: "nativeLang"},
-                    {title: "createdAt", field: "createdAt"},
-                    {title: "updatedAt", field: "updatedAt"}
+                    {
+                      title: "createdAt",
+                      field: "createdAt",
+                      readonly: true
+                    },
+                    {
+                      title: "updatedAt",
+                      field: "updatedAt",
+                      readonly: true
+                    }
                   ]}
                   detailPanel={[
                     {
-                      icon: FavoriteIcon,
-                      openIcon: FavoriteIcon,
+                      icon: KeyboardArrowDownIcon,
+                      openIcon: KeyboardArrowDownIcon,
                       tooltip: "Show Description",
                       render: rowData => {
                         return (
@@ -194,9 +259,9 @@ class AdminBetaTesters extends PureComponent {
                   data={this.state && this.state.testers}
                   options={{
                     actionsColumnIndex: -1,
-                    pageSize: 5,
+                    pageSize: 20,
                     showTitle: false,
-                    sorting: false,
+                    sorting: true,
                     rowStyle: x => {
                       if (x.tableData.id % 2) {
                         return {backgroundColor: "#f2f2f2"}

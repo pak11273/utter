@@ -1,4 +1,5 @@
 input BetaTesterSignupInput {
+	_id: String
   ageGroup: String
   chosen: Boolean
   country: String
@@ -42,4 +43,5 @@ extend type Query {
 
 extend type Mutation {
   betaSignup(input: BetaTesterSignupInput!): Boolean 
+	betaUpdate(input: BetaTesterSignupInput): BetaTester
 }

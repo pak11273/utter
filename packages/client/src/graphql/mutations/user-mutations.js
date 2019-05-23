@@ -3,14 +3,15 @@ import gql from "graphql-tag"
 export const ADD_CONTACT = gql`
   mutation addContact($sender: String, $contact: String) {
     addContact(sender: $sender, contact: $contact) {
-			_id
-			username
-		}
+      _id
+      username
+    }
   }
 `
 
 export const BETA_SIGNUP = gql`
   mutation betaSignup(
+    $_id: String
     $ageGroup: String
     $chosen: Boolean
     $country: String
@@ -28,6 +29,7 @@ export const BETA_SIGNUP = gql`
   ) {
     betaSignup(
       input: {
+        _id: $_id
         ageGroup: $ageGroup
         chosen: $chosen
         country: $country
@@ -44,6 +46,60 @@ export const BETA_SIGNUP = gql`
         whyLearning: $whyLearning
       }
     )
+  }
+`
+export const BETA_UPDATE = gql`
+  mutation betaUpdate(
+    $_id: String
+    $ageGroup: String
+    $chosen: Boolean
+    $country: String
+    $currentlyLearning: String
+    $dayLearningHrs: String
+    $email: String
+    $firstName: String
+    $gender: String
+    $howLongLearning: String
+    $lastName: String
+    $languagesFluent: String
+    $linkedIn: String
+    $nativeLang: String
+    $whyLearning: String
+  ) {
+    betaUpdate(
+      input: {
+        _id: $_id
+        ageGroup: $ageGroup
+        chosen: $chosen
+        country: $country
+        currentlyLearning: $currentlyLearning
+        dayLearningHrs: $dayLearningHrs
+        email: $email
+        firstName: $firstName
+        gender: $gender
+        howLongLearning: $howLongLearning
+        lastName: $lastName
+        languagesFluent: $languagesFluent
+        linkedIn: $linkedIn
+        nativeLang: $nativeLang
+        whyLearning: $whyLearning
+      }
+    ) {
+      ageGroup
+      chosen
+      country
+      currentlyLearning
+      dayLearningHrs
+      email
+      firstName
+      gender
+      howLongLearning
+      lastName
+      languagesFluent
+      linkedIn
+      nativeLang
+      whyLearning
+    }
   }
 `
 
