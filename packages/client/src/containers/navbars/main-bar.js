@@ -11,7 +11,7 @@ import AssignmentIcon from "@material-ui/icons/Assignment"
 import AppBar from "@material-ui/core/AppBar"
 import Badge from "@material-ui/core/Badge"
 import Divider from "@material-ui/core/Divider"
-import ExittoappIcon from "@material-ui/icons/ExitToApp"
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import HomeIcon from "@material-ui/icons/Home"
 import InfoIcon from "@material-ui/icons/Info"
 import IconButton from "@material-ui/core/IconButton"
@@ -125,7 +125,7 @@ class MainNavbar extends Component {
     this.handleMobileMenuClose()
   }
 
-  handleNotificationOpen = event => {
+  handleNotification = event => {
     event.persist()
     this.setState({
       anchorEl: event.currentTarget,
@@ -341,9 +341,11 @@ class MainNavbar extends Component {
           </IconButton>
           <p>Messages</p>
         </MenuItem> */}
-        <MenuItem onClick={this.handleMobileMenuClose}>
+        <MenuItem onClick={this.handleNotification}>
           <IconButton color="inherit">
-            <Badge badgeContent={11} color="secondary">
+            <Badge
+              badgeContent={this.state.notifications.length}
+              color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
@@ -381,14 +383,14 @@ class MainNavbar extends Component {
         {!isAuthenticated ? (
           <MenuItem onClick={this.login}>
             <IconButton color="inherit">
-              <ExittoappIcon />
+              <ExitToAppIcon />
             </IconButton>
             <p className={classes.noMargin}>Login</p>
           </MenuItem>
         ) : (
           <MenuItem onClick={this.logout}>
             <IconButton color="inherit">
-              <ExittoappIcon />
+              <ExitToAppIcon />
             </IconButton>
             <p className={classes.noMargin}>Log Out</p>
           </MenuItem>
@@ -485,8 +487,10 @@ class MainNavbar extends Component {
                   <MailIcon />
                 </Badge>
               </IconButton> */}
-              <IconButton color="inherit" onClick={this.handleNotificationOpen}>
-                <Badge badgeContent={33} color="secondary">
+              <IconButton color="inherit" onClick={this.handleNotification}>
+                <Badge
+                  badgeContent={this.state.notifications.length}
+                  color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
