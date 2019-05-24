@@ -114,53 +114,123 @@ var betaSignup = function () {
   };
 }();
 
-var getBetaTesters = function () {
-  var _ref8 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee3(_, args, _ref7, __) {
-    var req, user, betaTesters;
+var betaUpdate = function () {
+  var _ref9 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee3(_, _ref7, _ref8, info) {
+    var input, redis, url, betaTester;
     return _regenerator.default.wrap(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
           case 0:
-            req = _ref7.req;
+            input = _ref7.input;
+            redis = _ref8.redis, url = _ref8.url;
+            console.log("input: ", input);
+            _context3.prev = 3;
+            _context3.next = 6;
+            return _betaTesterModel.default.findOneAndUpdate({
+              _id: input._id
+            }, {
+              ageGroup: input.ageGroup,
+              chosen: input.chosen,
+              country: input.country,
+              currentlyLearning: input.currentlyLearning,
+              dayLearningHrs: input.dayLearningHrs,
+              email: input.email,
+              gender: input.gender,
+              howLongLearning: input.howLongLearning,
+              lastName: input.lastName,
+              linkedIn: input.linkedIn,
+              languagesFluent: input.languagesFluent,
+              nativeLang: input.nativeLang,
+              whyLearning: input.whyLearning
+            }, {
+              new: true
+            }).exec();
 
-            if (req.session.userId) {
-              _context3.next = 3;
+          case 6:
+            betaTester = _context3.sent;
+            console.log("betatester: ", betaTester);
+
+            if (!betaTester) {
+              _context3.next = 10;
               break;
             }
 
-            return _context3.abrupt("return", null);
-
-          case 3:
-            _context3.next = 5;
-            return _userModel.default.findById(req.session.userId).lean();
-
-          case 5:
-            user = _context3.sent;
-            console.log("user: ", user);
-
-            if (!(user.roles.indexOf("uzAdmin") !== -1)) {
-              _context3.next = 13;
-              break;
-            }
-
-            _context3.next = 10;
-            return _betaTesterModel.default.find().lean();
+            return _context3.abrupt("return", betaTester);
 
           case 10:
-            betaTesters = _context3.sent;
-            console.log("beta: ", betaTesters);
-            return _context3.abrupt("return", betaTesters);
+            _context3.next = 15;
+            break;
 
-          case 13:
+          case 12:
+            _context3.prev = 12;
+            _context3.t0 = _context3["catch"](3);
+            throw _context3.t0;
+
+          case 15:
           case "end":
             return _context3.stop();
         }
       }
-    }, _callee3);
+    }, _callee3, null, [[3, 12]]);
   }));
 
-  return function getBetaTesters(_x9, _x10, _x11, _x12) {
-    return _ref8.apply(this, arguments);
+  return function betaUpdate(_x9, _x10, _x11, _x12) {
+    return _ref9.apply(this, arguments);
+  };
+}();
+
+var getBetaTesters = function () {
+  var _ref11 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee4(_, args, _ref10, __) {
+    var req, user, betaTesters, formatted;
+    return _regenerator.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            req = _ref10.req;
+
+            if (req.session.userId) {
+              _context4.next = 3;
+              break;
+            }
+
+            return _context4.abrupt("return", null);
+
+          case 3:
+            _context4.next = 5;
+            return _userModel.default.findById(req.session.userId).lean();
+
+          case 5:
+            user = _context4.sent;
+
+            if (!(user.roles.indexOf("uzAdmin") !== -1)) {
+              _context4.next = 12;
+              break;
+            }
+
+            _context4.next = 9;
+            return _betaTesterModel.default.find().lean();
+
+          case 9:
+            betaTesters = _context4.sent;
+            formatted = betaTesters.map(function (item) {
+              var createdAt = new Date(item.createdAt).toDateString();
+              var updatedAt = new Date(item.updatedAt).toDateString();
+              item.createdAt = createdAt;
+              item.updatedAt = updatedAt;
+              return item;
+            });
+            return _context4.abrupt("return", formatted);
+
+          case 12:
+          case "end":
+            return _context4.stop();
+        }
+      }
+    }, _callee4);
+  }));
+
+  return function getBetaTesters(_x13, _x14, _x15, _x16) {
+    return _ref11.apply(this, arguments);
   };
 }();
 
@@ -170,7 +240,8 @@ var betaTesterResolvers = {
     getBetaTesters: getBetaTesters
   },
   Mutation: {
-    betaSignup: betaSignup
+    betaSignup: betaSignup,
+    betaUpdate: betaUpdate
   }
 };
 exports.betaTesterResolvers = betaTesterResolvers;
