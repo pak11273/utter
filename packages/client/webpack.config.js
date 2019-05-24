@@ -8,8 +8,6 @@ const ProgressBarPlugin = require("progress-bar-webpack-plugin")
 const Dotenv = require("dotenv-webpack")
 
 module.exports = env => {
-  const {getIfUtils, removeEmpty} = require("webpack-config-utils")
-  const {ifProd, ifNotProd} = getIfUtils(env)
   return {
     context: path.resolve(__dirname, "src"),
     entry: {
@@ -91,7 +89,15 @@ module.exports = env => {
         },
         {
           test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
-          use: [{loader: "file-loader?name=[name].[ext]"}]
+          /* use: [{loader: "file-loader?name=[name].[ext]"}] */
+          use: [
+            {
+              loader: "url-loader",
+              options: {
+                limit: 8192
+              }
+            }
+          ]
         },
         {
           test: /\.(eot|ttf|woff|woff2)$/,
