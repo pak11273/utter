@@ -1,0 +1,63 @@
+
+type App {
+  id: ID!
+  appName: String!
+  appAuthor: User
+  appDescription: String
+  appImage: String
+  createdAt: Int
+}
+
+input AppUpdated {
+  id: ID!
+  appId: String
+  appName: String
+  appdescription: String
+  favorite: Boolean
+}
+
+input AppCreateInput {
+  appId: String
+	appImage: String
+  appName: String!
+  appDescription: String
+	teachingLang: String
+  usingLang: String
+}
+
+type PaginatedApps {
+  apps: [App]
+  cursor: String
+}
+
+type PixabayOutput {
+	rateLimit: String
+	remaining: String
+	reset: String
+}
+
+extend type Query {
+  getApp(appId: String!): App!
+	getAppLevels(appId: String!): App!
+  getApps(
+    cursor: String
+    appName: String!
+    ref: String!
+    author: String!
+    usingLang: String!
+    teachingLang: String!
+  ): PaginatedApps  
+	getCreatedApps(
+    cursor: String
+    author: String!
+	): PaginatedApps 
+  getAppCount: Int
+	getPixabayData: PixabayOutput 
+}
+
+extend type Mutation {
+  appCreate(input: AppCreateInput!): App! 
+	appDelete(id: String!): Boolean
+  appUpdate(input: AppUpdated!): App!
+  appRemove(id: ID!): Boolean
+}

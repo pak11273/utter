@@ -1,0 +1,47 @@
+type Comment {
+	id: ID!
+	line: String  
+}
+
+type Post {
+	id: ID
+	title: String
+	views: Int
+}
+
+input PostFilter {
+	q: String
+	id: ID
+	title: String
+	views: Int
+	views_lt: Int
+	views_lte: Int
+	views_gt: Int
+	views_gte: Int
+	user_id: ID
+}
+
+type ListMetadata {
+	count: Int
+}
+
+extend type Query {
+	Post(id: ID!): Post
+	allPosts(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: PostFilter): [Post]
+	_allPostsMeta(page: Int, perPage: Int, sortField: String, sortOrder: String, filter: PostFilter): ListMetadata
+}
+
+extend type Mutation {
+	createPost(
+	title: String!
+	views: Int!
+	user_id: ID!
+): Post
+	updatePost(
+	id: ID!
+	title: String!
+	views: Int!
+	user_id: ID!
+): Post
+	deletePost(id: ID!): Post
+}
