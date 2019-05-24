@@ -45,7 +45,6 @@ const me = async (_, __, {req}) => {
 
 const addContact = async (_, args, {redis, url}) => {
   try {
-    console.log("args; ", args)
     const senderInfo = await User.findOne({username: args.sender}).lean()
     const contact = await User.update(
       {
