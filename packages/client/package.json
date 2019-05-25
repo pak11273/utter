@@ -9,6 +9,9 @@
     "debugFile": "node --inspect --inspect-brk ../server/src/server.js",
     "debug": "npm run webpack -- --inspect --debug-brk",
     "prod": "rimraf ./dist && ../../node_modules/webpack/bin/webpack.js -p --config ./webpack.config.js --env.mode production",
+    "prod:preset": "npm run webpack -- --env.mode production",
+    "prod:typescript": "npm run prod:preset -- --env.presets typescript",
+    "prod:analyze": "npm run prod:preset  -- --env.presets analyze",
     "webpack-dev-server": "webpack-dev-server",
     "webpack": "webpack",
     "fserver": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --config webpack.config.js --content-base dist --host 0.0.0.0 --inline --env.mode development"
@@ -106,7 +109,7 @@
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.29.6",
-    "webpack-bundle-analyzer": "^3.1.0",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.3.0",
     "webpack-config-utils": "^2.3.1",
     "webpack-dev-server": "^3.2.1",

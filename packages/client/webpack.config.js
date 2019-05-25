@@ -7,8 +7,8 @@ const webpack = require("webpack")
 const ProgressBarPlugin = require("progress-bar-webpack-plugin")
 const Dotenv = require("dotenv-webpack")
 const webpackMerge = require("webpack-merge")
-const loadPresets = require("./build-utils/load-presets.js")
 const modeConfig = env => require(`./build-utils/webpack.${env}`)(env)
+const presetConfig = require("./build-utils/load-presets.js")
 
 module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
   console.log("mode: ", mode)
@@ -145,6 +145,6 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
       }
     },
     modeConfig(mode),
-    loadPresets({mode, presets})
+    presetConfig({mode, presets})
   )
 }
