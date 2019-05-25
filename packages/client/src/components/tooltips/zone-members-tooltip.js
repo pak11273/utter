@@ -83,7 +83,7 @@ class ZoneMembersTooltip extends PureComponent {
           <Flex>
             <List>
               <ListItem style={{justifyContent: "center"}}>
-                <Typography variant="h6" color="inherit">
+                <Typography variant="h6" style={{color: "white"}}>
                   {this.props.username}
                 </Typography>
               </ListItem>

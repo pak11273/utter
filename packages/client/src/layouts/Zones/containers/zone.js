@@ -367,7 +367,7 @@ class Zone extends Component {
                   <ListItem
                     button
                     style={{
-                      color: "#fafafa",
+                      color: "white",
                       padding: "10px",
                       width: "56px"
                     }}
