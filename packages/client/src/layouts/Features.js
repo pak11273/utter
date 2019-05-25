@@ -11,10 +11,10 @@ import {Container, Img, Line, Section} from "../components"
 import {Footer, Masthead} from "../containers"
 
 // images
-import busyPeopleImg from "../assets/images/busy-people.png"
+import busyPeopleImg from "../assets/images/busy-people2.png"
 import homeMastheadImg from "../assets/images/two-guys.jpg"
-import embarrassedImg from "../assets/images/embarrassed.jpg"
-import visitingImg from "../assets/images/walking-around.jpg"
+import embarrassedImg from "../assets/images/embarrassed2.png"
+import visitingImg from "../assets/images/walk-around2.png"
 import {styles} from "./styles.js"
 
 class Home extends Component {

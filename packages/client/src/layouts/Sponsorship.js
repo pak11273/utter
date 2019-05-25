@@ -14,7 +14,7 @@ import {
 import {Masthead} from "../containers"
 
 // images
-import busyPeopleImg from "../assets/images/busy-people.jpg"
+import busyPeopleImg from "../assets/images/busy-people2.jpg"
 
 function Home() {
   return (
