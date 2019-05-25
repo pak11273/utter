@@ -14,10 +14,10 @@ import {Footer, Masthead} from "../containers"
 import {styles} from "./styles.js"
 
 // images
-import busyPeopleImg from "../assets/images/busy-people.png"
+import busyPeopleImg from "../assets/images/busy-people2.png"
 import homeMastheadImg from "../assets/images/home_header2.jpg"
-import embarrassedImg from "../assets/images/embarrassed.png"
-import visitingImg from "../assets/images/walk-around.png"
+import embarrassedImg from "../assets/images/embarrassed2.png"
+import visitingImg from "../assets/images/walk-around2.png"
 
 class Home extends Component {
   state = {
