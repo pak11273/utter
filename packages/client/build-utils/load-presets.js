@@ -10,7 +10,6 @@ const applyPresets = env => {
     })
     return webpackMerge({}, ...mergedConfigs)
   }
-  console.log("make it?")
 }
 
 module.exports = applyPresets
