@@ -19,7 +19,6 @@ import {
   LoadingButton,
   Section
 } from "../components"
-/* import visitingImg from "../../assets/images/walking-around.jpg" */
 /* import gql from "graphql-tag" */
 import {BETA_SIGNUP} from "../graphql/mutations/user-mutations.js"
 

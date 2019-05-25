@@ -16,7 +16,7 @@ import Terms from "../../documents/terms-and-conditions.js"
 /* import Timezones from "../../components/Selects/Timezones/Timezones.js" */
 import {signupSchema} from "@utterzone/common"
 import {FormikInput, Img, LoadingButton, Section} from "../../components"
-import visitingImg from "../../assets/images/walking-around.jpg"
+import visitingImg from "../../assets/images/walk-around2.png"
 import {SIGNUP_MUTATION} from "../../graphql/mutations/user-mutations.js"
 import {styles} from "./styles.js"
 

@@ -8,7 +8,7 @@ import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
 import {FormikInput, Img, Section, Spacer} from "../../components"
-import visitingImg from "../../assets/images/walking-around.jpg"
+import visitingImg from "../../assets/images/walk-around2.png"
 
 const styles = () => ({
   section: {
