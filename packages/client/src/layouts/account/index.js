@@ -65,7 +65,7 @@ class Account extends Component {
           }}>
           <Spacer margin="200px 0 0 0" />
           <List className={classes.list}>
-            {["settings", "billing"].map((text, index) => {
+            {["settings" /* "billing" */].map((text, index) => {
               return (
                 <ListItem
                   button

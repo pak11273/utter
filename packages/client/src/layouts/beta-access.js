@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {toast} from "react-toastify"
 import {compose, withApollo} from "react-apollo"
 
-import Button from "@material-ui/core/Button"
+/* import Button from "@material-ui/core/Button" */
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {BETA_ACCESS} from "../graphql/queries/user-queries.js"
@@ -134,7 +134,7 @@ class BetaAccess extends Component {
                     gutterBottom>
                     This area will be opened on June 1
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     variant="h6"
                     align="center"
                     className={classes.text}
@@ -146,7 +146,7 @@ class BetaAccess extends Component {
                       onClick={() => this.props.history.push("/application")}>
                       here
                     </Button>
-                  </Typography>
+                  </Typography> */}
                 </form>
               )}
             />

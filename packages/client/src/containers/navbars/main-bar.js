@@ -98,6 +98,7 @@ class MainNavbar extends Component {
     left: false,
     bottom: false,
     right: false,
+    navbarIcon: "",
     notifications: ["You have no notifications."]
   }
 
@@ -288,6 +289,26 @@ class MainNavbar extends Component {
       </div>
     )
 
+    const settingsMenu = (
+      <div>
+        {/* TODO: reinstate after beta */}
+        {/*    <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem> */}
+        {!isAuthenticated && (
+          <MenuItem onClick={this.handleBeta}>Beta</MenuItem>
+        )}
+        {!isAuthenticated && <MenuItem onClick={this.login}>Login</MenuItem>}
+        {isAuthenticated && (
+          <div>
+            <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
+            <MenuItem onClick={this.handleAccount}>Account</MenuItem>
+            <MenuItem onClick={this.logout}>Log Out</MenuItem>
+          </div>
+        )}
+      </div>
+    )
+    /*
+        )} */
+
     const renderMenu = (
       <Menu
         anchorEl={anchorEl}
@@ -295,35 +316,7 @@ class MainNavbar extends Component {
         transformOrigin={{vertical: "top", horizontal: "right"}}
         open={isMenuOpen}
         onClose={this.handleMenuClose}>
-        {/* TODO: reinstate after beta */}
-        {/*  {!isAuthenticated ? (
-          <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem>
-        ) : null} */}
-        {!isAuthenticated ? (
-          <MenuItem onClick={this.handleBeta}>Beta</MenuItem>
-        ) : null}
-        {!isAuthenticated ? (
-          <MenuItem onClick={this.login}>Login</MenuItem>
-        ) : this.state.navbarIcon === "settings" ? (
-          <div>
-            <MenuItem onClick={this.handleProfile}>Profile</MenuItem>
-            <MenuItem onClick={this.handleAccount}>Account</MenuItem>
-            <MenuItem onClick={this.logout}>Log Out</MenuItem>
-          </div>
-        ) : null}
-        {!isAuthenticated ? (
-          <MenuItem onClick={this.login}>Login</MenuItem>
-        ) : this.state.navbarIcon === "notifications" ? (
-          <div style={{width: "400px"}}>
-            {this.state.notifications.map((item, i) => {
-              return (
-                <MenuItem key={i} onClick={() => "alert!"}>
-                  {item}
-                </MenuItem>
-              )
-            })}
-          </div>
-        ) : null}
+        {this.state.navbarIcon === "settings" && settingsMenu}
       </Menu>
     )
 
@@ -342,28 +335,32 @@ class MainNavbar extends Component {
           </IconButton>
           <p>Messages</p>
         </MenuItem> */}
-        <MenuItem onClick={this.handleNotification}>
-          <IconButton color="inherit">
-            <Badge
-              badgeContent={this.state.notifications.length}
-              color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <p className={classes.noMargin}>Notifications</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleProfile}>
-          <IconButton color="inherit">
-            <AccountCircle />
-          </IconButton>
-          <p className={classes.noMargin}>Profile</p>
-        </MenuItem>
-        <MenuItem onClick={this.handleAccount}>
-          <IconButton color="inherit">
-            <AccountBalanceWallet />
-          </IconButton>
-          <p className={classes.noMargin}>Account</p>
-        </MenuItem>
+        {isAuthenticated ? (
+          <div>
+            <MenuItem onClick={this.handleNotification}>
+              <IconButton color="inherit">
+                <Badge
+                  badgeContent={this.state.notifications.length}
+                  color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <p className={classes.noMargin}>Notifications</p>
+            </MenuItem>
+            <MenuItem onClick={this.handleProfile}>
+              <IconButton color="inherit">
+                <AccountCircle />
+              </IconButton>
+              <p className={classes.noMargin}>Profile</p>
+            </MenuItem>
+            <MenuItem onClick={this.handleAccount}>
+              <IconButton color="inherit">
+                <AccountBalanceWallet />
+              </IconButton>
+              <p className={classes.noMargin}>Account</p>
+            </MenuItem>
+          </div>
+        ) : null}
         {/* TODO: reinstate after beta */}
         {/*   {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>
@@ -483,18 +480,15 @@ class MainNavbar extends Component {
             </Typography>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              {/*  <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton> */}
-              <IconButton color="inherit" onClick={this.handleNotification}>
-                <Badge
-                  badgeContent={this.state.notifications.length}
-                  color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
+              {isAuthenticated && (
+                <IconButton color="inherit" onClick={this.handleNotification}>
+                  <Badge
+                    badgeContent={this.state.notifications.length}
+                    color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              )}
               <IconButton
                 aria-owns={isMenuOpen ? "material-appbar" : undefined}
                 aria-haspopup="true"

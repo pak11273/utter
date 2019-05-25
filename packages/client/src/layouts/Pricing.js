@@ -1,5 +1,6 @@
 import React, {PureComponent} from "react"
-import {NavLink} from "react-router-dom"
+import {withRouter} from "react-router-dom"
+/* import {NavLink} from "react-router-dom" */
 import {Helmet} from "react-helmet-async"
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
@@ -24,9 +25,17 @@ function Transition(props) {
   return <Slide direction="up" {...props} />
 }
 
-const BetaModal = () => {
+const BetaModal = props => {
+  console.log("props: ", props)
+  const redirectToHome = () => {
+    props.history.push("/")
+  }
+
   return (
-    <Dialog open TransitionComponent={Transition}>
+    <Dialog
+      open
+      onBackdropClick={redirectToHome}
+      TransitionComponent={Transition}>
       <DialogContent>
         <DialogTitle
           disableTypography
@@ -34,16 +43,28 @@ const BetaModal = () => {
           Closed Beta
         </DialogTitle>
         <DialogContentText style={{textAlign: "center"}}>
-          No fees during beta.
+          Applications for beta are not available at this time. You can inquire
+          about the beta at our forum.
         </DialogContentText>
+        {/* <DialogContentText style={{textAlign: "center"}}>
+          No fees during beta.
+        </DialogContentText> */}
       </DialogContent>
       <DialogActions
         style={{display: "flex", margin: "40px", justifyContent: "center"}}>
-        <Button color="secondary" variant="contained">
+        <a
+          target="_blank"
+          href="http://utterzone.boards.net/"
+          rel="noopener nofollow noreferrer">
+          <Button color="secondary" variant="contained">
+            Forum
+          </Button>
+        </a>
+        {/* <Button color="secondary" variant="contained">
           <NavLink style={{color: "white"}} to="/application">
             Apply
           </NavLink>
-        </Button>
+        </Button> */}
       </DialogActions>
     </Dialog>
   )
@@ -123,7 +144,7 @@ class Pricing extends PureComponent {
         </Helmet>
         <Container className={classes.root}>
           {/* Hero unit */}
-          <BetaModal />
+          <BetaModal {...this.props} />
           <Masthead className={classes.masthead} height="400px" width="100%">
             <div className={classes.heroContent}>
               <Typography
@@ -213,4 +234,4 @@ class Pricing extends PureComponent {
   }
 }
 
-export default withStyles(styles)(Pricing)
+export default withStyles(styles)(withRouter(Pricing))
