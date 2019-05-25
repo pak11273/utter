@@ -144,7 +144,7 @@ class Home extends Component {
                     paragraph>
                     This is the no.1 problem when it comes to trying to speak
                     foreign tongue. We circumvent this barrier by recreating
-                    what you did as a toddler and talking with your peers. You
+                    what you did as a toddler by talking with your peers. You
                     will be speaking with people who are at your level.
                   </Typography>
                 </Grid>

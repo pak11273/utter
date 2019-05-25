@@ -8,7 +8,7 @@ import {withApollo} from "react-apollo"
 /* import filename from "../../../../assets/images/play.svg" */
 /* import schema from "../../../../core/schema.js" */
 import Button from "@material-ui/core/Button"
-import {Can, Box} from "../../../../components"
+import {Box, Can, Flex} from "../../../../components"
 import styled from "styled-components"
 import ceoImg from "../../../../assets/images/ceo.jpg"
 import TextField from "@material-ui/core/TextField"
@@ -331,47 +331,46 @@ class Chat extends PureComponent {
     /*   </ListItem> */
     /* ) */
     return (
-      <div
-        style={{
-          display: "flex",
-          height: "100%",
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-          minWidth: "320px"
-        }}>
+      <Flex
+        height="100%"
+        flexdirection="row"
+        justifycontent="center"
+        width="100%"
+        minwidth="320px">
         <ChatWindow>
           <div
             style={{
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "row"
+              position: "absolute",
+              left: "15px",
+              minWidth: "250px",
+              top: "25px"
             }}>
-            <div
-              style={{
-                position: "absolute",
-                left: "15px",
-                minWidth: "250px",
-                top: "25px"
-              }}>
-              <Typography className={classes.outputText}>
-                ({this.props.usersList.length}) {this.props.zone.zoneName}
-              </Typography>
-            </div>
+            <Typography className={classes.outputText}>
+              ({this.props.usersList.length}) {this.props.zone.zoneName}
+            </Typography>
+          </div>
+          <Flex justifycontent="center">
             <Can
               roles={user && user.roles}
               perform="zone:delete"
               id={user && user.username}
               matchingID={zone.owner.username}
               yes={() => (
-                <div>
-                  <Typography
-                    style={{paddingTop: "28px"}}
-                    className={classes.outputText}>
-                    {session.zone.zoneName}
-                  </Typography>
-                  <Button onClick={this.handleClickOpen}>Terminate Zone</Button>
-                </div>
+                <Flex
+                  padding="17px 0 0 0"
+                  alignItems="center"
+                  flexdirection="row">
+                  <Flex margin="0 0 0 50px">
+                    <Typography className={classes.outputText}>
+                      {session.zone.zoneName}
+                    </Typography>
+                  </Flex>
+                  <Flex>
+                    <Button onClick={this.handleClickOpen}>
+                      Terminate Zone
+                    </Button>
+                  </Flex>
+                </Flex>
               )}
               no={() => (
                 <Typography style={{padding: "28px"}}>
@@ -385,7 +384,7 @@ class Chat extends PureComponent {
               loading={this.state.loading}
               onLeave={this.onLeave}
             />
-          </div>
+          </Flex>
           <ChatPanel>
             <Scrollable
               ref={panel => {
@@ -458,7 +457,7 @@ class Chat extends PureComponent {
             </Box>
           </ChatPanel>
         </ChatWindow>
-      </div>
+      </Flex>
     )
   }
 }
