@@ -130,6 +130,7 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
         new HtmlWebpackPlugin({
           template: "index.html"
         }),
+        // new webpack.optimize.ModuleConcatenationPlugin(), // new optimization
         new CompressionPlugin({
           filename: "[path].gz[query]",
           algorithm: "gzip",
