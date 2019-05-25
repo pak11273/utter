@@ -92,9 +92,9 @@ class ZoneMembersTooltip extends PureComponent {
                   <Play />
                 </IconButton>
               </ListItem> */}
-              <ListItem>
-                <Flex flexdirection="row">
-                  {session.user.username !== this.props.username && (
+              {session.user.username !== this.props.username && (
+                <ListItem>
+                  <Flex flexdirection="row">
                     <React.Fragment>
                       <NavLink
                         target="_blank"
@@ -116,9 +116,9 @@ class ZoneMembersTooltip extends PureComponent {
                         Add Contact
                       </Button>
                     </React.Fragment>
-                  )}
-                </Flex>
-              </ListItem>
+                  </Flex>
+                </ListItem>
+              )}
             </List>
           </Flex>
         }>

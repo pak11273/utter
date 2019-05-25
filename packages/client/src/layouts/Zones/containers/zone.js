@@ -367,7 +367,7 @@ class Zone extends Component {
                   <ListItem
                     button
                     style={{
-                      color: "white",
+                      color: "#fafafa",
                       padding: "10px",
                       width: "56px"
                     }}
@@ -379,7 +379,7 @@ class Zone extends Component {
                 </ZoneMembersTooltip>
               </React.Fragment>
             ))}
-          </List>
+         </List>
         </Drawer>
       </Flex>
     )

@@ -436,7 +436,7 @@ class Chat extends PureComponent {
                 alignItems: "center"
               }}
             />
-            <Box flexdirection="row" margin="20px 0 0 0">
+            <Box flexdirection="row" margin="20px 0">
               <Button variant="contained" className="record" color="secondary">
                 <FiberSmartRecordIcon className={classes.leftIcon} />
                 Rec
