@@ -15,7 +15,7 @@ import {styles} from "./styles.js"
 
 // images
 import busyPeopleImg from "../assets/images/busy-people.png"
-import homeMastheadImg from "../assets/images/home_header.jpg"
+import homeMastheadImg from "../assets/images/home_header2.jpg"
 import embarrassedImg from "../assets/images/embarrassed.png"
 import visitingImg from "../assets/images/walk-around.png"
 
