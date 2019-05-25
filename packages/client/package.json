@@ -8,11 +8,10 @@
     "test": "./node_modules/.bin/mocha ./test/test-config.js './test/**/*.js' --require @babel/register --watch",
     "debugFile": "node --inspect --inspect-brk ../server/src/server.js",
     "debug": "npm run webpack -- --inspect --debug-brk",
-    "prod": "rimraf ./dist && ../../node_modules/webpack/bin/webpack.js --config ./webpack.config.js --env.prod -p --mode production",
+    "prod": "rimraf ./dist && ../../node_modules/webpack/bin/webpack.js -p --config ./webpack.config.js --env.mode production",
     "webpack-dev-server": "webpack-dev-server",
-    "dev": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --env development --config webpack.config.js --host 0.0.0.0 --inline",
     "webpack": "webpack",
-    "fserver": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --config webpack-frontend.config.js --content-base dist --host 0.0.0.0 --inline --env development "
+    "fserver": "../../node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot --config webpack.config.js --content-base dist --host 0.0.0.0 --inline --env.mode development"
   },
   "keywords": [],
   "author": "",

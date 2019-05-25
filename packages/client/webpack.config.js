@@ -7,9 +7,11 @@ const webpack = require("webpack")
 const ProgressBarPlugin = require("progress-bar-webpack-plugin")
 const Dotenv = require("dotenv-webpack")
 const webpackMerge = require("webpack-merge")
+const loadPresets = require("./build-utils/load-presets.js")
 const modeConfig = env => require(`./build-utils/webpack.${env}`)(env)
 
 module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
+  console.log("mode: ", mode)
   return webpackMerge(
     {
       mode,
@@ -22,6 +24,7 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
         filename: "bundle.[name].[hash].js",
         publicPath: "/" // use with historyApiFallback
       },
+      devtool: "eval",
       watchOptions: {
         ignored: /node_modules/
       },
@@ -141,6 +144,7 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
         dns: "empty"
       }
     },
-    modeConfig(mode)
+    modeConfig(mode),
+    loadPresets({mode, presets})
   )
 }
