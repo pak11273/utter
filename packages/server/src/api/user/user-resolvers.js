@@ -47,13 +47,15 @@ const addContact = async (_, args, {redis, url}) => {
   console.log("args: ", args)
   try {
     const senderInfo = await User.findOne({username: args.sender}).lean()
+    console.log("senderInfo: ", senderInfo._id)
     const contact = await User.update(
       {
         username: args.contact,
-        contacts: {$ne: senderInfo._id}
+        requests: {$ne: senderInfo._id},
+        contacts: {$ne: senderInfo._id} // TODO: test if this works, mongoose changes _id to id??
       },
       {
-        $addToSet: {
+        $push: {
           requests: senderInfo._id
         },
         $inc: {totalRequests: 1}
