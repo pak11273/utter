@@ -11,13 +11,13 @@ import {withStyles} from "@material-ui/core/styles"
 import styled from "styled-components"
 import Select from "react-select"
 import {FormikInput, Label, Section} from "../../../components"
-import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
-/* const { */
-/*   PhoneNumberFormat */
-/* } = import(/1* webpackChunkName: "phonenumberformat" *1/ "google-libphonenumber") */
-/* const { */
-/*   PhoneNumberUtil */
-/* } = import(/1* webpackChunkName: "phonenumberutil" *1/ "google-libphonenumber") */
+/* import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber" */
+
+const googlePhone = import(/* webpackChunkName: 'googlephone' */ "google-libphonenumber").then(
+  module => module["google-libphonenumber"]
+)
+
+console.log("google: ", googlePhone)
 
 import CallingCodes from "../../../assets/js/CallingCodes.js"
 import {contactSchema} from "@utterzone/common"
@@ -207,10 +207,6 @@ class ContactForm extends Component {
     }
   }
 
-  componentDidMount() {
-    this.phoneUtil = PhoneNumberUtil.getInstance()
-  }
-
   onChange = ({target}) => {
     this.setState({
       [target.name]: target.value
@@ -227,19 +223,22 @@ class ContactForm extends Component {
     /* this.validatePhoneNumber("+" + cntrObj.value + " " + this.state.phone) */
   }
 
-  getValidNumber = phoneNumber => {
-    const phoneUtil = PhoneNumberUtil.getInstance()
+  getValidNumber = async phoneNumber => {
+    const phoneUtil = await googlePhone.PhoneNumberUtil.getInstance()
     const parsedNumber = phoneUtil.parse(phoneNumber)
-    return phoneUtil.format(parsedNumber, PhoneNumberFormat.INTERNATIONAL)
+    return phoneUtil.format(
+      parsedNumber,
+      await googlePhone.PhoneNumberFormat.INTERNATIONAL
+    )
   }
 
-  validatePhoneNumber = phoneNumber => {
+  validatePhoneNumber = async phoneNumber => {
     /*
      *     Phone number validation using google-libphonenumber
      *         */
     let valid = false
     try {
-      const phoneUtil = PhoneNumberUtil.getInstance()
+      const phoneUtil = await googlePhone.PhoneNumberUtil.getInstance()
       valid = phoneUtil.isValidNumber(phoneUtil.parse(phoneNumber))
     } catch (e) {
       valid = false
