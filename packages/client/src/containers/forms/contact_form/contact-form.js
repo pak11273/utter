@@ -12,6 +12,13 @@ import styled from "styled-components"
 import Select from "react-select"
 import {FormikInput, Label, Section} from "../../../components"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
+const {
+  PhoneNumberFormat
+} = import(/* webpackChunkName: "phonenumberformat" */ "google-libphonenumber")
+const {
+  PhoneNumberUtil
+} = import(/* webpackChunkName: "phonenumberutil" */ "google-libphonenumber")
+
 import CallingCodes from "../../../assets/js/CallingCodes.js"
 import {contactSchema} from "@utterzone/common"
 import {withFormik, Field} from "formik"

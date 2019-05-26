@@ -22,6 +22,7 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
       output: {
         path: path.join(__dirname, "dist"),
         filename: "bundle.[name].[hash].js",
+        chunkFilename: "[name].bundle.js",
         publicPath: "/" // use with historyApiFallback
       },
       devtool: "eval",
