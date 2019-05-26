@@ -185,17 +185,16 @@ class BetaApplication extends PureComponent {
               color="inherit"
               gutterBottom
               noWrap>
-              Application deadline - May 25
+              Application Follow Up
             </Typography>
             <Typography
               variant="h6"
               color="inherit"
               gutterBottom
               style={{margin: "0 0 50px 0"}}>
-              If you are not chosen for beta all is not lost. You will receive
-              emails which will inform you of any openings and when round 2 will
-              start. So please stay tuned. In the meantime, you can ask
-              questions or discuss with fellow learners on the{" "}
+              You will receive an email which will inform you of if you make the
+              next round or not. If you want more information about the platform
+              you can ask questions or discuss with fellow learners on the{" "}
               <a
                 style={{color: "blue"}}
                 href="http://utterzone.boards.net/"

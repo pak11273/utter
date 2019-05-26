@@ -269,7 +269,7 @@ export const routes = [
   {
     exact: true,
     path: "/application",
-    component: requireAdmin(getApplication)
+    component: getApplication
   },
   {
     component: requireAdmin(getAdminUpdate),

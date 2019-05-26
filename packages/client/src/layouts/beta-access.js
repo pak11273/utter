@@ -2,7 +2,7 @@ import React, {Component} from "react"
 import {toast} from "react-toastify"
 import {compose, withApollo} from "react-apollo"
 
-/* import Button from "@material-ui/core/Button" */
+import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {BETA_ACCESS} from "../graphql/queries/user-queries.js"
@@ -127,26 +127,27 @@ class BetaAccess extends Component {
                       </Flex>
                     </div>
                   )}
-                  <Typography
+                  {/* <Typography
                     variant="h4"
                     align="center"
                     className={classes.text}
                     gutterBottom>
                     This area will be opened on June 1
-                  </Typography>
-                  {/* <Typography
+                  </Typography> */}
+                  <Typography
                     variant="h6"
                     align="center"
                     className={classes.text}
                     style={{marginTop: "100px"}}
                     gutterBottom>
-                    If you haven&apos;t applied for beta yet you can do so{" "}
+                    If you want to apply for the next round of beta you can do
+                    so{" "}
                     <Button
                       className={classes.application}
                       onClick={() => this.props.history.push("/application")}>
                       here
                     </Button>
-                  </Typography> */}
+                  </Typography>
                 </form>
               )}
             />

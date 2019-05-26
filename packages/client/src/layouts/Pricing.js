@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react"
-import {withRouter} from "react-router-dom"
-/* import {NavLink} from "react-router-dom" */
+import {NavLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import Button from "@material-ui/core/Button"
 import Card from "@material-ui/core/Card"
@@ -43,28 +42,24 @@ const BetaModal = props => {
           Closed Beta
         </DialogTitle>
         <DialogContentText style={{textAlign: "center"}}>
-          Applications for beta are not available at this time. You can inquire
-          about the beta at our forum.
+          Beta is currently closed but you can still apply for the next round.
         </DialogContentText>
-        {/* <DialogContentText style={{textAlign: "center"}}>
-          No fees during beta.
-        </DialogContentText> */}
       </DialogContent>
       <DialogActions
         style={{display: "flex", margin: "40px", justifyContent: "center"}}>
-        <a
+        {/* <a
           target="_blank"
           href="http://utterzone.boards.net/"
           rel="noopener nofollow noreferrer">
           <Button color="secondary" variant="contained">
             Forum
           </Button>
-        </a>
-        {/* <Button color="secondary" variant="contained">
+        </a> */}
+        <Button color="secondary" variant="contained">
           <NavLink style={{color: "white"}} to="/application">
             Apply
           </NavLink>
-        </Button> */}
+        </Button>
       </DialogActions>
     </Dialog>
   )
