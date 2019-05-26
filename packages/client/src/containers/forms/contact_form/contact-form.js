@@ -12,12 +12,12 @@ import styled from "styled-components"
 import Select from "react-select"
 import {FormikInput, Label, Section} from "../../../components"
 import {PhoneNumberFormat, PhoneNumberUtil} from "google-libphonenumber"
-const {
-  PhoneNumberFormat
-} = import(/* webpackChunkName: "phonenumberformat" */ "google-libphonenumber")
-const {
-  PhoneNumberUtil
-} = import(/* webpackChunkName: "phonenumberutil" */ "google-libphonenumber")
+/* const { */
+/*   PhoneNumberFormat */
+/* } = import(/1* webpackChunkName: "phonenumberformat" *1/ "google-libphonenumber") */
+/* const { */
+/*   PhoneNumberUtil */
+/* } = import(/1* webpackChunkName: "phonenumberutil" *1/ "google-libphonenumber") */
 
 import CallingCodes from "../../../assets/js/CallingCodes.js"
 import {contactSchema} from "@utterzone/common"
