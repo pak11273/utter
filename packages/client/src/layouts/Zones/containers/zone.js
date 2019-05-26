@@ -23,8 +23,8 @@ import ListItemText from "@material-ui/core/ListItemText"
 import InboxIcon from "@material-ui/icons/MoveToInbox"
 import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
-import MailIcon from "@material-ui/icons/Mail"
-
+/* import MailIcon from "@material-ui/icons/Mail" */
+import PeopleIcon from "@material-ui/icons/People"
 import ceoImg from "../../../assets/images/ceo.jpg"
 import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
 import Members from "./members/members.js"
@@ -274,15 +274,29 @@ class Zone extends Component {
             {["Contacts"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
             ))}
           </List>
-          <Divider />
           <List>
-            {[""].map((text, index) => (
+            {["Sally", "Jude", "Clark"].map(text => (
+              <ListItem button key={text}>
+                <ListItemAvatar>
+                  <Avatar
+                    alt={`Avatar n°${0 + 1}`}
+                    src={`${ceoImg}`}
+                    classes={{root: classes.avatar}}
+                  />
+                </ListItemAvatar>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+          <Divider />
+          {/*   <List>
+            {["Host"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -290,7 +304,7 @@ class Zone extends Component {
                 <ListItemText primary={text} />
               </ListItem>
             ))}
-          </List>
+          </List> */}
         </Drawer>
         <Flex direction="column">
           <AppContainer />
@@ -379,7 +393,7 @@ class Zone extends Component {
                 </ZoneMembersTooltip>
               </React.Fragment>
             ))}
-         </List>
+          </List>
         </Drawer>
       </Flex>
     )

@@ -75,6 +75,10 @@ export const styles = theme => ({
       borderStyle: "solid"
     }
   },
+  avatar: {
+    width: "28px",
+    height: "28px"
+  },
   backdrop: {
     backgroundColor: "green"
   },

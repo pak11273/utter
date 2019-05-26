@@ -2,7 +2,12 @@
 import React, {useState} from "react"
 import Select from "react-select"
 import {Field, getIn} from "formik"
-import {MTableEditField} from "material-table"
+/* import {MTableEditField} from "material-table" */
+
+const MaterialTable = import(/* webpackChunkName: 'material-table' */ "material-table").then(
+  module => module["material-table"]
+)
+const {MTableEditField} = MaterialTable
 
 import TextField from "@material-ui/core/TextField"
 
@@ -22,10 +27,9 @@ export const FormikInput = ({
       variant="outlined"
       error={!isEmpty(errors[field.name])}
     />
-    {errors[field.name] &&
-      touched[field.name] && (
-        <div style={{color: "#f44336"}}>{errors[field.name]}</div>
-      )}
+    {errors[field.name] && touched[field.name] && (
+      <div style={{color: "#f44336"}}>{errors[field.name]}</div>
+    )}
   </div>
 )
 
@@ -46,10 +50,9 @@ export const FormikTextArea = ({
       {...props}
       error={!isEmpty(errors[field.name])}
     />
-    {errors[field.name] &&
-      touched[field.name] && (
-        <div style={{color: "#f44336"}}>{errors[field.name]}</div>
-      )}
+    {errors[field.name] && touched[field.name] && (
+      <div style={{color: "#f44336"}}>{errors[field.name]}</div>
+    )}
   </div>
 )
 
@@ -103,12 +106,11 @@ export const FormikSelect = ({
         rtl={rtl}
         searchable={searchable}
       />
-      {errors[field.name] &&
-        touched[field.name] && (
-          <div style={{color: "#f44336", padding: "10px"}}>
-            {errors[field.name]}
-          </div>
-        )}
+      {errors[field.name] && touched[field.name] && (
+        <div style={{color: "#f44336", padding: "10px"}}>
+          {errors[field.name]}
+        </div>
+      )}
     </div>
   )
 }
