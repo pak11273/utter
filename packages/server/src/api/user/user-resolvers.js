@@ -44,11 +44,9 @@ const me = async (_, __, {req}) => {
 }
 
 const addContact = async (_, args, {redis, url}) => {
-  console.log("args: ", args)
   try {
     const senderInfo = await User.findOne({username: args.sender}).lean()
-    console.log("senderInfo: ", senderInfo._id)
-    const contact = await User.update(
+    const contact = await User.findOneAndUpdate(
       {
         username: args.contact,
         requests: {$ne: senderInfo._id},
@@ -60,7 +58,9 @@ const addContact = async (_, args, {redis, url}) => {
         },
         $inc: {totalRequests: 1}
       },
-      {new: true}
+      {
+        new: true
+      }
     )
     console.log("contact: ", contact)
 
@@ -80,6 +80,10 @@ const addContact = async (_, args, {redis, url}) => {
         {new: true}
       )
       console.log("senderupdateated: ", senderUpdated)
+    }
+
+    if (!contact) {
+      throw new Error("You have already sent this person a contact request.")
     }
 
     return {
