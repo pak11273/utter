@@ -13,6 +13,11 @@ export const styles = theme => ({
     height: "100%",
     justifyContent: "center"
   },
+  another: {
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
+  },
   content: {
     alignItems: "center",
     display: "flex",
@@ -103,6 +108,19 @@ export const styles = theme => ({
   list: {
     margin: "0 auto"
   },
+  masthead: {
+    [theme.breakpoints.down("xs")]: {
+      backgroundPositionX: "44%"
+    }
+  },
+  mastText: {
+    [theme.breakpoints.up("md")]: {
+      marginRight: "100px"
+    },
+    [theme.breakpoints.up("lg")]: {
+      marginRight: "200px"
+    }
+  },
   root: {
     position: "relative",
     margin: "0 auto",
@@ -182,7 +200,13 @@ export const styles = theme => ({
   section_text: {
     fontSize: "1.5em"
   },
+  speak: {
+    color: "rgb(206, 0, 0)",
+    [theme.breakpoints.down("xs")]: {
+      display: "none"
+    }
+  },
   text: {
-    color: "white"
+    color: "black"
   }
 })

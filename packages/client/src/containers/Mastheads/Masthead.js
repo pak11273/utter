@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components"
 
 const Masthead = styled.div`
   align-items: ${props => props.alignitems};
@@ -19,17 +19,17 @@ const Masthead = styled.div`
   width: ${props => props.width};
 `
 Masthead.defaultProps = {
-  alignitems: 'center',
-  background: 'white',
-  boxsizing: 'border-box',
-  display: 'flex',
-  flexdirection: 'column',
-  height: '100%',
-  margin: '0 auto',
-  padding: '100px 20px 100px 20px',
-  justifycontent: 'flex-start',
-  textalign: 'center',
-  width: '100%'
+  alignitems: "center",
+  background: "white",
+  boxsizing: "border-box",
+  display: "flex",
+  flexdirection: "column",
+  height: "100%",
+  margin: "0 auto",
+  padding: "100px 20px 100px 20px",
+  justifycontent: "flex-start",
+  textalign: "center",
+  width: "100%"
 }
 
 export default Masthead

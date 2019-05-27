@@ -52,6 +52,10 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 const styles = theme => ({
+  render_menu: {
+    minWidth: "350px",
+    width: "100%"
+  },
   root: {
     width: "100%"
   },
@@ -88,6 +92,9 @@ const styles = theme => ({
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
+  },
+  toolbar: {
+    minHeight: "65px"
   }
 })
 
@@ -99,7 +106,7 @@ class MainNavbar extends Component {
     bottom: false,
     right: false,
     navbarIcon: "",
-    notifications: ["You have no notifications."]
+    notifications: []
   }
 
   logout = e => {
@@ -289,6 +296,22 @@ class MainNavbar extends Component {
       </div>
     )
 
+    const notificationsMenu = (
+      <div className={classes.render_menu}>
+        {isAuthenticated && (
+          <div>
+            <MenuItem onClick={() => console.log("hi")}>
+              {this.state.notifications}
+            </MenuItem>
+          </div>
+        )}
+        {!isAuthenticated && (
+          <MenuItem onClick={this.handleBeta}>Beta</MenuItem>
+        )}
+        {!isAuthenticated && <MenuItem onClick={this.login}>Login</MenuItem>}
+      </div>
+    )
+
     const settingsMenu = (
       <div>
         {/* TODO: reinstate after beta */}
@@ -317,6 +340,7 @@ class MainNavbar extends Component {
         open={isMenuOpen}
         onClose={this.handleMenuClose}>
         {this.state.navbarIcon === "settings" && settingsMenu}
+        {this.state.navbarIcon === "notifications" && notificationsMenu}
       </Menu>
     )
 
@@ -399,7 +423,7 @@ class MainNavbar extends Component {
     return (
       <div className={classes.root}>
         <AppBar position="fixed" className={classes.appBar}>
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <IconButton
               className={classes.menuButton}
               color="inherit"

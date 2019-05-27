@@ -3,19 +3,28 @@
 import {Helmet} from "react-helmet-async"
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
+/* import classNames from "classnames" */
 
 import Button from "@material-ui/core/Button"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 
-import {Container, Flex, Img, Line, Section, Subscribe} from "../components"
+import {
+  Container,
+  Flex,
+  Img,
+  Line,
+  Section,
+  Spacer,
+  Subscribe
+} from "../components"
 import {Footer, Masthead} from "../containers"
 import {styles} from "./styles.js"
 
 // images
 import busyPeopleImg from "../assets/images/busy-people2.png"
-import homeMastheadImg from "../assets/images/home_header2.jpg"
+import homeMastheadImg from "../assets/images/home_header3.jpg"
 import embarrassedImg from "../assets/images/embarrassed2.png"
 import visitingImg from "../assets/images/walk-around2.png"
 
@@ -65,35 +74,58 @@ class Home extends Component {
           <link rel="canonical" href="https://UtterZone/home" />
         </Helmet>
         <Masthead
+          className={classes.masthead}
           background={`url(${homeMastheadImg}) center/cover`}
-          justifycontent="center"
+          justifycontent="flex-end"
+          alignitems="flex-end"
+          position="relative"
           height="590px">
-          <Typography
-            variant="h2"
-            align="center"
-            className={classes.text}
-            gutterBottom>
-            Speak another language
-          </Typography>
-          <Typography
-            variant="h4"
-            align="center"
-            className={classes.text}
-            gutterBottom>
-            Not speaking your new language yet?
-          </Typography>
-          <Typography
-            variant="h4"
-            align="center"
-            className={classes.text}
-            gutterBottom>
-            We can help.
-          </Typography>
-          {/* <Button color="primary" size="medium" variant="outlined">
-            <NavLink style={{color: "white", fontSize: "1.4rem"}} to="/about">
-              Learn More
-            </NavLink>
-          </Button> */}
+          <Line
+            color="ce0000"
+            position="absolute"
+            height="15px"
+            top="-7px"
+            right="0"
+            width="100%"
+          />
+          <Flex alignitems="flex-end" className={classes.mastText}>
+            <Typography variant="h2" align="right" className={classes.text}>
+              <span className={classes.speak}>Speak</span>{" "}
+              <span className={classes.another}>another</span>
+            </Typography>
+            <Typography variant="h2" align="right" className={classes.another}>
+              language
+            </Typography>
+            <Spacer padding="100px" />
+            <Typography
+              variant="h4"
+              align="right"
+              className={classes.another}
+              gutterBottom>
+              Have a conversation.
+            </Typography>
+            <Typography
+              variant="h4"
+              align="right"
+              className={classes.another}
+              gutterBottom>
+              Make friends.
+            </Typography>
+            {/* <Button color="primary" size="medium" variant="outlined">
+					<NavLink style={{color: "white", fontSize: "1.4rem"}} to="/about">
+						Learn More
+					</NavLink>
+				</Button> */}
+          </Flex>
+          <Line
+            color="black"
+            position="absolute"
+            height="15px"
+            bottom="0"
+            margin="0"
+            right="0"
+            width="100%"
+          />
         </Masthead>
         <Container className={classes.root}>
           <Section

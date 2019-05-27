@@ -43,7 +43,6 @@ class ZoneMembersTooltip extends PureComponent {
     })
 
     if (result) {
-      console.log("result: ", result)
       const data = result.data.addContact
       this.props.socketio.sendContactRequest(
         data.username,
@@ -54,7 +53,6 @@ class ZoneMembersTooltip extends PureComponent {
 
   render() {
     const {classes} = this.props
-    console.log("props: ", this.props)
 
     return (
       <Tooltip
