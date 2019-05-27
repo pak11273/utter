@@ -1,3 +1,6 @@
+import homeMastheadImg from "../assets/images/home_header4.jpg"
+import homeMastheadImgXs from "../assets/images/home_header4_xs.jpg"
+
 const drawerWidth = 240
 
 export const styles = theme => ({
@@ -14,8 +17,9 @@ export const styles = theme => ({
     justifyContent: "center"
   },
   another: {
+    color: "white",
     [theme.breakpoints.down("xs")]: {
-      display: "none"
+      fontSize: "40px"
     }
   },
   content: {
@@ -109,16 +113,27 @@ export const styles = theme => ({
     margin: "0 auto"
   },
   masthead: {
+    background: `url(${homeMastheadImg}) center/cover`,
     [theme.breakpoints.down("xs")]: {
+      background: `url(${homeMastheadImgXs}) center/cover`,
       backgroundPositionX: "44%"
+    }
+  },
+  mastSubText: {
+    [theme.breakpoints.up("xs")]: {
+      display: "none"
+    },
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+      color: "white"
     }
   },
   mastText: {
     [theme.breakpoints.up("md")]: {
-      marginRight: "100px"
+      /* marginRight: "100px" */
     },
     [theme.breakpoints.up("lg")]: {
-      marginRight: "200px"
+      /* marginRight: "200px" */
     }
   },
   root: {
@@ -203,7 +218,8 @@ export const styles = theme => ({
   speak: {
     color: "rgb(206, 0, 0)",
     [theme.breakpoints.down("xs")]: {
-      display: "none"
+      fontSize: "40px",
+      fontWeight: 600
     }
   },
   text: {

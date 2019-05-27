@@ -16,7 +16,7 @@ import {
   Img,
   Line,
   Section,
-  Spacer,
+  /* Spacer, */
   Subscribe
 } from "../components"
 import {Footer, Masthead} from "../containers"
@@ -24,7 +24,6 @@ import {styles} from "./styles.js"
 
 // images
 import busyPeopleImg from "../assets/images/busy-people2.png"
-import homeMastheadImg from "../assets/images/home_header3.jpg"
 import embarrassedImg from "../assets/images/embarrassed2.png"
 import visitingImg from "../assets/images/walk-around2.png"
 
@@ -75,9 +74,7 @@ class Home extends Component {
         </Helmet>
         <Masthead
           className={classes.masthead}
-          background={`url(${homeMastheadImg}) center/cover`}
           justifycontent="flex-end"
-          alignitems="flex-end"
           position="relative"
           height="590px">
           <Line
@@ -88,28 +85,17 @@ class Home extends Component {
             right="0"
             width="100%"
           />
-          <Flex alignitems="flex-end" className={classes.mastText}>
-            <Typography variant="h2" align="right" className={classes.text}>
+          <Flex alignitems="center" className={classes.mastText}>
+            <Typography variant="h2" align="center" className={classes.text}>
               <span className={classes.speak}>Speak</span>{" "}
-              <span className={classes.another}>another</span>
-            </Typography>
-            <Typography variant="h2" align="right" className={classes.another}>
-              language
-            </Typography>
-            <Spacer padding="100px" />
-            <Typography
-              variant="h4"
-              align="right"
-              className={classes.another}
-              gutterBottom>
-              Have a conversation.
+              <span className={classes.another}>another language</span>
             </Typography>
             <Typography
-              variant="h4"
+              variant="h6"
               align="right"
-              className={classes.another}
+              className={classes.mastSubText}
               gutterBottom>
-              Make friends.
+              Get empowered. Make friends.
             </Typography>
             {/* <Button color="primary" size="medium" variant="outlined">
 					<NavLink style={{color: "white", fontSize: "1.4rem"}} to="/about">
