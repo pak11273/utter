@@ -129,7 +129,8 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
         new ProgressBarPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-          template: "index.html"
+          template: "index.html",
+          chunksSortMode: "none" // fixes the cyclic dependency issue
         }),
         // new webpack.optimize.ModuleConcatenationPlugin(), // new optimization
         new CompressionPlugin({

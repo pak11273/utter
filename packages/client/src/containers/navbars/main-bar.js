@@ -41,7 +41,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 
-/* import {socketio} from "../../app" */
+import {socketio} from "../../app"
 /* import {Login} from "../index.js" */
 import {Logo} from "../../components"
 
