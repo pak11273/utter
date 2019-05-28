@@ -44,10 +44,7 @@ class ZoneMembersTooltip extends PureComponent {
 
     if (result) {
       const data = result.data.addContact
-      this.props.socketio.sendContactRequest(
-        data.username,
-        session.user.username
-      )
+      this.props.socketio.sendContactRequest(username, data.username)
     }
   }
 

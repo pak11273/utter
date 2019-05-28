@@ -43,10 +43,10 @@ export default () => {
     )
   }
 
-  const newContactRequest = () => {
+  const newContactRequest = cb => {
     socket.on("newContactRequest", contact => {
-			cb(contact)
       console.log("friend: ", contact)
+      cb(contact)
     })
   }
 
@@ -60,10 +60,9 @@ export default () => {
       console.log("joined add Contact")
     })
 
-    socket.on("newContactRequest", contact => {
-      window.app.socketio.contact = contact
-      console.log("friend: ", contact)
-    })
+    /* socket.on("newContactRequest", contact => { */
+    /*   console.log("friend: ", contact) */
+    /* }) */
   }
 
   socket.on("error", err => {

@@ -130,12 +130,24 @@ class MainNavbar extends Component {
     notifications: []
   }
 
+  contactReceived = contact => {
+    console.log("booyahh: ", contact)
+    var sender = [{username: contact.from, __typename: "User"}]
+
+    var temp = local.notifications
+    local.notifications = unionBy(temp, sender, "username")
+  }
+
   componentDidMount = () => {
-    /* socketio.newContactRequest(contact => { */
-    /*   this.setState({ */
-    /*     contact */
-    /*   }) */
-    /* }) */
+    socketio.newContactRequest(this.contactReceived)
+    subscribe(local, "notifications", value => {
+      this.setState(
+        {
+          notifications: value
+        },
+        console.log("state; ", this.state)
+      )
+    })
 
     const result = unionBy(
       this.state.notifications,

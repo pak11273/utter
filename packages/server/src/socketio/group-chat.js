@@ -43,7 +43,6 @@ export default async server => {
     })
 
     socket.on("sendContactRequest", (zone, cb) => {
-      console.log("zone contact: ", zone)
       io.to(zone.contact).emit("newContactRequest", {
         from: zone.sender,
         to: zone.contact
