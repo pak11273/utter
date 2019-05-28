@@ -167,6 +167,10 @@ export const LOGIN_MUTATION = gql`
           }
         }
         username
+        requests {
+          _id
+          username
+        }
         roles
         rights
         subscriptions {

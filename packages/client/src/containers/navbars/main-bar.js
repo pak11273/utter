@@ -2,14 +2,18 @@
 import React, {Component} from "react"
 import {NavLink, withRouter} from "react-router-dom"
 import styled from "styled-components"
+import unionBy from "lodash/unionBy"
 import {_uid} from "../../layouts/login/containers/constants.js"
-import {cookies, session} from "brownies"
+import {cookies, local, session, subscribe} from "brownies"
 
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import AccountBalanceWallet from "@material-ui/icons/AccountBalanceWallet"
 import AssignmentIcon from "@material-ui/icons/Assignment"
 import AppBar from "@material-ui/core/AppBar"
+import Avatar from "@material-ui/core/Avatar"
 import Badge from "@material-ui/core/Badge"
+import Button from "@material-ui/core/Button"
+import DraftsIcon from "@material-ui/icons/Drafts"
 import Divider from "@material-ui/core/Divider"
 import ExitToAppIcon from "@material-ui/icons/ExitToApp"
 import HomeIcon from "@material-ui/icons/Home"
@@ -19,6 +23,7 @@ import InboxIcon from "@material-ui/icons/MoveToInbox"
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
+import ListItemAvatar from "@material-ui/core/ListItemAvatar"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import LocalOfferIcon from "@material-ui/icons/LocalOffer"
@@ -42,6 +47,7 @@ import {Logo} from "../../components"
 
 // images
 import Graphic from "../../assets/images/navbar_logo.png"
+import ceoImg from "../../assets/images/ceo.jpg"
 
 const StyledNavLink = styled(NavLink)`
   grid-area: ${props => props.gridarea};
@@ -52,8 +58,19 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 const styles = theme => ({
+  accept: {
+    color: "white",
+    backgroundColor: "green",
+    marginLeft: "20px"
+  },
+  reject: {
+    color: "white",
+    backgroundColor: "red",
+    marginLeft: "20px"
+  },
   render_menu: {
     minWidth: "350px",
+    minHeight: "50px",
     width: "100%"
   },
   root: {
@@ -109,10 +126,37 @@ class MainNavbar extends Component {
     notifications: []
   }
 
+  componentDidMount = () => {
+    const result = unionBy(
+      this.state.notifications,
+      local.notifications,
+      "username"
+    )
+
+    this.setState(
+      {
+        notifications: result
+      },
+      console.log("state: ", this.state)
+    )
+    /* if (session.user && session.user.requests) { */
+    /*   const {requests} = session.user */
+    /*   var notifications = [...this.state.notifications, ...requests] */
+    /*   this.setState( */
+    /*     { */
+    /*       notifications */
+    /*     }, */
+    /*     () => console.log("state: ", this.state.notifications) */
+    /*   ) */
+    /* } */
+  }
+
   logout = e => {
     e.preventDefault()
     delete cookies._uid
     delete session.user
+    delete local.notified
+    delete local.notifications
     this.props.history.push("/login")
   }
 
@@ -300,9 +344,46 @@ class MainNavbar extends Component {
       <div className={classes.render_menu}>
         {isAuthenticated && (
           <div>
-            <MenuItem onClick={() => console.log("hi")}>
-              {this.state.notifications}
-            </MenuItem>
+            {this.state.notifications &&
+              this.state.notifications.map((item, i) => {
+                if (item && item.__typename === "User") {
+                  return (
+                    <React.Fragment key={i}>
+                      <MenuItem>
+                        <Typography variant="inherit">
+                          New contact request from:
+                        </Typography>
+                      </MenuItem>
+                      <MenuItem>
+                        <ListItemAvatar>
+                          <Avatar
+                            alt={`Avatar n°${0 + 1}`}
+                            src={`${ceoImg}`}
+                            classes={{root: classes.avatar}}
+                          />
+                        </ListItemAvatar>
+                        <Typography variant="inherit" color="primary">
+                          &nbsp;{item.username}
+                        </Typography>
+                        <Button
+                          className={classes.accept}
+                          variant="contained"
+                          color="primary"
+                          size="small">
+                          Accept
+                        </Button>
+                        <Button
+                          className={classes.reject}
+                          variant="contained"
+                          color="secondary"
+                          size="small">
+                          Reject
+                        </Button>
+                      </MenuItem>
+                    </React.Fragment>
+                  )
+                }
+              })}
           </div>
         )}
         {!isAuthenticated && (
@@ -363,9 +444,7 @@ class MainNavbar extends Component {
           <div>
             <MenuItem onClick={this.handleNotification}>
               <IconButton color="inherit">
-                <Badge
-                  badgeContent={this.state.notifications.length}
-                  color="secondary">
+                <Badge color="primary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -506,9 +585,7 @@ class MainNavbar extends Component {
             <div className={classes.sectionDesktop}>
               {isAuthenticated && (
                 <IconButton color="inherit" onClick={this.handleNotification}>
-                  <Badge
-                    badgeContent={this.state.notifications.length}
-                    color="secondary">
+                  <Badge color="primary">
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>

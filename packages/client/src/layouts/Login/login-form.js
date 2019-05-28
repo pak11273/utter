@@ -9,7 +9,7 @@ import {normalizeErrors} from "../../utils/normalize-errors"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
-import {cookies, session} from "brownies"
+import {cookies, local, session} from "brownies"
 
 import {loginSchema} from "@utterzone/common"
 import {LOGIN_MUTATION} from "../../graphql/mutations/user-mutations.js"
@@ -164,6 +164,11 @@ export default compose(
         cookies._uid = data.token
 
         session.user = data.user
+
+        // merge in requests
+        local.notifications = data.user.requests
+        local.notified = true
+
         props.history.push({
           pathname: "/",
           state: "loadUserSession"

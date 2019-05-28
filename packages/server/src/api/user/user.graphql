@@ -61,6 +61,7 @@ type User {
 	_id: ID
 	isCanceled: Boolean
   password: String
+	requests: [User]
 	roles: [ String ]
 	rights: [String]
 	subscriptions: [Course]
@@ -69,6 +70,7 @@ type User {
 }
 
 type Query {
+	getNotifications: User
 	getSubscriptions(userId: ID!): User
   getUserById(_id: ID!): User!
   getUserByUsername(input: String!): User

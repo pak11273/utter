@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring, dot-notation  */
 import React, {Component} from "react"
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
 import {render} from "react-dom"
@@ -7,7 +8,7 @@ import ReactGA from "react-ga"
 import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
-import {session} from "brownies"
+import {cookies, local, session} from "brownies"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -26,7 +27,7 @@ import NavbarSpacer from "./components/spacers/spacer-navbar.js"
 import {ToastContainer} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-import {ME_QUERY} from "./graphql/queries/user-queries.js"
+import {GET_NOTIFICATIONS} from "./graphql/queries/user-queries.js"
 
 const SubRoutes = route => (
   <Route
@@ -56,13 +57,30 @@ ReactGA.initialize("UA-125119993-1")
 ReactGA.pageview(window.location.pathname + window.location.search)
 
 // wrapped in AppContainer for react-hot-loader
+
 class App extends Component {
   componentDidMount = async () => {
     if (!session.user) {
-      const user = await ApolloInstance.query({
-        query: ME_QUERY
+      /* const user = await ApolloInstance.query({ */
+      /*   query: ME_QUERY */
+      /* }) */
+      /* session.user = user.data.me */
+      delete cookies._uid
+      delete session.user
+      delete local.notified
+    }
+
+    if (session.user && !local.notified) {
+      const notifications = await ApolloInstance.query({
+        query: GET_NOTIFICATIONS
       })
-      session.user = user.data.me
+      var temp = local.notifications || []
+      var requests = temp.concat(
+        ...notifications.data.getNotifications.requests
+      )
+      // merge in requests
+      local.notifications = requests
+      local.notified = true
     }
 
     // TODO: keep users from opening up sessions in new tabs
@@ -91,6 +109,10 @@ class App extends Component {
     /*   } */
     /* } */
     /* window.addEventListener("storage", onLocalStorageEvent, false) */
+  }
+
+  componentWillUnmount = () => {
+    local.notified = false
   }
 
   render() {

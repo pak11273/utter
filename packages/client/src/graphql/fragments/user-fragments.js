@@ -14,6 +14,10 @@ export const accountFragment = gql`
       _id
     }
     isCanceled
+    requests {
+      _id
+      username
+    }
     rights
     roles
     subscriptions {

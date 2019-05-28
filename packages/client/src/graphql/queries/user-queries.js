@@ -40,6 +40,17 @@ export const ME_QUERY = gql`
   ${accountFragment}
 `
 
+export const GET_NOTIFICATIONS = gql`
+  query getNotifications {
+    getNotifications {
+      requests {
+        _id
+        username
+      }
+    }
+  }
+`
+
 export const GET_USER_BY_TOKEN = gql`
   query getUserByToken($token: String!) {
     getUserByToken(token: $token) {

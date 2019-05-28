@@ -34,13 +34,16 @@ import {
 } from "@utterzone/common"
 
 const me = async (_, __, {req}) => {
-  console.log("req: ", req.session)
   if (!req.session.userId) {
     return null
   }
-  return User.findById(req.session.userId)
-    .populate("subscriptions")
+  const user = await User.findById(req.session.userId)
+    .populate("requests")
+    /* .populate("subscriptions") */
     .lean()
+
+  console.log("foo: ", user)
+  return user
 }
 
 const addContact = async (_, args, {redis, url}) => {
@@ -54,7 +57,7 @@ const addContact = async (_, args, {redis, url}) => {
       },
       {
         $push: {
-          requests: senderInfo._id
+          requests: senderInfo
         },
         $inc: {totalRequests: 1}
       },
@@ -63,6 +66,7 @@ const addContact = async (_, args, {redis, url}) => {
       }
     )
     console.log("contact: ", contact)
+    await contact.save()
 
     if (args.sender) {
       const senderUpdated = await User.updateOne(
@@ -361,11 +365,11 @@ const login = async (parent, args, ctx, info) => {
   // check if passwords match
   let user = await User.findOne(criteria)
     .populate("hostedZone")
+    .populate("requests")
     .populate("subscriptions")
     .exec()
-  console.log("user: ", user)
 
-  if (user.isCanceled) {
+  if (user && user.isCanceled) {
     arrayOfErrors.push({
       path: "identifier",
       message: "This account has been canceled."
@@ -448,6 +452,17 @@ const updateMe = (_, {input}, {user}) => {
   return user.save()
 }
 
+const getNotifications = async (_, __, {req}) => {
+  if (!req.session.userId) {
+    return null
+  }
+  const user = await User.findById(req.session.userId)
+    .populate("requests")
+    .lean()
+
+  return user
+}
+
 const getSubscriptions = async (_, args, {user}) => {
   try {
     const subscriptions = await User.findById(userId)
@@ -494,6 +509,7 @@ const renewConfirmation = async (_, {email}, {redis, url}, info) => {
 
 export const userResolvers = {
   Query: {
+    getNotifications,
     getSubscriptions,
     getUserById,
     getUserByToken,

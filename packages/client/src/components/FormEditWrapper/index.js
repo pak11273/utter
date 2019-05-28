@@ -1,31 +1,31 @@
 import React, {Component} from "react"
-import PropTypes from "prop-types"
+/* import PropTypes from "prop-types" */
 
-import noop from "lodash/noop"
+/* import noop from "lodash/noop" */
 import debounce from "lodash/debounce"
 import defaults from "lodash/defaults"
 import values from "lodash/values"
 
-import {getValueFromEvent} from "../../utils/clientUtils"
+import {getValueFromEvent} from "../../utils/client-utils"
 
 class FormEditWrapper extends Component {
-  static propTypes = {
-    // isEditing: PropTypes.bool,
-    onChange: PropTypes.func,
-    valuePropName: PropTypes.string,
-    onChangePropName: PropTypes.string,
-    singleValue: PropTypes.bool,
-    dispatchDelay: PropTypes.number
-  }
+  /* static propTypes = { */
+  /*   // isEditing: PropTypes.bool, */
+  /*   onChange: PropTypes.func, */
+  /*   valuePropName: PropTypes.string, */
+  /*   onChangePropName: PropTypes.string, */
+  /*   singleValue: PropTypes.bool, */
+  /*   dispatchDelay: PropTypes.number */
+  /* } */
 
-  static defaultProps = {
-    // isEditing: true,
-    onChange: noop,
-    valuePropName: "value",
-    onChangePropName: "onChange",
-    singleValue: false,
-    dispatchDelay: 250
-  }
+  /* static defaultProps = { */
+  /*   // isEditing: true, */
+  /*   onChange: noop, */
+  /*   valuePropName: "value", */
+  /*   onChangePropName: "onChange", */
+  /*   singleValue: false, */
+  /*   dispatchDelay: 250 */
+  /* } */
 
   constructor(props) {
     super(props)

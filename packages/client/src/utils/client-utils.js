@@ -1,6 +1,7 @@
+/* eslint-disable no-plusplus */
 import isObject from "lodash/isObject"
 
-export function getValueFromEvent(e) {
+export const getValueFromEvent = e => {
   const {target} = e
 
   let newValues

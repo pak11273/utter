@@ -78,7 +78,7 @@ class Home extends Component {
           position="relative"
           height="590px">
           <Line
-            color="ce0000"
+            backgroundcolor="rgb(206, 0, 0)"
             position="absolute"
             height="15px"
             top="-7px"
@@ -104,7 +104,7 @@ class Home extends Component {
 				</Button> */}
           </Flex>
           <Line
-            color="black"
+            backgroundcolor="black"
             position="absolute"
             height="15px"
             bottom="0"
