@@ -21,6 +21,7 @@ export default async server => {
     console.log("user connected")
 
     socket.on("join", (zone, cb) => {
+      console.log("zone: ", zone)
       socket.join(zone.zoneId)
 
       console.log("zone: ", zone)

@@ -9,6 +9,7 @@ import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
 import {cookies, local, session} from "brownies"
+import socket from "./services/socketio/group-chat.js"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -56,8 +57,10 @@ const theme = createMuiTheme({
 ReactGA.initialize("UA-125119993-1")
 ReactGA.pageview(window.location.pathname + window.location.search)
 
-// wrapped in AppContainer for react-hot-loader
+// socketio connection
+export const socketio = socket()
 
+// wrapped in AppContainer for react-hot-loader
 class App extends Component {
   componentDidMount = async () => {
     if (!session.user) {

@@ -5,7 +5,6 @@ import styled from "styled-components"
 import unionBy from "lodash/unionBy"
 import {_uid} from "../../layouts/login/containers/constants.js"
 import {cookies, local, session, subscribe} from "brownies"
-
 import AccountCircle from "@material-ui/icons/AccountCircle"
 import AccountBalanceWallet from "@material-ui/icons/AccountBalanceWallet"
 import AssignmentIcon from "@material-ui/icons/Assignment"
@@ -42,6 +41,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 
+/* import {socketio} from "../../app" */
 /* import {Login} from "../index.js" */
 import {Logo} from "../../components"
 
@@ -116,6 +116,10 @@ const styles = theme => ({
 })
 
 class MainNavbar extends Component {
+  /* constructor(props) { */
+  /*   super(props) */
+  /* } */
+
   state = {
     showMenu: false,
     top: false,
@@ -127,18 +131,21 @@ class MainNavbar extends Component {
   }
 
   componentDidMount = () => {
+    /* socketio.newContactRequest(contact => { */
+    /*   this.setState({ */
+    /*     contact */
+    /*   }) */
+    /* }) */
+
     const result = unionBy(
       this.state.notifications,
       local.notifications,
       "username"
     )
 
-    this.setState(
-      {
-        notifications: result
-      },
-      console.log("state: ", this.state)
-    )
+    this.setState({
+      notifications: result
+    })
     /* if (session.user && session.user.requests) { */
     /*   const {requests} = session.user */
     /*   var notifications = [...this.state.notifications, ...requests] */

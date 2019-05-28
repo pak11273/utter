@@ -6,7 +6,7 @@ import {toast} from "react-toastify"
 import {withStyles} from "@material-ui/core/styles"
 /* import Grid from "@material-ui/core/Grid" */
 
-import socket from "../../../services/socketio/group-chat.js"
+import {socketio} from "../../../app"
 import AppContainer from "../../../apps/app-container"
 /* import Button from "@material-ui/core/Button" */
 import Avatar from "@material-ui/core/Avatar"
@@ -64,20 +64,23 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
-    socketio: socket({
-      username: session.user.username,
-      zoneId: this.props.history.location.state.zoneId,
-      zoneName: this.props.history.location.state.zoneName
-    }),
     host: false,
     open: false,
     leftOpen: true,
-    rightOpen: false
+    rightOpen: false,
+    socketio
   }
 
   componentDidMount = async () => {
     // TODO: if user already in zone, can't reenter
     /* this.state.socketio.getUser */
+
+    // socketize zone
+    socketio.zoneConnect({
+      username: session.user.username,
+      zoneId: this.props.history.location.state.zoneId,
+      zoneName: this.props.history.location.state.zoneName
+    })
 
     const {zoneId} = this.props.history.location.state
     this.state.socketio.usersList(usersList => {
@@ -158,7 +161,7 @@ class Zone extends Component {
   }
 
   componentWillUnmount() {
-    alert("You are leaving the chat")
+    alert("You are leaving the zone")
     // TODO memory leak in console.  Kill socket.io connection??
     // TODO remove socket listeners
 

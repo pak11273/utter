@@ -47,7 +47,6 @@ class SimpleModal extends React.Component {
 
   render() {
     const {classes, username} = this.props
-    console.log("username: ", username)
     return (
       <div>
         {username && <Button onClick={this.handleOpen}>{username}</Button>}

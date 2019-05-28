@@ -217,7 +217,6 @@ class Chat extends PureComponent {
   }
 
   componentWillReceiveProps(props) {
-    console.log("props: ", props.receiveMsg)
     if (props.newMessage.data) {
       this.setState({
         chatHistory: [...this.state.chatHistory, props.receiveMsg.data]
@@ -269,7 +268,6 @@ class Chat extends PureComponent {
   }
 
   onMsgReceived = entry => {
-    console.log("entry: ", entry)
     this.updateChatHistory(entry)
   }
 

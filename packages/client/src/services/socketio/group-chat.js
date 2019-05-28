@@ -3,7 +3,7 @@
 // client side
 import io from "socket.io-client"
 
-export default zone => {
+export default () => {
   var url = ""
 
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod")
@@ -43,19 +43,28 @@ export default zone => {
     )
   }
 
-  socket.on("connect", () => {
+  const newContactRequest = () => {
+    socket.on("newContactRequest", contact => {
+			cb(contact)
+      console.log("friend: ", contact)
+    })
+  }
+
+  const zoneConnect = zone => {
+    /* zone = {username: "chachi", zoneId: "1234", zoneName: "hiachi"} */
     socket.emit("join", zone, () => {
-      console.log("user has joined zone: ", zone)
+      console.log("user has joined zone: ")
     })
 
     socket.emit("joinAddContact", zone, () => {
-      console.log("joined add Contact", zone)
+      console.log("joined add Contact")
     })
 
     socket.on("newContactRequest", contact => {
+      window.app.socketio.contact = contact
       console.log("friend: ", contact)
     })
-  })
+  }
 
   socket.on("error", err => {
     console.log("received socket error:")
@@ -65,7 +74,9 @@ export default zone => {
   return {
     createMessage,
     newMessage,
+    newContactRequest,
     sendContactRequest,
-    usersList
+    usersList,
+    zoneConnect
   }
 }

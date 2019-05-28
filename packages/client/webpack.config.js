@@ -17,7 +17,7 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
       mode,
       context: path.resolve(__dirname, "src"),
       entry: {
-        app: "./App.js"
+        app: "./app.js"
       },
       output: {
         path: path.join(__dirname, "dist"),
