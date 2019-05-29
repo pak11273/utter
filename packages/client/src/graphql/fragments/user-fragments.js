@@ -5,7 +5,10 @@ export const accountFragment = gql`
     _id
     blocked
     ccLast4
-    contacts
+    contacts {
+      _id
+      username
+    }
     email
     createdCourses {
       _id

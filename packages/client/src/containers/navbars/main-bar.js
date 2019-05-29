@@ -132,14 +132,32 @@ class MainNavbar extends Component {
     notifications: []
   }
 
+  clearContactNotification = username => {
+    var temp = local.notifications
+
+    temp = temp.filter(obj => {
+      return obj.username !== username
+    })
+
+    local.notifications = temp
+  }
+
   acceptContact = item => {
     console.log("accept: ", item)
     this.props.client.mutate({
       mutation: ACCEPT_CONTACT_MUTATION,
       variables: {
-        senderId: item._id
+        senderUsername: item.username
       }
     })
+    /* var temp = local.notifications */
+
+    /* temp = temp.filter(obj => { */
+    /*   return obj.username !== item.username */
+    /* }) */
+
+    /* local.notifications = temp */
+    this.clearContactNotification(item.username)
   }
 
   rejectContact = item => {
@@ -147,9 +165,18 @@ class MainNavbar extends Component {
     this.props.client.mutate({
       mutation: REJECT_CONTACT_MUTATION,
       variables: {
-        senderId: item._id
+        senderUsername: item.username
       }
     })
+
+    this.clearContactNotification(item.username)
+    /* var temp = local.notifications */
+
+    /* temp = temp.filter(obj => { */
+    /*   return obj.username !== item.username */
+    /* }) */
+
+    /* local.notifications = temp */
   }
 
   contactReceived = contact => {

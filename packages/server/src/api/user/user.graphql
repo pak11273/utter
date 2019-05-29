@@ -42,7 +42,6 @@ input UpdatedUserInput {
   email: String
   firstName: String
   lastName: String
-  contacts: [String]
 	blocked: [String]
   isCanceled: Boolean
   roles: [String]
@@ -51,7 +50,7 @@ input UpdatedUserInput {
 
 type User {
 	blocked: [String]
-  contacts: [String]
+  contacts: [User]
 	ccLast4: String
 	confirmed: Boolean
 	createdCourses: [Course!]
@@ -66,7 +65,7 @@ type User {
 	rights: [String]
 	subscriptions: [Course]
   updatedAt: String
-  username: String!
+  username: String
 }
 
 type Query {
@@ -80,8 +79,8 @@ type Query {
 }
 
 type Mutation {
-	acceptContact(senderId: String): User
-	rejectContact(senderId: String): User
+	acceptContact(senderUsername: String): User
+	rejectContact(senderUsername: String): User
 	addContact(contact: String, sender: String): User 
 	cancelPayMonthly: User
 	changePassword(input: ChangePasswordInput): AuthPayload 

@@ -1,16 +1,16 @@
 import gql from "graphql-tag"
 
 export const ACCEPT_CONTACT_MUTATION = gql`
-  mutation acceptContact($senderId: String!) {
-    acceptContact(senderId: $senderId) {
+  mutation acceptContact($senderUsername: String!) {
+    acceptContact(senderUsername: $senderUsername) {
       _id
       username
     }
   }
 `
 export const REJECT_CONTACT_MUTATION = gql`
-  mutation rejectContact($senderId: String!) {
-    rejectContact(senderId: $senderId) {
+  mutation rejectContact($senderUsername: String!) {
+    rejectContact(senderUsername: $senderUsername) {
       _id
       username
     }
@@ -174,6 +174,10 @@ export const LOGIN_MUTATION = gql`
       user {
         _id
         confirmed
+        contacts {
+          _id
+          username
+        }
         isCanceled
         hostedZone {
           _id

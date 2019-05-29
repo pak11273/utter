@@ -47,14 +47,11 @@ const me = async (_, __, {req}) => {
 }
 
 const acceptContact = async (_, args, {req}) => {
-  console.log("args: ", args)
   if (!req.session.userId) {
     return null
   }
 
-  const sender = await User.findOne({_id: args.senderId}).lean()
-
-  console.log("sender: ", sender)
+  const sender = await User.findOne({username: args.senderUsername}).lean()
 
   const contact = await User.findOneAndUpdate(
     {_id: req.session.userId, contacts: {$ne: sender._id}},
@@ -69,7 +66,6 @@ const acceptContact = async (_, args, {req}) => {
     },
     {new: true}
   ).lean()
-  console.log("user1: ", contact)
 
   const updatedSender = await User.updateOne(
     {_id: sender._id, contacts: {$ne: contact._id}},
@@ -87,15 +83,13 @@ const acceptContact = async (_, args, {req}) => {
       }
     },
     {new: true}
-  ).lean()
+  )
 
-  console.log("udpatedSender: ", updatedSender)
-  console.log("user: ", user)
-  return user
+  console.log("user: ", contact)
+  return contact
 }
 
 const rejectContact = async (_, args, {req}) => {
-  console.log("args: ", args)
   if (!req.session.userId) {
     return null
   }
@@ -429,6 +423,7 @@ const login = async (parent, args, ctx, info) => {
     .populate("hostedZone")
     .populate("requests")
     .populate("subscriptions")
+    .populate("contacts")
     .exec()
 
   if (user && user.isCanceled) {
