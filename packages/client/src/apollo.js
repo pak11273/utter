@@ -8,7 +8,7 @@ import typeDefs from "./typeDefs.js"
 import resolvers from "./resolvers.js"
 
 const cache = new InMemoryCache({
-  /* addTypename: false */
+  /* addTypename: false, */
   dataIdFromObject: object => object.key || null
 })
 

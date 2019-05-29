@@ -42,7 +42,6 @@ const me = async (_, __, {req}) => {
     /* .populate("subscriptions") */
     .lean()
 
-  console.log("foo: ", user)
   return user
 }
 
@@ -73,9 +72,6 @@ const acceptContact = async (_, args, {req}) => {
       $push: {
         contacts: contact
       },
-      /* $pull: { */
-      /*   sentRequests: user */
-      /* } */
       $pull: {
         sentRequests: {
           username: contact.username
@@ -85,21 +81,41 @@ const acceptContact = async (_, args, {req}) => {
     {new: true}
   )
 
-  console.log("user: ", contact)
   return contact
 }
 
 const rejectContact = async (_, args, {req}) => {
+  console.log("args; ", args)
   if (!req.session.userId) {
     return null
   }
-  const user = await User.findById(req.session.userId)
-    .populate("requests")
-    /* .populate("subscriptions") */
-    .lean()
 
-  console.log("foo: ", user)
-  return user
+  const sender = await User.findOne({username: args.senderUsername}).lean()
+
+  const contact = await User.findOneAndUpdate(
+    {_id: req.session.userId, contacts: {$ne: sender._id}},
+    {
+      $pull: {
+        requests: sender._id
+      },
+      $inc: {totalRequests: -1}
+    },
+    {new: true}
+  ).lean()
+
+  const updatedSender = await User.updateOne(
+    {_id: sender._id, contacts: {$ne: contact._id}},
+    {
+      $pull: {
+        sentRequests: {
+          username: contact.username
+        }
+      }
+    },
+    {new: true}
+  )
+
+  return contact
 }
 
 const addContact = async (_, args, {redis, url}) => {
@@ -121,7 +137,6 @@ const addContact = async (_, args, {redis, url}) => {
         new: true
       }
     )
-    console.log("contact: ", contact)
     await contact.save()
 
     if (args.sender) {
@@ -139,7 +154,6 @@ const addContact = async (_, args, {redis, url}) => {
         },
         {new: true}
       )
-      console.log("senderupdateated: ", senderUpdated)
     }
 
     if (!contact) {
@@ -292,7 +306,6 @@ const changePassword = async (_, {input}, {redis, url}) => {
 }
 
 const createPayMonthly = async (_, {source, ccLast4}, {req}, __) => {
-  console.log("ccLast4: ", ccLast4)
   if (!req.session || !req.session.userId) {
     throw new Error("Not authenticated.")
   }
@@ -451,6 +464,8 @@ const login = async (parent, args, ctx, info) => {
     token = await signToken(user._id)
     ctx.req.session.userId = user._id
   }
+
+  console.log("user: ", user)
 
   return {
     token,

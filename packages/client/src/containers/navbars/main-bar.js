@@ -150,13 +150,6 @@ class MainNavbar extends Component {
         senderUsername: item.username
       }
     })
-    /* var temp = local.notifications */
-
-    /* temp = temp.filter(obj => { */
-    /*   return obj.username !== item.username */
-    /* }) */
-
-    /* local.notifications = temp */
     this.clearContactNotification(item.username)
   }
 
@@ -170,13 +163,6 @@ class MainNavbar extends Component {
     })
 
     this.clearContactNotification(item.username)
-    /* var temp = local.notifications */
-
-    /* temp = temp.filter(obj => { */
-    /*   return obj.username !== item.username */
-    /* }) */
-
-    /* local.notifications = temp */
   }
 
   contactReceived = contact => {
@@ -186,27 +172,30 @@ class MainNavbar extends Component {
     local.notifications = unionBy(temp, sender, "username")
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     socketio.newContactRequest(this.contactReceived)
     subscribe(local, "notifications", value => {
       if (!value) {
         value = []
       }
+      console.log("value: ", value)
       this.setState({
         invisible: value.length === 0,
         notifications: value
       })
     })
 
-    const result = unionBy(
-      this.state.notifications,
-      local.notifications,
-      "username"
-    )
-    console.log("result: ", result)
+    const result = new Promise(resolve => {
+      const union = unionBy(
+        this.state.notifications,
+        local.notifications,
+        "username"
+      )
+      resolve(union)
+    })
 
     this.setState({
-      notifications: result
+      notifications: await result
     })
     /* if (session.user && session.user.requests) { */
     /*   const {requests} = session.user */
@@ -416,7 +405,7 @@ class MainNavbar extends Component {
             {this.state.notifications &&
               this.state.notifications.length > 0 &&
               this.state.notifications.map((item, i) => {
-                if (item && item.__typename === "User") {
+                if (item && item.username) {
                   return (
                     <React.Fragment key={i}>
                       <MenuItem>

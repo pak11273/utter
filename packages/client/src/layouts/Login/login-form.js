@@ -160,6 +160,7 @@ export default compose(
         setSubmitting(false)
         return
       }
+
       if (data.token) {
         cookies._uid = data.token
 
