@@ -1,6 +1,7 @@
 /* eslint no-unused-vars:0 */
 import React, {Component} from "react"
 import {NavLink, withRouter} from "react-router-dom"
+import {withApollo} from "react-apollo"
 import styled from "styled-components"
 import unionBy from "lodash/unionBy"
 import {_uid} from "../../layouts/login/containers/constants.js"
@@ -44,6 +45,10 @@ import Typography from "@material-ui/core/Typography"
 import {socketio} from "../../app"
 /* import {Login} from "../index.js" */
 import {Logo} from "../../components"
+import {
+  ACCEPT_CONTACT_MUTATION,
+  REJECT_CONTACT_MUTATION
+} from "../../graphql/mutations/user-mutations.js"
 
 // images
 import Graphic from "../../assets/images/navbar_logo.png"
@@ -116,22 +121,38 @@ const styles = theme => ({
 })
 
 class MainNavbar extends Component {
-  /* constructor(props) { */
-  /*   super(props) */
-  /* } */
-
   state = {
     showMenu: false,
     top: false,
     left: false,
     bottom: false,
+    invisible: true,
     right: false,
     navbarIcon: "",
     notifications: []
   }
 
+  acceptContact = item => {
+    console.log("accept: ", item)
+    this.props.client.mutate({
+      mutation: ACCEPT_CONTACT_MUTATION,
+      variables: {
+        senderId: item._id
+      }
+    })
+  }
+
+  rejectContact = item => {
+    console.log("reject: ", item)
+    this.props.client.mutate({
+      mutation: REJECT_CONTACT_MUTATION,
+      variables: {
+        senderId: item._id
+      }
+    })
+  }
+
   contactReceived = contact => {
-    console.log("booyahh: ", contact)
     var sender = [{username: contact.from, __typename: "User"}]
 
     var temp = local.notifications
@@ -141,12 +162,13 @@ class MainNavbar extends Component {
   componentDidMount = () => {
     socketio.newContactRequest(this.contactReceived)
     subscribe(local, "notifications", value => {
-      this.setState(
-        {
-          notifications: value
-        },
-        console.log("state; ", this.state)
-      )
+      if (!value) {
+        value = []
+      }
+      this.setState({
+        invisible: value.length === 0,
+        notifications: value
+      })
     })
 
     const result = unionBy(
@@ -154,6 +176,7 @@ class MainNavbar extends Component {
       local.notifications,
       "username"
     )
+    console.log("result: ", result)
 
     this.setState({
       notifications: result
@@ -364,6 +387,7 @@ class MainNavbar extends Component {
         {isAuthenticated && (
           <div>
             {this.state.notifications &&
+              this.state.notifications.length > 0 &&
               this.state.notifications.map((item, i) => {
                 if (item && item.__typename === "User") {
                   return (
@@ -385,6 +409,7 @@ class MainNavbar extends Component {
                           &nbsp;{item.username}
                         </Typography>
                         <Button
+                          onClick={() => this.acceptContact(item)}
                           className={classes.accept}
                           variant="contained"
                           color="primary"
@@ -392,6 +417,7 @@ class MainNavbar extends Component {
                           Accept
                         </Button>
                         <Button
+                          onClick={() => this.rejectContact(item)}
                           className={classes.reject}
                           variant="contained"
                           color="secondary"
@@ -462,8 +488,8 @@ class MainNavbar extends Component {
         {isAuthenticated ? (
           <div>
             <MenuItem onClick={this.handleNotification}>
-              <IconButton color="inherit">
-                <Badge color="primary">
+              <IconButton color="inherit" onClick={this.handleNotification}>
+                <Badge color="primary" invisible={this.state.invisible}>
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -604,7 +630,7 @@ class MainNavbar extends Component {
             <div className={classes.sectionDesktop}>
               {isAuthenticated && (
                 <IconButton color="inherit" onClick={this.handleNotification}>
-                  <Badge color="primary">
+                  <Badge color="primary" invisible={this.state.invisible}>
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
@@ -685,4 +711,4 @@ class MainNavbar extends Component {
   }
 }
 
-export default withRouter(withStyles(styles)(MainNavbar))
+export default withRouter(withStyles(styles)(withApollo(MainNavbar)))

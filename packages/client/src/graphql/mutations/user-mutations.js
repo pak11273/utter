@@ -1,5 +1,22 @@
 import gql from "graphql-tag"
 
+export const ACCEPT_CONTACT_MUTATION = gql`
+  mutation acceptContact($senderId: String!) {
+    acceptContact(senderId: $senderId) {
+      _id
+      username
+    }
+  }
+`
+export const REJECT_CONTACT_MUTATION = gql`
+  mutation rejectContact($senderId: String!) {
+    rejectContact(senderId: $senderId) {
+      _id
+      username
+    }
+  }
+`
+
 export const ADD_CONTACT = gql`
   mutation addContact($sender: String, $contact: String) {
     addContact(sender: $sender, contact: $contact) {

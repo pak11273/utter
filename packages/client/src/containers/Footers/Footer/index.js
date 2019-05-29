@@ -120,7 +120,7 @@ const footers = [
   {
     title: "Company",
     /* description: ["About Us", "Contact"] */
-    description: ["Contact"]
+    description: ["Community", "Pricing", "Contact"]
   },
   {
     title: "Features",

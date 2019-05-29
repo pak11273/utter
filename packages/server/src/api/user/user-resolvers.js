@@ -46,6 +46,68 @@ const me = async (_, __, {req}) => {
   return user
 }
 
+const acceptContact = async (_, args, {req}) => {
+  console.log("args: ", args)
+  if (!req.session.userId) {
+    return null
+  }
+
+  const sender = await User.findOne({_id: args.senderId}).lean()
+
+  console.log("sender: ", sender)
+
+  const contact = await User.findOneAndUpdate(
+    {_id: req.session.userId, contacts: {$ne: sender._id}},
+    {
+      $push: {
+        contacts: sender
+      },
+      $pull: {
+        requests: sender._id
+      },
+      $inc: {totalRequests: -1}
+    },
+    {new: true}
+  ).lean()
+  console.log("user1: ", contact)
+
+  const updatedSender = await User.updateOne(
+    {_id: sender._id, contacts: {$ne: contact._id}},
+    {
+      $push: {
+        contacts: contact
+      },
+      /* $pull: { */
+      /*   sentRequests: user */
+      /* } */
+      $pull: {
+        sentRequests: {
+          username: contact.username
+        }
+      }
+    },
+    {new: true}
+  ).lean()
+
+  console.log("udpatedSender: ", updatedSender)
+  console.log("user: ", user)
+  return user
+}
+
+const rejectContact = async (_, args, {req}) => {
+  console.log("args: ", args)
+  if (!req.session.userId) {
+    return null
+  }
+  const user = await User.findById(req.session.userId)
+    .populate("requests")
+    /* .populate("subscriptions") */
+    .lean()
+
+  console.log("foo: ", user)
+  return user
+}
+
 const addContact = async (_, args, {redis, url}) => {
   try {
     const senderInfo = await User.findOne({username: args.sender}).lean()
@@ -527,6 +589,8 @@ export const userResolvers = {
 
   Mutation: {
     addContact,
+    acceptContact,
+    rejectContact,
     cancelPayMonthly,
     changeCreditCard,
     changePassword,

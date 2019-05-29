@@ -80,6 +80,8 @@ type Query {
 }
 
 type Mutation {
+	acceptContact(senderId: String): User
+	rejectContact(senderId: String): User
 	addContact(contact: String, sender: String): User 
 	cancelPayMonthly: User
 	changePassword(input: ChangePasswordInput): AuthPayload 
