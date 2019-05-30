@@ -120,12 +120,12 @@ const rejectContact = async (_, args, {req}) => {
 
 const addContact = async (_, args, {redis, url}) => {
   try {
-    const senderInfo = await User.findOne({username: args.sender}).lean()
+    const senderInfo = await User.findOne({username: args.sender}).exec()
     const contact = await User.findOneAndUpdate(
       {
         username: args.contact,
         requests: {$ne: senderInfo._id},
-        contacts: {$ne: senderInfo._id} // TODO: test if this works, mongoose changes _id to id??
+        contacts: {$ne: senderInfo._id}
       },
       {
         $push: {

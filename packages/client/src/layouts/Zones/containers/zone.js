@@ -25,7 +25,7 @@ import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
 /* import MailIcon from "@material-ui/icons/Mail" */
 import PeopleIcon from "@material-ui/icons/People"
-import ceoImg from "../../../assets/images/ceo.jpg"
+import PersonIcon from "@material-ui/icons/Person"
 import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
@@ -289,9 +289,9 @@ class Zone extends Component {
                 <ListItemAvatar>
                   <Avatar
                     alt={`Avatar n°${0 + 1}`}
-                    src={`${ceoImg}`}
-                    classes={{root: classes.avatar}}
-                  />
+                    classes={{root: classes.avatar}}>
+                    <PersonIcon />
+                  </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary={text} />
               </ListItem>
@@ -390,7 +390,9 @@ class Zone extends Component {
                     }}
                     key={index}>
                     <ListItemAvatar>
-                      <Avatar alt={`Avatar n°${0 + 1}`} src={`${ceoImg}`} />
+                      <Avatar alt={`Avatar n°${0 + 1}`}>
+                        <PersonIcon />
+                      </Avatar>
                     </ListItemAvatar>
                   </ListItem>
                 </ZoneMembersTooltip>
