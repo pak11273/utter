@@ -43,9 +43,10 @@ const CourseSchema = mongoose.Schema(
       default: ""
     },
     subscribers: {
-      type: Number,
-      default: 0
+      type: Array,
+      default: []
     },
+    subscriberCount: {type: Number, default: 0},
     levels: [
       {
         type: mongoose.Schema.Types.ObjectId,

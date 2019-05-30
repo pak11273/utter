@@ -64,7 +64,6 @@ class CourseUpdate extends PureComponent {
   }
 
   componentDidMount = async () => {
-    console.log("yes?")
     session.layoutError = null
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const stream = await navigator.mediaDevices.getUserMedia({

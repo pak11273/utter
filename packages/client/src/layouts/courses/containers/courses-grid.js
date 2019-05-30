@@ -43,7 +43,7 @@ const CoursesGrid = props => {
     session.levelsIdsArr = convertObjIdsToArr(card.levels)
     props.history.push({
       pathname: "/course/course-introduction",
-      state: {courseId: card.id}
+      state: {courseId: card._id}
     })
   }
 
@@ -130,7 +130,7 @@ const CoursesGrid = props => {
                   <CardActions className={classes.gridActions}>
                     <PersonIcon />
                     <Typography className={classes.cardUsername} gutterBottom>
-                      {subsToSize(card.subscribers)}
+                      {subsToSize(card.subscriberCount)}
                     </Typography>
                     <Button
                       onClick={handleCourseClick(card)}

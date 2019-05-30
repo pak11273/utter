@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-export const ACCEPT_CONTACT_MUTATION = gql`
+const ACCEPT_CONTACT_MUTATION = gql`
   mutation acceptContact($senderUsername: String!) {
     acceptContact(senderUsername: $senderUsername) {
       _id
@@ -8,16 +8,8 @@ export const ACCEPT_CONTACT_MUTATION = gql`
     }
   }
 `
-export const REJECT_CONTACT_MUTATION = gql`
-  mutation rejectContact($senderUsername: String!) {
-    rejectContact(senderUsername: $senderUsername) {
-      _id
-      username
-    }
-  }
-`
 
-export const ADD_CONTACT = gql`
+const ADD_CONTACT = gql`
   mutation addContact($sender: String, $contact: String) {
     addContact(sender: $sender, contact: $contact) {
       _id
@@ -26,7 +18,12 @@ export const ADD_CONTACT = gql`
   }
 `
 
-export const BETA_SIGNUP = gql`
+const BETA_ACCESS = gql`
+  mutation betaAccess($key: String) {
+    betaAccess(key: $key)
+  }
+`
+const BETA_SIGNUP = gql`
   mutation betaSignup(
     $_id: String
     $ageGroup: String
@@ -65,7 +62,7 @@ export const BETA_SIGNUP = gql`
     )
   }
 `
-export const BETA_UPDATE = gql`
+const BETA_UPDATE = gql`
   mutation betaUpdate(
     $_id: String
     $ageGroup: String
@@ -119,13 +116,7 @@ export const BETA_UPDATE = gql`
     }
   }
 `
-
-export const BETA_ACCESS = gql`
-  mutation betaAccess($key: String) {
-    betaAccess(key: $key)
-  }
-`
-export const CHANGE_PASSWORD = gql`
+const CHANGE_PASSWORD = gql`
   mutation changePassword(
     $password: String!
     $passwordConfirmation: String
@@ -146,28 +137,7 @@ export const CHANGE_PASSWORD = gql`
     }
   }
 `
-
-export const REMOVE_SUBSCRIPTION = gql`
-  mutation removeSubscription($subscribedCourse: String) {
-    removeSubscription(subscribedCourse: $subscribedCourse) {
-      _id
-      username
-      isCanceled
-      rights
-      roles
-      subscriptions {
-        _id
-        title
-        levels {
-          _id
-          title
-        }
-      }
-    }
-  }
-`
-
-export const LOGIN_MUTATION = gql`
+const LOGIN_MUTATION = gql`
   mutation loginMutation($identifier: String!, $password: String!) {
     login(input: {identifier: $identifier, password: $password}) {
       token
@@ -210,13 +180,40 @@ export const LOGIN_MUTATION = gql`
   }
 `
 
-export const RENEW_CONFIRAMTION = gql`
+const REJECT_CONTACT_MUTATION = gql`
+  mutation rejectContact($senderUsername: String!) {
+    rejectContact(senderUsername: $senderUsername) {
+      _id
+      username
+    }
+  }
+`
+const REMOVE_SUBSCRIPTION = gql`
+  mutation removeSubscription($subscribedCourse: String) {
+    removeSubscription(subscribedCourse: $subscribedCourse) {
+      _id
+      username
+      isCanceled
+      rights
+      roles
+      subscriptions {
+        _id
+        title
+        levels {
+          _id
+          title
+        }
+      }
+    }
+  }
+`
+
+const RENEW_CONFIRAMTION = gql`
   mutation renewConfirmation($email: String) {
     renewConfirmation(email: $email)
   }
 `
-
-export const SIGNUP_MUTATION = gql`
+const SIGNUP_MUTATION = gql`
   mutation signupMutation(
     $username: String!
     $email: String!
@@ -248,3 +245,17 @@ export const SIGNUP_MUTATION = gql`
     }
   }
 `
+
+export {
+  ACCEPT_CONTACT_MUTATION,
+  ADD_CONTACT,
+  BETA_ACCESS,
+  BETA_SIGNUP,
+  BETA_UPDATE,
+  CHANGE_PASSWORD,
+  LOGIN_MUTATION,
+  REJECT_CONTACT_MUTATION,
+  REMOVE_SUBSCRIPTION,
+  RENEW_CONFIRAMTION,
+  SIGNUP_MUTATION
+}

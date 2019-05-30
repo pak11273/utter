@@ -14,7 +14,6 @@ export const GET_COURSE = gql`
       }
       resource
       usingLang
-      subscribers
       teachingLang
       owner {
         username
@@ -55,7 +54,7 @@ export const GET_COURSES = gql`
         }
         resource
         usingLang
-        subscribers
+        subscriberCount
         teachingLang
         owner {
           username

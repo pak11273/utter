@@ -1,0 +1,430 @@
+import React, {useEffect, useState} from "react"
+import {Helmet} from "react-helmet-async"
+import {courseSchema} from "@utterzone/common"
+import {toast} from "react-toastify"
+
+/* /1* import Button from "@material-ui/core/Button" *1/ */
+import CircularProgress from "@material-ui/core/CircularProgress"
+import Grid from "@material-ui/core/Grid"
+import Paper from "@material-ui/core/Paper"
+import Typography from "@material-ui/core/Typography"
+import {withStyles} from "@material-ui/core/styles"
+import isEmpty from "lodash/isEmpty"
+
+import classNames from "classnames"
+import TextField from "@material-ui/core/TextField"
+import {session} from "brownies"
+import {compose, Mutation, Query, withApollo} from "react-apollo"
+import {Can, Img, LoadingButton} from "../../../components"
+import {
+  GET_COURSE,
+  GET_COURSES
+} from "../../../graphql/queries/course-queries.js"
+import {
+  COURSE_UPDATE,
+  SUBSCRIBE_MUTATION,
+  UNSUBSCRIBE_MUTATION
+} from "../../../graphql/mutations/course-mutations.js"
+import {styles} from "../styles.js"
+
+const CourseIntroduction = props => {
+  const {user, course} = session
+  const {classes, client} = props
+  const [state, handleChange] = useState({
+    formErrors: {
+      errors: []
+    },
+    courseId: course._id,
+    courseDescription: course.courseDescription,
+    name: "",
+    email: "",
+    loading: false,
+    subscribed: false,
+    submittedName: "",
+    submittedEmail: "",
+    title: course.title
+  })
+
+  useEffect(() => {
+    var found = new Promise(resolve => {
+      var result = session.user.subscriptions.find(o => {
+        if (o) {
+          o._id === props.location.state.courseId
+        }
+      })
+      resolve(result)
+    })
+    found.then(res => {
+      handleChange({
+        ...state,
+        subscribed: res
+      })
+    })
+  }, [state, props])
+
+  /* useEffect( */
+  /*   () => { */
+  /*     if (user && user.username === course.owner.username) { */
+  /*       handleChange({ */
+  /*         ...state, */
+  /*         loading: true */
+  /*       }) */
+  /*     } */
+  /*   }, */
+  /*   [user, course.owner.username, state] */
+  /* ) */
+
+  const sessionSubscribe = () => {
+    const {course, user} = session
+    const tempUser = user
+    tempUser.subscriptions.push({_id: course._id, title: course.title})
+    session.user = tempUser
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+
+    // reset errors
+    /* const resetErrors = handleChange({ */
+    /*   ...state, */
+    /*   formErrors: { */
+    /*     errors: [] */
+    /*   } */
+    /* }) */
+
+    const yupCheck = await courseSchema.validate(state).catch(err => {
+      if (err) {
+        console.log("err: ", err)
+        handleChange({
+          ...state,
+          formErrors: {
+            errors: err
+          }
+        })
+        console.log("state: ", state)
+        return err
+      }
+    })
+    if (isEmpty(yupCheck.errors)) {
+      handleChange({
+        ...state,
+        loading: true
+      })
+      const updatedCourse = await props.client.mutate({
+        mutation: COURSE_UPDATE,
+        variables: {
+          _id: state.courseId,
+          title: state.title,
+          courseDescription: state.courseDescription
+        },
+        refetchQueries: [
+          {query: GET_COURSES, variables: {usingLang: "", teachingLang: ""}}
+        ]
+      })
+      if (updatedCourse) {
+        console.log("updated: ", updatedCourse)
+        session.course = updatedCourse.data.courseUpdate
+        // TODO:  toastify & make loading button work on save
+        toast.success("Your changes were saved.", {
+          className: "toasty",
+          bodyClassName: "toasty-body",
+          hideProgressBar: true
+        })
+      }
+
+      handleChange({
+        ...state,
+        formErrors: {
+          errors: ["hi"]
+        },
+        loading: false
+      })
+    }
+  }
+
+  const sessionUnsubscribe = () => {
+    const {user} = session
+    const updatedSubscriptions = user.subscriptions.filter(obj => {
+      return obj._id !== session.course._id
+    })
+    user.subscriptions = updatedSubscriptions
+    session.user = user
+  }
+
+  const courseDescriptionError = classNames({
+    errorClass:
+      state.formErrors.path === "courseDescription" &&
+      !isEmpty(state.formErrors.errors)
+  })
+
+  const titleError = classNames({
+    errorClass:
+      state.formErrors.path === "title" && !isEmpty(state.formErrors.errors)
+  })
+
+  return (
+    <Query
+      query={GET_COURSE}
+      variables={{
+        _id: course._id
+      }}>
+      {({loading, error}) => {
+        if (loading)
+          return (
+            <Grid
+              container
+              alignContent="center"
+              justify="center"
+              style={{height: "300px"}}>
+              <CircularProgress style={{color: "grey"}} />
+            </Grid>
+          )
+        if (error) {
+          console.log("err: ", error)
+          return (
+            <Grid>
+              <p>
+                {error.graphQLErrors.map(({message}, i) => (
+                  <p
+                    style={{
+                      fontSize: "1.3em",
+                      color: "red",
+                      margin: "30px",
+                      padding: "30px",
+                      textAlign: "center"
+                    }}
+                    key={i}>
+                    {message}
+                  </p>
+                ))}
+              </p>
+            </Grid>
+          )
+        }
+        return (
+          <form onSubmit={handleSubmit}>
+            <Helmet>
+              <meta charset="utf-8" />
+              <meta
+                name="viewport"
+                content="width=device-width, initial-scale=1, shrink-to-fit=no"
+              />
+              <meta name="description" content="Affordable language learning" />
+              <meta name="author" content="Isaac Pak" />
+              <title>Utterzone | Course Introduction</title>
+              <link
+                rel="canonical"
+                href="https://utter.zone/course/course-introduction"
+              />
+            </Helmet>
+            <Grid
+              className={classes.hero}
+              container
+              justify="center"
+              direction="column">
+              <Paper className={classes.header} elevation={1}>
+                <Typography
+                  className={classes.headerBody}
+                  variant="h4"
+                  align="center"
+                  gutterBottom>
+                  Course Introduction
+                </Typography>
+              </Paper>
+            </Grid>
+            <main className={classes.content}>
+              <Grid container spacing={24}>
+                <Grid
+                  item
+                  xs={12}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                  }}>
+                  {/*  
+									TODO: Change thumbnail feature
+									<Can
+                    roles={user.roles}
+                    perform="course:update-introduction"
+                    id={user.username}
+                    matchingID={course.owner.username}
+                    yes={() => (
+                      <LoadingButton
+                        style={{display: "flex", width: "120px"}}
+                        variant="contained">
+                        <Typography>Change Thumbnail</Typography>
+                      </LoadingButton>
+                    )}
+                    no={() => (
+                      <Typography variant="h6" align="center" gutterBottom>
+                        Course Thumbnail
+                      </Typography>
+                    )}
+                  /> */}
+
+                  <div style={{display: "flex", justifyContent: "center"}}>
+                    <Img margin="40px" src={course.courseImage} />
+                  </div>
+                </Grid>
+                <Grid item xs={12} align="center">
+                  <Mutation
+                    mutation={SUBSCRIBE_MUTATION}
+                    onCompleted={sessionSubscribe}>
+                    {(SUBSCRIBE_MUTATION, {loading}) => {
+                      return (
+                        <LoadingButton
+                          loading={loading}
+                          disabled={loading}
+                          color={
+                            state.subscribed === true ? "secondary" : "primary"
+                          }
+                          variant="contained"
+                          onClick={() => {
+                            if (state.subscribed) {
+                              client.mutate({
+                                mutation: UNSUBSCRIBE_MUTATION,
+                                variables: {
+                                  courseId: course._id,
+                                  userId: session.user._id
+                                }
+                              })
+                              handleChange({
+                                ...state,
+                                subscribed: false
+                              })
+                              sessionUnsubscribe()
+                            }
+                            if (!state.subscribed) {
+                              SUBSCRIBE_MUTATION({
+                                variables: {
+                                  courseId: course._id,
+                                  userId: session.user._id
+                                }
+                              })
+                              handleChange({
+                                ...state,
+                                subscribed: true
+                              })
+                            }
+                          }}
+                          size="large">
+                          <Typography>
+                            {state.subscribed ? "unsubscribe" : "subscribe"}
+                          </Typography>
+                        </LoadingButton>
+                      )
+                    }}
+                  </Mutation>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="left" gutterBottom>
+                    General Information
+                  </Typography>
+                  <TextField
+                    className={`${classes[titleError]} ${classes.inputHeader}`}
+                    fullWidth
+                    disabled={state.loading}
+                    label="Course Title"
+                    margin="normal"
+                    name="title"
+                    onChange={e =>
+                      handleChange({...state, title: e.target.value})
+                    }
+                    placeholder="And it's title here."
+                    type="text"
+                    variant="outlined"
+                    value={state.title}
+                  />
+                  {state.formErrors.path === "title" && (
+                    <div style={{color: "#f44336"}}>
+                      {state.formErrors.errors[0]}
+                    </div>
+                  )}
+
+                  <TextField
+                    className={`${classes[courseDescriptionError]} ${
+                      classes.inputHeader
+                    }`}
+                    disabled={state.loading}
+                    fullWidth
+                    name="courseDescription"
+                    label="Course Description"
+                    type="text"
+                    onChange={e =>
+                      handleChange({
+                        ...state,
+                        courseDescription: e.target.value
+                      })
+                    }
+                    margin="normal"
+                    multiline
+                    variant="outlined"
+                    rowsMax="12"
+                    value={state.courseDescription}
+                  />
+                  {state.formErrors.path === "courseDescription" && (
+                    <div style={{color: "#f44336"}}>
+                      {state.formErrors.errors[0]}
+                    </div>
+                  )}
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6" align="left" gutterBottom>
+                    Course Details
+                  </Typography>
+                  <Typography variant="body1" align="left" gutterBottom>
+                    Course Author:{" "}
+                    <span style={{fontWeight: 900}}>
+                      {course.owner.username}
+                    </span>
+                  </Typography>
+                  <Typography variant="body1" align="left" gutterBottom>
+                    Resource:{" "}
+                    <span style={{fontWeight: 900}}>
+                      {course.resource || "none"}
+                    </span>
+                  </Typography>
+                  <Typography variant="body1" align="left" gutterBottom>
+                    Using Language:{" "}
+                    <span style={{fontWeight: 900}}>{course.usingLang}</span>
+                  </Typography>
+                  <Typography variant="body1" align="left" gutterBottom>
+                    Teaching Language:{" "}
+                    <span style={{fontWeight: 900}}>{course.teachingLang}</span>
+                  </Typography>
+                </Grid>
+                <Grid container style={{margin: "50px auto"}}>
+                  <Can
+                    roles={user && user.roles}
+                    perform="course:update-introduction"
+                    id={user && user.username}
+                    matchingID={course.owner.username}
+                    yes={() => (
+                      <Grid item xs={12} align="center">
+                        <LoadingButton
+                          variant="contained"
+                          loading={state.loading}
+                          disabled={state.loading}
+                          type="submit"
+                          color="secondary">
+                          Save Changes
+                        </LoadingButton>
+                      </Grid>
+                    )}
+                    no={() => null}
+                  />
+                </Grid>
+              </Grid>
+            </main>
+          </form>
+        )
+      }}
+    </Query>
+  )
+}
+
+export default compose(
+  withApollo,
+  withStyles(styles)
+)(CourseIntroduction)

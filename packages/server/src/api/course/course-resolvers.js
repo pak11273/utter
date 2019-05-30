@@ -10,18 +10,18 @@ import {userByToken} from "../shared/resolver-functions.js"
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
 }
-/* 
-** 
-** @coursesById
-**
-** usage: 
-** coursesById(courseIds) => {} 
-**
-** return: Given an array of course ids this will return an array of coureses that contain at least one of those ids.  
-**
-** notes: 
-**
-*/
+/*
+ **
+ ** @coursesById
+ **
+ ** usage:
+ ** coursesById(courseIds) => {}
+ **
+ ** return: Given an array of course ids this will return an array of coureses that contain at least one of those ids.
+ **
+ ** notes:
+ **
+ */
 const coursesById = async courseIds => {
   try {
     const courses = await Course.find({_id: {$in: courseIds}}).lean()
@@ -35,18 +35,18 @@ const coursesById = async courseIds => {
     throw err
   }
 }
-/* 
-** 
-** @mongooseToJs
-**
-** usage: 
-** mongooseToJs(object) => {} 
-**
-** return: A new js object with a stringified _id and an owner Id.  The object to convert must have an owner property.
-**
-** notes: converts a mongoose object to a plain js object discarding mongoose meta data.   
-**
-*/
+/*
+ **
+ ** @mongooseToJs
+ **
+ ** usage:
+ ** mongooseToJs(object) => {}
+ **
+ ** return: A new js object with a stringified _id and an owner Id.  The object to convert must have an owner property.
+ **
+ ** notes: converts a mongoose object to a plain js object discarding mongoose meta data.
+ **
+ */
 const mongooseToJs = object => {
   return {
     ...object._doc,
@@ -55,18 +55,18 @@ const mongooseToJs = object => {
   }
 }
 
-/* 
-** 
-** @userById
-**
-** usage: 
-** userById(userId) => {} 
-**
-** return: 
-**
-** notes: 
-**
-*/
+/*
+ **
+ ** @userById
+ **
+ ** usage:
+ ** userById(userId) => {}
+ **
+ ** return:
+ **
+ ** notes:
+ **
+ */
 
 const userById = async userId => {
   try {
@@ -283,7 +283,7 @@ const getCourses = async (_, {input}, ctx, info) => {
       locale: "en"
     },
     sort: {
-      subscribers: "desc"
+      subscriberCount: "desc"
     }
   }
 
@@ -325,43 +325,60 @@ const getCourses = async (_, {input}, ctx, info) => {
 }
 
 const subscribe = async (_, args, ctx, info) => {
+  console.log("args: ", args)
+  if (!ctx.req.session.userId) {
+    return null
+  }
+  const user = await User.findById(ctx.req.session.userId).lean()
+
   const course = await Course.findOneAndUpdate(
-    {_id: args.courseId},
-    {$inc: {subscribers: 1}}
-  )
+    {_id: args.courseId, subscribers: {$ne: args.userId}},
+    {
+      $push: {
+        subscribers: args.userId
+      },
+      $inc: {subscriberCount: 1}
+    },
+    {new: true}
+  ).exec()
+
   const userId = ctx.req.token._id
+
   try {
     const user = await User.findById(userId, (err, res) => {
       if (err) return err
       return res
     })
-    user.subscriptions.push(course)
-
-    const result = await user.save()
-    if (result) {
-      return course
+    if (course) {
+      user.subscriptions.push(course)
+      const result = await user.save()
+      return user
     }
+    return user
   } catch (err) {
     throw err
   }
 }
 
 const unsubscribe = async (_, args, ctx, info) => {
-  const course = await Course.findOneAndUpdate(
-    {
-      _id: args.courseId,
-      subscribers: {$gte: 1}
-    },
-    {$inc: {subscribers: -1}}
-  )
-  const userId = ctx.req.token._id
-
   try {
-    const user = await User.findById(userId, (err, res) => {
-      if (err) return err
-      return res
-    })
-    user.subscriptions.pull(course)
+    if (!ctx.req.session.userId) {
+      return null
+    }
+    const user = await User.findById(ctx.req.session.userId).exec()
+
+    const course = await Course.findOneAndUpdate(
+      {
+        _id: args.courseId,
+        subscriberCount: {$gte: 1}
+      },
+      {
+        $pull: {subscribers: user._id.toString()},
+        $inc: {subscriberCount: -1}
+      }
+    )
+
+    user.subscriptions.pull(course._id)
 
     const result = await user.save()
     if (result) {
