@@ -43,7 +43,7 @@
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
     "babel-preset-env": "^1.7.0",
-    "bcrypt": "^3.0.2",
+    "bcrypt": "^3.0.6",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.1",

@@ -25,7 +25,8 @@
     "react": "^16.6.3",
     "react-apollo": "^2.2.4",
     "react-dom": "^16.6.3",
-    "react-native-web": "^0.10.0-alpha.2"
+    "react-native-web": "^0.10.0-alpha.2",
+    "rimraf": "^2.6.3"
   },
   "resolutions": {
     "babel-core": "7.0.0-bridge.0"
