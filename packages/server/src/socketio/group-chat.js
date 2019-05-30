@@ -42,13 +42,11 @@ export default async server => {
       cb()
     })
 
-    socket.on("sendContactRequest", (zone, cb) => {
+    socket.on("sendContactRequest", (zone) => {
       io.to(zone.contact).emit("newContactRequest", {
         from: zone.sender,
         to: zone.contact
       })
-
-      cb()
     })
 
     socket.on("disconnect", () => {

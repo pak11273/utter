@@ -137,7 +137,6 @@ const addContact = async (_, args, {redis, url}) => {
         new: true
       }
     )
-    await contact.save()
 
     if (args.sender) {
       const senderUpdated = await User.updateOne(

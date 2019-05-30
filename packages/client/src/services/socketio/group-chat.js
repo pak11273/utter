@@ -38,8 +38,7 @@ export default () => {
       {
         contact,
         sender
-      },
-      () => console.log("request was sent")
+      }
     )
   }
 

@@ -173,7 +173,9 @@ class MainNavbar extends Component {
   }
 
   componentDidMount = async () => {
+
     socketio.newContactRequest(this.contactReceived)
+		
     subscribe(local, "notifications", value => {
       if (!value) {
         value = []
