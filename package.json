@@ -27,11 +27,10 @@
  "author": "pak11273 <pak11273@gmail.com>",
  "app": "59d790428284bb0012db7222",
  "license": "PROPRIETARY",
- "dependencies": {
-  "rimraf": "^2.6.2"
- },
+ "dependencies": {},
  "devDependencies": {
   "babel-cli": "^6.26.0",
-  "lerna": "^3.4.3"
+  "lerna": "^3.4.3",
+  "rimraf": "^2.6.3"
  }
 }
