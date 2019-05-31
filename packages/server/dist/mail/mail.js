@@ -44,8 +44,8 @@ transporter.use("compile", (0, _nodemailerExpressHandlebars.default)(options));
 var sendContactEmail = function sendContactEmail(args) {
   return new Promise(function (resolve, reject) {
     var data = {
-      from: "utterzone11273@gmail.com",
-      to: "pak11273@gmail.com",
+      from: "team@utterzone.com",
+      to: "team@utterzone.com",
       template: "contact-email",
       subject: args.input.subject,
       context: {
