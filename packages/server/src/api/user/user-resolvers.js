@@ -46,6 +46,7 @@ const me = async (_, __, {req}) => {
 }
 
 const acceptContact = async (_, args, {req}) => {
+  console.log("args: ", args)
   if (!req.session.userId) {
     return null
   }
@@ -81,11 +82,12 @@ const acceptContact = async (_, args, {req}) => {
     {new: true}
   )
 
-  return contact
+  console.log("sender: ", sender)
+
+  return sender
 }
 
 const rejectContact = async (_, args, {req}) => {
-  console.log("args; ", args)
   if (!req.session.userId) {
     return null
   }
@@ -464,8 +466,6 @@ const login = async (parent, args, ctx, info) => {
     ctx.req.session.userId = user._id
   }
 
-  console.log("user: ", user)
-
   return {
     token,
     user,
@@ -587,13 +587,6 @@ export const userResolvers = {
     getUserByUsername,
     hello: (_, {name}) => `Hello ${name || "World"}`,
     me
-  },
-
-  User: {
-    contacts: user => {
-      // TODO: Query db for contacts
-      return ["Tom", "Bob", "Harry"]
-    }
   },
 
   Mutation: {

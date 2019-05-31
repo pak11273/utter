@@ -142,15 +142,19 @@ class MainNavbar extends Component {
     local.notifications = temp
   }
 
-  acceptContact = item => {
+  acceptContact = async item => {
     console.log("accept: ", item)
-    this.props.client.mutate({
+    const result = await this.props.client.mutate({
       mutation: ACCEPT_CONTACT_MUTATION,
       variables: {
         senderUsername: item.username
       }
     })
     this.clearContactNotification(item.username)
+    console.log("result: ", result)
+    var temp = session.user
+    temp.contacts.unshift(result.data.acceptContact)
+    session.user = temp
   }
 
   rejectContact = item => {
@@ -173,9 +177,8 @@ class MainNavbar extends Component {
   }
 
   componentDidMount = async () => {
-
     socketio.newContactRequest(this.contactReceived)
-		
+
     subscribe(local, "notifications", value => {
       if (!value) {
         value = []
@@ -424,7 +427,8 @@ class MainNavbar extends Component {
                           />
                         </ListItemAvatar>
                         <Typography variant="inherit" color="primary">
-                          &nbsp;{item.username}
+                          &nbsp;
+                          {item.username}
                         </Typography>
                         <Button
                           onClick={() => this.acceptContact(item)}

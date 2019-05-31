@@ -29,7 +29,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
 import Members from "./members/members.js"
 import Notebook from "./notebook/notebook.js"
-import {session} from "brownies"
+import {session, subscribe} from "brownies"
 
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
@@ -64,6 +64,7 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
+    contacts: [],
     host: false,
     open: false,
     leftOpen: true,
@@ -74,6 +75,11 @@ class Zone extends Component {
   componentDidMount = async () => {
     // TODO: if user already in zone, can't reenter
     /* this.state.socketio.getUser */
+    subscribe(session, "user", value => {
+      this.setState({
+        contacts: value.contacts
+      })
+    })
 
     // socketize zone
     socketio.zoneConnect({
@@ -284,8 +290,8 @@ class Zone extends Component {
             ))}
           </List>
           <List>
-            {["Sally", "Jude", "Clark"].map(text => (
-              <ListItem button key={text}>
+            {this.state.contacts.map((text, i) => (
+              <ListItem button key={i}>
                 <ListItemAvatar>
                   <Avatar
                     alt={`Avatar n°${0 + 1}`}
@@ -293,7 +299,7 @@ class Zone extends Component {
                     <PersonIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={text} />
+                <ListItemText primary={text && text.username} />
               </ListItem>
             ))}
           </List>
