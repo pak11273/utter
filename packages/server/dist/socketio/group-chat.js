@@ -41,6 +41,7 @@ var _default = function () {
             io.on("connection", function (socket) {
               console.log("user connected");
               socket.on("join", function (zone, cb) {
+                console.log("zone: ", zone);
                 socket.join(zone.zoneId);
                 console.log("zone: ", zone);
                 Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username);
@@ -53,13 +54,11 @@ var _default = function () {
                 socket.join(zone.username);
                 cb();
               });
-              socket.on("sendContactRequest", function (zone, cb) {
-                console.log("zone contact: ", zone);
+              socket.on("sendContactRequest", function (zone) {
                 io.to(zone.contact).emit("newContactRequest", {
                   from: zone.sender,
                   to: zone.contact
                 });
-                cb();
               });
               socket.on("disconnect", function () {
                 var user = Users.removeUserId(socket.id);

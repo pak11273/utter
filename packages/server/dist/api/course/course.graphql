@@ -11,7 +11,8 @@ type Course {
 	levelSort: [String] 
   owner: User
 	resource: String
-	subscribers: Int
+	subscribers: [String]
+	subscriberCount: Int
   teachingLang: String
   usingLang: String
   updatedAt: String
@@ -69,6 +70,6 @@ extend type Mutation {
   courseCreate(input: CourseCreateInput!): Course! 
 	courseDelete(resourceId: String!): Boolean @hasRights(right: "course:delete")
   courseUpdate(input: CourseUpdateInput!): Course!
-	subscribe(courseId: String!): Course 
-	unsubscribe(courseId: String!): Boolean
+	subscribe(courseId: String!, userId: String ): Course 
+	unsubscribe(courseId: String!, userId: String ): Boolean
 }

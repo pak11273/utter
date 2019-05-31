@@ -57,6 +57,10 @@ var CourseSchema = _mongoose.default.Schema({
     default: ""
   },
   subscribers: {
+    type: Array,
+    default: []
+  },
+  subscriberCount: {
     type: Number,
     default: 0
   },

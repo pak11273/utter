@@ -562,7 +562,7 @@ var getCourses = function () {
                 locale: "en"
               },
               sort: {
-                subscribers: "desc"
+                subscriberCount: "desc"
               }
             };
             delete input.page;
@@ -602,61 +602,85 @@ var getCourses = function () {
 
 var subscribe = function () {
   var _ref14 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee11(_, args, ctx, info) {
-    var course, userId, user, result;
+    var user, course, userId, _user, result;
+
     return _regenerator.default.wrap(function _callee11$(_context11) {
       while (1) {
         switch (_context11.prev = _context11.next) {
           case 0:
-            _context11.next = 2;
-            return _courseModel.default.findOneAndUpdate({
-              _id: args.courseId
-            }, {
-              $inc: {
-                subscribers: 1
-              }
-            });
+            console.log("args: ", args);
 
-          case 2:
+            if (ctx.req.session.userId) {
+              _context11.next = 3;
+              break;
+            }
+
+            return _context11.abrupt("return", null);
+
+          case 3:
+            _context11.next = 5;
+            return _userModel.default.findById(ctx.req.session.userId).lean();
+
+          case 5:
+            user = _context11.sent;
+            _context11.next = 8;
+            return _courseModel.default.findOneAndUpdate({
+              _id: args.courseId,
+              subscribers: {
+                $ne: args.userId
+              }
+            }, {
+              $push: {
+                subscribers: args.userId
+              },
+              $inc: {
+                subscriberCount: 1
+              }
+            }, {
+              new: true
+            }).exec();
+
+          case 8:
             course = _context11.sent;
             userId = ctx.req.token._id;
-            _context11.prev = 4;
-            _context11.next = 7;
+            _context11.prev = 10;
+            _context11.next = 13;
             return _userModel.default.findById(userId, function (err, res) {
               if (err) return err;
               return res;
             });
 
-          case 7:
-            user = _context11.sent;
-            user.subscriptions.push(course);
-            _context11.next = 11;
-            return user.save();
+          case 13:
+            _user = _context11.sent;
 
-          case 11:
-            result = _context11.sent;
-
-            if (!result) {
-              _context11.next = 14;
+            if (!course) {
+              _context11.next = 20;
               break;
             }
 
-            return _context11.abrupt("return", course);
+            _user.subscriptions.push(course);
 
-          case 14:
-            _context11.next = 19;
-            break;
+            _context11.next = 18;
+            return _user.save();
 
-          case 16:
-            _context11.prev = 16;
-            _context11.t0 = _context11["catch"](4);
+          case 18:
+            result = _context11.sent;
+            return _context11.abrupt("return", _user);
+
+          case 20:
+            return _context11.abrupt("return", _user);
+
+          case 23:
+            _context11.prev = 23;
+            _context11.t0 = _context11["catch"](10);
             throw _context11.t0;
 
-          case 19:
+          case 26:
           case "end":
             return _context11.stop();
         }
       }
-    }, _callee11, null, [[4, 16]]);
+    }, _callee11, null, [[10, 23]]);
   }));
 
   return function subscribe(_x29, _x30, _x31, _x32) {
@@ -666,64 +690,72 @@ var subscribe = function () {
 
 var unsubscribe = function () {
   var _ref15 = (0, _asyncToGenerator2.default)(_regenerator.default.mark(function _callee12(_, args, ctx, info) {
-    var course, userId, user, result;
+    var user, course, result;
     return _regenerator.default.wrap(function _callee12$(_context12) {
       while (1) {
         switch (_context12.prev = _context12.next) {
           case 0:
-            _context12.next = 2;
+            _context12.prev = 0;
+
+            if (ctx.req.session.userId) {
+              _context12.next = 3;
+              break;
+            }
+
+            return _context12.abrupt("return", null);
+
+          case 3:
+            _context12.next = 5;
+            return _userModel.default.findById(ctx.req.session.userId).exec();
+
+          case 5:
+            user = _context12.sent;
+            _context12.next = 8;
             return _courseModel.default.findOneAndUpdate({
               _id: args.courseId,
-              subscribers: {
+              subscriberCount: {
                 $gte: 1
               }
             }, {
+              $pull: {
+                subscribers: user._id.toString()
+              },
               $inc: {
-                subscribers: -1
+                subscriberCount: -1
               }
             });
 
-          case 2:
+          case 8:
             course = _context12.sent;
-            userId = ctx.req.token._id;
-            _context12.prev = 4;
-            _context12.next = 7;
-            return _userModel.default.findById(userId, function (err, res) {
-              if (err) return err;
-              return res;
-            });
-
-          case 7:
-            user = _context12.sent;
-            user.subscriptions.pull(course);
-            _context12.next = 11;
+            user.subscriptions.pull(course._id);
+            _context12.next = 12;
             return user.save();
 
-          case 11:
+          case 12:
             result = _context12.sent;
 
             if (!result) {
-              _context12.next = 14;
+              _context12.next = 15;
               break;
             }
 
             return _context12.abrupt("return", true);
 
-          case 14:
-            _context12.next = 19;
+          case 15:
+            _context12.next = 20;
             break;
 
-          case 16:
-            _context12.prev = 16;
-            _context12.t0 = _context12["catch"](4);
+          case 17:
+            _context12.prev = 17;
+            _context12.t0 = _context12["catch"](0);
             throw _context12.t0;
 
-          case 19:
+          case 20:
           case "end":
             return _context12.stop();
         }
       }
-    }, _callee12, null, [[4, 16]]);
+    }, _callee12, null, [[0, 17]]);
   }));
 
   return function unsubscribe(_x33, _x34, _x35, _x36) {
