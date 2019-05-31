@@ -28,13 +28,13 @@ var options = {
 };
 
 var transporter = _nodemailer.default.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  host: "smtp.zoho.com",
+  port: 465,
+  secure: true,
   requireTLS: true,
   auth: {
-    user: process.env.GMAIL_USERNAME,
-    pass: process.env.GMAIL_PASSWORD
+    user: process.env.ZOHO_USERNAME,
+    pass: process.env.ZOHO_PASSWORD
   }
 });
 
@@ -76,7 +76,7 @@ var sendConfirmEmail = function () {
         switch (_context.prev = _context.next) {
           case 0:
             data = {
-              from: process.env.APP_EMAIL,
+              from: process.env.ZOHO_EMAIL,
               to: recipient,
               template: "confirmation-email",
               subject: "Please confirm your email account",
