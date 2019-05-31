@@ -392,7 +392,7 @@ export const routes = [
   {
     // TODO: remove when launching with stripe
     /* component: noAuth(getSignup), */
-    component: requireBeta(getSignup),
+    component: getSignup,
     exact: true,
     path: "/signup"
   },
