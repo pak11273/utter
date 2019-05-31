@@ -26,8 +26,8 @@ transporter.use("compile", hbs(options))
 export const sendContactEmail = args => {
   return new Promise((resolve, reject) => {
     const data = {
-      from: "utterzone11273@gmail.com",
-      to: "pak11273@gmail.com",
+      from: "team@utterzone.com",
+      to: "team@utterzone.com",
       template: "contact-email",
       subject: args.input.subject,
       context: {
