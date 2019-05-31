@@ -76,9 +76,11 @@ class Zone extends Component {
     // TODO: if user already in zone, can't reenter
     /* this.state.socketio.getUser */
     subscribe(session, "user", value => {
-      this.setState({
-        contacts: value.contacts
-      })
+      if (value) {
+        this.setState({
+          contacts: value.contacts
+        })
+      }
     })
 
     // socketize zone
