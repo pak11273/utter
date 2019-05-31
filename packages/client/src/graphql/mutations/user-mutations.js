@@ -143,10 +143,7 @@ const LOGIN_MUTATION = gql`
       token
       user {
         _id
-        contacts {
-          _id
-          username
-        }
+        contacts 
         confirmed
         isCanceled
         hostedZone {
