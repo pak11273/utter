@@ -75,11 +75,17 @@ class Zone extends Component {
   componentDidMount = async () => {
     // TODO: if user already in zone, can't reenter
     /* this.state.socketio.getUser */
+    this.setState({
+      contacts: session.user.contacts
+    })
     subscribe(session, "user", value => {
       if (value) {
-        this.setState({
-          contacts: value.contacts
-        })
+        this.setState(
+          {
+            contacts: value.contacts
+          },
+          console.log("state updated; ", this.state)
+        )
       }
     })
 
