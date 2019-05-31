@@ -11,14 +11,23 @@ const options = {
 }
 
 export const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+  host: "smtp.zoho.com",
+  port: 465,
+  secure: true,
   requireTLS: true,
   auth: {
-    user: process.env.GMAIL_USERNAME,
-    pass: process.env.GMAIL_PASSWORD
+    user: process.env.ZOHO_USERNAME,
+    pass: process.env.ZOHO_PASSWORD
   }
+  // gmail account
+  /* host: "smtp.gmail.com", */
+  /* port: 587, */
+  /* secure: false, */
+  /* requireTLS: true, */
+  /* auth: { */
+  /*   user: process.env.GMAIL_USERNAME, */
+  /*   pass: process.env.GMAIL_PASSWORD */
+  /* } */
 })
 
 transporter.use("compile", hbs(options))
@@ -50,7 +59,8 @@ export const sendContactEmail = args => {
 
 export const sendConfirmEmail = async (recipient, link) => {
   const data = {
-    from: process.env.APP_EMAIL,
+    /* from: process.env.GMAIL_EMAIL, */
+    from: process.env.ZOHO_EMAIL,
     to: recipient,
     template: "confirmation-email",
     subject: "Please confirm your email account",
