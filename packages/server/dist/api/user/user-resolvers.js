@@ -94,23 +94,24 @@ var acceptContact = function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             req = _ref3.req;
+            console.log("args: ", args);
 
             if (req.session.userId) {
-              _context2.next = 3;
+              _context2.next = 4;
               break;
             }
 
             return _context2.abrupt("return", null);
 
-          case 3:
-            _context2.next = 5;
+          case 4:
+            _context2.next = 6;
             return _userModel.default.findOne({
               username: args.senderUsername
             }).lean();
 
-          case 5:
+          case 6:
             sender = _context2.sent;
-            _context2.next = 8;
+            _context2.next = 9;
             return _userModel.default.findOneAndUpdate({
               _id: req.session.userId,
               contacts: {
@@ -130,9 +131,9 @@ var acceptContact = function () {
               new: true
             }).lean();
 
-          case 8:
+          case 9:
             contact = _context2.sent;
-            _context2.next = 11;
+            _context2.next = 12;
             return _userModel.default.updateOne({
               _id: sender._id,
               contacts: {
@@ -151,11 +152,12 @@ var acceptContact = function () {
               new: true
             });
 
-          case 11:
+          case 12:
             updatedSender = _context2.sent;
-            return _context2.abrupt("return", contact);
+            console.log("sender: ", sender);
+            return _context2.abrupt("return", sender);
 
-          case 13:
+          case 15:
           case "end":
             return _context2.stop();
         }
@@ -176,24 +178,23 @@ var rejectContact = function () {
         switch (_context3.prev = _context3.next) {
           case 0:
             req = _ref5.req;
-            console.log("args; ", args);
 
             if (req.session.userId) {
-              _context3.next = 4;
+              _context3.next = 3;
               break;
             }
 
             return _context3.abrupt("return", null);
 
-          case 4:
-            _context3.next = 6;
+          case 3:
+            _context3.next = 5;
             return _userModel.default.findOne({
               username: args.senderUsername
             }).lean();
 
-          case 6:
+          case 5:
             sender = _context3.sent;
-            _context3.next = 9;
+            _context3.next = 8;
             return _userModel.default.findOneAndUpdate({
               _id: req.session.userId,
               contacts: {
@@ -210,9 +211,9 @@ var rejectContact = function () {
               new: true
             }).lean();
 
-          case 9:
+          case 8:
             contact = _context3.sent;
-            _context3.next = 12;
+            _context3.next = 11;
             return _userModel.default.updateOne({
               _id: sender._id,
               contacts: {
@@ -228,11 +229,11 @@ var rejectContact = function () {
               new: true
             });
 
-          case 12:
+          case 11:
             updatedSender = _context3.sent;
             return _context3.abrupt("return", contact);
 
-          case 14:
+          case 13:
           case "end":
             return _context3.stop();
         }
@@ -966,14 +967,13 @@ var login = function () {
             ctx.req.session.userId = user._id;
 
           case 26:
-            console.log("user: ", user);
             return _context13.abrupt("return", {
               token: token,
               user: user,
               error: arrayOfErrors
             });
 
-          case 28:
+          case 27:
           case "end":
             return _context13.stop();
         }
@@ -1344,11 +1344,6 @@ var userResolvers = {
       return "Hello ".concat(name || "World");
     },
     me: me
-  },
-  User: {
-    contacts: function contacts(user) {
-      return ["Tom", "Bob", "Harry"];
-    }
   },
   Mutation: {
     addContact: addContact,
