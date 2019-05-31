@@ -127,11 +127,11 @@ class CourseIntroduction extends PureComponent {
   }
 
   componentDidMount = () => {
-    console.log("props:", this.props)
+    const {courseId} = this.props.location.state || ""
     var found = new Promise(resolve => {
       if (session.user.subscriptions) {
         var result = session.user.subscriptions.find(o => {
-          return o._id === this.props.location.state.courseId
+          return o._id === courseId
         })
       }
       resolve(result)
