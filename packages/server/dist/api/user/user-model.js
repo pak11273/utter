@@ -23,6 +23,7 @@ var UserSchema = new _mongoose.default.Schema({
   age: {
     type: Number
   },
+  avatar: String,
   blocked: [{
     type: _mongoose.default.Schema.Types.ObjectId,
     ref: "User"

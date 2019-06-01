@@ -22,11 +22,11 @@ var _graphqlServer = _interopRequireDefault(require("./graphql-server.js"));
 
 var _auth = require("./auth");
 
-var _groupChat = _interopRequireDefault(require("./socketio/group-chat.js"));
+var _socketioMgr = _interopRequireDefault(require("./socketio/socketio-mgr.js"));
 
 var server = _http.default.createServer(_server.default);
 
-(0, _groupChat.default)(server);
+(0, _socketioMgr.default)(server);
 var currentApp = _server.default;
 
 _mongoose.default.set("useFindAndModify", false);

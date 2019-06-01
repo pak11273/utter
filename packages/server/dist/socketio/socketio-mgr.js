@@ -40,6 +40,7 @@ var _default = function () {
             io = (0, _socket.default)(server);
             io.on("connection", function (socket) {
               console.log("user connected");
+              io.emit("hi", "everyone");
               socket.on("join", function (zone, cb) {
                 console.log("zone: ", zone);
                 socket.join(zone.zoneId);
