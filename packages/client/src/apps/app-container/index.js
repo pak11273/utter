@@ -17,7 +17,7 @@ class AppContainer extends PureComponent {
 
   render() {
     return (
-      <Flex>
+      <Flex minHeight="585px">
         <GetCarousel />
       </Flex>
     )

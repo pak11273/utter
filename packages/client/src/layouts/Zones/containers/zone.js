@@ -27,7 +27,7 @@ import IconButton from "@material-ui/core/IconButton"
 import PeopleIcon from "@material-ui/icons/People"
 import PersonIcon from "@material-ui/icons/Person"
 import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
-import Members from "./members/members.js"
+/* import Members from "./members/members.js" */
 import Notebook from "./notebook/notebook.js"
 import {session, subscribe} from "brownies"
 
@@ -325,7 +325,7 @@ class Zone extends Component {
         </Drawer>
         <Flex direction="column">
           <AppContainer />
-          <Members usersList={this.state.usersList} />
+          {/* <Members usersList={this.state.usersList} /> */}
         </Flex>
         <Flex
           style={{
