@@ -9,7 +9,7 @@ import {ApolloProvider as ApolloHooksProvider} from "react-apollo-hooks"
 import {ApolloProvider} from "react-apollo"
 import {HelmetProvider} from "react-helmet-async"
 import {cookies, local, session} from "brownies"
-import socket from "./services/socketio/group-chat.js"
+import socket from "./services/socketio/socket-mgr.js"
 
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"

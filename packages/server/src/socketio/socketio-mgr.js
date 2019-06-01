@@ -20,6 +20,12 @@ export default async server => {
   io.on("connection", socket => {
     console.log("user connected")
 
+    // global
+
+    io.emit("hi", "everyone")
+
+    // group chat
+
     socket.on("join", (zone, cb) => {
       console.log("zone: ", zone)
       socket.join(zone.zoneId)
@@ -42,7 +48,7 @@ export default async server => {
       cb()
     })
 
-    socket.on("sendContactRequest", (zone) => {
+    socket.on("sendContactRequest", zone => {
       io.to(zone.contact).emit("newContactRequest", {
         from: zone.sender,
         to: zone.contact

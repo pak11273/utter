@@ -2,7 +2,7 @@ import Loading from "./components/loaders/layout-loader.js"
 import Loadable from "react-loadable"
 import requireAdmin from "./utils/requireAdmin.js"
 import requireAuth from "./utils/requireAuth.js"
-import requireBeta from "./utils/requireBeta.js"
+/* import requireBeta from "./utils/requireBeta.js" */
 /* import noAuth from "./utils/noAuth.js" */
 
 const getAbout = Loadable({
@@ -72,11 +72,11 @@ const getApplication = Loadable({
   delay: 200
 })
 
-const getBeta = Loadable({
-  loader: () => import(/* webpackChunkName: 'beta' */ "./layouts/beta-access"),
-  loading: Loading,
-  delay: 200
-})
+/* const getBeta = Loadable({ */
+/*   loader: () => import(/1* webpackChunkName: 'beta' *1/ "./layouts/beta-access"), */
+/*   loading: Loading, */
+/*   delay: 200 */
+/* }) */
 
 const getChangePassword = Loadable({
   loader: () => import("./layouts/change_password/change-password-ctrl.js"),
@@ -297,11 +297,11 @@ export const routes = [
     component: getAnnouncement,
     path: "/a"
   },
-  {
-    exact: true,
-    path: "/beta-access",
-    component: getBeta
-  },
+  /* { */
+  /*   exact: true, */
+  /*   path: "/beta-access", */
+  /*   component: getBeta */
+  /* }, */
   {
     exact: true,
     path: "/change-password/:token",

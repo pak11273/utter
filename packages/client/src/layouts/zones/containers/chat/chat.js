@@ -8,14 +8,14 @@ import {withApollo} from "react-apollo"
 /* import filename from "../../../../assets/images/play.svg" */
 /* import schema from "../../../../core/schema.js" */
 import Button from "@material-ui/core/Button"
-import {Box, Can, Flex} from "../../../../components"
+import {/* Box */ Can, Flex} from "../../../../components"
 import styled from "styled-components"
 import ceoImg from "../../../../assets/images/ceo.jpg"
 import TextField from "@material-ui/core/TextField"
 /* import FloatingActionButton from "@material-ui/core/Fab" */
 import {withStyles} from "@material-ui/core/styles"
 /* /1* import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice" *1/ */
-import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord"
+/* import FiberSmartRecordIcon from "@material-ui/icons/FiberSmartRecord" */
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction"
@@ -81,6 +81,7 @@ const InputPanel = styled.div`
   height: 38px;
   align-items: center;
   align-self: center;
+  margin: 0 0 20px 10px;
   width: 90%;
 `
 
@@ -92,7 +93,8 @@ const Scrollable = styled.div`
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    marginBottom: "29px"
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -410,22 +412,32 @@ class Chat extends PureComponent {
                 ])}
               </List>
             </Scrollable>
-            <InputPanel>
-              <TextField
-                fullWidth
-                inputProps={{
-                  maxLength: 255
-                }}
-                multiline
-                rows={2}
-                rowsMax={2}
-                onChange={this.onInput}
-                value={this.state.input}
-                onKeyPress={e =>
-                  e.key === "Enter" ? this.onSendMessage() : null
-                }
-              />
-            </InputPanel>
+            <Flex flexdirection="row">
+              <InputPanel>
+                <TextField
+                  fullWidth
+                  inputProps={{
+                    maxLength: 255
+                  }}
+                  multiline
+                  rows={2}
+                  rowsMax={2}
+                  onChange={this.onInput}
+                  value={this.state.input}
+                  onKeyPress={e =>
+                    e.key === "Enter" ? this.onSendMessage() : null
+                  }
+                />
+              </InputPanel>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={this.onSendMessage}
+                className={classes.button}>
+                Send
+                <SendIcon className={classes.rightIcon}>send</SendIcon>
+              </Button>
+            </Flex>
             <div
               className="sound-clips"
               style={{
@@ -434,7 +446,7 @@ class Chat extends PureComponent {
                 alignItems: "center"
               }}
             />
-            <Box flexdirection="row" margin="20px 0">
+            {/* <Box flexdirection="row" margin="20px 0">
               <Button variant="contained" className="record" color="secondary">
                 <FiberSmartRecordIcon className={classes.leftIcon} />
                 Rec
@@ -452,7 +464,7 @@ class Chat extends PureComponent {
                 Send
                 <SendIcon className={classes.rightIcon}>send</SendIcon>
               </Button>
-            </Box>
+            </Box> */}
           </ChatPanel>
         </ChatWindow>
       </Flex>

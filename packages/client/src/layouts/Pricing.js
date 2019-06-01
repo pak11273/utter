@@ -42,11 +42,16 @@ const BetaModal = props => {
           Closed Beta
         </DialogTitle>
         <DialogContentText style={{textAlign: "center"}}>
-          Beta is currently closed but you can still apply for the next round.
+          We&apos;re currently in Open Beta!
         </DialogContentText>
       </DialogContent>
       <DialogActions
         style={{display: "flex", margin: "40px", justifyContent: "center"}}>
+        <Button color="secondary" variant="contained">
+          <NavLink style={{color: "white"}} to="/signup">
+            Sign Up
+          </NavLink>
+        </Button>
         {/* <a
           target="_blank"
           href="http://utterzone.boards.net/"
@@ -55,11 +60,11 @@ const BetaModal = props => {
             Forum
           </Button>
         </a> */}
-        <Button color="secondary" variant="contained">
-          <NavLink style={{color: "white"}} to="/application">
+        {/* <Button color="secondary" variant="contained">
+          <NavLink style={{color: "white"}} to="/signup">
             Apply
           </NavLink>
-        </Button>
+        </Button> */}
       </DialogActions>
     </Dialog>
   )

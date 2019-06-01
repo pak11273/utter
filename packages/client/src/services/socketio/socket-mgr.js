@@ -33,13 +33,10 @@ export default () => {
   }
 
   const sendContactRequest = (contact, sender) => {
-    socket.emit(
-      "sendContactRequest",
-      {
-        contact,
-        sender
-      }
-    )
+    socket.emit("sendContactRequest", {
+      contact,
+      sender
+    })
   }
 
   const newContactRequest = cb => {
@@ -67,6 +64,11 @@ export default () => {
   socket.on("error", err => {
     console.log("received socket error:")
     console.log(err)
+  })
+
+  // Global
+  socket.on("hi", msg => {
+    console.log("msg: ", msg)
   })
 
   return {

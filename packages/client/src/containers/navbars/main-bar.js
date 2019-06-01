@@ -358,7 +358,7 @@ class MainNavbar extends Component {
           })}
         </List>
         <Divider />
-        <List>
+        {/* <List>
           {["Pricing"].map((text, index) => {
             var icon = <MoodIcon />
             if (index === 0) {
@@ -375,7 +375,7 @@ class MainNavbar extends Component {
               </ListItem>
             )
           })}
-        </List>
+        </List> */}
       </div>
     )
 
@@ -386,7 +386,6 @@ class MainNavbar extends Component {
             "Utterzone",
             "About",
             "Contact",
-            "Pricing",
             "Courses",
             "Zones",
             "Community"
@@ -462,10 +461,11 @@ class MainNavbar extends Component {
 
     const settingsMenu = (
       <div>
-        {/* TODO: reinstate after beta */}
-        {/*    <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem> */}
-        {!isAuthenticated && (
+        {/* {!isAuthenticated && (
           <MenuItem onClick={this.handleBeta}>Beta</MenuItem>
+        )} */}
+        {!isAuthenticated && (
+          <MenuItem onClick={this.handleSignup}>Sign Up</MenuItem>
         )}
         {!isAuthenticated && <MenuItem onClick={this.login}>Login</MenuItem>}
         {isAuthenticated && (
@@ -531,23 +531,22 @@ class MainNavbar extends Component {
             </MenuItem>
           </div>
         ) : null}
-        {/* TODO: reinstate after beta */}
-        {/*   {!isAuthenticated ? (
+        {!isAuthenticated ? (
           <MenuItem onClick={this.handleSignup}>
             <IconButton color="inherit">
               <AssignmentIcon />
             </IconButton>
             <p className={classes.noMargin}>Sign Up</p>
           </MenuItem>
-        ) : null} */}
-        {!isAuthenticated ? (
+        ) : null}
+        {/*  {!isAuthenticated ? (
           <MenuItem onClick={this.handleBeta}>
             <IconButton color="inherit">
               <AssignmentIcon />
             </IconButton>
             <p className={classes.noMargin}>Beta</p>
           </MenuItem>
-        ) : null}
+        ) : null} */}
         {!isAuthenticated ? (
           <MenuItem onClick={this.login}>
             <IconButton color="inherit">
@@ -606,7 +605,7 @@ class MainNavbar extends Component {
                 Community
               </StyledNavLink>
             </Typography>
-            <Typography
+            {/*    <Typography
               className={classes.title}
               variant="h6"
               color="inherit"
@@ -619,7 +618,7 @@ class MainNavbar extends Component {
                 to="/pricing">
                 Pricing
               </StyledNavLink>
-            </Typography>
+            </Typography> */}
             <Typography
               className={classes.title}
               variant="h6"

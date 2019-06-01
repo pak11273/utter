@@ -9,6 +9,7 @@ export const UserSchema = new mongoose.Schema(
     age: {
       type: Number
     },
+    avatar:String,
     blocked: [
       {
         type: mongoose.Schema.Types.ObjectId,
