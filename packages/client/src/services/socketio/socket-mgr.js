@@ -15,7 +15,6 @@ export default () => {
 
   // Global
   io.on("connect", () => {
-    console.log("session: ", session.user)
     io.emit("global", {
       username: session.user.username,
       avatar: session.user.avatar

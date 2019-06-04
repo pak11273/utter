@@ -1,6 +1,5 @@
 // server side
 import socket from "socket.io"
-import uniqBy from "lodash/uniqBy"
 import SocketUsers from "../socketio/users.js"
 import GlobalZone from "../socketio/global.js"
 
@@ -13,23 +12,14 @@ export default server => {
   // global
 
   io.on("connection", socket => {
-    io.on("global", data => {
-      Global.registerZone(socket.id, data.username, data.avatar)
-      console.log("Global: ", Global)
-    })
-
     socket.on("global", global => {
-      socket.join(global.zone)
-
       /* registerZone(socketId, username, zone, avatar) { */
-      Global.registerZone(socket.id, global.username, global.avatar)
+      Global.registerZone(global.username, global.avatar)
 
-      var nameProp = Global.getZoneList(global.zone)
-      const arr = uniqBy(nameProp, "username")
-      console.log(nameProp)
-      io.to(global.zone).emit("loggedInUser", arr)
+      var list = Global.getZoneList()
+      console.log(list)
+      io.emit("loggedInUser", list)
     })
-    io.emit("hi", "everyone")
 
     // group chat
 

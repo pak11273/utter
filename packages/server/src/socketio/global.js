@@ -1,28 +1,22 @@
+import uniqBy from "lodash/uniqBy"
+
 class SocketGlobal {
   constructor() {
     this.globalZone = []
   }
 
-  registerZone(socketId, username, avatar) {
+  registerZone(username, avatar) {
     var zoneName = {
-      socketId,
       username,
       avatar
     }
     this.globalZone.push(zoneName)
+    this.globalZone = uniqBy(this.globalZone, "username")
     return zoneName
   }
 
-  getZoneList(zoneId) {
-    var zoneName = this.globalZone.filter(user => user.zoneId === zoneId)
-
-    var namesArr = zoneName.map(user => {
-      return {
-        username: user.username,
-        avatar: user.avatar
-      }
-    })
-    return namesArr
+  getZoneList() {
+    return this.globalZone
   }
 }
 
