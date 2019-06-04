@@ -27,6 +27,8 @@ import {
 import {ZONE_CREATE_MUTATION} from "../../../graphql/mutations/zone-mutaions.js"
 import {REMOVE_SUBSCRIPTION} from "../../../graphql/mutations/user-mutations.js"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
+import {APP_INIT} from "../../../graphql/mutations/app-mutations.js"
+
 import {options} from "../options.js"
 
 import {session} from "brownies"
@@ -361,11 +363,26 @@ export default compose(
           }
         })
 
-        const onComplete = zone => {
+        const onComplete = async zone => {
           var {user} = session
           user.hostedZone = zone.data.zoneCreate
           session.user = user
           session.zone = zone.data.zoneCreate
+
+          // initialize app data
+          const app = await props.client.mutate({
+            mutation: APP_INIT,
+            variables: {
+              app: zone.data.zoneCreate.app,
+              host: user._id,
+              levelId: levels[values.courseLevel - 1]._id,
+              modifier: session.modifier,
+              zoneId: zone.data.zoneCreate._id
+            }
+          })
+
+          console.log("app: ", app)
+
           props.history.push({
             pathname: `/zone/${zone.data.zoneCreate._id}`,
             state: {zoneId: zone.data.zoneCreate._id}

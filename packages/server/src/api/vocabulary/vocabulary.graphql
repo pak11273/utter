@@ -35,6 +35,7 @@ input VocabularyCreateInput {
 	word: String
 }
 
+
 type PaginatedVocabulary {
   vocabulary: [Vocabulary]
   errors: [Error]

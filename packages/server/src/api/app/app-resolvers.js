@@ -2,6 +2,9 @@ import {isEmpty} from "lodash"
 import mongoose from "mongoose"
 import App from "./app-model"
 import fetch from "node-fetch"
+import {PhotoAdapter} from "../../apps/carousel/adapter.js"
+import Level from "../../api/level/level-model.js"
+import SocketZones from "../../socketio/zones.js"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
@@ -64,6 +67,27 @@ const appCreate = async (_, args, ctx, info) => {
   app.id = app._id
   console.log("app: ", typeof app)
   return app
+}
+
+const appInit = async (_, {input}, ctx) => {
+  try {
+    const level = await Level.findById(input.levelId)
+      .populate("vocabulary")
+      .lean()
+
+    // app switcher
+    if (input.app === "Carousel") {
+      // instantiate zone class
+      const socket = await new SocketZones(
+        input.zoneId,
+        level.vocabulary,
+        input.modifier
+      )
+      socket.inititalizeCarousel()
+    }
+  } catch (err) {
+    return err
+  }
 }
 
 const getAppLevels = async (_, args, ctx, info) => {
@@ -156,6 +180,13 @@ const getApps = async (_, args, ctx, info) => {
   }
 }
 
+/* const getCarouselPics = async (_, args, ctx, info) => { */
+/*   // initialize app */
+/*   if (createdZone.app === "Carousel") { */
+/*     // load pictures into zone */
+/*   } */
+/* } */
+
 export const appResolvers = {
   Query: {
     getPixabayData,
@@ -166,14 +197,15 @@ export const appResolvers = {
   },
   Mutation: {
     appDelete,
+    appInit,
     appUpdate,
     appCreate
-  },
-  App: {
-    async appAuthor(app) {
-      const populated = await app.populate("appAuthor").execPopulate()
-
-      return populated.appAuthor
-    }
   }
+  /* App: { */
+  /*   async appAuthor(app) { */
+  /*     const populated = await app.populate("appAuthor").execPopulate() */
+
+  /*     return populated.appAuthor */
+  /*   } */
+  /* } */
 }

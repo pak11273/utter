@@ -9,3 +9,11 @@ export const GET_PIXABAY_DATA = gql`
     }
   }
 `
+
+/* export const GET_CAROUSEL_PICS = gql` */
+/*   query getCarouselPics { */
+/*     getCarouselPics { */
+/*       list */
+/*     } */
+/*   } */
+/* ` */

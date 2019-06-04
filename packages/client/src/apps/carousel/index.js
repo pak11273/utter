@@ -24,8 +24,8 @@ import PlayCircleOutlineIcon from "@material-ui/icons/PlayCircleOutline"
 import {withStyles} from "@material-ui/core/styles"
 import Typography from "@material-ui/core/Typography"
 
-import "react-responsive-carousel/lib/styles/carousel.min.css"
-import {Carousel} from "react-responsive-carousel"
+import "react-responsive-carousel-v2/dist/carousel.scss"
+import {Carousel} from "react-responsive-carousel-v2"
 import {isOwner, shuffleArray} from "../../utils"
 /* import {shuffleArray} from "../../utils" */
 import {Flex, LoaderCircle} from "../../components"
@@ -171,18 +171,31 @@ class HostControls extends PureComponent {
 
   componentDidMount() {
     // get app info and load app here
-    const PAdapter = new PhotoAdapter({
-      vocabulary: session.vocabulary,
-      modifier: session.modifier
-    })
-    PAdapter.functions("fetchPixabay").then(res => {
-      session.carousel = res
-      this.setState({
-        randomVocabulary: res,
-        loading: false,
-        isOwner: true
+    if (this.state.isOwner) {
+      // TODO: fetch from server
+
+      /* this.client.query({ */
+      /*   query: GET_CAROUSEL_PICS */
+      /* }) */
+
+      const PAdapter = new PhotoAdapter({
+        vocabulary: session.vocabulary,
+        modifier: session.modifier
       })
-    })
+
+      PAdapter.functions("fetchPixabay").then(res => {
+        session.carousel = res
+        // TODO: send list to all members in room
+        // if new member enters, they must get list too
+        console.log("res: ", res)
+
+        this.setState({
+          randomVocabulary: res,
+          loading: false, // set to false when all members are ready
+          isOwner: true
+        })
+      })
+    }
   }
 
   resetOwner = () => {
@@ -229,7 +242,8 @@ class HostControls extends PureComponent {
         showThumbs={false}
         showIndicators={false}
         showArrows={this.state.isOwner && !this.state.loading}
-        showStatus>
+        showStatus
+        swipeable={this.state.isOwner}>
         {this.state.loading && (
           <Card className={this.props.classes.loadingCard}>
             <CardContent>

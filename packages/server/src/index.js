@@ -13,7 +13,7 @@ import {isAuth} from "./auth"
 const server = http.createServer(app)
 
 // socketio instances
-socketZoneChat(server)
+export const io = socketZoneChat(server)
 
 let currentApp = app
 

@@ -25,6 +25,14 @@ input AppCreateInput {
   usingLang: String
 }
 
+input AppInit {
+	app: String
+	host: String
+	levelId: String
+	modifier: String
+	zoneId: String
+}
+
 type PaginatedApps {
   apps: [App]
   cursor: String
@@ -34,6 +42,19 @@ type PixabayOutput {
 	rateLimit: String
 	remaining: String
 	reset: String
+}
+
+type PictureList {
+	_id: String
+	level: String
+	gender: String
+	keyword: String
+	partsOfSpeech: String
+	translation: String
+	word: String
+	webformatHeight: String
+	webformatWidth: String
+	webformatURL: String
 }
 
 extend type Query {
@@ -58,6 +79,7 @@ extend type Query {
 extend type Mutation {
   appCreate(input: AppCreateInput!): App! 
 	appDelete(id: String!): Boolean
+	appInit(input: AppInit): [PictureList]
   appUpdate(input: AppUpdated!): App!
   appRemove(id: ID!): Boolean
 }

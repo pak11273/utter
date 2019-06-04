@@ -96,6 +96,15 @@ module.exports = ({mode, presets} = {mode: "production", presets: []}) => {
             use: ["cache-loader", "style-loader", "css-loader"]
           },
           {
+            test: /\.scss$/,
+            use: [
+              "style-loader",
+              /* MiniCssExtractPlugin.loader, */
+              "css-loader",
+              "sass-loader"
+            ]
+          },
+          {
             test: /\.(jpe?g|png|gif|svg|ico|mp3)$/i,
             use: [
               {

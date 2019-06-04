@@ -48,6 +48,10 @@ export default () => {
 
   const zoneConnect = zone => {
     /* zone = {username: "chachi", zoneId: "1234", zoneName: "hiachi"} */
+    socket.on("init", pics => {
+      console.log("pics: ", pics)
+    })
+
     socket.emit("join", zone, () => {
       console.log("user has joined zone: ")
     })
@@ -67,9 +71,11 @@ export default () => {
   })
 
   // Global
-  socket.on("hi", msg => {
-    console.log("msg: ", msg)
-  })
+  /* socket.on("hi", msg => { */
+  /*   console.log("msg: ", msg) */
+  /* }) */
+
+  // Carousel
 
   return {
     createMessage,
@@ -78,5 +84,6 @@ export default () => {
     sendContactRequest,
     usersList,
     zoneConnect
+    // Carousel
   }
 }

@@ -4,20 +4,11 @@ import SocketUsers from "../socketio/users.js"
 
 const Users = new SocketUsers()
 
-const handleEvent = (zoneId, createEntry) => {
-  // append event to chat history
-  const entry = {user, ...createEntry()}
-  zone.addEntry(entry)
-
-  // notify other clients in zone
-  zone.broadcastMessage({chat: zoneId, ...entry})
-  return zone
-}
-
-export default async server => {
+export default server => {
   const io = socket(server)
 
   io.on("connection", socket => {
+
     console.log("user connected")
 
     // global
@@ -27,14 +18,9 @@ export default async server => {
     // group chat
 
     socket.on("join", (zone, cb) => {
-      console.log("zone: ", zone)
       socket.join(zone.zoneId)
 
-      console.log("zone: ", zone)
-
       Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username)
-
-      console.log("Users: ", Users)
 
       io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
 
@@ -42,7 +28,6 @@ export default async server => {
     })
 
     socket.on("joinAddContact", (zone, cb) => {
-      console.log("socket join add contact: ", zone.username)
       socket.join(zone.username)
 
       cb()
@@ -75,5 +60,11 @@ export default async server => {
     socket.on("register", ({username, cb}) => {
       return cb(null, username)
     })
+
+    // apps
+
+    // carousel
   })
+
+  return io
 }

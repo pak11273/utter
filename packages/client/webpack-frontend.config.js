@@ -18,7 +18,7 @@ module.exports = env => {
       filename: "bundle.[name].[hash].js",
       publicPath: "/" // use with historyApiFallback
     },
-    devtool: env.prod ? "source-map" : "eval",
+    devtool: env.prod ? "eval" : "source-map",
     watchOptions: {
       ignored: /node_modules/
     },
