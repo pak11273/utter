@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 
 // client side
-import io from "socket.io-client"
+import socket from "socket.io-client"
 
 export default () => {
   var url = ""
@@ -10,18 +10,27 @@ export default () => {
     url = process.env.SOCKETIO_SERVER_URL
   else url = "http://192.168.68.8:3010"
 
-  const socket = io(url)
+  const io = socket(url)
+
+  // Global
+  io.on("connect", () => {
+    io.emit("global", {
+      zone: "pending room",
+      name: "pending name",
+      avatar: "default.png"
+    })
+  })
 
   const newMessage = onMsgReceived => {
-    socket.on("newMessage", onMsgReceived)
+    io.on("newMessage", onMsgReceived)
   }
 
   const usersList = cb => {
-    socket.on("usersList", cb)
+    io.on("usersList", cb)
   }
 
   const createMessage = zone => {
-    socket.emit(
+    io.emit(
       "createMessage",
       {
         username: zone.username,
@@ -33,14 +42,14 @@ export default () => {
   }
 
   const sendContactRequest = (contact, sender) => {
-    socket.emit("sendContactRequest", {
+    io.emit("sendContactRequest", {
       contact,
       sender
     })
   }
 
   const newContactRequest = cb => {
-    socket.on("newContactRequest", contact => {
+    io.on("newContactRequest", contact => {
       console.log("friend: ", contact)
       cb(contact)
     })
@@ -48,32 +57,27 @@ export default () => {
 
   const zoneConnect = zone => {
     /* zone = {username: "chachi", zoneId: "1234", zoneName: "hiachi"} */
-    socket.on("init", pics => {
+    io.on("init", pics => {
       console.log("pics: ", pics)
     })
 
-    socket.emit("join", zone, () => {
+    io.emit("join", zone, () => {
       console.log("user has joined zone: ")
     })
 
-    socket.emit("joinAddContact", zone, () => {
+    io.emit("joinAddContact", zone, () => {
       console.log("joined add Contact")
     })
 
-    /* socket.on("newContactRequest", contact => { */
+    /* io.on("newContactRequest", contact => { */
     /*   console.log("friend: ", contact) */
     /* }) */
   }
 
-  socket.on("error", err => {
+  io.on("error", err => {
     console.log("received socket error:")
     console.log(err)
   })
-
-  // Global
-  /* socket.on("hi", msg => { */
-  /*   console.log("msg: ", msg) */
-  /* }) */
 
   // Carousel
 

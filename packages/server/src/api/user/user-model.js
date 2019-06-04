@@ -9,7 +9,10 @@ export const UserSchema = new mongoose.Schema(
     age: {
       type: Number
     },
-    avatar:String,
+    avatar: {
+      type: String,
+      default: "default.png"
+    },
     blocked: [
       {
         type: mongoose.Schema.Types.ObjectId,
