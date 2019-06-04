@@ -13,19 +13,16 @@ export default server => {
   // global
 
   io.on("connection", socket => {
-    console.log("user connected")
-    socket.broadcast.emit("ANINT NOTHIN GONNA BREAK MY STRIDE")
+    io.on("global", data => {
+      Global.registerZone(socket.id, data.username, data.avatar)
+      console.log("Global: ", Global)
+    })
 
     socket.on("global", global => {
       socket.join(global.zone)
 
       /* registerZone(socketId, username, zone, avatar) { */
-      Global.registerZone(
-        socket.id,
-        global.username,
-        global.zone,
-        global.avatar
-      )
+      Global.registerZone(socket.id, global.username, global.avatar)
 
       var nameProp = Global.getZoneList(global.zone)
       const arr = uniqBy(nameProp, "username")

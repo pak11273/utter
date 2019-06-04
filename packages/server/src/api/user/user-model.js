@@ -121,13 +121,11 @@ export const UserSchema = new mongoose.Schema(
       required: [true, "can't be blank"],
       type: String
     },
-    image: String,
     hash: String,
     salt: String,
     rights: {
       type: [String]
     },
-    userImage: {type: String, default: "default.png"},
     facebook: {type: String, default: ""},
     fbTokens: Array,
     google: {type: String, default: ""},

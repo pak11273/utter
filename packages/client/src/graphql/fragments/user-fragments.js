@@ -3,6 +3,7 @@ import gql from "graphql-tag"
 export const accountFragment = gql`
   fragment UserInfo on User {
     _id
+    avatar
     blocked
     ccLast4
     contacts {

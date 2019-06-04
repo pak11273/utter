@@ -3,11 +3,10 @@ class SocketGlobal {
     this.globalZone = []
   }
 
-  registerZone(socketId, username, zone, avatar) {
+  registerZone(socketId, username, avatar) {
     var zoneName = {
       socketId,
       username,
-      zone,
       avatar
     }
     this.globalZone.push(zoneName)
@@ -18,12 +17,11 @@ class SocketGlobal {
     var zoneName = this.globalZone.filter(user => user.zoneId === zoneId)
 
     var namesArr = zoneName.map(user => {
-			return {
-				username: user.username,
-				avatar: user.avatar 
-			}
-		}
-		)
+      return {
+        username: user.username,
+        avatar: user.avatar
+      }
+    })
     return namesArr
   }
 }

@@ -2,6 +2,7 @@
 
 // client side
 import socket from "socket.io-client"
+import {session} from "brownies"
 
 export default () => {
   var url = ""
@@ -14,10 +15,10 @@ export default () => {
 
   // Global
   io.on("connect", () => {
+    console.log("session: ", session.user)
     io.emit("global", {
-      zone: "pending room",
-      name: "pending name",
-      avatar: "default.png"
+      username: session.user.username,
+      avatar: session.user.avatar
     })
   })
 

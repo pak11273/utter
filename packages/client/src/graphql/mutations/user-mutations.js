@@ -142,6 +142,7 @@ const LOGIN_MUTATION = gql`
     login(input: {identifier: $identifier, password: $password}) {
       token
       user {
+        avatar
         _id
         contacts {
           _id

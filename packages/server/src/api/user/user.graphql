@@ -49,6 +49,7 @@ input UpdatedUserInput {
 }
 
 type User {
+	avatar: String
 	blocked: [String]
   contacts: [User]
 	ccLast4: String
