@@ -221,6 +221,7 @@ class MainNavbar extends Component {
     delete session.friends
     delete local.notified
     delete local.notifications
+    socketio.disconnect()
     this.props.history.push("/login")
   }
 

@@ -23,7 +23,7 @@ const socketClient = () => {
     }
   })
 
-	// Pushes loggedin user to session.friends 
+  // Pushes loggedin user to session.friends
   io.on("loggedInUser", list => {
     var arr = []
     var contacts = (session.user && session.user.contacts) || []
@@ -38,6 +38,10 @@ const socketClient = () => {
     }
     session.friends = arr
   })
+
+  const disconnect = () => {
+    io.close()
+  }
 
   const newMessage = onMsgReceived => {
     io.on("newMessage", onMsgReceived)
@@ -101,6 +105,7 @@ const socketClient = () => {
 
   return {
     createMessage,
+    disconnect,
     newMessage,
     newContactRequest,
     sendContactRequest,
