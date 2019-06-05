@@ -85,7 +85,7 @@ export default {
         let next
 
         // type cast id, $lt is not the same in aggregate vs query
-        var next = mongoose.Types.ObjectId(req.query.next)
+        next = mongoose.Types.ObjectId(req.query.next)
         // add to query object
         query._id = {$lt: next}
 

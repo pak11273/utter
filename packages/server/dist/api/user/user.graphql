@@ -1,0 +1,98 @@
+type AuthPayload {
+	confirmed: Boolean
+  token: String
+	user: User
+  error: [Error]
+}
+
+input ChangePasswordInput {
+	password: String!,
+	passwordConfirmation: String,
+	token: String!
+}
+
+input ContactInput {
+  email: String!
+	message: String!
+  name: String!
+	phone: String!
+	subject: String!
+}
+
+type ContactOutput {
+	success: [String],
+	errors: [String]
+}
+
+input LoginInput {
+  identifier: String!
+  password: String!
+}
+
+input SignupInput {
+  email: String!
+  password: String!
+	passwordConfirmation: String!
+  username: String!
+	timezone: String
+}
+
+input UpdatedUserInput {
+  age: Int
+  email: String
+  firstName: String
+  lastName: String
+	blocked: [String]
+  isCanceled: Boolean
+  roles: [String]
+  username: String
+}
+
+type User {
+	avatar: String
+	blocked: [String]
+  contacts: [User]
+	ccLast4: String
+	confirmed: Boolean
+	createdCourses: [Course!]
+  createdAt: String
+  email: String! 
+	hostedZone: Zone
+	_id: ID
+	isCanceled: Boolean
+  password: String
+	requests: [User]
+	roles: [ String ]
+	rights: [String]
+	subscriptions: [Course]
+  updatedAt: String
+  username: String
+}
+
+type Query {
+	getNotifications: User
+	getSubscriptions(userId: ID!): User
+  getUserById(_id: ID!): User!
+  getUserByUsername(input: String!): User
+	getUserByToken(token: String!): User 
+  hello(name: String): String!
+	me: User
+}
+
+type Mutation {
+	acceptContact(senderUsername: String): User
+	rejectContact(senderUsername: String): User
+	addContact(contact: String, sender: String): User 
+	cancelPayMonthly: User
+	changePassword(input: ChangePasswordInput): AuthPayload 
+  contact(input: ContactInput!): ContactOutput
+	changeCreditCard(source: String!, ccLast4: String): User
+	createPayMonthly(source: String!, ccLast4: String): User
+  login(input: LoginInput): AuthPayload
+	forgotPassword(email: String!): Boolean 
+	confirmEmail(token: String!): Boolean 
+  signup(input: SignupInput!): AuthPayload
+	removeSubscription(subscribedCourse: String): User 
+	renewConfirmation(email: String): Boolean 
+  updateMe(input: UpdatedUserInput!): User!
+}
