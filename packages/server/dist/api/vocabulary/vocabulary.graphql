@@ -1,0 +1,59 @@
+type Vocabulary {
+	_id: ID
+	audioUrl: String
+	level: String 
+	keyword: String 
+	gender: String
+	partsOfSpeech: String
+	word: String
+	translation: String
+}
+
+type VocabularyPayload {
+	vocabulary: Vocabulary 
+  errors: [Error]
+}
+
+input VocabularyUpdated {
+	_id: ID
+	audioUrl: String
+	level: String 
+	gender: String
+	keyword: String 
+	partsOfSpeech: String
+	word: String
+	translation: String
+}
+
+input VocabularyCreateInput {
+	audioUrl: String
+	gender: String
+	level: ID! 
+	keyword: String 
+	partsOfSpeech: String
+	translation: String
+	word: String
+}
+
+
+type PaginatedVocabulary {
+  vocabulary: [Vocabulary]
+  errors: [Error]
+}
+
+extend type Query {
+  getVocabulary(level: String!): Vocabulary!
+  getVocabularies(
+		level: ID 
+  ): PaginatedVocabulary 
+  getVocabularyCount: Int
+}
+
+
+extend type Mutation {
+	vocabularyAudioSave(_id: ID, audioUrl: String, tags: [String]): VocabularyPayload
+	vocabularyAudioDelete(_id: ID, public_id: String): VocabularyPayload
+	vocabularyCreate(input: VocabularyCreateInput!): VocabularyPayload
+	vocabularyDelete(_id: ID, public_id: String): VocabularyPayload
+  vocabularyUpdate(input: VocabularyUpdated!): VocabularyPayload
+}
