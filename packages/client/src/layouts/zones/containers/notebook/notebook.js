@@ -2,7 +2,7 @@ import React, {PureComponent} from "react"
 
 import Grid from "@material-ui/core/Grid"
 /* import Paper from "@material-ui/core/Paper" */
-import Typography from "@material-ui/core/Typography"
+/* import Typography from "@material-ui/core/Typography" */
 import {withStyles} from "@material-ui/core/styles"
 
 const styles = theme => ({
@@ -27,9 +27,9 @@ class Notebook extends PureComponent {
     return (
       <div className={classes.root}>
         <Grid align="center">
-          <Typography align="center" variant="h4" className={classes.title}>
+          {/* <Typography align="center" variant="h4" className={classes.title}>
             Notebook
-          </Typography>
+          </Typography> */}
         </Grid>
       </div>
     )
