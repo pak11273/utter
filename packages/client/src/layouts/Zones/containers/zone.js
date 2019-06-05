@@ -2,12 +2,14 @@ import React, {Component} from "react"
 import {Redirect} from "react-router-dom"
 import {withApollo} from "react-apollo"
 import {toast} from "react-toastify"
+import styled from "styled-components"
 
 import {withStyles} from "@material-ui/core/styles"
 /* import Grid from "@material-ui/core/Grid" */
 
-import {socketio} from "../../../app"
+import socketio from "../../../services/socketio/socketio-mgr.js"
 import AppContainer from "../../../apps/app-container"
+/* import Badge from "@material-ui/core/Badge" */
 /* import Button from "@material-ui/core/Button" */
 import Avatar from "@material-ui/core/Avatar"
 import Chat from "./chat/chat.js"
@@ -35,21 +37,34 @@ import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
 import {styles} from "../styles.js"
 
-/* const styles = theme => ({ */
-/*   app: { */
-/*     /1* height: "300px" *1/ */
-/*   }, */
-/*   root: { */
-/*     backgroundColor: "#3e3e3e", */
-/*     flexGrow: 1, */
-/*     marginTop: -20 */
-/*   }, */
-/*   paper: { */
-/*     padding: theme.spacing.unit * 2, */
-/*     textAlign: "center", */
-/*     color: theme.palette.text.secondary */
-/*   } */
-/* }) */
+const CustomBadge = styled.div`
+  background-color: ${props => props.background};
+  top: 10px;
+  left: 25px;
+  height: 13px;
+  display: flex;
+  padding: 0 4px;
+  z-index: 1;
+  position: absolute;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  min-width: 13px;
+  transform: scale(1) translate(50%, -50%);
+  box-sizing: border-box;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  align-items: center;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  align-content: center;
+  border-radius: 10px;
+  flex-direction: row;
+  justify-content: center;
+  transform-origin: 100% 0%;
+`
+
+CustomBadge.defaultProps = {
+  background: "#e3e3e3"
+}
 
 const Loader = () => <div>Loading...</div>
 
@@ -58,6 +73,7 @@ class Zone extends Component {
 
   state = {
     arrowRef: null,
+    friends: session.friends,
     resources: "",
     receiveMsg: "",
     user: {name: "beef"},
@@ -78,15 +94,19 @@ class Zone extends Component {
     this.setState({
       contacts: session.user.contacts
     })
+
     subscribe(session, "user", value => {
       if (value) {
-        this.setState(
-          {
-            contacts: value.contacts
-          },
-          console.log("state updated; ", this.state)
-        )
+        this.setState({
+          contacts: value.contacts
+        })
       }
+    })
+
+    subscribe(session, "friends", value => {
+      this.setState({
+        friends: value
+      })
     })
 
     // socketize zone
@@ -298,18 +318,29 @@ class Zone extends Component {
             ))}
           </List>
           <List>
-            {this.state.contacts.map((text, i) => (
-              <ListItem button key={i}>
-                <ListItemAvatar>
+            {this.state.contacts.map((text, i) => {
+              if (text.username) {
+                if (
+                  this.state.friends &&
+                  this.state.friends.indexOf(text.username) > -1
+                ) {
+                  var badgeColor = "lime"
+                } else {
+                  badgeColor = "#e3e3e3"
+                }
+              }
+              return (
+                <ListItem button key={i}>
+                  <CustomBadge background={badgeColor} />
                   <Avatar
                     alt={`Avatar n°${0 + 1}`}
                     classes={{root: classes.avatar}}>
                     <PersonIcon />
                   </Avatar>
-                </ListItemAvatar>
-                <ListItemText primary={text && text.username} />
-              </ListItem>
-            ))}
+                  <ListItemText primary={text && text.username} />
+                </ListItem>
+              )
+            })}
           </List>
           <Divider />
           {/*   <List>

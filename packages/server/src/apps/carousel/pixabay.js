@@ -4,8 +4,6 @@ import {session} from "brownies"
 import {shuffleArray} from "../../utils/shuffle-array.js"
 const fetch = require("node-fetch")
 
-console.log("env: ", process.env.PIXABAY_API_KEYS)
-
 export class Pixabay extends PhotoAbstract {
   constructor(data) {
     super(data)

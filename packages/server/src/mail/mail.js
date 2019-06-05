@@ -5,7 +5,11 @@ import async from "async"
 import User from "../api/user/user-model.js"
 
 const options = {
-  viewEngine: "handlebars",
+  viewEngine: {
+    extName: ".handlebars",
+    partialsDir: path.join(__dirname, "../../src/views/partials"),
+    layoutsDir: path.join(__dirname, "../../src/views/layouts")
+  },
   viewPath: path.join(__dirname, "../../src/views/layouts"),
   extName: ".handlebars"
 }
@@ -59,7 +63,6 @@ export const sendContactEmail = args => {
 
 export const sendConfirmEmail = async (recipient, link) => {
   const data = {
-    /* from: process.env.GMAIL_EMAIL, */
     from: process.env.ZOHO_EMAIL,
     to: recipient,
     template: "confirmation-email",
@@ -80,13 +83,14 @@ export const sendConfirmEmail = async (recipient, link) => {
 
 export const sendReConfirmEmail = async (recipient, link) => {
   const data = {
-    from: process.env.APP_EMAIL,
+    from: process.env.ZOHO_EMAIL,
     to: recipient,
     template: "reconfirmation-email",
     subject: "Please confirm your email account",
     context: {
       confirmEmailUrl: link
     }
+    /* html: "<b>Hello world?</b>" // html body */
   }
   transporter.sendMail(data, function(error, info) {
     if (error) {
@@ -100,7 +104,7 @@ export const sendReConfirmEmail = async (recipient, link) => {
 
 export const sendForgotPasswordEmail = function(recipient, link) {
   const data = {
-    from: process.env.APP_EMAIL,
+    from: process.env.ZOHO_EMAIL,
     to: recipient,
     template: "forgot-password-email",
     subject: "Your password reset request",

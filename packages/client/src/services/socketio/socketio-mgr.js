@@ -2,9 +2,9 @@
 
 // client side
 import socket from "socket.io-client"
-import {session} from "brownies"
+import {session, subscribe} from "brownies"
 
-export default () => {
+const socketClient = () => {
   var url = ""
 
   if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "prod")
@@ -14,11 +14,29 @@ export default () => {
   const io = socket(url)
 
   // Global
-  io.on("connect", () => {
-    io.emit("global", {
-      username: session.user.username,
-      avatar: session.user.avatar
+  subscribe(session, "user", value => {
+    if (value && value.username) {
+      io.emit("global", {
+        username: session.user.username,
+        avatar: session.user.avatar
+      })
+    }
+  })
+
+	// Pushes loggedin user to session.friends 
+  io.on("loggedInUser", list => {
+    var arr = []
+    var contacts = (session.user && session.user.contacts) || []
+    var names = contacts.map(item => {
+      return item.username
     })
+
+    for (var i = 0; i < list.length; i++) {
+      if (names.indexOf(list[i].username) > -1) {
+        arr.push(list[i].username)
+      }
+    }
+    session.friends = arr
   })
 
   const newMessage = onMsgReceived => {
@@ -91,3 +109,5 @@ export default () => {
     // Carousel
   }
 }
+const socketio = socketClient()
+export default socketio

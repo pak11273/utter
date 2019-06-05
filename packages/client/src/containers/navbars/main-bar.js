@@ -42,7 +42,7 @@ import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import Toolbar from "@material-ui/core/Toolbar"
 import Typography from "@material-ui/core/Typography"
 
-import {socketio} from "../../app"
+import socketio from "../../services/socketio/socketio-mgr.js"
 /* import {Login} from "../index.js" */
 import {Logo} from "../../components"
 import {
@@ -218,6 +218,7 @@ class MainNavbar extends Component {
     e.preventDefault()
     delete cookies._uid
     delete session.user
+    delete session.friends
     delete local.notified
     delete local.notifications
     this.props.history.push("/login")

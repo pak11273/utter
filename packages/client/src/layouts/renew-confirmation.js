@@ -56,7 +56,7 @@ const styles = theme => ({
 class ConfirmEmail extends Component {
   state = {
     confirmation:
-      "We need to confirm your eamil address.  Did you lose your confirmation email?  We can send you another one."
+      "We need to confirm your email address.  Did you lose your confirmation email?  We can send you another one."
   }
 
   render() {
@@ -135,7 +135,7 @@ class ConfirmEmail extends Component {
                       color="primary"
                       variant="contained"
                       type="submit">
-                      Apply
+                      Send
                     </LoadingButton>
                   </Flex>
                 </form>
