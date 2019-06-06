@@ -17,6 +17,10 @@ var _users = _interopRequireDefault(require("../socketio/users.js"));
 
 var _global = _interopRequireDefault(require("../socketio/global.js"));
 
+var _constants = require("./constants");
+
+var _globalHandlers = require("./handlers/global-handlers.js");
+
 var Users = new _users["default"]();
 var Global = new _global["default"]();
 
@@ -24,12 +28,7 @@ var _default = function _default(server) {
   var io = (0, _socket["default"])(server);
   io.on("connection", function (socket) {
     console.log("a user connected");
-    socket.on("global", function (global) {
-      Global.registerZone(global.username, global.avatar);
-      var list = Global.getZoneList();
-      console.log("list: ", list);
-      io.emit("loggedInUser", list);
-    });
+    socket.on("global_register", (0, _globalHandlers.register_zone_handler)(io));
     socket.on("join", function (zone, cb) {
       socket.join(zone.zoneId);
       Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username);
