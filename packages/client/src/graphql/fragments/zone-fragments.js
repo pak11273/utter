@@ -16,6 +16,8 @@ export const zoneFragment = gql`
     }
     password
     private
+    teachingLang
+    usingLang
     zoneName
   }
 `

@@ -42,14 +42,17 @@ const RandomCard = ({
   word,
   phrase,
   question,
+  speak,
   webformatURL
 }) => {
   const [state, changeState] = useState({
     state: {
       translation,
-      expanded: false
+      expanded: false,
+      Utter: {}
     }
   })
+
   /* const handleExpandClick = () => { */
   /*   console.log("web: ", webformatURL) */
   /*   console.log("typeof: ", typeof webformatURL) */
@@ -60,8 +63,13 @@ const RandomCard = ({
   /* } */
 
   const toggleTranslate = () => {
-    const a = new Audio(audioUrl)
-    a.play()
+    if (!audioUrl) {
+      speak(word)
+    } else {
+      speak(word)
+      /* const a = new Audio(audioUrl) */
+      /* a.play() */
+    }
     changeState({
       ...state,
       translation
@@ -243,6 +251,7 @@ class HostControls extends PureComponent {
         showIndicators={false}
         showArrows={this.state.isOwner && !this.state.loading}
         showStatus
+        speak={this.props.speak}
         swipeable={this.state.isOwner}>
         {this.state.loading && (
           <Card className={this.props.classes.loadingCard}>
@@ -271,6 +280,26 @@ class HostControls extends PureComponent {
 }
 
 class CarouselContainer extends PureComponent {
+  componentDidMount = () => {
+    this.voices = window.speechSynthesis.getVoices()
+    console.log("this: ", this.voices)
+  }
+
+  speak = word => {
+    console.log("word: ", word)
+    /* var msg = new SpeechSynthesisUtterance("foo foo") */
+    var msg = new SpeechSynthesisUtterance(word)
+    var voices = window.speechSynthesis.getVoices()
+    console.log("voices: ", voices)
+    msg.rate = 0.7
+    msg.pitch = 1
+    /* msg.voice = voices[8] */
+    msg.voice = this.voices[8]
+    msg.voiceURI = "native"
+    msg.lang = "ko"
+    window.speechSynthesis.speak(msg)
+  }
+
   render() {
     const {classes} = this.props
     return (
@@ -281,7 +310,10 @@ class CarouselContainer extends PureComponent {
           </Typography>
         </Flex>
         <Flex>
-          <HostControls {...this.props} {...this.state} />
+          <button type="button" onClick={this.speak}>
+            teset
+          </button>
+          <HostControls speak={this.speak} {...this.props} {...this.state} />
         </Flex>
       </Flex>
     )
