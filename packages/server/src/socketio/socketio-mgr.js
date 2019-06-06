@@ -5,23 +5,23 @@ import remove from "lodash/remove"
 import SocketUsers from "../socketio/users.js"
 import GlobalZone from "../socketio/global.js"
 
+// constants
+import {GLOBAL_REGISTER} from "./constants"
+
+// handlers
+import {register_zone_handler} from "./handlers/global-handlers.js"
+
 const Users = new SocketUsers()
 const Global = new GlobalZone()
 
 export default server => {
   const io = socket(server)
 
-  // global
-
   io.on("connection", socket => {
     console.log("a user connected")
-    socket.on("global", global => {
-      Global.registerZone(global.username, global.avatar)
 
-      var list = Global.getZoneList()
-      console.log("list: ", list)
-      io.emit("loggedInUser", list)
-    })
+    // global events
+    socket.on("global_register", register_zone_handler(io))
 
     // group chat
 

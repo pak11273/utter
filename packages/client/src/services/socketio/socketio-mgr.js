@@ -1,4 +1,6 @@
 /* eslint-disable no-plusplus */
+// constants
+import {GLOBAL_REGISTER} from "./constants"
 
 // client side
 import socket from "socket.io-client"
@@ -13,10 +15,12 @@ const socketClient = () => {
 
   const io = socket(url)
 
-  // Global
+  // GLOBAL EVENTS
+
+  // Register a user to the global zone as soon as he logs in
   subscribe(session, "user", value => {
     if (value && value.username) {
-      io.emit("global", {
+      io.emit(GLOBAL_REGISTER, {
         username: session.user.username,
         avatar: session.user.avatar
       })
