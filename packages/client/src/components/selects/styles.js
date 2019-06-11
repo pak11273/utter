@@ -1,7 +1,8 @@
 export const customStyles = {
   control: styles => ({
     ...styles,
-    margin: "20px auto",
+    fontFamily: "Arial",
+    margin: "20px",
     padding: "3px",
     position: "relative",
     width: "200px",
@@ -18,6 +19,7 @@ export const customStyles = {
       color: isDisabled ? "#ccc" : isSelected ? "#2b59ae" : data.color,
       ":active": {
         ...styles[":active"],
+        fontFamily: "Arial",
         backgroundColor: !isDisabled && (isSelected ? data.color : "#2b59ae")
       },
       ":hover": {

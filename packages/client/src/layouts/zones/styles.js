@@ -230,6 +230,10 @@ export const styles = theme => ({
       marginRight: "auto"
     }
   },
+  link: {
+    fontSize: "1.3em",
+    margin: "20px"
+  },
   rightDrawerText: {
     paddingTop: "10px"
   },

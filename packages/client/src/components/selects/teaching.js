@@ -50,6 +50,7 @@ class Teaching extends Component {
           onChange={this.updateValue}
           rtl={this.state.rtl}
           searchable={this.state.searchable}
+          placeholder={this.props.placeholder}
         />
         {!!this.props.error &&
           this.props.touched && (
