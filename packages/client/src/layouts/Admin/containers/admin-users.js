@@ -197,6 +197,7 @@ class Users extends PureComponent {
                       readonly: true
                     },
                     {title: "username", field: "username"},
+                    {title: "email", field: "email"},
                     {title: "avatar", field: "avatar"},
                     {
                       title: "blocked",

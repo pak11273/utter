@@ -67,6 +67,7 @@ export const GET_USERS = gql`
       users {
         _id
         username
+        email
         avatar
         blocked
         confirmed

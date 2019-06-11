@@ -111,7 +111,7 @@ class Zone extends Component {
 
     // socketize zone
     socketio.zoneConnect({
-      username: session.user.username,
+      username: session.user && session.user.username,
       zoneId: this.props.history.location.state.zoneId,
       zoneName: this.props.history.location.state.zoneName
     })
