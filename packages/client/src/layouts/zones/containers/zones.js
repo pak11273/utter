@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {PureComponent} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
@@ -73,76 +73,57 @@ const CustomBadge = styled.div`
   transform-origin: 100% 0%;
 `
 
-const ZonesContainer = props => {
-  const [state, changeState] = useState({
+class ZonesContainer extends PureComponent {
+  state = {
     contacts: [],
     friends: [],
     leftOpen: false,
     open: false
-  })
-  console.log("state: ", state)
+  }
 
-  const handleDrawerLeftOpen = () => {
-    changeState({
-      ...state,
+  handleDrawerLeftOpen = () => {
+    this.setState({
       leftOpen: true
     })
   }
 
-  const handleDrawerLeftClose = () => {
-    changeState({
-      ...state,
+  handleDrawerLeftClose = () => {
+    this.setState({
       leftOpen: false
     })
   }
 
-  useEffect(
-    () => {
-      changeState({
-        ...state,
-        contacts: session.user.contacts
-      })
+  componentDidMount = () => {
+    this.setState({
+      contacts: session.user.contacts
+    })
 
-      subscribe(session, "user", value => {
-        if (value) {
-          changeState({
-            ...state,
-            contacts: value.contacts
-          })
-        }
-      })
-
-      subscribe(session, "friends", value => {
-        changeState({
-          ...state,
-          friends: value
+    subscribe(session, "user", value => {
+      if (value) {
+        this.setState({
+          contacts: value.contacts
         })
+      }
+    })
+
+    subscribe(session, "friends", value => {
+      this.setState({
+        friends: value
       })
-    },
-    [state]
-  )
+    })
+  }
 
-  /* const [courseOption, setCourseOption] = useState(session.user.subscription) */
-
-  /* subscribe(session, "user", value => { */
-  /*   setCourseOption(value.subscriptions) */
-  /*   console.log("courseOption: ", courseOption) */
-  /* }) */
-
-  /* const subscribedOptions =
-    session.user && session.user.subscriptions
-      ? session.user.subscriptions.map(item => {
-          return {
-            value: item.title,
-            label: item.title
-          }
-        })
-      : [{}]
-*/
-  const {classes, handleChange, handleSubmit, setFieldValue, values} = props
-  return (
-    <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
-      {/* <Drawer
+  render() {
+    const {
+      classes,
+      handleChange,
+      handleSubmit,
+      setFieldValue,
+      values
+    } = this.props
+    return (
+      <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
+        {/* <Drawer
         className={classes.zonesDrawer}
         variant="permanent"
         classes={{
@@ -150,70 +131,73 @@ const ZonesContainer = props => {
         }}>
         <Spacer margin="100px 0 0 0" />
       </Drawer> */}
-      <Drawer
-        variant="permanent"
-        className={classNames(classes.drawer, {
-          [classes.drawerLeOpen]: state.leftOpen,
-          [classes.drawerLeftClose]: !state.leftOpen
-        })}
-        classes={{
-          paper: classNames({
-            [classes.drawerLeOpen]: state.leftOpen,
-            [classes.drawerLeftClose]: !state.leftOpen
-          })
-        }}
-        open={state.open}>
-        <div>
-          <Spacer margin="64px 0 0 0" />
-          {!state.leftOpen ? (
-            <IconButton
-              className={classes.closeArrow}
-              onClick={handleDrawerLeftOpen}>
-              <ChevronRightIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              className={classes.closeArrow}
-              onClick={handleDrawerLeftClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          )}
-        </div>
-        <Divider />
-        <List>
-          {["Contacts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <List>
-          {state.contacts.map((text, i) => {
-            if (text.username) {
-              if (state.friends && state.friends.indexOf(text.username) > -1) {
-                var badgeColor = "lime"
-              } else {
-                badgeColor = "#e3e3e3"
-              }
-            }
-            return (
-              <ListItem button key={i}>
-                <CustomBadge background={badgeColor} />
-                <Avatar
-                  alt={`Avatar n°${0 + 1}`}
-                  classes={{root: classes.avatar}}>
-                  <PersonIcon />
-                </Avatar>
-                <ListItemText primary={text && text.username} />
-              </ListItem>
-            )
+        <Drawer
+          variant="permanent"
+          className={classNames(classes.drawer, {
+            [classes.drawerLeOpen]: this.state.leftOpen,
+            [classes.drawerLeftClose]: !this.state.leftOpen
           })}
-        </List>
-        <Divider />
-        {/*   <List>
+          classes={{
+            paper: classNames({
+              [classes.drawerLeOpen]: this.state.leftOpen,
+              [classes.drawerLeftClose]: !this.state.leftOpen
+            })
+          }}
+          open={this.state.open}>
+          <div>
+            <Spacer margin="64px 0 0 0" />
+            {!this.state.leftOpen ? (
+              <IconButton
+                className={classes.closeArrow}
+                onClick={this.handleDrawerLeftOpen}>
+                <ChevronRightIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                className={classes.closeArrow}
+                onClick={this.handleDrawerLeftClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            )}
+          </div>
+          <Divider />
+          <List>
+            {["Contacts"].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+          <List>
+            {this.state.contacts.map((text, i) => {
+              if (text.username) {
+                if (
+                  this.state.friends &&
+                  this.state.friends.indexOf(text.username) > -1
+                ) {
+                  var badgeColor = "lime"
+                } else {
+                  badgeColor = "#e3e3e3"
+                }
+              }
+              return (
+                <ListItem button key={i}>
+                  <CustomBadge background={badgeColor} />
+                  <Avatar
+                    alt={`Avatar n°${0 + 1}`}
+                    classes={{root: classes.avatar}}>
+                    <PersonIcon />
+                  </Avatar>
+                  <ListItemText primary={text && text.username} />
+                </ListItem>
+              )
+            })}
+          </List>
+          <Divider />
+          {/*   <List>
             {["Host"].map((text, index) => (
               <ListItem button key={text}>
                 <ListItemIcon>
@@ -223,101 +207,103 @@ const ZonesContainer = props => {
               </ListItem>
             ))}
           </List> */}
-      </Drawer>
-      <main className={classes.content}>
-        <Helmet>
-          <meta charset="utf-8" />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          />
-          <meta name="description" content="Find a zone.  Start uttering!" />
-          <meta name="author" content="Isaac Pak" />
-          <title>Utterzone | Zones</title>
-          <link rel="canonical" href="https://utterzone/zones" />
-        </Helmet>
-        <Flex className={classes.heroUnit}>
-          <Grid container justify="center" direction="column">
-            <Typography variant="h4" align="center" gutterBottom>
-              Enter a Zone
-            </Typography>
-            <ExpansionPanel style={{margin: "0 30px"}}>
-              <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header">
-                <Typography>Filters</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Flex
-                  align="center"
-                  flexdirection="column"
-                  flexdirection640="row">
-                  <Field
-                    name="usingLang"
-                    onChange={setFieldValue}
-                    component={Using}
-                    options={groupedOptions}
-                    placeholder="I speak"
-                  />
-                  <Field
-                    name="teachingLang"
-                    onChange={setFieldValue}
-                    component={Teaching}
-                    options={groupedOptions}
-                    placeholder="I want to learn"
-                  />
-                  <Field
-                    name="app"
-                    component={app}
-                    options={appData}
-                    placeholder="Apps"
-                  />
+        </Drawer>
+        <main className={classes.content}>
+          <Helmet>
+            <meta charset="utf-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no"
+            />
+            <meta name="description" content="Find a zone.  Start uttering!" />
+            <meta name="author" content="Isaac Pak" />
+            <title>Utterzone | Zones</title>
+            <link rel="canonical" href="https://utterzone/zones" />
+          </Helmet>
+          <Flex className={classes.heroUnit}>
+            <Grid container justify="center" direction="column">
+              <Typography variant="h4" align="center" gutterBottom>
+                Enter a Zone
+              </Typography>
+              <ExpansionPanel style={{margin: "0 30px"}}>
+                <ExpansionPanelSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header">
+                  <Typography>Filters</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
                   <Flex
-                    margin="20px"
-                    maxwidth="510px"
-                    justifycontent="center"
+                    align="center"
+                    flexdirection="column"
                     flexdirection640="row">
-                    <TextField
-                      name="searchInput"
-                      id="outlined-search"
-                      label="Search"
-                      onChange={handleChange}
-                      type="search"
-                      className={classes.searchField}
-                      value={values.searchInput}
-                      margin="normal"
-                      variant="outlined"
+                    <Field
+                      name="usingLang"
+                      onChange={setFieldValue}
+                      component={Using}
+                      options={groupedOptions}
+                      placeholder="I speak"
                     />
-                    <FormControl
-                      variant="outlined"
-                      className={classes.formControl}>
-                      <Select
-                        value={values.selectionBox}
-                        name="selectionBox"
+                    <Field
+                      name="teachingLang"
+                      onChange={setFieldValue}
+                      component={Teaching}
+                      options={groupedOptions}
+                      placeholder="I want to learn"
+                    />
+                    <Field
+                      name="app"
+                      component={app}
+                      options={appData}
+                      placeholder="Apps"
+                    />
+                    <Flex
+                      margin="20px"
+                      maxwidth="510px"
+                      justifycontent="center"
+                      flexdirection640="row">
+                      <TextField
+                        name="searchInput"
+                        id="outlined-search"
+                        label="Search"
                         onChange={handleChange}
-                        input={
-                          <OutlinedInput
-                            labelWidth={0}
-                            name="info"
-                            id="outlined-filter-simple"
-                          />
+                        type="search"
+                        className={classes.searchField}
+                        value={values.searchInput}
+                        margin="normal"
+                        variant="outlined"
+                      />
+                      <FormControl
+                        variant="outlined"
+                        className={classes.formControl}>
+                        <Select
+                          value={values.selectionBox}
+                          name="selectionBox"
+                          onChange={handleChange}
+                          input={
+                            <OutlinedInput
+                              labelWidth={0}
+                              name="info"
+                              id="outlined-filter-simple"
+                            />
+                          }>
+                          <MenuItem value="zoneName">Zone Name</MenuItem>
+                        </Select>
+                      </FormControl>
+                      <LoadingButton
+                        variant="contained"
+                        color="secondary"
+                        type="submit"
+                        size="large"
+                        loading={this.props.status && this.props.status.loading}
+                        disabled={
+                          this.props.status && this.props.status.loading
                         }>
-                        <MenuItem value="zoneName">Zone Name</MenuItem>
-                      </Select>
-                    </FormControl>
-                    <LoadingButton
-                      variant="contained"
-                      color="secondary"
-                      type="submit"
-                      size="large"
-                      loading={props.status && props.status.loading}
-                      disabled={props.status && props.status.loading}>
-                      Search
-                    </LoadingButton>
-                  </Flex>
-                  <Spacer margin="40px 0 0 0" />
-                  {/* <Typography variant="h6" align="center" gutterBottom>
+                        Search
+                      </LoadingButton>
+                    </Flex>
+                    <Spacer margin="40px 0 0 0" />
+                    {/* <Typography variant="h6" align="center" gutterBottom>
             Subscribed Courses:
           </Typography>
           <Field
@@ -325,46 +311,47 @@ const ZonesContainer = props => {
             component={subscriptions}
             options={subscribedOptions}
           /> */}
-                  <Spacer margin="40px 0 0 0" />
-                  {/*    <Typography variant="h6" align="center" gutterBottom>
+                    <Spacer margin="40px 0 0 0" />
+                    {/*    <Typography variant="h6" align="center" gutterBottom>
             Course Level:
           </Typography>
           <Field name="levels" component={levels} options={groupedOptions} />
 					*/}
-                  <Spacer margin="40px 0 0 0" />
-                  <Divider />
-                  <Spacer margin="40px 0 0 0" />
-                </Flex>
-              </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <Grid container alignItems="center" justify="center">
-              <Link component={RouterLink} to="/zones/create">
-                <Button
-                  variant="contained"
-                  className={classes.link}
-                  color="primary">
-                  Host a Zone
-                </Button>
-              </Link>
-              <Spacer margin="40px 0 0 0" />
-              <Link component={RouterLink} to="/zones/rezone">
-                <Button
-                  variant="contained"
-                  className={classes.link}
-                  color="secondary">
-                  ReZone
-                </Button>
-              </Link>
-              <Spacer margin="40px 0 0 0" />
+                    <Spacer margin="40px 0 0 0" />
+                    <Divider />
+                    <Spacer margin="40px 0 0 0" />
+                  </Flex>
+                </ExpansionPanelDetails>
+              </ExpansionPanel>
+              <Grid container alignItems="center" justify="center">
+                <Link component={RouterLink} to="/zones/create">
+                  <Button
+                    variant="contained"
+                    className={classes.link}
+                    color="primary">
+                    Host a Zone
+                  </Button>
+                </Link>
+                <Spacer margin="40px 0 0 0" />
+                <Link component={RouterLink} to="/zones/rezone">
+                  <Button
+                    variant="contained"
+                    className={classes.link}
+                    color="secondary">
+                    ReZone
+                  </Button>
+                </Link>
+                <Spacer margin="40px 0 0 0" />
+              </Grid>
             </Grid>
+          </Flex>
+          <Grid>
+            <ZonesGrid search={this.props.status && this.props.status.search} />
           </Grid>
-        </Flex>
-        <Grid>
-          <ZonesGrid search={props.status && props.status.search} />
-        </Grid>
-      </main>
-    </form>
-  )
+        </main>
+      </form>
+    )
+  }
 }
 
 export default withRouter(
