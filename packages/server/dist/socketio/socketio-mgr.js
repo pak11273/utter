@@ -28,10 +28,20 @@ var _default = function _default(server) {
   var io = (0, _socket["default"])(server);
   io.on("connection", function (socket) {
     console.log("a user connected");
-    socket.on("global_register", (0, _globalHandlers.register_zone_handler)(io));
+    socket.on(_constants.GLOBAL_REGISTER, (0, _globalHandlers.register_zone_handler)(io));
+    socket.on("create", function (zone) {
+      console.log("hello zone");
+      console.log("zone: ", zone);
+    });
     socket.on("join", function (zone, cb) {
       socket.join(zone.zoneId);
       Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username);
+      io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId));
+      cb();
+    });
+    socket.on("leave", function (zone, cb) {
+      socket.leave(zone.zoneId);
+      Users.removeUser(zone.username);
       io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId));
       cb();
     });

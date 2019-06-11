@@ -15,6 +15,8 @@ var _mongooseUniqueValidator = _interopRequireDefault(require("mongoose-unique-v
 
 var _bcrypt = _interopRequireDefault(require("bcrypt"));
 
+var _mongoosePaginateV = _interopRequireDefault(require("mongoose-paginate-v2"));
+
 var _courseModel = _interopRequireDefault(require("../course/course-model.js"));
 
 var _zoneModel = _interopRequireDefault(require("../zone/zone-model.js"));
@@ -88,7 +90,7 @@ var UserSchema = new _mongoose["default"].Schema({
     maxlength: [255, "can't be more than 255 characters"],
     index: true
   },
-  nativeLange: {
+  nativeLang: {
     type: String
   },
   reset_password_token: {
@@ -167,6 +169,7 @@ UserSchema.methods = {
 UserSchema.plugin(_mongooseUniqueValidator["default"], {
   message: "is already taken."
 });
+UserSchema.plugin(_mongoosePaginateV["default"]);
 
 var _default = _mongoose["default"].model("User", UserSchema);
 

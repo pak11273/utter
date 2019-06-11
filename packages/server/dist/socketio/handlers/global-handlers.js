@@ -15,7 +15,6 @@ var register_zone_handler = function register_zone_handler(io) {
   return function (global) {
     Global.registerZone(global.username, global.avatar);
     var list = Global.getZoneList();
-    console.log("list: ", list);
     io.emit("loggedInUser", list);
   };
 };

@@ -1152,38 +1152,41 @@ var forgotPassword = function () {
   };
 }();
 
-var updateMe = function updateMe(_, _ref34, _ref35) {
-  var input = _ref34.input;
-  var user = _ref35.user;
-  merge(user, input);
-  return user.save();
-};
-
-var getNotifications = function () {
-  var _ref37 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee18(_, __, _ref36) {
-    var req, user;
+var getUsers = function () {
+  var _ref34 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee18(_, args, ctx, info) {
+    var options, query, key;
     return _regenerator["default"].wrap(function _callee18$(_context18) {
       while (1) {
         switch (_context18.prev = _context18.next) {
           case 0:
-            req = _ref36.req;
+            console.log("args: ", args);
+            options = {
+              lean: true,
+              page: args.page,
+              limit: 24,
+              collation: {
+                locale: "en"
+              },
+              sort: {
+                subscriberCount: "desc"
+              }
+            };
+            delete args.page;
+            query = {};
 
-            if (req.session.userId) {
-              _context18.next = 3;
-              break;
+            for (key in args) {
+              args[key] !== "" ? query[key] = args[key] : null;
             }
 
-            return _context18.abrupt("return", null);
+            return _context18.abrupt("return", _userModel["default"].paginate(query, options, function (err, result) {
+              return {
+                page: result.page,
+                users: result.docs,
+                more: result.hasNextPage
+              };
+            }));
 
-          case 3:
-            _context18.next = 5;
-            return _userModel["default"].findById(req.session.userId).populate("requests").lean();
-
-          case 5:
-            user = _context18.sent;
-            return _context18.abrupt("return", user);
-
-          case 7:
+          case 6:
           case "end":
             return _context18.stop();
         }
@@ -1191,56 +1194,100 @@ var getNotifications = function () {
     }, _callee18);
   }));
 
-  return function getNotifications(_x58, _x59, _x60) {
-    return _ref37.apply(this, arguments);
+  return function getUsers(_x58, _x59, _x60, _x61) {
+    return _ref34.apply(this, arguments);
   };
 }();
 
-var getSubscriptions = function () {
-  var _ref39 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee19(_, args, _ref38) {
-    var user, subscriptions;
+var updateMe = function updateMe(_, _ref35, _ref36) {
+  var input = _ref35.input;
+  var user = _ref36.user;
+  merge(user, input);
+  return user.save();
+};
+
+var getNotifications = function () {
+  var _ref38 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee19(_, __, _ref37) {
+    var req, user;
     return _regenerator["default"].wrap(function _callee19$(_context19) {
       while (1) {
         switch (_context19.prev = _context19.next) {
           case 0:
-            user = _ref38.user;
-            _context19.prev = 1;
-            _context19.next = 4;
-            return _userModel["default"].findById(userId);
+            req = _ref37.req;
 
-          case 4:
-            subscriptions = _context19.sent;
-            return _context19.abrupt("return", (0, _objectSpread2["default"])({}, subscriptions._doc, {
-              _id: subscriptions.id
-            }));
+            if (req.session.userId) {
+              _context19.next = 3;
+              break;
+            }
 
-          case 8:
-            _context19.prev = 8;
-            _context19.t0 = _context19["catch"](1);
-            throw _context19.t0;
+            return _context19.abrupt("return", null);
 
-          case 11:
+          case 3:
+            _context19.next = 5;
+            return _userModel["default"].findById(req.session.userId).populate("requests").lean();
+
+          case 5:
+            user = _context19.sent;
+            return _context19.abrupt("return", user);
+
+          case 7:
           case "end":
             return _context19.stop();
         }
       }
-    }, _callee19, null, [[1, 8]]);
+    }, _callee19);
   }));
 
-  return function getSubscriptions(_x61, _x62, _x63) {
-    return _ref39.apply(this, arguments);
+  return function getNotifications(_x62, _x63, _x64) {
+    return _ref38.apply(this, arguments);
   };
 }();
 
-var removeSubscription = function () {
-  var _ref41 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee20(_, args, _ref40) {
-    var req, user;
+var getSubscriptions = function () {
+  var _ref40 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee20(_, args, _ref39) {
+    var user, subscriptions;
     return _regenerator["default"].wrap(function _callee20$(_context20) {
       while (1) {
         switch (_context20.prev = _context20.next) {
           case 0:
-            req = _ref40.req;
-            _context20.next = 3;
+            user = _ref39.user;
+            _context20.prev = 1;
+            _context20.next = 4;
+            return _userModel["default"].findById(userId);
+
+          case 4:
+            subscriptions = _context20.sent;
+            return _context20.abrupt("return", (0, _objectSpread2["default"])({}, subscriptions._doc, {
+              _id: subscriptions.id
+            }));
+
+          case 8:
+            _context20.prev = 8;
+            _context20.t0 = _context20["catch"](1);
+            throw _context20.t0;
+
+          case 11:
+          case "end":
+            return _context20.stop();
+        }
+      }
+    }, _callee20, null, [[1, 8]]);
+  }));
+
+  return function getSubscriptions(_x65, _x66, _x67) {
+    return _ref40.apply(this, arguments);
+  };
+}();
+
+var removeSubscription = function () {
+  var _ref42 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee21(_, args, _ref41) {
+    var req, user;
+    return _regenerator["default"].wrap(function _callee21$(_context21) {
+      while (1) {
+        switch (_context21.prev = _context21.next) {
+          case 0:
+            req = _ref41.req;
+            _context21.next = 3;
             return _userModel["default"].findByIdAndUpdate(req.session.userId, {
               $pull: {
                 subscriptions: {
@@ -1252,83 +1299,83 @@ var removeSubscription = function () {
             }).populate("subscriptions").populate("levels").lean();
 
           case 3:
-            user = _context20.sent;
-            return _context20.abrupt("return", user);
+            user = _context21.sent;
+            return _context21.abrupt("return", user);
 
           case 5:
           case "end":
-            return _context20.stop();
+            return _context21.stop();
         }
       }
-    }, _callee20);
+    }, _callee21);
   }));
 
-  return function removeSubscription(_x64, _x65, _x66) {
-    return _ref41.apply(this, arguments);
+  return function removeSubscription(_x68, _x69, _x70) {
+    return _ref42.apply(this, arguments);
   };
 }();
 
 var renewConfirmation = function () {
-  var _ref44 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee21(_, _ref42, _ref43, info) {
+  var _ref45 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee22(_, _ref43, _ref44, info) {
     var email, redis, url, registeredUser, link;
-    return _regenerator["default"].wrap(function _callee21$(_context21) {
+    return _regenerator["default"].wrap(function _callee22$(_context22) {
       while (1) {
-        switch (_context21.prev = _context21.next) {
+        switch (_context22.prev = _context22.next) {
           case 0:
-            email = _ref42.email;
-            redis = _ref43.redis, url = _ref43.url;
-            _context21.prev = 2;
-            _context21.next = 5;
+            email = _ref43.email;
+            redis = _ref44.redis, url = _ref44.url;
+            _context22.prev = 2;
+            _context22.next = 5;
             return _userModel["default"].findOne({
               email: email
             }).exec();
 
           case 5:
-            registeredUser = _context21.sent;
+            registeredUser = _context22.sent;
 
             if (!registeredUser) {
-              _context21.next = 17;
+              _context22.next = 17;
               break;
             }
 
-            _context21.t0 = _mail.sendReConfirmEmail;
-            _context21.t1 = registeredUser.email;
-            _context21.next = 11;
+            _context22.t0 = _mail.sendReConfirmEmail;
+            _context22.t1 = registeredUser.email;
+            _context22.next = 11;
             return (0, _createConfirmationEmailLink.createEmailConfirmLink)(url, registeredUser._id, redis);
 
           case 11:
-            _context21.t2 = _context21.sent;
-            _context21.next = 14;
-            return (0, _context21.t0)(_context21.t1, _context21.t2);
+            _context22.t2 = _context22.sent;
+            _context22.next = 14;
+            return (0, _context22.t0)(_context22.t1, _context22.t2);
 
           case 14:
-            link = _context21.sent;
+            link = _context22.sent;
 
             if (!link) {
-              _context21.next = 17;
+              _context22.next = 17;
               break;
             }
 
-            return _context21.abrupt("return", true);
+            return _context22.abrupt("return", true);
 
           case 17:
-            return _context21.abrupt("return", false);
+            return _context22.abrupt("return", false);
 
           case 20:
-            _context21.prev = 20;
-            _context21.t3 = _context21["catch"](2);
-            return _context21.abrupt("return", _context21.t3);
+            _context22.prev = 20;
+            _context22.t3 = _context22["catch"](2);
+            return _context22.abrupt("return", _context22.t3);
 
           case 23:
           case "end":
-            return _context21.stop();
+            return _context22.stop();
         }
       }
-    }, _callee21, null, [[2, 20]]);
+    }, _callee22, null, [[2, 20]]);
   }));
 
-  return function renewConfirmation(_x67, _x68, _x69, _x70) {
-    return _ref44.apply(this, arguments);
+  return function renewConfirmation(_x71, _x72, _x73, _x74) {
+    return _ref45.apply(this, arguments);
   };
 }();
 
@@ -1339,8 +1386,9 @@ var userResolvers = {
     getUserById: getUserById,
     getUserByToken: getUserByToken,
     getUserByUsername: getUserByUsername,
-    hello: function hello(_, _ref45) {
-      var name = _ref45.name;
+    getUsers: getUsers,
+    hello: function hello(_, _ref46) {
+      var name = _ref46.name;
       return "Hello ".concat(name || "World");
     },
     me: me
