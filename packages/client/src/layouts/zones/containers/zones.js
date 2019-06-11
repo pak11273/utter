@@ -1,9 +1,10 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
 import styled from "styled-components"
 import classNames from "classnames"
+import {session, subscribe} from "brownies"
 
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
@@ -95,20 +96,31 @@ const ZonesContainer = props => {
     })
   }
 
-  /* useEffect(() => { */
-  /*   const keys = Object.keys(session) */
-  /*   console.log("keys: ", keys) */
-  /*   const arr = ["layoutError", "level", "levels", "levelsIdsArr", "vocabulary"] */
-  /*   console.log("arr: ", arr) */
-  /*   for (var i = 0; i < keys.length; i += 1) { */
-  /*     if (arr.includes(keys[i])) { */
-  /*       console.log("key: ", keys[i]) */
-  /*       console.log("arr: ", `${arr[i]}`) */
-  /*       console.log("Deleting key", session[keys[i]]) */
-  /*       delete session[keys[i]] */
-  /*     } */
-  /*   } */
-  /* }, []) */
+  useEffect(
+    () => {
+      changeState({
+        ...state,
+        contacts: session.user.contacts
+      })
+
+      subscribe(session, "user", value => {
+        if (value) {
+          changeState({
+            ...state,
+            contacts: value.contacts
+          })
+        }
+      })
+
+      subscribe(session, "friends", value => {
+        changeState({
+          ...state,
+          friends: value
+        })
+      })
+    },
+    [state]
+  )
 
   /* const [courseOption, setCourseOption] = useState(session.user.subscription) */
 
