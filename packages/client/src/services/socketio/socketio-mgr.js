@@ -17,6 +17,14 @@ const socketClient = () => {
 
   // GLOBAL EVENTS
 
+  const userzoneConnect = () => {
+    console.log("hello")
+    io.emit("create", {
+      username: "hello"
+    })
+  }
+  /* username: session.user && session.user.username */
+
   // Register a user to the global zone as soon as he logs in
   subscribe(session, "user", value => {
     if (value && value.username) {
@@ -81,6 +89,8 @@ const socketClient = () => {
     })
   }
 
+  // Zone functions
+
   const zoneConnect = zone => {
     /* zone = {username: "chachi", zoneId: "1234", zoneName: "hiachi"} */
     io.on("init", pics => {
@@ -100,6 +110,12 @@ const socketClient = () => {
     /* }) */
   }
 
+  const zoneDisconnect = zone => {
+    io.emit("leave", zone, () => {
+      console.log("user has left zone: ")
+    })
+  }
+
   io.on("error", err => {
     console.log("received socket error:")
     console.log(err)
@@ -114,7 +130,9 @@ const socketClient = () => {
     newContactRequest,
     sendContactRequest,
     usersList,
-    zoneConnect
+    userzoneConnect,
+    zoneConnect,
+    zoneDisconnect
     // Carousel
   }
 }

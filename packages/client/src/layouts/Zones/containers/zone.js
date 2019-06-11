@@ -196,18 +196,21 @@ class Zone extends Component {
 
   componentWillUnmount() {
     alert("You are leaving the zone")
-    // TODO memory leak in console.  Kill socket.io connection??
-    // TODO remove socket listeners
-
-    /* socket.off('newMessage') */
-    /* socket.off('createMessage') */
+    this.onLeaveZone(() => this.props.history.push("/zones"))
+    /* delete session.zone */
   }
 
-  onLeaveZone = (zoneId, onLeaveSuccess) => {
-    this.state.socketio.leave(zoneId, err => {
-      if (err) return console.error(err)
-      return onLeaveSuccess()
+  onLeaveZone = onLeaveSuccess => {
+    socketio.zoneDisconnect({
+      username: session.user.username,
+      zoneId: session.zone._id,
+      zoneName: session.zone.zoneName
     })
+    onLeaveSuccess()
+    /* this.state.socketio.leave(zoneId, err => { */
+    /*   if (err) return console.error(err) */
+    /*   return onLeaveSuccess() */
+    /* }) */
     // TODO notify remaining occupants that host has left the zone.
   }
 
@@ -270,6 +273,7 @@ class Zone extends Component {
   }
 
   render() {
+    console.log("leave: ", this.state.socketio)
     const {classes} = this.props
     const {zone} = session
     const {username} = (session && session.user) || {username: ""}

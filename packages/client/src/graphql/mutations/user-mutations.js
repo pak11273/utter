@@ -246,6 +246,13 @@ const SIGNUP_MUTATION = gql`
     }
   }
 `
+const USER_UPDATE = gql`
+  mutation userUpdate($_id: ID) {
+    userUpdate(input: {_id: $_id}) {
+      _id
+    }
+  }
+`
 
 export {
   ACCEPT_CONTACT_MUTATION,
@@ -258,5 +265,6 @@ export {
   REJECT_CONTACT_MUTATION,
   REMOVE_SUBSCRIPTION,
   RENEW_CONFIRAMTION,
-  SIGNUP_MUTATION
+  SIGNUP_MUTATION,
+  USER_UPDATE
 }

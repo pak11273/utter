@@ -60,3 +60,32 @@ export const GET_USER_BY_TOKEN = gql`
 
   ${accountFragment}
 `
+
+export const GET_USERS = gql`
+  query getUsers($page: Int) {
+    getUsers(page: $page) {
+      users {
+        _id
+        username
+        avatar
+        blocked
+        confirmed
+        forgotPasswordLocked
+        gender
+        firstName
+        lastName
+        isCanceled
+        roles
+        stripeId
+        subscriptions {
+          _id
+        }
+        rights
+        createdAt
+        updatedAt
+      }
+      page
+      more
+    }
+  }
+`

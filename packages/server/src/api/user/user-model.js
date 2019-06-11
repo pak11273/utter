@@ -1,6 +1,7 @@
 import mongoose, {Schema} from "mongoose"
 import uniqueValidator from "mongoose-unique-validator"
 import bcrypt from "bcrypt"
+import mongoosePaginate from "mongoose-paginate-v2"
 import Course from "../course/course-model.js"
 import Zone from "../zone/zone-model.js"
 
@@ -80,7 +81,7 @@ export const UserSchema = new mongoose.Schema(
       maxlength: [255, "can't be more than 255 characters"],
       index: true
     },
-    nativeLange: {
+    nativeLang: {
       type: String
     },
     reset_password_token: {
@@ -164,5 +165,7 @@ UserSchema.methods = {
 }
 
 UserSchema.plugin(uniqueValidator, {message: "is already taken."})
+
+UserSchema.plugin(mongoosePaginate)
 
 export default mongoose.model("User", UserSchema)

@@ -1,4 +1,4 @@
-import React, {useState, PureComponent} from "react"
+import React, {PureComponent} from "react"
 import {session} from "brownies"
 import {PhotoAdapter} from "../../services/photos/adapter.js"
 
@@ -29,29 +29,18 @@ import {Carousel} from "react-responsive-carousel-v2"
 import {isOwner, shuffleArray} from "../../utils"
 /* import {shuffleArray} from "../../utils" */
 import {Flex, LoaderCircle} from "../../components"
+import {voiceLanguages} from "../../data/voice-languages.js"
 
 /* import classNames from "classnames" */
 import {styles} from "./styles.js"
 import "./overrides.css"
 
-const RandomCard = ({
-  audioUrl,
-  classes,
-  partsOfSpeech,
-  translation,
-  word,
-  phrase,
-  question,
-  speak,
-  webformatURL
-}) => {
-  const [state, changeState] = useState({
-    state: {
-      translation,
-      expanded: false,
-      Utter: {}
-    }
-  })
+class RandomCard extends PureComponent {
+  state = {
+    translation: false,
+    expanded: false,
+    Utter: {}
+  }
 
   /* const handleExpandClick = () => { */
   /*   console.log("web: ", webformatURL) */
@@ -62,73 +51,91 @@ const RandomCard = ({
   /*   }) */
   /* } */
 
-  const toggleTranslate = () => {
-    if (!audioUrl) {
-      speak(word)
+  toggleTranslate = () => {
+    console.log("audio: ", this.props.audioUrl)
+    if (!this.props.audioUrl) {
+      /* this.props.speak(this.props.word) */
+      const a = new Audio(this.props.audioUrl)
+      a.play()
     } else {
-      speak(word)
-      /* const a = new Audio(audioUrl) */
-      /* a.play() */
+      /* this.props.speak(this.props.word) */
+      const a = new Audio(this.props.audioUrl)
+      a.play()
     }
-    changeState({
-      ...state,
-      translation
+    this.setState({
+      translation: true
     })
     setTimeout(() => {
-      changeState({
-        ...state,
+      this.setState({
         translation: false
       })
     }, 10000)
   }
 
-  if (
-    partsOfSpeech === "alphabet" ||
-    partsOfSpeech === "vowel" ||
-    partsOfSpeech === "consonant"
-  ) {
-    var media = <h1>{word}</h1>
-  } else {
-    media = (
-      <CardMedia
-        className={classes.media}
-        image={webformatURL}
-        title="Paella dish"
-      />
-    )
-  }
+  render() {
+    const {
+      /* audioUrl, */
+      classes,
+      partsOfSpeech,
+      /* translation, */
+      word,
+      phrase,
+      question,
+      /* speak, */
+      webformatURL
+    } = this.props
 
-  return (
-    <Card className={classes.randomCard}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="level" className={classes.avatar}>
-            {session.level}
-          </Avatar>
-        }
-        /*  action={
+    if (
+      partsOfSpeech === "alphabet" ||
+      partsOfSpeech === "vowel" ||
+      partsOfSpeech === "consonant"
+    ) {
+      var media = <h1>{word}</h1>
+    } else {
+      media = (
+        <CardMedia
+          className={classes.media}
+          image={webformatURL}
+          title="Paella dish"
+        />
+      )
+    }
+
+    return (
+      <Card className={classes.randomCard}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="level" className={classes.avatar}>
+              {session.level}
+            </Avatar>
+          }
+          /*  action={
           <IconButton onClick={() => alert("You don't belong here!")}>
             <MoreVertIcon />
           </IconButton>
         }
 				*/
-        title={word || phrase || question}
-        subheader={partsOfSpeech}
-      />
-      {media}
-      <CardContent>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifycontent: "center"
-          }}>
-          <Button onClick={toggleTranslate}>
-            {state.translation ? state.translation : <PlayCircleOutlineIcon />}
-          </Button>
-        </div>
-      </CardContent>
-      {/*
+          title={word || phrase || question}
+          subheader={partsOfSpeech}
+        />
+        {media}
+        <CardContent>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifycontent: "center"
+            }}>
+            <Button onClick={this.toggleTranslate}>
+              {this.state.translation ? (
+                this.props.translation
+              ) : (
+                <PlayCircleOutlineIcon />
+              )}
+            </Button>
+          </div>
+        </CardContent>
+        {/*
       <CardActions className={classes.actions} disableActionSpacing>
           <IconButton aria-label="Add to favorites">
 							          <FavoriteIcon />
@@ -161,8 +168,9 @@ const RandomCard = ({
           </Typography>
         </CardContent>
       </Collapse> */}
-    </Card>
-  )
+      </Card>
+    )
+  }
 }
 
 class HostControls extends PureComponent {
@@ -280,23 +288,48 @@ class HostControls extends PureComponent {
 }
 
 class CarouselContainer extends PureComponent {
+  state = {
+    voices: []
+  }
+
   componentDidMount = () => {
-    this.voices = window.speechSynthesis.getVoices()
-    console.log("this: ", this.voices)
+    console.log("carousel props: ", this.props)
+    // TODO: match usingLang to voiceLanguages, get the index and return the voiceCode
+    window.speechSynthesis.onvoiceschanged = async () => {
+      const voices = await window.speechSynthesis.getVoices()
+      this.setState(
+        {
+          voices
+        },
+        console.log("state: ", this.state)
+      )
+    }
   }
 
   speak = word => {
-    console.log("word: ", word)
+    console.log("hello")
+    const teachingLang = session.zone.teachingLang.toLowerCase()
+    // wait on voices to be loaded before fetching list
+    const result = voiceLanguages.filter(item => {
+      return item.label === teachingLang
+    })
+    console.log("result: ", result[0].voiceCode)
+    const voice = this.state.voices.filter(item => {
+      item.lang === result[0].voiceCode
+    })
+
+    console.log("voice: ", voice)
+
     /* var msg = new SpeechSynthesisUtterance("foo foo") */
     var msg = new SpeechSynthesisUtterance(word)
-    var voices = window.speechSynthesis.getVoices()
-    console.log("voices: ", voices)
-    msg.rate = 0.7
-    msg.pitch = 1
+    /* msg.rate = 1 */
+    /* msg.pitch = 1 */
+    /* msg.voice = voice */
+
     /* msg.voice = voices[8] */
-    msg.voice = this.voices[8]
-    msg.voiceURI = "native"
-    msg.lang = "ko"
+    /* msg.voiceURI = "native" */
+    msg.lang = result[0].voiceCode
+
     window.speechSynthesis.speak(msg)
   }
 
@@ -310,9 +343,6 @@ class CarouselContainer extends PureComponent {
           </Typography>
         </Flex>
         <Flex>
-          <button type="button" onClick={this.speak}>
-            teset
-          </button>
           <HostControls speak={this.speak} {...this.props} {...this.state} />
         </Flex>
       </Flex>

@@ -81,21 +81,23 @@ class AdminUpdate extends PureComponent {
           }}>
           <Spacer margin="200px 0 0 0" />
           <List className={classes.list}>
-            {["settings", "beta-testers", "carousel"].map((text, index) => {
-              return (
-                <ListItem
-                  button
-                  component={StyledNavLink}
-                  exact
-                  activeStyle={{
-                    color: "primary"
-                  }}
-                  to={`/admin/admin-${text}`}
-                  key={index}>
-                  <Typography>{text}</Typography>
-                </ListItem>
-              )
-            })}
+            {["settings", "users", "beta-testers", "carousel"].map(
+              (text, index) => {
+                return (
+                  <ListItem
+                    button
+                    component={StyledNavLink}
+                    exact
+                    activeStyle={{
+                      color: "primary"
+                    }}
+                    to={`/admin/admin-${text}`}
+                    key={index}>
+                    <Typography>{text}</Typography>
+                  </ListItem>
+                )
+              }
+            )}
           </List>
           <Spacer margin="40px 0 0 0" />
           <Divider />

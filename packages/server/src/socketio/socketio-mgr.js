@@ -6,7 +6,7 @@ import SocketUsers from "../socketio/users.js"
 import GlobalZone from "../socketio/global.js"
 
 // constants
-import {GLOBAL_REGISTER} from "./constants"
+import {GLOBAL_REGISTER, CREATE_USERZONE} from "./constants"
 
 // handlers
 import {register_zone_handler} from "./handlers/global-handlers.js"
@@ -21,14 +21,28 @@ export default server => {
     console.log("a user connected")
 
     // global events
-    socket.on("global_register", register_zone_handler(io))
+    socket.on(GLOBAL_REGISTER, register_zone_handler(io))
 
-    // group chat
+    socket.on("create", zone => {
+      console.log("hello zone")
+      console.log("zone: ", zone)
+    })
 
+    // zone chat
     socket.on("join", (zone, cb) => {
       socket.join(zone.zoneId)
 
       Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username)
+
+      io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
+
+      cb()
+    })
+
+    socket.on("leave", (zone, cb) => {
+      socket.leave(zone.zoneId)
+
+      Users.removeUser(zone.username)
 
       io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
 

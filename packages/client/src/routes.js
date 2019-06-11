@@ -59,6 +59,12 @@ const getAdminUpdate = Loadable({
   loading: Loading
 })
 
+const getAdminUsers = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'admin-users' */ "./layouts/admin/containers/admin-users.js"),
+  loading: Loading
+})
+
 const getAnnouncement = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'announcement' */ "./layouts/announcement"),
@@ -280,6 +286,11 @@ export const routes = [
         component: getAdminSettings,
         exact: true,
         path: "/admin/admin-settings"
+      },
+      {
+        component: getAdminUsers,
+        exact: true,
+        path: "/admin/admin-users"
       },
       {
         component: getAdminBetaTesters,

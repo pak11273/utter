@@ -57,16 +57,28 @@ type User {
 	createdCourses: [Course!]
   createdAt: String
   email: String! 
+	firstName: String
+	forgotPasswordLocked: Boolean
+	gender: String 
 	hostedZone: Zone
 	_id: ID
 	isCanceled: Boolean
+	lastName: String
   password: String
 	requests: [User]
 	roles: [ String ]
 	rights: [String]
+	stripeId: String 
 	subscriptions: [Course]
   updatedAt: String
   username: String
+}
+
+type PaginatedUsers {
+	page: Int
+  users: [User]! 
+  cursor: String
+	more: Boolean
 }
 
 type Query {
@@ -75,6 +87,7 @@ type Query {
   getUserById(_id: ID!): User!
   getUserByUsername(input: String!): User
 	getUserByToken(token: String!): User 
+  getUsers(page: Int): PaginatedUsers
   hello(name: String): String!
 	me: User
 }

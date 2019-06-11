@@ -518,6 +518,57 @@ const forgotPassword = async (_, {email}, {redis, url}) => {
   return true
 }
 
+const getUsers = async (_, args, ctx, info) => {
+  console.log("args: ", args)
+  const options = {
+    lean: true,
+    page: args.page,
+    limit: 24,
+    /* populate: ["owner", "levels"], */
+    collation: {
+      locale: "en"
+    },
+    sort: {
+      subscriberCount: "desc"
+    }
+  }
+
+  // we don't need page or cursor in our query
+  delete args.page
+  var query = {}
+
+  for (var key in args) {
+    args[key] !== "" ? (query[key] = args[key]) : null
+  }
+
+  // $text search
+  /* args.searchInput */
+  /*   ? (query = {...query, ...{$text: {$search: args.searchInput}}}) : null */
+
+  /* query = {$"and": searchArr} */
+
+  // fuzzy search on searchInput with regex // shelved because its too slow
+  /* input.searchInput */
+  /*   ? (query[input.selectionBox] = new RegExp( */
+  /*       escapeRegex(input.searchInput), */
+  /*       "gi" */
+  /*     ))   : null */
+  /* {$text: {$search: searchString}} */
+
+  /* delete query.searchInput */
+  /* delete query.selectionBox */
+
+  /* end fuzzy search */
+
+  return User.paginate(query, options, function(err, result) {
+    return {
+      page: result.page,
+      users: result.docs,
+      more: result.hasNextPage
+    }
+  })
+}
+
 const updateMe = (_, {input}, {user}) => {
   merge(user, input)
   return user.save()
@@ -585,6 +636,7 @@ export const userResolvers = {
     getUserById,
     getUserByToken,
     getUserByUsername,
+    getUsers,
     hello: (_, {name}) => `Hello ${name || "World"}`,
     me
   },

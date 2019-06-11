@@ -3,7 +3,6 @@ import React from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
-import {session} from "brownies"
 
 import Drawer from "@material-ui/core/Drawer"
 import FormControl from "@material-ui/core/FormControl"
@@ -47,7 +46,6 @@ const ZonesContainer = props => {
   /* }, []) */
 
   /* const [courseOption, setCourseOption] = useState(session.user.subscription) */
-  delete session.zone
 
   /* subscribe(session, "user", value => { */
   /*   setCourseOption(value.subscriptions) */
