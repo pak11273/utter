@@ -110,7 +110,7 @@ export const UserSchema = new mongoose.Schema(
     ],
     stat: {
       type: String,
-      default: "online"
+      default: "offline"
     },
     stripeId: {
       type: String

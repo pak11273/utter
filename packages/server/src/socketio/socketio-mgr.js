@@ -50,10 +50,10 @@ export default server => {
           .lean()
         if (user && user.contacts) {
           /* const allContacts = [] */
-          const allContacts = user.contacts.map(item => {
-            console.log("item: ", item)
-            const username = redis.hgetall(item.username)
-            if (!username) {
+          const allContacts = user.contacts.map(async item => {
+            const username = await redis.hgetall(item.username)
+            console.log("username: ", username)
+            if (!username.username) {
               return {username: item.username, stat: "offline"}
             } else {
               return redis.hget(userData.username, "stat").then(val => {
