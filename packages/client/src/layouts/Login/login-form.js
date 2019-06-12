@@ -4,7 +4,6 @@ import {withRouter} from "react-router-dom"
 import {withFormik, Field} from "formik"
 import isEmpty from "lodash/isEmpty"
 import {normalizeErrors} from "../../utils/normalize-errors"
-import socketio from "../../services/socketio/socketio-mgr.js"
 
 /* import Button from "@material-ui/core/Button" */
 import Grid from "@material-ui/core/Grid"
@@ -172,9 +171,6 @@ export default compose(
         // merge in requests
         local.notifications = data.user.requests
         local.notified = true
-
-        // connect to socketio
-        socketio.userzoneConnect()
 
         props.history.push({
           pathname: "/",

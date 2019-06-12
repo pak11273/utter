@@ -1,9 +1,9 @@
 /* eslint-disable no-plusplus */
 // constants
-import {GLOBAL_REGISTER} from "./constants"
+import {GLOBAL_REGISTER, CREATE_USERZONE} from "./constants"
 
 // client side
-import socket from "socket.io-client"
+import io from "socket.io-client"
 import {session, subscribe} from "brownies"
 
 const socketClient = () => {
@@ -13,22 +13,19 @@ const socketClient = () => {
     url = process.env.SOCKETIO_SERVER_URL
   else url = "http://192.168.68.8:3010"
 
-  const io = socket(url)
+  const socket = io(url)
 
   // GLOBAL EVENTS
-
-  const userzoneConnect = () => {
-    console.log("hello")
-    io.emit("create", {
-      username: "hello"
-    })
+  const userzoneConnect = (userData, cb) => {
+    socket.emit(CREATE_USERZONE, userData, cb)
   }
+
   /* username: session.user && session.user.username */
 
   // Register a user to the global zone as soon as he logs in
   subscribe(session, "user", value => {
     if (value && value.username) {
-      io.emit(GLOBAL_REGISTER, {
+      socket.emit(GLOBAL_REGISTER, {
         username: session.user.username,
         avatar: session.user.avatar
       })
@@ -36,7 +33,7 @@ const socketClient = () => {
   })
 
   // Pushes loggedin user to session.friends
-  io.on("loggedInUser", list => {
+  socket.on("loggedInUser", list => {
     var arr = []
     var contacts = (session.user && session.user.contacts) || []
     var names = contacts.map(item => {
@@ -52,19 +49,19 @@ const socketClient = () => {
   })
 
   const disconnect = () => {
-    io.close()
+    socket.close()
   }
 
   const newMessage = onMsgReceived => {
-    io.on("newMessage", onMsgReceived)
+    socket.on("newMessage", onMsgReceived)
   }
 
   const usersList = cb => {
-    io.on("usersList", cb)
+    socket.on("usersList", cb)
   }
 
   const createMessage = zone => {
-    io.emit(
+    socket.emit(
       "createMessage",
       {
         username: zone.username,
@@ -76,14 +73,14 @@ const socketClient = () => {
   }
 
   const sendContactRequest = (contact, sender) => {
-    io.emit("sendContactRequest", {
+    socket.emit("sendContactRequest", {
       contact,
       sender
     })
   }
 
   const newContactRequest = cb => {
-    io.on("newContactRequest", contact => {
+    socket.on("newContactRequest", contact => {
       console.log("friend: ", contact)
       cb(contact)
     })
@@ -93,30 +90,30 @@ const socketClient = () => {
 
   const zoneConnect = zone => {
     /* zone = {username: "chachi", zoneId: "1234", zoneName: "hiachi"} */
-    io.on("init", pics => {
+    socket.on("init", pics => {
       console.log("pics: ", pics)
     })
 
-    io.emit("join", zone, () => {
+    socket.emit("join", zone, () => {
       console.log("user has joined zone: ")
     })
 
-    io.emit("joinAddContact", zone, () => {
+    socket.emit("joinAddContact", zone, () => {
       console.log("joined add Contact")
     })
 
-    /* io.on("newContactRequest", contact => { */
+    /* socket.on("newContactRequest", contact => { */
     /*   console.log("friend: ", contact) */
     /* }) */
   }
 
   const zoneDisconnect = zone => {
-    io.emit("leave", zone, () => {
+    socket.emit("leave", zone, () => {
       console.log("user has left zone: ")
     })
   }
 
-  io.on("error", err => {
+  socket.on("error", err => {
     console.log("received socket error:")
     console.log(err)
   })

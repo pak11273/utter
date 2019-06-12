@@ -1,5 +1,5 @@
 // server side
-import socket from "socket.io"
+import io from "socket.io"
 import uniqBy from "lodash/uniqBy"
 import remove from "lodash/remove"
 import SocketUsers from "../socketio/users.js"
@@ -14,78 +14,121 @@ import {register_zone_handler} from "./handlers/global-handlers.js"
 const Users = new SocketUsers()
 const Global = new GlobalZone()
 
-export default server => {
-  const io = socket(server)
+import User from "../api/user/user-model.js"
+import {redis} from "../redis.js"
 
-  io.on("connection", socket => {
+export default server => {
+  const socket = io(server)
+
+  socket.on("connection", client => {
     console.log("a user connected")
 
-    // global events
-    socket.on(GLOBAL_REGISTER, register_zone_handler(io))
+    // GLOBAL EVENTS
 
-    socket.on("create", zone => {
-      console.log("hello zone")
-      console.log("zone: ", zone)
+    client.on(GLOBAL_REGISTER, register_zone_handler(socket))
+
+    // create userzone
+    client.on(CREATE_USERZONE, async (userData, cb) => {
+      try {
+        // join userzone
+        client.join(userData.username, () => {
+          let rooms = Object.keys(client.rooms)
+          console.log("rooms: ", rooms)
+        })
+        // create a hash in redis
+        redis.hmset(userData.username, {
+          username: userData.username,
+          _id: userData._id,
+          stat: "online"
+        })
+        // add this hash to userzone set
+        redis.sadd("userzones", userData.username)
+
+        // Go through all contacts and send status (including self)
+        const user = await User.findById(userData._id)
+          .populate("contacts")
+          .lean()
+        if (user && user.contacts) {
+          user.contacts.map(async item => {
+            const username = await redis.hgetall(item.username)
+            if (!username) {
+              cb({username: item.username, stat: "offline"})
+            } else {
+              cb({
+                username: item.username,
+                stat: await redis.hget(userData.username, "stat")
+              })
+            }
+            console.log("username: ", username)
+          })
+        }
+      } catch (err) {
+        console.log("err: ", err)
+      }
     })
 
+    // ZONE EVENTS
+
     // zone chat
-    socket.on("join", (zone, cb) => {
-      socket.join(zone.zoneId)
+    client.on("join", (zone, cb) => {
+      client.join(zone.zoneId)
 
-      Users.addUserData(socket.id, zone.zoneId, zone.zoneName, zone.username)
+      Users.addUserData(client.id, zone.zoneId, zone.zoneName, zone.username)
 
-      io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
+      socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
 
       cb()
     })
 
-    socket.on("leave", (zone, cb) => {
-      socket.leave(zone.zoneId)
+    client.on("leave", (zone, cb) => {
+      client.leave(zone.zoneId)
 
       Users.removeUser(zone.username)
 
-      io.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
+      socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
 
       cb()
     })
 
-    socket.on("joinAddContact", (zone, cb) => {
-      socket.join(zone.username)
+    client.on("joinAddContact", (zone, cb) => {
+      client.join(zone.username)
 
       cb()
     })
 
-    socket.on("sendContactRequest", zone => {
-      io.to(zone.contact).emit("newContactRequest", {
+    client.on("sendContactRequest", zone => {
+      socket.to(zone.contact).emit("newContactRequest", {
         from: zone.sender,
         to: zone.contact
       })
     })
 
-    socket.on("disconnect", () => {
+    client.on("disconnect", () => {
       console.log("a user disconnected")
       // remove user from zone
-      var user = Users.removeUserId(socket.id)
-      var global = Global.removeUser(socket.username)
+      var user = Users.removeUserId(client.id)
+      var global = Global.removeUser(client.username)
 
       if (user) {
-        io.to(user.zoneId).emit("usersList", Users.getUsersList(user.zoneId))
+        socket
+          .to(user.zoneId)
+          .emit("usersList", Users.getUsersList(user.zoneId))
       }
 
       if (global) {
         var globalZone = Global.getZoneList()
         console.log("globalZone: ", globalZone)
         var arr = uniqBy(globalZone, "username")
-        console.log("sockert naem: ", socket.username)
-        const removeUser = remove(arr, socket.username)
+        console.log("sockert naem: ", client.username)
+        const removeUser = remove(arr, client.username)
         console.log("remove user: ", removeUser)
         console.log("arr: ", arr)
-        io.emit("loggedInUser", arr)
+        socket.emit("loggedInUser", arr)
       }
     })
 
-    socket.on("createMessage", ({username, msg, zoneId}, cb) => {
-      io.to(zoneId).emit("newMessage", {
+    client.on("createMessage", ({username, msg, zoneId}, cb) => {
+      socket.to(zoneId).emit("newMessage", {
         username,
         msg,
         zoneId
@@ -93,7 +136,7 @@ export default server => {
       cb()
     })
 
-    socket.on("register", ({username, cb}) => {
+    client.on("register", ({username, cb}) => {
       return cb(null, username)
     })
 
@@ -102,5 +145,5 @@ export default server => {
     // carousel
   })
 
-  return io
+  return socket
 }

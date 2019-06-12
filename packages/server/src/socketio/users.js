@@ -3,6 +3,11 @@ class SocketUsers {
     this.users = []
   }
 
+  createUserzone() {
+    // TODO: push status
+    // when user enters zones, join the socket
+  }
+
   addUserData(socketId, zoneId, zoneName, username) {
     var users = {
       socketId,

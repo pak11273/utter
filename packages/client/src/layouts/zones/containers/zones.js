@@ -5,6 +5,7 @@ import {Field, withFormik} from "formik"
 import styled from "styled-components"
 import classNames from "classnames"
 import {session, subscribe} from "brownies"
+import socketio from "../../../services/socketio/socketio-mgr.js"
 
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
@@ -94,6 +95,16 @@ class ZonesContainer extends PureComponent {
   }
 
   componentDidMount = () => {
+    // TODO: create personal zone
+    const userData = {
+      username: session.user.username,
+      _id: session.user._id,
+      status: "online"
+    }
+    socketio.userzoneConnect(userData, (thing) => {
+			console.log('thing: ', thing);
+		})
+
     this.setState({
       contacts: session.user.contacts
     })
