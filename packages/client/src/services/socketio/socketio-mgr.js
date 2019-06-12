@@ -16,6 +16,7 @@ const socketClient = () => {
   const socket = io(url)
 
   // GLOBAL EVENTS
+  // creates a userzone and sends all contacts online stat
   const userzoneConnect = (userData, cb) => {
     socket.emit(CREATE_USERZONE, userData, cb)
   }

@@ -108,6 +108,10 @@ export const UserSchema = new mongoose.Schema(
         ref: "User"
       }
     ],
+    stat: {
+      type: String,
+      default: "online"
+    },
     stripeId: {
       type: String
     },

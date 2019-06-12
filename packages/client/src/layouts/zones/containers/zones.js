@@ -4,7 +4,7 @@ import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
 import styled from "styled-components"
 import classNames from "classnames"
-import {session, subscribe} from "brownies"
+import {session} from "brownies"
 import socketio from "../../../services/socketio/socketio-mgr.js"
 
 import Avatar from "@material-ui/core/Avatar"
@@ -95,31 +95,19 @@ class ZonesContainer extends PureComponent {
   }
 
   componentDidMount = () => {
-    // TODO: create personal zone
+    // Creates a userzone and receives online stat of all contacts
     const userData = {
       username: session.user.username,
       _id: session.user._id,
-      status: "online"
+      stat: "online"
     }
-    socketio.userzoneConnect(userData, (thing) => {
-			console.log('thing: ', thing);
-		})
 
-    this.setState({
-      contacts: session.user.contacts
-    })
-
-    subscribe(session, "user", value => {
-      if (value) {
-        this.setState({
-          contacts: value.contacts
-        })
-      }
-    })
-
-    subscribe(session, "friends", value => {
+    socketio.userzoneConnect(userData, contact => {
+      const temp = this.state.contacts
+      temp.push(contact)
       this.setState({
-        friends: value
+        contacts: temp,
+        open: true
       })
     })
   }
@@ -134,91 +122,89 @@ class ZonesContainer extends PureComponent {
     } = this.props
     return (
       <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
-        {/* <Drawer
-        className={classes.zonesDrawer}
-        variant="permanent"
-        classes={{
-          paper: classes.zonesDrawerPaper
-        }}>
-        <Spacer margin="100px 0 0 0" />
-      </Drawer> */}
-        <Drawer
-          variant="permanent"
-          className={classNames(classes.drawer, {
-            [classes.drawerLeOpen]: this.state.leftOpen,
-            [classes.drawerLeftClose]: !this.state.leftOpen
-          })}
-          classes={{
-            paper: classNames({
+        {
+          <Drawer
+            variant="permanent"
+            className={classNames(classes.drawer, {
               [classes.drawerLeOpen]: this.state.leftOpen,
               [classes.drawerLeftClose]: !this.state.leftOpen
-            })
-          }}
-          open={this.state.open}>
-          <div>
-            <Spacer margin="64px 0 0 0" />
-            {!this.state.leftOpen ? (
-              <IconButton
-                className={classes.closeArrow}
-                onClick={this.handleDrawerLeftOpen}>
-                <ChevronRightIcon />
-              </IconButton>
-            ) : (
-              <IconButton
-                className={classes.closeArrow}
-                onClick={this.handleDrawerLeftClose}>
-                <ChevronLeftIcon />
-              </IconButton>
-            )}
-          </div>
-          <Divider />
-          <List>
-            {["Contacts"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <List>
-            {this.state.contacts.map((text, i) => {
-              if (text.username) {
-                if (
-                  this.state.friends &&
-                  this.state.friends.indexOf(text.username) > -1
-                ) {
-                  var badgeColor = "lime"
-                } else {
-                  badgeColor = "#e3e3e3"
-                }
-              }
-              return (
-                <ListItem button key={i}>
-                  <CustomBadge background={badgeColor} />
-                  <Avatar
-                    alt={`Avatar n°${0 + 1}`}
-                    classes={{root: classes.avatar}}>
-                    <PersonIcon />
-                  </Avatar>
-                  <ListItemText primary={text && text.username} />
-                </ListItem>
-              )
             })}
-          </List>
-          <Divider />
-          {/*   <List>
-            {["Host"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
+            classes={{
+              paper: classNames({
+                [classes.drawerLeOpen]: this.state.leftOpen,
+                [classes.drawerLeftClose]: !this.state.leftOpen
+              })
+            }}
+            open={this.state.open}>
+            <div>
+              <Spacer margin="64px 0 0 0" />
+              {!this.state.leftOpen ? (
+                <IconButton
+                  className={classes.closeArrow}
+                  onClick={this.handleDrawerLeftOpen}>
+                  <ChevronRightIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  className={classes.closeArrow}
+                  onClick={this.handleDrawerLeftClose}>
+                  <ChevronLeftIcon />
+                </IconButton>
+              )}
+            </div>
+            <Divider />
+            <List>
+              {["Contacts"].map((item, index) => (
+                <ListItem button key={item}>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
+            </List>
+            <List>
+              <ListItem key="self">
+                <CustomBadge background="e3e3e3" />
+                <Avatar
+                  alt={`Avatar n°${0 + 1}`}
+                  classes={{root: classes.avatar}}>
+                  <PersonIcon />
+                </Avatar>
+                <ListItemText primary={session.user && session.user.username} />
               </ListItem>
-            ))}
-          </List> */}
-        </Drawer>
+            </List>
+            <List>
+              {this.state.contacts.map((item, i) => {
+                var badgeColor = "#e3e3e3"
+                if (item.username) {
+                  switch (item.stat) {
+                    case "online":
+                      badgeColor = "lime"
+                      break
+                    case "offline":
+                      badgeColor = "#e3e3e3"
+                      break
+                    default:
+                      badgeColor = "#e3e3e3"
+                  }
+                }
+                return (
+                  <ListItem button key={i}>
+                    <CustomBadge background={badgeColor} />
+                    <Avatar
+                      alt={`Avatar n°${0 + 1}`}
+                      classes={{root: classes.avatar}}>
+                      <PersonIcon />
+                    </Avatar>
+                    <ListItemText primary={item && item.username} />
+                  </ListItem>
+                )
+              })}
+            </List>
+            <Divider />
+          </Drawer>
+        }
         <main className={classes.content}>
           <Helmet>
             <meta charset="utf-8" />
@@ -306,10 +292,8 @@ class ZonesContainer extends PureComponent {
                         color="secondary"
                         type="submit"
                         size="large"
-                        loading={this.props.status && this.props.status.loading}
-                        disabled={
-                          this.props.status && this.props.status.loading
-                        }>
+                        loading={this.props.stat && this.props.stat.loading}
+                        disabled={this.props.stat && this.props.stat.loading}>
                         Search
                       </LoadingButton>
                     </Flex>
@@ -357,7 +341,7 @@ class ZonesContainer extends PureComponent {
             </Grid>
           </Flex>
           <Grid>
-            <ZonesGrid search={this.props.status && this.props.status.search} />
+            <ZonesGrid search={this.props.stat && this.props.stat.search} />
           </Grid>
         </main>
       </form>
