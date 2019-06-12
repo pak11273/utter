@@ -49,19 +49,30 @@ export default server => {
           .populate("contacts")
           .lean()
         if (user && user.contacts) {
-          user.contacts.map(async item => {
-            const username = await redis.hgetall(item.username)
+          /* const allContacts = [] */
+          const allContacts = user.contacts.map(item => {
+            console.log("item: ", item)
+            const username = redis.hgetall(item.username)
             if (!username) {
-              cb({username: item.username, stat: "offline"})
+              return {username: item.username, stat: "offline"}
             } else {
-              cb({
-                username: item.username,
-                stat: await redis.hget(userData.username, "stat")
+              return redis.hget(userData.username, "stat").then(val => {
+                return {
+                  avatar: item.avatar,
+                  username: item.username,
+                  stat: val
+                }
               })
             }
-            console.log("username: ", username)
           })
+          const prom = await Promise.all(allContacts)
+          console.log("prom: ", prom)
+          cb(prom)
         }
+        /* cb({ */
+        /*   username: item.username, */
+        /*   stat: await redis.hget(userData.username, "stat") */
+        /* }) */
       } catch (err) {
         console.log("err: ", err)
       }

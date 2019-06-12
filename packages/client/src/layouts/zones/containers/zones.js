@@ -102,9 +102,10 @@ class ZonesContainer extends PureComponent {
       stat: "online"
     }
 
-    socketio.userzoneConnect(userData, contact => {
-      const temp = this.state.contacts
-      temp.push(contact)
+    socketio.userzoneConnect(userData, contacts => {
+      console.log("contacts: ", contacts)
+      let temp = this.state.contacts
+      temp = [...temp, ...contacts]
       this.setState({
         contacts: temp,
         open: true
@@ -168,7 +169,12 @@ class ZonesContainer extends PureComponent {
                 <CustomBadge background="e3e3e3" />
                 <Avatar
                   alt={`Avatar n°${0 + 1}`}
-                  classes={{root: classes.avatar}}>
+                  classes={{root: classes.avatar}}
+                  src={
+                    session.user.avatar === "default.png"
+                      ? null
+                      : session.user.avatar
+                  }>
                   <PersonIcon />
                 </Avatar>
                 <ListItemText primary={session.user && session.user.username} />
