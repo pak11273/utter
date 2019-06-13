@@ -149,7 +149,8 @@ export default compose(withRouter)(
       usingLang: ""
     }),
 
-    handleSubmit: async (values, {setStatus}) => {
+    handleSubmit: async (values, {props, setStatus}) => {
+      console.log("props: ", props)
       // pass this object to grid
       const search = {
         title: values.title,

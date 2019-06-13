@@ -298,8 +298,10 @@ class ZonesContainer extends PureComponent {
                         color="secondary"
                         type="submit"
                         size="large"
-                        loading={this.props.stat && this.props.stat.loading}
-                        disabled={this.props.stat && this.props.stat.loading}>
+                        loading={this.props.status && this.props.status.loading}
+                        disabled={
+                          this.props.status && this.props.status.loading
+                        }>
                         Search
                       </LoadingButton>
                     </Flex>
@@ -347,7 +349,7 @@ class ZonesContainer extends PureComponent {
             </Grid>
           </Flex>
           <Grid>
-            <ZonesGrid search={this.props.stat && this.props.stat.search} />
+            <ZonesGrid search={this.props.status && this.props.status.search} />
           </Grid>
         </main>
       </form>

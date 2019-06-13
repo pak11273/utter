@@ -52,7 +52,6 @@ export default server => {
           /* const allContacts = [] */
           const allContacts = user.contacts.map(async item => {
             const username = await redis.hgetall(item.username)
-            console.log("username: ", username)
             if (!username.username) {
               return {username: item.username, stat: "offline"}
             } else {
@@ -66,7 +65,6 @@ export default server => {
             }
           })
           const prom = await Promise.all(allContacts)
-          console.log("prom: ", prom)
           cb(prom)
         }
         /* cb({ */
