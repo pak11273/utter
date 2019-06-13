@@ -164,8 +164,6 @@ export default compose(
       if (data.token) {
         cookies._uid = data.token
 
-        console.log("data: ", data)
-
         session.user = data.user
 
         // merge in requests

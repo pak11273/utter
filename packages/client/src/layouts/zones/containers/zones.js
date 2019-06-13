@@ -155,16 +155,6 @@ class ZonesContainer extends PureComponent {
             </div>
             <Divider />
             <List>
-              {["Contacts"].map((item, index) => (
-                <ListItem button key={item}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={item} />
-                </ListItem>
-              ))}
-            </List>
-            <List>
               <ListItem key="self">
                 <CustomBadge background="e3e3e3" />
                 <Avatar
@@ -179,6 +169,16 @@ class ZonesContainer extends PureComponent {
                 </Avatar>
                 <ListItemText primary={session.user && session.user.username} />
               </ListItem>
+            </List>
+            <List>
+              {["Contacts"].map((item, index) => (
+                <ListItem button key={item}>
+                  <ListItemIcon>
+                    {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
+                  </ListItemIcon>
+                  <ListItemText primary={item} />
+                </ListItem>
+              ))}
             </List>
             <List>
               {this.state.contacts.map((item, i) => {

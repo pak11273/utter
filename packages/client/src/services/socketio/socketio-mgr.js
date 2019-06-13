@@ -13,9 +13,16 @@ const socketClient = () => {
     url = process.env.SOCKETIO_SERVER_URL
   else url = "http://192.168.68.8:3010"
 
-  const socket = io(url)
+  var socket = io(url)
 
   // GLOBAL EVENTS
+  // reconnect
+  const reconnect = () => {
+    if (!socket.connected) {
+      socket = io(url)
+    }
+  }
+
   // creates a userzone and sends all contacts online stat
   const userzoneConnect = (userData, cb) => {
     socket.emit(CREATE_USERZONE, userData, cb)
@@ -126,6 +133,7 @@ const socketClient = () => {
     disconnect,
     newMessage,
     newContactRequest,
+    reconnect,
     sendContactRequest,
     usersList,
     userzoneConnect,

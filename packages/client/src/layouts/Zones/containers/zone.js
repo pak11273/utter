@@ -31,7 +31,7 @@ import PersonIcon from "@material-ui/icons/Person"
 import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
 /* import Members from "./members/members.js" */
 import Notebook from "./notebook/notebook.js"
-import {session, subscribe} from "brownies"
+import {session} from "brownies"
 
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
@@ -89,25 +89,24 @@ class Zone extends Component {
   }
 
   componentDidMount = async () => {
-    // TODO: if user already in zone, can't reenter
-    /* this.state.socketio.getUser */
-    this.setState({
-      contacts: session.user.contacts
-    })
+    // Creates a userzone and receives online stat of all contacts
+    const userData = {
+      username: session.user.username,
+      _id: session.user._id,
+      stat: "online"
+    }
 
-    subscribe(session, "user", value => {
-      if (value) {
-        this.setState({
-          contacts: value.contacts
-        })
-      }
-    })
-
-    subscribe(session, "friends", value => {
+    socketio.userzoneConnect(userData, contacts => {
+      console.log("contacts: ", contacts)
+      let temp = this.state.contacts
+      temp = [...temp, ...contacts]
       this.setState({
-        friends: value
+        contacts: temp,
+        open: true
       })
     })
+    // TODO: if user already in zone, can't reenter
+    /* this.state.socketio.getUser */
 
     // socketize zone
     socketio.zoneConnect({
@@ -312,25 +311,44 @@ class Zone extends Component {
           </div>
           <Divider />
           <List>
-            {["Contacts"].map((text, index) => (
-              <ListItem button key={text}>
+            <ListItem key="self">
+              <CustomBadge background="e3e3e3" />
+              <Avatar
+                alt={`Avatar n°${0 + 1}`}
+                classes={{root: classes.avatar}}
+                src={
+                  session.user.avatar === "default.png"
+                    ? null
+                    : session.user.avatar
+                }>
+                <PersonIcon />
+              </Avatar>
+              <ListItemText primary={session.user && session.user.username} />
+            </ListItem>
+          </List>
+          <List>
+            {["Contacts"].map((item, index) => (
+              <ListItem button key={item}>
                 <ListItemIcon>
                   {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={item} />
               </ListItem>
             ))}
           </List>
           <List>
-            {this.state.contacts.map((text, i) => {
-              if (text.username) {
-                if (
-                  this.state.friends &&
-                  this.state.friends.indexOf(text.username) > -1
-                ) {
-                  var badgeColor = "lime"
-                } else {
-                  badgeColor = "#e3e3e3"
+            {this.state.contacts.map((item, i) => {
+              var badgeColor = "#e3e3e3"
+              if (item.username) {
+                switch (item.stat) {
+                  case "online":
+                    badgeColor = "lime"
+                    break
+                  case "offline":
+                    badgeColor = "#e3e3e3"
+                    break
+                  default:
+                    badgeColor = "#e3e3e3"
                 }
               }
               return (
@@ -341,22 +359,12 @@ class Zone extends Component {
                     classes={{root: classes.avatar}}>
                     <PersonIcon />
                   </Avatar>
-                  <ListItemText primary={text && text.username} />
+                  <ListItemText primary={item && item.username} />
                 </ListItem>
               )
             })}
           </List>
           <Divider />
-          {/*   <List>
-            {["Host"].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List> */}
         </Drawer>
         <Flex direction="column">
           <AppContainer />
