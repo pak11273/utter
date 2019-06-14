@@ -33,7 +33,6 @@ export default server => {
         // join userzone
         client.join(userData.username, () => {
           let rooms = Object.keys(client.rooms)
-          console.log("rooms: ", rooms)
         })
         // create a hash in redis
         redis.hmset(userData.username, {
@@ -112,28 +111,45 @@ export default server => {
       })
     })
 
-    client.on("disconnect", () => {
+    client.on("disconnect", async () => {
       console.log("a user disconnected")
+    })
+
+    client.on("disconnecting", () => {
+      let rooms = Object.keys(client.rooms)
+
+      // delete hashes in redis
+      rooms.map(item => {
+        redis.del(item)
+        redis.srem("userzones", item)
+      })
+
+      // TODO: make opposite
+      // remove user from redis userzone and update stat to contacts
+
+      /* // add this hash to userzone set */
+      /* redis.sadd("userzones", userData.username) */
+
       // remove user from zone
-      var user = Users.removeUserId(client.id)
-      var global = Global.removeUser(client.username)
+      /* var user = Users.removeUserId(client.id) */
+      /* var global = Global.removeUser(client.username) */
 
-      if (user) {
-        socket
-          .to(user.zoneId)
-          .emit("usersList", Users.getUsersList(user.zoneId))
-      }
+      /* if (user) { */
+      /*   socket */
+      /*     .to(user.zoneId) */
+      /*     .emit("usersList", Users.getUsersList(user.zoneId)) */
+      /* } */
 
-      if (global) {
-        var globalZone = Global.getZoneList()
-        console.log("globalZone: ", globalZone)
-        var arr = uniqBy(globalZone, "username")
-        console.log("sockert naem: ", client.username)
-        const removeUser = remove(arr, client.username)
-        console.log("remove user: ", removeUser)
-        console.log("arr: ", arr)
-        socket.emit("loggedInUser", arr)
-      }
+      /* if (global) { */
+      /*   var globalZone = Global.getZoneList() */
+      /*   console.log("globalZone: ", globalZone) */
+      /*   var arr = uniqBy(globalZone, "username") */
+      /*   console.log("sockert naem: ", client.username) */
+      /*   const removeUser = remove(arr, client.username) */
+      /*   console.log("remove user: ", removeUser) */
+      /*   console.log("arr: ", arr) */
+      /*   socket.emit("loggedInUser", arr) */
+      /* } */
     })
 
     client.on("createMessage", ({username, msg, zoneId}, cb) => {

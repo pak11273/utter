@@ -2,7 +2,6 @@ import React, {Component} from "react"
 import {Redirect} from "react-router-dom"
 import {withApollo} from "react-apollo"
 import {toast} from "react-toastify"
-import styled from "styled-components"
 
 import {withStyles} from "@material-ui/core/styles"
 /* import Grid from "@material-ui/core/Grid" */
@@ -36,35 +35,7 @@ import {session} from "brownies"
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
 import {styles} from "../styles.js"
-
-const CustomBadge = styled.div`
-  background-color: ${props => props.background};
-  top: 10px;
-  left: 25px;
-  height: 13px;
-  display: flex;
-  padding: 0 4px;
-  z-index: 1;
-  position: absolute;
-  flex-wrap: wrap;
-  font-size: 0.75rem;
-  min-width: 13px;
-  transform: scale(1) translate(50%, -50%);
-  box-sizing: border-box;
-  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  align-items: center;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 500;
-  align-content: center;
-  border-radius: 10px;
-  flex-direction: row;
-  justify-content: center;
-  transform-origin: 100% 0%;
-`
-
-CustomBadge.defaultProps = {
-  background: "#e3e3e3"
-}
+import {CustomBadge} from "../components/custom-badge.js"
 
 const Loader = () => <div>Loading...</div>
 

@@ -2,19 +2,13 @@ import React, {PureComponent} from "react"
 import {Link as RouterLink, withRouter} from "react-router-dom"
 import {Helmet} from "react-helmet-async"
 import {Field, withFormik} from "formik"
-import styled from "styled-components"
-import classNames from "classnames"
 import {session} from "brownies"
+import ZoneLeftDrawer from "./zone-left-drawer.js"
 import socketio from "../../../services/socketio/socketio-mgr.js"
 
-import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
-import Drawer from "@material-ui/core/Drawer"
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
-import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import FormControl from "@material-ui/core/FormControl"
 import Grid from "@material-ui/core/Grid"
-import IconButton from "@material-ui/core/IconButton"
 import MenuItem from "@material-ui/core/MenuItem"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
 import Select from "@material-ui/core/Select"
@@ -26,21 +20,12 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary"
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import Divider from "@material-ui/core/Divider"
-import InboxIcon from "@material-ui/icons/MoveToInbox"
-import List from "@material-ui/core/List"
-import ListItem from "@material-ui/core/ListItem"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemText from "@material-ui/core/ListItemText"
-import PeopleIcon from "@material-ui/icons/People"
-import PersonIcon from "@material-ui/icons/Person"
 import Typography from "@material-ui/core/Typography"
 import {
   Flex,
   Spacer,
   app,
-  /* levels, */
   LoadingButton,
-  /* subscriptions, */
   Teaching,
   Using
 } from "../../../components"
@@ -48,31 +33,6 @@ import {styles} from "../styles.js"
 import ZonesGrid from "./zones-grid.js"
 import {groupedOptions} from "../../../data/language-data.js"
 import appData from "../../../data/appData.js"
-
-const CustomBadge = styled.div`
-  background-color: ${props => props.background};
-  top: 10px;
-  left: 25px;
-  height: 13px;
-  display: flex;
-  padding: 0 4px;
-  z-index: 1;
-  position: absolute;
-  flex-wrap: wrap;
-  font-size: 0.75rem;
-  min-width: 13px;
-  transform: scale(1) translate(50%, -50%);
-  box-sizing: border-box;
-  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  align-items: center;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 500;
-  align-content: center;
-  border-radius: 10px;
-  flex-direction: row;
-  justify-content: center;
-  transform-origin: 100% 0%;
-`
 
 class ZonesContainer extends PureComponent {
   state = {
@@ -95,6 +55,7 @@ class ZonesContainer extends PureComponent {
   }
 
   componentDidMount = () => {
+    console.log("zonedrawer: ", ZoneLeftDrawer)
     // Creates a userzone and receives online stat of all contacts
     const userData = {
       username: session.user.username,
@@ -103,7 +64,6 @@ class ZonesContainer extends PureComponent {
     }
 
     socketio.userzoneConnect(userData, contacts => {
-      console.log("contacts: ", contacts)
       let temp = this.state.contacts
       temp = [...temp, ...contacts]
       this.setState({
@@ -123,94 +83,7 @@ class ZonesContainer extends PureComponent {
     } = this.props
     return (
       <form className={classes.root} onSubmit={handleSubmit} autoComplete="off">
-        {
-          <Drawer
-            variant="permanent"
-            className={classNames(classes.drawer, {
-              [classes.drawerLeOpen]: this.state.leftOpen,
-              [classes.drawerLeftClose]: !this.state.leftOpen
-            })}
-            classes={{
-              paper: classNames({
-                [classes.drawerLeOpen]: this.state.leftOpen,
-                [classes.drawerLeftClose]: !this.state.leftOpen
-              })
-            }}
-            open={this.state.open}>
-            <div>
-              <Spacer margin="64px 0 0 0" />
-              {!this.state.leftOpen ? (
-                <IconButton
-                  className={classes.closeArrow}
-                  onClick={this.handleDrawerLeftOpen}>
-                  <ChevronRightIcon />
-                </IconButton>
-              ) : (
-                <IconButton
-                  className={classes.closeArrow}
-                  onClick={this.handleDrawerLeftClose}>
-                  <ChevronLeftIcon />
-                </IconButton>
-              )}
-            </div>
-            <Divider />
-            <List>
-              <ListItem key="self">
-                <CustomBadge background="e3e3e3" />
-                <Avatar
-                  alt={`Avatar n°${0 + 1}`}
-                  classes={{root: classes.avatar}}
-                  src={
-                    session.user.avatar === "default.png"
-                      ? null
-                      : session.user.avatar
-                  }>
-                  <PersonIcon />
-                </Avatar>
-                <ListItemText primary={session.user && session.user.username} />
-              </ListItem>
-            </List>
-            <List>
-              {["Contacts"].map((item, index) => (
-                <ListItem button key={item}>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <PeopleIcon /> : <InboxIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={item} />
-                </ListItem>
-              ))}
-            </List>
-            <List>
-              {this.state.contacts.map((item, i) => {
-                var badgeColor = "#e3e3e3"
-                if (item.username) {
-                  switch (item.stat) {
-                    case "online":
-                      badgeColor = "lime"
-                      break
-                    case "offline":
-                      badgeColor = "#e3e3e3"
-                      break
-                    default:
-                      badgeColor = "#e3e3e3"
-                  }
-                }
-                return (
-                  <ListItem button key={i}>
-                    <CustomBadge background={badgeColor} />
-                    <Avatar
-                      alt={`Avatar n°${0 + 1}`}
-                      classes={{root: classes.avatar}}>
-                      <PersonIcon />
-                    </Avatar>
-                    <ListItemText primary={item && item.username} />
-                  </ListItem>
-                )
-              })}
-            </List>
-            <Divider />
-          </Drawer>
-        }
+        <ZoneLeftDrawer contacts={this.state.contacts} />
         <main className={classes.content}>
           <Helmet>
             <meta charset="utf-8" />
