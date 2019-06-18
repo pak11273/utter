@@ -10,6 +10,7 @@ import {GLOBAL_REGISTER, CREATE_USERZONE} from "./constants"
 
 // handlers
 import {register_zone_handler} from "./handlers/global-handlers.js"
+import {create_userzone_handler} from "./handlers/user_handlers.js"
 
 const Users = new SocketUsers()
 const Global = new GlobalZone()
@@ -27,63 +28,12 @@ export default server => {
 
     client.on(GLOBAL_REGISTER, register_zone_handler(socket))
 
-    // create userzone
-    client.on(CREATE_USERZONE, async (userData, cb) => {
-      try {
-        // join userzone
-        client.join(userData.username, () => {
-          let rooms = Object.keys(client.rooms)
-        })
-
-        // add this hash to userzone set
-        redis.sadd("userzones", userData.username)
-
-        // Go through all contacts and send status (including self)
-        const user = await User.findById(userData._id)
-          .populate("contacts")
-          .lean()
-
-        var UserContactsList = []
-        if (user && user.contacts) {
-          const allContacts = user.contacts.map(async item => {
-            UserContactsList.push(item.username)
-            const username = await redis.hgetall(item.username)
-            if (!username.username) {
-              return {username: item.username, stat: "offline"}
-            } else {
-              return redis.hget(userData.username, "stat").then(val => {
-                return {
-                  avatar: item.avatar,
-                  username: item.username,
-                  stat: val
-                }
-              })
-            }
-          })
-          const prom = await Promise.all(allContacts)
-          cb(prom)
-        }
-
-        // create a hash in redis
-        redis.hmset(userData.username, {
-          username: userData.username,
-          contacts: UserContactsList,
-          _id: userData._id,
-          stat: "online"
-        })
-
-        /* cb({ */
-        /*   username: item.username, */
-        /*   stat: await redis.hget(userData.username, "stat") */
-        /* }) */
-      } catch (err) {
-        console.log("err: ", err)
-      }
-    })
+    // create userzone: userzones are personal zones used for keeping track of a user's stat and private messages
+    client.on(CREATE_USERZONE, create_userzone_handler(redis, client))
 
     // ZONE EVENTS
 
-    // zone chat
+    // join zone
     client.on("join", (zone, cb) => {
       client.join(zone.zoneId)
 
@@ -175,7 +125,7 @@ export default server => {
 
     // admin
     /* socket.emit("getSocketioConnections", socket.engine.clientsCount) */
-    client.on("getSocketioConnections", ( cb) => {
+    client.on("getSocketioConnections", cb => {
       return cb(socket.engine.clientsCount)
     })
   })

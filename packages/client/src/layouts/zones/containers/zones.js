@@ -55,7 +55,6 @@ class ZonesContainer extends PureComponent {
   }
 
   componentDidMount = () => {
-    console.log("zonedrawer: ", ZoneLeftDrawer)
     // Creates a userzone and receives online stat of all contacts
     const userData = {
       username: session.user.username,
@@ -64,6 +63,7 @@ class ZonesContainer extends PureComponent {
     }
 
     socketio.userzoneConnect(userData, contacts => {
+      console.log("contacts: ", contacts)
       let temp = this.state.contacts
       temp = [...temp, ...contacts]
       this.setState({
