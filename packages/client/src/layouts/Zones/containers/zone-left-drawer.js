@@ -16,7 +16,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import PeopleIcon from "@material-ui/icons/People"
 import PersonIcon from "@material-ui/icons/Person"
 import {CustomBadge} from "../components/custom-badge.js"
-import {session} from "brownies"
+/* import {session} from "brownies" */
 import {styles} from "../styles.js"
 
 import {Spacer} from "../../../components"
@@ -75,6 +75,7 @@ class ZoneLeftDrawer extends PureComponent {
         </div>
         <Divider />
         <List>
+          {/* TODO: change personal online stat 
           <ListItem key="self">
             <CustomBadge background="e3e3e3" />
             <Avatar
@@ -88,7 +89,7 @@ class ZoneLeftDrawer extends PureComponent {
               <PersonIcon />
             </Avatar>
             <ListItemText primary={session.user && session.user.username} />
-          </ListItem>
+          </ListItem> */}
         </List>
         <List>
           {["Contacts"].map((item, index) => (

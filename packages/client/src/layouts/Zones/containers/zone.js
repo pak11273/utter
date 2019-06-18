@@ -19,23 +19,24 @@ import Drawer from "@material-ui/core/Drawer"
 import List from "@material-ui/core/List"
 import ListItem from "@material-ui/core/ListItem"
 import ListItemAvatar from "@material-ui/core/ListItemAvatar"
-import ListItemIcon from "@material-ui/core/ListItemIcon"
-import ListItemText from "@material-ui/core/ListItemText"
-import InboxIcon from "@material-ui/icons/MoveToInbox"
+/* import ListItemIcon from "@material-ui/core/ListItemIcon" */
+/* import ListItemText from "@material-ui/core/ListItemText" */
+/* import InboxIcon from "@material-ui/icons/MoveToInbox" */
 import Divider from "@material-ui/core/Divider"
 import IconButton from "@material-ui/core/IconButton"
 /* import MailIcon from "@material-ui/icons/Mail" */
-import PeopleIcon from "@material-ui/icons/People"
+/* import PeopleIcon from "@material-ui/icons/People" */
 import PersonIcon from "@material-ui/icons/Person"
 import {Flex, Spacer, ZoneMembersTooltip} from "../../../components"
 /* import Members from "./members/members.js" */
 import Notebook from "./notebook/notebook.js"
 import {session} from "brownies"
+import ZoneLeftDrawer from "./zone-left-drawer.js"
 
 import {GET_LEVELS, GET_LEVEL} from "../../../graphql/queries/level-queries.js"
 import {REZONE} from "../../../graphql/queries/zone-queries.js"
 import {styles} from "../styles.js"
-import {CustomBadge} from "../components/custom-badge.js"
+/* import {CustomBadge} from "../components/custom-badge.js" */
 
 const Loader = () => <div>Loading...</div>
 
@@ -44,6 +45,7 @@ class Zone extends Component {
 
   state = {
     arrowRef: null,
+    contacts: [],
     friends: session.friends,
     resources: "",
     receiveMsg: "",
@@ -51,7 +53,6 @@ class Zone extends Component {
     usersList: [],
     isRegisterInProcess: false,
     chatrooms: null,
-    contacts: [],
     host: false,
     open: false,
     leftOpen: true,
@@ -68,7 +69,6 @@ class Zone extends Component {
     }
 
     socketio.userzoneConnect(userData, contacts => {
-      console.log("contacts: ", contacts)
       let temp = this.state.contacts
       temp = [...temp, ...contacts]
       this.setState({
@@ -243,7 +243,6 @@ class Zone extends Component {
   }
 
   render() {
-    console.log("leave: ", this.state.socketio)
     const {classes} = this.props
     const {zone} = session
     const {username} = (session && session.user) || {username: ""}
@@ -251,7 +250,8 @@ class Zone extends Component {
     /* this.state.socketio.connected(zone) */
     return (
       <Flex className={classes.rootZone}>
-        <Drawer
+        <ZoneLeftDrawer contacts={this.state.contacts} />
+        {/* <Drawer
           variant="permanent"
           className={classNames(classes.drawer, {
             [classes.drawerLeOpen]: this.state.leftOpen,
@@ -336,7 +336,7 @@ class Zone extends Component {
             })}
           </List>
           <Divider />
-        </Drawer>
+        </Drawer> */}
         <Flex direction="column">
           <AppContainer />
           {/* <Members usersList={this.state.usersList} /> */}

@@ -19,7 +19,7 @@ export const create_userzone_handler = (redis, client) => async (
     // add this hash to userzone set
     redis.sadd("userzones", userData.username)
 
-    // Go through all contacts and send status (including self)
+    // Go through all contacts and get online stats (including self)
     const user = await User.findById(userData._id)
       .populate("contacts")
       .lean()
@@ -45,18 +45,13 @@ export const create_userzone_handler = (redis, client) => async (
       cb(prom)
     }
 
-    // create a hash in redis
+    // create a hash in redis for the user
     redis.hmset(userData.username, {
       username: userData.username,
       contacts: UserContactsList,
       _id: userData._id,
       stat: "online"
     })
-
-    /* cb({ */
-    /*   username: item.username, */
-    /*   stat: await redis.hget(userData.username, "stat") */
-    /* }) */
   } catch (err) {
     console.log("err: ", err)
   }

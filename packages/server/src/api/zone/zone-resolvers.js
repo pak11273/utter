@@ -73,7 +73,7 @@ const zoneUpdate = (_, {input}) => {
   return Zone.findByIdAndUpdate(id, update, {new: true}).exec()
 }
 
-const zoneCreate = async (_, {input}, {req}, info) => {
+const zoneCreate = async (_, {input}, {req, redis}, info) => {
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
@@ -114,9 +114,14 @@ const zoneCreate = async (_, {input}, {req}, info) => {
 
     let createdZone
 
+    const zoneId = zone._doc._id.toString()
+
+    // Add this zone in redis to the zones set
+    redis.sadd("zones", zoneId)
+
     createdZone = {
       ...zone._doc,
-      _id: zone._doc._id.toString(),
+      _id: zoneId,
       owner: userById.bind(this, zone._doc.owner),
       course: Course.findById(input.course)
     }

@@ -63,7 +63,6 @@ class ZonesContainer extends PureComponent {
     }
 
     socketio.userzoneConnect(userData, contacts => {
-      console.log("contacts: ", contacts)
       let temp = this.state.contacts
       temp = [...temp, ...contacts]
       this.setState({
