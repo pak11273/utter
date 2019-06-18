@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 // constants
-import {GLOBAL_REGISTER, CREATE_USERZONE} from "./constants"
+import {GLOBAL_REGISTER, CREATE_USERZONE, REMOVE_USERZONE} from "./constants"
 
 // client side
 import io from "socket.io-client"
@@ -13,6 +13,8 @@ const socketClient = () => {
     url = process.env.SOCKETIO_SERVER_URL
   else url = "http://192.168.68.8:3010"
 
+  // TODO: to upgrade from 600 concurrent connections to 9k use this, it keeps socket.io from trying to longpoll if user doesn't support websockets:
+  /* var socket = io(url, { upgrade: false, transports: ['websocket'] }) */
   var socket = io(url)
 
   // GLOBAL EVENTS
@@ -26,6 +28,10 @@ const socketClient = () => {
   // creates a userzone and sends all contacts online stat
   const userzoneConnect = (userData, cb) => {
     socket.emit(CREATE_USERZONE, userData, cb)
+  }
+
+  const userzoneDisconnect = (userData, cb) => {
+    socket.emit(REMOVE_USERZONE, userData, cb)
   }
 
   /* username: session.user && session.user.username */
@@ -128,6 +134,11 @@ const socketClient = () => {
 
   // Carousel
 
+  // Admin
+  const getSocketioConnections = cb => {
+    socket.emit("getSocketioConnections", cb)
+  }
+
   return {
     createMessage,
     disconnect,
@@ -137,9 +148,12 @@ const socketClient = () => {
     sendContactRequest,
     usersList,
     userzoneConnect,
+    userzoneDisconnect,
     zoneConnect,
-    zoneDisconnect
+    zoneDisconnect,
     // Carousel
+    // Admin
+    getSocketioConnections
   }
 }
 const socketio = socketClient()

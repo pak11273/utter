@@ -34,12 +34,7 @@ export default server => {
         client.join(userData.username, () => {
           let rooms = Object.keys(client.rooms)
         })
-        // create a hash in redis
-        redis.hmset(userData.username, {
-          username: userData.username,
-          _id: userData._id,
-          stat: "online"
-        })
+
         // add this hash to userzone set
         redis.sadd("userzones", userData.username)
 
@@ -47,9 +42,11 @@ export default server => {
         const user = await User.findById(userData._id)
           .populate("contacts")
           .lean()
+
+        var UserContactsList = []
         if (user && user.contacts) {
-          /* const allContacts = [] */
           const allContacts = user.contacts.map(async item => {
+            UserContactsList.push(item.username)
             const username = await redis.hgetall(item.username)
             if (!username.username) {
               return {username: item.username, stat: "offline"}
@@ -66,6 +63,15 @@ export default server => {
           const prom = await Promise.all(allContacts)
           cb(prom)
         }
+
+        // create a hash in redis
+        redis.hmset(userData.username, {
+          username: userData.username,
+          contacts: UserContactsList,
+          _id: userData._id,
+          stat: "online"
+        })
+
         /* cb({ */
         /*   username: item.username, */
         /*   stat: await redis.hget(userData.username, "stat") */
@@ -118,7 +124,7 @@ export default server => {
     client.on("disconnecting", () => {
       let rooms = Object.keys(client.rooms)
 
-      // delete hashes in redis
+      // delete user hash and from userzone
       rooms.map(item => {
         redis.del(item)
         redis.srem("userzones", item)
@@ -127,10 +133,8 @@ export default server => {
       // TODO: make opposite
       // remove user from redis userzone and update stat to contacts
 
-      /* // add this hash to userzone set */
-      /* redis.sadd("userzones", userData.username) */
-
       // remove user from zone
+      console.log("list: ", Users.getUsersList())
       /* var user = Users.removeUserId(client.id) */
       /* var global = Global.removeUser(client.username) */
 
@@ -168,6 +172,12 @@ export default server => {
     // apps
 
     // carousel
+
+    // admin
+    /* socket.emit("getSocketioConnections", socket.engine.clientsCount) */
+    client.on("getSocketioConnections", ( cb) => {
+      return cb(socket.engine.clientsCount)
+    })
   })
 
   return socket

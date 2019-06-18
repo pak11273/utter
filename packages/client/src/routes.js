@@ -38,13 +38,19 @@ const getAccountThanks = Loadable({
 
 const getAdminCarousel = Loadable({
   loader: () =>
-    import(/* webpackChunkName: 'admin' */ "./layouts/admin/containers/admin-carousel.js"),
+    import(/* webpackChunkName: 'admin-carousel' */ "./layouts/admin/containers/admin-carousel.js"),
   loading: Loading
 })
 
 const getAdminSettings = Loadable({
   loader: () =>
-    import(/* webpackChunkName: 'admin' */ "./layouts/admin/containers/admin-settings.js"),
+    import(/* webpackChunkName: 'admin-settings' */ "./layouts/admin/containers/admin-settings.js"),
+  loading: Loading
+})
+
+const getAdminSocketio = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'admin-socketio' */ "./layouts/admin/containers/admin-socketio.js"),
   loading: Loading
 })
 
@@ -286,6 +292,11 @@ export const routes = [
         component: getAdminSettings,
         exact: true,
         path: "/admin/admin-settings"
+      },
+      {
+        component: getAdminSocketio,
+        exact: true,
+        path: "/admin/admin-socketio"
       },
       {
         component: getAdminUsers,

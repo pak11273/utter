@@ -81,7 +81,7 @@ class AdminUpdate extends PureComponent {
           }}>
           <Spacer margin="200px 0 0 0" />
           <List className={classes.list}>
-            {["settings", "users", "beta-testers", "carousel"].map(
+            {["settings", "users", "beta-testers", "carousel", "socketio"].map(
               (text, index) => {
                 return (
                   <ListItem

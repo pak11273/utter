@@ -71,6 +71,15 @@ class ZonesContainer extends PureComponent {
         open: true
       })
     })
+
+    socketio.userzoneDisconnect(userData, contacts => {
+      let temp = this.state.contacts
+      temp = [...temp, ...contacts]
+      this.setState({
+        contacts: temp,
+        open: true
+      })
+    })
   }
 
   render() {
