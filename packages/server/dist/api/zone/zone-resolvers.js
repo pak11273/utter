@@ -234,14 +234,14 @@ var zoneUpdate = function zoneUpdate(_, _ref9) {
 
 var zoneCreate = function () {
   var _ref12 = (0, _asyncToGenerator2["default"])(_regenerator["default"].mark(function _callee5(_, _ref10, _ref11, info) {
-    var input, req, _ref13, findZone, user, course, newZone, zone, createdZone;
+    var input, req, redis, _ref13, findZone, user, course, newZone, zone, createdZone, zoneId;
 
     return _regenerator["default"].wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             input = _ref10.input;
-            req = _ref11.req;
+            req = _ref11.req, redis = _ref11.redis;
             _context5.prev = 2;
 
             if (!(!req.session || !req.session.userId)) {
@@ -299,24 +299,26 @@ var zoneCreate = function () {
 
           case 19:
             zone = _context5.sent;
+            zoneId = zone._doc._id.toString();
+            redis.sadd("zones", zoneId);
             createdZone = (0, _objectSpread2["default"])({}, zone._doc, {
-              _id: zone._doc._id.toString(),
+              _id: zoneId,
               owner: userById.bind(_this, zone._doc.owner),
               course: _courseModel["default"].findById(input.course)
             });
             return _context5.abrupt("return", createdZone);
 
-          case 24:
-            _context5.prev = 24;
+          case 26:
+            _context5.prev = 26;
             _context5.t0 = _context5["catch"](2);
             throw _context5.t0;
 
-          case 27:
+          case 29:
           case "end":
             return _context5.stop();
         }
       }
-    }, _callee5, null, [[2, 24]]);
+    }, _callee5, null, [[2, 26]]);
   }));
 
   return function zoneCreate(_x9, _x10, _x11, _x12) {

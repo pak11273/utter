@@ -68,6 +68,7 @@ type User {
 	requests: [User]
 	roles: [ String ]
 	rights: [String]
+	stat: String
 	stripeId: String 
 	subscriptions: [Course]
   updatedAt: String

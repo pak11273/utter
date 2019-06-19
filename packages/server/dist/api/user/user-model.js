@@ -113,6 +113,10 @@ var UserSchema = new _mongoose["default"].Schema({
     type: _mongoose["default"].Schema.Types.ObjectId,
     ref: "User"
   }],
+  stat: {
+    type: String,
+    "default": "offline"
+  },
   stripeId: {
     type: String
   },

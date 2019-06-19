@@ -18,6 +18,9 @@ var SocketUsers = function () {
   }
 
   (0, _createClass2["default"])(SocketUsers, [{
+    key: "createUserzone",
+    value: function createUserzone() {}
+  }, {
     key: "addUserData",
     value: function addUserData(socketId, zoneId, zoneName, username) {
       var users = {
