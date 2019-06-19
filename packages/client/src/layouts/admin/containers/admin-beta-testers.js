@@ -22,7 +22,25 @@ import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import MaterialTable, {MTableEditRow} from "material-table"
+import Loading from "../../../components/loaders/layout-loader.js"
+import Loadable from "react-loadable"
+
+const MaterialTable = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table' */ "material-table"),
+  loading: Loading,
+  delay: 200
+})
+
+const MTableEditRow = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table-edit-row' */ "material-table").then(
+      mod => mod.MTableEditRow
+    ),
+  loading: Loading,
+  delay: 200
+})
+
 import makeTrashable from "trashable"
 import {FormikMTInput} from "../../../components"
 
@@ -93,7 +111,6 @@ class AdminBetaTesters extends PureComponent {
         fetchPolicy: "no-cache"
       })
       .then(res => {
-        console.log("res; ", res)
         session.betaTesters = res.data.getBetaTesters
         if (this._isMounted) {
           this.setState({

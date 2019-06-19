@@ -22,7 +22,24 @@ import Search from "@material-ui/icons/Search"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 
-import MaterialTable, {MTableEditRow} from "material-table"
+import Loading from "../../../components/loaders/layout-loader.js"
+import Loadable from "react-loadable"
+
+const MaterialTable = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table' */ "material-table"),
+  loading: Loading,
+  delay: 200
+})
+
+const MTableEditRow = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table-edit-row' */ "material-table").then(
+      mod => mod.MTableEditRow
+    ),
+  loading: Loading,
+  delay: 200
+})
 import {courseLevelSchema} from "../../yupSchemas.js"
 import {FormikMTInput} from "../../../components"
 import {GET_LEVELS} from "../../../graphql/queries/level-queries.js"

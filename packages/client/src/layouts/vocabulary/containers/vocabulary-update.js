@@ -32,7 +32,34 @@ import {withStyles} from "@material-ui/core/styles"
 import {getPublicId} from "../../../utils/cloudinary-utils.js"
 
 import {courseVocabularySchema} from "../yupSchemas.js"
-import MaterialTable, {MTableEditRow, MTableToolbar} from "material-table"
+import Loading from "../../../components/loaders/layout-loader.js"
+import Loadable from "react-loadable"
+
+const MaterialTable = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table' */ "material-table"),
+  loading: Loading,
+  delay: 200
+})
+
+const MTableEditRow = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table-edit-row' */ "material-table").then(
+      mod => mod.MTableEditRow
+    ),
+  loading: Loading,
+  delay: 200
+})
+
+const MTableToolbar = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table-bar' */ "material-table").then(
+      mod => mod.MTableToolbar
+    ),
+  loading: Loading,
+  delay: 200
+})
+
 import {GET_VOCABULARIES} from "../../../graphql/queries/vocabulary-queries.js"
 import {
   VOCABULARY_AUDIO_DELETE,

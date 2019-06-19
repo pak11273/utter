@@ -2,7 +2,18 @@
 import React, {useState} from "react"
 import Select from "react-select"
 import {Field, getIn} from "formik"
-import {MTableEditField} from "material-table"
+
+import Loading from "../loaders/layout-loader.js"
+import Loadable from "react-loadable"
+
+const MTableEditField = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'material-table-edit-row' */ "material-table").then(
+      mod => mod.MTableEditField
+    ),
+  loading: Loading,
+  delay: 200
+})
 
 import TextField from "@material-ui/core/TextField"
 
