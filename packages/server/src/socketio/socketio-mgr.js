@@ -6,7 +6,7 @@ import SocketUsers from "../socketio/users.js"
 import GlobalZone from "../socketio/global.js"
 
 // constants
-import {GLOBAL_REGISTER, CREATE_USERZONE} from "./constants"
+import {GLOBAL_REGISTER, CREATE_USERZONE, JOIN_CONTACT_ZONES} from "./constants"
 
 // handlers
 import {register_zone_handler} from "./handlers/global-handlers.js"
@@ -29,6 +29,7 @@ export default server => {
     client.on(GLOBAL_REGISTER, register_zone_handler(socket))
 
     // create userzone: userzones are personal zones used for keeping track of a user's stat and private messages
+    // TODO: join every contact in your contacts list
     client.on(CREATE_USERZONE, create_userzone_handler(redis, client))
 
     // ZONE EVENTS

@@ -27,6 +27,11 @@ export const create_userzone_handler = (redis, client) => async (
     var UserContactsList = []
     if (user && user.contacts) {
       const allContacts = user.contacts.map(async item => {
+        // TODO: create redis zones and socket rooms for each contact and join them
+        console.log("type: ", typeof user.username)
+        client.join(user.username)
+        redis.sadd(item.username, user.username)
+
         UserContactsList.push(item.username)
         const username = await redis.hgetall(item.username)
         if (!username.username) {

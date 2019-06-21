@@ -4,8 +4,8 @@ import {InMemoryCache} from "apollo-cache-inmemory"
 import {createPersistedQueryLink} from "apollo-link-persisted-queries"
 import {HttpLink} from "apollo-link-http"
 import {cookies} from "brownies"
-import typeDefs from "./typeDefs.js"
-import resolvers from "./resolvers.js"
+import {userTypeDefs} from "./api/user/user-types.js"
+import {userResolvers} from "./api/user/user-resolvers.js"
 
 const cache = new InMemoryCache({
   /* addTypename: false, */
@@ -39,8 +39,8 @@ const persistLink = createPersistedQueryLink()
 export const ApolloInstance = new ApolloClient({
   cache,
   link: ApolloLink.from([AuthLink, persistLink, httpLink]),
-  resolvers,
-  typeDefs
+  userResolvers,
+  userTypeDefs
 })
 
 cache.writeData({
@@ -48,3 +48,5 @@ cache.writeData({
     isLoggedIn: !!cookies._uid
   }
 })
+
+

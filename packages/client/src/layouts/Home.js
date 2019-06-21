@@ -23,6 +23,9 @@ import {
 import {Footer, Masthead} from "../containers"
 import {styles} from "./styles.js"
 
+/* import Loading from "../components/loaders/layout-loader.js" */
+/* import Loadable from "react-loadable" */
+
 // images
 import busyPeopleImg from "../assets/images/busy-people2.png"
 import embarrassedImg from "../assets/images/embarrassed2.png"
