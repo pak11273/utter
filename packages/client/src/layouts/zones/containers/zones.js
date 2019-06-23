@@ -230,7 +230,10 @@ class ZonesContainer extends PureComponent {
             </Grid>
           </Flex>
           <Grid>
-            <ZonesGrid search={this.props.status && this.props.status.search} />
+            <ZonesGrid
+              socketio={socketio}
+              search={this.props.status && this.props.status.search}
+            />
           </Grid>
         </main>
       </form>

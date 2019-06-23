@@ -29,16 +29,30 @@ export default server => {
     client.on(GLOBAL_REGISTER, register_zone_handler(socket))
 
     // create userzone: userzones are personal zones used for keeping track of a user's stat and private messages
-    // TODO: join every contact in your contacts list
-    client.on(CREATE_USERZONE, create_userzone_handler(redis, client))
+    // join every contact zone in your contacts list
+    client.on(CREATE_USERZONE, create_userzone_handler(redis, client, socket))
 
     // ZONE EVENTS
 
     // join zone
+
+    // get zone count
+    client.on("getZoneCount", (zoneId, cb) => {
+      socket
+        .of("/")
+        .in(zoneId)
+        .clients((err, clients) => {
+          // clients will be array of socket ids , currently available in given room
+          console.log("clients of ; " + zoneId, clients)
+          console.log("clients of ; " + zoneId, clients.length)
+          cb(clients.length)
+        })
+    })
+
     client.on("join", (zone, cb) => {
       client.join(zone.zoneId)
 
-      Users.addUserData(client.id, zone.zoneId, zone.zoneName, zone.username)
+      /* Users.addUserData(client.id, zone.zoneId, zone.zoneName, zone.username) */
 
       socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
 
@@ -78,7 +92,7 @@ export default server => {
       // delete user hash and from userzone
       rooms.map(item => {
         redis.del(item)
-        redis.srem("userzones", item)
+        redis.srem("USERZONES", item)
       })
 
       // TODO: make opposite

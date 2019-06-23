@@ -8,16 +8,16 @@ class SocketUsers {
     // when user enters zones, join the socket
   }
 
-  addUserData(socketId, zoneId, zoneName, username) {
-    var users = {
-      socketId,
-      zoneId,
-      zoneName,
-      username
-    }
-    this.users.push(users)
-    return users
-  }
+  /* addUserData(socketId, zoneId, zoneName, username) { */
+  /*   var users = { */
+  /*     socketId, */
+  /*     zoneId, */
+  /*     zoneName, */
+  /*     username */
+  /*   } */
+  /*   this.users.push(users) */
+  /*   return users */
+  /* } */
 
   removeUser(id) {
     var user = this.getUser(id)

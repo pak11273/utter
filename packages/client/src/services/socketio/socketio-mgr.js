@@ -1,10 +1,10 @@
 /* eslint-disable no-plusplus */
 // constants
-import {GLOBAL_REGISTER, CREATE_USERZONE, REMOVE_USERZONE} from "./constants"
+import {CREATE_USERZONE, REMOVE_USERZONE} from "./constants"
 
 // client side
 import io from "socket.io-client"
-import {session, subscribe} from "brownies"
+import {session} from "brownies"
 
 const socketClient = () => {
   var url = ""
@@ -30,26 +30,29 @@ const socketClient = () => {
     socket.emit(CREATE_USERZONE, userData, cb)
   }
 
+  const getZoneCount = (zoneId, cb) => {
+    socket.emit("getZoneCount", zoneId, cb)
+  }
+
   const userzoneDisconnect = (userData, cb) => {
     socket.emit(REMOVE_USERZONE, userData, cb)
   }
 
   /* username: session.user && session.user.username */
 
-  // Register a user to the global zone as soon as he logs in
-  subscribe(session, "user", value => {
-    if (value && value.username) {
-      socket.emit(GLOBAL_REGISTER, {
-        username: session.user.username,
-        avatar: session.user.avatar
-      })
-    }
+  // TODO: update status of contacts
+  var contacts = (session.user && session.user.contacts) || []
+  contacts.map(item => {
+    console.log("item: ", item)
+    /* socket.on(item.username, data => { */
+    socket.on(item.username, data => {
+      console.log("dadta; ", data)
+    })
   })
 
   // Pushes loggedin user to session.friends
   socket.on("loggedInUser", list => {
     var arr = []
-    var contacts = (session.user && session.user.contacts) || []
     var names = contacts.map(item => {
       return item.username
     })
@@ -100,7 +103,7 @@ const socketClient = () => {
     })
   }
 
-  // Zone functions
+  // ZONE EVENTS
 
   const zoneConnect = zone => {
     /* zone = {username: "chachi", zoneId: "1234", zoneName: "hiachi"} */
@@ -153,7 +156,8 @@ const socketClient = () => {
     zoneDisconnect,
     // Carousel
     // Admin
-    getSocketioConnections
+    getSocketioConnections,
+    getZoneCount
   }
 }
 const socketio = socketClient()
