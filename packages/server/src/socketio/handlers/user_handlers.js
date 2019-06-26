@@ -25,14 +25,15 @@ export const create_userzone_handler = (redis, client, socket) => async (
       .lean()
 
     var UserContactsList = []
+
     if (user && user.contacts) {
       const allContacts = user.contacts.map(async item => {
         // check if contact is already online
         if (redis.exists(item.username)) {
-          // join all contact personal zones 
+          // join all contact personal zones
           client.join(item.username)
 
-					// TODO: move to function to find how many clients in a room, for zone cards
+          // TODO: move to function to find how many clients in a room, for zone cards
           socket
             .of("/")
             .in(item.username)
@@ -74,13 +75,13 @@ export const create_userzone_handler = (redis, client, socket) => async (
       })
     }
 
-    /*     // create a hash in redis for the user */
-    /*     redis.hmset(userData.username, { */
-    /*       username: userData.username, */
-    /*       contacts: UserContactsList, */
-    /*       _id: userData._id, */
-    /*       stat: user.stat */
-    /*     }) */
+    // create a hash in redis for the user
+    redis.hmset(userData.username, {
+      username: userData.username,
+      contacts: UserContactsList,
+      _id: userData._id,
+      stat: user.stat
+    })
   } catch (err) {
     console.log("err: ", err)
   }

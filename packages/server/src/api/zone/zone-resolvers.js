@@ -143,12 +143,14 @@ const getZoneLevels = async (_, args, ctx, info) => {
   query.owner = ctx.user
 }
 
-const getZones = async (_, {input}, ctx, info) => {
+const getZones = async (_, {input}, {redis, ctx}, info) => {
   const options = {
+    select:
+      "zoneName zoneDescription owner.username app courseLevel usingLang teachingLang ageGroup members maxMembers",
     lean: true,
     page: input.page,
     limit: 24,
-    populate: ["owner", "course"],
+    populate: [{path: "owner", select: "usernaem"}],
     collation: {
       locale: "en"
     }
@@ -182,12 +184,23 @@ const getZones = async (_, {input}, ctx, info) => {
 
   /* end fuzzy search */
 
-  return await Zone.paginate(query, options, function(err, result) {
-    return {
-      page: result.page,
-      zones: result.docs,
-      more: result.hasNextPage
-    }
+  // get member count for each zone
+
+  return await Zone.paginate(query, options, (err, result) => {
+    const merged = result.docs.map(async item => {
+      const members = await redis.smembers(item._id)
+      item.members = members.length
+      return item
+    })
+
+    return Promise.all(merged).then(docs => {
+      console.log("docs: ", docs)
+      return {
+        page: result.page,
+        zones: docs,
+        more: result.hasNextPage
+      }
+    })
   })
 }
 

@@ -415,7 +415,7 @@ const signup = async (_, args, {redis, url}, info) => {
   }
 }
 
-const login = async (parent, args, ctx, info) => {
+const login = async (parent, args, ctx, {redis}) => {
   // decipher identifier
   const {identifier, password} = args.input
   let token = ""
@@ -461,6 +461,7 @@ const login = async (parent, args, ctx, info) => {
       message: passwordLocked
     })
   } else if (user) {
+
     // assign valid user info
     token = await signToken(user._id)
     ctx.req.session.userId = user._id
