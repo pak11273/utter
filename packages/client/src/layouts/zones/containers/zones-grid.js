@@ -37,17 +37,16 @@ class ZonesGrid extends PureComponent {
   }
 
   getZoneCount = zoneId => {
+    console.log("zoneId: ", zoneId)
     var cb = count => {
-      console.log("count: ", count)
-      /* changeState({ */
-      /*   zoneId: count */
-      /* }) */
+      this.setState({
+        zoneId: count
+      })
 
       return count
     }
 
     this.props.socketio.getZoneCount(zoneId, cb)
-    console.log("state: ", this.state)
     return 5
   }
 
@@ -92,7 +91,7 @@ class ZonesGrid extends PureComponent {
               ? this.props.search.teachingLang
               : ""
         }}>
-        {({ data, error, loading, fetchMore  }) => {
+        {({data, error, loading, fetchMore}) => {
           if (error) {
             return (
               <Grid>
@@ -113,129 +112,130 @@ class ZonesGrid extends PureComponent {
                 </p>
               </Grid>
             )
-          }   
-				return (
-					<div className={classNames(classes.layout, classes.cardGrid)}>
-        <Grid container spacing={40} style={{position: "relative"}}>
-          {data.getZones &&
-            data.getZones.zones.map((card, i) => (
-              <Grid item key={card._id} xs={12} sm={6} md={3} lg={2}>
+          }
+          return (
+            <div className={classNames(classes.layout, classes.cardGrid)}>
+              <Grid container spacing={40} style={{position: "relative"}}>
+                {data.getZones &&
+                  data.getZones.zones.map((card, i) => (
+                    <Grid item key={card._id} xs={12} sm={6} md={3} lg={2}>
+                      {console.log("card: ", card)}
 
-                {console.log("i: ", i)}
-                {console.log("card: ", card)}
+                      <Card className={classes.card2}>
+                        <CardContent className={classes.cardContent}>
+                          <Typography
+                            className={classes.cardTitle2}
+                            gutterBottom
+                            variant="h6"
+                            component="h6">
+                            {card.zoneName}
+                          </Typography>
+                          <Typography
+                            className={classes.cardDescription}
+                            gutterBottom
+                            component="p">
+                            {card.zoneDescription}
+                          </Typography>
+                          <Typography
+                            className={classes.cardUsername}
+                            gutterBottom
+                            variant="caption">
+                            by: {card.owner && card.owner.username}
+                          </Typography>
+                        </CardContent>
+                        <div style={{padding: "0 0 0 20px"}}>
+                          App: {card.app}
+                        </div>
+                        <div
+                          style={{
+                            padding: "0 0 0 20px",
+                            marginRight: "20px",
+                            overflow: "hidden",
+                            whiteSpace: "nowrap"
+                          }}>
+                          Course: {(card.course && card.course.title) || ""}
+                        </div>
+                        <div style={{padding: "0 0 0 20px"}}>
+                          Level: {(card && card.courseLevel) || ""}
+                        </div>
+                        <div style={{padding: "0 0 0 20px"}}>
+                          Using: {(card && card.usingLang) || ""}
+                        </div>
+                        <div style={{padding: "0 0 0 20px"}}>
+                          Teaching: {(card && card.teachingLang) || ""}
+                        </div>
+                        <div
+                          style={{display: "flex", padding: "10px 0 0 20px"}}>
+                          <PersonIcon />
+                          <span
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              padding: "5px 25px 0px 5px"
+                            }}>
+                            {this.state[card._id]}
+                          </span>
+                          <span
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              paddingTop: "5px"
+                            }}>
+                            Max: 30
+                          </span>
+                        </div>
+                        <CardActions className={classes.actions}>
+                          <Button
+                            color="secondary"
+                            size="small"
+                            onClick={ageRestrictionNotice}
+                            style={{margin: "10px 0"}}>
+                            {card.ageGroup}
+                          </Button>
+                          <Button
+                            onClick={this.onEnterZone(card)}
+                            size="large"
+                            className={classes.editButton}>
+                            ENTER
+                          </Button>
+                        </CardActions>
+                      </Card>
 
-                <Card className={classes.card2}>
-                  <CardContent className={classes.cardContent}>
-                    <Typography
-                      className={classes.cardTitle2}
-                      gutterBottom
-                      variant="h6"
-                      component="h6">
-                      {card.zoneName}
-                    </Typography>
-                    <Typography
-                      className={classes.cardDescription}
-                      gutterBottom
-                      component="p">
-                      {card.zoneDescription}
-                    </Typography>
-                    <Typography
-                      className={classes.cardUsername}
-                      gutterBottom
-                      variant="caption">
-                      by: {card.owner && card.owner.username}
-                    </Typography>
-                  </CardContent>
-                  <div style={{padding: "0 0 0 20px"}}>App: {card.app}</div>
-                  <div
-                    style={{
-                      padding: "0 0 0 20px",
-                      marginRight: "20px",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap"
-                    }}>
-                    Course: {(card.course && card.course.title) || ""}
-                  </div>
-                  <div style={{padding: "0 0 0 20px"}}>
-                    Level: {(card && card.courseLevel) || ""}
-                  </div>
-                  <div style={{padding: "0 0 0 20px"}}>
-                    Using: {(card && card.usingLang) || ""}
-                  </div>
-                  <div style={{padding: "0 0 0 20px"}}>
-                    Teaching: {(card && card.teachingLang) || ""}
-                  </div>
-                  <div style={{display: "flex", padding: "10px 0 0 20px"}}>
-                    <PersonIcon />
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        padding: "5px 25px 0px 5px"
-                      }}>
-                      {this.getZoneCount(card._id)}
-                    </span>
-                    <span
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        paddingTop: "5px"
-                      }}>
-                      Max: 30
-                    </span>
-                  </div>
-                  <CardActions className={classes.actions}>
-                    <Button
-                      color="secondary"
-                      size="small"
-                      onClick={ageRestrictionNotice}
-                      style={{margin: "10px 0"}}>
-                      {card.ageGroup}
-                    </Button>
-                    <Button
-                      onClick={this.onEnterZone(card)}
-                      size="large"
-                      className={classes.editButton}>
-                      ENTER
-                    </Button>
-                  </CardActions>
-                </Card>
-
-                {i === data.getZones.zones.length - 1 &&
-                  data.getZones.more && (
-                    <LoadingButton
-                      loading={loading}
-                      disabled={loading}
-                      className={this.props.classes.showMore}
-                      color="secondary"
-                      variant="contained"
-                      onClick={() =>
-                        fetchMore({
-                          variables: {
-                            page: data.getZones.page + 1
-                          },
-                          updateQuery: (prev, {fetchMoreResult}) => {
-                            if (!fetchMoreResult) return prev
-                            return {
-                              getZones: {
-                                ...fetchMoreResult.getZones,
-                                zones: [
-                                  ...prev.getZones.zones,
-                                  ...fetchMoreResult.getZones.zones
-                                ]
-                              }
-                            }
-                          }
-                        })
-                      }>
-                      Show More
-                    </LoadingButton>
-                  )}
+                      {i === data.getZones.zones.length - 1 &&
+                        data.getZones.more && (
+                          <LoadingButton
+                            loading={loading}
+                            disabled={loading}
+                            className={this.props.classes.showMore}
+                            color="secondary"
+                            variant="contained"
+                            onClick={() =>
+                              fetchMore({
+                                variables: {
+                                  page: data.getZones.page + 1
+                                },
+                                updateQuery: (prev, {fetchMoreResult}) => {
+                                  if (!fetchMoreResult) return prev
+                                  return {
+                                    getZones: {
+                                      ...fetchMoreResult.getZones,
+                                      zones: [
+                                        ...prev.getZones.zones,
+                                        ...fetchMoreResult.getZones.zones
+                                      ]
+                                    }
+                                  }
+                                }
+                              })
+                            }>
+                            Show More
+                          </LoadingButton>
+                        )}
+                    </Grid>
+                  ))}
               </Grid>
-            ))}
-        </Grid>
-					</div>
-				)
+            </div>
+          )
         }}
       </Query>
     )

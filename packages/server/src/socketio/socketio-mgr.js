@@ -2,7 +2,6 @@
 import io from "socket.io"
 import uniqBy from "lodash/uniqBy"
 import remove from "lodash/remove"
-import SocketUsers from "../socketio/users.js"
 import GlobalZone from "../socketio/global.js"
 
 // constants
@@ -12,7 +11,6 @@ import {GLOBAL_REGISTER, CREATE_USERZONE, JOIN_CONTACT_ZONES} from "./constants"
 import {register_zone_handler} from "./handlers/global-handlers.js"
 import {create_userzone_handler} from "./handlers/user_handlers.js"
 
-const Users = new SocketUsers()
 const Global = new GlobalZone()
 
 import User from "../api/user/user-model.js"
@@ -38,13 +36,15 @@ export default server => {
 
     // get zone count
     client.on("getZoneCount", (zoneId, cb) => {
+      console.log("hello")
+      console.log("zoneId: ", zoneId)
       socket
         .of("/")
         .in(zoneId)
         .clients((err, clients) => {
           // clients will be array of socket ids , currently available in given room
-          console.log("clients of ; " + zoneId, clients)
-          console.log("clients of ; " + zoneId, clients.length)
+          console.log("getZoneCount of ; " + zoneId, clients)
+          console.log("getZoneCount of ; " + zoneId, clients.length)
           cb(clients.length)
         })
     })
@@ -52,19 +52,11 @@ export default server => {
     client.on("join", (zone, cb) => {
       client.join(zone.zoneId)
 
-      /* Users.addUserData(client.id, zone.zoneId, zone.zoneName, zone.username) */
-
-      socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
-
       cb()
     })
 
     client.on("leave", (zone, cb) => {
       client.leave(zone.zoneId)
-
-      Users.removeUser(zone.username)
-
-      socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId))
 
       cb()
     })
@@ -99,14 +91,11 @@ export default server => {
       // remove user from redis userzone and update stat to contacts
 
       // remove user from zone
-      console.log("list: ", Users.getUsersList())
-      /* var user = Users.removeUserId(client.id) */
       /* var global = Global.removeUser(client.username) */
 
       /* if (user) { */
       /*   socket */
       /*     .to(user.zoneId) */
-      /*     .emit("usersList", Users.getUsersList(user.zoneId)) */
       /* } */
 
       /* if (global) { */

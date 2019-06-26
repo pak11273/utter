@@ -33,7 +33,7 @@ const ZoneSchema = mongoose.Schema(
     },
     occupants: {
       type: Number,
-      default: 1
+      default: 0
     },
     zoneName: {
       type: String,

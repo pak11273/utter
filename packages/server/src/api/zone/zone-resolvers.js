@@ -3,6 +3,7 @@ import mongoose from "mongoose"
 import Course from "../course/course-model.js"
 import User from "../user/user-model.js"
 import Zone from "./zone-model"
+import {io} from "../../index.js"
 
 const escapeRegex = text => {
   return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&")
@@ -119,6 +120,9 @@ const zoneCreate = async (_, {input}, {req, redis}, info) => {
     // Add this zone in redis to the zones set
     redis.sadd("zones", zoneId)
 
+    // Create a zone set for the individual zone
+    redis.sadd(zoneId, zoneId)
+
     createdZone = {
       ...zone._doc,
       _id: zoneId,
@@ -177,7 +181,7 @@ const getZones = async (_, {input}, ctx, info) => {
 
   /* end fuzzy search */
 
-  return Zone.paginate(query, options, function(err, result) {
+  return await Zone.paginate(query, options, function(err, result) {
     return {
       page: result.page,
       zones: result.docs,
