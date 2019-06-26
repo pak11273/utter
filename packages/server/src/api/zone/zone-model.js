@@ -27,11 +27,11 @@ const ZoneSchema = mongoose.Schema(
     courseLevel: {
       type: Number
     },
-    maxOccupants: {
+    maxMembers: {
       type: Number,
       default: 1
     },
-    occupants: {
+    members: {
       type: Number,
       default: 0
     },

@@ -49,12 +49,11 @@ const getZone = async (_, {zoneId}, {user}) => {
   return zone
 }
 
-const zoneDelete = async (_, {_id}, {req}) => {
+const zoneDelete = async (_, {_id}, {redis, req}) => {
   try {
     if (!req.session || !req.session.userId) {
       throw new Error("Not authenticated.")
     }
-
     const zone = await Zone.findOneAndDelete({owner: req.session.userId}).exec()
 
     if (!zone) {
@@ -62,6 +61,8 @@ const zoneDelete = async (_, {_id}, {req}) => {
     }
 
     if (zone) {
+      redis.srem(zone._id, zone._id)
+      redis.srem("zones", zone._id)
       return true
     }
   } catch (err) {
