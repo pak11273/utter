@@ -115,7 +115,7 @@ var UserSchema = new _mongoose["default"].Schema({
   }],
   stat: {
     type: String,
-    "default": "offline"
+    "default": "online"
   },
   stripeId: {
     type: String

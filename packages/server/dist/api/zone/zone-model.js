@@ -44,13 +44,13 @@ var ZoneSchema = _mongoose["default"].Schema({
   courseLevel: {
     type: Number
   },
-  maxOccupants: {
+  maxMembers: {
     type: Number,
     "default": 1
   },
-  occupants: {
+  members: {
     type: Number,
-    "default": 1
+    "default": 0
   },
   zoneName: {
     type: String,

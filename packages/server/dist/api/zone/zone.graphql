@@ -7,8 +7,8 @@ type Zone {
   createdAt: Int
   _id: ID!
   levels: [Level]
-	maxOccupants: Int
-	occupants: Int
+	maxMembers: Int
+	members: Int
   owner: User
 	password: String
 	private: Boolean

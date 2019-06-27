@@ -17,8 +17,6 @@ var _uniqBy = _interopRequireDefault(require("lodash/uniqBy"));
 
 var _remove = _interopRequireDefault(require("lodash/remove"));
 
-var _users = _interopRequireDefault(require("../socketio/users.js"));
-
 var _global = _interopRequireDefault(require("../socketio/global.js"));
 
 var _constants = require("./constants");
@@ -31,7 +29,6 @@ var _userModel = _interopRequireDefault(require("../api/user/user-model.js"));
 
 var _redis = require("../redis.js");
 
-var Users = new _users["default"]();
 var Global = new _global["default"]();
 
 var _default = function _default(server) {
@@ -39,17 +36,22 @@ var _default = function _default(server) {
   socket.on("connection", function (client) {
     console.log("a user connected");
     client.on(_constants.GLOBAL_REGISTER, (0, _globalHandlers.register_zone_handler)(socket));
-    client.on(_constants.CREATE_USERZONE, (0, _user_handlers.create_userzone_handler)(_redis.redis, client));
+    client.on(_constants.CREATE_USERZONE, (0, _user_handlers.create_userzone_handler)(_redis.redis, client, socket));
+    client.on("getZoneCount", function (zoneId, cb) {
+      console.log("hello");
+      console.log("zoneId: ", zoneId);
+      socket.of("/")["in"](zoneId).clients(function (err, clients) {
+        console.log("getZoneCount of ; " + zoneId, clients);
+        console.log("getZoneCount of ; " + zoneId, clients.length);
+        cb(clients.length);
+      });
+    });
     client.on("join", function (zone, cb) {
       client.join(zone.zoneId);
-      Users.addUserData(client.id, zone.zoneId, zone.zoneName, zone.username);
-      socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId));
       cb();
     });
     client.on("leave", function (zone, cb) {
       client.leave(zone.zoneId);
-      Users.removeUser(zone.username);
-      socket.to(zone.zoneId).emit("usersList", Users.getUsersList(zone.zoneId));
       cb();
     });
     client.on("joinAddContact", function (zone, cb) {
@@ -81,9 +83,8 @@ var _default = function _default(server) {
       rooms.map(function (item) {
         _redis.redis.del(item);
 
-        _redis.redis.srem("userzones", item);
+        _redis.redis.srem("USERZONES", item);
       });
-      console.log("list: ", Users.getUsersList());
     });
     client.on("createMessage", function (_ref2, cb) {
       var username = _ref2.username,
