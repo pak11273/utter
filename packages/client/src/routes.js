@@ -228,6 +228,13 @@ const getVocabulary = Loadable({
   loading: Loading
 })
 
+const getWebdesign = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'webdesign' */ "./layouts/webdesign.js"),
+  loading: Loading,
+  delay: 200
+})
+
 const getZoneCtrl = Loadable({
   loader: () => import("./layouts/zones/containers/zone-controller.js"),
   loading: Loading
@@ -447,6 +454,11 @@ export const routes = [
     component: requireAuth(getRezone),
     exact: true,
     path: "/zones/rezone"
+  },
+  {
+    component: getWebdesign,
+    exact: true,
+    path: "/webdesign"
   },
   {
     component: requireAuth(getZoneCtrl),

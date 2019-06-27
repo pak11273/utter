@@ -121,8 +121,8 @@ const zoneCreate = async (_, {input}, {req, redis}, info) => {
     // Add this zone in redis to the zones set
     redis.sadd("zones", zoneId)
 
-    // Create a zone set for the individual zone
-    redis.sadd(zoneId, zoneId)
+    // Add owner._id to the zoneId set
+    redis.sadd(zoneId, input.owner)
 
     createdZone = {
       ...zone._doc,
@@ -150,7 +150,7 @@ const getZones = async (_, {input}, {redis, ctx}, info) => {
     lean: true,
     page: input.page,
     limit: 24,
-    populate: [{path: "owner", select: "usernaem"}],
+    populate: [{path: "owner", select: "username"}],
     collation: {
       locale: "en"
     }
@@ -194,7 +194,6 @@ const getZones = async (_, {input}, {redis, ctx}, info) => {
     })
 
     return Promise.all(merged).then(docs => {
-      console.log("docs: ", docs)
       return {
         page: result.page,
         zones: docs,
@@ -204,13 +203,17 @@ const getZones = async (_, {input}, {redis, ctx}, info) => {
   })
 }
 
-const rezone = async (_, __, {req}, info) => {
+const rezone = async (_, __, {redis, req}, info) => {
   // build query object
   const query = {}
   query.owner = req.session
   const hostedZone = await Zone.findOne({owner: req.session.userId})
-    .populate("owner")
+    .populate({path: "owner", select: "_id username"})
+    .select(
+      "_id app courseLevel ageGroup zoneName zoneDescription password private teachingLang usingLang"
+    )
     .exec()
+
   return hostedZone
 }
 

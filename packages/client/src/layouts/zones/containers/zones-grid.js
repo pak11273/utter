@@ -119,8 +119,6 @@ class ZonesGrid extends PureComponent {
                 {data.getZones &&
                   data.getZones.zones.map((card, i) => (
                     <Grid item key={card._id} xs={12} sm={6} md={3} lg={2}>
-                      {console.log("card: ", card)}
-
                       <Card className={classes.card2}>
                         <CardContent className={classes.cardContent}>
                           <Typography
@@ -173,7 +171,7 @@ class ZonesGrid extends PureComponent {
                               alignItems: "center",
                               padding: "5px 25px 0px 5px"
                             }}>
-                            {this.state[card._id]}
+                            {card && card.members}
                           </span>
                           <span
                             style={{
