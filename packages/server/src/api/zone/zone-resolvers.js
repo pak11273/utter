@@ -208,11 +208,16 @@ const rezone = async (_, __, {redis, req}, info) => {
   const query = {}
   query.owner = req.session
   const hostedZone = await Zone.findOne({owner: req.session.userId})
-    .populate({path: "owner", select: "_id username"})
+    .populate([
+      {path: "owner", select: "username"},
+      {path: "course", select: "_id"}
+    ])
     .select(
       "_id app courseLevel ageGroup zoneName zoneDescription password private teachingLang usingLang"
     )
     .exec()
+
+  redis.sadd(hostedZone._id, hostedZone._id)
 
   return hostedZone
 }

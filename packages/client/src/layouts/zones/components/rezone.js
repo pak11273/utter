@@ -41,7 +41,7 @@ const Rezone = props => {
                 gutterBottom>
                 If you lost connection to your zone you can get back to it from
                 here. If you would like to destroy your zone you can do so once
-                you back inside the zone.
+                you are back inside the zone.
               </Typography>
             </Grid>
           </div>
@@ -99,7 +99,6 @@ export default compose(
     }),
     handleSubmit: async (values, {props, setErrors, setSubmitting}) => {
       const onComplete = (zone, courseLevel, courseLevels) => {
-        console.log("hello")
         // rehydrate levels and vocabulary
         session.levels = courseLevels.data.getLevels.levels
         session.vocabulary = courseLevel.data.getLevel.vocabulary
@@ -124,11 +123,9 @@ export default compose(
         // rehydrate zone
         session.zone = zone.data.rezone
         session.level = zone.data.rezone.courseLevel
-        console.log("zone: ", zone)
 
         // if zone is legit
         if (zone) {
-          console.log("hello: ")
           const courseLevels = await props.client.query({
             fetchPolicy: "network-only",
             query: GET_LEVELS,
@@ -136,7 +133,6 @@ export default compose(
               courseId: zone.data.rezone.course._id
             }
           })
-          console.log("courselevels: ", courseLevels)
 
           const courseLevel = await props.client.query({
             query: GET_LEVEL,
@@ -144,8 +140,6 @@ export default compose(
               levelId: courseLevels.data.getLevels.levels[session.level - 1]._id
             }
           })
-
-          console.log("courselevel: ", courseLevel)
 
           onComplete(zone, courseLevel, courseLevels)
         } else {
@@ -157,7 +151,8 @@ export default compose(
           })
         }
       } catch (err) {
-        /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)); */
+        console.log("err: ", err)
+        /* console.error("TEST ERR =>", err.graphQLErrors.map(x => x.message)) */
         const msg = err.message.replace("GraphQL error:", "").trim()
         if (err.message.indexOf("You can only host") !== -1) {
           toast.warn(msg, {

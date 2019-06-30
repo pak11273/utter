@@ -51,12 +51,14 @@ export const GET_ZONES = gql`
     }
   }
 `
-
 export const REZONE = gql`
   query rezone($username: String) {
     rezone(username: $username) {
       _id
       app
+      course {
+        _id
+      }
       courseLevel
       ageGroup
       zoneName
@@ -68,7 +70,6 @@ export const REZONE = gql`
       private
       teachingLang
       usingLang
-      zoneName
     }
   }
 `
