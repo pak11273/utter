@@ -164,7 +164,7 @@ class Zone extends Component {
 
   onLeaveZone = onLeaveSuccess => {
     socketio.zoneDisconnect({
-      username: session.user.username,
+      /* username: session.user.username, */
       zoneId: session.zone._id,
       zoneName: session.zone.zoneName
     })

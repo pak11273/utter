@@ -33,10 +33,10 @@ const create_userzone_handler = (redis, client, socket) => async (
           // join all contact personal zones
           client.join(item.username)
 
-          /*           // TODO: alert all contacts of online status */
-          /*           /1* const stat = await redis.hget(item.username, "stat") *1/ */
-          /*           /1* console.log("state; ", stat) *1/ */
-          /*           /1* client.to(user.username).emit(user.username, stat) *1/ */
+          // TODO: alert all contacts of online status
+          const stat = await redis.hget(item.username, "stat")
+          console.log("state; ", stat)
+          client.to(user.username).emit(user.username, stat)
         }
         /*         /1* const userzoneExists = await redis.exists(item.username) *1/ */
         /*         // set status to offline if user not in redis (contact hasn't logged in yet) */
