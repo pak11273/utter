@@ -1,12 +1,12 @@
 import User from "../../api/user/user-model.js"
 
-export const add_contact_handler = socket => (zone, cb) => {
+const add_contact_handler = socket => (zone, cb) => {
   socket.join(zone.username)
 
   cb()
 }
 
-export const create_userzone_handler = (redis, client, socket) => async (
+const create_userzone_handler = (redis, client, socket) => async (
   userData,
   cb
 ) => {
@@ -32,15 +32,6 @@ export const create_userzone_handler = (redis, client, socket) => async (
         if (redis.exists(item.username)) {
           // join all contact personal zones
           client.join(item.username)
-
-          // TODO: move to function to find how many clients in a room, for zone cards
-          socket
-            .of("/")
-            .in(item.username)
-            .clients((err, clients) => {
-              // clients will be array of socket ids , currently available in given room
-              console.log("clients of ; " + item.username, clients)
-            })
 
           /*           // TODO: alert all contacts of online status */
           /*           /1* const stat = await redis.hget(item.username, "stat") *1/ */
@@ -86,3 +77,5 @@ export const create_userzone_handler = (redis, client, socket) => async (
     console.log("err: ", err)
   }
 }
+
+export {add_contact_handler, create_userzone_handler}

@@ -61,8 +61,8 @@ const zoneDelete = async (_, {_id}, {redis, req}) => {
     }
 
     if (zone) {
-      redis.srem(zone._id, zone._id)
-      redis.srem("zones", zone._id)
+      redis.del(zone._id)
+      redis.srem("ZONES", zone._id)
       return true
     }
   } catch (err) {
@@ -119,7 +119,7 @@ const zoneCreate = async (_, {input}, {req, redis}, info) => {
     const zoneId = zone._doc._id.toString()
 
     // Add this zone in redis to the zones set
-    redis.sadd("zones", zoneId)
+    redis.sadd("ZONES", zoneId)
 
     // Add owner._id to the zoneId set
     redis.sadd(zoneId, input.owner)
@@ -217,7 +217,7 @@ const rezone = async (_, __, {redis, req}, info) => {
     )
     .exec()
 
-  redis.sadd(hostedZone._id, hostedZone._id)
+  redis.sadd(hostedZone._id, hostedZone.owner.username)
 
   return hostedZone
 }

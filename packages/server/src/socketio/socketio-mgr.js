@@ -33,6 +33,13 @@ export default server => {
     // ZONE EVENTS
 
     // join zone
+    client.on("join", (zone, cb) => {
+      client.join(zone.zoneId)
+      redis.sadd(zone.zoneId, zone.username)
+      redis.sadd("ZONES", zone.zoneId)
+
+      cb()
+    })
 
     // get zone count
     client.on("getZoneCount", (zoneId, cb) => {
@@ -47,12 +54,6 @@ export default server => {
           console.log("getZoneCount of ; " + zoneId, clients.length)
           cb(clients.length)
         })
-    })
-
-    client.on("join", (zone, cb) => {
-      client.join(zone.zoneId)
-
-      cb()
     })
 
     client.on("leave", (zone, cb) => {
@@ -74,18 +75,23 @@ export default server => {
       })
     })
 
-    client.on("disconnect", async () => {
+    client.on("disconnect", zone => {
       console.log("a user disconnected")
     })
 
     client.on("disconnecting", () => {
+      console.log("disconnecting")
       let rooms = Object.keys(client.rooms)
 
-      // delete user hash and from userzone
+      console.log("rooms:", rooms)
+
+      // change user stat and from userzone
       rooms.map(item => {
-        redis.del(item)
         redis.srem("USERZONES", item)
       })
+
+      // TODO: disconnect from zone
+      /* redis.srem() */
 
       // TODO: make opposite
       // remove user from redis userzone and update stat to contacts

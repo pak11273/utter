@@ -62,20 +62,12 @@ class Zone extends Component {
 
   componentDidMount = async () => {
     // Creates a userzone and receives online stat of all contacts
-    const userData = {
-      username: session.user.username,
-      _id: session.user._id,
-      stat: "online"
-    }
+    /* const userData = { */
+    /*   username: session.user.username, */
+    /*   _id: session.user._id, */
+    /*   stat: "online" */
+    /* } */
 
-    socketio.userzoneConnect(userData, contacts => {
-      let temp = this.state.contacts
-      temp = [...temp, ...contacts]
-      this.setState({
-        contacts: temp,
-        open: true
-      })
-    })
     // TODO: if user already in zone, can't reenter
     /* this.state.socketio.getUser */
 
