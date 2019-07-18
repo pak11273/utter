@@ -57,6 +57,10 @@ export default server => {
     })
 
     client.on("leave", (zone, cb) => {
+			console.log('zonezonezone: ', zone);
+    console.log(
+      "IM LEAVING THE ZONE EVERYONE KNOW IM LEAVING FOR MY HEAVENLY KINGODM"
+    )
       client.leave(zone.zoneId)
 
       cb()
@@ -75,7 +79,7 @@ export default server => {
       })
     })
 
-    client.on("disconnect", zone => {
+    client.on("disconnect", () => {
       console.log("a user disconnected")
     })
 
@@ -85,7 +89,7 @@ export default server => {
 
       console.log("rooms:", rooms)
 
-      // change user stat and from userzone
+      // Remove user from userzone
       rooms.map(item => {
         redis.srem("USERZONES", item)
       })

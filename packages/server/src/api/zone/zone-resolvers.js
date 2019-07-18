@@ -121,9 +121,6 @@ const zoneCreate = async (_, {input}, {req, redis}, info) => {
     // Add this zone in redis to the zones set
     redis.sadd("ZONES", zoneId)
 
-    // Add owner._id to the zoneId set
-    redis.sadd(zoneId, input.owner)
-
     createdZone = {
       ...zone._doc,
       _id: zoneId,

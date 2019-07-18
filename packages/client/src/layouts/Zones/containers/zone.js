@@ -159,12 +159,11 @@ class Zone extends Component {
   componentWillUnmount() {
     alert("You are leaving the zone")
     this.onLeaveZone(() => this.props.history.push("/zones"))
-    /* delete session.zone */
   }
 
   onLeaveZone = onLeaveSuccess => {
     socketio.zoneDisconnect({
-      /* username: session.user.username, */
+      username: session.user.username,
       zoneId: session.zone._id,
       zoneName: session.zone.zoneName
     })

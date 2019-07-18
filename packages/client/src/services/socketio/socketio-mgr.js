@@ -125,6 +125,7 @@ const socketClient = () => {
   }
 
   const zoneDisconnect = zone => {
+    // TODO remove user from zone
     socket.emit("leave", zone, () => {
       console.log("user has left zone: ")
     })

@@ -5,6 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+		"jest": "jest",
     "test": "./node_modules/.bin/mocha ./test/test-config.js './test/**/*.js' --require @babel/register --watch",
     "cypress": "cypress open",
     "debugFile": "node --inspect --inspect-brk ../server/src/server.js",
