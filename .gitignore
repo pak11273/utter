@@ -4,6 +4,7 @@
 /out/*
 todo
 development
+cypress
 cdn/
 gotchas
 .notes
@@ -15,6 +16,7 @@ notes
 tags
 .cache-loader/
 dump.rdb
+test
 
 # Logs
 logs
