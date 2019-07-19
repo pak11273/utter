@@ -4,15 +4,27 @@ import {Helmet} from "react-helmet-async"
 import React, {Component} from "react"
 import {withApollo} from "react-apollo"
 import socketio from "../services/socketio/socketio-mgr.js"
+/* import classNames from "classnames" */
 
 import Button from "@material-ui/core/Button"
 import {withStyles} from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 
-import {Container, Flex, Img, Line, Section, Subscribe} from "../components"
-import {Masthead, Footer} from "../containers"
+import {
+  Container,
+  Flex,
+  Img,
+  Line,
+  Section,
+  /* Spacer, */
+  Subscribe
+} from "../components"
+import {Footer, Masthead} from "../containers"
 import {styles} from "./styles.js"
+
+/* import Loading from "../components/loaders/layout-loader.js" */
+/* import Loadable from "react-loadable" */
 
 // images
 import busyPeopleImg from "../assets/images/busy-people2.png"
