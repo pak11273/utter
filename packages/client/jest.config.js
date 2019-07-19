@@ -23,6 +23,7 @@ module.exports = {
         functions: 0,
         lines: 0
       }
-    }
+    },
+    projects: ["./client", "./server"]
   }
 }
