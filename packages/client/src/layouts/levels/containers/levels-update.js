@@ -133,6 +133,7 @@ class LevelsUpdate extends Component {
             },
             () => {
               session.levelsIdsArr = this.convertObjIdsToArr(this.state.levels)
+              console.log(this.state)
             }
           )
         }

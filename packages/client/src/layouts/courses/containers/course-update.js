@@ -65,16 +65,17 @@ class CourseUpdate extends PureComponent {
 
   componentDidMount = async () => {
     session.layoutError = null
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        /* video: true, */
-        audio: true
-      })
-      window.stream = stream
-    } else {
-      session.layoutError =
-        "Your browser does not support getUserMedia.  Please upgrade to a modern browser such as Google Chrome or Mozilla Firefox."
-    }
+    // getUserMedia is depreacated!!!
+    /* if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) { */
+    /*   const stream = await navigator.mediaDevices.getUserMedia({ */
+    /*     /1* video: true, *1/ */
+    /*     audio: true */
+    /*   }) */
+    /*   window.stream = stream */
+    /* } else { */
+    /*   session.layoutError = */
+    /*     "Your browser does not support getUserMedia.  Please upgrade to a modern browser such as Google Chrome or Mozilla Firefox." */
+    /* } */
   }
 
   componentWillUnmount = () => {

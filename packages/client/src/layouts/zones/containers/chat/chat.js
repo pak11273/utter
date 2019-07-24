@@ -140,6 +140,7 @@ class Chat extends PureComponent {
     this.props.newMessage && this.props.newMessage(this.onMsgReceived)
     this.scrollChatToBottom()
     var {props} = this
+		// TODO: getUserMedia has been deprecated!!
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       console.log("getUserMedia supported.")
       navigator.mediaDevices

@@ -7,6 +7,8 @@ import {normalizeErrors} from "../../utils/normalize-errors"
 
 /* import Button from "@material-ui/core/Button" */
 import Grid from "@material-ui/core/Grid"
+import FormControl from "@material-ui/core/FormControl"
+import InputLabel from "@material-ui/core/InputLabel"
 import Typography from "@material-ui/core/Typography"
 import {withStyles} from "@material-ui/core/styles"
 import {cookies, local, session} from "brownies"
@@ -75,21 +77,24 @@ class LoginForm extends PureComponent {
                     placeholder="username or email"
                     component={FormikInput}
                   />
-                  <Typography component="p" color="inherit" noWrap>
-                    password
-                  </Typography>
-                  <Field
-                    name="password"
-                    placeholder="password"
-                    autoComplete="new-password"
-                    type="password"
-                    component={FormikInput}
-                  />
+                  <FormControl>
+                    <InputLabel htmlFor="password">Password</InputLabel>
+                    <Field
+                      id="password"
+                      aria-labelledby="password"
+                      name="password"
+                      placeholder="password"
+                      autoComplete="new-password"
+                      type="password"
+                      component={FormikInput}
+                    />
+                  </FormControl>
                   <Typography className={classes.forgot} color="inherit" noWrap>
                     <a href="/forgot-password"> Forgot Password? </a>
                   </Typography>
                 </div>
                 <LoadingButton
+                  id="submit"
                   className={classes.button}
                   type="submit"
                   variant="contained"
